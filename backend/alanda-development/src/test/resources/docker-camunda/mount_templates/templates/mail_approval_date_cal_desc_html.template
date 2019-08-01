@@ -1,0 +1,18 @@
+<html>
+Dear Sir or Madam,<br/>
+<br/>
+the site acceptance survey for site $siteName has been scheduled.<br/>
+<br/>
+The site acceptance coordinator in charge is:<br/>
+<br/>
+$bauabkooFirstName $bauabkooLastName<br/>
+#if($bauabkooMobile)
+mobile: $bauabkooMobile<br/>
+#end
+#if($bauabkooEmail)
+e-mail: <a href="mailto:$bauabkooEmail">$bauabkooEmail</a><br/>
+#end
+<br/>
+Sincerely,<br/>
+Hutchison Drei Austria GmbH<br/>
+</html>

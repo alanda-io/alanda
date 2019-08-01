@@ -1,0 +1,2379 @@
+{
+    "process": {
+            "_all": {
+        		"enabled": false
+      		},
+		    "dynamic": false,
+            "dynamic_templates": [
+                {
+                    "string_fields_template": {
+                        "mapping": {
+                            "analyzer": "lc",
+                            "index": "analyzed",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "index": "analyzed",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "match_mapping_type": "string"
+                    }
+                }
+                ,
+                {
+                    "time_fields_template": {
+                        "mapping": {
+                            "type": "date"
+                        },
+                        "match_mapping_type": "long",
+                        "match": "*Time"
+                    }
+                }
+                ,
+                {
+                    "timestamp_field_template": {
+                        "mapping": {
+                            "type": "date"
+                        },
+                        "match_mapping_type": "long",
+                        "match": "timestamp"
+                    }
+                }
+            ],
+            "properties": {
+                "lastSyncTime": {
+                    "format": "strict_date_optional_time||epoch_millis",
+                    "type": "date"
+                },
+                "refObject": {
+                    "properties": {
+                        "zipCode": {
+                            "index": "not_analyzed",
+                            "type": "string"
+                        },
+                        "cableName": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "sumCapex": {
+                            "type": "long"
+                        },
+                        "city": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "endDate": {
+                            "format": "strict_date_optional_time||epoch_millis",
+                            "type": "date"
+                        },
+                        "sumOpex": {
+                            "type": "long"
+                        },
+                        "chainNuts3": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "processInstance":  {
+							"index": "not_analyzed",
+							"type": "string"
+						},
+                        "clusterId": {
+                            "type": "long"
+                        },
+                        "linkName": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "eventArea": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "idName": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "chainID": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "provider": {
+                            "properties": {
+                                "idName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "previousSiteIdName": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "linkCount": {
+                            "type": "long"
+                        },
+                        "clusterIdName": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "eventName": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "stationA": {
+                            "properties": {
+                                "site": {
+                                    "properties": {
+                                        "idName": {
+                                            "analyzer": "lc",
+                                            "type": "string",
+                                            "fields": {
+                                                "raw": {
+                                                    "index": "not_analyzed",
+                                                    "type": "string"
+                                                },
+                                                "ngram": {
+                                                    "search_analyzer": "standard",
+                                                    "analyzer": "ngram",
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "status": {
+                                            "analyzer": "lc",
+                                            "type": "string",
+                                            "fields": {
+                                                "raw": {
+                                                    "index": "not_analyzed",
+                                                    "type": "string"
+                                                },
+                                                "ngram": {
+                                                    "search_analyzer": "standard",
+                                                    "analyzer": "ngram",
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "guid": {
+                                    "type": "long"
+                                }
+                            }
+                        },
+                        "links": {
+                            "properties": {
+                                "idName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "provider": {
+                                    "properties": {
+                                        "idName": {
+                                            "analyzer": "lc",
+                                            "type": "string",
+                                            "fields": {
+                                                "raw": {
+                                                    "index": "not_analyzed",
+                                                    "type": "string"
+                                                },
+                                                "ngram": {
+                                                    "search_analyzer": "standard",
+                                                    "analyzer": "ngram",
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "guid": {
+                                            "type": "long"
+                                        }
+                                    }
+                                },
+                                "guid": {
+                                    "type": "long"
+                                },
+                                "stationA": {
+                                    "properties": {
+                                        "site": {
+                                            "properties": {
+                                                
+                                                "idName": {
+                                                    "analyzer": "lc",
+                                                    "type": "string",
+                                                    "fields": {
+                                                        "raw": {
+                                                            "index": "not_analyzed",
+                                                            "type": "string"
+                                                        },
+                                                        "ngram": {
+                                                            "search_analyzer": "standard",
+                                                            "analyzer": "ngram",
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                },
+                                                
+                                                "guid": {
+                                                    "type": "long"
+                                                },
+                                               
+                                                "status": {
+                                                    "analyzer": "lc",
+                                                    "type": "string",
+                                                    "fields": {
+                                                        "raw": {
+                                                            "index": "not_analyzed",
+                                                            "type": "string"
+                                                        },
+                                                        "ngram": {
+                                                            "search_analyzer": "standard",
+                                                            "analyzer": "ngram",
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "guid": {
+                                            "type": "long"
+                                        }
+                                    }
+                                },
+                                "stationB": {
+                                    "properties": {
+                                        "site": {
+                                            "properties": {
+                                                "idName": {
+                                                    "analyzer": "lc",
+                                                    "type": "string",
+                                                    "fields": {
+                                                        "raw": {
+                                                            "index": "not_analyzed",
+                                                            "type": "string"
+                                                        },
+                                                        "ngram": {
+                                                            "search_analyzer": "standard",
+                                                            "analyzer": "ngram",
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                },
+                                                "previousSiteIdName": {
+                                                    "analyzer": "lc",
+                                                    "type": "string",
+                                                    "fields": {
+                                                        "raw": {
+                                                            "index": "not_analyzed",
+                                                            "type": "string"
+                                                        },
+                                                        "ngram": {
+                                                            "search_analyzer": "standard",
+                                                            "analyzer": "ngram",
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                },
+                                                "guid": {
+                                                    "type": "long"
+                                                },
+                                               
+                                                "status": {
+                                                    "analyzer": "lc",
+                                                    "type": "string",
+                                                    "fields": {
+                                                        "raw": {
+                                                            "index": "not_analyzed",
+                                                            "type": "string"
+                                                        },
+                                                        "ngram": {
+                                                            "search_analyzer": "standard",
+                                                            "analyzer": "ngram",
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "guid": {
+                                            "type": "long"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "stationB": {
+                            "properties": {
+                                "site": {
+                                    "properties": {
+                                        "idName": {
+                                            "analyzer": "lc",
+                                            "type": "string",
+                                            "fields": {
+                                                "raw": {
+                                                    "index": "not_analyzed",
+                                                    "type": "string"
+                                                },
+                                                "ngram": {
+                                                    "search_analyzer": "standard",
+                                                    "analyzer": "ngram",
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                       
+                                        "guid": {
+                                            "type": "long"
+                                        },
+                                       
+                                        "status": {
+                                            "analyzer": "lc",
+                                            "type": "string",
+                                            "fields": {
+                                                "raw": {
+                                                    "index": "not_analyzed",
+                                                    "type": "string"
+                                                },
+                                                "ngram": {
+                                                    "search_analyzer": "standard",
+                                                    "analyzer": "ngram",
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "guid": {
+                                    "type": "long"
+                                }
+                            }
+                        },
+                        "said": {
+                            "type": "long"
+                        },
+                        "siteA": {
+                            "properties": {
+                                
+                                "idName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                               
+                                "guid": {
+                                    "type": "long"
+                                },
+                               
+                                "status": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "siteB": {
+                            "properties": {
+                                
+                                "idName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "guid": {
+                                    "type": "long"
+                                },
+                                "status": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "eventsiteUsed": {
+                            "type": "boolean"
+                        },
+                        "chainName": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "refSmProvider": {
+                            "properties": {
+                                "idName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "guid": {
+                                    "type": "long"
+                                }
+                            }
+                        },
+                        "siteCount": {
+                            "type": "long"
+                        },
+                        "address": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "chainStatus": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "comments": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "chainInitialDecision": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "created": {
+                            "type": "long"
+                        },
+                        "eventType": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "sharing": {
+                            "type": "boolean"
+                        },
+                        "eventData": {
+                            "properties": {
+                                "phase": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "constructionManager": {
+                                    "properties": {
+                                       
+                                        "displayName": {
+                                            "analyzer": "lc",
+                                            "type": "string",
+                                            "fields": {
+                                                "raw": {
+                                                    "index": "not_analyzed",
+                                                    "type": "string"
+                                                },
+                                                "ngram": {
+                                                    "search_analyzer": "standard",
+                                                    "analyzer": "ngram",
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "radioEndDate": {
+                                    "format": "strict_date_optional_time||epoch_millis",
+                                    "type": "date"
+                                },
+                                "radioStartDate": {
+                                    "format": "strict_date_optional_time||epoch_millis",
+                                    "type": "date"
+                                },
+                                "radioPlanner": {
+                                    "properties": {
+                                        
+                                        "displayName": {
+                                            "analyzer": "lc",
+                                            "type": "string",
+                                            "fields": {
+                                                "raw": {
+                                                    "index": "not_analyzed",
+                                                    "type": "string"
+                                                },
+                                                "ngram": {
+                                                    "search_analyzer": "standard",
+                                                    "analyzer": "ngram",
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                       
+                                    }
+                                },
+                               
+                                "truckEndDate": {
+                                    "format": "strict_date_optional_time||epoch_millis",
+                                    "type": "date"
+                                },
+                                "eventSites": {
+                                    "properties": {
+                                        "eventDataId": {
+                                            "type": "long"
+                                        },
+                                        "radioEndDate": {
+                                            "format": "strict_date_optional_time||epoch_millis",
+                                            "type": "date"
+                                        },
+                                        "site": {
+                                            "properties": {
+                                                
+                                                "idName": {
+                                                    "analyzer": "lc",
+                                                    "type": "string",
+                                                    "fields": {
+                                                        "raw": {
+                                                            "index": "not_analyzed",
+                                                            "type": "string"
+                                                        },
+                                                        "ngram": {
+                                                            "search_analyzer": "standard",
+                                                            "analyzer": "ngram",
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                },
+                                                
+                                                "guid": {
+                                                    "type": "long"
+                                                },
+                                                
+                                                "status": {
+                                                    "analyzer": "lc",
+                                                    "type": "string",
+                                                    "fields": {
+                                                        "raw": {
+                                                            "index": "not_analyzed",
+                                                            "type": "string"
+                                                        },
+                                                        "ngram": {
+                                                            "search_analyzer": "standard",
+                                                            "analyzer": "ngram",
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "radioStartDate": {
+                                            "format": "strict_date_optional_time||epoch_millis",
+                                            "type": "date"
+                                        },
+                                        "truckEndDate": {
+                                            "format": "strict_date_optional_time||epoch_millis",
+                                            "type": "date"
+                                        },
+                                        "id": {
+                                            "type": "long"
+                                        },
+                                        "searchArea": {
+                                            "properties": {
+                                                "idName": {
+                                                    "analyzer": "lc",
+                                                    "type": "string",
+                                                    "fields": {
+                                                        "raw": {
+                                                            "index": "not_analyzed",
+                                                            "type": "string"
+                                                        },
+                                                        "ngram": {
+                                                            "search_analyzer": "standard",
+                                                            "analyzer": "ngram",
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                },
+                                               
+                                                "guid": {
+                                                    "type": "long"
+                                                }
+                                                
+                                            }
+                                        },
+                                        "type": {
+                                            "analyzer": "lc",
+                                            "type": "string",
+                                            "fields": {
+                                                "raw": {
+                                                    "index": "not_analyzed",
+                                                    "type": "string"
+                                                },
+                                                "ngram": {
+                                                    "search_analyzer": "standard",
+                                                    "analyzer": "ngram",
+                                                    "type": "string"
+                                                }
+                                            }
+                                        },
+                                        "truckStartDate": {
+                                            "format": "strict_date_optional_time||epoch_millis",
+                                            "type": "date"
+                                        },
+                                        "version": {
+                                            "type": "long"
+                                        }
+                                    }
+                                },
+                                "version": {
+                                    "type": "long"
+                                },
+                                "processPackageKey": {
+                                     "index": "not_analyzed",
+                                     "type": "string"
+                                },
+                                
+                                "txPlanner": {
+                                    "properties": {
+                                       
+                                        "displayName": {
+                                            "analyzer": "lc",
+                                            "type": "string",
+                                            "fields": {
+                                                "raw": {
+                                                    "index": "not_analyzed",
+                                                    "type": "string"
+                                                },
+                                                "ngram": {
+                                                    "search_analyzer": "standard",
+                                                    "analyzer": "ngram",
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                        
+                                    }
+                                },
+                                "id": {
+                                    "type": "long"
+                                },
+                                "truckStartDate": {
+                                    "format": "strict_date_optional_time||epoch_millis",
+                                    "type": "date"
+                                }
+                            }
+                        },
+                        "nocMail": {
+                            "type": "boolean"
+                        },
+                        "guid": {
+                            "type": "long"
+                        },
+                        "milestones": {
+                            "properties": {
+                                "msName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "msTime": {
+                                    "format": "strict_date_optional_time||epoch_millis",
+                                    "type": "date"
+                                }
+                            }
+                        },
+                        "region": {
+                            "type": "long"
+                        },
+                       
+                        "startDate": {
+                            "format": "strict_date_optional_time||epoch_millis",
+                            "type": "date"
+                        },
+                        "status": {
+                            "index": "not_analyzed",
+                            "type": "string"
+                        }
+                    }
+                },
+                "durationInMillis": {
+                    "type": "long"
+                },
+                "sequenceCounter": {
+                    "type": "long"
+                },
+                "roles": {
+                    "analyzer": "lc",
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "index": "not_analyzed",
+                            "type": "string"
+                        },
+                        "ngram": {
+                            "search_analyzer": "standard",
+                            "analyzer": "ngram",
+                            "type": "string"
+                        }
+                    }
+                },
+                "project": {
+                    "properties": {
+                        "updateDate": {
+                            "format": "strict_date_optional_time||epoch_millis",
+                            "type": "date"
+                        },
+                        "dueDate": {
+                            "format": "strict_date_optional_time||epoch_millis",
+                            "type": "date",
+                            "fields": {
+                                "ngram": {
+                                    "search_analyzer": "lc",
+                                    "analyzer": "datengram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "parentIds": {
+                            "type": "long"
+                        },
+                        "guStatus": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "refObjectIdName": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "ownerId": {
+                            "type": "long"
+                        },
+                        "title": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "ownerName": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "subtype": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "details": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "tag": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "createDate": {
+                            "format": "strict_date_optional_time||epoch_millis",
+                            "type": "date",
+                            "fields": {
+                                "ngram": {
+                                    "search_analyzer": "lc",
+                                    "analyzer": "datengram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "processes": {
+                            "properties": {
+                                "processInstanceId": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "businessObject": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "guid": {
+                                    "type": "long"
+                                },
+                                "processKey": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "label": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "parentExecutionId": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "workDetails": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "relation": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "status": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "pmcProjectType": {
+                            "properties": {
+                                
+                                "objectType": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                               
+                                "idName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "name": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "guid": {
+                                    "type": "long"
+                                }
+                            }
+                        },
+                        "childrenIds": {
+                            "type": "long"
+                        },
+                        "updateUser": {
+                            "type": "long"
+                        },
+						"additionalInfo" :{
+						  "dynamic": true,
+						  "properties":{}
+						},
+                        "propertiesMap": {
+                            "properties": {
+                                "role_baugu": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "role_transgu": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "role_akqui": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "role_baukoo": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "role_transregio": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "priority": {
+                            "type": "long",
+                            "fields": {
+                                "ngram": {
+                                    "search_analyzer": "lc",
+                                    "analyzer": "datengram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "guid": {
+                            "type": "long"
+                        },
+                        "refObjectId": {
+                            "type": "long"
+                        },
+                        "comment": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "createUser": {
+                            "type": "long"
+                        },
+                        "refObjectType": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "projectId": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "customerProjectId": {
+                            "type": "long"
+                        },
+                        "status": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "endActivityId": {
+                    "index": "not_analyzed",
+                    "type": "string"
+                },
+                "processDefinitionKey": {
+                    "index": "not_analyzed",
+                    "type": "string"
+                },
+                "startUserId": {
+                    "type": "string"
+                },
+                "startActivityId": {
+                    "index": "not_analyzed",
+                    "type": "string"
+                },
+                "customerProject": {
+                    "properties": {
+                        "projectStatus": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "reason": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "comments": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "pbDate": {
+                            "format": "strict_date_optional_time||epoch_millis",
+                            "type": "date"
+                        },
+                        "provider": {
+                            "properties": {
+                                "idName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "created": {
+                            "type": "long"
+                        },
+                        "dueDate": {
+                            "type": "long"
+                        },
+                        "lastUpdate": {
+                            "type": "long"
+                        },
+                        "guid": {
+                            "type": "long"
+                        },
+                        "reconstructionType": {
+                            "properties": {
+                                "idName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "guid": {
+                                    "type": "long"
+                                },
+                                "projectGroup": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "milestones": {
+                            "properties": {
+                                "msName": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "msTime": {
+                                    "format": "strict_date_optional_time||epoch_millis",
+                                    "type": "date"
+                                }
+                            }
+                        }
+                    }
+                },
+                "startTime": {
+                    "format": "strict_date_optional_time||epoch_millis",
+                    "type": "date"
+                },
+                "id": {
+                    "index": "not_analyzed",
+                    "type": "string"
+                },
+                "superProcessInstanceId": {
+                    "index": "not_analyzed",
+                    "type": "string"
+                },
+                "processDefinitionId": {
+                    "index": "not_analyzed",
+                    "type": "string"
+                },
+                "processInstanceId": {
+                    "index": "not_analyzed",
+                    "type": "string"
+                },
+                
+                "variables": {
+                    "type": "nested",
+                    "properties": {
+                        "varName": {
+                            "index": "not_analyzed",
+                            "type": "string"
+                        },
+                        "textValue": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "global": {
+                            "type": "boolean"
+                        },
+                        "serializerName": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "scopeActivityInstanceId": {
+                            "index": "not_analyzed",
+                            "type": "string"
+                        },
+                        "variableInstanceId": {
+                            "index": "not_analyzed",
+                            "type": "string"
+                        }
+                    }
+                },
+                "eventType": {
+                    "index": "not_analyzed",
+                    "type": "string"
+                },
+                "deleteReason": {
+                    "analyzer": "lc",
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "index": "not_analyzed",
+                            "type": "string"
+                        },
+                        "ngram": {
+                            "search_analyzer": "standard",
+                            "analyzer": "ngram",
+                            "type": "string"
+                        }
+                    }
+                },
+                "executionId": {
+                    "index": "not_analyzed",
+                    "type": "string"
+                },
+                "durationRaw": {
+                    "type": "long"
+                },
+                "activities": {
+                    "type": "nested",
+                    "properties": {
+                        "durationInMillis": {
+                            "type": "long"
+                        },
+                        "activityName": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "activityInstanceState": {
+                            "type": "long"
+                        },
+                        "activityInstanceId": {
+                            "index": "not_analyzed",
+                            "type": "string"
+                        },
+                        "eventType": {
+                            "index": "not_analyzed",
+                            "type": "string"
+                        },
+                        "activityId": {
+                            "index": "not_analyzed",
+                            "type": "string"
+                        },
+                        "startTime": {
+                            "format": "strict_date_optional_time||epoch_millis",
+                            "type": "date"
+                        },
+                        "assignee": {
+                            "analyzer": "lc",
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "index": "not_analyzed",
+                                    "type": "string"
+                                },
+                                "ngram": {
+                                    "search_analyzer": "standard",
+                                    "analyzer": "ngram",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "endTime": {
+                            "format": "strict_date_optional_time||epoch_millis",
+                            "type": "date"
+                        },
+                        "activityType": {
+                            "index": "not_analyzed",
+                            "type": "string"
+                        },
+                        "calledProcessInstanceId": {
+                            "index": "not_analyzed",
+                            "type": "string"
+                        },
+                        "taskId": {
+                            "index": "not_analyzed",
+                            "type": "string"
+                        },
+                        "parentActivityInstanceId": {
+                            "index": "not_analyzed",
+                            "type": "string"
+                        }
+                    }
+                },
+                "businessKey": {
+                    "analyzer": "lc",
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "index": "not_analyzed",
+                            "type": "string"
+                        },
+                        "ngram": {
+                            "search_analyzer": "standard",
+                            "analyzer": "ngram",
+                            "type": "string"
+                        }
+                    }
+                },
+                "endTime": {
+                    "format": "strict_date_optional_time||epoch_millis",
+                    "type": "date"
+                },
+                "contacts": {
+                    "properties": {
+                        "transregio": {
+                            "properties": {
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                               
+                            }
+                        },
+                        "emvu": {
+                            "properties": {
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "sla": {
+                            "properties": {
+                                
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "swapbaukoo": {
+                            "properties": {
+                                
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "abbaukoo": {
+                            "properties": {
+                                
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "acquicoore": {
+                            "properties": {
+                                
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                                
+                            }
+                        },
+                        "bauabkoo": {
+                            "properties": {
+                                
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                                
+                            }
+                        },
+                       
+                        "rom": {
+                            "properties": {
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "akqui": {
+                            "properties": {
+                                
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "operations": {
+                            "properties": {
+                                
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "transgu": {
+                            "properties": {
+                                
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "baugu": {
+                            "properties": {
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "prop": {
+                            "properties": {
+                                
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "radioregio": {
+                            "properties": {
+                                
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "wartungsteam": {
+                            "properties": {
+                                
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "acquicoonew": {
+                            "properties": {
+                                
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "shakoo": {
+                            "properties": {
+                                
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "baukoo": {
+                            "properties": {
+                                
+                                "roleName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "fullName": {
+                                    "analyzer": "lc",
+                                    "type": "string",
+                                    "fields": {
+                                        "raw": {
+                                            "index": "not_analyzed",
+                                            "type": "string"
+                                        },
+                                        "ngram": {
+                                            "search_analyzer": "standard",
+                                            "analyzer": "ngram",
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+}

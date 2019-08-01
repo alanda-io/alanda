@@ -1,0 +1,6 @@
+src/test/resources/docker-camunda/mount_config/configuration/standalone_xml_history/*
+src/test/resources/docker-elastic6/mount_logs_node1/*
+src/test/resources/docker-camunda/mount_config/configuration/standalone_xml_history/*
+src/test/resources/docker-camunda/mount_config/configuration/logging.properties
+src/test/resources/docker-camunda/mount_deployment/*war*
+

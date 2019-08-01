@@ -1,0 +1,51 @@
+version: "3.1"
+services:
+  alanda-camunda-service:
+    depends_on:
+      - "alanda-elastic-service"
+    build: ./docker-camunda/image
+    image: camunda7_10
+    container_name: alanda-camunda
+    environment:
+      - JAVA_OPTS=-Xms512m -Xmx3500m -XX:MetaspaceSize=128M -XX:MaxMetaspaceSize=512m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true
+      - SKIP_DB_CONFIG=true
+      - TZ=Europe/Vienna
+    volumes:
+      - ./docker-camunda/mount_deployment:/camunda/standalone/deployments_alanda
+      - ./docker-camunda/mount_logs:/camunda/standalone/log
+      - ./docker-camunda/mount_config/configuration:/camunda/standalone/configuration
+      - ./docker-camunda/mount_templates/templates:/camunda/standalone/templates
+    ports:
+      - 8080:8080
+      - 9990:9990
+      - 8787:8787
+    networks:
+      - default
+
+  alanda-elastic-service:
+    build: docker-elastic6/image
+    image: alanda-elastic660
+    container_name: alanda-elasticsearch6-node1
+    volumes:
+      - ./docker-elastic6/mount_import_data:/opt/elastic/es_import_data #snapshot dir
+      - ./docker-elastic6/mount_data_node1:/usr/share/elasticsearch/data #data dir
+      - ./docker-elastic6/mount_config_node1:/usr/share/elasticsearch/config #config dir
+      - ./docker-elastic6/mount_logs_node1:/usr/share/elasticsearch/logs
+      - ./docker-elastic6/scripts:/opt/scripts
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    #    working_dir: /opt/elastic/logs
+    ports:
+      - 9206:9200
+      - 9306:9300
+    networks:
+      - default
+
+networks:
+  default:
+    external:
+      name:  alanda_bpma_bridge

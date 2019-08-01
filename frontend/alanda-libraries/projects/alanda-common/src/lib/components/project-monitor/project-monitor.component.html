@@ -1,0 +1,101 @@
+<style>
+  .ng-prio {color: white}
+  .ng-prio-high {background-color: rgba(219, 0, 0, 0.57) !important}
+  .ng-prio-medium {background-color: rgba(255, 172, 43, 0.57) !important}
+  .ng-prio-low {background-color: rgba(0, 128, 0, 0.38) !important}
+  .ng-center-cell {text-align: center;}
+  .ng-ui-table {font-size: 12px}
+  ::ng-deep .ui-paginator-right-content {
+    margin: 5px;
+  }
+</style>
+
+<div class="p-grid ui-fluid">
+  <div class="p-col">
+    <p-panel>
+        <p-header>
+          <span class="ui-panel-title title">Project Monitor</span>
+        </p-header>
+        <div class="p-grid">
+          <div class="p-col">
+              <!-- Layout
+              <p-dropdown
+                [options]="layouts"
+                [(ngModel)]="selectedLayout"
+                optionLabel="displayName"
+                (onChange)="onChangeLayout()">
+              </p-dropdown> -->
+          </div>
+          </div>
+          <div class = "p-grid">
+            <div class="p-col">
+                <p-table #tt
+                  [style]="{'min-height':'500px'}"
+                  [resizableColumns]="true"
+                  [value]="projectsData.results" 
+                  [columns]="selectedLayout.columnDefs"
+                  [paginator]="true" 
+                  [rows]="15" 
+                  [lazy]="true"
+                  [totalRecords]="projectsData.total"
+                  (onLazyLoad)="loadProjectsLazy($event)"
+                  [tableStyle]="{'table-layout':'100%'}" 
+                  [autoLayout]="true"
+                  [loading]="loading"
+                  [responsive]="true">
+                  <ng-template pTemplate="caption">
+                    <div class="ui-helper-clearfix">
+                      <p-menu #menu [popup]="true" [model]="menuItems" appendTo="body"></p-menu>
+                      <button type="button" pButton icon="fa fa-fw fa-list" (click)="menu.toggle($event)" style="float:right; width: 50px"></button>
+                    </div>
+                    <!--                     
+                    <div class="ui-helper-clearfix">
+                      <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="Export CSV" (click)="tt.exportCSV()" style="float:right; width: 130px"></button>
+                    </div> -->
+                  </ng-template>
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field" [ngClass]="'ng-ui-table'" [style.width]="col.width + 'px'">
+                          <span style="white-space: nowrap">{{col.displayName}}<p-sortIcon></p-sortIcon></span>
+                      </th>
+                    </tr>
+                    <tr>
+                      <th *ngFor="let col of columns">
+                          <input 
+                            pInputText 
+                            type="text" 
+                            (input)="tt.filter($event.target.value, col.field, 'contains')"
+                            [value] ="tt.filters[col.field] ? tt.filters[col.field].value : ''"
+                            style="width: 100%"
+                            inputStyle="width: 100%">
+                          <!--[style.width]="col.width + 'px'" -->
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-project let-columns="columns" >
+                    <tr 
+                      [pSelectableRow]="project"
+                      class="ng-center-cell">  
+                      <td *ngFor="let col of columns" [ngClass]="getCondition(project, col.template)" style="font-size: 12px; white-space: nowrap;">
+                        <ng-template [ngIf]="col.name == 'Project ID'" [ngIfElse]="default">
+                          <!-- <a [attr.href]="'#/pmc/projectdetails/' + project.project.projectId" target="blank">{{ project | monitorValues: col.field }}</a> -->
+                          <a [routerLink]="openProject(project.project.projectId)">{{ project | monitorValues: col.field }}</a>
+                        </ng-template>
+                        <ng-template #default>
+                          {{ project | monitorValues: col.field }}
+                        </ng-template>
+                      </td>
+                    </tr>  
+                  </ng-template>
+                  <ng-template pTemplate="paginatorright">
+                    <span *ngIf="projectsData.total">
+                      Total: {{projectsData.total}}
+                    </span>
+                  </ng-template>
+                </p-table>
+            </div>
+          </div>
+        <p-footer></p-footer>
+    </p-panel>
+  </div>
+</div>

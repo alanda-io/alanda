@@ -1,0 +1,6 @@
+{
+  "persistent": {
+    "cluster.routing.allocation.enable": null
+  }
+}
+

@@ -1,0 +1,81 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    version="3.0">
+    <display-name>alanda rest interface</display-name>
+    
+	<context-param>
+		<param-name>resteasy.providers</param-name>
+		<param-value>io.alanda.rest.security.CorsInterceptor</param-value>
+	</context-param>
+  
+  <listener>
+    <listener-class>io.alanda.rest.security.CDIAwareShiroEnvironmentLoader</listener-class>
+  </listener>
+  
+ 	 <filter>
+	    <filter-name>SecurityFilter</filter-name>
+	    <filter-class>org.apache.shiro.web.servlet.ShiroFilter</filter-class>
+	 </filter>
+	  <filter-mapping>
+	    <filter-name>SecurityFilter</filter-name>
+	    <url-pattern>/app/*</url-pattern>
+      <dispatcher>REQUEST</dispatcher>
+      <dispatcher>FORWARD</dispatcher>
+      <dispatcher>INCLUDE</dispatcher>
+      <dispatcher>ERROR</dispatcher>
+	  </filter-mapping>
+<!--	 <filter>
+	    <filter-name>SecurityFilter</filter-name>
+	    <filter-class>com.bpmasters.pmc.rest.LocalAuthenticationFilter</filter-class>
+	 </filter>
+	  <filter-mapping>
+	    <filter-name>SecurityFilter</filter-name>
+	    <url-pattern>/app/*</url-pattern>
+	  </filter-mapping>-->
+	  <filter>
+	    <filter-name>ThreadLocalFilter</filter-name>
+	    <filter-class>io.alanda.rest.ThreadLocalFilter</filter-class>
+	 </filter>
+	  <filter-mapping>
+	    <filter-name>ThreadLocalFilter</filter-name>
+	    <url-pattern>/app/*</url-pattern>
+	  </filter-mapping>
+	 
+<!-- 	  <filter> -->
+<!-- 	    <filter-name>CacheControlFilter</filter-name> -->
+<!-- 	    <filter-class>org.camunda.bpm.engine.rest.filter.CacheControlFilter</filter-class> -->
+<!-- 	  </filter> -->
+<!-- 	  <filter-mapping> -->
+<!-- 	    <filter-name>CacheControlFilter</filter-name> -->
+<!-- 	    <url-pattern>/*</url-pattern> -->
+<!-- 	  </filter-mapping> -->
+	
+	  <filter>
+	    <filter-name>Resteasy</filter-name>
+	    <filter-class>
+	        org.jboss.resteasy.plugins.server.servlet.FilterDispatcher
+	    </filter-class>
+	    <init-param>
+	        <param-name>javax.ws.rs.Application</param-name>
+	        <param-value>io.alanda.rest.PmcApplication</param-value>
+	    </init-param>
+	  </filter>
+	
+	  <filter-mapping>
+	      <filter-name>Resteasy</filter-name>
+	      <url-pattern>/*</url-pattern>
+	  </filter-mapping>
+	  
+<!-- 	  <resource-ref> -->
+<!-- 	  <res-ref-name>processEngine/default</res-ref-name>    -->
+<!-- 	  <res-type>org.camunda.bpm.engine.ProcessEngine</res-type> -->
+<!-- 	  <mapped-name>java:global/camunda-bpm-platform/process-engine/default</mapped-name>     -->
+<!-- 	</resource-ref>	 -->
+<!-- 	 <resource-ref> -->
+<!-- 	  <res-ref-name>processEngineService</res-ref-name>    -->
+<!-- 	  <res-type>org.camunda.bpm.ProcessEngineService</res-type> -->
+<!-- 	  <mapped-name>java:global/camunda-bpm-platform/process-engine/ProcessEngineService!org.camunda.bpm.ProcessEngineService</mapped-name>     -->
+<!-- 	</resource-ref>	 -->
+ 
+</web-app>

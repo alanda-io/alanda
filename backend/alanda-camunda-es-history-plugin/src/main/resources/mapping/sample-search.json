@@ -1,0 +1,42 @@
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "match": {
+            "project.pmcProjectType.idName": "NB-SI"
+          }
+        },
+        {
+          "match": {
+            "project.pmcProjectType.idName": "UMBAU"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match": {
+            "project.status": "CANCELED"
+          }
+        },
+        {
+          "match": {
+            "project.status": "COMPLETED"
+          }
+        }
+      ]
+    }
+  },
+  "stored_fields": [
+    "project.guid"
+  ],
+  "_source": true,
+  "sort": [
+    {
+      "refObject.idName": {
+        "order": "asc"
+      }
+    }
+  ],
+  "size": 10000
+}

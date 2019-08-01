@@ -1,0 +1,40 @@
+<style>
+::ng-deep .ui-menubar {
+  width: 100%;
+  /* position: fixed; */
+  z-index: 99999999;
+  border-radius: 0px !important;
+  background: #007ad9 !important;
+}
+
+.subMenu{
+  background-color: #c3def8;
+  width: 100%;
+  color: black;
+  margin-top: 5px;
+  font-size: 11px;
+  padding: 0 25px 0 25px;
+}
+</style>
+<p-toast></p-toast>
+<div [@autoHide]="autoHide ? 'open' : 'closed'">
+  <p-menubar [model]="items"></p-menubar>
+  <div class="subMenu">
+    <div class="p-grid p-justify-between">
+        <div class="p-col-6">
+          <!-- Hier könnten Ihre Breadcrumbs stehen -->
+        </div>
+      <div class="p-col-6" *ngIf="pmcUserService.user$ | async as user" style="text-align: right">
+        <!-- <span>{{currentUser.firstName}} {{currentUser.surname}}</span> -->
+        <span>{{user.firstName}} {{user.surname}}</span>
+        <span *ngIf="user.runAs"> ( logged in as {{user.runAs}} <i class="pi pi-user-minus" (click)="releaseRunAs()"></i>)</span>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div class="p-grid">
+  <div class="p-col-12">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+
+{
+  "index": "pmc",
+  "type": "process",
+  "indexingStrategy": "io.alanda.camunda.es.history.index.ElasticSearchDefaultIndexStrategy",
+  "esHost": "alanda-elasticsearch6-node1",
+  "esPort": "9200",
+  "esClusterName": "elasticsearch6",
+  "transportClient": true,
+  "eventHandler" : "io.alanda.camunda.es.history.handler.ElasticSearchTransactionAwareCompositeEventHandler",
+  "properties": {
+    "es.script.disable_dynamic": false
+  }
+}

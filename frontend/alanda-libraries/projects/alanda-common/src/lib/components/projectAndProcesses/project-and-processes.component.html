@@ -1,0 +1,13 @@
+<p-panel #panel [toggleable]="true" (onBeforeToggle)="togglePanel()">
+  <p-header>
+    <span class="ui-panel-title title">Projects & Processes</span>
+  </p-header>
+
+  <!-- TODO. ngFor for multiple projects in projectList -->
+  <project-control-item
+      projectItem="project"
+      config="config"
+      read-only="readOnly">
+  </project-control-item>
+
+</p-panel>

@@ -1,0 +1,12 @@
+The planning survey for $siteIdName has been scheduled by $co.firstName $co.surname. For further question please get in contact with the coordinator:
+
+Contact Details:
+
+#if($co)Coordinator: $co.surname $co.firstName, Tel. $!{co.mobile}
+#end
+#if($su)Site supervisor:  $su.surname $su.firstName, Tel. $!{su.mobile}
+#end
+#if($rp)Radio planner:  $rp.surname $rp.firstName, Tel. $!{rp.mobile}
+#end
+#if($tp)Transmission planner:  $tp.surname $tp.firstName, Tel. $!{tp.mobile}
+#end

@@ -1,0 +1,16 @@
+<html>
+Dear all,<br>
+<br>
+project "$projectTitle" ($projectId, $projectType) has been canceled.<br>
+
+#if($reason)
+Reason: $reason<br>
+#end
+
+<br><br>
+With kind regards<br>
+<br>
+PMC Support Team<br>
+<br>
+This is an automatically generated email, please do not reply.<br>
+<html/>

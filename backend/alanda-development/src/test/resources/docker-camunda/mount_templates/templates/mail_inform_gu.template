@@ -1,0 +1,15 @@
+<html>
+Hello,
+<br>
+the acceptance survey for $siteIdName has been scheduled by $co.firstName $co.surname. For further question please get in contact with the coordinator:
+
+#if($co) <em>Coordinator</em>: $co.surname $co.firstName, Tel. $!{co.mobile}<br />#end
+#if($su)<em>Site supervisor</em>:  $su.surname $su.firstName, Tel. $!{su.mobile}<br />#end
+#if($rp)<em>Radio planner</em>:  $rp.surname $rp.firstName, Tel. $!{rp.mobile}<br />#end
+#if($tp)<em>Transmission planner</em>:  $tp.surname $tp.firstName, Tel. $!{tp.mobile}<br />#end
+<br/>
+Sincerely,<br/>
+Hutchison Drei Austria GmbH<br/>
+<br/>
+This is an automatically generated Email, please do not reply!
+</html>

@@ -1,0 +1,25 @@
+<html>
+Dear Pre Docu Team,<br/>
+<br/>
+
+the following docu SWAP incidents have been closed:<br/>
+<br/>
+<table style="width:auto;border:1px solid black;border-collapse:collapse;">
+<tr>
+	<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">INC ID</th>
+</tr>
+#foreach($incident in $closedDocuIncidentList)
+<tr>
+	<td style="padding:5px;border:1px solid black;border-collapse:collapse;">INC$incident</td>
+</tr>
+#end
+
+</table>
+<br/>
+Please update the OSIRIS Task for $targetSiteIdName.
+<br/>
+Sincerely,<br/>
+Hutchison Drei Austria GmbH<br/>
+<br/>
+This is an automatically generated Email, please do not reply!
+<html>

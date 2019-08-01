@@ -1,0 +1,12 @@
+<html>
+Dear Rollout Coordination
+<br>
+the process $callActivityName for $siteIdName has been closed.. Please check the AcquiCheck process and perform necessary actions.
+<br>
+<a href="$link">$link</a>
+<br/>
+This is an automatically generated Email, please do not reply!
+<br/>
+Sincerely,<br/>
+Hutchison Drei Austria GmbH<br/>
+</html>

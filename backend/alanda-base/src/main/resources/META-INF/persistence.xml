@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+  <persistence-unit name="pmcDB">
+    <class>io.alanda.base.entity.PmcUser</class>
+    <class>io.alanda.base.entity.PmcProjectCard</class>
+    <class>io.alanda.base.entity.CardList</class>
+    <class>io.alanda.base.entity.PmcProject</class>
+    <class>io.alanda.base.entity.DocuConfig</class>
+    <class>io.alanda.base.entity.PmcProjectType</class>
+    <class>io.alanda.base.entity.PmcMetricEntity</class>
+    <class>io.alanda.base.entity.Document</class>
+    <class>io.alanda.base.entity.PmcProjectPhase</class>
+    <class>io.alanda.base.entity.PmcProperty</class>
+    <class>io.alanda.base.entity.PmcHeartBeat</class>
+    <class>io.alanda.base.entity.PmcMetricProperty</class>
+    <class>io.alanda.base.entity.DocuConfigMapping</class>
+    <class>io.alanda.base.entity.PmcComment</class>
+    <class>io.alanda.base.entity.RefObjectUserGroupMapping</class>
+    <class>io.alanda.base.entity.DocuConfigProcessMapping</class>
+    <class>io.alanda.base.entity.PmcHeartBeatDef</class>
+    <class>io.alanda.base.entity.Card</class>
+    <class>io.alanda.base.entity.PmcDepartment</class>
+    <class>io.alanda.base.entity.Milestone</class>
+    <class>io.alanda.base.entity.PmcHistoryLog</class>
+    <class>io.alanda.base.entity.PmcGroup</class>
+    <class>io.alanda.base.entity.IdCounter</class>
+    <class>io.alanda.base.entity.PmcProjectMilestone</class>
+    <class>io.alanda.base.entity.PmcRole</class>
+    <class>io.alanda.base.entity.PmcBlog</class>
+    <class>io.alanda.base.entity.PmcTag</class>
+    <class>io.alanda.base.entity.DocuFolder</class>
+    <class>io.alanda.base.entity.PmcProjectPhaseDefinition</class>
+    <class>io.alanda.base.entity.PmcReportConfig</class>
+    <class>io.alanda.base.entity.PmcProjectProcess</class>
+    <class>io.alanda.base.entity.PmcPermission</class>
+    <class>io.alanda.base.mail.MailAttachment</class>
+    <class>io.alanda.base.mail.Mail</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <jta-data-source>java:jboss/datasources/PMC</jta-data-source>
+    <!--  BASE -->
+    <!-- Email Reception -->
+    <!-- HeartBeat -->
+    <properties>
+      <property name="hibernate.jdbc.use_get_generated_keys" value="true"/>
+      <property name="hibernate.show_sql" value="false"/>
+    </properties>
+  </persistence-unit>
+</persistence>

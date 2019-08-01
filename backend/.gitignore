@@ -1,0 +1,16 @@
+.project
+.classpath
+.settings
+.project
+.idea
+*.iml
+/pmc-base/nbactions.xml
+/nbactions.xml
+/front/pmcCore/nbproject/private/
+/front/pmcCoreGrunt/nbproject/private/
+/front/nbproject/private/
+/front/bower_components/
+/test-modul/target/
+/pmc-comment-plugin/target/
+/pmc-background/nb-configuration.xml
+/pmc-blog/nb-configuration.xml

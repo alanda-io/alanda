@@ -1,0 +1,8 @@
+<jboss-deployment-structure>
+	<deployment>
+		<dependencies>
+			<module name="org.elasticsearch" />
+			<module name="org.apache.poi" />
+		</dependencies>
+	</deployment>
+</jboss-deployment-structure>  

@@ -1,0 +1,133 @@
+//wildcard auf lowercase
+{
+  "fields": [
+    "refObject.idName",
+    "refObject.address"
+  ],
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "wildcard": {
+            "refObject.address": "*de*"
+          }
+        }
+      ],
+      "must_not": [],
+      "should": []
+    }
+  },
+  "from": 0,
+  "size": 10,
+  "sort": [],
+  "aggs": {}
+}
+
+// phrase auf ngram
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "refObject.address.ngram": "Ede"
+          }
+        }
+      ],
+      "must_not": [],
+      "should": []
+    }
+  },
+  "from": 0,
+  "size": 10,
+  "sort": [],
+  "aggs": {}
+}
+
+{
+  "fields": [
+    "refObject.idName",
+    "refObject.address"
+  ],
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "refObject.address.ngram": "de Pa"
+          }
+        }
+      ],
+      "must_not": [],
+      "should": []
+    }
+  },
+  "from": 0,
+  "size": 10,
+  "sort": [],
+  "aggs": {}
+}
+
+// Match mit AND auf ngram
+{
+  "fields": [
+    "refObject.idName",
+    "refObject.address"
+  ],
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "refObject.address.ngram": {
+              "query": "12",
+              "operator": "and"
+            }
+          }
+        }
+      ],
+      "must_not": [],
+      "should": []
+    }
+  },
+  "from": 0,
+  "size": 10,
+  "sort": [],
+  "aggs": {}
+}
+
+//Nested Query auf Variablen
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "nested": {
+            "path": "variables",
+            "query": {
+              "bool": {
+                "must": [
+                  {
+                    "term": {
+                      "variables.varName": "pmcProjectGuid"
+                    }
+                  },
+                  {
+                    "term": {
+                      "variables.textValue": "2009"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "term": {
+            "processDefinitionKey": "plan-and-perform-pb"
+          }
+        }
+      ]
+    }
+  }
+}

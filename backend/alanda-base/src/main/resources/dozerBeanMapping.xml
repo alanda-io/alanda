@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	<configuration>
+		<custom-converters>
+			<converter type="io.alanda.base.mapper.DocuConfigMapper">
+				<class-a>io.alanda.base.entity.DocuConfig</class-a>
+				<class-b>io.alanda.base.dto.DocuConfigDto</class-b>
+			</converter>
+			<converter type="io.alanda.base.mapper.PhaseMapper">
+				<class-a>io.alanda.base.entity.PmcProjectPhase</class-a>
+				<class-b>io.alanda.base.dto.SimplePhaseDto</class-b>
+			</converter>
+		</custom-converters>
+	</configuration>
+	<mapping>
+		<class-a>io.alanda.base.entity.PmcProperty</class-a>
+		<class-b>io.alanda.base.dto.PmcPropertyDto</class-b>
+		<field>
+			<a>pmcProject.guid</a>
+			<b>pmcProjectGuid</b>
+		</field>
+	</mapping>
+	<mapping type="one-way">
+		<class-a>io.alanda.base.entity.PmcProject</class-a>
+		<class-b>io.alanda.base.dto.PmcProjectDto</class-b>
+		<field-exclude>
+			<a>children</a>
+			<b>children</b>
+		</field-exclude>
+		<field-exclude>
+			<a>parents</a>
+			<b>parents</b>
+		</field-exclude>
+		<field>
+			<a set-method="setTag" get-method="getTag">tag</a>
+			<b>tag</b>
+		</field>
+	</mapping>
+	<mapping type="one-way">
+		<class-a>io.alanda.base.dto.PmcProjectDto</class-a>
+		<class-b>io.alanda.base.entity.PmcProject</class-b>
+		<field-exclude>
+			<a>children</a>
+			<b>children</b>
+		</field-exclude>
+		<field-exclude>
+			<a>parents</a>
+			<b>parents</b>
+		</field-exclude>
+		<field-exclude>
+			<a>pmcProjectType</a>
+			<b>pmcProjectType</b>
+		</field-exclude>
+		<field>
+			<a>tag</a>
+			<b set-method="setTag" get-method="getTag">tag</b>
+		</field>
+	</mapping>
+	<mapping map-id="includeChildren" type="one-way">
+		<class-a>io.alanda.base.entity.PmcProject</class-a>
+		<class-b>io.alanda.base.dto.PmcProjectDto</class-b>
+		<field-exclude>
+			<a>parents</a>
+			<b>parents</b>
+		</field-exclude>
+		<field map-id="includeChildren">
+			<a>children</a>
+			<b>children</b>
+		</field>
+		<field>
+			<a set-method="setTag" get-method="getTag">tag</a>
+			<b>tag</b>
+		</field>
+	</mapping>
+	<mapping map-id="includeParents" type="one-way">
+		<class-a>io.alanda.base.entity.PmcProject</class-a>
+		<class-b>io.alanda.base.dto.PmcProjectDto</class-b>
+		<field-exclude>
+			<a>children</a>
+			<b>children</b>
+		</field-exclude>
+		<field map-id="includeParents">
+			<a>parents</a>
+			<b>parents</b>
+		</field>
+		<field>
+			<a set-method="setTag" get-method="getTag">tag</a>
+			<b>tag</b>
+		</field>
+	</mapping>
+	<mapping map-id="docu" type="one-way">
+		<class-a>io.alanda.base.entity.PmcProject</class-a>
+		<class-b>io.alanda.base.dto.PmcProjectDto</class-b>
+		<field-exclude>
+			<a>parents</a>
+			<b>parents</b>
+		</field-exclude>
+		<field-exclude>
+			<a>children</a>
+			<b>children</b>
+		</field-exclude>
+		<field-exclude>
+			<a>milestones</a>
+			<b>milestones</b>
+		</field-exclude>
+		<field map-id="pmcProjectType.docu">
+			<a>pmcProjectType</a>
+			<b>pmcProjectType</b>
+		</field>
+		<field>
+			<a set-method="setTag" get-method="getTag">tag</a>
+			<b>tag</b>
+		</field>
+	</mapping>
+	<mapping map-id="pmcProjectType.docu" type="one-way">
+		<class-a>io.alanda.base.entity.PmcProjectType</class-a>
+		<class-b>io.alanda.base.dto.PmcProjectTypeDto</class-b>
+		<field-exclude>
+			<a>allowedChildTypes</a>
+			<b>allowedChildTypes</b>
+		</field-exclude>
+		<field-exclude>
+			<a>allowedMilestones</a>
+			<b>allowedMilestones</b>
+		</field-exclude>
+
+		<field>
+			<a>docuConfigs</a>
+			<b>docuConfigs</b>
+		</field>
+	</mapping>
+	<mapping type="one-way">
+		<class-a>io.alanda.base.entity.PmcProjectType</class-a>
+		<class-b>io.alanda.base.dto.PmcProjectTypeDto</class-b>
+		<field-exclude>
+			<a>docuConfigs</a>
+			<b>docuConfigs</b>
+		</field-exclude>
+	</mapping>
+	<mapping map-id="tree" type="one-way">
+		<class-a>io.alanda.base.entity.PmcProject</class-a>
+		<class-b>io.alanda.base.dto.PmcProjectDto</class-b>
+		<field map-id="includeParents">
+			<a>parents</a>
+			<b>parents</b>
+		</field>
+		<field map-id="includeChildren">
+			<a>children</a>
+			<b>children</b>
+		</field>
+		<field>
+			<a set-method="setTag" get-method="getTag">tag</a>
+			<b>tag</b>
+		</field>
+	</mapping>
+  	<mapping type="one-way">
+		<class-a>io.alanda.base.entity.PmcProject</class-a>
+		<class-b>io.alanda.base.dto.PmcProjectCompactDto</class-b>
+		<field>
+			<a get-method="getProjectTypeName">tag</a>
+			<b>projectType</b>
+		</field>
+    <field>
+			<a get-method="getProjectTypeIdName">tag</a>
+			<b>projectTypeIdName</b>
+		</field>
+    <field>
+			<a set-method="setTag" get-method="getTag">tag</a>
+			<b>tag</b>
+		</field>
+	</mapping>
+	<mapping map-id="includeGroups">
+		<class-a>io.alanda.base.entity.PmcUser</class-a>
+		<class-b>io.alanda.base.dto.PmcUserDto</class-b>
+	</mapping>
+	<mapping>
+		<class-a>io.alanda.base.entity.PmcUser</class-a>
+		<class-b>io.alanda.base.dto.PmcUserDto</class-b>
+		<!--  <field-exclude>
+			<a>groupList</a>
+			<b>groupList</b>
+		</field-exclude>-->
+	</mapping>
+	<mapping map-id="noFormKey">
+		<class-a>org.camunda.bpm.engine.task.Task</class-a>
+		<class-b>io.alanda.base.dto.PmcTaskDto</class-b>
+		<field-exclude>
+			<a>formKey</a>
+			<b>formKey</b>
+		</field-exclude>
+	</mapping>
+</mappings>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="_xrCWgLQoEeOYhO0lvfkJyw" targetNamespace="http://camunda.org/schema/1.0/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:collaboration id="_Collaboration_3">
+    <bpmn2:participant id="pmc-synch-milestones-pool" name="PmcMilestone Synch" processRef="pmc-synch-milestones" />
+  </bpmn2:collaboration>
+  <bpmn2:process id="pmc-synch-milestones" name="PmcMilestone Synch" isExecutable="true">
+    <bpmn2:sequenceFlow id="SequenceFlow_1" name="" sourceRef="milestone-synchronization-start-event" targetRef="ServiceTask_0wzwxaw" />
+    <bpmn2:sequenceFlow id="SequenceFlow_0uhaw54" name="" sourceRef="ServiceTask_0wzwxaw" targetRef="ServiceTask_0i64b9e" />
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_1">
+      <bpmn2:incoming>SequenceFlow_0jatqj6</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_7</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:serviceTask id="prepare-milestone-synchronization-service-task" name="Synchronisierung vorbereiten" camunda:async="true" camunda:expression="#{pmcSynchMilestoneProcessService.prepareMessageSynch()}">
+      <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_12</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_3">
+      <bpmn2:incoming>SequenceFlow_11</bpmn2:incoming>
+      <bpmn2:incoming>SequenceFlow_13</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_8</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:serviceTask id="waiting-execution-fetcher-service-task" name="Wartende Ausführungen ermitteln" camunda:expression="#{pmcSynchMilestoneProcessService.fetchWaitingExecutions()}">
+      <bpmn2:incoming>SequenceFlow_12</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_13</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_7" name="" sourceRef="ExclusiveGateway_1" targetRef="prepare-milestone-synchronization-service-task" />
+    <bpmn2:sequenceFlow id="SequenceFlow_12" name="" sourceRef="prepare-milestone-synchronization-service-task" targetRef="waiting-execution-fetcher-service-task" />
+    <bpmn2:sequenceFlow id="SequenceFlow_8" name="" sourceRef="ExclusiveGateway_3" targetRef="milestone-sync-service-tasks" />
+    <bpmn2:sequenceFlow id="SequenceFlow_9" name="" sourceRef="milestone-sync-service-tasks" targetRef="ExclusiveGateway_4" />
+    <bpmn2:sequenceFlow id="SequenceFlow_10" name="ja" sourceRef="ExclusiveGateway_4" targetRef="EndEvent_1">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${syncFinished}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_11" name="nein" sourceRef="ExclusiveGateway_4" targetRef="ExclusiveGateway_3">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression">${!syncFinished}</bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
+    <bpmn2:sequenceFlow id="SequenceFlow_13" name="" sourceRef="waiting-execution-fetcher-service-task" targetRef="ExclusiveGateway_3" />
+    <bpmn2:serviceTask id="ServiceTask_0wzwxaw" name="Timer Synchoniserung vorbereiten" camunda:expression="#{pmcSynchMilestoneProcessService.prepareTimerSynch()}">
+      <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_0uhaw54</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:sequenceFlow id="SequenceFlow_0jatqj6" sourceRef="ServiceTask_0i64b9e" targetRef="ExclusiveGateway_1" />
+    <bpmn2:serviceTask id="ServiceTask_0i64b9e" name="Vollständige Timer-synchronisation" camunda:asyncBefore="true" camunda:expression="#{pmcSynchMilestoneProcessService.performTimerSynch()}">
+      <bpmn2:incoming>SequenceFlow_0uhaw54</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_0jatqj6</bpmn2:outgoing>
+      <bpmn2:multiInstanceLoopCharacteristics isSequential="true" camunda:collection="#{timerFirstResultList}" camunda:elementVariable="firstSyncResult" />
+    </bpmn2:serviceTask>
+    <bpmn2:startEvent id="milestone-synchronization-start-event" name="all 5 min" camunda:asyncAfter="true" camunda:exclusive="false">
+      <bpmn2:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="endProcess" label="Prozess beenden?" type="boolean" />
+        </camunda:formData>
+      </bpmn2:extensionElements>
+      <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition id="TimerEventDefinition_1">
+        <bpmn2:timeCycle xsi:type="bpmn2:tFormalExpression">0 0/5 3-23 * * ?</bpmn2:timeCycle>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:startEvent>
+    <bpmn2:serviceTask id="milestone-sync-service-tasks" name="Nächste Ausführung synchronisieren" camunda:async="true" camunda:exclusive="false" camunda:expression="#{pmcSynchMilestoneProcessService.synchWaitingExecutions()}">
+      <bpmn2:incoming>SequenceFlow_8</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_9</bpmn2:outgoing>
+    </bpmn2:serviceTask>
+    <bpmn2:exclusiveGateway id="ExclusiveGateway_4" name="Allle Ausführungen durchlaufen?">
+      <bpmn2:incoming>SequenceFlow_9</bpmn2:incoming>
+      <bpmn2:outgoing>SequenceFlow_10</bpmn2:outgoing>
+      <bpmn2:outgoing>SequenceFlow_11</bpmn2:outgoing>
+    </bpmn2:exclusiveGateway>
+    <bpmn2:endEvent id="EndEvent_1">
+      <bpmn2:extensionElements>
+        <camunda:executionListener expression="${heartBeatService.finished(execution)}" event="start" />
+      </bpmn2:extensionElements>
+      <bpmn2:incoming>SequenceFlow_10</bpmn2:incoming>
+    </bpmn2:endEvent>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="_Collaboration_3">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_3" bpmnElement="milestone-synchronization-start-event">
+        <dc:Bounds x="158" y="149" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="158" y="190" width="41" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_ExclusiveGateway_7" bpmnElement="ExclusiveGateway_1" isMarkerVisible="true">
+        <dc:Bounds x="529" y="142" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="554" y="197" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_EndEvent_3" bpmnElement="EndEvent_1">
+        <dc:Bounds x="1339" y="149" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1312" y="190" width="90" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_23" bpmnElement="prepare-milestone-synchronization-service-task">
+        <dc:Bounds x="629" y="127" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_7" bpmnElement="SequenceFlow_7" sourceElement="_BPMNShape_ExclusiveGateway_7" targetElement="_BPMNShape_ServiceTask_23">
+        <di:waypoint x="579" y="167" />
+        <di:waypoint x="629" y="167" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="604" y="142" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_1" bpmnElement="SequenceFlow_1" sourceElement="_BPMNShape_StartEvent_3" targetElement="ServiceTask_0wzwxaw_di">
+        <di:waypoint x="194" y="167" />
+        <di:waypoint x="241" y="166" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="218" y="151.5" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_24" bpmnElement="milestone-sync-service-tasks">
+        <dc:Bounds x="1027" y="127" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_ExclusiveGateway_9" bpmnElement="ExclusiveGateway_3" isMarkerVisible="true">
+        <dc:Bounds x="911" y="142" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="936" y="197" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_8" bpmnElement="SequenceFlow_8" sourceElement="_BPMNShape_ExclusiveGateway_9" targetElement="_BPMNShape_ServiceTask_24">
+        <di:waypoint x="961" y="167" />
+        <di:waypoint x="1027" y="167" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="949" y="152" width="90" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_ExclusiveGateway_10" bpmnElement="ExclusiveGateway_4" isMarkerVisible="true">
+        <dc:Bounds x="1202" y="142" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1192" y="96" width="69" height="37" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_9" bpmnElement="SequenceFlow_9" sourceElement="_BPMNShape_ServiceTask_24" targetElement="_BPMNShape_ExclusiveGateway_10">
+        <di:waypoint x="1127" y="167" />
+        <di:waypoint x="1202" y="167" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1119.5" y="152" width="90" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_10" bpmnElement="SequenceFlow_10" sourceElement="_BPMNShape_ExclusiveGateway_10" targetElement="_BPMNShape_EndEvent_3">
+        <di:waypoint x="1252" y="167" />
+        <di:waypoint x="1295" y="167" />
+        <di:waypoint x="1295" y="167" />
+        <di:waypoint x="1339" y="167" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1270" y="177" width="9" height="13" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_11" bpmnElement="SequenceFlow_11" sourceElement="_BPMNShape_ExclusiveGateway_10" targetElement="_BPMNShape_ExclusiveGateway_9">
+        <di:waypoint x="1227" y="192" />
+        <di:waypoint x="1227" y="284" />
+        <di:waypoint x="936" y="284" />
+        <di:waypoint x="936" y="192" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1188.2559523809525" y="200" width="21" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_ServiceTask_28" bpmnElement="waiting-execution-fetcher-service-task">
+        <dc:Bounds x="779" y="127" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_12" bpmnElement="SequenceFlow_12" sourceElement="_BPMNShape_ServiceTask_23" targetElement="_BPMNShape_ServiceTask_28">
+        <di:waypoint x="729" y="167" />
+        <di:waypoint x="779" y="167" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="754" y="142" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_SequenceFlow_13" bpmnElement="SequenceFlow_13" sourceElement="_BPMNShape_ServiceTask_28" targetElement="_BPMNShape_ExclusiveGateway_9">
+        <di:waypoint x="879" y="167" />
+        <di:waypoint x="911" y="167" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="895" y="142" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_Participant_3" bpmnElement="pmc-synch-milestones-pool" isHorizontal="true">
+        <dc:Bounds x="90" y="9" width="1418" height="366" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0wzwxaw_di" bpmnElement="ServiceTask_0wzwxaw">
+        <dc:Bounds x="241" y="126" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0i64b9e_di" bpmnElement="ServiceTask_0i64b9e">
+        <dc:Bounds x="387" y="126" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0uhaw54_di" bpmnElement="SequenceFlow_0uhaw54">
+        <di:waypoint x="341" y="166" />
+        <di:waypoint x="387" y="166" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="364" y="151" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0jatqj6_di" bpmnElement="SequenceFlow_0jatqj6">
+        <di:waypoint x="487" y="166" />
+        <di:waypoint x="529" y="167" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="508" y="151.5" width="0" height="0" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>

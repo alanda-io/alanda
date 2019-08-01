@@ -1,0 +1,441 @@
+{
+	"project": {
+		"properties": {
+			"updateDate": {
+				"format": "strict_date_optional_time||epoch_millis",
+				"type": "date"
+			},
+			"dueDate": {
+				"format": "strict_date_optional_time||epoch_millis",
+				"type": "date",
+				"fields": {
+					"ngram": {
+						"search_analyzer": "lc",
+						"analyzer": "datengram",
+						"type": "text"
+					}
+				}
+			},
+			"parentIds": {
+				"type": "long"
+			},
+			"guStatus": {
+				"normalizer": "lc",
+				"type": "keyword",
+				"fields": {
+					"raw": {
+						"index": true,
+						"type": "keyword"
+					},
+					"ngram": {
+						"search_analyzer": "standard",
+						"analyzer": "ngram",
+						"type": "text"
+					}
+				}
+			},
+			"refObjectIdName": {
+				"normalizer": "lc",
+				"type": "keyword",
+				"fields": {
+					"raw": {
+						"index": true,
+						"type": "keyword"
+					},
+					"ngram": {
+						"search_analyzer": "standard",
+						"analyzer": "ngram",
+						"type": "text"
+					}
+				}
+			},
+			"ownerId": {
+				"type": "long"
+			},
+			"title": {
+				"normalizer": "lc",
+				"type": "keyword",
+				"fields": {
+					"raw": {
+						"index": true,
+						"type": "keyword"
+					},
+					"ngram": {
+						"search_analyzer": "standard",
+						"analyzer": "ngram",
+						"type": "text"
+					}
+				}
+			},
+			"ownerName": {
+				"normalizer": "lc",
+				"type": "keyword",
+				"fields": {
+					"raw": {
+						"index": true,
+						"type": "keyword"
+					},
+					"ngram": {
+						"search_analyzer": "standard",
+						"analyzer": "ngram",
+						"type": "text"
+					}
+				}
+			},
+			"subtype": {
+				"normalizer": "lc",
+				"type": "keyword",
+				"fields": {
+					"raw": {
+						"index": true,
+						"type": "keyword"
+					},
+					"ngram": {
+						"search_analyzer": "standard",
+						"analyzer": "ngram",
+						"type": "text"
+					}
+				}
+			},
+			"details": {
+				"normalizer": "lc",
+				"type": "keyword",
+				"fields": {
+					"raw": {
+						"index": true,
+						"type": "keyword"
+					},
+					"ngram": {
+						"search_analyzer": "standard",
+						"analyzer": "ngram",
+						"type": "text"
+					}
+				}
+			},
+			"tag": {
+				"normalizer": "lc",
+				"type": "keyword",
+				"fields": {
+					"raw": {
+						"index": true,
+						"type": "keyword"
+					},
+					"ngram": {
+						"search_analyzer": "standard",
+						"analyzer": "ngram",
+						"type": "text"
+					}
+				}
+			},
+			"createDate": {
+				"format": "strict_date_optional_time||epoch_millis",
+				"type": "date",
+				"fields": {
+					"ngram": {
+						"search_analyzer": "lc",
+						"analyzer": "datengram",
+						"type": "text"
+					}
+				}
+			},
+			"processes": {
+				"properties": {
+					"processInstanceId": {
+						"index": true,
+						"type": "keyword"
+					},
+					"businessObject": {
+						"normalizer": "lc",
+						"type": "keyword",
+						"fields": {
+							"raw": {
+								"index": true,
+								"type": "keyword"
+							},
+							"ngram": {
+								"search_analyzer": "standard",
+								"analyzer": "ngram",
+								"type": "text"
+							}
+						}
+					},
+					"guid": {
+						"type": "long"
+					},
+					"processKey": {
+						"index": true,
+						"type": "keyword"
+					},
+					"label": {
+						"normalizer": "lc",
+						"type": "keyword",
+						"fields": {
+							"raw": {
+								"index": true,
+								"type": "keyword"
+							},
+							"ngram": {
+								"search_analyzer": "standard",
+								"analyzer": "ngram",
+								"type": "text"
+							}
+						}
+					},
+					"parentExecutionId": {
+						"index": true,
+						"type": "keyword"
+					},
+					"workDetails": {
+						"normalizer": "lc",
+						"type": "keyword",
+						"fields": {
+							"raw": {
+								"index": true,
+								"type": "keyword"
+							},
+							"ngram": {
+								"search_analyzer": "standard",
+								"analyzer": "ngram",
+								"type": "text"
+							}
+						}
+					},
+					"relation": {
+						"index": true,
+						"type": "keyword"
+					},
+					"status": {
+						"index": true,
+						"type": "keyword"
+					}
+				}
+			},
+			"pmcProjectType": {
+				"properties": {
+					"objectType": {
+						"normalizer": "lc",
+						"type": "keyword",
+						"fields": {
+							"raw": {
+								"index": true,
+								"type": "keyword"
+							},
+							"ngram": {
+								"search_analyzer": "standard",
+								"analyzer": "ngram",
+								"type": "text"
+							}
+						}
+					},
+					"idName": {
+						"normalizer": "lc",
+						"type": "keyword",
+						"fields": {
+							"raw": {
+								"index": true,
+								"type": "keyword"
+							},
+							"ngram": {
+								"search_analyzer": "standard",
+								"analyzer": "ngram",
+								"type": "text"
+							}
+						}
+					},
+					"name": {
+						"normalizer": "lc",
+						"type": "keyword",
+						"fields": {
+							"raw": {
+								"index": true,
+								"type": "keyword"
+							},
+							"ngram": {
+								"search_analyzer": "standard",
+								"analyzer": "ngram",
+								"type": "text"
+							}
+						}
+					},
+					"guid": {
+						"type": "long"
+					}
+				}
+			},
+			"childrenIds": {
+				"type": "long"
+			},
+			"updateUser": {
+				"type": "long"
+			},
+			"additionalInfo": {
+				"dynamic": true,
+				"properties": {
+					
+				}
+			},
+			"propertiesMap": {
+				"properties": {
+					"role_baugu": {
+						"normalizer": "lc",
+						"type": "keyword",
+						"fields": {
+							"raw": {
+								"index": true,
+								"type": "keyword"
+							},
+							"ngram": {
+								"search_analyzer": "standard",
+								"analyzer": "ngram",
+								"type": "text"
+							}
+						}
+					},
+					"role_transgu": {
+						"normalizer": "lc",
+						"type": "keyword",
+						"fields": {
+							"raw": {
+								"index": true,
+								"type": "keyword"
+							},
+							"ngram": {
+								"search_analyzer": "standard",
+								"analyzer": "ngram",
+								"type": "text"
+							}
+						}
+					},
+					"role_akqui": {
+						"normalizer": "lc",
+						"type": "keyword",
+						"fields": {
+							"raw": {
+								"index": true,
+								"type": "keyword"
+							},
+							"ngram": {
+								"search_analyzer": "standard",
+								"analyzer": "ngram",
+								"type": "text"
+							}
+						}
+					},
+					"role_baukoo": {
+						"normalizer": "lc",
+						"type": "keyword",
+						"fields": {
+							"raw": {
+								"index": true,
+								"type": "keyword"
+							},
+							"ngram": {
+								"search_analyzer": "standard",
+								"analyzer": "ngram",
+								"type": "text"
+							}
+						}
+					},
+					"role_transregio": {
+						"normalizer": "lc",
+						"type": "keyword",
+						"fields": {
+							"raw": {
+								"index": true,
+								"type": "keyword"
+							},
+							"ngram": {
+								"search_analyzer": "standard",
+								"analyzer": "ngram",
+								"type": "text"
+							}
+						}
+					}
+				}
+			},
+			"priority": {
+				"type": "long",
+				"fields": {
+					"ngram": {
+						"search_analyzer": "lc",
+						"analyzer": "datengram",
+						"type": "text"
+					}
+				}
+			},
+			"guid": {
+				"type": "long",
+				"store": true
+			},
+			"refObjectId": {
+				"type": "long"
+			},
+			"comment": {
+				"normalizer": "lc",
+				"type": "keyword",
+				"fields": {
+					"raw": {
+						"index": true,
+						"type": "keyword"
+					},
+					"ngram": {
+						"search_analyzer": "standard",
+						"analyzer": "ngram",
+						"type": "text"
+					}
+				}
+			},
+			"createUser": {
+				"type": "long"
+			},
+			"refObjectType": {
+				"normalizer": "lc",
+				"type": "keyword",
+				"fields": {
+					"raw": {
+						"index": true,
+						"type": "keyword"
+					},
+					"ngram": {
+						"search_analyzer": "standard",
+						"analyzer": "ngram",
+						"type": "text"
+					}
+				}
+			},
+			"projectId": {
+				"normalizer": "lc",
+				"type": "keyword",
+				"fields": {
+					"raw": {
+						"index": true,
+						"type": "keyword"
+					},
+					"ngram": {
+						"search_analyzer": "standard",
+						"analyzer": "ngram",
+						"type": "text"
+					}
+				}
+			},
+			"customerProjectId": {
+				"type": "long"
+			},
+			"status": {
+				"normalizer": "lc",
+				"type": "keyword",
+				"fields": {
+					"raw": {
+						"index": true,
+						"type": "keyword"
+					},
+					"ngram": {
+						"search_analyzer": "standard",
+						"analyzer": "ngram",
+						"type": "text"
+					}
+				}
+			}
+		}
+	}
+}

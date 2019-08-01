@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>alanda</artifactId>
+    <groupId>io.alanda</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>alanda-process-vacation</artifactId>
+  <packaging>war</packaging>
+  <name>Alanda Vacation Demo Process</name>
+  <url></url>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.alanda</groupId>
+      <artifactId>alanda-base</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.alanda</groupId>
+      <artifactId>alanda-ejb-client</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <finalName>alanda-process-vacation</finalName>
+  </build>
+
+</project>

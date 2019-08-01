@@ -1,0 +1,16 @@
+<jboss-deployment-structure>
+	<deployment>
+		<dependencies>
+			<module name="org.elasticsearch" />
+			<module name="org.apache.poi" />
+		</dependencies>
+<!-- 		<dependencies> -->
+<!-- 			<module name="com.sso" optional="TRUE" /> -->
+<!-- 			<module name="at.drei.bpm.drei-bpm-security" optional="TRUE" /> -->
+<!-- 		</dependencies> -->
+<!-- 		<exclusions> -->
+<!-- 			<module name="org.jboss.resteasy.resteasy-jackson-provider" /> -->
+<!-- 			<module name="org.jboss.resteasy.resteasy-jettison-provider" /> -->
+<!-- 		</exclusions> -->
+	</deployment>
+</jboss-deployment-structure>  

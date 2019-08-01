@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1h0vyj8" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.15.1">
+  <bpmn:collaboration id="Collaboration_0v7qwiz">
+    <bpmn:participant id="pr-vacation-request" name="Vacation request" processRef="vacation-request" />
+  </bpmn:collaboration>
+  <bpmn:process id="vacation-request" name="Vacation request" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_0luvnin">
+      <bpmn:lane id="Lane_0gg0jt9" name="Vacation Requestor">
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ut-prepare-vacation-request</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ut-modify-vacation-request</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>gw-resubmit-vacation-request</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>st-inform-team-members</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ee-request-rejected</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ite-vacation-start-in-ten</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ut-perform-handover-activities</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>gw-handover-required</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_17a5n6q</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ut-inform-substitute</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_0s971dj</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1semx84" name="Vacation Approver">
+        <bpmn:flowNodeRef>ExclusiveGateway_1hmtrib</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ut-check-vacation-request</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>gw-vacation-request-approved</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent_1" name="Vacation request raised">
+      <bpmn:outgoing>SequenceFlow_180s0ax</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_180s0ax" sourceRef="StartEvent_1" targetRef="ut-prepare-vacation-request" />
+    <bpmn:userTask id="ut-prepare-vacation-request" name="Prepare vacation request" camunda:formKey="vacation.prepare-vacation-request" camunda:assignee="${vacationPS.getProjectCreator()}" camunda:candidateGroups="${grp.g(&#34;admin&#34;)}">
+      <bpmn:incoming>SequenceFlow_180s0ax</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0zr2i2y</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0zr2i2y" sourceRef="ut-prepare-vacation-request" targetRef="ExclusiveGateway_1hmtrib" />
+    <bpmn:sequenceFlow id="gw-resubmit-no" name="yes" sourceRef="gw-resubmit-vacation-request" targetRef="ExclusiveGateway_1hmtrib">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${resubmit}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="sf-approved-no" name="no" sourceRef="gw-vacation-request-approved" targetRef="ut-modify-vacation-request">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!requestApproved}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="ut-modify-vacation-request" name="Modify vacation request" camunda:formKey="vacation.modify-vacation-request" camunda:assignee="${vacationPS.getProjectCreator()}" camunda:candidateGroups="${grp.g(&#34;admin&#34;)}">
+      <bpmn:incoming>sf-approved-no</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1he8yxj</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="gw-resubmit-vacation-request" name="Resubmit vacation request?">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${vacationPS.processVariableCheck(&#34;resubmit&#34;, true)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1he8yxj</bpmn:incoming>
+      <bpmn:outgoing>gw-resubmit-no</bpmn:outgoing>
+      <bpmn:outgoing>sf-resubmit-no</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1he8yxj" sourceRef="ut-modify-vacation-request" targetRef="gw-resubmit-vacation-request" />
+    <bpmn:sequenceFlow id="sf-resubmit-no" name="no" sourceRef="gw-resubmit-vacation-request" targetRef="ee-request-rejected">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!resubmit}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="sf-approved-yes" name="yes" sourceRef="gw-vacation-request-approved" targetRef="st-inform-team-members">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${requestApproved}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_033nl0b" sourceRef="st-inform-team-members" targetRef="gw-handover-required" />
+    <bpmn:sendTask id="st-inform-team-members" name="Inform team members" camunda:expression="${vacationPS.informTeamMembers()}">
+      <bpmn:incoming>sf-approved-yes</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_033nl0b</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sequenceFlow id="sf-required-yes" name="yes" sourceRef="gw-handover-required" targetRef="ite-vacation-start-in-ten">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${handoverRequired}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="sf-required-no" name="no" sourceRef="gw-handover-required" targetRef="ExclusiveGateway_17a5n6q">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!handoverRequired}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="ee-request-rejected" name="Vacation request rejected">
+      <bpmn:incoming>sf-resubmit-no</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:intermediateCatchEvent id="ite-vacation-start-in-ten" name="Vacation start - 10 working days">
+      <bpmn:incoming>sf-required-yes</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0d2vb70</bpmn:outgoing>
+      <bpmn:timerEventDefinition>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P1D</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="ut-perform-handover-activities" name="Perform handover activities" camunda:formKey="vacation.perform-handover-activities" camunda:assignee="${vacationPS.getProjectCreator()}" camunda:candidateGroups="${grp.g(&#34;admin&#34;)}">
+      <bpmn:incoming>SequenceFlow_0d2vb70</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_15inl4l</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0d2vb70" sourceRef="ite-vacation-start-in-ten" targetRef="ut-perform-handover-activities" />
+    <bpmn:sequenceFlow id="SequenceFlow_15inl4l" sourceRef="ut-perform-handover-activities" targetRef="ExclusiveGateway_17a5n6q" />
+    <bpmn:exclusiveGateway id="gw-handover-required" name="Handover required?">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${vacationPS.processVariableCheck(&#34;handoverRequired&#34;, false)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_033nl0b</bpmn:incoming>
+      <bpmn:outgoing>sf-required-yes</bpmn:outgoing>
+      <bpmn:outgoing>sf-required-no</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_17a5n6q">
+      <bpmn:incoming>SequenceFlow_15inl4l</bpmn:incoming>
+      <bpmn:incoming>sf-required-no</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1kjdrr6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1kjdrr6" sourceRef="ExclusiveGateway_17a5n6q" targetRef="ut-inform-substitute" />
+    <bpmn:sequenceFlow id="SequenceFlow_0hk5dlb" sourceRef="ut-inform-substitute" targetRef="EndEvent_0s971dj" />
+    <bpmn:userTask id="ut-inform-substitute" name="Inform substitute" camunda:formKey="vacation.inform-substitute" camunda:assignee="${vacationPS.getProjectCreator()}" camunda:candidateGroups="${grp.g(&#34;admin&#34;)}">
+      <bpmn:incoming>SequenceFlow_1kjdrr6</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0hk5dlb</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="EndEvent_0s971dj" name="ee-request-approved">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${vacationPS.mainProcessCompleted(execution)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0hk5dlb</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1hmtrib">
+      <bpmn:incoming>SequenceFlow_0zr2i2y</bpmn:incoming>
+      <bpmn:incoming>gw-resubmit-no</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0hhe6s3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="ut-check-vacation-request" name="Check vacation request" camunda:formKey="vacation.check-vacation-request" camunda:assignee="${grp.aByRole(&#34;vacation-approver&#34;)}" camunda:candidateGroups="${grp.g(&#34;admin&#34;)}, ${grp.gForRoleNew(&#34;grp_vacation-approver&#34;)}">
+      <bpmn:incoming>SequenceFlow_0hhe6s3</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1wl3muy</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="gw-vacation-request-approved" name="Vacation request approved?">
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${vacationPS.processVariableCheck(&#34;requestApproved&#34;, true)}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1wl3muy</bpmn:incoming>
+      <bpmn:outgoing>sf-approved-no</bpmn:outgoing>
+      <bpmn:outgoing>sf-approved-yes</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0hhe6s3" sourceRef="ExclusiveGateway_1hmtrib" targetRef="ut-check-vacation-request" />
+    <bpmn:sequenceFlow id="SequenceFlow_1wl3muy" sourceRef="ut-check-vacation-request" targetRef="gw-vacation-request-approved" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0v7qwiz">
+      <bpmndi:BPMNShape id="Participant_1jy09x2_di" bpmnElement="pr-vacation-request">
+        <dc:Bounds x="350" y="268" width="1609" height="575" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="441" y="368" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="418" y="411" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_180s0ax_di" bpmnElement="SequenceFlow_180s0ax">
+        <di:waypoint x="477" y="386" />
+        <di:waypoint x="527" y="386" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Lane_0gg0jt9_di" bpmnElement="Lane_0gg0jt9">
+        <dc:Bounds x="380" y="268" width="1579" height="328" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1semx84_di" bpmnElement="Lane_1semx84">
+        <dc:Bounds x="380" y="596" width="1579" height="247" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_15td2f9_di" bpmnElement="ut-prepare-vacation-request">
+        <dc:Bounds x="527" y="346" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0zr2i2y_di" bpmnElement="SequenceFlow_0zr2i2y">
+        <di:waypoint x="577" y="426" />
+        <di:waypoint x="577" y="720" />
+        <di:waypoint x="662" y="720" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0lgdtld_di" bpmnElement="gw-vacation-request-approved" isMarkerVisible="true">
+        <dc:Bounds x="947" y="695" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="931" y="752" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1wl3muy_di" bpmnElement="SequenceFlow_1wl3muy">
+        <di:waypoint x="880" y="720" />
+        <di:waypoint x="947" y="720" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_16j6u9m_di" bpmnElement="sf-approved-no">
+        <di:waypoint x="972" y="695" />
+        <di:waypoint x="972" y="426" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="952" y="679" width="13" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1hmtrib_di" bpmnElement="ExclusiveGateway_1hmtrib" isMarkerVisible="true">
+        <dc:Bounds x="662" y="695" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0hhe6s3_di" bpmnElement="SequenceFlow_0hhe6s3">
+        <di:waypoint x="712" y="720" />
+        <di:waypoint x="780" y="720" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0mo8u3r_di" bpmnElement="gw-resubmit-no">
+        <di:waypoint x="1097" y="361" />
+        <di:waypoint x="1097" y="291" />
+        <di:waypoint x="687" y="291" />
+        <di:waypoint x="687" y="695" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1105" y="312" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0rg502a_di" bpmnElement="sf-approved-yes">
+        <di:waypoint x="997" y="720" />
+        <di:waypoint x="1097" y="720" />
+        <di:waypoint x="1097" y="551" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1012" y="696" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="SendTask_0qgsusg_di" bpmnElement="st-inform-team-members">
+        <dc:Bounds x="1047" y="471" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_0sk69kd_di" bpmnElement="ut-check-vacation-request">
+        <dc:Bounds x="780" y="680" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1mghuom_di" bpmnElement="ut-modify-vacation-request">
+        <dc:Bounds x="922" y="346" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0s971dj_di" bpmnElement="EndEvent_0s971dj">
+        <dc:Bounds x="1858" y="493" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1849" y="536" width="57" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_033nl0b_di" bpmnElement="SequenceFlow_033nl0b">
+        <di:waypoint x="1147" y="511" />
+        <di:waypoint x="1263" y="511" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_06tzn1d_di" bpmnElement="gw-resubmit-vacation-request" isMarkerVisible="true">
+        <dc:Bounds x="1072" y="361" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1054" y="418" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1he8yxj_di" bpmnElement="SequenceFlow_1he8yxj">
+        <di:waypoint x="1022" y="386" />
+        <di:waypoint x="1072" y="386" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1d9gw8n_di" bpmnElement="ee-request-rejected">
+        <dc:Bounds x="1184" y="368" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1161" y="411" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0v89qf6_di" bpmnElement="sf-resubmit-no">
+        <di:waypoint x="1122" y="386" />
+        <di:waypoint x="1184" y="386" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1132" y="368" width="13" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0d2vb70_di" bpmnElement="SequenceFlow_0d2vb70">
+        <di:waypoint x="1398" y="511" />
+        <di:waypoint x="1461" y="511" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_18gbgfu_di" bpmnElement="ite-vacation-start-in-ten">
+        <dc:Bounds x="1362" y="493" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1337" y="536" width="87" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1c55lic_di" bpmnElement="ut-perform-handover-activities">
+        <dc:Bounds x="1461" y="471" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0z3xz4h_di" bpmnElement="gw-handover-required" isMarkerVisible="true">
+        <dc:Bounds x="1263" y="486" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1264" y="543" width="49" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_17a5n6q_di" bpmnElement="ExclusiveGateway_17a5n6q" isMarkerVisible="true">
+        <dc:Bounds x="1614" y="486" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1kjdrr6_di" bpmnElement="SequenceFlow_1kjdrr6">
+        <di:waypoint x="1664" y="511" />
+        <di:waypoint x="1716" y="511" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0nwbxf6_di" bpmnElement="sf-required-yes">
+        <di:waypoint x="1313" y="511" />
+        <di:waypoint x="1362" y="511" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1327" y="490" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_15inl4l_di" bpmnElement="SequenceFlow_15inl4l">
+        <di:waypoint x="1561" y="511" />
+        <di:waypoint x="1614" y="511" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1w1h3qk_di" bpmnElement="sf-required-no">
+        <di:waypoint x="1288" y="486" />
+        <di:waypoint x="1288" y="427" />
+        <di:waypoint x="1639" y="427" />
+        <di:waypoint x="1639" y="486" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1298" y="455" width="13" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0hk5dlb_di" bpmnElement="SequenceFlow_0hk5dlb">
+        <di:waypoint x="1816" y="511" />
+        <di:waypoint x="1858" y="511" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0jum0g7_di" bpmnElement="ut-inform-substitute">
+        <dc:Bounds x="1716" y="471" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

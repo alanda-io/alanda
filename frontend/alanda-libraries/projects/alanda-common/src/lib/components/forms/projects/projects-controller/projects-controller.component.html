@@ -1,0 +1,88 @@
+<style>
+        .pio {
+            position: fixed;
+            z-index: 9999;
+            right: 0;
+            top: 0;
+            margin-top: 55px;
+            margin-right: 15px;
+        }
+    
+        .pio li {
+            list-style: none;
+            margin: 0;
+            text-align: center;
+            height: 50px;
+            width: 50px;
+            background-color: rgb(0, 122, 217);
+        }
+    
+        .pio ul a{
+            line-height: 50px;
+            color: white;
+        }
+    
+        .pio li:hover {
+            background-color: rgb(0, 80, 217);
+        }
+
+        ::ng-deep .hideheader .ui-tabview-nav {
+          /*display: none;*/
+        }
+    
+        ::ng-deep .hideheader .ui-tabview-panels {
+          padding: 0em !important;
+          border: none !important;
+        }
+
+    </style>
+    
+    <!-- <div class="pio">
+        <ul>
+            <a href="Javascript:void(0)" (click)="activeTab = 0" >
+                <li>
+                    <span class="fa fa-file-text"></span>
+                </li>
+            </a>
+            <a href="Javascript:void(0)" (click)="activeTab = 1" >
+                <li>
+                    <span class="fa fa-eye"></span>
+                </li>
+            </a>
+            <a href="Javascript:void(0)" (click)="activeTab = 2" >
+                <li>
+                    <span class="fa fa-history"></span>
+                </li>
+            </a>
+        </ul>
+    </div> -->
+    
+    <p-tabView [activeIndex]="activeTab" styleClass="hideheader">
+      <p-tabPanel header="Project Overview" leftIcon="fa fa-file-text">
+        <ng-template project-details pTemplate="content"></ng-template>
+      </p-tabPanel>
+      <p-tabPanel header="PIO" leftIcon="fa fa-eye">
+        <ng-template pTemplate="content">
+          <pio-component [pid]="pid"></pio-component>
+        </ng-template>
+      </p-tabPanel>
+      <p-tabPanel header="History Log" leftIcon="fa fa-history">
+        <ng-template pTemplate="content">
+          <history-grid-component [projectGuid]="project.guid"></history-grid-component>
+        </ng-template>
+      </p-tabPanel>
+    </p-tabView>
+
+    <!-- <div [hidden]="activeTab != 'form'">
+        <ng-template project-details></ng-template>
+    </div>
+
+    <div *ngIf="pid" [hidden]="activeTab != 'pio'">
+        <pio-component [pid]="pid"></pio-component>
+    </div>
+
+    <div *ngIf="pid" [hidden]="activeTab != 'history'">
+        <history-grid-component [projectGuid]="project.guid"></history-grid-component>
+    </div>
+     -->
+    

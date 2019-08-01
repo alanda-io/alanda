@@ -1,0 +1,76 @@
+<html>
+Dear $user.firstName $user.surname!<br/>
+#if( !$tasks.isEmpty() )
+<br/>
+You have $tasks.size() open 
+#if($tasks.size() < 2) task
+#else tasks
+#end
+.<br/>
+<br/>
+<table style="width:auto;border:1px solid black;border-collapse:collapse;">
+	<tr>
+		<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Task</th>
+		<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Scope</th>
+		<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Created</th>
+		<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Due</th>
+	</tr>
+#foreach( $task in $tasks )
+	<tr>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">$task.name</td>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">
+		#if($task.description) $task.description
+		#end
+		</td>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">$date.format('dd.MM.yyyy', $task.createTime)</td>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">
+			#if($task.dueDate) $date.format('dd.MM.yyyy', $task.dueDate)
+			#end
+		</td>
+    </tr>
+#end
+</table>
+<br/>
+#end
+#if( !$groupTasks.isEmpty() )
+<br/>
+There are open tasks in your groups:<br/>
+<br/>
+<table style="width:auto;border:1px solid black;border-collapse:collapse;">
+	<tr>
+		<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Group</th>
+		<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Task</th>
+		<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Scope</th>
+		<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Assignee</th>
+		<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Created</th>
+		<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Due</th>
+	</tr>
+#foreach( $mapEntry in $groupTasks.entrySet() )
+#foreach( $groupTask in $mapEntry.value )
+	<tr>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">$mapEntry.key</td>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">$groupTask.name</td>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">
+		#if ($groupTask.description) $groupTask.description
+		#end
+		</td>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">
+		#if ($groupTask.assigneeName) $groupTask.assigneeName
+		#end
+		</td>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">$date.format('dd.MM.yyyy', $groupTask.createTime)</td>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">
+			#if($groupTask.dueDate) $date.format('dd.MM.yyyy', $groupTask.dueDate)
+			#end
+		</td>
+	</tr>
+#end
+#end
+</table>
+#end
+<br/>
+Sincerely,<br/>
+Hutchison Drei Austria GmbH<br/>
+<br/>
+This is an automatically generated Email, please do not reply!
+</html>

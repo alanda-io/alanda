@@ -1,0 +1,1 @@
+In der Liste sind:#foreach( $string in $list ) $string#end

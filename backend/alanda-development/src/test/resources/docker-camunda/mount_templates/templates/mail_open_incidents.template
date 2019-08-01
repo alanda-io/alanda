@@ -1,0 +1,35 @@
+<html>
+Dear Sir or Madam,<br/>
+<br/>
+there are integration incidents for the following sites:<br/>
+<br/>
+<table style="width:auto;border:1px solid black;border-collapse:collapse;">
+<tr>
+	<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Cluster</th>
+	<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Site</th>
+	<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Incident</th>
+	<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Status</th>
+	<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Created</th>
+	<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Type</th>
+	<th style="text-align:left;padding:5px;border:1px solid black;border-collapse:collapse;">Priority</th>
+</tr>
+#foreach( $site in $sites )
+	#foreach($incident in $site.openIncidents)
+	<tr>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">$site.clusterIdName</td>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">$site.idName</td>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">$incident.description</td>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">$incident.status</td>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">$date.format('dd.MM.yyyy', $incident.created)</td>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">$incident.incType</td>
+		<td style="padding:5px;border:1px solid black;border-collapse:collapse;">$incident.priority</td>
+	</tr>
+	#end
+#end
+</table>
+<br/>
+Sincerely,<br/>
+Hutchison Drei Austria GmbH<br/>
+<br/>
+This is an automatically generated Email, please do not reply!
+<html>

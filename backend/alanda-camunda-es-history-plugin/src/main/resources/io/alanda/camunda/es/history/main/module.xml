@@ -1,0 +1,22 @@
+<module xmlns="urn:jboss:module:1.0" name="io.alanda.camunda.es.history">
+  <resources>
+    <resource-root path="alanda-camunda-es-history-plugin-0.0.1-SNAPSHOT.jar" />
+  </resources>
+
+  <dependencies>
+    <module name="org.camunda.bpm.camunda-engine" />
+    <module name="sun.jdk" export="true" >
+      <imports>
+        <include path="sun/misc/Unsafe" />
+      </imports>
+    </module>
+    <module name="org.apache.log4j"/>
+    <module name="org.apache.commons.logging"/>
+    <module name="javax.api"/>
+    <module name="com.fasterxml.jackson.core.jackson-core" />
+    <module name="com.fasterxml.jackson.core.jackson-annotations" />
+    <module name="com.fasterxml.jackson.core.jackson-databind" />
+    <module name="com.google.guava" />
+    <module name="org.elasticsearch" />
+  </dependencies>
+</module>

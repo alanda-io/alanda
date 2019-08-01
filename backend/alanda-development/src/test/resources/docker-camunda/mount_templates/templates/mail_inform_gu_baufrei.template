@@ -1,0 +1,13 @@
+<html>
+Dear all,
+<br><br>
+the site $siteIdName is now ready for construction.
+<br><br>
+For further details please log in to PMC and check the project status.
+<br>
+Please <a href="$link"> click here to </a> directly open the project in PMC.
+<br><br>
+This is an automated e-mail, please do not reply to this e-mail
+<br><br>
+Best regards
+</html>

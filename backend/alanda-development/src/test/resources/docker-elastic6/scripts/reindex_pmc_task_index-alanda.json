@@ -1,0 +1,8 @@
+{
+  "source": {
+    "index": "alanda-task-reindex-to-5"
+  },
+  "dest": {
+    "index": "es6-task"
+  }
+}

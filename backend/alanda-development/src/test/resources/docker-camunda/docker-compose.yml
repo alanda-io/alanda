@@ -1,0 +1,29 @@
+version: "3.1"
+services:
+  alanda-camunda-service:
+    build: ./image
+    image: camunda7_10
+    container_name: alanda-camunda
+    environment:
+      - JAVA_OPTS=-Xms512m -Xmx3500m -XX:MetaspaceSize=128M -XX:MaxMetaspaceSize=512m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true
+      - SKIP_DB_CONFIG=true
+      - TZ=Europe/Vienna
+      - DEBUG=true
+    volumes:
+      - ./mount_deployment:/camunda/standalone/deployments_alanda
+      - ./mount_logs:/camunda/standalone/log
+      - ./mount_config/configuration:/camunda/standalone/configuration
+      - ./mount_templates/templates:/camunda/standalone/templates
+    ports:
+      - 8080:8080
+      - 9990:9990
+      - 8787:8000
+    networks:
+      - default
+
+networks:
+  default:
+    external:
+      name:  alanda_bpma_bridge
+
+

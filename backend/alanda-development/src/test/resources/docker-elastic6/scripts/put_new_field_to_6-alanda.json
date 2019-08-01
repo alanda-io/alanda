@@ -1,0 +1,23 @@
+{
+  "properties": {
+    "task": {
+      "properties": {
+	"actinst_type": {
+	 	"normalizer": "lc",
+		"type": "keyword",
+		"fields": {
+			"raw": {
+				"index": true,
+				"type": "keyword"
+				},
+			"ngram": {
+				"search_analyzer": "standard",
+				"analyzer": "ngram",
+				"type": "text"
+				}
+			}
+		} 
+      }
+    }
+  }
+}
