@@ -20,6 +20,11 @@
 			<artifactId>alanda-rest-impl</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+                <dependency>
+                    <groupId>io.alanda</groupId>
+                    <artifactId>alanda-persistence</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
 		<dependency>
 			<groupId>io.alanda</groupId>
 			<artifactId>alanda-ejb-client</artifactId>

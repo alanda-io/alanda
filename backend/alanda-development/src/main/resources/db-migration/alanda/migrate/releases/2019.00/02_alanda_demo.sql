@@ -6,6 +6,12 @@ Insert into PMC_PROJECTTYPE
  (1,1,'VACATION','Vacation Request','Tag1, Tag2, Tag3, Tag4','admin','admin','admin',null,'vacation-request','kk',null,null,null,null,'pmc-authorization','admin',null,'VACATION',null);
 
 
+--changeset yk:2019-06-camunda-auth runOnChange:false
+Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (1,0,'project:create:VACATION');
+Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (2,0,'project:read:VACATION');
+Insert into PMC_USER_PERMISSION (REF_USER,REF_PERMISSION) values (1,1);
+Insert into PMC_USER_PERMISSION (REF_USER,REF_PERMISSION) values (1,2);
+
 --changeset fsa:alanda-demo-users-and-groups
 insert into pmc_group
 (guid, groupname, longname, groupsource, created, createuser, version, active)
