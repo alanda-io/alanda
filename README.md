@@ -18,6 +18,11 @@ Refert to ATTRIBUTIONS.txt for the license of external components distributed wi
 * npm 5.6.0
 * Oracle Database 11g Express Edition Release 11.2.0
 
+### Note:
+
+The commands in the following guide assume you call them from the alanda root folder after cloning the repository.
+You may need to change some path values if you change to a different folder!
+
 ## Build the backend
 Use the top level pom.xml to build the backend part:
 
@@ -103,7 +108,7 @@ Then create the aliases for the indices:
         "actions" : [
             { "add" : { "index" : "alanda-process", "alias" : "pmc" } }
         ]
-    }
+    }'
 
 
 ## Deploying the backend
