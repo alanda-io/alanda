@@ -1,50 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.alanda</groupId>
-  <artifactId>alanda</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
+    <groupId>io.alanda</groupId>
+    <artifactId>alanda</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-  <scm>
-    <connection>scm:git:https://bitbucket.org/pmcdevelopment/pmc.git</connection>
-  </scm>
+    <scm>
+        <connection>scm:git:https://bitbucket.org/pmcdevelopment/pmc.git</connection>
+    </scm>
 
-  <name>Alanda</name>
-  <url>https://github.com/orgs/alanda-io/pmc</url>
+    <name>Alanda</name>
+    <url>https://github.com/orgs/alanda-io/pmc</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.javadoc.skip>true</maven.javadoc.skip>
-    <junit.version>4.11</junit.version>
-    <hibernate.version>5.3.6.Final</hibernate.version>
-    <slf4j.version>1.7.22</slf4j.version>
-    <camunda.version>7.10.0</camunda.version>
-    <guava.version>20.0</guava.version>
-    <dozer.version>5.5.1</dozer.version>
-    <elasticsearch.version>6.6.0</elasticsearch.version>
-    <spring.version>4.3.2.RELEASE</spring.version>
-    <liquibase.version>3.5.3</liquibase.version>
-    <dbunit.version>2.5.2</dbunit.version>
-    <oracle-jdbc.version>12.1.0.2</oracle-jdbc.version>
-  </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <junit.version>4.11</junit.version>
+        <hibernate.version>5.3.6.Final</hibernate.version>
+        <slf4j.version>1.7.22</slf4j.version>
+        <camunda.version>7.10.0</camunda.version>
+        <guava.version>20.0</guava.version>
+        <dozer.version>5.5.1</dozer.version>
+        <elasticsearch.version>6.6.0</elasticsearch.version>
+        <spring.version>4.3.2.RELEASE</spring.version>
+        <liquibase.version>3.5.3</liquibase.version>
+        <dbunit.version>2.5.2</dbunit.version>
+        <oracle-jdbc.version>12.1.0.2</oracle-jdbc.version>
+    </properties>
 
-	<modules>
-		<module>alanda-base</module>
-		<module>alanda-rest-impl</module>
-		<module>alanda-rest</module>
-		<module>alanda-background</module>
-		<module>alanda-camunda-es-history-plugin</module>
-		<module>alanda-identity-plugin</module>
-		<module>alanda-comment-plugin</module>
-		<module>alanda-ejb-client</module>
-    <module>alanda-development</module>
-    <module>alanda-process-vacation</module>
-	</modules>
+    <modules>
+        <module>alanda-base</module>
+        <module>alanda-rest-impl</module>
+        <module>alanda-rest</module>
+        <module>alanda-background</module>
+        <module>alanda-camunda-es-history-plugin</module>
+        <module>alanda-identity-plugin</module>
+        <module>alanda-comment-plugin</module>
+        <module>alanda-ejb-client</module>
+        <module>alanda-persistence</module>
+        <module>alanda-development</module>
+        <module>alanda-process-vacation</module>
+    </modules>
 
 
 
