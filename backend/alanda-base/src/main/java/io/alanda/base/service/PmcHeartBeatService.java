@@ -79,8 +79,9 @@ public class PmcHeartBeatService {
         heartBeat.setDeadline(tsDeadline);
         heartBeatDao.create(heartBeat);
       }
-    } else
-      throw new NotFoundException("~HeartBeatDef with processKey/id " + processKey + " not found");
+    } else {
+      // throw new NotFoundException("~HeartBeatDef with processKey/id " + processKey + " not found");
+    }
 
   }
 
