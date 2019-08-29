@@ -44,20 +44,20 @@
           <div class="p-col-4">
             <strong>Type (Sub Type):</strong>
           </div>
-          <div class="p-col-8" >
+          <div class="p-col-7" >
               <span *ngIf="project.subType != null">{{project.subtype}}</span>
               <span *ngIf="project.subType == null">{{project.pmcProjectType.name}}</span>
           </div>
           <div class="p-col-4">
             <strong>Prio*:</strong>
           </div>
-          <div class="p-col-8">
+          <div class="p-col-7">
             <p-dropdown [autoDisplayFirst]="false" formControlName="prio" [options]="[{label: '0 - Emergency', value: 0}, {label: '1 - Urgent', value: 1}, {label: '2 - Normal', value: 2}]" optionLabel="label"></p-dropdown>
           </div>
           <div class="p-col-4">
             <strong>Tag(s)*:</strong>
           </div>
-          <div class="p-col-8">
+          <div class="p-col-7">
             <p-dropdown [autoDisplayFirst]="false" [options]="allowedTagList" formControlName="tag" optionLabel="value"></p-dropdown>
           </div>
         </div>

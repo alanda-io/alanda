@@ -73,21 +73,30 @@
                     <div class="p-col-4">
                         <strong>Type (Sub Type):</strong>
                     </div>
-                    <div class="p-col-8" >
+                    <div class="p-col-7" >
                         <span *ngIf="project.subType != null">{{project.subtype}}</span>
                         <span *ngIf="project.subType == null">{{project.pmcProjectType.name}}</span>
                     </div>
                     <div class="p-col-4">
                         <strong>Prio:</strong>
                     </div>
-                    <div class="p-col-8">
+                    <div class="p-col-7">
                         <p-dropdown formControlName="prio" [options]="priorities" (onChange)="updateProject()" optionLabel="label"></p-dropdown>
                     </div>
                     <div class="p-col-4">
                         <strong>Tag(s):</strong>
                     </div>
-                    <div class="p-col-8">
-                        <p-dropdown [options]="allowedTagList" (onChange)="updateProject()" formControlName="tag" optionLabel="value"></p-dropdown>
+                    <div class="p-col-7">
+                        <p-autoComplete
+                            formControlName="tag"
+                            [multiple]="true"
+                            [forceSelection]="true" 
+                            [dropdown]="true"
+                            [suggestions]="allowedTagList" 
+                            (completeMethod)="searchTag($event)"
+                            (onSelect)="updateProject()">
+                        </p-autoComplete>
+                        <!-- <p-dropdown [options]="allowedTagList" (onChange)="updateProject()" formControlName="tag" optionLabel="value"></p-dropdown> -->
                     </div>
                 </div>
             </div>

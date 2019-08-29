@@ -30,18 +30,17 @@ import { PmcTask } from "../../models/pmcTask";
     @Input() formGroup: FormGroup;
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver, private propertiesService: ProjectPropertiesServiceNg,
-                private projectService: ProjectServiceNg, private taskService: TaskServiceNg,
-                private cdRef:ChangeDetectorRef, private userService: PmcUserServiceNg, private messageService: MessageService, 
-                private fb: FormBuilder) {
-                }
+                private taskService: TaskServiceNg, private cdRef:ChangeDetectorRef, private userService: PmcUserServiceNg, 
+                private messageService: MessageService, private fb: FormBuilder, private projectService: ProjectServiceNg) {}
 
     ngOnInit() {
         this.userService.getCurrentUser().subscribe(
             user => this.currentUser = user,
            error => this.messageService.add({severity:'error', summary:'Get Current User', detail: error.message})
         );
-        this.allowedTagList = this.project.pmcProjectType.allowedTagList.map(tag => {return {value: tag}});
-        this.project.tag = {value: this.project.tag[0]};
+        //this.allowedTagList = this.project.pmcProjectType.allowedTagList.map(tag => {return {value: tag}});
+        this.allowedTagList = this.project.pmcProjectType.allowedTagList;
+        // this.project.tag = {value: this.project.tag};
         this._initFormGroup();
     }
 
@@ -75,15 +74,18 @@ import { PmcTask } from "../../models/pmcTask";
         updatedProject.tag = [this.formGroup.get('tag').value.value];
         updatedProject.priority = this.formGroup.get('prio').value.value;
         updatedProject.title = this.formGroup.get('projectTitle').value;
-        updatedProject.details = this.formGroup.get('projectDetails').value; */
-
-        /* this.project.tag = [this.project.tag.value];
+        updatedProject.details = this.formGroup.get('projectDetails').value; 
+        this.project.tag = [this.project.tag.value];*/
         this.project.dueDate = this.formGroup.get('projectDueDate').value.toISOString().substring(0,10);
         this.projectService.updateProject(this.project).subscribe(res => {
-            if(res.data.version){
-                this.project.version = res.data.version;
-            }},
-            error => this.messageService.add({severity:'error', summary:'Update Project', detail: error.message})); */
+          if(res.data.version){
+              this.project.version = res.data.version;
+          }},
+          error => this.messageService.add({severity:'error', summary:'Update Project', detail: error.message}));
+    }
+
+    searchTag(event: Event) {
+      this.allowedTagList = [...this.allowedTagList];
     }
 
     public updateDueDateOfTask() {
