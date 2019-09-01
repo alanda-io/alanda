@@ -3,10 +3,12 @@ package io.alanda.base.dto;
 import java.util.Collection;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.alanda.base.type.ProcessState;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PmcProjectProcessDto {
 
   Long guid;
