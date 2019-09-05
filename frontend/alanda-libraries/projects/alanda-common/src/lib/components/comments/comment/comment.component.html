@@ -96,7 +96,7 @@
     {{comment.text}}
     <ul *ngFor="let tag of comment.tagList">
       <li>
-        <p-button label="{{tag.name}}" icon="pi pi-tag" iconPos="left" type="button" (onClick)="toggleFilter(tag.name)" [styleClass]="tagClass(tag)"></p-button>
+        <p-button label="{{tag.name}}" icon="pi pi-tag" iconPos="left" type="button" [styleClass]="tagClass(tag)"></p-button>
       </li>
     </ul>
     <div *ngIf="type == 'comment'">

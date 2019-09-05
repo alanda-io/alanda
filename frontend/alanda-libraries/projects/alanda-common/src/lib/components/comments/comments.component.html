@@ -63,7 +63,7 @@
       </p-scrollPanel>
     </div>
     <div class="p-col">
-      <input type="text" [(ngModel)]="searchText" pInputText placeholder="Filter comments">
+      <input type="text" [(ngModel)]="searchText" pInputText placeholder="Search comments">
       <div *ngFor="let tag of tags" class="taglist">
         <p-button style="margin-top:5px" label="{{tag.name}}" icon="pi pi-tag" iconPos="left" type="button" (onClick)="toggleFilter(tag.name)" [styleClass]="tagClass(tag)"></p-button>
       </div>

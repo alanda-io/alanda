@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { PmcComment } from '../../../models/PmcComment';
 import { CommentTag } from '../../../models/commentTag.model';
 import { PmcCommentServiceNg } from '../../../services/rest/pmccomment.service';
-import { FormGroup, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -23,10 +23,18 @@ export class CommentComponent {
   constructor(private pmcCommentService: PmcCommentServiceNg) {}
 
   tagClass(tag: CommentTag): string{
-    if(this.tagFilters.indexOf(tag.name) !== -1){
+    /* if(!this.filterEnabled || this.tagFilters.indexOf(tag.name) !== -1){
+      //TODO: remove? improve
+      if(tag.name == '#escalation'){
+        return 'ui-button-danger';
+      }
       if(tag.name.startsWith('#')){
         return 'ui-button-warning';
       }
+      return 'ui-button-success';
+    }
+    return 'ui-button-info'; */
+    if(this.tagFilters.includes((tag.name))) {
       return 'ui-button-success';
     }
     return 'ui-button-info';
@@ -62,7 +70,7 @@ export class CommentComponent {
     );
   }
 
-  toggleFilter(name: string) {
+  /* toggleFilter(name: string) {
     let filterIndex = this.tagFilters.indexOf(name);
     if(filterIndex !== -1){
       this.tagFilters.splice(filterIndex,1);
@@ -73,8 +81,8 @@ export class CommentComponent {
     else {
       this.tagFilters.push(name);
       this.filterEnabled = true;
-    }
-  }
+     }
+  }*/
 
   refresh() {
     this.pmcCommentService.getCommentsforPid(this.comment.procInstId).subscribe(res => {
