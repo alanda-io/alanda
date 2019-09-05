@@ -70,18 +70,11 @@ import { MessageService } from 'primeng/api';
 import { ProcessActivitiesComponent } from './components/pio/process-activities/process-activities.component';
 import { HistoryGridComponent } from './components/history/history-grid.component';
 import { CreateProjectComponent } from './components/create-project/create-project.component';
-import { VacationProjectDetailsComponent } from './components/forms/projects/vacation/vacation-project-details.component';
-import { PrepareVacationRequestComponent } from './components/forms/tasks/vacation/prepare-vacation-request.component';
 import { PioComponent } from './components/pio/pio.component';
 import { DiagramComponent } from './components/pio/diagram/diagram.component';
-import { CheckVacationRequestComponent } from './components/forms/tasks/vacation/check-vacation-request.component';
-import { ModifyVacationRequestComponent } from './components/forms/tasks/vacation/modify-vacation-request.component';
-import { PerformHandoverActivitiesComponent } from './components/forms/tasks/vacation/perform-handover-activities.component';
-import { InformSubstituteComponent } from './components/forms/tasks/vacation/inform-substitute.component';
 import { ProjectAndProcessesComponent } from './components/projectAndProcesses/project-and-processes.component';
 import { ProjectControlItemComponent } from './components/projectAndProcesses/projectControlItem/project-control-item.component';
 import { SelectComponent } from './components/forms/variables/select.component';
-import { ProjectPropertiesVacationComponent } from './components/project-header/project-properties-vacation/project.properties.vacation.component';
 import { SelectRoleComponent } from './components/forms/variables/role-select.component';
 import { DatepickerComponent } from './components/forms/variables/datepicker.component';
 import { PropertyService } from './services/rest/property.service';
@@ -150,16 +143,9 @@ import { MessageModule } from 'primeng/message';
     ProcessActivitiesComponent,
     HistoryGridComponent,
     CreateProjectComponent,
-    VacationProjectDetailsComponent,
-    PrepareVacationRequestComponent,
-    CheckVacationRequestComponent,
-    ModifyVacationRequestComponent,
-    PerformHandoverActivitiesComponent,
-    InformSubstituteComponent,
     ProjectAndProcessesComponent,
     ProjectControlItemComponent,
     SelectComponent,
-    ProjectPropertiesVacationComponent,
     SelectRoleComponent,
     DatepickerComponent,
     DropdownSelectComponent,
@@ -191,31 +177,16 @@ import { MessageModule } from 'primeng/message';
     ProcessActivitiesComponent,
     HistoryGridComponent,
     CreateProjectComponent,
-    VacationProjectDetailsComponent,
-    PrepareVacationRequestComponent,
-    CheckVacationRequestComponent,
-    ModifyVacationRequestComponent,
-    PerformHandoverActivitiesComponent,
-    InformSubstituteComponent,
     ProjectAndProcessesComponent,
     ProjectControlItemComponent,
     SelectComponent,
-    ProjectPropertiesVacationComponent,
     SelectRoleComponent,
     DatepickerComponent,
     DropdownSelectComponent
    ],
   entryComponents: [
-    VacationProjectDetailsComponent,
-    PrepareVacationRequestComponent,
     ProjectHeaderComponent,
     ProjectsControllerComponent,
-    VacationProjectDetailsComponent,
-    CheckVacationRequestComponent,
-    ModifyVacationRequestComponent,
-    PerformHandoverActivitiesComponent,
-    InformSubstituteComponent,
-    ProjectPropertiesVacationComponent,
   ]
 })
 export class AlandaCommonModule { 
