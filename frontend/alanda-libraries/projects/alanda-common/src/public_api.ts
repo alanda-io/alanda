@@ -20,6 +20,7 @@ export * from './lib/auth/basic-auth.interceptor';
 export * from './lib/auth/error.interceptor';
 
 export * from './lib/models/PmcUser';
+export * from './lib/models/pmcTask';
 export * from './lib/models/AppSettings';
 export * from './lib/models/RefObjectExtended';
 export * from './lib/models/RefObject';
@@ -44,4 +45,4 @@ export * from './lib/components/project-header/project-header.component';
 export * from './lib/components/create-project/create-project.component';
 export * from './lib/components/attachments/attachments.component';
 export * from './lib/components/forms/tasks/forms-controller/baseForm.component';
-
+export * from './lib/components/project-header/project.properties.directive';

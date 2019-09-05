@@ -10,10 +10,12 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.alanda.base.type.PmcProjectState;
 import io.alanda.base.type.ProcessRelation;
 
 // @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "guid")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PmcProjectDto extends PmcProjectCompactDto {
 
 //  Long version;

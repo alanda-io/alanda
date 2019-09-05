@@ -1,10 +1,12 @@
 package io.alanda.base.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.enterprise.event.Observes;
 import javax.enterprise.event.TransactionPhase;
 
+import io.alanda.base.dto.ElasticProcessHitDto;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 
@@ -42,6 +44,8 @@ public interface ElasticService {
 
   SearchHits findProjects(Map<String, Object> filterParams, Map<String, Object> sortParams, int from, int size);
 
+  List<ElasticProcessHitDto> findProjectsAsElasticDto(Map<String, Object> filterParams, Map<String, Object> sortParams, int from, int size);
+
   SearchHits findProjects(
       Map<String, Object> filterParams,
       Map<String, Object> sortParams,
@@ -71,6 +75,8 @@ public interface ElasticService {
   void deleteTask(String id);
 
   Map<String, String> getProcessVariablesForProcess(String pid);
+
+
 
   // updateRefObject (evtl. updateRefObjectForProject)
   //updateProject

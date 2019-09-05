@@ -34,6 +34,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import io.alanda.base.dto.*;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -70,15 +71,6 @@ import org.slf4j.LoggerFactory;
 
 import io.alanda.base.connector.PmcRefObjectConnector;
 import io.alanda.base.connector.ProjectTypeElasticListener;
-import io.alanda.base.dto.InternalContactDto;
-import io.alanda.base.dto.PmcHistoryLogDto;
-import io.alanda.base.dto.PmcProjectDto;
-import io.alanda.base.dto.PmcProjectProcessDto;
-import io.alanda.base.dto.PmcTaskDto;
-import io.alanda.base.dto.PmcUserDto;
-import io.alanda.base.dto.RefObject;
-import io.alanda.base.dto.SimpleMilestoneDto;
-import io.alanda.base.dto.SimplePhaseDto;
 import io.alanda.base.service.ConfigService;
 import io.alanda.base.service.ElasticService;
 import io.alanda.base.service.PmcAuthorizationService;
@@ -686,6 +678,31 @@ public class ElasticServiceImpl implements ElasticService {
   @Override
   public SearchHits findProjects(Map<String, Object> filterParams, Map<String, Object> sortParams, int from, int size) {
     return findEntries(filterParams, sortParams, from, size, null, null, indexName);
+  }
+
+  @Override
+  public List<ElasticProcessHitDto> findProjectsAsElasticDto(Map<String, Object> filterParams, Map<String, Object> sortParams, int from, int size) {
+    SearchHits hits = findProjects(filterParams, sortParams, from, size);
+    List<ElasticProcessHitDto> result = new ArrayList<>();
+    for (SearchHit hit : hits.getHits()) {
+      ElasticProcessHitDto elasticProcessHitDto = new ElasticProcessHitDto();
+      elasticProcessHitDto.setBusinessKey((String) hit.getSourceAsMap().get("businessKey"));
+      //TODO: add missing properties
+
+      Map<String, Object> project = (Map<String, Object>) hit.getSourceAsMap().get("project");
+      PmcProjectDto pmcProjectDto = new PmcProjectDto();
+      pmcProjectDto.setStatus((String) project.get("status"));
+      pmcProjectDto.setGuid(Long.valueOf((Integer) project.get("guid")));
+      pmcProjectDto.setCustomerProjectId(project.get("customerProjectId") != null ? Long.valueOf((Integer) project.get("customerProjectId")) : null);
+      pmcProjectDto.setProjectId((String) project.get("projectId"));
+      pmcProjectDto.setTitle((String) project.get("title"));
+      //TODO: add missing properties
+      elasticProcessHitDto.setProject(pmcProjectDto);
+      result.add(elasticProcessHitDto);
+      logger.debug("~" + elasticProcessHitDto.toString());
+    }
+
+    return result;
   }
 
   @Override
