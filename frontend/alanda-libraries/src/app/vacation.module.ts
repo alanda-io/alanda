@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { ProjectPropertiesServiceNg, ProjectDetailsServiceNg, FormsServiceNg, AlandaCommonModule } from "projects/alanda-common/src/public_api";
+import { AlandaCommonModule } from "projects/alanda-common/src/public_api";
 import { VacationProjectPropertiesService } from "./vacation/services/vacation-projectproperties.service";
 import { VacationProjectDetailsService } from "./vacation/services/vacation-projectdetails.service";
 import { VacationFormsService } from "./vacation/services/vacation-forms.service";
@@ -10,14 +10,11 @@ import { ModifyVacationRequestComponent } from "./vacation/components/task-forms
 import { PerformHandoverActivitiesComponent } from "./vacation/components/task-forms/perform-handover-activities.component";
 import { InformSubstituteComponent } from "./vacation/components/task-forms/inform-substitute.component";
 import { ProjectPropertiesVacationComponent } from "./vacation/components/project-properties/project.properties.vacation.component";
-import { CardModule } from "primeng/card";
 import { FieldsetModule } from "primeng/fieldset";
 
 @NgModule({
   imports:[
     AlandaCommonModule,
-    CardModule,
-    FieldsetModule
   ],
   declarations: [
     VacationProjectDetailsComponent,
@@ -36,6 +33,7 @@ import { FieldsetModule } from "primeng/fieldset";
     PerformHandoverActivitiesComponent,
     InformSubstituteComponent,
     ProjectPropertiesVacationComponent,
+    FieldsetModule,
   ],
   providers: [
     VacationProjectPropertiesService,

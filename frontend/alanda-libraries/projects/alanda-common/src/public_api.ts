@@ -26,8 +26,8 @@ export * from './lib/models/RefObjectExtended';
 export * from './lib/models/RefObject';
 export * from './lib/models/project.model';
 export * from './lib/models/projectType.model';
-export * from './lib/alanda-common.module';
-
+/* export * from './lib/alanda-common.module';
+ */
 
 export * from './lib/components/project-monitor/project-monitor.component';
 export * from './lib/components/tasklist/tasklist.component';
