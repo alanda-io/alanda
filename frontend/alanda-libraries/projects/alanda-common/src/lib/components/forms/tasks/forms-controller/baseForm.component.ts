@@ -1,4 +1,4 @@
-import { OnInit } from "@angular/core";
+import { OnInit, Component } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { PmcTask } from "../../../../models/pmcTask";
 import { Project } from "../../../../models/project.model";

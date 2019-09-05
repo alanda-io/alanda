@@ -7,10 +7,12 @@
             </p-card>
         </div>
         <div class="p-col-12 p-md-6 p-lg-3">
-            <p-card [style]="{'height':'100%'}" *ngIf="!fs.collapsed">
-                <select-role type="group" displayName="Vacation Approver" [project]="project" roleName="vacation-approver"></select-role>
-                <select-role type="user" displayName="Substitute" [project]="project" grouping="true" roleName="vacation-requestor"></select-role> 
-            </p-card>
+            <ng-container *ngIf="!fs.collapsed">
+                <p-card [style]="{'height':'100%'}">
+                    <select-role type="group" displayName="Vacation Approver" [project]="project" roleName="vacation-approver"></select-role>
+                    <select-role type="user" displayName="Substitute" [project]="project" grouping="true" roleName="vacation-requestor"></select-role> 
+                </p-card>
+            </ng-container>
         </div>
     </div>
 </p-fieldset>

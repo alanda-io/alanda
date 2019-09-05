@@ -15,13 +15,12 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ALANDA_CONFIG } from './app.settings';
 import { AppRoutingModule } from './app-routing.module';
-import { AppSettings, APP_CONFIG, ProjectPropertiesServiceNg, ProjectDetailsServiceNg, FormsServiceNg} from 'projects/alanda-common/src/public_api';
+import { AppSettings, APP_CONFIG, ProjectPropertiesServiceNg, ProjectDetailsServiceNg, FormsServiceNg, AlandaCommonModule } from 'projects/alanda-common/src/public_api';
 import { HomeComponent } from './components/home/home.component';
 import { VacationModule } from './vacation.module';
 import { VacationProjectPropertiesService } from './vacation/services/vacation-projectproperties.service';
 import { VacationProjectDetailsService } from './vacation/services/vacation-projectdetails.service';
 import { VacationFormsService } from './vacation/services/vacation-forms.service';
-import { CardModule } from 'primeng/card';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 @NgModule({
@@ -38,7 +37,6 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     CalendarModule,
     ToastModule,
     VacationModule,
-    CardModule
   ],
   providers: [
     {provide: APP_CONFIG, useValue: CURRENT_CONFIG},
