@@ -25,7 +25,7 @@ export class CommentsComponent implements OnInit {
   procInstId: string;
   taskId: string;
   tagHash = {};
-  tagFilters = [];
+  tagFilters: string[] = [];
   searchText: string;
   subject = ' ';
   content = '';
@@ -143,7 +143,7 @@ export class CommentsComponent implements OnInit {
       return 'ui-button-success';
     }
     return 'ui-button-info'; */
-    if(this.tagFilters.includes((tag.name))) {
+    if(this.tagFilters.indexOf(tag.name) != -1) {
       return 'ui-button-success';
     }
     return 'ui-button-info';
