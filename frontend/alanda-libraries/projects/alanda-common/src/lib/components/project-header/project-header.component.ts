@@ -38,9 +38,7 @@ import { PmcTask } from "../../models/pmcTask";
             user => this.currentUser = user,
            error => this.messageService.add({severity:'error', summary:'Get Current User', detail: error.message})
         );
-        //this.allowedTagList = this.project.pmcProjectType.allowedTagList.map(tag => {return {value: tag}});
         this.allowedTagList = this.project.pmcProjectType.allowedTagList;
-        // this.project.tag = {value: this.project.tag};
         this._initFormGroup();
     }
 
