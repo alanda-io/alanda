@@ -19,14 +19,14 @@ import { Router } from "@angular/router";
       console.log(this.baseFormGroup);
       
       if(this.baseFormGroup.valid){
-          /* this.taskService.complete(this.task.task_id).subscribe(
-            res => {
-              this.messageService.add({severity:'success', summary:'Task completed', detail: `Task ${this.task.task_name} has been completed`})
-              this.router.navigate(['tasks/list']);
-            },
-            error => {
-              this.messageService.add({severity:'error', summary:'Cannot complete task', detail: error.message})
-            }); */
+        this.taskService.complete(this.task.task_id).subscribe(
+          res => {
+            this.messageService.add({severity:'success', summary:'Task completed', detail: `Task ${this.task.task_name} has been completed`})
+            this.router.navigate(['tasks/list']);
+          },
+          error => {
+            this.messageService.add({severity:'error', summary:'Cannot complete task', detail: error.message})
+          });
       } else {
           console.log("formGroup is not valid", this.baseFormGroup);
           Object.keys(this.baseFormGroup.controls).forEach(key => {
