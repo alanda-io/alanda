@@ -2,7 +2,7 @@
 import { Component } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { SelectItem, MessageService } from "primeng/api";
-import { BaseFormComponent } from "../forms-controller/baseForm.component";
+import { BaseFormComponent } from "../baseForm.component";
 import { TaskServiceNg } from "../../../../services/rest/task.service";
 import { Router } from "@angular/router";
 

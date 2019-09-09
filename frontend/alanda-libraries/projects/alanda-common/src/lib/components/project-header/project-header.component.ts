@@ -8,6 +8,7 @@ import { PmcUser } from "../../models/PmcUser";
 import { PmcUserServiceNg } from "../../services/rest/pmcuser.service";
 import { MessageService } from "primeng/api";
 import { PmcTask } from "../../models/pmcTask";
+import { Project } from "../../models/project.model";
 
 @Component({
     selector: 'project-header-component',
@@ -17,17 +18,17 @@ import { PmcTask } from "../../models/pmcTask";
   export class ProjectHeaderComponent implements OnInit, AfterViewInit{
 
     @ViewChild(ProjectPropertiesDirective) propertiesHost: ProjectPropertiesDirective;
+    @Input() project: Project;
+    @Input() task: PmcTask;
+    @Input() baseFormGroup: FormGroup;
+
     snoozedTask: boolean;
     candidateUsers: PmcUser[];
     showDelegateDialog: boolean;
     allowedTagList: string[];
     currentUser: PmcUser;
-    @Input() project: any;
-    @Input() task: PmcTask;
     priorities = [{label: '0 - Emergency', value: 0}, {label: '1 - Urgent', value: 1}, {label: '2 - Normal', value: 2}];
-
     projectHeaderForm: FormGroup;
-    @Input() formGroup: FormGroup;
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver, private propertiesService: ProjectPropertiesServiceNg,
                 private taskService: TaskServiceNg, private cdRef:ChangeDetectorRef, private userService: PmcUserServiceNg, 
@@ -39,7 +40,7 @@ import { PmcTask } from "../../models/pmcTask";
            error => this.messageService.add({severity:'error', summary:'Get Current User', detail: error.message})
         );
         this.allowedTagList = this.project.pmcProjectType.allowedTagList;
-        this._initFormGroup();
+        this.initFormGroup();
     }
 
     ngAfterViewInit() {
@@ -47,7 +48,7 @@ import { PmcTask } from "../../models/pmcTask";
         this.cdRef.detectChanges();
     }
 
-    _initFormGroup(){
+    private initFormGroup(){
         this.projectHeaderForm = this.fb.group({
             tag: [this.project.tag, Validators.required],
             prio: [this.priorities, Validators.required],
@@ -62,24 +63,18 @@ import { PmcTask } from "../../models/pmcTask";
           if(this.project.status.toLowerCase() === 'canceled'){
             this.projectHeaderForm.disable();
           }
-        if(this.formGroup) {
-            this.formGroup.addControl('projectHeaderForm', this.projectHeaderForm);
+        if(this.baseFormGroup) {
+            this.baseFormGroup.addControl('projectHeaderForm', this.projectHeaderForm);
         }
     }
 
-    public updateProject() {
-        /* let updatedProject = Object.assign({},this.project);
-        updatedProject.tag = [this.formGroup.get('tag').value.value];
-        updatedProject.priority = this.formGroup.get('prio').value.value;
-        updatedProject.title = this.formGroup.get('projectTitle').value;
-        updatedProject.details = this.formGroup.get('projectDetails').value; 
-        this.project.tag = [this.project.tag.value];*/
-        this.project.dueDate = this.formGroup.get('projectDueDate').value.toISOString().substring(0,10);
+    updateProject() {
+        this.project.dueDate = this.projectHeaderForm.get('projectDueDate').value.toISOString().substring(0,10);
         this.projectService.updateProject(this.project).subscribe(res => {
-          if(res.data.version){
-              this.project.version = res.data.version;
-          }},
-          error => this.messageService.add({severity:'error', summary:'Update Project', detail: error.message}));
+            if(res.data.version){
+                this.project.version = res.data.version;
+            }},
+            error => this.messageService.add({severity:'error', summary:'Update Project', detail: error.message}));
     }
 
     searchTag(event: Event) {
@@ -87,8 +82,7 @@ import { PmcTask } from "../../models/pmcTask";
     }
 
     public updateDueDateOfTask() {
-        const taskDueDate = new Date(this.formGroup.get('taskDueDate').value).toISOString().substring(0,10);
-        console.log(taskDueDate);
+        const taskDueDate = new Date(this.projectHeaderForm.get('taskDueDate').value).toISOString().substring(0,10);
         this.taskService.updateDueDateOfTask(this.task.task_id, taskDueDate).subscribe(
           res => this.messageService.add({severity:'success', summary:'Update Due Date Of Task', detail:'Due date of task has successfully been updated'}),
           error => {this.messageService.add({severity:'error', summary:'Update Due Date Of Task', detail: error.message})})
@@ -106,26 +100,25 @@ import { PmcTask } from "../../models/pmcTask";
         (<any>componentRef.instance).project = this.project;
       }
 
-      public openDelegationForm(): void {
+    openDelegationForm(): void {
         this.taskService.getCandidates(this.task.task_id).subscribe(
-          candidates => {
+            candidates => {
             this.candidateUsers = candidates;
             this.showDelegateDialog = true;
-          }
-        );
-      }
+        });
+    }
 
-      public delegateTask(selectedUser: PmcUser): void {
-        if(selectedUser){
-          this.taskService.assign(this.task.task_id,selectedUser.guid).subscribe(
-            () => {
-                this.task.assignee_id = ""+selectedUser.guid;
-                this.task.assignee = selectedUser.displayName;
-                this.showDelegateDialog = false;
-            },            
-            error => this.messageService.add({severity:'error', summary:'Delegate Task', detail: error.message}));
-        }
-      }
+    delegateTask(selectedUser: PmcUser): void {
+    if(selectedUser){
+        this.taskService.assign(this.task.task_id,selectedUser.guid).subscribe(
+        () => {
+            this.task.assignee_id = ""+selectedUser.guid;
+            this.task.assignee = selectedUser.displayName;
+            this.showDelegateDialog = false;
+        },            
+        error => this.messageService.add({severity:'error', summary:'Delegate Task', detail: error.message}));
+    }
+    }
     
   }
   

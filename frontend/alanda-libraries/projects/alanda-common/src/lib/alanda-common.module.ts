@@ -61,7 +61,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { AuthorizationServiceNg } from './services/authorization.service';
 import { DatePipe, CommonModule } from '@angular/common';
 import { FormsServiceNg } from './services/forms.service';
-import { FormsControllerComponent } from './components/forms/tasks/forms-controller/forms-controller.component';
+import { FormsControllerComponent } from './components/forms/tasks/forms-controller.component';
 import { ProjectsControllerComponent } from './components/forms/projects/projects-controller/projects-controller.component';
 import { FormsControllerDirective } from './components/forms/directives/forms-controller.directive';
 import { ProjectDetailsServiceNg } from './services/projectdetails.service';

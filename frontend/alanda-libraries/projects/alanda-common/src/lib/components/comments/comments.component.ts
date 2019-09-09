@@ -130,19 +130,7 @@ export class CommentsComponent implements OnInit {
     }
   }
 
-
   tagClass(tag: CommentTag): string{
-    /* if(!this.filterEnabled || this.tagFilters.indexOf(tag.name) !== -1){
-      //TODO: remove? improve
-      if(tag.name == '#escalation'){
-        return 'ui-button-danger';
-      }
-      if(tag.name.startsWith('#')){
-        return 'ui-button-warning';
-      }
-      return 'ui-button-success';
-    }
-    return 'ui-button-info'; */
     if(this.tagFilters.indexOf(tag.name) != -1) {
       return 'ui-button-success';
     }
@@ -157,12 +145,12 @@ export class CommentsComponent implements OnInit {
     if(comment.taskName){
       comment.tagList.push(new CommentTag(comment.taskName, 'task'))
     }
-    if(comment.siteIdName){
+    /* if(comment.siteIdName){
       comment.tagList.push(new CommentTag(`Site ${comment.siteIdName}`, 'bo'))
     }
     if(comment.saIdName){
       comment.tagList.push(new CommentTag(`SearchArea ${comment.saIdName}`, 'bo'))
-    }
+    } */
     if(comment.subject){
       if(comment.subject.includes('#')){
         comment.subject.match(/#\w+/g).forEach((value) => {

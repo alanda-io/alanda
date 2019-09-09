@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild, ComponentFactoryResolver } from "@angular/core";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { switchMap } from "rxjs/operators";
-import { TaskServiceNg } from "../../../../services/rest/task.service";
-import { FormsServiceNg } from "../../../../services/forms.service";
-import { ProjectServiceNg } from "../../../../services/rest/project.service";
-import { FormsControllerDirective } from "../../directives/forms-controller.directive";
-import { PmcTask } from "../../../../models/pmcTask";
+import { TaskServiceNg } from "../../../services/rest/task.service";
+import { FormsServiceNg } from "../../../services/forms.service";
+import { ProjectServiceNg } from "../../../services/rest/project.service";
+import { FormsControllerDirective } from "../directives/forms-controller.directive";
+import { PmcTask } from "../../../models/pmcTask";
 import { MessageService } from "primeng/api";
-import { Project } from "../../../../models/project.model";
+import { Project } from "../../../models/project.model";
 
 @Component({
     selector: 'forms-controller-component',

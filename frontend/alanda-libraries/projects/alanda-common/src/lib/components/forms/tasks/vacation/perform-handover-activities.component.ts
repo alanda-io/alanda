@@ -1,6 +1,6 @@
 
 import { Component } from "@angular/core";
-import { BaseFormComponent } from "../forms-controller/baseForm.component";
+import { BaseFormComponent } from "../baseForm.component";
 import { FormBuilder } from "@angular/forms";
 import { TaskServiceNg } from "../../../../services/rest/task.service";
 import { MessageService } from "primeng/api";

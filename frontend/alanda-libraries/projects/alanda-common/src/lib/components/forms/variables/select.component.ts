@@ -1,9 +1,8 @@
 
-import { Component, OnInit, Input, EventEmitter, Output } from "@angular/core";
-import { Router } from "@angular/router";
-import { MessageService, SelectItem } from "primeng/api";
+import { Component, OnInit, Input } from "@angular/core";
+import { SelectItem } from "primeng/api";
 import { TaskServiceNg } from "../../../services/rest/task.service";
-import { FormGroup, FormControl, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 @Component({
     selector: 'select-variable',
@@ -17,9 +16,9 @@ export class SelectComponent implements OnInit {
     @Input() task: any;
     @Input() label: string;
     @Input() type?: string;
+    @Input() baseFormGroup: FormGroup;
 
     selectForm: FormGroup;
-    @Input() formGroup: FormGroup;
     
     constructor(private taskService: TaskServiceNg, private fb: FormBuilder){}
 
@@ -28,15 +27,14 @@ export class SelectComponent implements OnInit {
         this.type = 'string';
       }
 
-      this._initFormGroup();
+      this.initFormGroup();
     }
 
-    private _initFormGroup() {
+    private initFormGroup() {
       this.selectForm = this.fb.group({
         selected: [null, Validators.required]
       });
-      this.formGroup.addControl('selectForm', this.selectForm);
-      //this.formGroup.get('selected').hasError('')
+      this.baseFormGroup.addControl('selectForm', this.selectForm);
     }
 
     save() {

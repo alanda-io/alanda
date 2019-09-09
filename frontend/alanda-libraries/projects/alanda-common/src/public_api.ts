@@ -36,7 +36,7 @@ export * from './lib/components/admin/permission/permission.component';
 export * from './lib/components/admin/role/role.component';
 export * from './lib/components/admin/user/user.component';
 export * from './lib/components/comments/comments.component';
-export * from './lib/components/forms/tasks/forms-controller/forms-controller.component';
+export * from './lib/components/forms/tasks/forms-controller.component';
 export * from './lib/components/forms/projects/projects-controller/projects-controller.component';
 export * from './lib/components/attachments/attachments.component';
 export * from './lib/components/attachments/attachments-list/attachments-list.component';
@@ -44,5 +44,5 @@ export * from './lib/components/attachments/attachments-tree/attachments-tree.co
 export * from './lib/components/project-header/project-header.component';
 export * from './lib/components/create-project/create-project.component';
 export * from './lib/components/attachments/attachments.component';
-export * from './lib/components/forms/tasks/forms-controller/baseForm.component';
+export * from './lib/components/forms/tasks/baseForm.component';
 export * from './lib/components/project-header/project.properties.directive';
