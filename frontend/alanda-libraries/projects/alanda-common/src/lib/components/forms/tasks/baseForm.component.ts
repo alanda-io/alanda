@@ -7,9 +7,9 @@ import { Router } from "@angular/router";
 
   export abstract class BaseFormComponent {
 
-    private project: Project;
-    private task: PmcTask;
-    private baseFormGroup: FormGroup;
+    project: Project;
+    task: PmcTask;
+    baseFormGroup: FormGroup;
 
     constructor(private fb: FormBuilder, private taskService: TaskServiceNg, private messageService: MessageService, private router: Router) {
         this.baseFormGroup = fb.group({});
