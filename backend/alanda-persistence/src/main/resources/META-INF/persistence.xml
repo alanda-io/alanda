@@ -42,6 +42,8 @@
     <!-- Email Reception -->
     <!-- HeartBeat -->
     <properties>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle12cDialect"/>
+      <property name="hibernate.connection.charSet" value="UTF-8"/>
       <property name="hibernate.jdbc.use_get_generated_keys" value="true"/>
       <property name="hibernate.show_sql" value="false"/>
     </properties>
