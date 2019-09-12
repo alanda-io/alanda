@@ -1,6 +1,6 @@
-<module xmlns="urn:jboss:module:1.0" name="com.oracle.ojdbc6">
+<module xmlns="urn:jboss:module:1.0" name="com.oracle.ojdbc8">
   <resources>
-    <resource-root path="ojdbc6.jar"/>
+    <resource-root path="ojdbc8-18.3.0.0.jar"/>
   </resources>
   <dependencies>
     <module name="javax.api"/>	

@@ -30,7 +30,7 @@
         <spring.version>4.3.2.RELEASE</spring.version>
         <liquibase.version>3.5.3</liquibase.version>
         <dbunit.version>2.5.2</dbunit.version>
-        <oracle-jdbc.version>12.1.0.2</oracle-jdbc.version>
+        <oracle-jdbc.version>18.3.0.0</oracle-jdbc.version>
     </properties>
 
     <modules>
