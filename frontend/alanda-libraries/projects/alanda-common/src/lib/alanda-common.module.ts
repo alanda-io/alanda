@@ -88,6 +88,7 @@ import { PropertyService } from './services/rest/property.service';
 import { DropdownSelectComponent } from './components/forms/variables/dropdown-select.component';
 import { CommentComponent } from './components/comments/comment/comment.component';
 import { MessageModule } from 'primeng/message';
+import { FormsRegisterService } from './services/forms-register.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -242,6 +243,7 @@ export class AlandaCommonModule {
         ProjectDetailsServiceNg,
         MessageService,
         PropertyService,
+        FormsRegisterService,
         {
           provide: APP_CONFIG,
           useValue: config

@@ -5,6 +5,7 @@ import { FormBuilder } from "@angular/forms";
 import { TaskServiceNg } from "../../../../services/rest/task.service";
 import { MessageService } from "primeng/api";
 import { Router } from "@angular/router";
+import { FormsRegisterService } from "../../../../services/forms-register.service";
 
 
 @Component({
@@ -14,7 +15,7 @@ import { Router } from "@angular/router";
   })
 export class PerformHandoverActivitiesComponent extends BaseFormComponent{
  
-  constructor(fb: FormBuilder, taskService: TaskServiceNg, messageService: MessageService, router: Router){
-    super(fb, taskService, messageService, router);
+  constructor(fb: FormBuilder, taskService: TaskServiceNg, messageService: MessageService, router: Router, formsRegisterService: FormsRegisterService){
+    super(fb, taskService, messageService, router, formsRegisterService);
   }
 }

@@ -3,12 +3,11 @@
         margin-bottom: 20px !important;
     }
 </style>
-<project-header-component [baseFormGroup]="baseFormGroup" [task]="task" [project]="project"></project-header-component>
+<project-header-component [task]="task" [project]="project"></project-header-component>
 <comments-component [task]="task"></comments-component>
-<attachments-component [project]="project" [mappings]=""></attachments-component>
 <div class="p-grid">
     <div class="p-col-10">
-        <select-variable [baseFormGroup]="baseFormGroup" [task]="task" [items]="items" variableName="requestApproved" label="Approve vacation request?"></select-variable>
+        <select-variable [task]="task" [items]="items" variableName="requestApproved" label="Approve vacation request?"></select-variable>
     </div>
     <div class="p-col-2">
         <p-card [style]="{'height': '100%'}">

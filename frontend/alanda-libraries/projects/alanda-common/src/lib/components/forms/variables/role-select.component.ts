@@ -10,6 +10,7 @@ import { PmcUser } from "../../../models/PmcUser";
 import { PropertyService } from "../../../services/rest/property.service";
 import { PmcRole } from "../../../models/PmcRole";
 import { PmcRoleServiceNg } from "../../../services/rest/pmcrole.service";
+import { FormsRegisterService } from "../../../services/forms-register.service";
 
 @Component({
     selector: 'select-role',
@@ -26,8 +27,7 @@ export class SelectRoleComponent implements OnInit {
     @Input() groupFilter?: string[]; // if type == user, additional filtering for groups is possible
     @Input() grouping?: boolean = false; // if type == user, group users by their groups in dropdown
     //TODO: @Input() parent?: SelectRoleComponent;
-
-    @Input() baseFormGroup: FormGroup;
+    @Input() formName: string;
 
     groups: PmcGroup[];
     items: string[] = [];
@@ -37,7 +37,7 @@ export class SelectRoleComponent implements OnInit {
     roleSelectFormGroup: FormGroup;
 
     constructor(private userService: PmcUserServiceNg, private messageService: MessageService, private propService: PropertyService,
-                private groupService: PmcGroupServiceNg, private roleService: PmcRoleServiceNg){}
+                private groupService: PmcGroupServiceNg, private roleService: PmcRoleServiceNg, private formsRegisterService: FormsRegisterService){}
 
     ngOnInit(){  
       this.initFormGroup();
@@ -114,7 +114,7 @@ export class SelectRoleComponent implements OnInit {
         selected: new FormControl(null, Validators.required),
       });
 
-      // this.baseFormGroup.addControl('roleSelectFormGroup', this.roleSelectFormGroup);
+      this.formsRegisterService.registerForm(this.roleSelectFormGroup, this.formName);
     }
 
     save() {

@@ -7,6 +7,19 @@
   background: #007ad9 !important;
 }
 
+/* Style invalid and touched PrimeNG input components */
+::ng-deep .ng-touched.ng-invalid:not(form) > div{
+  border: 1px solid red;
+}
+
+::ng-deep p-calendar.ng-invalid.ng-touched input {
+  border: 1px solid red;
+}
+
+::ng-deep p-autocomplete .ng-touched.ng-invalid span{
+  border: 1px solid red;
+}
+
 .subMenu{
   background-color: #c3def8;
   width: 100%;

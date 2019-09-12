@@ -9,6 +9,8 @@ import { PmcUserServiceNg } from "../../services/rest/pmcuser.service";
 import { MessageService } from "primeng/api";
 import { PmcTask } from "../../models/pmcTask";
 import { Project } from "../../models/project.model";
+import { FormsServiceNg } from "../../services/forms.service";
+import { FormsRegisterService } from "../../services/forms-register.service";
 
 @Component({
     selector: 'project-header-component',
@@ -20,7 +22,6 @@ import { Project } from "../../models/project.model";
     @ViewChild(ProjectPropertiesDirective) propertiesHost: ProjectPropertiesDirective;
     @Input() project: Project;
     @Input() task: PmcTask;
-    @Input() baseFormGroup: FormGroup;
 
     snoozedTask: boolean;
     candidateUsers: PmcUser[];
@@ -32,7 +33,8 @@ import { Project } from "../../models/project.model";
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver, private propertiesService: ProjectPropertiesServiceNg,
                 private taskService: TaskServiceNg, private cdRef:ChangeDetectorRef, private userService: PmcUserServiceNg, 
-                private messageService: MessageService, private fb: FormBuilder, private projectService: ProjectServiceNg) {}
+                private messageService: MessageService, private fb: FormBuilder, private projectService: ProjectServiceNg,
+                private formsRegisterService: FormsRegisterService) {}
 
     ngOnInit() {
         this.userService.getCurrentUser().subscribe(
@@ -63,9 +65,7 @@ import { Project } from "../../models/project.model";
           if(this.project.status.toLowerCase() === 'canceled'){
             this.projectHeaderForm.disable();
           }
-        if(this.baseFormGroup) {
-            this.baseFormGroup.addControl('projectHeaderForm', this.projectHeaderForm);
-        }
+          this.formsRegisterService.registerForm(this.projectHeaderForm, "projectHeaderForm");
     }
 
     updateProject() {
