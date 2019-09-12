@@ -1,14 +1,13 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input } from "@angular/core";
+import { Project } from "../../../models/project.model";
 
 @Component({
   templateUrl: './project.properties.vacation.component.html'
 })
-export class ProjectPropertiesVacationComponent implements OnInit {
+export class ProjectPropertiesVacationComponent {
 
-  @Input() project: any;
+  @Input() project: Project;
 
   constructor() {}
-
-  ngOnInit() {}
 
 }

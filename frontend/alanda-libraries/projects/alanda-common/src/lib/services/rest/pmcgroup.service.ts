@@ -21,7 +21,6 @@ export class PmcGroupServiceNg extends ExceptionHandlingService{
     @Inject(APP_CONFIG) config: AppSettings) {
     super();
     this.endpointUrl = config.API_ENDPOINT + "/group";
-    console.log("PmcGroupServiceNg from pmc-common");
   }
 
   getGroups(serverOptions: any): Observable<ListResult<PmcGroup>> {

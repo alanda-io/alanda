@@ -16,7 +16,6 @@ import { catchError } from "rxjs/operators";
         @Inject(APP_CONFIG) config: AppSettings) {
         super();
         this.endpointUrl = config.API_ENDPOINT + "/process";
-        console.log("PmcUserServiceNg from pmc-common");
       }
  
 

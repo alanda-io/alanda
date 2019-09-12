@@ -35,10 +35,13 @@ export class SelectComponent implements OnInit {
         selected: [null, Validators.required]
       });
       this.baseFormGroup.addControl('selectForm', this.selectForm);
+
     }
 
     save() {
       this.taskService.setVariable(this.task.task_id,this.variableName, {value: this.selectForm.get('selected').value, type: this.type}).subscribe();
     }
+
+    get selected() { return this.selectForm.get('selected'); }
     
   }

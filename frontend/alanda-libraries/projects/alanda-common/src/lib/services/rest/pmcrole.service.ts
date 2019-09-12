@@ -18,7 +18,6 @@ export class PmcRoleServiceNg extends ExceptionHandlingService{
     @Inject(APP_CONFIG) config: AppSettings) {
     super();
     this.endpointUrl = config.API_ENDPOINT + "/pmcrole";
-    console.log("PmcRoleServiceNg from pmc-common");
   }
 
   getRoles(): Observable<PmcRole[]> {

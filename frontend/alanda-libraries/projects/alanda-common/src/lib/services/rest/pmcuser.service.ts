@@ -24,7 +24,6 @@ export class PmcUserServiceNg extends ExceptionHandlingService{
     @Inject(APP_CONFIG) config: AppSettings) {
     super();
     this.endpointUrl = config.API_ENDPOINT + "/user";
-    console.log("PmcUserServiceNg from pmc-common");
   }
 
   getUsers(serverOptions: any): Observable<ListResult<PmcUser>> {
@@ -76,20 +75,6 @@ export class PmcUserServiceNg extends ExceptionHandlingService{
     );
   }
 
-/*   updateCurrentUser(): void {
-    console.log("updateCurrentUser");
-    this.getCurrentUser().subscribe(
-      (res) => {
-        console.log("updateCurrentUser res", res);
-        this.currentUser.next(res);
-      },
-      (err) => {
-        console.log("updateCurrentUser err", err);
-        this.currentUser.next(null);
-      }
-    );
-  } */
-
   runAsUser(userName: string): Observable<PmcUser> {
     return this.http.post<PmcUser>(`${this.endpointUrl}/runas/${userName}`,{}).pipe(
         catchError(this.handleError('runAsUser')),
@@ -110,6 +95,10 @@ export class PmcUserServiceNg extends ExceptionHandlingService{
 
   getUsersByGroupId(groupId: number): Observable<PmcUser[]> {
     return this.http.get<PmcUser[]>(`${this.endpointUrl}/repo/getUsersByGroupId/${groupId}`).pipe(catchError(this.handleError('runAsUser')));
+  }
+
+  getUsersForRole(roleId: number): Observable<PmcUser[]> {
+    return this.http.get<PmcUser[]>(`${this.endpointUrl}/role/${roleId}`).pipe(catchError(this.handleError('getUsersForRole')));
   }
 
 }

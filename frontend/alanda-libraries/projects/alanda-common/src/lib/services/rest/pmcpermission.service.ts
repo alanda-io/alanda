@@ -18,7 +18,6 @@ export class PmcPermissionServiceNg extends ExceptionHandlingService{
     @Inject(APP_CONFIG) config: AppSettings) {
     super();
     this.endpointUrl = config.API_ENDPOINT + "/permission";
-    console.log("PmcPermission from pmc-common");
   }
 
   getPermissions(): Observable<PmcPermission[]> {

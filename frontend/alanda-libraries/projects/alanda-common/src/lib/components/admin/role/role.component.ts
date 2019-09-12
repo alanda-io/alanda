@@ -103,7 +103,6 @@ export class RoleComponent implements OnInit, OnDestroy {
       } else {
         if(this.form.valid){
           let role = new PmcRole();
-          role.idName = this.form.get('name').value;
           this.pmcRoleService.save(role).subscribe(
             (res) => {
               this.form.reset();
