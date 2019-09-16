@@ -1,13 +1,16 @@
 import { Injectable } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class FormsRegisterService {
 
   private formGroup: FormGroup;
 
   constructor() {}
 
+  // TODO: remove init()
   public init() {
     this.formGroup = new FormGroup({});
   }
@@ -21,6 +24,9 @@ export class FormsRegisterService {
   }
 
   public registerForm(formGroup: FormGroup, name: string): void {
+    if(!this.formGroup) {
+      this.init();
+    }
     this.formGroup.addControl(name, formGroup);
   }
 

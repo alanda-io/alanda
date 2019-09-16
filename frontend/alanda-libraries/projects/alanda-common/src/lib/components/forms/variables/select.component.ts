@@ -2,7 +2,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { SelectItem } from "primeng/api";
 import { TaskServiceNg } from "../../../services/rest/task.service";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators, AbstractControl } from "@angular/forms";
 import { FormsRegisterService } from "../../../services/forms-register.service";
 
 @Component({
@@ -41,6 +41,6 @@ export class SelectComponent implements OnInit {
       this.taskService.setVariable(this.task.task_id,this.variableName, {value: this.selectForm.get('selected').value, type: this.type}).subscribe();
     }
 
-    get selected() { return this.selectForm.get('selected'); }
+    get selected(): AbstractControl { return this.selectForm.get('selected'); }
     
   }

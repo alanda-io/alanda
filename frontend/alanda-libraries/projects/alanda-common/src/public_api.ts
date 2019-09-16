@@ -15,6 +15,7 @@ export * from './lib/services/exceptionHandling.service';
 export * from './lib/services/forms.service';
 export * from './lib/services/projectproperties.service';
 export * from './lib/services/projectdetails.service';
+export * from './lib/services/forms-register.service';
 
 export * from './lib/auth/basic-auth.interceptor';
 export * from './lib/auth/error.interceptor';
