@@ -1,5 +1,9 @@
 import { Injectable } from "@angular/core";
 import { FormGroup } from "@angular/forms";
+import { TaskServiceNg } from "../api/task.service";
+import { PmcTask } from "../../models/pmcTask";
+import { MessageService } from "primeng/api";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -7,13 +11,9 @@ import { FormGroup } from "@angular/forms";
 export class FormsRegisterService {
 
   private formGroup: FormGroup;
+  private loading: boolean = false;
 
-  constructor() {}
-
-  // TODO: remove init()
-  public init() {
-    this.formGroup = new FormGroup({});
-  }
+  constructor(private taskService: TaskServiceNg, private messageService: MessageService, private router: Router) {}
 
   public isValid(): boolean {
     return this.formGroup.valid;
@@ -25,7 +25,7 @@ export class FormsRegisterService {
 
   public registerForm(formGroup: FormGroup, name: string): void {
     if(!this.formGroup) {
-      this.init();
+      this.formGroup = new FormGroup({});
     }
     this.formGroup.addControl(name, formGroup);
   }
@@ -38,9 +38,29 @@ export class FormsRegisterService {
     Object.keys(this.formGroup.controls).forEach(key => {
       const nestedForm = this.formGroup.get(key) as FormGroup;
       Object.keys(nestedForm.controls).forEach(key => {
+        nestedForm.get(key).updateValueAndValidity();
         nestedForm.get(key).markAsTouched();
       })
     });
+  }
+
+  public submit(task: PmcTask) {
+    if(this.isValid() && !this.loading){
+      this.loading = true;
+      this.taskService.complete(task.task_id).subscribe(
+        res => {
+          this.messageService.add({severity:'success', summary:'Task completed', detail: `Task ${task.task_name} has been completed`})
+          this.router.navigate(['tasks/list']);
+        },
+        error => {
+          this.loading = false;
+          this.messageService.add({severity:'error', summary:'Could not complete task', detail: error.message})
+        });
+    } else {
+      console.log(this.formGroup);
+      this.messageService.add({severity:'error', summary:'Could not complete task', detail:'Please fill out all required fields'})
+      this.touch();
+    }
   }
 
 

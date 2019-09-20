@@ -54,7 +54,7 @@ export class TableAPIServiceNg {
         {displayName:'Tag', name: 'Tag', field: 'project.tag'},
         {displayName:'Status', name: 'Status', field: 'project.status', width: 110}
         ],
-        neubauUmbauColumnDefs : [
+        /* neubauUmbauColumnDefs : [
         {displayName:'Project ID', name: 'Project ID', field: 'project.projectId'},
         {displayName:'Sub Type', name: 'Sub Type', field: 'project.subtype'},
         {displayName:'Reason', name: 'Reason', field: 'project.tag', cellTemplate: '<div class="ui-grid-cell-contents"><span>{{grid.appScope.tagArrayToString(row.entity.project.tag)}}</span></div>'},
@@ -133,7 +133,7 @@ export class TableAPIServiceNg {
         {displayName:'Location A', name: 'Location A', field: 'refObject.locAAddress'},
         {displayName:'Location B', name: 'Location B', field: 'refObject.locBAddress'},
         {displayName:'Request Date', name: 'Request Date', field: 'project.createDate', width: 130}
-        ]
+        ] */
     }
 
     projectMonitorLayouts = {
@@ -213,9 +213,9 @@ export class TableAPIServiceNg {
           {displayName:'Action',name: 'Action', width: 120},
           {displayName:'Created', name: 'Created', field: 'task.created', width: 100},
           {displayName:'Due', name: 'Due', field: 'task.due', width: 90},
-          {displayName: 'Candidate Group', name: 'Candidate Group', field: 'task.candidateGroups', filter: '!Administrator', width: 180}
+          {displayName:'Candidate Group', name: 'Candidate Group', field: 'task.candidateGroups', filter: '!Administrator', width: 180}
         ],
-        bbmColumnDefs : [
+        /* bbmColumnDefs : [
           this.clickableTaskCell,
           {displayName:'Type', name: 'Type', width: 50, field: 'task.task_type'},
           {displayName:'Object', name: 'Object', field: 'task.object_name'},
@@ -368,13 +368,13 @@ export class TableAPIServiceNg {
           {displayName:'Assignee', name: 'Assignee', field: 'task.assignee'},
           {displayName:'Action',name: 'Action', width: 120},
           {displayName:'Created', name: 'Created', field: 'task.created', width: 90}
-        ]
+        ] */
       }
   
       taskLayouts={
         default: {name: 'default',displayName:'Site',columnDefs: this.taskColumnDefs.defaultColumnDefs},
         admin: {name: 'admin', displayName:'Admin',columnDefs: this.taskColumnDefs.adminColumnDefs},
-        banf: {name: 'banf', displayName:'BANF',columnDefs: this.taskColumnDefs.banfColumnDefs},
+        /* banf: {name: 'banf', displayName:'BANF',columnDefs: this.taskColumnDefs.banfColumnDefs},
         bbm: {name: 'bbm', displayName:'BBM',columnDefs: this.taskColumnDefs.bbmColumnDefs},
         bbmumbau: {name: 'bbmumbau', displayName:'Schnick Schnack Schabernak',columnDefs: this.taskColumnDefs.bbmUmbauColumnDefs},
         transmission: {name: 'transmission', displayName:'Transmission' ,columnDefs: this.taskColumnDefs.transmissionColumnDefs},
@@ -391,7 +391,7 @@ export class TableAPIServiceNg {
         bbu: {name: 'bbu', displayName: 'BBU', columnDefs: this.taskColumnDefs.bbuColumnDefs},
         abbau: {name: 'abbau', displayName: 'Abbau', columnDefs: this.taskColumnDefs.abbauColumnDefs},
         request: {name: 'request', displayName: 'Request', columnDefs: this.taskColumnDefs.requestColumnDefs},
-        bbuUpgrade: {name: 'bbuUpgrade', displayName: 'BBU Capacity Upgrade', columnDefs: this.taskColumnDefs.bbuUpgradeColumnDefs}
+        bbuUpgrade: {name: 'bbuUpgrade', displayName: 'BBU Capacity Upgrade', columnDefs: this.taskColumnDefs.bbuUpgradeColumnDefs} */
       }
 }
 

@@ -3,13 +3,9 @@
       padding: 0em !important;
       border: none !important;
     }
-
-    ::ng-deep .submitTask {
-        text-align: right;
-    }
 </style>
 
-<p-tabView *ngIf="task" [activeIndex]="activeTab" styleClass="hideheader">
+<p-tabView [activeIndex]="activeTab" styleClass="hideheader">
     <p-tabPanel header="Project Overview" leftIcon="fa fa-file-text">
         <ng-template task-forms pTemplate="content"></ng-template>
     </p-tabPanel>

@@ -15,15 +15,18 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ALANDA_CONFIG } from './app.settings';
 import { AppRoutingModule } from './app-routing.module';
+import { AppSettings, APP_CONFIG, ProjectPropertiesServiceNg, ProjectDetailsServiceNg, FormsServiceNg, AlandaCommonModule } from 'projects/alanda-common/src/public_api';
 import { HomeComponent } from './components/home/home.component';
-import { AppSettings, APP_CONFIG } from 'projects/alanda-common/src/lib/models/appSettings';
-import { AlandaCommonModule } from 'projects/alanda-common/src/lib/alanda-common.module';
+import { VacationModule } from './vacation/vacation.module';
+import { VacationProjectPropertiesService } from './vacation/services/vacation-projectproperties.service';
+import { VacationProjectDetailsService } from './vacation/services/vacation-projectdetails.service';
+import { VacationFormsService } from './vacation/services/vacation-forms.service';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,12 +36,13 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     MenubarModule,
     CalendarModule,
     ToastModule,
+    VacationModule
   ],
   providers: [
-    {
-      provide: APP_CONFIG,
-      useValue: CURRENT_CONFIG
-    },
+    {provide: APP_CONFIG, useValue: CURRENT_CONFIG},
+    {provide: ProjectPropertiesServiceNg, useClass: VacationProjectPropertiesService},
+    {provide: ProjectDetailsServiceNg, useClass: VacationProjectDetailsService},
+    {provide: FormsServiceNg, useClass: VacationFormsService},
     MessageService,
   ],
   bootstrap: [AppComponent]

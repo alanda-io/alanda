@@ -48,7 +48,6 @@ import { FormsServiceNg } from './core/services/forms.service';
 import { FormsControllerDirective } from './components/controller/directives/forms-controller.directive';
 import { ProjectDetailsServiceNg } from './core/services/project-details.service';
 import { MessageService } from 'primeng/api';
-import { VacationProjectDetailsComponent } from './VACATION/vacation-project-details.component';
 import { MessageModule } from 'primeng/message';
 import { FormsRegisterService } from './core/services/forms-register.service';
 import { UserComponent } from './components/admin/user-management/user.component';
@@ -57,7 +56,7 @@ import { AttachmentsTreeComponent } from './components/attachments/attachments-t
 import { ProjectMonitorComponent } from './components/project-monitor/project-monitor.component';
 import { AttachmentsComponent } from './components/attachments/attachments.component';
 import { MonitorValuesPipe } from './pipes/monitor-values.pipe';
-import { TasklistComponent } from './components/task-monitor/tasklist.component';
+import { TasklistComponent } from './components/task-list/tasklist.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { TagFilterPipe } from './pipes/tag-filter.pipe';
 import { GroupComponent } from './components/admin/group-management/group.component';
@@ -75,20 +74,14 @@ import { DiagramComponent } from './components/pio/diagram/diagram.component';
 import { ProcessActivitiesComponent } from './components/pio/process-activities/process-activities.component';
 import { HistoryGridComponent } from './components/history/history-grid.component';
 import { CreateProjectComponent } from './components/create-project/create-project.component';
-import { PrepareVacationRequestComponent } from './VACATION/vacation/prepare-vacation-request.component';
-import { CheckVacationRequestComponent } from './VACATION/vacation/check-vacation-request.component';
-import { ModifyVacationRequestComponent } from './VACATION/vacation/modify-vacation-request.component';
-import { PerformHandoverActivitiesComponent } from './VACATION/vacation/perform-handover-activities.component';
-import { InformSubstituteComponent } from './VACATION/vacation/inform-substitute.component';
 import { ProjectAndProcessesComponent } from './components/project-and-processes/project-and-processes.component';
 import { ProjectControlItemComponent } from './components/project-and-processes/projectControlItem/project-control-item.component';
-import { SelectComponent } from './core/tasks/form-variables/simple-select/simple-select.component';
-import { ProjectPropertiesVacationComponent } from './components/project-header/project-properties-vacation/project.properties.vacation.component';
-import { SelectRoleComponent } from './core/tasks/form-variables/role-select/role-select.component';
-import { DateSelectComponent } from './core/tasks/form-variables/date-select/date-select.component';
-import { DropdownSelectComponent } from './core/tasks/form-variables/dropdown-select/dropdown-select.component';
 import { AppSettings, APP_CONFIG } from './models/appSettings';
 import { PropertyService } from './core/api/property.service';
+import { SelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
+import { SelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
+import { DateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
+import { DropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
 
 @NgModule({
   imports: [
@@ -124,7 +117,7 @@ import { PropertyService } from './core/api/property.service';
     InputTextareaModule,
     FieldsetModule,
     CalendarModule,
-    MessageModule,
+    MessageModule
   ],
   declarations: [
     UserComponent,
@@ -152,16 +145,9 @@ import { PropertyService } from './core/api/property.service';
     ProcessActivitiesComponent,
     HistoryGridComponent,
     CreateProjectComponent,
-    VacationProjectDetailsComponent,
-    PrepareVacationRequestComponent,
-    CheckVacationRequestComponent,
-    ModifyVacationRequestComponent,
-    PerformHandoverActivitiesComponent,
-    InformSubstituteComponent,
     ProjectAndProcessesComponent,
     ProjectControlItemComponent,
     SelectComponent,
-    ProjectPropertiesVacationComponent,
     SelectRoleComponent,
     DateSelectComponent,
     DropdownSelectComponent,
@@ -193,31 +179,14 @@ import { PropertyService } from './core/api/property.service';
     ProcessActivitiesComponent,
     HistoryGridComponent,
     CreateProjectComponent,
-    VacationProjectDetailsComponent,
-    PrepareVacationRequestComponent,
-    CheckVacationRequestComponent,
-    ModifyVacationRequestComponent,
-    PerformHandoverActivitiesComponent,
-    InformSubstituteComponent,
     ProjectAndProcessesComponent,
     ProjectControlItemComponent,
     SelectComponent,
-    ProjectPropertiesVacationComponent,
     SelectRoleComponent,
     DateSelectComponent,
     DropdownSelectComponent
    ],
   entryComponents: [
-    VacationProjectDetailsComponent,
-    PrepareVacationRequestComponent,
-    ProjectHeaderComponent,
-    ProjectsControllerComponent,
-    VacationProjectDetailsComponent,
-    CheckVacationRequestComponent,
-    ModifyVacationRequestComponent,
-    PerformHandoverActivitiesComponent,
-    InformSubstituteComponent,
-    ProjectPropertiesVacationComponent,
   ]
 })
 export class AlandaCommonModule { 

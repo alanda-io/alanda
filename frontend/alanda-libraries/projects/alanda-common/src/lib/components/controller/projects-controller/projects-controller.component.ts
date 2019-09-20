@@ -1,7 +1,6 @@
 import { Component, OnInit, ComponentFactoryResolver, ViewChild } from "@angular/core";
-import { ActivatedRoute, ParamMap, Router } from "@angular/router";
+import { ActivatedRoute, ParamMap } from "@angular/router";
 import { switchMap } from "rxjs/operators";
-import { MessageService } from "primeng/api";
 import { ProjectDetailsDirective } from "../../project-header/directives/project-details-controller.directive";
 import { ProjectServiceNg } from "../../../core/api/project.service";
 import { ProjectDetailsServiceNg } from "../../../core/services/project-details.service";
@@ -19,9 +18,8 @@ import { ProjectDetailsServiceNg } from "../../../core/services/project-details.
     activeTab = 0;
     @ViewChild(ProjectDetailsDirective) projectDetailsHost: ProjectDetailsDirective;
 
-    constructor(private router: Router, private route: ActivatedRoute, private projectService: ProjectServiceNg,
-                private componentFactoryResolver: ComponentFactoryResolver, private projectDetailsService: ProjectDetailsServiceNg,
-                private messageService: MessageService){
+    constructor(private route: ActivatedRoute, private projectService: ProjectServiceNg,
+                private componentFactoryResolver: ComponentFactoryResolver, private projectDetailsService: ProjectDetailsServiceNg){
     }
 
     ngOnInit(){
@@ -29,11 +27,10 @@ import { ProjectDetailsServiceNg } from "../../../core/services/project-details.
             switchMap((params: ParamMap) => 
                 this.projectService.getProjectByProjectId(params.get('projectId')))
         ).subscribe(
-          (project) => {
+          project => {
             this.project = project;
             this.loadProjectDetailsComponent(project);
-          },
-          error => this.messageService.add({severity:'error', summary:'Get Project By ProjectID', detail: error.message}));
+        })
     }
 
     loadProjectDetailsComponent(project: any) {
@@ -47,7 +44,6 @@ import { ProjectDetailsServiceNg } from "../../../core/services/project-details.
           let componentRef = viewContainerRef.createComponent(componentFactory);
           (<any>componentRef.instance).project = project;
           (<any>componentRef.instance).pid = process.processInstanceId;
-        },
-        error => this.messageService.add({severity:'error', summary:'Get Project Mainprocess', detail: error.message}));
-    }
+        })
+      }
   }

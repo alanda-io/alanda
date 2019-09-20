@@ -5,6 +5,7 @@ import { ExceptionHandlingService } from "../services/exception-handling.service
 import { catchError } from "rxjs/operators";
 import { ServerOptions } from "../../models/serverOptions";
 import { APP_CONFIG, AppSettings } from "../../models/appSettings";
+import { PmcTask } from "../../models/pmcTask";
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,12 @@ export class TaskServiceNg extends ExceptionHandlingService{
     this.endpointUrl = config.API_ENDPOINT + "/pmc-task";
   }
 
-  getTask(taskId: string): Observable<any> {
-    return this.http.get<any>(this.endpointUrl + `/${taskId}`).pipe(catchError(this.handleError('getTask')));
+  getTask(taskId: string): Observable<PmcTask> {
+    return this.http.get<PmcTask>(this.endpointUrl + `/${taskId}`).pipe(catchError(this.handleError('getTask')));
   }
 
-  loadTasks(serverOptions: ServerOptions): Observable<any[]> {
-    return this.http.post<any[]>(this.endpointUrl + '/list',serverOptions).pipe(catchError(this.handleError('loadTasks')));
+  loadTasks(serverOptions: ServerOptions): Observable<PmcTask[]> {
+    return this.http.post<PmcTask[]>(this.endpointUrl + '/list',serverOptions).pipe(catchError(this.handleError('loadTasks')));
   }
 
   getCandidates(taskId: string): Observable<any[]>{
