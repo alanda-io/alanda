@@ -57,7 +57,6 @@ export class FormsRegisterService {
           this.messageService.add({severity:'error', summary:'Could not complete task', detail: error.message})
         });
     } else {
-      console.log(this.formGroup);
       this.messageService.add({severity:'error', summary:'Could not complete task', detail:'Please fill out all required fields'})
       this.touch();
     }
