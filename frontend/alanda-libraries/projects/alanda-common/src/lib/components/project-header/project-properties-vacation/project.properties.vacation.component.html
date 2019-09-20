@@ -2,14 +2,14 @@
     <div class="p-grid">
         <div class="p-col-12 p-md-6 p-lg-9">
             <p-card [style]="{'height':'100%'}">
-                <datepicker-variable formName="vacationStart" [project]="project" key="startDate" label="Vacation Start"></datepicker-variable>
-                <datepicker-variable formName="vacationEnd" [project]="project" key="endDate" label="Vacation End"></datepicker-variable>
+                <date-select formName="vacationStart" [project]="project" key="startDate" label="Vacation Start"></date-select>
+                <date-select formName="vacationEnd" [project]="project" key="endDate" label="Vacation End"></date-select>
             </p-card>
         </div>
         <div class="p-col-12 p-md-6 p-lg-3">
             <p-card [style]="{'height':'100%'}" *ngIf="!fs.collapsed">
-                <select-role formName="selectApprover" type="user" displayName="Vacation Approver" [project]="project" [onlyInherited]="false" roleName="vacation-approver"></select-role>
-                <select-role formName="selectSubstitute" type="user" displayName="Substitute" [project]="project" [grouping]="false" roleName="vacation-requestor"></select-role> 
+                <role-select formName="selectApprover" type="user" displayName="Vacation Approver" [project]="project" [onlyInherited]="false" roleName="vacation-approver"></role-select>
+                <role-select formName="selectSubstitute" type="user" displayName="Substitute" [project]="project" [grouping]="false" roleName="vacation-requestor"></role-select> 
             </p-card>
         </div>
     </div>

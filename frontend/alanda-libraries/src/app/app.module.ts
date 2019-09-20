@@ -15,8 +15,9 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ALANDA_CONFIG } from './app.settings';
 import { AppRoutingModule } from './app-routing.module';
-import { AlandaCommonModule, AppSettings, APP_CONFIG } from 'projects/alanda-common/src/public_api';
 import { HomeComponent } from './components/home/home.component';
+import { AppSettings, APP_CONFIG } from 'projects/alanda-common/src/lib/models/appSettings';
+import { AlandaCommonModule } from 'projects/alanda-common/src/lib/alanda-common.module';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 @NgModule({

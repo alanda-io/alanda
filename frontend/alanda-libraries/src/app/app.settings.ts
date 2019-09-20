@@ -1,4 +1,4 @@
-import { AppSettings } from "projects/alanda-common/src/lib/models/AppSettings";
+import { AppSettings } from "projects/alanda-common/src/lib/models/appSettings";
 
 export const ALANDA_CONFIG: AppSettings = {
   API_ENDPOINT: '/alanda-rest/app'

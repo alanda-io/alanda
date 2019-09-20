@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Inject, SimpleChanges } from "@angular/core";
+import { Component, OnInit, Input, Inject } from "@angular/core";
 
-import { APP_CONFIG, AppSettings } from "../../../models/AppSettings";
 import { HttpClient, HttpParams } from "@angular/common/http";
+import { APP_CONFIG, AppSettings } from "../../../models/appSettings";
 
 @Component({
     selector: 'process-activities-component',
@@ -46,9 +46,4 @@ export class ProcessActivitiesComponent implements OnInit {
         );
     }
 
-    /*   $scope.onRowDblClick = (row) ->
-        if row.entity['type'] is 'callActivity'
-        $state.go('finder.pio', {pid: row.entity['call_proc_inst_id'], pd: row.entity['process_name'], businessKey: row.entity['business_key']})
-    */
- 
 }

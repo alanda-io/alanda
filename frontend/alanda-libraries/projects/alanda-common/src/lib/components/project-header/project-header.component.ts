@@ -1,16 +1,15 @@
 import { OnInit, Component, Input, ViewChild, ComponentFactoryResolver, AfterViewInit, ChangeDetectorRef } from "@angular/core";
-import { ProjectPropertiesDirective } from "./project.properties.directive";
-import { ProjectPropertiesServiceNg } from "../../services/projectproperties.service";
-import { FormGroup, Validators, FormBuilder } from "@angular/forms";
-import { ProjectServiceNg } from "../../services/rest/project.service";
-import { TaskServiceNg } from "../../services/rest/task.service";
-import { PmcUser } from "../../models/PmcUser";
-import { PmcUserServiceNg } from "../../services/rest/pmcuser.service";
-import { MessageService } from "primeng/api";
+import { Project } from "../../models/project";
 import { PmcTask } from "../../models/pmcTask";
-import { Project } from "../../models/project.model";
-import { FormsServiceNg } from "../../services/forms.service";
-import { FormsRegisterService } from "../../services/forms-register.service";
+import { PmcUser } from "../../models/pmcUser";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { MessageService } from "primeng/api";
+import { ProjectPropertiesDirective } from "../controller/directives/project.properties.directive";
+import { ProjectPropertiesServiceNg } from "../../core/services/project-properties.service";
+import { PmcUserServiceNg } from "../../core/api/pmcuser.service";
+import { ProjectServiceNg } from "../../core/api/project.service";
+import { FormsRegisterService } from "../../core/services/forms-register.service";
+import { TaskServiceNg } from "../../core/api/task.service";
 
 @Component({
     selector: 'project-header-component',

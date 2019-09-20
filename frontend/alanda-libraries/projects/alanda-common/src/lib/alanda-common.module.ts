@@ -18,77 +18,78 @@ import { TabViewModule } from 'primeng/tabview';
 import { PickListModule } from 'primeng/picklist';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { HttpClientModule } from '@angular/common/http';
-import { AppSettings, APP_CONFIG } from './models/AppSettings';
-import { BasicAuthInterceptor } from './auth/basic-auth.interceptor';
-import { ErrorInterceptor } from './auth/error.interceptor';
-import { TaskServiceNg } from './services/rest/task.service';
-import { UserComponent } from './components/admin/user/user.component';
-import { PmcUserServiceNg } from './services/rest/pmcuser.service';
-import { PmcGroupServiceNg } from './services/rest/pmcgroup.service';
-import { PmcRoleServiceNg } from './services/rest/pmcrole.service';
-import { ProjectMonitorComponent } from './components/project-monitor/project-monitor.component';
-import { DocumentServiceNg } from './services/rest/document.service';
-import { AttachmentsListComponent } from './components/attachments/attachments-list/attachments-list.component';
-import { AttachmentsTreeComponent } from './components/attachments/attachments-tree/attachments-tree.component';
+import { BasicAuthInterceptor } from './core/interceptors/basic-auth.interceptor';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { TaskServiceNg } from './core/api/task.service';
+import { PmcUserServiceNg } from './core/api/pmcuser.service';
+import { PmcGroupServiceNg } from './core/api/pmcgroup.service';
+import { PmcRoleServiceNg } from './core/api/pmcrole.service';
+import { DocumentServiceNg } from './core/api/document.service';
 import { TreeModule } from 'primeng/tree';
-import { AttachmentsComponent } from './components/attachments/attachments.component';
-import { MonitorValuesPipe } from './components/shared/monitorValues.pipe';
-import { TasklistComponent } from './components/tasklist/tasklist.component';
-import { ProjectServiceNg } from './services/rest/project.service';
+import { ProjectServiceNg } from './core/api/project.service';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { FilterPipe } from './components/shared/filter.pipe';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { MenuModule } from 'primeng/menu';
 import { TabMenuModule } from 'primeng/tabmenu';
-import { TableAPIServiceNg } from './services/tableAPI.service';
+import { TableAPIServiceNg } from './core/services/tableAPI.service';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { ListboxModule } from 'primeng/listbox';
-import { GroupComponent } from './components/admin/group/group.component';
-import { RoleComponent } from './components/admin/role/role.component';
-import { PermissionComponent } from './components/admin/permission/permission.component';
-import { PmcPermissionServiceNg } from './services/rest/pmcpermission.service';
-import { CommentsComponent } from './components/comments/comments.component';
+import { PmcPermissionServiceNg } from './core/api/pmcpermission.service';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { PmcCommentServiceNg } from './services/rest/pmccomment.service';
-import { TagFilterPipe } from './components/shared/tagFilter.pipe';
-import { ProjectHeaderComponent } from './components/project-header/project-header.component';
-import { ProjectPropertiesDirective } from './components/project-header/project.properties.directive';
-import { ProjectPropertiesServiceNg } from './services/projectproperties.service';
+import { PmcCommentServiceNg } from './core/api/pmccomment.service';
+import { ProjectPropertiesServiceNg } from './core/services/project-properties.service';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CalendarModule } from 'primeng/calendar';
-import { AuthorizationServiceNg } from './services/authorization.service';
+import { AuthorizationServiceNg } from './core/services/authorization.service';
 import { DatePipe, CommonModule } from '@angular/common';
-import { FormsServiceNg } from './services/forms.service';
-import { FormsControllerComponent } from './components/forms/tasks/forms-controller.component';
-import { ProjectsControllerComponent } from './components/forms/projects/projects-controller/projects-controller.component';
-import { FormsControllerDirective } from './components/forms/directives/forms-controller.directive';
-import { ProjectDetailsServiceNg } from './services/projectdetails.service';
-import { ProjectDetailsDirective } from './components/forms/directives/project-details-controller.directive';
+import { FormsServiceNg } from './core/services/forms.service';
+import { FormsControllerDirective } from './components/controller/directives/forms-controller.directive';
+import { ProjectDetailsServiceNg } from './core/services/project-details.service';
 import { MessageService } from 'primeng/api';
+import { VacationProjectDetailsComponent } from './VACATION/vacation-project-details.component';
+import { MessageModule } from 'primeng/message';
+import { FormsRegisterService } from './core/services/forms-register.service';
+import { UserComponent } from './components/admin/user-management/user.component';
+import { AttachmentsListComponent } from './components/attachments/attachments-list/attachments-list.component';
+import { AttachmentsTreeComponent } from './components/attachments/attachments-tree/attachments-tree.component';
+import { ProjectMonitorComponent } from './components/project-monitor/project-monitor.component';
+import { AttachmentsComponent } from './components/attachments/attachments.component';
+import { MonitorValuesPipe } from './pipes/monitor-values.pipe';
+import { TasklistComponent } from './components/task-monitor/tasklist.component';
+import { FilterPipe } from './pipes/filter.pipe';
+import { TagFilterPipe } from './pipes/tag-filter.pipe';
+import { GroupComponent } from './components/admin/group-management/group.component';
+import { RoleComponent } from './components/admin/role-management/role.component';
+import { PermissionComponent } from './components/admin/permission-management/permission.component';
+import { CommentsComponent } from './components/comments/comments.component';
+import { CommentComponent } from './components/comments/comment/comment.component';
+import { ProjectHeaderComponent } from './components/project-header/project-header.component';
+import { ProjectPropertiesDirective } from './components/controller/directives/project.properties.directive';
+import { FormsControllerComponent } from './components/controller/forms-controller/forms-controller.component';
+import { ProjectsControllerComponent } from './components/controller/projects-controller/projects-controller.component';
+import { ProjectDetailsDirective } from './components/project-header/directives/project-details-controller.directive';
+import { PioComponent } from './components/pio/pio.component';
+import { DiagramComponent } from './components/pio/diagram/diagram.component';
 import { ProcessActivitiesComponent } from './components/pio/process-activities/process-activities.component';
 import { HistoryGridComponent } from './components/history/history-grid.component';
 import { CreateProjectComponent } from './components/create-project/create-project.component';
-import { VacationProjectDetailsComponent } from './components/forms/projects/vacation/vacation-project-details.component';
-import { PrepareVacationRequestComponent } from './components/forms/tasks/vacation/prepare-vacation-request.component';
-import { PioComponent } from './components/pio/pio.component';
-import { DiagramComponent } from './components/pio/diagram/diagram.component';
-import { CheckVacationRequestComponent } from './components/forms/tasks/vacation/check-vacation-request.component';
-import { ModifyVacationRequestComponent } from './components/forms/tasks/vacation/modify-vacation-request.component';
-import { PerformHandoverActivitiesComponent } from './components/forms/tasks/vacation/perform-handover-activities.component';
-import { InformSubstituteComponent } from './components/forms/tasks/vacation/inform-substitute.component';
-import { ProjectAndProcessesComponent } from './components/projectAndProcesses/project-and-processes.component';
-import { ProjectControlItemComponent } from './components/projectAndProcesses/projectControlItem/project-control-item.component';
-import { SelectComponent } from './components/forms/variables/select.component';
+import { PrepareVacationRequestComponent } from './VACATION/vacation/prepare-vacation-request.component';
+import { CheckVacationRequestComponent } from './VACATION/vacation/check-vacation-request.component';
+import { ModifyVacationRequestComponent } from './VACATION/vacation/modify-vacation-request.component';
+import { PerformHandoverActivitiesComponent } from './VACATION/vacation/perform-handover-activities.component';
+import { InformSubstituteComponent } from './VACATION/vacation/inform-substitute.component';
+import { ProjectAndProcessesComponent } from './components/project-and-processes/project-and-processes.component';
+import { ProjectControlItemComponent } from './components/project-and-processes/projectControlItem/project-control-item.component';
+import { SelectComponent } from './core/tasks/form-variables/simple-select/simple-select.component';
 import { ProjectPropertiesVacationComponent } from './components/project-header/project-properties-vacation/project.properties.vacation.component';
-import { SelectRoleComponent } from './components/forms/variables/role-select.component';
-import { DatepickerComponent } from './components/forms/variables/datepicker.component';
-import { PropertyService } from './services/rest/property.service';
-import { DropdownSelectComponent } from './components/forms/variables/dropdown-select.component';
-import { CommentComponent } from './components/comments/comment/comment.component';
-import { MessageModule } from 'primeng/message';
-import { FormsRegisterService } from './services/forms-register.service';
+import { SelectRoleComponent } from './core/tasks/form-variables/role-select/role-select.component';
+import { DateSelectComponent } from './core/tasks/form-variables/date-select/date-select.component';
+import { DropdownSelectComponent } from './core/tasks/form-variables/dropdown-select/dropdown-select.component';
+import { AppSettings, APP_CONFIG } from './models/appSettings';
+import { PropertyService } from './core/api/property.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -162,7 +163,7 @@ import { FormsRegisterService } from './services/forms-register.service';
     SelectComponent,
     ProjectPropertiesVacationComponent,
     SelectRoleComponent,
-    DatepickerComponent,
+    DateSelectComponent,
     DropdownSelectComponent,
   ],
   exports: [
@@ -203,7 +204,7 @@ import { FormsRegisterService } from './services/forms-register.service';
     SelectComponent,
     ProjectPropertiesVacationComponent,
     SelectRoleComponent,
-    DatepickerComponent,
+    DateSelectComponent,
     DropdownSelectComponent
    ],
   entryComponents: [

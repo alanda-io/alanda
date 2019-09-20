@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { state, style, transition, animate, trigger } from '@angular/animations';
-import { PmcUser, PmcUserServiceNg } from 'projects/alanda-common/src/public_api';
+import { PmcUserServiceNg } from 'projects/alanda-common/src/public_api';
 
 @Component({
   selector: 'app-root',

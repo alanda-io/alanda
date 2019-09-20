@@ -1,3 +1,5 @@
+import { ProjectState } from "../enums/project-status.enum";
+
 export class PmcTask{
     public assignee: string;
     public created: string;
@@ -9,12 +11,12 @@ export class PmcTask{
     public pmcProjectGuid: number;
     public candidateGroups: string[];
     public candidateGroupIds: number[];
-    public state: string;
+    public state: ProjectState;
     public task_id: string;
     public task_type: string;
     public task_name: string;
     public object_name: string;
-    public object_id: string;
+    public object_id: number;
     public assignee_id: string;
     public execution_id: string;
     public follow_up: string;

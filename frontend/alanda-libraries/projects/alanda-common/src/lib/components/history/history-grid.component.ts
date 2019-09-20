@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { HistoryServiceNg } from "../../services/rest/history.service";
 import { ActivatedRoute } from "@angular/router";
+import { HistoryServiceNg } from "../../core/api/history.service";
 
 @Component({
     selector: 'history-grid-component',
@@ -32,21 +32,15 @@ export class HistoryGridComponent implements OnInit{
         {displayName:'Log Date', name: 'Log Date', field: 'logDate'}
       ]
     
-    constructor(private historyService: HistoryServiceNg, 
-                private route: ActivatedRoute) {
-    };
+    constructor(private historyService: HistoryServiceNg, private route: ActivatedRoute) {};
 
     ngOnInit(){
         if(this.route.snapshot.params['projectId']) {
             this.serverOptions.filterOptions['pmcProjectGuid'] = this.projectGuid;
-            console.log("init history with project");
         } else if(this.route.snapshot.params['banfId']) {
-            console.log("init history with banf");
             this.serverOptions.filterOptions['refObjectIdName'] = this.route.snapshot.params['banfId'];
             this.serverOptions.filterOptions['refObjectType'] = 'PO';
-        }
-              
-        // this.loadEntries();
+        }      
     }
 
     loadLazy(event) {

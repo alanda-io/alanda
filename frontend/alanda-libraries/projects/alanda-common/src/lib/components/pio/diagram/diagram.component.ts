@@ -4,8 +4,8 @@ import { importDiagram } from './importDiagram';
 import { HttpClient } from "@angular/common/http";
 import { catchError } from "rxjs/operators";
 import { throwError } from "rxjs";
-import { APP_CONFIG, AppSettings } from "../../../models/AppSettings";
 import { PmcTask } from "../../../models/pmcTask";
+import { APP_CONFIG, AppSettings } from "../../../models/appSettings";
 
 @Component({
     selector: 'pio-diagram-component',

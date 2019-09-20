@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { PmcComment } from '../../../models/PmcComment';
-import { CommentTag } from '../../../models/commentTag.model';
-import { PmcCommentServiceNg } from '../../../services/rest/pmccomment.service';
+import { Component, Input, ViewChild, ElementRef } from '@angular/core';
+import { PmcComment } from '../models/pmcComment';
+import { CommentTag } from '../models/commentTag';
+import { PmcCommentServiceNg } from '../../../core/api/pmccomment.service';
 import { NgForm } from '@angular/forms';
 
 

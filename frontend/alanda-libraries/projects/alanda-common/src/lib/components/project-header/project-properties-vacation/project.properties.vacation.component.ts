@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { Project } from "../../../models/project.model";
+import { Project } from "../../../models/project";
 
 @Component({
   templateUrl: './project.properties.vacation.component.html'

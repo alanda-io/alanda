@@ -1,0 +1,19 @@
+<style>
+    ::ng-deep .ui-panel {
+        margin-bottom: 20px !important;
+    }
+</style>
+<project-header-component [task]="task" [project]="project"></project-header-component>
+<comments-component [task]="task"></comments-component>
+<div class="p-grid">
+    <div class="p-col-10">
+        <simple-select [task]="task" [items]="items" variableName="requestApproved" label="Approve vacation request?"></simple-select>
+    </div>
+    <div class="p-col-2">
+        <p-card [style]="{'height': '100%'}">
+            <button pButton type="button" (click)="submitTask()" icon="fa fa-check" iconPos="left" class="ui-button-success" class="ui-button-success" label="Complete Task"></button>
+        </p-card>
+    </div>
+</div>
+
+

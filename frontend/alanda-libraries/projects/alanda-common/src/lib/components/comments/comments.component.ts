@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Panel } from 'primeng/panel';
-import { FormGroup, NgForm } from '@angular/forms';
-import { PmcCommentServiceNg } from '../../services/rest/pmccomment.service';
-import { PmcComment } from '../../models/PmcComment';
+import { NgForm } from '@angular/forms';
+import { PmcComment } from './models/pmcComment';
 import { DatePipe } from '@angular/common';
-import { CommentTag } from '../../models/commentTag.model';
+import { CommentTag } from './models/commentTag';
 import { MessageService } from 'primeng/api';
+import { PmcCommentServiceNg } from '../../core/api/pmccomment.service';
 
 @Component({
   selector: 'comments-component',

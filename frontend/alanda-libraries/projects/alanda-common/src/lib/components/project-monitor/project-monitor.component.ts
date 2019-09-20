@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { ProjectServiceNg } from '../../services/rest/project.service';
-import { TableAPIServiceNg } from '../../services/tableAPI.service';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { ProjectServiceNg } from '../../core/api/project.service';
+import { TableAPIServiceNg } from '../../core/services/tableAPI.service';
 export type ServerOptions = {
   pageNumber: number, 
   pageSize: number,

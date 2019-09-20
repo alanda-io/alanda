@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, EventEmitter, Output } from "@angular/core";
 import { Tree } from 'primeng/tree';
 import { TreeNode } from "primeng/api";
-import { ExtendedTreeNode } from "../shared/tree-node.model";
+import { ExtendedTreeNode } from "../models/tree-node";
 
 @Component({
     selector: 'attachments-tree',

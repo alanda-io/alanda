@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectServiceNg } from '../../services/rest/project.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ProjectType } from '../../models/projectType.model';
-import { Project } from '../../models/project.model';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { ProjectType } from '../../models/projectType';
+import { Project } from '../../models/project';
+import { ProjectServiceNg } from '../../core/api/project.service';
 
 @Component({
   selector: 'create-project-component',
