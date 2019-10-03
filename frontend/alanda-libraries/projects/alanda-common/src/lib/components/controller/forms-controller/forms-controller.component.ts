@@ -7,7 +7,7 @@ import { ProjectServiceNg } from "../../../api/project.service";
 import { FormsServiceNg } from "../../../services/forms.service";
 import { TaskServiceNg } from "../../../api/task.service";
 import { Project } from "../../../models/project";
-import { AlandaTaskTemplate } from "../../task/models/alanda-task-template";
+import { AlandaTaskTemplateComponent } from "../../task/components/alanda-task-template.component";
 
 @Component({
     selector: 'forms-controller-component',
@@ -42,7 +42,7 @@ import { AlandaTaskTemplate } from "../../task/models/alanda-task-template";
         let viewContainerRef = this.formsHost.viewContainerRef;
         viewContainerRef.clear();
         let componentRef = viewContainerRef.createComponent(componentFactory);
-        (<AlandaTaskTemplate>componentRef.instance).task = task;
-        (<AlandaTaskTemplate>componentRef.instance).project = project;
+        (<AlandaTaskTemplateComponent>componentRef.instance).task = task;
+        (<AlandaTaskTemplateComponent>componentRef.instance).project = project;
       }
   }

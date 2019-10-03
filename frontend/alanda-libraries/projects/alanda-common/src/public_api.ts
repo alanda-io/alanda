@@ -45,4 +45,4 @@ export * from './lib/components/attachments/attachments-tree/attachments-tree.co
 export * from './lib/components/project-header/project-header.component';
 export * from './lib/components/create-project/create-project.component';
 export * from './lib/components/attachments/attachments.component';
-export * from './lib/components/task/interfaces/alanda-task.interface';
+export * from './lib/components/task/components/alanda-task-template.component';

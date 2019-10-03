@@ -1,7 +1,6 @@
 
 import { Component } from "@angular/core";
-import { FormsRegisterService } from "projects/alanda-common/src/public_api";
-import { AlandaTaskTemplate } from "projects/alanda-common/src/lib/components/task/models/alanda-task-template";
+import { FormsRegisterService, AlandaTaskTemplateComponent } from "projects/alanda-common/src/public_api";
 
 
 @Component({
@@ -9,7 +8,7 @@ import { AlandaTaskTemplate } from "projects/alanda-common/src/lib/components/ta
     templateUrl: './default-task-template.html',
     styleUrls: [],
   })
-export class InformSubstituteComponent extends AlandaTaskTemplate {
+export class InformSubstituteComponent extends AlandaTaskTemplateComponent {
 
   constructor(formsRegisterService: FormsRegisterService) {
     super(formsRegisterService)

@@ -1,8 +1,7 @@
 
 import { Component } from "@angular/core";
 import { SelectItem } from "primeng/api";
-import { FormsRegisterService } from "projects/alanda-common/src/public_api";
-import { AlandaTaskTemplate } from "projects/alanda-common/src/lib/components/task/models/alanda-task-template";
+import { FormsRegisterService, AlandaTaskTemplateComponent } from "projects/alanda-common/src/public_api";
 
 
 @Component({
@@ -10,7 +9,7 @@ import { AlandaTaskTemplate } from "projects/alanda-common/src/lib/components/ta
     templateUrl: './prepare-vacation-request.component.html',
     styleUrls: [],
   })
-  export class PrepareVacationRequestComponent extends AlandaTaskTemplate {
+  export class PrepareVacationRequestComponent extends AlandaTaskTemplateComponent {
 
     items: SelectItem[];
 

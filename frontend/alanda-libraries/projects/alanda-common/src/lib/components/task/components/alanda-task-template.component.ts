@@ -1,13 +1,13 @@
-import { AlandaTask } from "../interfaces/alanda-task.interface";
 import { Project } from "../../../models/project";
 import { PmcTask } from "../../../models/pmcTask";
 import { Component } from "@angular/core";
 import { FormsRegisterService } from "../../../services/forms-register.service";
 
 @Component({
-    providers: [FormsRegisterService]
+    providers: [FormsRegisterService],
+    template: '',
 })
-export abstract class AlandaTaskTemplate implements AlandaTask {
+export class AlandaTaskTemplateComponent {
 
     constructor(public formsRegisterService: FormsRegisterService){}
 
