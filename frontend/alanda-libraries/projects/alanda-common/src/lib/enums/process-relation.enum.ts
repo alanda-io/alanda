@@ -1,4 +1,4 @@
 export enum ProcessRelation {
-    MAIN,
-    CHILD
+    MAIN = "MAIN",
+    CHILD = "CHILD"
 }
