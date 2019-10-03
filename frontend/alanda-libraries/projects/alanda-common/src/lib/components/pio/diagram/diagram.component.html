@@ -16,15 +16,13 @@
 </style>
 
 
-<p-card>
+<p-panel>
     <p-header>
-        <h3>Process Diagram: 
-            <a style="font-size: 15px; color: dodgerblue" href="/camunda/app/cockpit/default/#/process-instance/{{pid}}/runtime" target="_blank">
-                <span>Camunda Cockpit</span>
-                <!-- <span *ngIf="task.process_name">{{processName}}</span> -->
-            </a>
-            <!-- <span *ngIf="task">/ {{task.task_name}}</span> -->
-        </h3>
+        <a style="color: dodgerblue" href="/camunda/app/cockpit/default/#/process-instance/{{pid}}/runtime" target="_blank">
+            <span>Camunda Cockpit</span>
+            <!-- <span *ngIf="task.process_name">{{processName}}</span> -->
+        </a>
+        <!-- <span *ngIf="task">/ {{task.task_name}}</span> -->
     </p-header>
     <div #ref class="diagram-container"></div>
-</p-card>
+</p-panel>
