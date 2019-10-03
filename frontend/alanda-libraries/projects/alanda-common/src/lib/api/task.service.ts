@@ -3,9 +3,9 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ExceptionHandlingService } from "../services/exception-handling.service";
 import { catchError } from "rxjs/operators";
-import { ServerOptions } from "../../models/serverOptions";
-import { APP_CONFIG, AppSettings } from "../../models/appSettings";
-import { PmcTask } from "../../models/pmcTask";
+import { ServerOptions } from "../models/serverOptions";
+import { APP_CONFIG, AppSettings } from "../models/appSettings";
+import { PmcTask } from "../models/pmcTask";
 
 @Injectable({
   providedIn: 'root'

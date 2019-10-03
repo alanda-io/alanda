@@ -3,8 +3,8 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ExceptionHandlingService } from "../services/exception-handling.service";
 import { catchError } from "rxjs/operators";
-import { APP_CONFIG, AppSettings } from "../../models/appSettings";
-import { PmcComment } from "../../components/comments/models/pmcComment";
+import { APP_CONFIG, AppSettings } from "../models/appSettings";
+import { PmcComment } from "../components/comments/models/pmcComment";
 
 export type commentResponse = {
   comments: PmcComment[], 

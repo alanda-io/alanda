@@ -5,11 +5,11 @@ import { PmcUser } from "../../models/pmcUser";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MessageService } from "primeng/api";
 import { ProjectPropertiesDirective } from "../controller/directives/project.properties.directive";
-import { ProjectPropertiesServiceNg } from "../../core/services/project-properties.service";
-import { PmcUserServiceNg } from "../../core/api/pmcuser.service";
-import { ProjectServiceNg } from "../../core/api/project.service";
-import { FormsRegisterService } from "../../core/services/forms-register.service";
-import { TaskServiceNg } from "../../core/api/task.service";
+import { ProjectPropertiesServiceNg } from "../../services/project-properties.service";
+import { PmcUserServiceNg } from "../../api/pmcuser.service";
+import { ProjectServiceNg } from "../../api/project.service";
+import { FormsRegisterService } from "../../services/forms-register.service";
+import { TaskServiceNg } from "../../api/task.service";
 import { ProjectState } from "../../enums/project-status.enum";
 
 @Component({

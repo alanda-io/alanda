@@ -3,12 +3,12 @@ import { HttpClient } from "@angular/common/http";
 import { Observable, BehaviorSubject } from "rxjs";
 import { tap, catchError } from 'rxjs/operators';
 import { ExceptionHandlingService } from "../services/exception-handling.service";
-import { PmcUser } from "../../models/pmcUser";
-import { AppSettings, APP_CONFIG } from "../../models/appSettings";
-import { ListResult } from "../../models/listResult";
-import { PmcRole } from "../../models/pmcRole";
-import { PmcGroup } from "../../models/pmcGroup";
-import { PmcPermission } from "../../models/pmcPermission";
+import { PmcUser } from "../models/pmcUser";
+import { AppSettings, APP_CONFIG } from "../models/appSettings";
+import { ListResult } from "../models/listResult";
+import { PmcRole } from "../models/pmcRole";
+import { PmcGroup } from "../models/pmcGroup";
+import { PmcPermission } from "../models/pmcPermission";
 
 
 

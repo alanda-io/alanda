@@ -6,11 +6,11 @@ import { Project } from "../../../../models/project";
 import { PmcGroup } from "../../../../models/pmcGroup";
 import { PmcUser } from "../../../../models/pmcUser";
 import { PmcRole } from "../../../../models/pmcRole";
-import { PmcUserServiceNg } from "../../../../core/api/pmcuser.service";
-import { PmcGroupServiceNg } from "../../../../core/api/pmcgroup.service";
-import { PmcRoleServiceNg } from "../../../../core/api/pmcrole.service";
-import { PropertyService } from "../../../../core/api/property.service";
-import { FormsRegisterService } from "../../../../core/services/forms-register.service";
+import { PmcGroupServiceNg } from "../../../../api/pmcgroup.service";
+import { PmcRoleServiceNg } from "../../../../api/pmcrole.service";
+import { PropertyService } from "../../../../api/property.service";
+import { FormsRegisterService } from "../../../../services/forms-register.service";
+import { PmcUserServiceNg } from "../../../../api/pmcuser.service";
 
 @Component({
     selector: 'role-select',

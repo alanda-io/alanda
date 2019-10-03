@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from "@angular/core";
 import { LazyLoadEvent } from "primeng/components/common/api";
-import { PmcGroupServiceNg } from "../../../core/api/pmcgroup.service";
+import { PmcGroupServiceNg } from "../../../api/pmcgroup.service";
 import { mergeMap } from "rxjs/operators";
 import { Subject, Subscription, Observable } from "rxjs";
-import { PmcRoleServiceNg } from "../../../core/api/pmcrole.service";
+import { PmcRoleServiceNg } from "../../../api/pmcrole.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { PmcPermissionServiceNg } from "../../../core/api/pmcpermission.service";
+import { PmcPermissionServiceNg } from "../../../api/pmcpermission.service";
 import { PmcGroup } from "../../../models/pmcGroup";
 import { PmcPermission } from "../../../models/pmcPermission";
 import { ServerOptions } from "../../../models/serverOptions";

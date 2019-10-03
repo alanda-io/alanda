@@ -5,7 +5,7 @@ import { PmcComment } from './models/pmcComment';
 import { DatePipe } from '@angular/common';
 import { CommentTag } from './models/commentTag';
 import { MessageService } from 'primeng/api';
-import { PmcCommentServiceNg } from '../../core/api/pmccomment.service';
+import { PmcCommentServiceNg } from '../../api/pmccomment.service';
 
 @Component({
   selector: 'comments-component',

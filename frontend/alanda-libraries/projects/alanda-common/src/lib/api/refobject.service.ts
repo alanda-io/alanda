@@ -1,8 +1,8 @@
 import { Injectable, Inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable, ReplaySubject } from 'rxjs';
-import { APP_CONFIG, AppSettings } from "../../models/appSettings";
-import { RefObject } from "../../models/refObject";
+import { APP_CONFIG, AppSettings } from "../models/appSettings";
+import { RefObject } from "../models/refObject";
 @Injectable()
 export class RefObjectService {
 

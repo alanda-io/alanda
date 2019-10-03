@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Inject } from "@angular/core";
-import { ProcessServiceNg } from "../../core/api/process.service";
+import { ProcessServiceNg } from "../../api/process.service";
 import { PmcTask } from "../../models/pmcTask";
 import { APP_CONFIG, AppSettings } from "../../models/appSettings";
 

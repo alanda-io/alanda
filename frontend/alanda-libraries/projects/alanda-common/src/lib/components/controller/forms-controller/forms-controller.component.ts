@@ -3,9 +3,9 @@ import { ActivatedRoute, ParamMap } from "@angular/router";
 import { switchMap } from "rxjs/operators";
 import { PmcTask } from "../../../models/pmcTask";
 import { FormsControllerDirective } from "../directives/forms-controller.directive";
-import { ProjectServiceNg } from "../../../core/api/project.service";
-import { FormsServiceNg } from "../../../core/services/forms.service";
-import { TaskServiceNg } from "../../../core/api/task.service";
+import { ProjectServiceNg } from "../../../api/project.service";
+import { FormsServiceNg } from "../../../services/forms.service";
+import { TaskServiceNg } from "../../../api/task.service";
 import { Project } from "../../../models/project";
 import { AlandaTaskTemplate } from "../../task/models/alanda-task-template";
 

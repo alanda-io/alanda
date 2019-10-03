@@ -3,12 +3,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from "rxjs";
 import { ExceptionHandlingService } from "../services/exception-handling.service";
 import { catchError } from "rxjs/operators";
-import { APP_CONFIG, AppSettings } from "../../models/appSettings";
-import { Project } from "../../models/project";
-import { ServerOptions } from "../../components/project-monitor/project-monitor.component";
-import { ProjectType } from "../../models/projectType";
-import { Process } from "../../models/process";
-import { ListResult } from "../../models/listResult";
+import { APP_CONFIG, AppSettings } from "../models/appSettings";
+import { Project } from "../models/project";
+import { ListResult } from "../models/listResult";
+import { ServerOptions } from "../components/project-monitor/project-monitor.component";
+import { Process } from "../models/process";
+import { ProjectType } from "../models/projectType";
 
 @Injectable({
     providedIn: 'root'

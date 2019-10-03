@@ -3,7 +3,7 @@ import { ExceptionHandlingService } from "../services/exception-handling.service
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { AppSettings, APP_CONFIG } from "../../models/appSettings";
+import { AppSettings, APP_CONFIG } from "../models/appSettings";
 
 @Injectable({
     providedIn: 'root'

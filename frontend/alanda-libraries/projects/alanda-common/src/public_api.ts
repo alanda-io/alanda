@@ -2,23 +2,23 @@
  * Public API Surface of alanda-common
  */
 
-export * from './lib/core/api/refobject.service';
-export * from './lib/core/api/task.service';
-export * from './lib/core/api/pmcuser.service';
-export * from './lib/core/api/pmcrole.service';
-export * from './lib/core/api/pmcgroup.service';
-export * from './lib/core/api/pmcpermission.service';
-export * from './lib/core/api/document.service';
-export * from './lib/core/api/project.service';
-export * from './lib/core/services/authorization.service';
-export * from './lib/core/services/exception-handling.service';
-export * from './lib/core/services/forms.service';
-export * from './lib/core/services/project-properties.service';
-export * from './lib/core/services/project-details.service';
-export * from './lib/core/services/forms-register.service';
+export * from './lib/api/refobject.service';
+export * from './lib/api/task.service';
+export * from './lib/api/pmcuser.service';
+export * from './lib/api/pmcrole.service';
+export * from './lib/api/pmcgroup.service';
+export * from './lib/api/pmcpermission.service';
+export * from './lib/api/document.service';
+export * from './lib/api/project.service';
+export * from './lib/services/authorization.service';
+export * from './lib/services/exception-handling.service';
+export * from './lib/services/forms.service';
+export * from './lib/services/project-properties.service';
+export * from './lib/services/project-details.service';
+export * from './lib/services/forms-register.service';
 
-export * from './lib/core/interceptors/basic-auth.interceptor';
-export * from './lib/core/interceptors/error.interceptor';
+export * from './lib/interceptors/basic-auth.interceptor';
+export * from './lib/interceptors/error.interceptor';
 
 export * from './lib/models/pmcUser';
 export * from './lib/models/pmcTask';

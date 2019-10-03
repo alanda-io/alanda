@@ -2,8 +2,8 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { SelectItem } from "primeng/api";
 import { FormGroup, FormBuilder, Validators, AbstractControl } from "@angular/forms";
-import { TaskServiceNg } from "../../../../core/api/task.service";
-import { FormsRegisterService } from "../../../../core/services/forms-register.service";
+import { TaskServiceNg } from "../../../../api/task.service";
+import { FormsRegisterService } from "../../../../services/forms-register.service";
 
 @Component({
     selector: 'simple-select',

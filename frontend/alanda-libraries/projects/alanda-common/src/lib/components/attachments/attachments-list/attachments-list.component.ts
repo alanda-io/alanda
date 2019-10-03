@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { SimpleDocument } from '../models/simple-document';
-import { DocumentServiceNg } from '../../../core/api/document.service';
+import { DocumentServiceNg } from '../../../api/document.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({

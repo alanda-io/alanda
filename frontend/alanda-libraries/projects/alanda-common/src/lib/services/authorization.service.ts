@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { PmcUser } from "../../models/pmcUser";
+import { PmcUser } from "../models/pmcUser";
 
 @Injectable()
 export class AuthorizationServiceNg {

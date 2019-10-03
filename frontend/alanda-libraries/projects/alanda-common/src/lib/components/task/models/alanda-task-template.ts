@@ -1,8 +1,8 @@
 import { AlandaTask } from "../interfaces/alanda-task.interface";
 import { Project } from "../../../models/project";
 import { PmcTask } from "../../../models/pmcTask";
-import { FormsRegisterService } from "../../../core/services/forms-register.service";
 import { Component } from "@angular/core";
+import { FormsRegisterService } from "../../../services/forms-register.service";
 
 @Component({
     providers: [FormsRegisterService]

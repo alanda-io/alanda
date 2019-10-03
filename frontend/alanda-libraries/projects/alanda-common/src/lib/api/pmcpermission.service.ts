@@ -3,8 +3,8 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ExceptionHandlingService } from "../services/exception-handling.service";
 import { catchError } from "rxjs/operators";
-import { APP_CONFIG, AppSettings } from "../../models/appSettings";
-import { PmcPermission } from "../../models/pmcPermission";
+import { APP_CONFIG, AppSettings } from "../models/appSettings";
+import { PmcPermission } from "../models/pmcPermission";
 
 
 @Injectable({

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AuthorizationServiceNg } from "./authorization.service";
-import { PmcUser } from "../../models/pmcUser";
+import { PmcUser } from "../models/pmcUser";
 
 @Injectable({
     providedIn: 'root'

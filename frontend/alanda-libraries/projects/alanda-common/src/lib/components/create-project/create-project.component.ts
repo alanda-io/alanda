@@ -4,7 +4,7 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { ProjectType } from '../../models/projectType';
 import { Project } from '../../models/project';
-import { ProjectServiceNg } from '../../core/api/project.service';
+import { ProjectServiceNg } from '../../api/project.service';
 
 @Component({
   selector: 'create-project-component',

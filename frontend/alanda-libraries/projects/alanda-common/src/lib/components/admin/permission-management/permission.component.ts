@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from "@angular/core";
 import { Subject, Subscription, Observable } from "rxjs";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { PmcPermissionServiceNg } from "../../../core/api/pmcpermission.service";
+import { PmcPermissionServiceNg } from "../../../api/pmcpermission.service";
 import { PmcPermission } from "../../../models/pmcPermission";
 
 @Component({

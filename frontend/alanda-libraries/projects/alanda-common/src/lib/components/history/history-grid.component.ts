@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { HistoryServiceNg } from "../../core/api/history.service";
+import { HistoryServiceNg } from "../../api/history.service";
 
 @Component({
     selector: 'history-grid-component',

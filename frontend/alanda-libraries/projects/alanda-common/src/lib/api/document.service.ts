@@ -3,9 +3,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ExceptionHandlingService } from '../services/exception-handling.service';
 import { catchError } from "rxjs/operators";
-import { APP_CONFIG, AppSettings } from '../../models/appSettings';
-import { ExtendedTreeNode } from '../../components/attachments/models/tree-node';
-import { SimpleDocument } from '../../components/attachments/models/simple-document';
+import { APP_CONFIG, AppSettings } from '../models/appSettings';
+import { ExtendedTreeNode } from '../components/attachments/models/tree-node';
+import { SimpleDocument } from '../components/attachments/models/simple-document';
 
 @Injectable({
   providedIn: 'root'

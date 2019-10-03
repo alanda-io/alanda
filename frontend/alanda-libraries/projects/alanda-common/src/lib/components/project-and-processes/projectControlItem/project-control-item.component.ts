@@ -1,6 +1,6 @@
 import { OnInit, Component, Input } from "@angular/core";
 import { MessageService } from "primeng/api";
-import { ProjectServiceNg } from "../../../core/api/project.service";
+import { ProjectServiceNg } from "../../../api/project.service";
 
 @Component({
     selector: 'project-control-item',

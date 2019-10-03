@@ -3,11 +3,11 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { ExceptionHandlingService } from "../services/exception-handling.service";
 import { catchError } from "rxjs/operators";
-import { AppSettings, APP_CONFIG } from "../../models/appSettings";
-import { PmcGroup } from "../../models/pmcGroup";
-import { ListResult } from "../../models/listResult";
-import { PmcPermission } from "../../models/pmcPermission";
-import { PmcRole } from "../../models/pmcRole";
+import { AppSettings, APP_CONFIG } from "../models/appSettings";
+import { PmcGroup } from "../models/pmcGroup";
+import { ListResult } from "../models/listResult";
+import { PmcPermission } from "../models/pmcPermission";
+import { PmcRole } from "../models/pmcRole";
 
 
 @Injectable({

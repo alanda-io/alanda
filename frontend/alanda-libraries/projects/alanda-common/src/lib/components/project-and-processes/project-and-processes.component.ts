@@ -1,7 +1,7 @@
 import { OnInit, Component, Input } from "@angular/core";
 import { Project } from "../../models/project";
 import { PmcTask } from "../../models/pmcTask";
-import { ProjectServiceNg } from "../../core/api/project.service";
+import { ProjectServiceNg } from "../../api/project.service";
 
 @Component({
     selector: 'project-and-processes',
