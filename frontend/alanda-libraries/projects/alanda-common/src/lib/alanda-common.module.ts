@@ -82,7 +82,7 @@ import { SelectComponent } from './components/task/form-variables/simple-select/
 import { SelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
 import { DateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
 import { DropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
-import { AlandaTaskTemplateComponent } from './components/task/components/alanda-task-template.component';
+import { AlandaTaskTemplateComponent } from './components/task/template/alanda-task-template.component';
 
 @NgModule({
   imports: [

@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { AppSettings, APP_CONFIG } from "../models/appSettings";
 
+export type Property = {entityId: number, entityType: string, key: string, pmcProjectGuid: number, value: any, valueType: string};
 @Injectable({
     providedIn: 'root'
   })
@@ -18,11 +19,11 @@ import { AppSettings, APP_CONFIG } from "../models/appSettings";
         this.endpointUrl = config.API_ENDPOINT + "/pmc-property";
       }
 
-    setDate(entityId, entityType, projectGuid, key, value): Observable<any> {
+    setDate(entityId, entityType, projectGuid, key, value): Observable<Property> {
         return this.set(entityId, entityType, projectGuid, key, value, 'DATE');
     }
 
-    setString(entityId, entityType, projectGuid, key, value): Observable<any> {
+    setString(entityId, entityType, projectGuid, key, value): Observable<Property> {
         return this.set(entityId, entityType, projectGuid, key, value, 'STRING');
     }
 
@@ -44,7 +45,7 @@ import { AppSettings, APP_CONFIG } from "../models/appSettings";
         return this.http.get<any>(`${this.endpointUrl}/get?pmc-project-guid=${projectGuid}&key=${key}'`).pipe(catchError(this.handleError('getGroupRole')));
     } */
 
-    set(entityId, entityType, projectGuid, key, value, valueType): Observable<any>{
+    set(entityId, entityType, projectGuid, key, value, valueType): Observable<Property>{
         let obj = {
             entityId: entityId,
             entityType: entityType,
@@ -53,10 +54,10 @@ import { AppSettings, APP_CONFIG } from "../models/appSettings";
             value: value,
             valueType: valueType
         }
-        return this.http.post<any>(`${this.endpointUrl}/set`, obj).pipe(catchError(this.handleError('setProperty')));
+        return this.http.post<Property>(`${this.endpointUrl}/set`, obj).pipe(catchError(this.handleError('setProperty')));
     }
 
-    get(entityId, entityType, projectGuid, key): Observable<any> {
+    get(entityId, entityType, projectGuid, key): Observable<{value: string}> {
         let urlString = '/get?';
         if(entityId) {
             urlString += 'entity-id=' + entityId + '&';
@@ -68,6 +69,6 @@ import { AppSettings, APP_CONFIG } from "../models/appSettings";
             urlString += 'pmc-project-guid=' + projectGuid + '&'; 
         }
         urlString += 'key=' + key;
-        return this.http.get<any>(`${this.endpointUrl}${urlString}`).pipe(catchError(this.handleError('getProperty')));
+        return this.http.get<{value: string}>(`${this.endpointUrl}${urlString}`).pipe(catchError(this.handleError('getProperty')));
     }
 }

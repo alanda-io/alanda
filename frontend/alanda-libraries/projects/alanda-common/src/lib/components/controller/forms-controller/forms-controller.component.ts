@@ -7,7 +7,7 @@ import { ProjectServiceNg } from "../../../api/project.service";
 import { FormsServiceNg } from "../../../services/forms.service";
 import { TaskServiceNg } from "../../../api/task.service";
 import { Project } from "../../../models/project";
-import { AlandaTaskTemplateComponent } from "../../task/components/alanda-task-template.component";
+import { AlandaTaskTemplateComponent } from "../../task/template/alanda-task-template.component";
 
 @Component({
     selector: 'forms-controller-component',

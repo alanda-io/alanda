@@ -23,11 +23,11 @@ export class FormsRegisterService {
     return this.formGroup;
   }
 
-  public registerForm(formGroup: FormGroup, name: string): void {
+  public registerForm(formGroup: FormGroup, identifier: string): void {
     if(!this.formGroup) {
       this.formGroup = new FormGroup({});
     }
-    this.formGroup.addControl(name, formGroup);
+    this.formGroup.addControl(identifier, formGroup);
   }
 
   public clear() {
@@ -49,6 +49,7 @@ export class FormsRegisterService {
       this.loading = true;
       this.taskService.complete(task.task_id).subscribe(
         res => {
+          this.clear();
           this.messageService.add({severity:'success', summary:'Task completed', detail: `Task ${task.task_name} has been completed`})
           this.router.navigate(['tasks/list']);
         },
