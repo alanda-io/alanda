@@ -10,6 +10,7 @@ import { PmcUserServiceNg } from "../../core/api/pmcuser.service";
 import { ProjectServiceNg } from "../../core/api/project.service";
 import { FormsRegisterService } from "../../core/services/forms-register.service";
 import { TaskServiceNg } from "../../core/api/task.service";
+import { ProjectState } from "../../enums/project-status.enum";
 
 @Component({
     selector: 'project-header-component',
@@ -61,7 +62,7 @@ import { TaskServiceNg } from "../../core/api/task.service";
           if(this.task){
             this.projectHeaderForm.addControl('taskDueDate', this.fb.control(new Date(this.task.due), Validators.required));
           }
-          if(this.project.status.toLowerCase() === 'canceled'){
+          if(this.project.status.valueOf() === ProjectState.CANCELED.valueOf()){
             this.projectHeaderForm.disable();
           }
           this.formsRegisterService.registerForm(this.projectHeaderForm, "projectHeaderForm");
@@ -70,10 +71,11 @@ import { TaskServiceNg } from "../../core/api/task.service";
     updateProject() {
         this.project.dueDate = this.projectHeaderForm.get('projectDueDate').value.toISOString().substring(0,10);
         this.projectService.updateProject(this.project).subscribe(res => {
-            if(res.data.version){
+            console.log("res", res);
+            /* if(res.data.version){
                 this.project.version = res.data.version;
-            }},
-            error => this.messageService.add({severity:'error', summary:'Update Project', detail: error.message}));
+            }}, */
+        },error => this.messageService.add({severity:'error', summary:'Update Project', detail: error.message}));
     }
 
     searchTag(event: Event) {

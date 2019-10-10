@@ -2,6 +2,23 @@ import { OnInit, Component, Input } from "@angular/core";
 import { Project } from "../../models/project";
 import { PmcTask } from "../../models/pmcTask";
 import { ProjectServiceNg } from "../../core/api/project.service";
+import { Process } from "../../models/process";
+import { ProcessRelation } from "../../enums/process-relation.enum";
+
+interface ProjectTree {
+  id: number;
+  title: string;
+  projectId: string;
+  isMainViewProject: boolean;
+  nodes: ProjectTree[];
+}
+
+export interface FlattenProjectResult {
+  project: Project,
+  level: number,
+  initExpanded: boolean
+  processesAndTasks: Map<string, any>;
+}
 
 @Component({
     selector: 'project-and-processes',
@@ -13,81 +30,61 @@ import { ProjectServiceNg } from "../../core/api/project.service";
     @Input() project: Project;
     @Input() task: PmcTask;
 
-    processInstanceId: string;
-    projectTree: any[] = [];
-    projectList: any[];
+    mainProcess: Process;
+    pid: string;
+    projectTree: ProjectTree[] = [];
+    projectList: FlattenProjectResult[] = [];
+    parentList: Project[] = [];
 
     constructor(private pmcProjectService: ProjectServiceNg) {}
 
     ngOnInit() {
-      //let process = this.getMainProcess(this.project.processes);
-      let process = null;
-      if(process) {
-        this.processInstanceId = process.processInstanceId;
-      } else if(this.task) {
-        this.processInstanceId = this.task.process_instance_id;
-      }
-      this.pmcProjectService.getProjectTreeByGuid(this.project.guid).subscribe(
-        project => {
-          //TODO: parentProjects, flattenChildProjects etc
-          this.loadProjectTree(project, this.project.guid);
-          /* for key of data
-          promise[key] = data[key]
-          return data */
-
-
-          /* for parent in pmcProject.parents
-          scope.parentList.push(parent)
-        if scope.parentList.length > 0
-          scope.parentsExpanded = true
-
-        f = flattenChildProjects(pmcProject, 0, [])
-        pmcProject.visible = true
-        scope.projectList.length = 0
-        for c in f
-          scope.projectList.push(c)
-
-        loadProjectTree(pmcProject, scope.pmcProject.guid)
-        scope.loadingInProgress-- */
-
-        });
-        // TODO: handle error
-       
-
+      this.mainProcess = this.getMainProcess(this.project.processes);
+      this.pid = this.task ? this.task.process_instance_id : this.mainProcess.processInstanceId;
+      this.pmcProjectService.getProjectTreeByGuid(this.project.guid).subscribe(project => {
+        for(let parent of project.parents) {
+          this.parentList.push(parent);
+        }
+        this.flattenChildProjects(project, 0, []);
+        this.loadProjectTree(project, this.project.guid);
+        //TODO: flattenChildProjects, push to parentList
+      });
     }
 
-    loadProjectTree(parentProject, mainViewProjectGuid) {
+    private loadProjectTree(parentProject: Project, mainViewProjectGuid: number) {
       this.projectTree.push(this.parsePmcProjectForTree(parentProject, mainViewProjectGuid))
     }
 
-    parsePmcProjectForTree(project, mainViewProjectGuid) {
+    private parsePmcProjectForTree(project: Project, mainViewProjectGuid: number): ProjectTree {
       let isMainViewProject = false;
-      if(project.guid == mainViewProjectGuid) {
+      if(project.guid === mainViewProjectGuid) {
         isMainViewProject = true;
         this.project = project;
       }
 
-      let result:any  = {};
-      result.id = project.guid;
-      result.title = project.projectId + " (" + project.pmcProjectType.name + ")";
-      result.projectId = project.projectId;
-      result.isMainViewProject = isMainViewProject;
-      result.nodes = [];
-      if(project.children) {
-        project.children.forEach(child => {
-          result.nodes.push(this.parsePmcProjectForTree(child, mainViewProjectGuid));
-        });
-      }
+      let result: ProjectTree = {
+        id: project.guid,
+        title: project.projectId + ' (' + project.pmcProjectType.name + ')',
+        projectId: project.projectId,
+        isMainViewProject: isMainViewProject,
+        nodes: []
+      };
+      // TODO: iterate over children, recursive call
       return result;
     }
 
-    getMainProcess(processes): any {
-      processes.forEach(p => {
-        if(p.status == 'MAIN') {
-          return p;
+    private getMainProcess(processes: Process[]): Process {
+      return processes.filter(process => process.relation == ProcessRelation.MAIN)[0];
+    }
+
+    private flattenChildProjects(project: Project, level: number, result: FlattenProjectResult[]) {
+      this.pmcProjectService.getProcessesAndTasksForProject(project.guid).subscribe(res => {
+        let flattenProject: FlattenProjectResult = {project: project, level: level, initExpanded: !level, processesAndTasks: res};
+        this.projectList.push(flattenProject);
+        for(let child of project.children) {
+          this.flattenChildProjects(child, level + 1, result);
         }
       });
-      return null;
     }
   
   }

@@ -2,7 +2,7 @@
 import { Component, OnInit, Input  } from "@angular/core";
 import { MessageService } from "primeng/api";
 import { FormGroup, FormControl } from "@angular/forms";
-import { ServerOptions } from "../../../../components/project-monitor/project-monitor.component";
+import { ServerOptions } from "../../../project-monitor/project-monitor.component";
 import { PmcUserServiceNg } from "../../../../core/api/pmcuser.service";
 import { PropertyService } from "../../../../core/api/property.service";
 

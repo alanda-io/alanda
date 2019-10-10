@@ -1,6 +1,10 @@
 import { OnInit, Component, Input } from "@angular/core";
-import { MessageService } from "primeng/api";
-import { ProjectServiceNg } from "../../../core/api/project.service";
+import { Process } from "../../../models/process";
+import { ProcessRelation } from "../../../enums/process-relation.enum";
+import { PmcTask } from "../../../models/pmcTask";
+import { Router } from "@angular/router";
+import { FlattenProjectResult } from "../project-and-processes.component";
+import { Project } from "../../../models/project";
 
 @Component({
     selector: 'project-control-item',
@@ -9,40 +13,52 @@ import { ProjectServiceNg } from "../../../core/api/project.service";
   })
   export class ProjectControlItemComponent implements OnInit {
 
-    @Input() projectItem: any;
-
-    constructor(private pmcProjectService: ProjectServiceNg, private messageService: MessageService) {
-
-    }
+    @Input() info: FlattenProjectResult;
+    processInfoArray: any[] = [];
+    showProcessTasks: any[] = [];
+    
+    constructor(private router: Router) {}
 
     ngOnInit() {
-      console.log("project-control-item INIT");
-      console.log("projectItem", this.projectItem);
-      //let process = this.getMainProcess(this.pro)
+      // TODO: projectTypeConfig, subprocessProperties
+
+      // TODO: get main Process (better to pass as an input)
+      // TODO: get Phases for Project, create PhaseMap
+      this.loadProcesses();
     }
 
-    getMainProcess(processes): any {
-      processes.forEach(p => {
-        if(p.status == 'MAIN') {
-          return p;
+    private loadProcesses() {
+      let allowedProcesses: Process[] = [];
+
+      for(let aProcess of this.info.processesAndTasks['allowed']) {
+        allowedProcesses.push(aProcess);
+      }
+
+      let activeProcesses: Process[] = this.info.processesAndTasks['active'];
+      for(let process of activeProcesses) {
+        // TODO: hide or show processes, check auth
+
+        if(!process.businessObject && process.relation == ProcessRelation.MAIN) {
+          process.businessObject = this.info.project.refObjectIdName;
         }
-      });
-      return null;
+
+        if(!process.label) {
+          for(let allowedProcess of allowedProcesses) {
+            // TODO: set label, check auth
+          }
+        }
+
+        if(process.phase && process.phase != 'default') {
+          //TODO: set process start
+        }
+
+        this.processInfoArray.push(process);
+      }
+
     }
 
-
-
-    /* proc = pmcProjectService.getMainProcessFromProject(scope.project)
-      if proc?
-        scope.processInstanceId = proc.processInstanceId
-
-      pmcProjectService.getPhasesForProject(scope.project.guid)
-        .then((phases) ->
-          scope.phaseMap = {}
-          for p in phases
-            scope.phaseMap[p.pmcProjectPhaseDefinition.idName] = p
-
-          loadProcesses() */
-  
+    public openForm(task: PmcTask) {
+      this.router.navigate([`forms/${task.formKey}/${task.task_id}`]);
+    }
 
   }

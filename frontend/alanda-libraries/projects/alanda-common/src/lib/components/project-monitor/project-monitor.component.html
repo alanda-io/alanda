@@ -55,7 +55,7 @@
                   </ng-template>
                   <ng-template pTemplate="header" let-columns>
                     <tr>
-                      <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field" [ngClass]="'ng-ui-table'" [style.width]="col.width + 'px'">
+                      <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field" ngClass="ng-ui-table" [style.width]="col.width + 'px'">
                           <span style="white-space: nowrap">{{col.displayName}}<p-sortIcon></p-sortIcon></span>
                       </th>
                     </tr>

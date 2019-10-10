@@ -1,4 +1,4 @@
-export class ListResult<T> {
-  public total: number;
-  public results: T[];
+export type ListResult<T> = {
+  total: number;
+  results: T[];
 }

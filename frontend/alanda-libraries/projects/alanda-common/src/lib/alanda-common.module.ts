@@ -82,7 +82,7 @@ import { SelectComponent } from './components/task/form-variables/simple-select/
 import { SelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
 import { DateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
 import { DropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
-
+import { AccordionModule } from 'primeng/accordion';
 @NgModule({
   imports: [
     CommonModule,
@@ -117,7 +117,8 @@ import { DropdownSelectComponent } from './components/task/form-variables/dropdo
     InputTextareaModule,
     FieldsetModule,
     CalendarModule,
-    MessageModule
+    MessageModule,
+    AccordionModule
   ],
   declarations: [
     UserComponent,

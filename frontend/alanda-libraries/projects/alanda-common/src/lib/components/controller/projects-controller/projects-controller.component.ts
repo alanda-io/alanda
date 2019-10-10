@@ -4,6 +4,7 @@ import { switchMap } from "rxjs/operators";
 import { ProjectDetailsDirective } from "../../project-header/directives/project-details-controller.directive";
 import { ProjectServiceNg } from "../../../core/api/project.service";
 import { ProjectDetailsServiceNg } from "../../../core/services/project-details.service";
+import { Project } from "../../../models/project";
 
 
 @Component({
@@ -33,7 +34,7 @@ import { ProjectDetailsServiceNg } from "../../../core/services/project-details.
         })
     }
 
-    loadProjectDetailsComponent(project: any) {
+    private loadProjectDetailsComponent(project: Project) {
       let componentFactory = this.componentFactoryResolver
           .resolveComponentFactory(this.projectDetailsService.getPropsForType(project.projectTypeIdName));
       let viewContainerRef = this.projectDetailsHost.viewContainerRef;
