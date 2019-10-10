@@ -45,15 +45,17 @@
         <div *ngFor="let task of row.tasks">
             <div *ngIf="showProcessTasks[row.guid + row.processInstanceId] || row.relation == 'MAIN'">
 
-                <!-- task -->
-                <div *ngIf="task.actinst_type == 'task'">
-                    <a (click)="openForm(task)" href="Javascript:void(0)">{{task.task_name}}</a>
-                </div>
+                <div class="p-grid">
+                    <!-- task -->
+                    <div *ngIf="task.actinst_type == 'task'" >
+                        <a (click)="openForm(task)" href="Javascript:void(0)">{{task.task_name}}</a>
+                    </div>
 
-                <!-- activity -->
-                <div *ngIf="task.actinst_type == 'activity'">
-                    <span class="fa fa-clock-o"></span>
-                    <strong> {{task.task_name}}</strong>
+                    <!-- activity -->
+                    <div *ngIf="task.actinst_type == 'activity'">
+                        <span class="fa fa-clock-o"></span>
+                        <strong> {{task.task_name}}</strong>
+                    </div>
                 </div>
             </div>
         </div>
