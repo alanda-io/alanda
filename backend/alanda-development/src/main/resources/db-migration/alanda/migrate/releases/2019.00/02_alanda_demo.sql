@@ -22,9 +22,9 @@ insert into pmc_group
 values (3, 'team-blue', 'Team Blue', 'alanda', sysdate, 1, 0, 1);
 
 Insert into PMC_ROLE (GUID, VERSION, NAME)
-values (1, 0, "vacation-requestor");
+values (1, 0, 'vacation-requestor');
 Insert into PMC_ROLE (GUID, VERSION, NAME)
-values (2, 0, "vacation-approver");
+values (2, 0, 'vacation-approver');
 
 select *
 from pmc_user;
