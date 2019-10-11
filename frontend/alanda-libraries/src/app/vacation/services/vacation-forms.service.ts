@@ -3,8 +3,7 @@ import { Component } from "@angular/compiler/src/core";
 import { PrepareVacationRequestComponent } from "../components/task-forms/prepare-vacation-request.component";
 import { CheckVacationRequestComponent } from "../components/task-forms/check-vacation-request.component";
 import { ModifyVacationRequestComponent } from "../components/task-forms/modify-vacation-request.component";
-import { PerformHandoverActivitiesComponent } from "../components/task-forms/perform-handover-activities.component";
-import { InformSubstituteComponent } from "../components/task-forms/inform-substitute.component";
+import { DefaultTaskComponent } from "../components/task-forms/default-task-template.component";
 
 @Injectable()
 export class VacationFormsService {
@@ -16,8 +15,8 @@ export class VacationFormsService {
     this.propertyComponents.set('vacation.prepare-vacation-request', PrepareVacationRequestComponent);
     this.propertyComponents.set('vacation.check-vacation-request', CheckVacationRequestComponent);
     this.propertyComponents.set('vacation.modify-vacation-request', ModifyVacationRequestComponent);
-    this.propertyComponents.set('vacation.perform-handover-activities', PerformHandoverActivitiesComponent);
-    this.propertyComponents.set('vacation.inform-substitute', InformSubstituteComponent);
+    this.propertyComponents.set('vacation.perform-handover-activities', DefaultTaskComponent);
+    this.propertyComponents.set('vacation.inform-substitute', DefaultTaskComponent);
   }
 
   getFormByKey(key : string): Type<Component> {

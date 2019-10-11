@@ -1,13 +1,11 @@
-<p-panel #panel [toggleable]="true">
+<p-panel [toggleable]="true">
   <p-header>
     <span class="ui-panel-title title">Projects & Processes</span>
   </p-header>
 
-  <!-- TODO. ngFor for multiple projects in projectList -->
-  <project-control-item
-      projectItem="project"
-      config="config"
-      read-only="readOnly">
-  </project-control-item>
+  <!-- TODO: Parent Projects -->
+  <p-accordion>
+    <project-control-item *ngFor="let value of projectList" [info]="value"></project-control-item>
+  </p-accordion>
 
 </p-panel>

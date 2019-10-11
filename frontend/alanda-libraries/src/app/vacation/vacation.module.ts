@@ -3,14 +3,13 @@ import { VacationProjectDetailsComponent } from "./components/project-details/va
 import { PrepareVacationRequestComponent } from "./components/task-forms/prepare-vacation-request.component";
 import { CheckVacationRequestComponent } from "./components/task-forms/check-vacation-request.component";
 import { ModifyVacationRequestComponent } from "./components/task-forms/modify-vacation-request.component";
-import { PerformHandoverActivitiesComponent } from "./components/task-forms/perform-handover-activities.component";
-import { InformSubstituteComponent } from "./components/task-forms/inform-substitute.component";
 import { ProjectPropertiesVacationComponent } from "./components/project-properties/project.properties.vacation.component";
 import { FieldsetModule } from "primeng/fieldset";
 import { AlandaCommonModule } from "projects/alanda-common/src/public_api";
 import { CardModule } from "primeng/card";
 import { CommonModule } from "@angular/common";
 import { ButtonModule } from "primeng/button";
+import { DefaultTaskComponent } from "./components/task-forms/default-task-template.component";
 
 @NgModule({
   imports:[
@@ -25,17 +24,14 @@ import { ButtonModule } from "primeng/button";
     PrepareVacationRequestComponent,
     CheckVacationRequestComponent,
     ModifyVacationRequestComponent,
-    PerformHandoverActivitiesComponent,
-    InformSubstituteComponent,
     ProjectPropertiesVacationComponent,
+    DefaultTaskComponent
   ],
   exports: [
     VacationProjectDetailsComponent,
     PrepareVacationRequestComponent,
     CheckVacationRequestComponent,
     ModifyVacationRequestComponent,
-    PerformHandoverActivitiesComponent,
-    InformSubstituteComponent,
     ProjectPropertiesVacationComponent,
     FieldsetModule,
     CardModule,
@@ -47,9 +43,8 @@ import { ButtonModule } from "primeng/button";
     PrepareVacationRequestComponent,
     CheckVacationRequestComponent,
     ModifyVacationRequestComponent,
-    PerformHandoverActivitiesComponent,
-    InformSubstituteComponent,
     ProjectPropertiesVacationComponent,
+    DefaultTaskComponent
   ]
 })
 export class VacationModule { 

@@ -65,7 +65,7 @@ export class UserComponent implements OnInit, OnDestroy {
       this.userColumns = [
         {field: 'loginName', header: 'Login'},
         {field: 'firstName', header: 'First Name'},
-        {field: 'surname', header: 'Surame'}
+        {field: 'surname', header: 'Surname'}
       ];
 
       this.userSubscription = this.getSelectedUserUpdateListener().subscribe(

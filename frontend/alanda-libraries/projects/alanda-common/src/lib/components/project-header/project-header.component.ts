@@ -64,13 +64,13 @@ import { ProjectState } from "../../enums/project-status.enum";
             projectDetails: [this.project.comment, Validators.required],
         }); 
     
-        if(this.task){
-        this.projectHeaderForm.addControl('taskDueDate', this.fb.control(new Date(this.task.due), Validators.required));
-        }
-        if(this.project.status === ProjectState.CANCELED){
-        this.projectHeaderForm.disable();
-        }
-        this.formsRegisterService.registerForm(this.projectHeaderForm, "projectHeaderForm");
+          if(this.task){
+            this.projectHeaderForm.addControl('taskDueDate', this.fb.control(new Date(this.task.due), Validators.required));
+          }
+          if(this.project.status.valueOf() === ProjectState.CANCELED.valueOf()){
+            this.projectHeaderForm.disable();
+          }
+          this.formsRegisterService.registerForm(this.projectHeaderForm, "projectHeaderForm");
     }
 
     updateProject() {

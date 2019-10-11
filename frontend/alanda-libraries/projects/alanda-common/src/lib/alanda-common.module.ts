@@ -83,7 +83,7 @@ import { SelectRoleComponent } from './components/task/form-variables/role-selec
 import { DateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
 import { DropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
 import { AlandaTaskTemplateComponent } from './components/task/template/alanda-task-template.component';
-
+import { AccordionModule } from 'primeng/accordion'
 @NgModule({
   imports: [
     CommonModule,
@@ -118,7 +118,8 @@ import { AlandaTaskTemplateComponent } from './components/task/template/alanda-t
     InputTextareaModule,
     FieldsetModule,
     CalendarModule,
-    MessageModule
+    MessageModule,
+    AccordionModule
   ],
   declarations: [
     UserComponent,
