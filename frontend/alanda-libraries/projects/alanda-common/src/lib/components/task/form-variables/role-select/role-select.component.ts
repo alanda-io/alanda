@@ -135,7 +135,9 @@ export class SelectRoleComponent implements OnInit {
         this.propService.get(null, 'group', this.project.guid,  'role_grp_' + this.roleName).pipe(
           concatMap(res => this.groupService.getGroupByGuid(Number(res.value)))
         ).subscribe(group => {
-          this.roleSelectFormGroup.get('selected').setValue({label: group.longName, value: group.guid});
+          if(group) {
+            this.roleSelectFormGroup.get('selected').setValue({label: group.longName, value: group.guid});
+          }
         });
       } 
     }

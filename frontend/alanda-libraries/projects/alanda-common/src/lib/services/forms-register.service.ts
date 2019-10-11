@@ -45,6 +45,8 @@ export class FormsRegisterService {
   }
 
   public submit(task: PmcTask) {
+    console.log('submitting task', task);
+    console.log("checking form..", this.formGroup);
     if(this.isValid() && !this.loading){
       this.loading = true;
       this.taskService.complete(task.task_id).subscribe(
