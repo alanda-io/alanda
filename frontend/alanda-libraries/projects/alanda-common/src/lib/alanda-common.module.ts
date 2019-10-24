@@ -89,6 +89,7 @@ import { DropdownSelectComponent } from './components/forms/variables/dropdown-s
 import { CommentComponent } from './components/comments/comment/comment.component';
 import { MessageModule } from 'primeng/message';
 import { FormsRegisterService } from './services/forms-register.service';
+import { HistoryServiceNg } from './services/rest/history.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -166,7 +167,7 @@ import { FormsRegisterService } from './services/forms-register.service';
     DropdownSelectComponent,
   ],
   exports: [
-    UserComponent,        
+    UserComponent,
     ProjectMonitorComponent,
     AttachmentsComponent,
     AttachmentsListComponent,
@@ -187,7 +188,7 @@ import { FormsRegisterService } from './services/forms-register.service';
     ProjectsControllerComponent,
     FormsControllerDirective,
     ProjectDetailsDirective,
-    PioComponent, 
+    PioComponent,
     DiagramComponent,
     ProcessActivitiesComponent,
     HistoryGridComponent,
@@ -219,7 +220,7 @@ import { FormsRegisterService } from './services/forms-register.service';
     ProjectPropertiesVacationComponent,
   ]
 })
-export class AlandaCommonModule { 
+export class AlandaCommonModule {
 
   public static forRoot(config: AppSettings): ModuleWithProviders {
     return {
@@ -244,6 +245,7 @@ export class AlandaCommonModule {
         MessageService,
         PropertyService,
         FormsRegisterService,
+        HistoryServiceNg,
         {
           provide: APP_CONFIG,
           useValue: config
