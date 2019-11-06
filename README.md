@@ -11,6 +11,7 @@ Refert to ATTRIBUTIONS.txt for the license of external components distributed wi
 # Building alanda from source
 
 ### Requirements :
+
 * docker
 * docker-compose 1.*
 * maven > 3.0
