@@ -19,6 +19,54 @@ Refert to ATTRIBUTIONS.txt for the license of external components distributed wi
 * npm 5.6.0
 * Oracle Database 11g Express Edition Release 11.2.0
 
+### Installing docker and Oracle Database:
+
+To install docker and the Oracle Database, follow the instructions given in this link:
+
+    https://blogs.oracle.com/oraclemagazine/deliver-oracle-database-18c-express-edition-in-containers
+
+#### Optional: Executing the Docker Command without Sudo
+
+If you want to avoid typing `sudo` whenever you run the `docker` command, follow these instructions:
+
+1. Add your `user` to the `docker` group:
+
+    sudo usermod -aG docker ${USER}
+
+2. Apply the new group membership:
+
+    su - ${USER}
+
+   After executing the command, you will get asked to enter your password to continue
+
+3. Proof that the user is now added to the docker group:
+
+    id -nG
+
+### Installing docker and Oracle Database:
+
+To install docker and the Oracle Database, follow the instructions given in this link:
+
+    https://blogs.oracle.com/oraclemagazine/deliver-oracle-database-18c-express-edition-in-containers
+
+#### Optional: Executing the Docker Command without Sudo
+
+If you want to avoid typing `sudo` whenever you run the `docker` command, follow these instructions:
+
+1. Add your `user` to the `docker` group:
+
+    sudo usermod -aG docker ${USER}
+
+2. Apply the new group membership:
+
+    su - ${USER}
+
+   After executing the command, you will get asked to enter your password to continue
+
+3. Proof that the user is now added to the docker group:
+
+    id -nG
+
 ### Note:
 
 The commands in the following guide assume you call them from the alanda root folder after cloning the repository.
