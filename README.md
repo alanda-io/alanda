@@ -17,7 +17,13 @@ Refert to ATTRIBUTIONS.txt for the license of external components distributed wi
 * maven > 3.0
 * nodejs, at least 8.10
 * npm 5.6.0
-* Oracle Database 11g Express Edition Release 11.2.0
+* Oracle Database 11g Express Edition Release >= 11.2.0
+
+### Installing docker and Oracle Database:
+
+To install docker and the Oracle Database, follow the instructions given in this link:
+
+    https://blogs.oracle.com/oraclemagazine/deliver-oracle-database-18c-express-edition-in-containers
 
 ### Note:
 
@@ -54,6 +60,7 @@ Camunda/Wildfly and Elasticsearch should be available on ports 8080 and 9206 res
 
 As oracle **system** or **sys** user:
 
+    alter session set "_ORACLE_SCRIPT"=true;
     create user alanda identified by alanda;
     grant connect,resource, create any view to alanda;
 
