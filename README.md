@@ -21,9 +21,8 @@ Refert to ATTRIBUTIONS.txt for the license of external components distributed wi
 
 ### Installing docker and Oracle Database:
 
-To install docker and the Oracle Database, follow the instructions given in this link:
+To install docker and the Oracle Database, follow the instructions given in this [Oracle blog Post](https://blogs.oracle.com/oraclemagazine/deliver-oracle-database-18c-express-edition-in-containers)
 
-    <https://blogs.oracle.com/oraclemagazine/deliver-oracle-database-18c-express-edition-in-containers>
 
 To ensure installing docker and oracle database is done correctly create, first the `docker network`,
 which is listed under **Local Deployment**. Afterwards use this `docker run` command instead of using the
@@ -49,10 +48,7 @@ You may need to change some path values if you change to a different folder!
 
 Install jdbc driver 8 and 7 manually: 
 
-Both files can be downloaded in this link: 
-
-    <https://www.oracle.com/database/technologies/appdev/jdbc-downloads.html>
-
+Both files can be downloaded from [Oracle](https://www.oracle.com/database/technologies/appdev/jdbc-downloads.html).
 Afterwards install them manually: 
 
     mvn install:install-file -DgroupId=com.oracle.jdbc -DartifactId=ojdbc8 -Dversion=18.3.0.0 -Dpackaging=jar -Dfile=/downloaded/path/ojdbc8.jar
