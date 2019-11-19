@@ -29,7 +29,7 @@ which is listed under **Local Deployment**. Afterwards use this `docker run` com
 `docker run` commands given in the link:
 
     docker run --name myDB \
-        -p 51521:1521 \
+        -p 1521:1521 \
         -p 55500:5500 \
         -e ORACLE_PWD=securePassword \
         -e ORACLE_CHARACTERSET=AL32UTF8 \
