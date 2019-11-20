@@ -27,18 +27,18 @@ To install docker and the Oracle Database, follow the instructions given in this
 To ensure installing docker and oracle database is done correctly create, first the `docker network`,
 which is listed under **Local Deployment**. Afterwards use this `docker run` command instead of using the
 `docker run` commands given in the link:
-```
-docker run --name myDB \
-  -p 51521:1521 \
-  -p 55500:5500 \
-  -e ORACLE_PWD=securePassword \
-  -e ORACLE_CHARACTERSET=AL32UTF8 \
-  -v /home/dev/Docker/myDB/oradata:/opt/oracle/oradata \
-  -v /home/dev/Docker/myDB/scripts/setup:/opt/oracle/scripts/setup \
-  -v /home/dev/Docker/myDB/scripts/startup:/opt/oracle/scripts/startup \
-  --network alanda_bpma_bridge \
-  oracle/database:18.4.0-xe
-```
+
+    docker run --name myDB \
+        -p 1521:1521 \
+        -p 55500:5500 \
+        -e ORACLE_PWD=securePassword \
+        -e ORACLE_CHARACTERSET=AL32UTF8 \
+        -v /home/dev/Docker/myDB/oradata:/opt/oracle/oradata \
+        -v /home/dev/Docker/myDB/scripts/setup:/opt/oracle/scripts/setup \
+        -v /home/dev/Docker/myDB/scripts/startup:/opt/oracle/scripts/startup \
+        --network alanda_bpma_bridge \
+        oracle/database:18.4.0-xe
+
 ### Note:
 
 The commands in the following guide assume you call them from the alanda root folder after cloning the repository.
