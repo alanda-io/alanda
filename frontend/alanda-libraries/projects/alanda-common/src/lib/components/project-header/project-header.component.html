@@ -42,6 +42,7 @@
             </span>
         </div>
     </p-header>
+    <p-header></p-header>
     <form [formGroup]="projectHeaderForm">
         <div class="p-grid spacer">
             <div class="p-col-12 p-md-6 p-lg-4">
@@ -49,20 +50,20 @@
                     <div class="p-col-4">
                         <strong>Type (Sub Type):</strong>
                     </div>
-                    <div class="p-col-7" >
+                    <div class="p-col-8" >
                         <span *ngIf="project.subType != null">{{project.subtype}}</span>
                         <span *ngIf="project.subType == null">{{project.pmcProjectType.name}}</span>
                     </div>
                     <div class="p-col-4">
                         <strong>Prio:</strong>
                     </div>
-                    <div class="p-col-7">
+                    <div class="p-col-8">
                         <p-dropdown formControlName="prio" [options]="priorities" (onChange)="updateProject()" optionLabel="label"></p-dropdown>
                     </div>
                     <div class="p-col-4">
                         <strong>Tag(s):</strong>
                     </div>
-                    <div class="p-col-7">
+                    <div class="p-col-8">
                         <p-autoComplete
                             formControlName="tag"
                             [multiple]="true"
@@ -81,20 +82,20 @@
                     <div class="p-col-4" *ngIf="task != null">
                         <strong>Task Due Date:</strong>
                     </div>
-                    <div class="p-col-7" *ngIf="task != null">
+                    <div class="p-col-8" *ngIf="task != null">
                         <p-calendar formControlName="taskDueDate" (onSelect)="updateDueDateOfTask()" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
                         <!-- <p-message *ngIf="true" severity="error" text="Field is required"></p-message> -->
                     </div>
                     <div class="p-col-4">
                         <strong>Project Due Date:</strong>
                     </div>
-                    <div class="p-col-7">
+                    <div class="p-col-8">
                         <p-calendar formControlName="projectDueDate" (onSelect)="updateProject()" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
                     </div>
                     <div class="p-col-4">
                     <strong>Project Title:</strong>
                     </div>
-                    <div class="p-col-7">
+                    <div class="p-col-8">
                         <input pInputText formControlName="projectTitle" type="text" value="{{project.title}}" (change)="updateProject()">
                     </div>
                 </div>

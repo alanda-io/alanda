@@ -1,0 +1,128 @@
+<style>
+  .ui-picklist-item{
+    word-break: break-all;
+  }
+
+  .inputField{
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+</style>
+
+<p-panel>
+  <p-header>Group Management</p-header>
+  <div class="p-grid ui-fluid">
+
+    <!-- Group Table-->
+
+    <div class="p-col-12 p-md-4">
+      <p-table #table [value]="groups" [columns]="groupColumns" dataKey="guid" [paginator]="true" [rows]="15"
+               (onLazyLoad)="onLoadGroups($event)" [lazy]="true" [totalRecords]="groups ? groups.length : 0" [loading]="loading" 
+               [autoLayout]="true" selectionMode="single" [style]="{'font-size': '12px'}" scrollHeight="320px"
+               (onRowSelect)="onGroupSelected($event)" (onRowUnselect)="onGroupUnselected($event)">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+              <strong>{{col.header}}</strong>
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+          </tr>
+          <tr>
+            <th *ngFor="let col of columns">
+              <input pInputText type="text" (input)="table.filter($event.target.value, col.field, col.filterMatchMode)" style="padding: 0.3em">
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-group let-columns="columns">
+          <tr [pSelectableRow]="group">
+            <td *ngFor="let col of columns">
+              {{group[col.field]}}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!-- Info Tabs -->
+
+    <div class="p-col-12 p-md-8">
+      <p-tabView>
+        <p-tabPanel header="General">
+          <div class="p-grid">
+            <div class="p-col-4">
+              <form [formGroup]="groupForm" (ngSubmit)="onFormSubmit()">
+                
+                <div class="inputField">
+                  <span class="ui-float-label">  
+                    <input id="input-guid" type="text" pInputText formControlName="groupName">
+                    <label for="input-guid">Groupname</label>
+                  </span>
+                  <span *ngIf="groupForm.dirty && !groupForm.get('groupName').valid" style="font-size: 10px; color: red">Please enter a groupname</span>
+                </div>
+
+                <div class="inputField">
+                  <span class="ui-float-label">
+                    <input id="input-login" type="text" pInputText formControlName="longName">
+                    <label for="input-login">Longname</label>
+                  </span>
+                  <span *ngIf="groupForm.dirty && !groupForm.get('longName').valid" style="font-size: 10px; color: red">Please enter a group longname</span>
+                </div>
+
+                <div class="inputField">
+                  <span class="ui-float-label">
+                    <input id="input-login" type="text" pInputText formControlName="groupSource">
+                    <label for="input-login">Source</label>
+                  </span>
+                </div>
+
+                <div class="p-grid">
+                  <div class="p-col-12 p-md-6">
+                    <button pButton type="submit" [label]="selectedGroup ? 'Edit Group' : 'Create Group'"></button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="p-col-12 p-md-8">
+              <p-panel header="Users" *ngIf="selectedGroup">
+                <p-scrollPanel [style]="{height:'150px'}">
+                  <div *ngFor="let user of usersInSelectedGroup">
+                    {{user.displayName}}
+                  </div>
+                </p-scrollPanel>
+              </p-panel>
+            </div>
+          </div>                        
+        </p-tabPanel>
+        <p-tabPanel header="Roles" *ngIf="selectedGroup">
+          <ng-template pTemplate="content">
+            <p-pickList [source]="assignedRoles" [target]="availableRoles" sourceHeader="Assigned Roles" 
+                        targetHeader="Available Roles" [responsive]="true" filterBy="name"
+                        [showSourceControls]="false" [showTargetControls]="false">
+              <ng-template let-role pTemplate="item">
+                {{role.name}}
+              </ng-template>
+            </p-pickList>
+            <div class="p-col-12">
+              <p-button label="Update Roles" (click)="updateRoles()"></p-button>
+            </div>
+          </ng-template>
+        </p-tabPanel>
+
+        <p-tabPanel header="Permissions" *ngIf="selectedGroup">
+            <ng-template pTemplate="content">
+              <p-pickList [source]="grantedPermissions" [target]="availablePermissions" sourceHeader="Granted Permissions" 
+                targetHeader="Available Permissions" [responsive]="true" filterBy="name"
+                [showSourceControls]="false" [showTargetControls]="false">
+                <ng-template let-p pTemplate="item">
+                  {{p.key}}
+                </ng-template>
+              </p-pickList>
+              <div class="p-col-12">
+                <p-button label="Update Permissions" (click)="updatePermissions()"></p-button>
+              </div>
+            </ng-template>
+          </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</p-panel>

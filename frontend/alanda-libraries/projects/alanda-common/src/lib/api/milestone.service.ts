@@ -22,12 +22,12 @@ import { catchError } from "rxjs/operators";
         return this.http.get<any>(`${this.endpointUrl}/project/${projectId}/ms/${msIdName}`).pipe(catchError(this.handleError('getByProjectAndMsIdName')));
     }
 
-    public updateByProjectAndMsIdName(projectId: string, msIdName: string, fc: Date, act: Date, reason: string, delFc: boolean, delAct: boolean) {
+    public updateByProjectAndMsIdName(projectId: string, msIdName: string, fc: string, act: string, reason: string, delFc: boolean, delAct: boolean) {
         let url = `${this.endpointUrl}/project/${projectId}/ms/${msIdName}?delFc=${delFc}&delAct=${delAct}`;
         if (reason) {
             url = `${url}&reason=${reason}`;
         }
-        return this.http.put(url, {act: act, fc: fc});
+        return this.http.put(url, {act: act, fc: fc}).pipe(catchError(this.handleError('updateByProjectAndMsIdName')));
     }
     
 }

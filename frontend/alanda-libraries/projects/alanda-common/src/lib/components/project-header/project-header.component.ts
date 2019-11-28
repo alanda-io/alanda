@@ -10,6 +10,7 @@ import { ProjectServiceNg } from "../../api/project.service";
 import { FormsRegisterService } from "../../services/forms-register.service";
 import { TaskServiceNg } from "../../api/task.service";
 import { ProjectState } from "../../enums/project-status.enum";
+import { Utils } from "../../utils/utils";
 
 @Component({
     selector: 'project-header-component',
@@ -74,7 +75,7 @@ import { ProjectState } from "../../enums/project-status.enum";
     }
 
     updateProject() {
-        this.project.dueDate = this.projectHeaderForm.get('projectDueDate').value.toISOString().substring(0,10);
+        this.project.dueDate = Utils.convertUTCDate(this.projectHeaderForm.get('projectDueDate').value).toISOString().substring(0,10);
         this.projectService.updateProject(this.project).subscribe(project => {
             if(project.version){
                 this.project.version = project.version;
@@ -87,7 +88,7 @@ import { ProjectState } from "../../enums/project-status.enum";
     }
 
     public updateDueDateOfTask() {
-        const taskDueDate = new Date(this.projectHeaderForm.get('taskDueDate').value).toISOString().substring(0,10);
+        const taskDueDate = Utils.convertUTCDate(this.projectHeaderForm.get('taskDueDate').value).toISOString().substring(0,10);
         this.taskService.updateDueDateOfTask(this.task.task_id, taskDueDate).subscribe(
           res => this.messageService.add({severity:'success', summary:'Update Due Date Of Task', detail:'Due date of task has successfully been updated'}),
           error => {this.messageService.add({severity:'error', summary:'Update Due Date Of Task', detail: error.message})})

@@ -9,8 +9,10 @@ Insert into PMC_PROJECTTYPE
 --changeset yk:2019-06-camunda-auth runOnChange:false
 Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (1,0,'project:create:VACATION');
 Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (2,0,'project:read:VACATION');
+Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (3,0,'project:write:VACATION');
 Insert into PMC_USER_PERMISSION (REF_USER,REF_PERMISSION) values (1,1);
 Insert into PMC_USER_PERMISSION (REF_USER,REF_PERMISSION) values (1,2);
+Insert into PMC_USER_PERMISSION (REF_USER,REF_PERMISSION) values (1,3);
 
 --changeset fsa:alanda-demo-users-and-groups
 insert into pmc_group
@@ -87,3 +89,17 @@ values (5, 2);
 Insert into PMC_ROLE_PERMISSION (REF_ROLE,REF_PERMISSION) values (1,1);
 Insert into PMC_ROLE_PERMISSION (REF_ROLE,REF_PERMISSION) values (1,2);
 Insert into PMC_ROLE_PERMISSION (REF_ROLE,REF_PERMISSION) values (2,1);
+
+--changeset yko:alanda-demo-milestones
+Insert into PMC_MILESTONE (GUID, IDNAME, DESCRIPTION, CREATED, CREATEUSER, LASTUPDATE, UPDATEUSER, VERSION) values (1, 'VACATION_START', 'Vacation Start', CURRENT_DATE, 1, null, null, 1);
+Insert into PMC_MILESTONE (GUID, IDNAME, DESCRIPTION, CREATED, CREATEUSER, LASTUPDATE, UPDATEUSER, VERSION) values (2, 'VACATION_END', 'Vacation End', CURRENT_DATE, 1, null, null, 1);
+
+--changeset yko:alanda-demo-milestones-permissions
+Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (4,0,'ms:write:VACATION:*:*:VACATION_START:fc');
+Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (5,0,'ms:write:VACATION:*:*:VACATION_END:fc');
+Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (4,0,'ms:write:VACATION:*:*:VACATION_START:act');
+Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (5,0,'ms:write:VACATION:*:*:VACATION_END:act');
+Insert into PMC_ROLE_PERMISSION (REF_ROLE,REF_PERMISSION) values (1,4);
+Insert into PMC_ROLE_PERMISSION (REF_ROLE,REF_PERMISSION) values (1,5);
+Insert into PMC_ROLE_PERMISSION (REF_ROLE,REF_PERMISSION) values (1,6);
+Insert into PMC_ROLE_PERMISSION (REF_ROLE,REF_PERMISSION) values (1,7);

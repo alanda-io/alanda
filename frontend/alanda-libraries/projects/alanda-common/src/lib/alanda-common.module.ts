@@ -50,7 +50,6 @@ import { ProjectDetailsServiceNg } from './services/project-details.service';
 import { MessageService } from 'primeng/api';
 import { MessageModule } from 'primeng/message';
 import { FormsRegisterService } from './services/forms-register.service';
-import { UserComponent } from './components/admin/user-management/user.component';
 import { AttachmentsListComponent } from './components/attachments/attachments-list/attachments-list.component';
 import { AttachmentsTreeComponent } from './components/attachments/attachments-tree/attachments-tree.component';
 import { ProjectMonitorComponent } from './components/project-monitor/project-monitor.component';
@@ -59,9 +58,6 @@ import { MonitorValuesPipe } from './pipes/monitor-values.pipe';
 import { TasklistComponent } from './components/task-list/tasklist.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { TagFilterPipe } from './pipes/tag-filter.pipe';
-import { GroupComponent } from './components/admin/group-management/group.component';
-import { RoleComponent } from './components/admin/role-management/role.component';
-import { PermissionComponent } from './components/admin/permission-management/permission.component';
 import { CommentsComponent } from './components/comments/comments.component';
 import { CommentComponent } from './components/comments/comment/comment.component';
 import { ProjectHeaderComponent } from './components/project-header/project-header.component';
@@ -84,6 +80,11 @@ import { DateSelectComponent } from './components/task/form-variables/date-selec
 import { DropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
 import { AlandaTaskTemplateComponent } from './components/task/template/alanda-task-template.component';
 import { AccordionModule } from 'primeng/accordion'
+import { SelectMilestoneComponent } from './components/task/form-variables/milestone-select/milestone-select.component';
+import { UserManagementComponent } from './components/admin/user-management/user-management.component';
+import { GroupManagementComponent } from './components/admin/group-management/group-management.component';
+import { RoleManagementComponent } from './components/admin/role-management/role-management.component';
+import { PermissionManagementComponent } from './components/admin/permission-management/permission-management.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -122,7 +123,7 @@ import { AccordionModule } from 'primeng/accordion'
     AccordionModule
   ],
   declarations: [
-    UserComponent,
+    UserManagementComponent,
     AttachmentsListComponent,
     AttachmentsTreeComponent,
     ProjectMonitorComponent,
@@ -131,9 +132,9 @@ import { AccordionModule } from 'primeng/accordion'
     TasklistComponent,
     FilterPipe,
     TagFilterPipe,
-    GroupComponent,
-    RoleComponent,
-    PermissionComponent,
+    GroupManagementComponent,
+    RoleManagementComponent,
+    PermissionManagementComponent,
     CommentsComponent,
     CommentComponent,
     ProjectHeaderComponent,
@@ -153,10 +154,10 @@ import { AccordionModule } from 'primeng/accordion'
     SelectRoleComponent,
     DateSelectComponent,
     DropdownSelectComponent,
-    AlandaTaskTemplateComponent
+    SelectMilestoneComponent,
+    AlandaTaskTemplateComponent,
   ],
   exports: [
-    UserComponent,        
     ProjectMonitorComponent,
     AttachmentsComponent,
     AttachmentsListComponent,
@@ -165,10 +166,10 @@ import { AccordionModule } from 'primeng/accordion'
     TasklistComponent,
     FilterPipe,
     TagFilterPipe,
-    RoleComponent,
-    GroupComponent,
-    UserComponent,
-    PermissionComponent,
+    UserManagementComponent,
+    RoleManagementComponent,
+    GroupManagementComponent,
+    PermissionManagementComponent,
     CommentsComponent,
     CommentComponent,
     ProjectHeaderComponent,
@@ -186,6 +187,7 @@ import { AccordionModule } from 'primeng/accordion'
     ProjectControlItemComponent,
     SelectComponent,
     SelectRoleComponent,
+    SelectMilestoneComponent,
     DateSelectComponent,
     DropdownSelectComponent,
     AlandaTaskTemplateComponent

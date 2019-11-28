@@ -27,7 +27,9 @@ public class PmcApplication extends Application {
     classes.add(io.alanda.rest.impl.PmcPermissionRestServiceImpl.class);
     classes.add(io.alanda.rest.impl.PmcHistoryLogRestServiceImpl.class);
     classes.add(io.alanda.rest.impl.PmcFinderRestServiceImpl.class);
-    
+    classes.add(io.alanda.rest.impl.PmcMilestoneRestServiceImpl.class);
+
+
     return classes;
   }
 
