@@ -132,6 +132,12 @@ export class RoleManagementComponent implements OnInit {
 
     updatePermissions() {
       this.selectedRole.permissions = [...this.grantedPermissions];
-      this.pmcRoleService.update(this.selectedRole).subscribe();
+      this.pmcRoleService.update(this.selectedRole).subscribe(
+        res => {
+          this.messageService.add({severity:'success', summary:'Update permissions', detail: 'Permissions have been updated'})
+          this.turboTable.reset();
+        },
+        error => this.messageService.add({severity:'error', summary:'Update permissions', detail: error.message}));
+      );
     }
 }

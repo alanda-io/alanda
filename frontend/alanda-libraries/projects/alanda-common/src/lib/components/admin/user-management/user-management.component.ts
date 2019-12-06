@@ -11,6 +11,7 @@ import { PmcPermission } from "../../../models/pmcPermission";
 import { ServerOptions } from "../../../models/serverOptions";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Table } from "primeng/table";
+import { PmcRole } from "../../../models/pmcRole";
 
 @Component({
   selector: 'alanda-user-management',
@@ -27,8 +28,8 @@ export class UserManagementComponent implements OnInit {
     assignedGroups: PmcGroup[] = [];
     availablePermissions: PmcPermission[] = [];
     grantedPermissions: PmcPermission[] = [];
-    availableRoles: any[] = [];
-    assignedRoles: any[] = [];
+    availableRoles: PmcRole[] = [];
+    assignedRoles: PmcRole[] = [];
 
     userColumns = [
       {field: 'loginName', header: 'Login'},
@@ -211,7 +212,7 @@ export class UserManagementComponent implements OnInit {
     private loadRoles() {
       this.pmcUserService.getEffectiveRolesForUser(this.selectedUser.guid)
       .pipe(
-        mergeMap((roles:any[]) => {
+        mergeMap(roles => {
           this.assignedRoles = roles;
           return this.pmcRoleService.getRoles();
         })
@@ -280,4 +281,34 @@ export class UserManagementComponent implements OnInit {
         error => this.messageService.add({severity:'error', summary:'Update Permissions', detail: error.message})
       );
     }
-}
+
+    moveRole(event) {
+      event.items.forEach(item => {
+        if(item.source) {
+          this.assignedRoles.push(item);
+          this.availableRoles.splice(this.availableRoles.indexOf(item), 1);
+        }
+      })
+    }
+
+    movePermission(event) {
+      event.items.forEach(item => {
+        if(item.source) {
+          this.grantedPermissions.push(item);
+          this.availablePermissions.splice(this.availablePermissions.indexOf(item), 1);
+        }
+      })
+    }
+
+    onTabChange(event) {
+      if(event.index === 1) {
+        this.loadGroups();
+      }
+      if(event.index === 2) {
+        this.loadRoles();
+      }
+      if(event.index === 3) {
+        this.loadPermissions();
+      }
+    }
+  }

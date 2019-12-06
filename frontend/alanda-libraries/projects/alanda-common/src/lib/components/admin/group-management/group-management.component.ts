@@ -153,12 +153,10 @@ export class GroupManagementComponent implements OnInit {
 
     private loadUsers() {
       this.usersInSelectedGroup = [];
-      const roles = this.selectedGroup.roles;
-      roles.forEach(role => {
-        this.pmcUserService.getUsersForRole(role.guid).subscribe(users => {
-          this.usersInSelectedGroup.push(...users);
-        });
+      this.pmcUserService.getUsersByGroupId(this.selectedGroup.guid).subscribe(res => {
+        this.usersInSelectedGroup = res;
       });
+
     }
 
     private loadRoles() {

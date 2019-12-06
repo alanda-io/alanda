@@ -95,7 +95,7 @@ export class PmcUserServiceNg extends ExceptionHandlingService{
   }
 
   getUsersByGroupId(groupId: number): Observable<PmcUser[]> {
-    return this.http.get<PmcUser[]>(`${this.endpointUrl}/repo/getUsersByGroupId/${groupId}`).pipe(catchError(this.handleError('runAsUser')));
+    return this.http.get<PmcUser[]>(`${this.endpointUrl}/repo/getUsersByGroupId/${groupId}`).pipe(catchError(this.handleError('getUsersByGroupId')));
   }
 
   getUsersForRole(roleId: number): Observable<PmcUser[]> {

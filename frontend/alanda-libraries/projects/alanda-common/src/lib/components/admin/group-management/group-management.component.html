@@ -7,6 +7,10 @@
     margin-top: 20px;
     margin-bottom: 20px;
   }
+
+  .ui-panel {
+    margin-top: 20px;
+  }
 </style>
 
 <p-panel>
@@ -29,7 +33,7 @@
           </tr>
           <tr>
             <th *ngFor="let col of columns">
-              <input pInputText type="text" (input)="table.filter($event.target.value, col.field, col.filterMatchMode)" style="padding: 0.3em">
+              <input pInputText type="text" (input)="table.filter($event.target.value, col.field, col.filterMatchMode)">
             </th>
           </tr>
         </ng-template>
@@ -83,7 +87,7 @@
               </form>
             </div>
             <div class="p-col-12 p-md-8">
-              <p-panel header="Users" *ngIf="selectedGroup">
+              <p-panel header="Users" *ngIf="selectedGroup && usersInSelectedGroup.length > 0">
                 <p-scrollPanel [style]="{height:'150px'}">
                   <div *ngFor="let user of usersInSelectedGroup">
                     {{user.displayName}}

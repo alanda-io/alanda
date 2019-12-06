@@ -7,6 +7,10 @@
     margin-top: 20px;
     margin-bottom: 20px;
   }
+
+  .ui-panel {
+    margin-top: 20px;
+  }
 </style>
   
 
@@ -70,7 +74,7 @@
                 </form> 
               </div>    
               <div class="p-col-12 p-md-8">
-                <p-panel header="Users" *ngIf="selectedRole">
+                <p-panel header="Users" *ngIf="selectedRole && usersWithRole.length > 0">
                   <p-scrollPanel [style]="{height:'150px'}">
                     <div *ngFor="let user of usersWithRole">
                       {{user.displayName}}

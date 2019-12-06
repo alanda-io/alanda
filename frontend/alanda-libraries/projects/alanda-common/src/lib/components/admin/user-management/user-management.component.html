@@ -12,6 +12,14 @@
   .ui-scrollpanel-content {
     font-size: 12px;
   }
+
+  #source {
+    float: right;
+  }
+
+  .ui-panel {
+    margin-top: 20px;
+  }
 </style>
 
 <p-panel>
@@ -34,7 +42,7 @@
           </tr>
           <tr>
             <th *ngFor="let col of columns">
-              <input pInputText type="text" (input)="table.filter($event.target.value, col.field, col.filterMatchMode)" style="padding: 0.3em">
+              <input pInputText type="text" (input)="table.filter($event.target.value, col.field, col.filterMatchMode)">
             </th>
           </tr>
         </ng-template>
@@ -50,7 +58,7 @@
 
     <!-- Info Tabs -->
     <div class="p-col-12 p-md-8">
-      <p-tabView>
+      <p-tabView (onChange)="onTabChange($event)">
         <p-tabPanel header="General">
           <div class="p-grid">
             <div class="p-col-4">
@@ -111,25 +119,23 @@
               </form>
             </div>
             <div class="p-col-12 p-md-8" *ngIf="selectedUser">
-              <p-panel header="Roles" *ngIf="assignedRoles.length > 0">
+              <p-panel class="info-panel" header="Roles" *ngIf="assignedRoles.length > 0">
                 <p-scrollPanel [style]="{height:'150px'}">
                   <div *ngFor="let role of assignedRoles">
                     {{role.name}}
                   </div>
                 </p-scrollPanel>
               </p-panel>
-              <br>
-              <p-panel header="Effective Permissions" *ngIf="grantedPermissions.length > 0">
+              <p-panel class="info-panel" header="Effective Permissions" *ngIf="grantedPermissions.length > 0">
                 <p-scrollPanel [style]="{height:'150px'}">
                   <div *ngFor="let perm of grantedPermissions">
                     {{perm.key}}
                   </div>
                 </p-scrollPanel>
               </p-panel>
-              <br>
-              <p-panel header="User Groups" *ngIf="availableGroups.length > 0">
+              <p-panel class="info-panel" header="User Groups" *ngIf="assignedGroups.length > 0">
                 <p-scrollPanel [style]="{height:'150px'}">
-                  <div *ngFor="let group of availableGroups">
+                  <div *ngFor="let group of assignedGroups">
                     {{group.groupName}}
                   </div>
                 </p-scrollPanel>
@@ -138,7 +144,7 @@
           </div>
         </p-tabPanel>
     
-        <p-tabPanel header="Groups" *ngIf="selectedUser">
+        <p-tabPanel header="Groups" *ngIf="selectedUser" (onChange)="test($event)">
             <p-pickList [source]="assignedGroups" [target]="availableGroups" sourceHeader="Assigned Groups" 
                         targetHeader="Available Groups" [style]="{height:'100%'}" [responsive]="true" filterBy="groupName"
                         [showSourceControls]="false" [showTargetControls]="false">
@@ -147,20 +153,20 @@
               </ng-template>
             </p-pickList>
             <div class="p-col-12">
-              <p-button label="Update Groups" (click)="updateGroupsEvent.emit(assignedGroups)"></p-button>
+              <p-button label="Update Groups" (click)="onUpdateGroups()"></p-button>
             </div>
         </p-tabPanel>
     
         <p-tabPanel header="Roles" *ngIf="selectedUser">
             <p-pickList [source]="assignedRoles" [target]="availableRoles" sourceHeader="Assigned Roles" 
                         targetHeader="Available Roles" [responsive]="true" filterBy="name"
-                        [showSourceControls]="false" [showTargetControls]="false">
+                        [showSourceControls]="false" [showTargetControls]="false" (onMoveToTarget)="moveRole($event)">
               <ng-template let-role pTemplate="item">
-                {{role.name}}
+                {{role.name}} <span id="source" *ngIf="role.source">({{role.source}})</span>
               </ng-template>
             </p-pickList>
             <div class="p-col-12">
-              <p-button label="Update Roles" (click)="updateRolesEvent.emit(assignedRoles)"></p-button>
+              <p-button label="Update Roles" (click)="onUpdateRoles()"></p-button>
             </div>
         </p-tabPanel>
     
@@ -169,14 +175,14 @@
                 <div class="p-col-12">
                   <p-pickList [source]="grantedPermissions" [target]="availablePermissions" sourceHeader="Granted Permissions" 
                     targetHeader="Available Permissions" [responsive]="true" filterBy="name"
-                    [showSourceControls]="false" [showTargetControls]="false">
+                    [showSourceControls]="false" [showTargetControls]="false" (onMoveToTarget)="movePermission($event)">
                     <ng-template let-p pTemplate="item">
-                      {{p.key}}
+                      {{p.key}} <span id="source" *ngIf="p.source">({{p.source}})</span>
                     </ng-template>
                   </p-pickList>
                 </div>
                 <div class="p-col-12">
-                  <p-button label="Update Permissions" (click)="onUpdatePermissions(grantedPermissions)"></p-button>
+                  <p-button label="Update Permissions" (click)="onUpdatePermissions()"></p-button>
                 </div>
               </div>
           </p-tabPanel>
