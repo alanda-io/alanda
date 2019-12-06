@@ -10,6 +10,8 @@ export * from './lib/api/pmcgroup.service';
 export * from './lib/api/pmcpermission.service';
 export * from './lib/api/document.service';
 export * from './lib/api/project.service';
+export * from './lib/api/history.service';
+
 export * from './lib/services/authorization.service';
 export * from './lib/services/exception-handling.service';
 export * from './lib/services/forms.service';
@@ -46,3 +48,4 @@ export * from './lib/components/project-header/project-header.component';
 export * from './lib/components/create-project/create-project.component';
 export * from './lib/components/attachments/attachments.component';
 export * from './lib/components/task/template/alanda-task-template.component';
+export * from './lib/components/history/history-grid.component';

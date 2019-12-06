@@ -85,6 +85,7 @@ import { UserManagementComponent } from './components/admin/user-management/user
 import { GroupManagementComponent } from './components/admin/group-management/group-management.component';
 import { RoleManagementComponent } from './components/admin/role-management/role-management.component';
 import { PermissionManagementComponent } from './components/admin/permission-management/permission-management.component';
+import { HistoryServiceNg } from './api/history.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -178,7 +179,7 @@ import { PermissionManagementComponent } from './components/admin/permission-man
     ProjectsControllerComponent,
     FormsControllerDirective,
     ProjectDetailsDirective,
-    PioComponent, 
+    PioComponent,
     DiagramComponent,
     ProcessActivitiesComponent,
     HistoryGridComponent,
@@ -195,7 +196,7 @@ import { PermissionManagementComponent } from './components/admin/permission-man
   entryComponents: [
   ]
 })
-export class AlandaCommonModule { 
+export class AlandaCommonModule {
 
   public static forRoot(config: AppSettings): ModuleWithProviders {
     return {
@@ -220,6 +221,7 @@ export class AlandaCommonModule {
         MessageService,
         PropertyService,
         FormsRegisterService,
+        HistoryServiceNg,
         {
           provide: APP_CONFIG,
           useValue: config
