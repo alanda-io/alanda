@@ -137,7 +137,7 @@ export class RoleManagementComponent implements OnInit {
           this.messageService.add({severity:'success', summary:'Update permissions', detail: 'Permissions have been updated'})
           this.turboTable.reset();
         },
-        error => this.messageService.add({severity:'error', summary:'Update permissions', detail: error.message}));
+        error => this.messageService.add({severity:'error', summary:'Update permissions', detail: error.message})
       );
     }
 }
