@@ -7,8 +7,8 @@ import { ExceptionHandlingService } from "../exceptionHandling.service";
 import { catchError } from "rxjs/operators";
 
 export type commentResponse = {
-  comments: PmcComment[], 
-  filterByRefObject: boolean, 
+  comments: PmcComment[],
+  filterByRefObject: boolean,
   refObjectIdName: string
 }
 
@@ -40,11 +40,11 @@ export class PmcCommentServiceNg extends ExceptionHandlingService{
   }
 
   getCommentsforPid(pid: string): Observable<commentResponse> {
-    return this.http.get<commentResponse>(`${this.endpointUrl}/forProcessInstance/${pid}`).pipe(catchError(this.handleError('getCommentsforPid')));
+    return this.http.get<commentResponse>(`${this.endpointUrl}/forProcessInstance/${pid}`).pipe(catchError(this.handleError<commentResponse>('getCommentsforPid')));
   }
 
   postComment(comment: (commentPostBody | replyPostBody)): Observable<void> {
-    return this.http.post<void>(`${this.endpointUrl}/post`, comment).pipe(catchError(this.handleError('postComment')));
+    return this.http.post<void>(`${this.endpointUrl}/post`, comment).pipe(catchError(this.handleError<void>('postComment')));
   }
 
 }

@@ -17,7 +17,7 @@ import { ExceptionHandlingService } from "../exceptionHandling.service";
 export class PmcUserServiceNg extends ExceptionHandlingService{
 
   private endpointUrl : string;
-  public user$: BehaviorSubject<PmcUser> = new BehaviorSubject(null); 
+  public user$: BehaviorSubject<PmcUser> = new BehaviorSubject(null);
 
 
   constructor(private http: HttpClient,
@@ -27,48 +27,48 @@ export class PmcUserServiceNg extends ExceptionHandlingService{
   }
 
   getUsers(serverOptions: any): Observable<ListResult<PmcUser>> {
-    return this.http.post<ListResult<PmcUser>>(`${this.endpointUrl}/repo`, serverOptions).pipe(catchError(this.handleError('getUsers')));
+    return this.http.post<ListResult<PmcUser>>(`${this.endpointUrl}/repo`, serverOptions).pipe(catchError(this.handleError<ListResult<PmcUser>>('getUsers')));
   }
 
   getUser(guid: number): Observable<PmcUser> {
-    return this.http.get<PmcUser>(`${this.endpointUrl}/repo/${guid}`).pipe(catchError(this.handleError('getUser')));
+    return this.http.get<PmcUser>(`${this.endpointUrl}/repo/${guid}`).pipe(catchError(this.handleError<PmcUser>('getUser')));
   }
 
   getUserByLogin(login: string): Observable<PmcUser> {
-    return this.http.get<PmcUser>(`${this.endpointUrl}/single/${login}`).pipe(catchError(this.handleError('getUserByLogin')));
+    return this.http.get<PmcUser>(`${this.endpointUrl}/single/${login}`).pipe(catchError(this.handleError<PmcUser>('getUserByLogin')));
   }
 
   updateUser(user: PmcUser): Observable<any> {
-    return this.http.put<any>(`${this.endpointUrl}/repo/update`, user).pipe(catchError(this.handleError('updateUser')));
+    return this.http.put<any>(`${this.endpointUrl}/repo/update`, user).pipe(catchError(this.handleError<any>('updateUser')));
   }
 
   save(user: PmcUser): Observable<any> {
-    return this.http.post<PmcUser>(`${this.endpointUrl}/repo/create`, user).pipe(catchError(this.handleError('save')));
+    return this.http.post<PmcUser>(`${this.endpointUrl}/repo/create`, user).pipe(catchError(this.handleError<any>('save')));
   }
 
   getEffectiveRolesForUser(userGuid: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.endpointUrl}/roles/effective/${userGuid}`).pipe(catchError(this.handleError('getEffectiveRolesForUser')));
+    return this.http.get<any[]>(`${this.endpointUrl}/roles/effective/${userGuid}`).pipe(catchError(this.handleError<any[]>('getEffectiveRolesForUser')));
   }
 
   updateRolesForUser(userGuid: number, roles: PmcRole[]): Observable<any> {
-    return this.http.put<any>(`${this.endpointUrl}/roles/update/${userGuid}`, roles).pipe(catchError(this.handleError('updateRolesForUser')));
+    return this.http.put<any>(`${this.endpointUrl}/roles/update/${userGuid}`, roles).pipe(catchError(this.handleError<PmcRole[]>('updateRolesForUser')));
   }
 
   getGroupsForUser(login: string): Observable<PmcGroup[]> {
-    return this.http.get<PmcGroup[]>(`${this.endpointUrl}/groups/${login}`).pipe(catchError(this.handleError('getGroupsForUser')));
+    return this.http.get<PmcGroup[]>(`${this.endpointUrl}/groups/${login}`).pipe(catchError(this.handleError<PmcGroup[]>('getGroupsForUser')));
   }
 
   getEffectivePermissionsForUser(userGuid: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.endpointUrl}/permissions/effective/${userGuid}`).pipe(catchError(this.handleError('getEffectivePermissionsForUser')));
+    return this.http.get<any[]>(`${this.endpointUrl}/permissions/effective/${userGuid}`).pipe(catchError(this.handleError<any[]>('getEffectivePermissionsForUser')));
   }
 
   updatePermissionsForUser(userGuid: number, permissions: PmcPermission[]): Observable<any> {
-    return this.http.put<any>(`${this.endpointUrl}/permissions/update/${userGuid}`, permissions).pipe(catchError(this.handleError('updatePermissionsForUser')));
+    return this.http.put<any>(`${this.endpointUrl}/permissions/update/${userGuid}`, permissions).pipe(catchError(this.handleError<PmcPermission[]>('updatePermissionsForUser')));
   }
 
   getCurrentUser(): Observable<PmcUser> {
     return this.http.get<PmcUser>(`${this.endpointUrl}/current`).pipe(
-      catchError(this.handleError('getCurrentUser')),
+      catchError(this.handleError<PmcUser>('getCurrentUser')),
       tap((user) => {
         this.user$.next(user);
       })
@@ -77,7 +77,7 @@ export class PmcUserServiceNg extends ExceptionHandlingService{
 
   runAsUser(userName: string): Observable<PmcUser> {
     return this.http.post<PmcUser>(`${this.endpointUrl}/runas/${userName}`,{}).pipe(
-        catchError(this.handleError('runAsUser')),
+        catchError(this.handleError<PmcUser>('runAsUser')),
         tap((user) => {
           this.user$.next(user);
         })
@@ -86,7 +86,7 @@ export class PmcUserServiceNg extends ExceptionHandlingService{
 
   releaseRunAs(): Observable<PmcUser> {
     return this.http.post<PmcUser>(`${this.endpointUrl}/release`,{}).pipe(
-        catchError(this.handleError('releaseRunAs')),
+        catchError(this.handleError<PmcUser>('releaseRunAs')),
         tap((user) => {
           this.user$.next(user);
         })
@@ -94,11 +94,11 @@ export class PmcUserServiceNg extends ExceptionHandlingService{
   }
 
   getUsersByGroupId(groupId: number): Observable<PmcUser[]> {
-    return this.http.get<PmcUser[]>(`${this.endpointUrl}/repo/getUsersByGroupId/${groupId}`).pipe(catchError(this.handleError('runAsUser')));
+    return this.http.get<PmcUser[]>(`${this.endpointUrl}/repo/getUsersByGroupId/${groupId}`).pipe(catchError(this.handleError<PmcUser[]>('runAsUser')));
   }
 
   getUsersForRole(roleId: number): Observable<PmcUser[]> {
-    return this.http.get<PmcUser[]>(`${this.endpointUrl}/role/${roleId}`).pipe(catchError(this.handleError('getUsersForRole')));
+    return this.http.get<PmcUser[]>(`${this.endpointUrl}/role/${roleId}`).pipe(catchError(this.handleError<PmcUser[]>('getUsersForRole')));
   }
 
 }

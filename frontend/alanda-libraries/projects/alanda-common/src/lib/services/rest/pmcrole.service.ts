@@ -21,34 +21,34 @@ export class PmcRoleServiceNg extends ExceptionHandlingService{
   }
 
   getRoles(): Observable<PmcRole[]> {
-    return this.http.get<PmcRole[]>(`${this.endpointUrl}/list`).pipe(catchError(this.handleError('getRoles', [])));
+    return this.http.get<PmcRole[]>(`${this.endpointUrl}/list`).pipe(catchError(this.handleError<PmcRole[]>('getRoles', [])));
   }
 
   getRolesForGroup(guid: number): Observable<PmcRole[]>{
-    return this.http.get<PmcRole[]>(`${this.endpointUrl}/group/${guid}`).pipe(catchError(this.handleError('getRolesForGroup', [])));
+    return this.http.get<PmcRole[]>(`${this.endpointUrl}/group/${guid}`).pipe(catchError(this.handleError<PmcRole[]>('getRolesForGroup', [])));
   }
 
   getRoleByGuid(guid: number): Observable<PmcRole>{
-    return this.http.get<PmcRole>(`${this.endpointUrl}/single/${guid}`).pipe(catchError(this.handleError('getRoleByGuid', null)));
+    return this.http.get<PmcRole>(`${this.endpointUrl}/single/${guid}`).pipe(catchError(this.handleError<PmcRole>('getRoleByGuid', null)));
   }
 
   getRoleByName(roleName: string): Observable<PmcRole>{
-    return this.http.get<PmcRole>(`${this.endpointUrl}/single/name/${roleName}`).pipe(catchError(this.handleError('getRoleByGuid', null)));
+    return this.http.get<PmcRole>(`${this.endpointUrl}/single/name/${roleName}`).pipe(catchError(this.handleError<PmcRole>('getRoleByGuid', null)));
   }
   update(role: PmcRole): Observable<PmcRole> {
-    return this.http.put<PmcRole>(`${this.endpointUrl}/update`, role).pipe(catchError(this.handleError('update')));
+    return this.http.put<PmcRole>(`${this.endpointUrl}/update`, role).pipe(catchError(this.handleError<PmcRole>('update')));
   }
 
   save(role: PmcRole): Observable<PmcRole> {
-    return this.http.post<PmcRole>(`${this.endpointUrl}/create`, role).pipe(catchError(this.handleError('save')));
+    return this.http.post<PmcRole>(`${this.endpointUrl}/create`, role).pipe(catchError(this.handleError<PmcRole>('save')));
   }
 
   getRoleInstancesForProject(projectGuid: number, roleGuid: number): Observable<any[]>{
-    return this.http.get<any[]>(`${this.endpointUrl}/role-instances/project/${projectGuid}/role/${roleGuid}`).pipe(catchError(this.handleError('getRoleInstancesForProject')));
+    return this.http.get<any[]>(`${this.endpointUrl}/role-instances/project/${projectGuid}/role/${roleGuid}`).pipe(catchError(this.handleError<any[]>('getRoleInstancesForProject')));
   }
 
   setRoleInstancesForProject(projectGuid: number, roleInstance: any, source: string): Observable<any[]>{
     let queryString = source ? `?source=${source}` : '';
-    return this.http.post<any>(`${this.endpointUrl}/role-instances/project/${projectGuid}/role${queryString}`, [roleInstance]).pipe(catchError(this.handleError('setRoleInstance')));
+    return this.http.post<any>(`${this.endpointUrl}/role-instances/project/${projectGuid}/role${queryString}`, [roleInstance]).pipe(catchError(this.handleError<any[]>('setRoleInstance')));
   }
 }

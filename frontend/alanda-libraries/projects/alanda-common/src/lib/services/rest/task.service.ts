@@ -23,33 +23,33 @@ export class TaskServiceNg extends ExceptionHandlingService{
   }
 
   loadTasks(serverOptions: ServerOptions): Observable<any[]> {
-    return this.http.post<any[]>(this.endpointUrl + '/list',serverOptions).pipe(catchError(this.handleError('loadTasks')));
+    return this.http.post<any[]>(this.endpointUrl + '/list',serverOptions).pipe(catchError(this.handleError<any[]>('loadTasks')));
   }
 
   getCandidates(taskId: string): Observable<any[]>{
-    return this.http.get<any[]>(this.endpointUrl + `/${taskId}` + '/candidates').pipe(catchError(this.handleError('getCandidates')));
+    return this.http.get<any[]>(this.endpointUrl + `/${taskId}` + '/candidates').pipe(catchError(this.handleError<any[]>('getCandidates')));
   }
 
   unclaim(taskId: string):Observable<any>{
-    return this.http.post<any>(this.endpointUrl + `/${taskId}` + '/unclaim',{}).pipe(catchError(this.handleError('unclaim')));
+    return this.http.post<any>(this.endpointUrl + `/${taskId}` + '/unclaim',{}).pipe(catchError(this.handleError<any>('unclaim')));
   }
 
   assign(taskId: string, userId): Observable<any>{
-    return this.http.post<any>(this.endpointUrl + `/${taskId}` + '/assignee', {guid: userId}).pipe(catchError(this.handleError('assign')));
+    return this.http.post<any>(this.endpointUrl + `/${taskId}` + '/assignee', {guid: userId}).pipe(catchError(this.handleError<any>('assign')));
   }
 
   updateTaskDueDate(taskId: string, date: string): Observable<void> {
-    return this.http.put<void>(this.endpointUrl + `/${taskId}/dueDate`,date).pipe(catchError(this.handleError('updateTaskDueDate')));
+    return this.http.put<void>(this.endpointUrl + `/${taskId}/dueDate`,date).pipe(catchError(this.handleError<void>('updateTaskDueDate')));
   }
 
   complete(taskId: string): Observable<any> {
-    return this.http.post<any>(this.endpointUrl + `/${taskId}/complete`,{}).pipe(catchError(this.handleError('complete')));
+    return this.http.post<any>(this.endpointUrl + `/${taskId}/complete`,{}).pipe(catchError(this.handleError<any>('complete')));
   }
 
   updateDueDateOfTask(taskId: string, dueDate: string): Observable<any> {
     let header = new HttpHeaders();
     header = header.append('content-type', 'application/json');
-    return this.http.put<any>(this.endpointUrl  + `/${taskId}/dueDate`, dueDate, {headers: header}).pipe(catchError(this.handleError('updateDueDateOfTask')));
+    return this.http.put<any>(this.endpointUrl  + `/${taskId}/dueDate`, dueDate, {headers: header}).pipe(catchError(this.handleError<any>('updateDueDateOfTask')));
   }
 
   setVariable(taskId: string, varName: string, data: any): Observable<any> {
