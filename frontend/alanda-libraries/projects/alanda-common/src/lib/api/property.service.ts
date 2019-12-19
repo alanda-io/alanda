@@ -54,10 +54,10 @@ export type Property = {entityId: number, entityType: string, key: string, pmcPr
             value: value,
             valueType: valueType
         }
-        return this.http.post<Property>(`${this.endpointUrl}/set`, obj).pipe(catchError(this.handleError('setProperty')));
+        return this.http.post<Property>(`${this.endpointUrl}/set`, obj).pipe(catchError(this.handleError<Property>('setProperty')));
     }
 
-    get(entityId, entityType, projectGuid, key): Observable<{value: string}> {
+    get(entityId, entityType, projectGuid, key): Observable<any> {
         let urlString = '/get?';
         if(entityId) {
             urlString += 'entity-id=' + entityId + '&';
@@ -69,6 +69,6 @@ export type Property = {entityId: number, entityType: string, key: string, pmcPr
             urlString += 'pmc-project-guid=' + projectGuid + '&'; 
         }
         urlString += 'key=' + key;
-        return this.http.get<{value: string}>(`${this.endpointUrl}${urlString}`).pipe(catchError(this.handleError('getProperty')));
+        return this.http.get<any>(`${this.endpointUrl}${urlString}`).pipe(catchError(this.handleError<any>('getProperty')));
     }
 }

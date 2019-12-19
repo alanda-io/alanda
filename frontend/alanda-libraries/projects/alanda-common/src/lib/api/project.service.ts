@@ -23,23 +23,23 @@ export class ProjectServiceNg extends ExceptionHandlingService{
     };
 
     public getProjectByGuid(guid: number): Observable<Project> {
-        return this.http.get<Project>(`${this.endpoint}/guid/${guid}`).pipe(catchError(this.handleError('getProjectByGuid')));
+        return this.http.get<Project>(`${this.endpoint}/guid/${guid}`).pipe(catchError(this.handleError<Project>('getProjectByGuid')));
     }
 
     public getProjectByProjectId(id: string): Observable<Project> {
-        return this.http.get<Project>(`${this.endpoint}/${id}`).pipe(catchError(this.handleError('getProjectByProjectId')));
+        return this.http.get<Project>(`${this.endpoint}/${id}`).pipe(catchError(this.handleError<Project>('getProjectByProjectId')));
     }
     
     public loadProjects(serverOptions: ServerOptions): Observable<ListResult<Project>> {
-        return this.http.post<ListResult<Project>>(`${this.endpoint}/projectsel`,serverOptions).pipe(catchError(this.handleError('loadProjects')));
+        return this.http.post<ListResult<Project>>(`${this.endpoint}/projectsel`,serverOptions).pipe(catchError(this.handleError<ListResult<Project>>('loadProjects')));
     }
 
     public updateProject(project): Observable<Project> {
-        return this.http.put<Project>(`${this.endpoint}/${project.projectId}`,project).pipe(catchError(this.handleError('updateProject')));
+        return this.http.put<Project>(`${this.endpoint}/${project.projectId}`,project).pipe(catchError(this.handleError<Project>('updateProject')));
     }
 
     public getProjectMainProcess(projectGuid: number): Observable<Process> {
-        return this.http.get<Process>(`${this.endpoint}/project/${projectGuid}/mainprocess`).pipe(catchError(this.handleError('getProjectMainProcess')));
+        return this.http.get<Process>(`${this.endpoint}/project/${projectGuid}/mainprocess`).pipe(catchError(this.handleError<Process>('getProjectMainProcess')));
     }
 
     public searchCreateAbleProjectType(searchTerm?: string): Observable<ProjectType[]> {
@@ -57,11 +57,11 @@ export class ProjectServiceNg extends ExceptionHandlingService{
     }
 
     public createProject(project: Project): Observable<Project> {
-        return this.http.post<Project>(`${this.endpoint}/create`, project).pipe(catchError(this.handleError('createProject')));
+        return this.http.post<Project>(`${this.endpoint}/create`, project).pipe(catchError(this.handleError<Project>('createProject')));
     }
 
     public getProjectTreeByGuid(guid: number): Observable<Project> {
-        return this.http.get<Project>(`${this.endpoint}/guid/${guid}?tree=true`).pipe(catchError(this.handleError('getProjectTreeByGuid')));
+        return this.http.get<Project>(`${this.endpoint}/guid/${guid}?tree=true`).pipe(catchError(this.handleError<Project>('getProjectTreeByGuid')));
     }
 
     public getProcessesAndTasksForProject(guid: number): Observable<Map<string, any>> {
