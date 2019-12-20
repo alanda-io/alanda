@@ -21,7 +21,7 @@
 
     <div class="p-col-12 p-md-4">
       <p-table #table [value]="permissions" [columns]="permissionColumns" dataKey="guid" [paginator]="true" [rows]="15"
-               [totalRecords]="permissions ? permissions.length : 0" [lazy]="true" [loading]="loading" (onRowUnselect)="onPermissionUnselected($event)"
+               [totalRecords]="permissions ? permissions.length : 0" [lazy]="true" [loading]="loading" (onRowUnselect)="onPermissionUnselected()"
                [autoLayout]="true" selectionMode="single" scrollHeight="320px" (onRowSelect)="onPermissionSelected($event)" 
                [style]="{'font-size': '12px'}" (onLazyLoad)="onLoadPermissions($event)">
         <ng-template pTemplate="header" let-columns>

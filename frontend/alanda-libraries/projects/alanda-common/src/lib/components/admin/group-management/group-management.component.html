@@ -23,7 +23,7 @@
       <p-table #table [value]="groups" [columns]="groupColumns" dataKey="guid" [paginator]="true" [rows]="15"
                (onLazyLoad)="onLoadGroups($event)" [lazy]="true" [totalRecords]="groups ? groups.length : 0" [loading]="loading" 
                [autoLayout]="true" selectionMode="single" [style]="{'font-size': '12px'}" scrollHeight="320px"
-               (onRowSelect)="onGroupSelected($event)" (onRowUnselect)="onGroupUnselected($event)">
+               (onRowSelect)="onGroupSelected($event)" (onRowUnselect)="onGroupUnselected()">
         <ng-template pTemplate="header" let-columns>
           <tr>
             <th *ngFor="let col of columns" [pSortableColumn]="col.field">

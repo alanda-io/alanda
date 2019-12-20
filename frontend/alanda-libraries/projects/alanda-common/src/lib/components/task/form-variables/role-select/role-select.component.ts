@@ -24,7 +24,8 @@ export class SelectRoleComponent implements OnInit {
     @Input() type: string; //'user' or 'group', determines if suggestions should be of type group or user
     @Input() displayName: string;
     @Input() roleName: string;
-    @Input() onlyInherited?: boolean = true; // if type == user and if set to false, also include users who have the group assigned directly
+    @Input() onlyInherited?: boolean = false; // if type == user and if set to true, only include users who have the role assigned through a group
+    @Input() inherited?: boolean = false; // this will replace onlyinherited above when it's done and its gona be much better zapperlott
     @Input() groupFilter?: string[]; // if type == user, additional filtering for groups is possible
     @Input() grouping?: boolean = false; // if type == user, group users by their groups in dropdown
     //TODO: @Input() parent?: SelectRoleComponent;
@@ -93,6 +94,7 @@ export class SelectRoleComponent implements OnInit {
               this.optionsGrouped.push({label: group.longName, items: mappedUsers});
               this.optionsGrouped = [...this.optionsGrouped];
             } else {
+              console.log("users ", users);
               users.forEach(user => {
                 if(this.options.filter(entry => entry.label == user.displayName).length == 0) {
                   this.options.push({label: user.displayName, value: user.guid});

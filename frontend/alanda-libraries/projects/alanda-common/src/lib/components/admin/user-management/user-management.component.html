@@ -32,7 +32,7 @@
       <p-table #table [value]="users" [columns]="userColumns" dataKey="guid" [paginator]="true" [rows]="15"
         (onLazyLoad)="onLoadUsers($event)" [lazy]="true" [totalRecords]="users ? users.length : 0" [loading]="loading" 
         [autoLayout]="true" selectionMode="single" [style]="{'font-size': '12px'}" scrollHeight="320px"
-        (onRowSelect)="onUserSelected($event)" (onRowUnselect)="onUserUnselected($event)" [responsive]="true">
+        (onRowSelect)="onUserSelected($event)" (onRowUnselect)="onUserUnselected()" [responsive]="true">
         <ng-template pTemplate="header" let-columns>
           <tr>
             <th *ngFor="let col of columns" [pSortableColumn]="col.field">
@@ -144,7 +144,7 @@
           </div>
         </p-tabPanel>
     
-        <p-tabPanel header="Groups" *ngIf="selectedUser" (onChange)="test($event)">
+        <p-tabPanel header="Groups" *ngIf="selectedUser">
             <p-pickList [source]="assignedGroups" [target]="availableGroups" sourceHeader="Assigned Groups" 
                         targetHeader="Available Groups" [style]="{height:'100%'}" [responsive]="true" filterBy="groupName"
                         [showSourceControls]="false" [showTargetControls]="false">

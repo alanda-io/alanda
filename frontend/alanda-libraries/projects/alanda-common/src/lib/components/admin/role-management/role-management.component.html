@@ -24,7 +24,7 @@
       <p-table #table [value]="roles" [columns]="roleColumns" dataKey="guid" [paginator]="true" [rows]="15"
                [totalRecords]="roles ? roles.length : 0" [lazy]="true" [loading]="loading" (onLazyLoad)="onLoadRoles($event)"
                [autoLayout]="true" selectionMode="single" [style]="{'font-size': '12px'}" scrollHeight="320px"
-               (onRowSelect)="onRoleSelect($event)" (onRowUnselect)="onRoleUnselect($event)">
+               (onRowSelect)="onRoleSelect($event)" (onRowUnselect)="onRoleUnselect()">
         <ng-template pTemplate="header" let-columns>
           <tr>
             <th *ngFor="let col of columns" [pSortableColumn]="col.field">

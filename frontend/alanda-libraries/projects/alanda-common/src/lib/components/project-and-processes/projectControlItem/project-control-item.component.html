@@ -28,12 +28,12 @@
         <span *ngIf="info.project.subtype"> ({{info.project.subtype}})</span></b>
         <span *ngIf="info.project.refObjectIdName"> for ({{info.project.refObjectIdName}})</span>
         <span *ngIf="info.project.displayMetaInfo">
-            {{project.displayMetaInfo}}
+            <!-- {{project.displayMetaInfo}} -->
         </span>
         <span style="text-align: right; float: right">
             <!-- add dropdown functionality -->
             <span class="fa fa-cog fa-lg" id="settings"></span> 
-            <span class="fa fa-stop fa-lg" id="stop" (click)="stopProject()"></span>
+            <!-- <span class="fa fa-stop fa-lg" id="stop" (click)="stopProject()"></span> -->
             <span class="state" id="status"><small>{{info.project.status}}</small></span>
         </span>
     </p-header>
