@@ -18,6 +18,7 @@ export * from './lib/services/forms.service';
 export * from './lib/services/project-properties.service';
 export * from './lib/services/project-details.service';
 export * from './lib/services/forms-register.service';
+export * from './lib/services/tableAPI.service';
 
 export * from './lib/interceptors/basic-auth.interceptor';
 export * from './lib/interceptors/error.interceptor';

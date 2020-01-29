@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { ServerOptions } from '../project-monitor/project-monitor.component';
 import { PmcUser } from '../../models/pmcUser';
 import { TaskServiceNg } from '../../api/task.service';
 import { TableAPIServiceNg } from '../../services/tableAPI.service';
 import { PmcUserServiceNg } from '../../api/pmcuser.service';
+import { ServerOptions } from '../../models/serverOptions';
 
 
 @Component({
