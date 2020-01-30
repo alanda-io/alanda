@@ -28,6 +28,9 @@ To ensure installing docker and oracle database is done correctly create, first 
 which is listed under **Local Deployment**. Afterwards use this `docker run` command instead of using the
 `docker run` commands given in the link:
 
+    mkdir /home/dev/Docker/myDB/oradata
+    chmod 777 /home/dev/Docker/myDB/oradata
+    
     docker run --name myDB \
         -p 1521:1521 \
         -p 55500:5500 \
@@ -52,7 +55,7 @@ Both files can be downloaded from [Oracle](https://www.oracle.com/database/techn
 Afterwards install them manually: 
 
     mvn install:install-file -DgroupId=com.oracle.jdbc -DartifactId=ojdbc8 -Dversion=18.3.0.0 -Dpackaging=jar -Dfile=/downloaded/path/ojdbc8.jar
-    mvn install:install-file -DgroupId=com.oracle.jdbc -DartifactId=ojdbc7 -Dversion=11.1.0.2 -Dpackaging=jar -Dfile=/downloaded/path/ojdbc7.jar
+    mvn install:install-file -DgroupId=com.oracle.jdbc -DartifactId=ojdbc7 -Dversion=12.1.0.2 -Dpackaging=jar -Dfile=/downloaded/path/ojdbc7.jar
 
 Use the top level pom.xml to build the backend part:
 
