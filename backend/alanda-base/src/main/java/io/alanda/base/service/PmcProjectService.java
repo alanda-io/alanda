@@ -292,4 +292,13 @@ public interface PmcProjectService {
 
   PmcProjectDto synchProject(Long guid);
 
+  /**
+   *
+   * @param refObjectType
+   * @param refObjectId
+   * @param projType can be passed for additional filtering but is optional. Set to null if not needed.
+   * @return
+   */
+  List<PmcProjectDto> getByTypeAndRefObjectId(String refObjectType, long refObjectId, Long projType);
+
 }

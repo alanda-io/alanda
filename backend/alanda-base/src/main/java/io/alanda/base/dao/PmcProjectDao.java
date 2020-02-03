@@ -35,4 +35,6 @@ public interface PmcProjectDao extends CrudDao<PmcProject> {
   
   List<PmcProject> getAllWithProjectType(String projectTypeIdName);
 
+  List<PmcProject> getByTypeAndRefObjectId(String refObjectType, long refObjectId, Long projType) ;
+
 }

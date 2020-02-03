@@ -1923,4 +1923,10 @@ public class PmcProjectServiceImpl implements PmcProjectService {
       }
     }
   }
+
+  @Override
+  public List<PmcProjectDto> getByTypeAndRefObjectId(String refObjectType, long refObjectId, Long projType) {
+    return dozerMapper.mapCollection(this.pmcProjectDao.getByTypeAndRefObjectId(refObjectType, refObjectId, projType), PmcProjectDto.class);
+  }
+
 }
