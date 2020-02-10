@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import io.alanda.base.dao.AbstractCrudDao;
 import io.alanda.base.dao.PmcProjectDao;
@@ -124,6 +125,24 @@ public class PmcProjectDaoImpl extends AbstractCrudDao<PmcProject> implements Pm
         .createQuery("SELECT p FROM PmcProject p WHERE p.pmcProjectType.idName = :projectTypeIdName", PmcProject.class)
         .setParameter("projectTypeIdName", projectTypeIdName)
         .getResultList();    
+  }
+
+  @Override
+  public List<PmcProject> getByTypeAndRefObjectId(String refObjectType, long refObjectId, Long projType) {
+    String query =  "SELECT p FROM PmcProject p WHERE " +
+            "p.refObjectType = :refObjectType AND " +
+            "p.refObjectId = :refObjectId";
+    if(projType != null) {
+      query += " AND p.pmcProjectType.guid = :projType";
+    }
+    TypedQuery typedQuery = em.createQuery(query, PmcProject.class)
+        .setParameter("refObjectType", refObjectType)
+        .setParameter("refObjectId", refObjectId);
+
+    if(projType != null) {
+      typedQuery.setParameter("projType", projType);
+    }
+    return typedQuery.getResultList();
   }
 
 }
