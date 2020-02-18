@@ -244,7 +244,7 @@
                     </security>
                 </datasource>
                 <drivers>
-                    <driver name="oracle" module="com.oracle.ojdbc6">
+                    <driver name="oracle" module="com.oracle.ojdbc8">
                         <driver-class>oracle.jdbc.OracleDriver</driver-class>
                         <xa-datasource-class>oracle.jdbc.xa.client.OracleXADataSource</xa-datasource-class>
                     </driver>
