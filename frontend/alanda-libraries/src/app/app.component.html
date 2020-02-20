@@ -38,16 +38,11 @@
           <!-- Hier könnten Ihre Breadcrumbs stehen -->
         </div>
       <div class="p-col-6" *ngIf="pmcUserService.user$ | async as user" style="text-align: right">
-        <!-- <span>{{currentUser.firstName}} {{currentUser.surname}}</span> -->
         <span>{{user.firstName}} {{user.surname}}</span>
         <span *ngIf="user.runAs"> ( logged in as {{user.runAs}} <i class="pi pi-user-minus" (click)="releaseRunAs()"></i>)</span>
       </div>
     </div>
   </div>
 </div>
-<br>
-<div class="p-grid">
-  <div class="p-col-12">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+<router-outlet></router-outlet>
+

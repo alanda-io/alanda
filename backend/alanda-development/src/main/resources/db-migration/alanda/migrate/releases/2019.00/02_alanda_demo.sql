@@ -10,9 +10,7 @@ Insert into PMC_PROJECTTYPE
 Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (1,0,'project:create:VACATION');
 Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (2,0,'project:read:VACATION');
 Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (3,0,'project:write:VACATION');
-Insert into PMC_USER_PERMISSION (REF_USER,REF_PERMISSION) values (1,1);
-Insert into PMC_USER_PERMISSION (REF_USER,REF_PERMISSION) values (1,2);
-Insert into PMC_USER_PERMISSION (REF_USER,REF_PERMISSION) values (1,3);
+Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (4,0,'project');
 
 --changeset fsa:alanda-demo-users-and-groups
 insert into pmc_group
@@ -27,9 +25,6 @@ Insert into PMC_ROLE (GUID, VERSION, NAME)
 values (1, 0, 'vacation-requestor');
 Insert into PMC_ROLE (GUID, VERSION, NAME)
 values (2, 0, 'vacation-approver');
-
-select *
-from pmc_user;
 
 insert into pmc_user
 (guid, loginname, firstname, surname, email, source, version)
@@ -47,9 +42,6 @@ insert into pmc_user
 (guid, loginname, firstname, surname, email, source, version)
 values (5, 'hansleiden', 'Hans', 'Leiden', 'hl@alanda.io', 'alanda', 0);
 
-select *
-from pmc_user_group;
-
 insert into pmc_user_group
     (ref_user, ref_group, select_contact)
 values (2, 2, 1);
@@ -65,9 +57,6 @@ values (4, 3, 1);
 insert into pmc_user_group
     (ref_user, ref_group, select_contact)
 values (5, 3, 1);
-
-select *
-from pmc_user_role;
 
 insert into pmc_user_role
     (ref_user, ref_role)
@@ -85,21 +74,16 @@ insert into pmc_user_role
     (ref_user, ref_role)
 values (5, 2);
 
---changeset fsa:alanda-demo-group-permissions
-Insert into PMC_ROLE_PERMISSION (REF_ROLE,REF_PERMISSION) values (1,1);
-Insert into PMC_ROLE_PERMISSION (REF_ROLE,REF_PERMISSION) values (1,2);
-Insert into PMC_ROLE_PERMISSION (REF_ROLE,REF_PERMISSION) values (2,1);
-
 --changeset yko:alanda-demo-milestones
 Insert into PMC_MILESTONE (GUID, IDNAME, DESCRIPTION, CREATED, CREATEUSER, LASTUPDATE, UPDATEUSER, VERSION) values (1, 'VACATION_START', 'Vacation Start', CURRENT_DATE, 1, null, null, 1);
 Insert into PMC_MILESTONE (GUID, IDNAME, DESCRIPTION, CREATED, CREATEUSER, LASTUPDATE, UPDATEUSER, VERSION) values (2, 'VACATION_END', 'Vacation End', CURRENT_DATE, 1, null, null, 1);
 
 --changeset yko:alanda-demo-milestones-permissions
-Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (4,0,'ms:write:VACATION:*:*:VACATION_START:fc');
-Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (5,0,'ms:write:VACATION:*:*:VACATION_END:fc');
-Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (4,0,'ms:write:VACATION:*:*:VACATION_START:act');
-Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (5,0,'ms:write:VACATION:*:*:VACATION_END:act');
-Insert into PMC_ROLE_PERMISSION (REF_ROLE,REF_PERMISSION) values (1,4);
-Insert into PMC_ROLE_PERMISSION (REF_ROLE,REF_PERMISSION) values (1,5);
-Insert into PMC_ROLE_PERMISSION (REF_ROLE,REF_PERMISSION) values (1,6);
-Insert into PMC_ROLE_PERMISSION (REF_ROLE,REF_PERMISSION) values (1,7);
+Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (5,0,'ms:write:VACATION:*:*:VACATION_START:fc');
+Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (6,0,'ms:write:VACATION:*:*:VACATION_END:fc');
+Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (7,0,'ms:write:VACATION:*:*:VACATION_START:act');
+Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (8,0,'ms:write:VACATION:*:*:VACATION_END:act');
+Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (9,0,'ms');
+
+Insert into PMC_GROUP_PERMISSION (REF_GROUP, REF_PERMISSION) values (1,4);
+Insert into PMC_GROUP_PERMISSION (REF_GROUP, REF_PERMISSION) values (1,9);

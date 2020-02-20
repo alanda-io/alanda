@@ -7,6 +7,7 @@ values (1, 'admin', 'Administrators', 'alanda', null, null, null, null, 0, null,
 Insert into PMC_USER (GUID, LOGINNAME, FIRSTNAME, SURNAME, EMAIL, MOBILE, LOCKED, CREATED, CREATEUSER, LASTUPDATE, UPDATEUSER, VERSION,
                       PASSWORD, LAST_LOGIN, PMC_DEPARTMENT, EXTERNALGUID, SOURCE, COMPANY)
 values (1, 'alanda', 'Alan', 'Da', 'alanda@alanda.io', null, 0, null, null, null, null, 0, null, null, null, null, 'alanda', null);
+
 Insert into PMC_USER_GROUP (REF_USER, REF_GROUP, SELECT_CONTACT)
 values (1, 1, 1);
 
