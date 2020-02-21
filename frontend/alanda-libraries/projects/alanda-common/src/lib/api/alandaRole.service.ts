@@ -6,9 +6,7 @@ import { AlandaRole } from './models/alandaRole';
 import { catchError } from 'rxjs/operators';
 import { AlandaExceptionHandlingService } from '../services/alandaExceptionHandling.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AlandaRoleService extends AlandaExceptionHandlingService {
 
   private endpointUrl: string;

@@ -10,9 +10,7 @@ import { AlandaProcess } from './models/alandaProcess';
 import { AlandaProjectType } from './models/alandaProjectType';
 import { AlandaExceptionHandlingService } from '../services/alandaExceptionHandling.service';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class AlandaProjectService extends AlandaExceptionHandlingService {
 
     private endpoint: string;

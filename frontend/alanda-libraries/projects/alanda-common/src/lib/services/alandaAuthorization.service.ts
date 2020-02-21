@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AlandaUser } from '../api/models/alandaUser';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AlandaAuthorizationService {
 
   accessLevel = {

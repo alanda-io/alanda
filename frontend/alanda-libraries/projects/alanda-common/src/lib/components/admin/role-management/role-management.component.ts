@@ -1,14 +1,13 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
-import { PmcRoleServiceNg } from "../../../api/alandaRole.service";
-import { FormGroup, Validators, FormBuilder } from "@angular/forms";
-import { PmcPermissionServiceNg } from "../../../api/alandaPermission.service";
-import { PmcRole } from "../../../models/pmcRole";
-import { PmcPermission } from "../../../models/pmcPermission";
-import { PmcUser } from "../../../models/pmcUser";
-import { Table } from "primeng/table";
-import { MessageService, LazyLoadEvent } from "primeng/api";
-import { PmcUserServiceNg } from "../../../api/alandaUser.service";
-
+import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
+import { AlandaPermission } from '../../../api/models/alandaPermission';
+import { AlandaRole } from '../../../api/models/alandaRole';
+import { AlandaUser } from '../../../api/models/alandaUser';
+import { Table } from 'primeng/table';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AlandaRoleService } from '../../../api/alandaRole.service';
+import { AlandaPermissionService } from '../../../api/alandaPermission.service';
+import { MessageService, LazyLoadEvent } from 'primeng/api';
+import { AlandaUserService } from '../../../api/alandaUser.service';
 @Component({
   selector: 'alanda-role-management',
   templateUrl: './role-management.component.html',
@@ -18,14 +17,14 @@ import { PmcUserServiceNg } from "../../../api/alandaUser.service";
 })
 export class RoleManagementComponent implements OnInit {
 
-    roles: PmcRole[];
-    selectedRole: PmcRole;
-    usersWithRole: PmcUser[] = [];
+    roles: AlandaRole[];
+    selectedRole: AlandaRole;
+    usersWithRole: AlandaUser[] = [];
     loading: boolean;
 
     roleForm: FormGroup;
-    availablePermissions: PmcPermission[] = [];
-    grantedPermissions: PmcPermission[] = [];
+    availablePermissions: AlandaPermission[] = [];
+    grantedPermissions: AlandaPermission[] = [];
 
     roleColumns = [
       {field: 'guid', header: 'Guid'},
@@ -34,10 +33,10 @@ export class RoleManagementComponent implements OnInit {
 
     @ViewChild('table') turboTable: Table;
 
-    constructor(private pmcRoleService: PmcRoleServiceNg,
-                private pmcPermissionService: PmcPermissionServiceNg,
+    constructor(private roleService: AlandaRoleService,
+                private permissionService: AlandaPermissionService,
                 private messageService: MessageService,
-                private pmcUserService: PmcUserServiceNg,
+                private pmcUserService: AlandaUserService,
                 private fb: FormBuilder) {}
 
     ngOnInit() {
@@ -51,7 +50,7 @@ export class RoleManagementComponent implements OnInit {
     }
 
     onLoadRoles(event: LazyLoadEvent) {
-      this.pmcRoleService.getRoles().subscribe(res => {
+      this.roleService.getRoles().subscribe(res => {
         this.roles = res;
       });
     }
@@ -83,8 +82,8 @@ export class RoleManagementComponent implements OnInit {
       });
     }
 
-    private updateRole(pmcRole: PmcRole) {
-      this.pmcRoleService.update(pmcRole).subscribe(
+    private updateRole(pmcRole: AlandaRole) {
+      this.roleService.update(pmcRole).subscribe(
         res => {
           this.messageService.add({severity:'success', summary:'Update Role', detail: 'Role has been updated'})
           this.turboTable.reset();
@@ -92,8 +91,8 @@ export class RoleManagementComponent implements OnInit {
         error => this.messageService.add({severity:'error', summary:'Update Role', detail: error.message}));
     }
 
-    private createRole(pmcRole: PmcRole) {
-      this.pmcRoleService.save(pmcRole).subscribe(
+    private createRole(pmcRole: AlandaRole) {
+      this.roleService.save(pmcRole).subscribe(
         res => {
           this.messageService.add({severity:'success', summary:'Create Role', detail: 'Role has been created'})
           this.turboTable.reset();
@@ -114,13 +113,13 @@ export class RoleManagementComponent implements OnInit {
       this.initRoleForm();
     }
 
-    private fillRoleForm(role: PmcRole) {
+    private fillRoleForm(role: AlandaRole) {
       this.roleForm.patchValue(role);
     }
 
     private loadPermissions() {
       this.grantedPermissions = [...this.selectedRole.permissions];
-      this.pmcPermissionService.getPermissions()
+      this.permissionService.getPermissions()
         .subscribe(result => {
           this.availablePermissions = result.filter(all => {
             return this.grantedPermissions.filter(assigned => {
@@ -132,7 +131,7 @@ export class RoleManagementComponent implements OnInit {
 
     updatePermissions() {
       this.selectedRole.permissions = [...this.grantedPermissions];
-      this.pmcRoleService.update(this.selectedRole).subscribe(
+      this.roleService.update(this.selectedRole).subscribe(
         res => {
           this.messageService.add({severity:'success', summary:'Update permissions', detail: 'Permissions have been updated'})
           this.turboTable.reset();

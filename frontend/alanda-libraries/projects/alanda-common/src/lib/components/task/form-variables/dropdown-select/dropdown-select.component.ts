@@ -1,10 +1,9 @@
-
-import { Component, OnInit, Input  } from "@angular/core";
-import { MessageService } from "primeng/api";
-import { FormGroup, FormControl } from "@angular/forms";
-import { ServerOptions } from "../../../project-monitor/project-monitor.component";
-import { PmcUserServiceNg } from "../../../../api/alandaUser.service";
-import { PropertyService } from "../../../../api/alandaProperty.service";
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+import { AlandaUserService } from 'projects/alanda-common/src/lib/api/alandaUser.service';
+import { MessageService } from 'primeng/api';
+import { AlandaPropertyService } from 'projects/alanda-common/src/lib/api/alandaProperty.service';
+import { ServerOptions } from 'projects/alanda-common/src/lib/models/serverOptions';
 
 @Component({
     selector: 'dropdown-select',
@@ -21,7 +20,8 @@ export class DropdownSelectComponent implements OnInit {
     users: any[];
     userForm: FormGroup;
 
-    constructor(private userService: PmcUserServiceNg, private messageService: MessageService, private propertyService: PropertyService){}
+    constructor(private userService: AlandaUserService, private messageService: MessageService,
+                private propertyService: AlandaPropertyService){}
 
     ngOnInit(){
       let serverOptions: ServerOptions = {

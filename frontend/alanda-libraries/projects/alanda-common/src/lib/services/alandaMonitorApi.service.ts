@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { AlandaAuthorizationService } from './alandaAuthorization.service';
 import { AlandaUser } from '../api/models/alandaUser';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class AlandaMonitorAPIService {
 
 

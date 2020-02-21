@@ -1,10 +1,9 @@
-
-import { Component, OnInit, Input } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { FormsRegisterService } from "../../../../services/alandaFormsRegister.service";
-import { Project } from "../../../../models/project";
-import { MilestoneService } from "../../../../api/alandaMilestone.service";
-import { Utils } from "../../../../utils/helper-functions";
+import { Component, OnInit, Input } from '@angular/core';
+import { AlandaProject } from 'projects/alanda-common/src/lib/api/models/alandaProject';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AlandaMilestoneService } from 'projects/alanda-common/src/lib/api/alandaMilestone.service';
+import { AlandaFormsRegisterService } from 'projects/alanda-common/src/lib/services/alandaFormsRegister.service';
+import { convertUTCDate } from 'projects/alanda-common/src/lib/utils/helper-functions';
 
 @Component({
     selector: 'milestone-select',
@@ -13,13 +12,13 @@ import { Utils } from "../../../../utils/helper-functions";
   })
 export class SelectMilestoneComponent implements OnInit {
 
-    @Input() project: Project;
+    @Input() project: AlandaProject;
     @Input() displayName: string;
     @Input() msName: string;
 
     milestoneForm: FormGroup;
 
-    constructor(private milestoneService: MilestoneService, private fb: FormBuilder, private formsRegisterService: FormsRegisterService){}
+    constructor(private milestoneService: AlandaMilestoneService, private fb: FormBuilder, private formsRegisterService: AlandaFormsRegisterService){}
 
     ngOnInit(){
       this.milestoneService.getByProjectAndMsIdName(this.project.projectId, this.msName).subscribe();
@@ -36,8 +35,8 @@ export class SelectMilestoneComponent implements OnInit {
     }
 
     onChange() {
-      const fc = this.milestoneForm.get('fc').value ? Utils.convertUTCDate(new Date(this.milestoneForm.get('fc').value)).toISOString().substring(0,10) : null;
-      const act = this.milestoneForm.get('act').value ? Utils.convertUTCDate(new Date(this.milestoneForm.get('act').value)).toISOString().substring(0,10) : null;
+      const fc = this.milestoneForm.get('fc').value ? convertUTCDate(new Date(this.milestoneForm.get('fc').value)).toISOString().substring(0,10) : null;
+      const act = this.milestoneForm.get('act').value ? convertUTCDate(new Date(this.milestoneForm.get('act').value)).toISOString().substring(0,10) : null;
       this.milestoneService.updateByProjectAndMsIdName(this.project.projectId, this.msName, fc, act, null, false, false).subscribe();
     }
 

@@ -1,14 +1,16 @@
-
-import { Component, OnInit, Input } from "@angular/core";
-import { SelectItemGroup, SelectItem } from "primeng/api";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Project } from "../../../../models/project";
-import { PmcGroup } from "../../../../models/pmcGroup";
-import { PmcUser } from "../../../../models/pmcUser";
-import { PmcRole } from "../../../../models/pmcRole";
-import { FormsRegisterService } from "../../../../services/alandaFormsRegister.service";
-import { concatMap, mergeMap } from "rxjs/operators";
-import { AlandaUserService } from "projects/alanda-common/src/lib/api/alandaUser.service";
+import { Component, OnInit, Input } from '@angular/core';
+import { AlandaProject } from 'projects/alanda-common/src/lib/api/models/alandaProject';
+import { AlandaGroup } from 'projects/alanda-common/src/lib/api/models/alandaGroup';
+import { AlandaRole } from 'projects/alanda-common/src/lib/api/models/alandaRole';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { SelectItemGroup, SelectItem } from 'primeng/api';
+import { AlandaUserService } from 'projects/alanda-common/src/lib/api/alandaUser.service';
+import { AlandaPropertyService } from 'projects/alanda-common/src/lib/api/alandaProperty.service';
+import { AlandaGroupService } from 'projects/alanda-common/src/lib/api/alandaGroup.service';
+import { AlandaRoleService } from 'projects/alanda-common/src/lib/api/alandaRole.service';
+import { AlandaFormsRegisterService } from 'projects/alanda-common/src/lib/services/alandaFormsRegister.service';
+import { mergeMap, concatMap } from 'rxjs/operators';
+import { AlandaUser } from 'projects/alanda-common/src/lib/api/models/alandaUser';
 
 @Component({
     selector: 'role-select',
@@ -17,7 +19,7 @@ import { AlandaUserService } from "projects/alanda-common/src/lib/api/alandaUser
   })
 export class SelectRoleComponent implements OnInit {
 
-    @Input() project: Project;
+    @Input() project: AlandaProject;
     @Input() type: string; //'user' or 'group', determines if suggestions should be of type group or user
     @Input() displayName: string;
     @Input() roleName: string;
@@ -27,16 +29,16 @@ export class SelectRoleComponent implements OnInit {
     @Input() grouping?: boolean = false; // if type == user, group users by their groups in dropdown
     //TODO: @Input() parent?: SelectRoleComponent;
     @Input() formName: string;
-    groups: PmcGroup[];
+    groups: AlandaGroup[];
     items: string[] = [];
     options: {label: string, value: number}[] = [];
     optionsGrouped: SelectItemGroup[] = [];
-    role: PmcRole;
+    role: AlandaRole;
     roleSelectFormGroup: FormGroup;
 
-    constructor(private userService: AlandaUserService, private propService: PropertyService,
-                private groupService: PmcGroupServiceNg, private roleService: PmcRoleServiceNg,
-                private formsRegisterService: FormsRegisterService){}
+    constructor(private userService: AlandaUserService, private propService: AlandaPropertyService,
+                private groupService: AlandaGroupService, private roleService: AlandaRoleService,
+                private formsRegisterService: AlandaFormsRegisterService){}
 
     ngOnInit(){
       this.initFormGroup();
@@ -77,7 +79,7 @@ export class SelectRoleComponent implements OnInit {
       } else console.warn('wrong type input for role-select');
     }
 
-    private addUsersToOptions(u?: PmcUser[]) {
+    private addUsersToOptions(u?: AlandaUser[]) {
       this.groupService.getGroupsForRole(this.roleName).subscribe(groups => {
         this.groups = groups;
         this.groups.forEach(group => {

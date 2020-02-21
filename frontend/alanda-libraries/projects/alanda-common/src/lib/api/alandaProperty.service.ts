@@ -6,9 +6,7 @@ import { AlandaProperty } from './models/alandaProperty';
 import { catchError } from 'rxjs/operators';
 import { AlandaExceptionHandlingService } from '../services/alandaExceptionHandling.service';
 
-@Injectable({
-    providedIn: 'root'
-  })
+@Injectable()
   export class AlandaPropertyService extends AlandaExceptionHandlingService {
 
     endpointUrl: string;

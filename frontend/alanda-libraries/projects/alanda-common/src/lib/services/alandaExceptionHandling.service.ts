@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AlandaExceptionHandlingService {
 
     constructor() {}

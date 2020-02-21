@@ -1,9 +1,8 @@
-
-import { Component, OnInit, Input } from "@angular/core";
-import { SelectItem } from "primeng/api";
-import { FormGroup, FormBuilder, Validators, AbstractControl } from "@angular/forms";
-import { TaskServiceNg } from "../../../../api/alandaTask.service";
-import { FormsRegisterService } from "../../../../services/alandaFormsRegister.service";
+import { Component, OnInit, Input } from '@angular/core';
+import { SelectItem } from 'primeng/api';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { AlandaTaskService } from 'projects/alanda-common/src/lib/api/alandaTask.service';
+import { AlandaFormsRegisterService } from 'projects/alanda-common/src/lib/services/alandaFormsRegister.service';
 
 @Component({
     selector: 'simple-select',
@@ -20,7 +19,7 @@ export class SelectComponent implements OnInit {
 
     selectForm: FormGroup;
 
-    constructor(private taskService: TaskServiceNg, private fb: FormBuilder, private formsRegisterService: FormsRegisterService){}
+    constructor(private taskService: AlandaTaskService, private fb: FormBuilder, private formsRegisterService: AlandaFormsRegisterService){}
 
     ngOnInit(){
       if(!this.type) {

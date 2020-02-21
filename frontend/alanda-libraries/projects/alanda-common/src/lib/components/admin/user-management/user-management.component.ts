@@ -1,17 +1,17 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
-import { PmcUserServiceNg } from "../../../api/alandaUser.service";
-import { LazyLoadEvent, MessageService } from "primeng/components/common/api";
-import { PmcGroupServiceNg } from "../../../api/alandaGroup.service";
-import { mergeMap } from "rxjs/operators";
-import { PmcRoleServiceNg } from "../../../api/alandaRole.service";
-import { PmcPermissionServiceNg } from "../../../api/alandaPermission.service";
-import { PmcUser } from "../../../models/pmcUser";
-import { PmcGroup } from "../../../models/pmcGroup";
-import { PmcPermission } from "../../../models/pmcPermission";
-import { ServerOptions } from "../../../models/serverOptions";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Table } from "primeng/table";
-import { PmcRole } from "../../../models/pmcRole";
+import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
+import { AlandaGroup } from '../../../api/models/alandaGroup';
+import { AlandaPermission } from '../../../api/models/alandaPermission';
+import { AlandaRole } from '../../../api/models/alandaRole';
+import { AlandaUser } from '../../../api/models/alandaUser';
+import { Table } from 'primeng/table';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AlandaGroupService } from '../../../api/alandaGroup.service';
+import { AlandaRoleService } from '../../../api/alandaRole.service';
+import { AlandaPermissionService } from '../../../api/alandaPermission.service';
+import { MessageService, LazyLoadEvent } from 'primeng/api';
+import { AlandaUserService } from '../../../api/alandaUser.service';
+import { ServerOptions } from '../../../models/serverOptions';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'alanda-user-management',
@@ -21,15 +21,15 @@ import { PmcRole } from "../../../models/pmcRole";
 })
 export class UserManagementComponent implements OnInit {
 
-    users: PmcUser[] = [];
-    selectedUser: PmcUser;
+    users: AlandaUser[] = [];
+    selectedUser: AlandaUser;
     loading = true;
-    availableGroups: PmcGroup[] = [];
-    assignedGroups: PmcGroup[] = [];
-    availablePermissions: PmcPermission[] = [];
-    grantedPermissions: PmcPermission[] = [];
-    availableRoles: PmcRole[] = [];
-    assignedRoles: PmcRole[] = [];
+    availableGroups: AlandaGroup[] = [];
+    assignedGroups: AlandaGroup[] = [];
+    availablePermissions: AlandaPermission[] = [];
+    grantedPermissions: AlandaPermission[] = [];
+    availableRoles: AlandaRole[] = [];
+    assignedRoles: AlandaRole[] = [];
 
     userColumns = [
       {field: 'loginName', header: 'Login'},
@@ -40,10 +40,10 @@ export class UserManagementComponent implements OnInit {
     @ViewChild('table') turboTable: Table;
     userForm: FormGroup;
 
-    constructor(private pmcUserService: PmcUserServiceNg,
-                private pmcGroupService: PmcGroupServiceNg,
-                private pmcRoleService: PmcRoleServiceNg,
-                private pmcPermissionService: PmcPermissionServiceNg,
+    constructor(private userService: AlandaUserService,
+                private groupService: AlandaGroupService,
+                private roleService: AlandaRoleService,
+                private permissionService: AlandaPermissionService,
                 private messageService: MessageService,
                 private fb: FormBuilder) {
     }
@@ -115,7 +115,7 @@ export class UserManagementComponent implements OnInit {
       return this.userForm.get('locked').value;
     }
 
-    private fillUserForm(user: PmcUser) {
+    private fillUserForm(user: AlandaUser) {
       this.userForm.patchValue(user);
     }
 
@@ -136,7 +136,7 @@ export class UserManagementComponent implements OnInit {
       for (const filter in event.filters) {
         serverOptions.filterOptions[filter] = event.filters[filter].value
       }
-      this.pmcUserService.getUsers(serverOptions)
+      this.userService.getUsers(serverOptions)
       .subscribe(
         result => {
           this.loading = false;
@@ -161,8 +161,8 @@ export class UserManagementComponent implements OnInit {
       this.initUserForm();
     }
 
-    private createUser(user: PmcUser) {
-      this.pmcUserService.save(user).subscribe(
+    private createUser(user: AlandaUser) {
+      this.userService.save(user).subscribe(
         res => {
           this.messageService.add({severity:'success', summary:'Create New User', detail: 'User has been created'});
           this.turboTable.reset();
@@ -170,13 +170,13 @@ export class UserManagementComponent implements OnInit {
         error => this.messageService.add({severity:'error', summary:'Create User', detail: error.message}));
     }
 
-    private updateUser(user: PmcUser) {
+    private updateUser(user: AlandaUser) {
       let stringGroups: string[] = new Array<string>();
       this.assignedGroups.forEach(item => {
         stringGroups.push(item.groupName);
       });
       user.groups = stringGroups;
-        this.pmcUserService.updateUser(user).subscribe(
+        this.userService.updateUser(user).subscribe(
           res => {
             this.messageService.add({severity:'success', summary:'Update User', detail:'User has been updated'})
           },
@@ -191,11 +191,11 @@ export class UserManagementComponent implements OnInit {
         filterOptions: {},
         sortOptions: {}
       }
-      this.pmcUserService.getGroupsForUser(this.selectedUser.loginName)
+      this.userService.getGroupsForUser(this.selectedUser.loginName)
       .pipe(
-        mergeMap((groups:PmcGroup[]) => {
+        mergeMap((groups:AlandaGroup[]) => {
           this.assignedGroups = groups;
-          return this.pmcGroupService.getGroups(serverOptions);
+          return this.groupService.getGroups(serverOptions);
         }),
       )
       .subscribe(
@@ -210,11 +210,11 @@ export class UserManagementComponent implements OnInit {
     }
 
     private loadRoles() {
-      this.pmcUserService.getEffectiveRolesForUser(this.selectedUser.guid)
+      this.userService.getEffectiveRolesForUser(this.selectedUser.guid)
       .pipe(
         mergeMap(roles => {
           this.assignedRoles = roles;
-          return this.pmcRoleService.getRoles();
+          return this.roleService.getRoles();
         })
       )
       .subscribe(
@@ -229,11 +229,11 @@ export class UserManagementComponent implements OnInit {
     }
 
     private loadPermissions(): void{
-      this.pmcUserService.getEffectivePermissionsForUser(this.selectedUser.guid)
+      this.userService.getEffectivePermissionsForUser(this.selectedUser.guid)
       .pipe(
-        mergeMap((permissions: PmcPermission[]) => {
+        mergeMap((permissions: AlandaPermission[]) => {
           this.grantedPermissions = permissions;
-          return this.pmcPermissionService.getPermissions();
+          return this.permissionService.getPermissions();
         })
       )
       .subscribe(
@@ -248,7 +248,7 @@ export class UserManagementComponent implements OnInit {
     }
 
     runAsUser() {
-      this.pmcUserService.runAsUser(this.selectedUser.loginName).subscribe(
+      this.userService.runAsUser(this.selectedUser.loginName).subscribe(
         user => this.messageService.add({severity:'success', summary:'Run As User', detail: `Run as ${user.loginName}`}),
         error => this.messageService.add({severity:'error', summary:'Run As User', detail: error.message})
       );
@@ -262,21 +262,21 @@ export class UserManagementComponent implements OnInit {
       });
       this.selectedUser.groups = stringGroups;
 
-      this.pmcUserService.updateUser(this.selectedUser).subscribe(
+      this.userService.updateUser(this.selectedUser).subscribe(
         result => this.messageService.add({severity:'success', summary:'Update Groups', detail: 'Groups have been updated'}),
         error => this.messageService.add({severity:'error', summary:'Update Groups', detail: error.message})
       );
     }
 
     onUpdateRoles() {
-      this.pmcUserService.updateRolesForUser(this.selectedUser.guid, this.assignedRoles).subscribe(
+      this.userService.updateRolesForUser(this.selectedUser.guid, this.assignedRoles).subscribe(
         result => this.messageService.add({severity:'success', summary:'Update Roles', detail: 'Roles have been updated'}),
         error => this.messageService.add({severity:'error', summary:'Update Roles', detail: error.message})
       );
     }
 
     onUpdatePermissions() {
-      this.pmcUserService.updatePermissionsForUser(this.selectedUser.guid, this.grantedPermissions).subscribe(
+      this.userService.updatePermissionsForUser(this.selectedUser.guid, this.grantedPermissions).subscribe(
         result => this.messageService.add({severity:'success', summary:'Update Permissions', detail: 'Permissions have been updated'}),
         error => this.messageService.add({severity:'error', summary:'Update Permissions', detail: error.message})
       );

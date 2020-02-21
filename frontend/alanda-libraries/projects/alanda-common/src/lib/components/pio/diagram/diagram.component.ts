@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, Inject, ViewChild, ElementRef, OnDestroy, AfterContentInit, SimpleChanges, OnChanges } from "@angular/core";
+import { Component, OnInit, AfterContentInit, OnDestroy, OnChanges, Input, ViewChild, ElementRef, Inject, SimpleChanges } from '@angular/core';
+import { AlandaTask } from '../../../api/models/alandaTask';
 import * as BpmnJS from 'bpmn-js/dist/bpmn-navigated-viewer.production.min.js';
+import { APP_CONFIG, AppSettings } from '../../../models/appSettings';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 import { importDiagram } from './importDiagram';
-import { HttpClient } from "@angular/common/http";
-import { catchError } from "rxjs/operators";
-import { throwError } from "rxjs";
-import { PmcTask } from "../../../models/pmcTask";
-import { APP_CONFIG, AppSettings } from "../../../models/appSettings";
+import { throwError } from 'rxjs';
 
 @Component({
     selector: 'pio-diagram-component',
@@ -15,12 +15,12 @@ import { APP_CONFIG, AppSettings } from "../../../models/appSettings";
 export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, OnChanges {
 
     @Input() pid: string;
-    @Input() task: PmcTask;
+    @Input() task: AlandaTask;
     @ViewChild('ref') private el: ElementRef;
     endpointUrl: string;
     private bpmnJS: BpmnJS;
     activities: any[] = [];
-    
+
     constructor(@Inject(APP_CONFIG) private config: AppSettings, private http: HttpClient) {
         this.endpointUrl = config.API_ENDPOINT + "/pmc-process";
         this.bpmnJS = new BpmnJS({
@@ -41,10 +41,10 @@ export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, On
                     for(let act of res.childTransitionInstances) {
                         this.addToMap(act);
                     }
-                } 
+                }
                 for(let key in this.activities) {
                    this.addTokenOverlay(canvas, overlays, key, this.activities[key]);
-                }     
+                }
             }
         );
     }
@@ -112,7 +112,7 @@ export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, On
         .subscribe(
             (warnings) => {
                 let canvas = this.bpmnJS.get('canvas');
-                // setTimeout(() => { // just a funny quickfix 
+                // setTimeout(() => { // just a funny quickfix
                     canvas.zoom('fit-viewport');
                     this.loadActivities(canvas);
                 // }, 1000);

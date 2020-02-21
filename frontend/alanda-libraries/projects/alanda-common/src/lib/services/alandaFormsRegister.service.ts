@@ -5,9 +5,7 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { AlandaTask } from '../api/models/alandaTask';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AlandaFormsRegisterService {
 
   private formGroup: FormGroup;

@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
-import { FormGroup, Validators, FormBuilder } from "@angular/forms";
-import { PmcPermissionServiceNg } from "../../../api/alandaPermission.service";
-import { PmcPermission } from "../../../models/pmcPermission";
-import { Table } from "primeng/table";
-import { MessageService, LazyLoadEvent } from "primeng/api";
+import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
+import { AlandaPermission } from '../../../api/models/alandaPermission';
+
+import { Table } from 'primeng/table';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AlandaPermissionService } from '../../../api/alandaPermission.service';
+import { MessageService, LazyLoadEvent } from 'primeng/api';
 
 @Component({
   selector: 'alanda-permission-management',
@@ -14,8 +15,8 @@ import { MessageService, LazyLoadEvent } from "primeng/api";
 })
 export class PermissionManagementComponent implements OnInit {
 
-    permissions: PmcPermission[];
-    selectedPermission: PmcPermission;
+    permissions: AlandaPermission[];
+    selectedPermission: AlandaPermission;
     loading: boolean;
     permissionColumns = [
       {field: 'guid', header: 'Guid'},
@@ -25,7 +26,7 @@ export class PermissionManagementComponent implements OnInit {
 
     @ViewChild('table') turboTable: Table;
 
-    constructor(private pmcPermissionService: PmcPermissionServiceNg, private fb: FormBuilder, private messageService: MessageService) {}
+    constructor(private permissionService: AlandaPermissionService, private fb: FormBuilder, private messageService: MessageService) {}
 
     ngOnInit() {
       this.initPermissionForm();
@@ -38,7 +39,7 @@ export class PermissionManagementComponent implements OnInit {
     }
 
     onLoadPermissions(event: LazyLoadEvent) {
-      this.pmcPermissionService.getPermissions().subscribe(res => {
+      this.permissionService.getPermissions().subscribe(res => {
           this.permissions = res;
         }
       );
@@ -70,7 +71,7 @@ export class PermissionManagementComponent implements OnInit {
       this.initPermissionForm();
     }
 
-    private fillPermissionForm(permission: PmcPermission) {
+    private fillPermissionForm(permission: AlandaPermission) {
       this.permissionForm.patchValue(permission);
     }
 
@@ -78,8 +79,8 @@ export class PermissionManagementComponent implements OnInit {
       return this.permissionForm.get('key').value;
     }
 
-    private createPermission(permission: PmcPermission) {
-      this.pmcPermissionService.save(permission).subscribe(
+    private createPermission(permission: AlandaPermission) {
+      this.permissionService.save(permission).subscribe(
         res => {
           this.messageService.add({severity:'success', summary:'Create permission', detail: 'Permission has been created'})
           this.turboTable.reset();
@@ -87,8 +88,8 @@ export class PermissionManagementComponent implements OnInit {
         error => this.messageService.add({severity:'error', summary:'Create permission', detail: error.message}));
     }
 
-    private updatePermission(permission: PmcPermission){
-      this.pmcPermissionService.update(permission).subscribe(
+    private updatePermission(permission: AlandaPermission){
+      this.permissionService.update(permission).subscribe(
         res => {
           this.messageService.add({severity:'success', summary:'Update permission', detail: 'Permission has been updated'})
       },

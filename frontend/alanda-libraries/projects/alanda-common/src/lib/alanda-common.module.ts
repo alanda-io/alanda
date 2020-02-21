@@ -63,6 +63,22 @@ import { UserManagementComponent } from './components/admin/user-management/user
 import { GroupManagementComponent } from './components/admin/group-management/group-management.component';
 import { RoleManagementComponent } from './components/admin/role-management/role-management.component';
 import { PermissionManagementComponent } from './components/admin/permission-management/permission-management.component';
+import { AlandaUserService } from './api/alandaUser.service';
+import { AlandaTaskService } from './api/alandaTask.service';
+import { AlandaCommentService } from './api/alandaComment.service';
+import { AlandaDocumentService } from './api/alandaDocument.service';
+import { AlandaGroupService } from './api/alandaGroup.service';
+import { AlandaHistoryService } from './api/alandaHistory.service';
+import { AlandaMilestoneService } from './api/alandaMilestone.service';
+import { AlandaPermissionService } from './api/alandaPermission.service';
+import { AlandaProcessService } from './api/alandaProcess.service';
+import { AlandaProjectService } from './api/alandaProject.service';
+import { AlandaPropertyService } from './api/alandaProperty.service';
+import { AlandaRoleService } from './api/alandaRole.service';
+import { AlandaAuthorizationService } from './services/alandaAuthorization.service';
+import { AlandaExceptionHandlingService } from './services/alandaExceptionHandling.service';
+import { AlandaMonitorAPIService } from './services/alandaMonitorApi.service';
+import { AlandaProjectPropertiesService } from './services/alandaProjectProperties.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -164,8 +180,7 @@ import { PermissionManagementComponent } from './components/admin/permission-man
     DropdownSelectComponent,
     AlandaTaskTemplateComponent
    ],
-  entryComponents: [
-  ]
+  entryComponents: []
 })
 export class AlandaCommonModule {
 
@@ -173,6 +188,22 @@ export class AlandaCommonModule {
     return {
       ngModule: AlandaCommonModule,
       providers: [
+        AlandaUserService,
+        AlandaTaskService,
+        AlandaCommentService,
+        AlandaDocumentService,
+        AlandaGroupService,
+        AlandaHistoryService,
+        AlandaMilestoneService,
+        AlandaPermissionService,
+        AlandaProcessService,
+        AlandaProjectService,
+        AlandaPropertyService,
+        AlandaRoleService,
+        AlandaAuthorizationService,
+        AlandaExceptionHandlingService,
+        AlandaMonitorAPIService,
+        AlandaProjectPropertiesService,
         {
           provide: APP_CONFIG,
           useValue: config
