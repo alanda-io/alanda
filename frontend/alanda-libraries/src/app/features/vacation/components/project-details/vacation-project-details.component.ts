@@ -1,6 +1,6 @@
 
-import { Component } from "@angular/core";
-import { Project } from "projects/alanda-common/src/public_api";
+import { Component } from '@angular/core';
+import { AlandaProject } from 'projects/alanda-common/src/lib/api/models/alandaProject';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { Project } from "projects/alanda-common/src/public_api";
   })
   export class VacationProjectDetailsComponent {
 
-    project: Project;
+    project: AlandaProject;
     pid: string;
 
   }

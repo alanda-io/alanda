@@ -5,7 +5,7 @@
 @import 'primeflex/primeflex.css';
 @import 'primeicons/primeicons.css';
  /* the boostrap theme lacks the styling for this component */
-@import './app/common/styles/primeng-boostrap-toast-fix.css';
+@import './app/styles/primeng-boostrap-toast-fix.css';
 @import 'font-awesome/css/font-awesome.css';
 
 .content {

@@ -1,9 +1,9 @@
 import { Injectable, Type } from "@angular/core";
 import { Component } from "@angular/compiler/src/core";
-import { PrepareVacationRequestComponent } from "../components/task-forms/prepare-vacation-request.component";
-import { CheckVacationRequestComponent } from "../components/task-forms/check-vacation-request.component";
-import { ModifyVacationRequestComponent } from "../components/task-forms/modify-vacation-request.component";
-import { DefaultTaskComponent } from "../components/task-forms/default-task-template.component";
+import { PrepareVacationRequestComponent } from "../forms/prepare-vacation-request.component";
+import { CheckVacationRequestComponent } from "../forms/check-vacation-request.component";
+import { ModifyVacationRequestComponent } from "../forms/modify-vacation-request.component";
+import { DefaultTaskComponent } from "../forms/default-task-template.component";
 
 @Injectable()
 export class VacationFormsService {

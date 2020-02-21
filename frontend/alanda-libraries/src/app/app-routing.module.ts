@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
+import { HomeComponent } from './views/home/home.component';
 import { UserManagementComponent, CreateProjectComponent, ProjectMonitorComponent, TasklistComponent, AttachmentsComponent,
          GroupManagementComponent, CommentsComponent, RoleManagementComponent,
          PermissionManagementComponent } from 'projects/alanda-common/src/public_api';
@@ -16,6 +16,9 @@ const routes: Routes = [
   { path: 'admin/roles', component: RoleManagementComponent },
   { path: 'admin/permissions', component: PermissionManagementComponent },
   { path: 'comments', component: CommentsComponent },
+  { path: 'process', children: [
+    { path: 'vacation', loadChildren: './features/vacation/vacation.module#VacationModule'},
+  ]},
   /* { path: 'forms/:formKey/:taskId', component: FormsControllerComponent },
   { path: 'projectdetails/:projectId', component: ProjectsControllerComponent }, */
   { path: '**', redirectTo: ''}
