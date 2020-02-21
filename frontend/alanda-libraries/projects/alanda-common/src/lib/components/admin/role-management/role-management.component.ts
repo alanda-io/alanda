@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
-import { PmcRoleServiceNg } from "../../../api/pmcrole.service";
+import { PmcRoleServiceNg } from "../../../api/alandaRole.service";
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
-import { PmcPermissionServiceNg } from "../../../api/pmcpermission.service";
+import { PmcPermissionServiceNg } from "../../../api/alandaPermission.service";
 import { PmcRole } from "../../../models/pmcRole";
 import { PmcPermission } from "../../../models/pmcPermission";
 import { PmcUser } from "../../../models/pmcUser";
 import { Table } from "primeng/table";
 import { MessageService, LazyLoadEvent } from "primeng/api";
-import { PmcUserServiceNg } from "../../../api/pmcuser.service";
+import { PmcUserServiceNg } from "../../../api/alandaUser.service";
 
 @Component({
   selector: 'alanda-role-management',
@@ -22,7 +22,7 @@ export class RoleManagementComponent implements OnInit {
     selectedRole: PmcRole;
     usersWithRole: PmcUser[] = [];
     loading: boolean;
-    
+
     roleForm: FormGroup;
     availablePermissions: PmcPermission[] = [];
     grantedPermissions: PmcPermission[] = [];
@@ -63,7 +63,7 @@ export class RoleManagementComponent implements OnInit {
       }
       if(this.selectedRole) {
         this.selectedRole.name = this.roleName;
-  
+
         this.updateRole(this.selectedRole);
       } else {
         this.createRole({

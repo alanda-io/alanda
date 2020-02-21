@@ -1,10 +1,8 @@
-import { Component, OnInit, ComponentFactoryResolver, ViewChild } from "@angular/core";
+/* import { Component, OnInit, ComponentFactoryResolver, ViewChild } from "@angular/core";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { switchMap } from "rxjs/operators";
-import { ProjectDetailsDirective } from "../../project-header/directives/project-details-controller.directive";
-import { ProjectServiceNg } from "../../../api/project.service";
-import { ProjectDetailsServiceNg } from "../../../services/project-details.service";
-import { Project } from "../../../models/project";
+import { AlandaProjectService } from '../../../api/alandaProject.service';
+import { AlandaProject } from '../../../api/models/alandaProject';
 
 
 @Component({
@@ -19,13 +17,13 @@ import { Project } from "../../../models/project";
     activeTab = 0;
     @ViewChild(ProjectDetailsDirective) projectDetailsHost: ProjectDetailsDirective;
 
-    constructor(private route: ActivatedRoute, private projectService: ProjectServiceNg,
+    constructor(private route: ActivatedRoute, private projectService: AlandaProjectService,
                 private componentFactoryResolver: ComponentFactoryResolver, private projectDetailsService: ProjectDetailsServiceNg){
     }
 
     ngOnInit(){
         this.route.paramMap.pipe(
-            switchMap((params: ParamMap) => 
+            switchMap((params: ParamMap) =>
                 this.projectService.getProjectByProjectId(params.get('projectId')))
         ).subscribe(
           project => {
@@ -34,7 +32,7 @@ import { Project } from "../../../models/project";
         })
     }
 
-    private loadProjectDetailsComponent(project: Project) {
+    private loadProjectDetailsComponent(project: AlandaProject) {
       let componentFactory = this.componentFactoryResolver
           .resolveComponentFactory(this.projectDetailsService.getPropsForType(project.projectTypeIdName));
       let viewContainerRef = this.projectDetailsHost.viewContainerRef;
@@ -48,3 +46,4 @@ import { Project } from "../../../models/project";
         })
       }
   }
+ */

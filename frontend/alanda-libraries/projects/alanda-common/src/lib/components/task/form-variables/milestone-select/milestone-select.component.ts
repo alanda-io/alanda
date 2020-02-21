@@ -1,10 +1,10 @@
 
 import { Component, OnInit, Input } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { FormsRegisterService } from "../../../../services/forms-register.service";
+import { FormsRegisterService } from "../../../../services/alandaFormsRegister.service";
 import { Project } from "../../../../models/project";
-import { MilestoneService } from "../../../../api/milestone.service";
-import { Utils } from "../../../../utils/utils";
+import { MilestoneService } from "../../../../api/alandaMilestone.service";
+import { Utils } from "../../../../utils/helper-functions";
 
 @Component({
     selector: 'milestone-select',
@@ -18,7 +18,7 @@ export class SelectMilestoneComponent implements OnInit {
     @Input() msName: string;
 
     milestoneForm: FormGroup;
-    
+
     constructor(private milestoneService: MilestoneService, private fb: FormBuilder, private formsRegisterService: FormsRegisterService){}
 
     ngOnInit(){

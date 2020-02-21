@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-import { UserManagementComponent, CreateProjectComponent, ProjectMonitorComponent, TasklistComponent,AttachmentsComponent,
-         GroupManagementComponent, CommentsComponent, FormsControllerComponent, ProjectsControllerComponent, RoleManagementComponent, PermissionManagementComponent } from 'projects/alanda-common/src/public_api';
+import { UserManagementComponent, CreateProjectComponent, ProjectMonitorComponent, TasklistComponent, AttachmentsComponent,
+         GroupManagementComponent, CommentsComponent, RoleManagementComponent,
+         PermissionManagementComponent } from 'projects/alanda-common/src/public_api';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,10 +16,10 @@ const routes: Routes = [
   { path: 'admin/roles', component: RoleManagementComponent },
   { path: 'admin/permissions', component: PermissionManagementComponent },
   { path: 'comments', component: CommentsComponent },
-  { path: 'forms/:formKey/:taskId', component: FormsControllerComponent },
-  { path: 'projectdetails/:projectId', component: ProjectsControllerComponent },
+  /* { path: 'forms/:formKey/:taskId', component: FormsControllerComponent },
+  { path: 'projectdetails/:projectId', component: ProjectsControllerComponent }, */
   { path: '**', redirectTo: ''}
-]
+];
 
 @NgModule({
   imports: [ RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload'})],

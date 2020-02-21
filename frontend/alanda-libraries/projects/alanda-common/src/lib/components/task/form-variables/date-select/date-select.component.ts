@@ -3,8 +3,8 @@ import { Component, OnInit, Input } from "@angular/core";
 import { MessageService } from "primeng/api";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Project } from "../../../../models/project";
-import { FormsRegisterService } from "../../../../services/forms-register.service";
-import { PropertyService } from "../../../../api/property.service";
+import { FormsRegisterService } from "../../../../services/alandaFormsRegister.service";
+import { PropertyService } from "../../../../api/alandaProperty.service";
 
 @Component({
     selector: 'date-select',
@@ -51,5 +51,5 @@ export class DateSelectComponent implements OnInit {
           }
         }
       );
-    }    
+    }
   }

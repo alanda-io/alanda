@@ -1,9 +1,9 @@
 import { OnInit, Component, Input } from "@angular/core";
-import { Process } from "../../../models/process";
-import { ProcessRelation } from "../../../enums/process-relation.enum";
-import { PmcTask } from "../../../models/pmcTask";
+import { ProcessRelation } from "../../../enums/processRelation.enum";
 import { Router } from "@angular/router";
 import { FlattenProjectResult } from "../project-and-processes.component";
+import { AlandaProcess } from '../../../api/models/alandaProcess';
+import { AlandaTask } from '../../../api/models/alandaTask';
 
 @Component({
     selector: 'project-control-item',
@@ -15,7 +15,7 @@ import { FlattenProjectResult } from "../project-and-processes.component";
     @Input() info: FlattenProjectResult;
     processInfoArray: any[] = [];
     showProcessTasks: any[] = [];
-    
+
     constructor(private router: Router) {}
 
     ngOnInit() {
@@ -27,13 +27,13 @@ import { FlattenProjectResult } from "../project-and-processes.component";
     }
 
     private loadProcesses() {
-      let allowedProcesses: Process[] = [];
+      let allowedProcesses: AlandaProcess[] = [];
 
       for(let aProcess of this.info.processesAndTasks['allowed']) {
         allowedProcesses.push(aProcess);
       }
 
-      let activeProcesses: Process[] = this.info.processesAndTasks['active'];
+      let activeProcesses: AlandaProcess[] = this.info.processesAndTasks['active'];
       for(let process of activeProcesses) {
         // TODO: hide or show processes, check auth
 
@@ -56,7 +56,7 @@ import { FlattenProjectResult } from "../project-and-processes.component";
 
     }
 
-    public openForm(task: PmcTask) {
+    public openForm(task: AlandaTask) {
       this.router.navigate([`forms/${task.formKey}/${task.task_id}`]);
     }
 

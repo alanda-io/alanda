@@ -1,7 +1,7 @@
 import { Project } from "../../../models/project";
 import { PmcTask } from "../../../models/pmcTask";
 import { Component } from "@angular/core";
-import { FormsRegisterService } from "../../../services/forms-register.service";
+import { FormsRegisterService } from "../../../services/alandaFormsRegister.service";
 
 @Component({
     providers: [FormsRegisterService],

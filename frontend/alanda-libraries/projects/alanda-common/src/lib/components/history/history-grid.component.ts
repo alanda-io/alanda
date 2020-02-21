@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { HistoryServiceNg } from "../../api/history.service";
+import { AlandaHistoryService } from '../../api/alandaHistory.service';
 
 @Component({
     selector: 'history-grid-component',
@@ -31,8 +31,8 @@ export class HistoryGridComponent implements OnInit{
         {displayName:'User', name: 'User', field: 'user'},
         {displayName:'Log Date', name: 'Log Date', field: 'logDate'}
       ]
-    
-    constructor(private historyService: HistoryServiceNg, private route: ActivatedRoute) {};
+
+    constructor(private historyService: AlandaHistoryService, private route: ActivatedRoute) {};
 
     ngOnInit(){
         if(this.route.snapshot.params['projectId']) {
@@ -40,7 +40,7 @@ export class HistoryGridComponent implements OnInit{
         } else if(this.route.snapshot.params['banfId']) {
             this.serverOptions.filterOptions['refObjectIdName'] = this.route.snapshot.params['banfId'];
             this.serverOptions.filterOptions['refObjectType'] = 'PO';
-        }      
+        }
     }
 
     loadLazy(event) {

@@ -1,17 +1,12 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { ProjectServiceNg } from '../../api/project.service';
-import { TableAPIServiceNg } from '../../services/tableAPI.service';
-export type ServerOptions = {
-  pageNumber: number, 
-  pageSize: number,
-  filterOptions: any,
-  sortOptions: any
-}
+import { ServerOptions } from '../../models/serverOptions';
+import { AlandaMonitorAPIService } from '../../services/alandaMonitorApi.service';
+import { AlandaProjectService } from '../../api/alandaProject.service';
 
 @Component({
-  selector: 'project-monitor-component',
+  selector: 'project-monitor',
   templateUrl: './project-monitor.component.html' ,
   styles: []
 })
@@ -28,8 +23,9 @@ export class ProjectMonitorComponent implements OnInit {
   menuItems: MenuItem[];
 
   @ViewChild('tt') turboTable: Table;
- 
-  constructor(private projectService: ProjectServiceNg, private tableAPIServiceNg: TableAPIServiceNg, public messageService: MessageService) {
+
+  constructor(private projectService: AlandaProjectService, private monitorApiService: AlandaMonitorAPIService,
+              public messageService: MessageService) {
     this.serverOptions = {
       pageNumber: 1,
       pageSize: 15,
@@ -44,10 +40,10 @@ export class ProjectMonitorComponent implements OnInit {
   };
 
   ngOnInit() {
-    const data = this.tableAPIServiceNg.getProjectMonitorLayouts();
+    const data = this.monitorApiService.getProjectMonitorLayouts();
     for(const k in data) {
       this.layouts.push(data[k]);
-    }    
+    }
     this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
 
     this.selectedLayout = this.layouts.filter(layout => layout.name === 'all')[0];
@@ -60,7 +56,7 @@ export class ProjectMonitorComponent implements OnInit {
         this.projectsData = res;
         this.loading = false;
       }
-    ); 
+    );
   }
 
   loadProjectsLazy(event: LazyLoadEvent){
@@ -75,11 +71,11 @@ export class ProjectMonitorComponent implements OnInit {
     this.serverOptions.filterOptions = {};
     for(let key of Object.keys(this.selectedLayout.filterOptions)){
       this.serverOptions.filterOptions[key] = this.selectedLayout.filterOptions[key];
-    }    
+    }
     for(let key in event.filters){
       this.serverOptions.filterOptions[key] = event.filters[key].value;
     }
-    
+
     this.serverOptions.pageNumber = event.first / this.serverOptions.pageSize + 1;
     this.loadProjects(this.serverOptions);
   }

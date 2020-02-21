@@ -1,0 +1,115 @@
+import { Injectable, Inject } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { AlandaUser } from './models/alandaUser';
+import { HttpClient } from '@angular/common/http';
+import { APP_CONFIG, AppSettings } from '../models/appSettings';
+import { AlandaListResult } from './models/alandaListResult';
+import { catchError, tap } from 'rxjs/operators';
+import { AlandaRole } from './models/alandaRole';
+import { AlandaGroup } from './models/alandaGroup';
+import { AlandaPermission } from './models/alandaPermission';
+import { AlandaExceptionHandlingService } from '../services/alandaExceptionHandling.service';
+import { ServerOptions } from '../models/serverOptions';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AlandaUserService extends AlandaExceptionHandlingService {
+
+  private endpointUrl: string;
+  public user$: BehaviorSubject<AlandaUser> = new BehaviorSubject(null);
+
+
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) config: AppSettings) {
+    super();
+    this.endpointUrl = config.API_ENDPOINT + '/user';
+  }
+
+  getUsers(serverOptions: ServerOptions): Observable<AlandaListResult<AlandaUser>> {
+    return this.http.post<AlandaListResult<AlandaUser>>(`${this.endpointUrl}/repo`, serverOptions)
+    .pipe(catchError(this.handleError<AlandaListResult<AlandaUser>>('getUsers')));
+  }
+
+  getUser(guid: number): Observable<AlandaUser> {
+    return this.http.get<AlandaUser>(`${this.endpointUrl}/repo/${guid}`)
+    .pipe(catchError(this.handleError<AlandaUser>('getUser')));
+  }
+
+  getUserByLogin(login: string): Observable<AlandaUser> {
+    return this.http.get<AlandaUser>(`${this.endpointUrl}/single/${login}`)
+    .pipe(catchError(this.handleError<AlandaUser>('getUserByLogin')));
+  }
+
+  updateUser(user: AlandaUser): Observable<AlandaUser> {
+    return this.http.put<AlandaUser>(`${this.endpointUrl}/repo/update`, user)
+    .pipe(catchError(this.handleError<AlandaUser>('updateUser')));
+  }
+
+  save(user: AlandaUser): Observable<void> {
+    return this.http.post<void>(`${this.endpointUrl}/repo/create`, user)
+    .pipe(catchError(this.handleError<void>('save')));
+  }
+
+  getEffectiveRolesForUser(userGuid: number): Observable<AlandaRole[]> {
+    return this.http.get<AlandaRole[]>(`${this.endpointUrl}/roles/effective/${userGuid}`)
+    .pipe(catchError(this.handleError<AlandaRole[]>('getEffectiveRolesForUser')));
+  }
+
+  updateRolesForUser(userGuid: number, roles: AlandaRole[]): Observable<void> {
+    return this.http.put<void>(`${this.endpointUrl}/roles/update/${userGuid}`, roles)
+    .pipe(catchError(this.handleError<void>('updateRolesForUser')));
+  }
+
+  getGroupsForUser(login: string): Observable<AlandaGroup[]> {
+    return this.http.get<AlandaGroup[]>(`${this.endpointUrl}/groups/${login}`)
+    .pipe(catchError(this.handleError<AlandaGroup[]>('getGroupsForUser')));
+  }
+
+  getEffectivePermissionsForUser(userGuid: number): Observable<AlandaPermission[]> {
+    return this.http.get<AlandaPermission[]>(`${this.endpointUrl}/permissions/effective/${userGuid}`)
+    .pipe(catchError(this.handleError<AlandaPermission[]>('getEffectivePermissionsForUser')));
+  }
+
+  updatePermissionsForUser(userGuid: number, permissions: AlandaPermission[]): Observable<void> {
+    return this.http.put<void>(`${this.endpointUrl}/permissions/update/${userGuid}`, permissions)
+    .pipe(catchError(this.handleError<void>('updatePermissionsForUser')));
+  }
+
+  getCurrentUser(): Observable<AlandaUser> {
+    return this.http.get<AlandaUser>(`${this.endpointUrl}/current`).pipe(
+      catchError(this.handleError<AlandaUser>('getCurrentUser')),
+      tap((user) => {
+        this.user$.next(user);
+      })
+    );
+  }
+
+  runAsUser(userName: string): Observable<AlandaUser> {
+    return this.http.post<AlandaUser>(`${this.endpointUrl}/runas/${userName}`, {}).pipe(
+        catchError(this.handleError<AlandaUser>('runAsUser')),
+        tap((user) => {
+          this.user$.next(user);
+        })
+    );
+  }
+
+  releaseRunAs(): Observable<AlandaUser> {
+    return this.http.post<AlandaUser>(`${this.endpointUrl}/release`, {}).pipe(
+        catchError(this.handleError<AlandaUser>('releaseRunAs')),
+        tap((user) => {
+          this.user$.next(user);
+        })
+    );
+  }
+
+  getUsersByGroupId(groupId: number): Observable<AlandaUser[]> {
+    return this.http.get<AlandaUser[]>(`${this.endpointUrl}/repo/getUsersByGroupId/${groupId}`)
+    .pipe(catchError(this.handleError<AlandaUser[]>('runAsUser')));
+  }
+
+  getUsersForRole(roleId: number): Observable<AlandaUser[]> {
+    return this.http.get<AlandaUser[]>(`${this.endpointUrl}/role/${roleId}`)
+    .pipe(catchError(this.handleError<AlandaUser[]>('getUsersForRole')));
+  }
+
+}

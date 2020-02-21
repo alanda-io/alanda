@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Inject } from "@angular/core";
-import { ProcessServiceNg } from "../../api/process.service";
-import { PmcTask } from "../../models/pmcTask";
 import { APP_CONFIG, AppSettings } from "../../models/appSettings";
+import { AlandaProcessService } from '../../api/alandaProcess.service';
+import { AlandaTask } from '../../api/models/alandaTask';
 
 @Component({
     selector: 'pio-component',
@@ -11,11 +11,11 @@ import { APP_CONFIG, AppSettings } from "../../models/appSettings";
 export class PioComponent implements OnInit{
 
     @Input() pid: string;
-    @Input() task: PmcTask;
+    @Input() task: AlandaTask;
     processName = '';
     endpointUrl: string;
-    
-    constructor(@Inject(APP_CONFIG) private config: AppSettings, private processService: ProcessServiceNg) {
+
+    constructor(@Inject(APP_CONFIG) private config: AppSettings, private processService: AlandaProcessService) {
         this.endpointUrl = config.API_ENDPOINT + "/pmc-process";
     };
 
@@ -25,7 +25,7 @@ export class PioComponent implements OnInit{
 
     getProcessInfo(pid) {
         this.processService.getProcessInfoForProcessInstance(pid).subscribe((res) => {
-            this.processName = res.processName;
+            //this.processName = res.processName;
         });
     }
 }

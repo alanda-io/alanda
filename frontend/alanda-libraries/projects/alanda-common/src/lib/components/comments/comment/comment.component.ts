@@ -1,8 +1,8 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
-import { PmcComment } from '../models/pmcComment';
-import { CommentTag } from '../models/commentTag';
-import { PmcCommentServiceNg } from '../../../api/pmccomment.service';
 import { NgForm } from '@angular/forms';
+import { AlandaComment } from '../../../api/models/alandaComment';
+import { AlandaCommentService } from '../../../api/alandaComment.service';
+import { AlandaCommentTag } from '../../../api/models/alandaCommentTag';
 
 
 @Component({
@@ -12,7 +12,7 @@ import { NgForm } from '@angular/forms';
 })
 export class CommentComponent {
 
-  @Input() comment: PmcComment;
+  @Input() comment: AlandaComment;
   @Input() type: string;
   @Input() tagFilters;
   @ViewChild('replyContent') textArea: ElementRef;
@@ -20,9 +20,9 @@ export class CommentComponent {
   doReply: boolean;
   loadingInProgress: boolean;
 
-  constructor(private pmcCommentService: PmcCommentServiceNg) {}
+  constructor(private pmcCommentService: AlandaCommentService) {}
 
-  tagClass(tag: CommentTag): string{
+  tagClass(tag: AlandaCommentTag): string{
     /* if(!this.filterEnabled || this.tagFilters.indexOf(tag.name) !== -1){
       //TODO: remove? improve
       if(tag.name == '#escalation'){
@@ -41,7 +41,7 @@ export class CommentComponent {
   }
 
   autogrow(){
-    let  textArea = document.getElementById("replyTextarea")    
+    let  textArea = document.getElementById("replyTextarea")
     if(this.comment.replyText && this.comment.replyText.length == 0) {
       textArea.style.height = textArea.style.minHeight;
     } else {
@@ -58,7 +58,7 @@ export class CommentComponent {
     this.loadingInProgress = true;
     this.pmcCommentService.postComment({
       text: this.comment.replyText,
-      taskId: this.comment.taskId, 
+      taskId: this.comment.taskId,
       procInstId: this.comment.procInstId,
       replyTo: this.comment.guid
     }).subscribe(

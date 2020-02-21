@@ -1,38 +1,39 @@
-import { OnInit, Component, Input, ViewChild, ComponentFactoryResolver, AfterViewInit, ChangeDetectorRef } from "@angular/core";
-import { Project } from "../../models/project";
-import { PmcTask } from "../../models/pmcTask";
-import { PmcUser } from "../../models/pmcUser";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { MessageService } from "primeng/api";
-import { ProjectPropertiesDirective } from "../controller/directives/project.properties.directive";
-import { ProjectPropertiesServiceNg } from "../../services/project-properties.service";
-import { ProjectServiceNg } from "../../api/project.service";
-import { FormsRegisterService } from "../../services/forms-register.service";
-import { TaskServiceNg } from "../../api/task.service";
-import { ProjectState } from "../../enums/project-status.enum";
-import { Utils } from "../../utils/utils";
+import { Component, OnInit, AfterViewInit, ViewChild, Input, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
+import { ProjectPropertiesDirective } from '../controller/directives/project.properties.directive';
+import { AlandaProject } from '../../api/models/alandaProject';
+import { AlandaTask } from '../../api/models/alandaTask';
+import { AlandaUser } from '../../api/models/alandaUser';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AlandaTaskService } from '../../api/alandaTask.service';
+import { MessageService } from 'primeng/api';
+import { AlandaProjectService } from '../../api/alandaProject.service';
+import { AlandaFormsRegisterService } from '../../services/alandaFormsRegister.service';
+import { AlandaProjectPropertiesService } from '../../services/alandaProjectProperties.service';
+import { ProjectState } from '../../enums/projectState.enum';
+import { convertUTCDate } from '../../utils/helper-functions';
 
 @Component({
-    selector: 'project-header-component',
+    selector: 'project-header',
     templateUrl: './project-header.component.html',
     styleUrls: [],
   })
   export class ProjectHeaderComponent implements OnInit, AfterViewInit {
 
     @ViewChild(ProjectPropertiesDirective) propertiesHost: ProjectPropertiesDirective;
-    @Input() project: Project;
-    @Input() task: PmcTask;
+    @Input() project: AlandaProject;
+    @Input() task: AlandaTask;
 
     snoozedTask: boolean;
-    candidateUsers: PmcUser[];
+    candidateUsers: AlandaUser[];
     showDelegateDialog: boolean;
     allowedTagList: string[];
     priorities = [{label: '0 - Emergency', value: 0}, {label: '1 - Urgent', value: 1}, {label: '2 - Normal', value: 2}];
     projectHeaderForm: FormGroup;
 
-    constructor(private componentFactoryResolver: ComponentFactoryResolver, private propertiesService: ProjectPropertiesServiceNg,
-                private taskService: TaskServiceNg, private cdRef:ChangeDetectorRef, private messageService: MessageService, 
-                private fb: FormBuilder, private projectService: ProjectServiceNg, private formsRegisterService: FormsRegisterService) {}
+    constructor(private componentFactoryResolver: ComponentFactoryResolver, private propertiesService: AlandaProjectPropertiesService,
+                private taskService: AlandaTaskService, private cdRef: ChangeDetectorRef, private messageService: MessageService,
+                private fb: FormBuilder, private projectService: AlandaProjectService,
+                private formsRegisterService: AlandaFormsRegisterService) {}
 
     ngOnInit() {
         this.allowedTagList = this.project.pmcProjectType.allowedTagList;
@@ -63,8 +64,8 @@ import { Utils } from "../../utils/utils";
             projectDueDate: [new Date(this.project.dueDate), Validators.required],
             projectTitle: [this.project.title, Validators.required],
             projectDetails: [this.project.comment, Validators.required],
-        }); 
-    
+        });
+
           if(this.task){
             this.projectHeaderForm.addControl('taskDueDate', this.fb.control(new Date(this.task.due), Validators.required));
           }
@@ -75,7 +76,7 @@ import { Utils } from "../../utils/utils";
     }
 
     updateProject() {
-        this.project.dueDate = Utils.convertUTCDate(this.projectHeaderForm.get('projectDueDate').value).toISOString().substring(0,10);
+        this.project.dueDate = convertUTCDate(this.projectHeaderForm.get('projectDueDate').value).toISOString().substring(0,10);
         this.projectService.updateProject(this.project).subscribe(project => {
             if(project.version){
                 this.project.version = project.version;
@@ -88,7 +89,7 @@ import { Utils } from "../../utils/utils";
     }
 
     public updateDueDateOfTask() {
-        const taskDueDate = Utils.convertUTCDate(this.projectHeaderForm.get('taskDueDate').value).toISOString().substring(0,10);
+        const taskDueDate = convertUTCDate(this.projectHeaderForm.get('taskDueDate').value).toISOString().substring(0,10);
         this.taskService.updateDueDateOfTask(this.task.task_id, taskDueDate).subscribe(
           res => this.messageService.add({severity:'success', summary:'Update Due Date Of Task', detail:'Due date of task has successfully been updated'}),
           error => {this.messageService.add({severity:'error', summary:'Update Due Date Of Task', detail: error.message})})
@@ -102,17 +103,16 @@ import { Utils } from "../../utils/utils";
         });
     }
 
-    delegateTask(selectedUser: PmcUser): void {
+    delegateTask(selectedUser: AlandaUser): void {
     if(selectedUser){
         this.taskService.assign(this.task.task_id,selectedUser.guid).subscribe(
         () => {
             this.task.assignee_id = ""+selectedUser.guid;
             this.task.assignee = selectedUser.displayName;
             this.showDelegateDialog = false;
-        },            
+        },
         error => this.messageService.add({severity:'error', summary:'Delegate Task', detail: error.message}));
     }
     }
-    
+
   }
-  

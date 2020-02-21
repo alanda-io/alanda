@@ -1,15 +1,11 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
-import { PmcGroupServiceNg } from "../../../api/pmcgroup.service";
 import { mergeMap } from "rxjs/operators";
-import { PmcRoleServiceNg } from "../../../api/pmcrole.service";
 import { FormGroup,Validators, FormBuilder } from "@angular/forms";
-import { PmcPermissionServiceNg } from "../../../api/pmcpermission.service";
 import { PmcGroup } from "../../../models/pmcGroup";
 import { PmcPermission } from "../../../models/pmcPermission";
 import { ServerOptions } from "../../../models/serverOptions";
 import { PmcUser } from "../../../models/pmcUser";
 import { MessageService, LazyLoadEvent } from "primeng/api";
-import { PmcUserServiceNg } from "../../../api/pmcuser.service";
 import { Table } from "primeng/table";
 import { PmcRole } from "../../../models/pmcRole";
 
@@ -38,16 +34,16 @@ export class GroupManagementComponent implements OnInit {
     {field: 'longName', header: 'Long Name'},
     {field: 'groupSource', header: 'Group Source'}
   ];
-  
+
   @ViewChild('table') turboTable: Table;
 
   groupForm: FormGroup;
 
-  constructor(private pmcGroupService: PmcGroupServiceNg,
+  constructor(private pmcGroupService: AlandaGroupService,
               private pmcRoleService: PmcRoleServiceNg,
               private pmcPermissionService: PmcPermissionServiceNg,
               private fb: FormBuilder,
-              private messageService: MessageService, 
+              private messageService: MessageService,
               private pmcUserService: PmcUserServiceNg) {}
 
   ngOnInit()  {

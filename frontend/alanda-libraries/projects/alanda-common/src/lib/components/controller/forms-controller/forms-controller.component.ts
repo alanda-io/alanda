@@ -1,11 +1,11 @@
-import { Component, ViewChild, ComponentFactoryResolver, AfterViewInit } from "@angular/core";
+/* import { Component, ViewChild, ComponentFactoryResolver, AfterViewInit } from "@angular/core";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { switchMap } from "rxjs/operators";
 import { PmcTask } from "../../../models/pmcTask";
 import { FormsControllerDirective } from "../directives/forms-controller.directive";
-import { ProjectServiceNg } from "../../../api/project.service";
+import { ProjectServiceNg } from "../../../api/alandaProject.service";
 import { FormsServiceNg } from "../../../services/forms.service";
-import { TaskServiceNg } from "../../../api/task.service";
+import { TaskServiceNg } from "../../../api/alandaTask.service";
 import { Project } from "../../../models/project";
 import { AlandaTaskTemplateComponent } from "../../task/template/alanda-task-template.component";
 import { MessageService } from "primeng/api";
@@ -19,15 +19,15 @@ import { MessageService } from "primeng/api";
 
     task: PmcTask;
     activeTab = 0;
-    @ViewChild(FormsControllerDirective) formsHost: FormsControllerDirective;    
-    
+    @ViewChild(FormsControllerDirective) formsHost: FormsControllerDirective;
+
     constructor(private route: ActivatedRoute, private taskService: TaskServiceNg, private projectService: ProjectServiceNg,
                 private componentFactoryResolver: ComponentFactoryResolver, private formsService: FormsServiceNg, private messageService: MessageService){
     }
 
     ngAfterViewInit() {
         this.route.paramMap.pipe(
-            switchMap((params: ParamMap) => 
+            switchMap((params: ParamMap) =>
                 this.taskService.getTask(params.get('taskId')))
         ).subscribe(task => {
             this.task = task;
@@ -47,3 +47,4 @@ import { MessageService } from "primeng/api";
         (<AlandaTaskTemplateComponent>componentRef.instance).project = project;
       }
   }
+ */

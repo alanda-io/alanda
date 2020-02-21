@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Panel } from 'primeng/panel';
 import { NgForm } from '@angular/forms';
-import { PmcComment } from './models/pmcComment';
 import { DatePipe } from '@angular/common';
-import { CommentTag } from './models/commentTag';
 import { MessageService } from 'primeng/api';
-import { PmcCommentServiceNg } from '../../api/pmccomment.service';
+import { AlandaComment } from '../../api/models/alandaComment';
+import { AlandaCommentTag } from '../../api/models/alandaCommentTag';
+import { AlandaCommentService } from '../../api/alandaComment.service';
 
 @Component({
   selector: 'comments-component',
@@ -19,8 +19,8 @@ export class CommentsComponent implements OnInit {
   @ViewChild('commentPanel') commentPanel: Panel;
   loadingInProgress: boolean = false;
   filterEnabled: boolean = false;
-  comments: PmcComment[] = [];
-  tags: CommentTag[] = [];
+  comments: AlandaComment[] = [];
+  tags: AlandaCommentTag[] = [];
   commentCount: number;
   procInstId: string;
   taskId: string;
@@ -30,7 +30,7 @@ export class CommentsComponent implements OnInit {
   subject = ' ';
   content = '';
 
-  constructor(private pmcCommentService: PmcCommentServiceNg, private messageService: MessageService,
+  constructor(private commentService: AlandaCommentService, private messageService: MessageService,
               private datePipe: DatePipe) {}
 
   ngOnInit() {
@@ -45,7 +45,7 @@ export class CommentsComponent implements OnInit {
   }
 
   autogrow(){
-    let  textArea = document.getElementById("textarea")       
+    let  textArea = document.getElementById("textarea")
     if(this.content.length == 0) {
       textArea.style.height = textArea.style.minHeight;
     } else {
@@ -55,7 +55,7 @@ export class CommentsComponent implements OnInit {
 
   onSubmitComment(form: NgForm) {
     this.loadingInProgress = true;
-    this.pmcCommentService.postComment({
+    this.commentService.postComment({
         subject: this.subject,
         text: this.content,
         taskId: this.taskId,
@@ -70,7 +70,7 @@ export class CommentsComponent implements OnInit {
 
   loadComments() {
     this.loadingInProgress = true;
-    this.pmcCommentService.getCommentsforPid(this.procInstId).subscribe(
+    this.commentService.getCommentsforPid(this.procInstId).subscribe(
       (res: any) => {
         this.loadingInProgress = false;
         this.comments = [];
@@ -99,7 +99,7 @@ export class CommentsComponent implements OnInit {
       error => this.messageService.add({severity:'error', summary:'Get Comments', detail: error.message}));
   }
 
-  processComment(comment: PmcComment, topLevel: boolean): void {
+  processComment(comment: AlandaComment, topLevel: boolean): void {
     comment.createDate = new Date(comment.createDate);
     comment.textDate = this.datePipe.transform(comment.createDate, 'dd.LL.yy HH:mm');
     if(!topLevel) {
@@ -115,7 +115,7 @@ export class CommentsComponent implements OnInit {
         this.tagHash[tag.name] = 1;
         this.tags.push({name: tag.name, type: tag.type, status: true});
       }
-      
+
       for(let reply of comment.replies){
         this.processComment(reply, false);
         commentFulltext += `${reply.text.toLowerCase()} ${reply.authorName.toLowerCase()} ${reply.textDate}`;
@@ -130,20 +130,22 @@ export class CommentsComponent implements OnInit {
     }
   }
 
-  tagClass(tag: CommentTag): string{
+  tagClass(tag: AlandaCommentTag): string{
     if(this.tagFilters.indexOf(tag.name) != -1) {
       return 'ui-button-success';
     }
     return 'ui-button-info';
   }
 
-  extractTags(comment: PmcComment) {
+  extractTags(comment: AlandaComment) {
     comment.tagList = [];
     if(comment.processName){
-      comment.tagList.push(new CommentTag(comment.processName, 'process'))
+      comment.tagList.push(
+        {name: comment.processName, type: 'process'}
+        );
     }
     if(comment.taskName){
-      comment.tagList.push(new CommentTag(comment.taskName, 'task'))
+      comment.tagList.push({name: comment.taskName, type: 'task'})
     }
     /* if(comment.siteIdName){
       comment.tagList.push(new CommentTag(`Site ${comment.siteIdName}`, 'bo'))
@@ -154,7 +156,7 @@ export class CommentsComponent implements OnInit {
     if(comment.subject){
       if(comment.subject.includes('#')){
         comment.subject.match(/#\w+/g).forEach((value) => {
-          comment.tagList.push(new CommentTag(value, 'user'));
+          comment.tagList.push({name: value, type: 'user'});
         })
         comment.subject = comment.subject.replace(/#\w+/g, '');
       }
@@ -174,7 +176,7 @@ export class CommentsComponent implements OnInit {
       this.filterEnabled = true;
     }
   }
-  
+
   clearFilters() {
     this.tagFilters = [];
     this.filterEnabled = false;

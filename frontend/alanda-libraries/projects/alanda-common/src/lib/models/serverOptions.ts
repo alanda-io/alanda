@@ -1,6 +1,6 @@
-export class ServerOptions{
-    public pageNumber: number;
-    public pageSize: number;
-    public filterOptions: any;
-    public sortOptions: any;
+export interface ServerOptions {
+    pageNumber: number;
+    pageSize: number;
+    filterOptions: any;
+    sortOptions: any;
 }

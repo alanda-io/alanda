@@ -2,8 +2,8 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { SelectItem } from "primeng/api";
 import { FormGroup, FormBuilder, Validators, AbstractControl } from "@angular/forms";
-import { TaskServiceNg } from "../../../../api/task.service";
-import { FormsRegisterService } from "../../../../services/forms-register.service";
+import { TaskServiceNg } from "../../../../api/alandaTask.service";
+import { FormsRegisterService } from "../../../../services/alandaFormsRegister.service";
 
 @Component({
     selector: 'simple-select',
@@ -19,7 +19,7 @@ export class SelectComponent implements OnInit {
     @Input() type?: string;
 
     selectForm: FormGroup;
-    
+
     constructor(private taskService: TaskServiceNg, private fb: FormBuilder, private formsRegisterService: FormsRegisterService){}
 
     ngOnInit(){
@@ -42,5 +42,5 @@ export class SelectComponent implements OnInit {
     }
 
     get selected(): AbstractControl { return this.selectForm.get('selected'); }
-    
+
   }

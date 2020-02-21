@@ -1,9 +1,8 @@
-import { InjectionToken, Injectable } from "@angular/core";
+import { InjectionToken, Injectable } from '@angular/core';
 
 @Injectable()
 export class AppSettings {
-  API_ENDPOINT : string;
-  /* WEBSOCKET_ENDPOINT: string; */
+  API_ENDPOINT: string;
 }
 
-export const APP_CONFIG = new InjectionToken<AppSettings>("AppConfig");
+export const APP_CONFIG = new InjectionToken<AppSettings>('AppConfig');

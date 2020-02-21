@@ -6,12 +6,9 @@ import { Project } from "../../../../models/project";
 import { PmcGroup } from "../../../../models/pmcGroup";
 import { PmcUser } from "../../../../models/pmcUser";
 import { PmcRole } from "../../../../models/pmcRole";
-import { PmcGroupServiceNg } from "../../../../api/pmcgroup.service";
-import { PmcRoleServiceNg } from "../../../../api/pmcrole.service";
-import { PropertyService } from "../../../../api/property.service";
-import { FormsRegisterService } from "../../../../services/forms-register.service";
-import { PmcUserServiceNg } from "../../../../api/pmcuser.service";
+import { FormsRegisterService } from "../../../../services/alandaFormsRegister.service";
 import { concatMap, mergeMap } from "rxjs/operators";
+import { AlandaUserService } from "projects/alanda-common/src/lib/api/alandaUser.service";
 
 @Component({
     selector: 'role-select',
@@ -37,11 +34,11 @@ export class SelectRoleComponent implements OnInit {
     role: PmcRole;
     roleSelectFormGroup: FormGroup;
 
-    constructor(private userService: PmcUserServiceNg, private propService: PropertyService,
-                private groupService: PmcGroupServiceNg, private roleService: PmcRoleServiceNg, 
+    constructor(private userService: AlandaUserService, private propService: PropertyService,
+                private groupService: PmcGroupServiceNg, private roleService: PmcRoleServiceNg,
                 private formsRegisterService: FormsRegisterService){}
 
-    ngOnInit(){  
+    ngOnInit(){
       this.initFormGroup();
       this.loadDropdown();
     }
@@ -100,7 +97,7 @@ export class SelectRoleComponent implements OnInit {
                   this.options.push({label: user.displayName, value: user.guid});
                   this.options = [...this.options];
                 }
-              }); 
+              });
             }
             this.loadProperty();
           });
@@ -141,7 +138,7 @@ export class SelectRoleComponent implements OnInit {
             this.roleSelectFormGroup.get('selected').setValue({label: group.longName, value: group.guid});
           }
         });
-      } 
+      }
     }
 
     onChange() {
@@ -154,5 +151,5 @@ export class SelectRoleComponent implements OnInit {
       }
     }
 
-    
+
   }

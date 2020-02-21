@@ -1,9 +1,9 @@
 import { OnInit, Component, Input } from "@angular/core";
-import { Project } from "../../models/project";
-import { PmcTask } from "../../models/pmcTask";
-import { ProjectServiceNg } from "../../api/project.service";
-import { Process } from "../../models/process";
-import { ProcessRelation } from "../../enums/process-relation.enum";
+import { ProcessRelation } from "../../enums/processRelation.enum";
+import { AlandaProject } from '../../api/models/alandaProject';
+import { AlandaProjectService } from '../../api/alandaProject.service';
+import { AlandaProcess } from '../../api/models/alandaProcess';
+import { AlandaTask } from '../../api/models/alandaTask';
 
 interface ProjectTree {
   id: number;
@@ -14,7 +14,7 @@ interface ProjectTree {
 }
 
 export interface FlattenProjectResult {
-  project: Project,
+  project: AlandaProject,
   level: number,
   initExpanded: boolean
   processesAndTasks: Map<string, any>;
@@ -27,16 +27,16 @@ export interface FlattenProjectResult {
   })
   export class ProjectAndProcessesComponent implements OnInit {
 
-    @Input() project: Project;
-    @Input() task: PmcTask;
+    @Input() project: AlandaProject;
+    @Input() task: AlandaTask;
 
-    mainProcess: Process;
+    mainProcess: AlandaProcess;
     pid: string;
     projectTree: ProjectTree[] = [];
     projectList: FlattenProjectResult[] = [];
-    parentList: Project[] = [];
+    parentList: AlandaProject[] = [];
 
-    constructor(private pmcProjectService: ProjectServiceNg) {}
+    constructor(private pmcProjectService: AlandaProjectService) {}
 
     ngOnInit() {
       this.mainProcess = this.getMainProcess(this.project.processes);
@@ -51,11 +51,11 @@ export interface FlattenProjectResult {
       });
     }
 
-    private loadProjectTree(parentProject: Project, mainViewProjectGuid: number) {
+    private loadProjectTree(parentProject: AlandaProject, mainViewProjectGuid: number) {
       this.projectTree.push(this.parsePmcProjectForTree(parentProject, mainViewProjectGuid))
     }
 
-    private parsePmcProjectForTree(project: Project, mainViewProjectGuid: number): ProjectTree {
+    private parsePmcProjectForTree(project: AlandaProject, mainViewProjectGuid: number): ProjectTree {
       let isMainViewProject = false;
       if(project.guid === mainViewProjectGuid) {
         isMainViewProject = true;
@@ -73,11 +73,11 @@ export interface FlattenProjectResult {
       return result;
     }
 
-    private getMainProcess(processes: Process[]): Process {
+    private getMainProcess(processes: AlandaProcess[]): AlandaProcess {
       return processes.filter(process => process.relation == ProcessRelation.MAIN)[0];
     }
 
-    private flattenChildProjects(project: Project, level: number, result: FlattenProjectResult[]) {
+    private flattenChildProjects(project: AlandaProject, level: number, result: FlattenProjectResult[]) {
       this.pmcProjectService.getProcessesAndTasksForProject(project.guid).subscribe(res => {
         let flattenProject: FlattenProjectResult = {project: project, level: level, initExpanded: !level, processesAndTasks: res};
         this.projectList.push(flattenProject);
@@ -86,5 +86,5 @@ export interface FlattenProjectResult {
         }
       });
     }
-  
+
   }

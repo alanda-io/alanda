@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
-import { PmcPermissionServiceNg } from "../../../api/pmcpermission.service";
+import { PmcPermissionServiceNg } from "../../../api/alandaPermission.service";
 import { PmcPermission } from "../../../models/pmcPermission";
 import { Table } from "primeng/table";
 import { MessageService, LazyLoadEvent } from "primeng/api";

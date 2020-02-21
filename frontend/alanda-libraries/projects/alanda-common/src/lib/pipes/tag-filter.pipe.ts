@@ -1,19 +1,18 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { PmcComment } from '../components/comments/models/pmcComment';
+import { AlandaComment } from '../api/models/alandaComment';
 
 @Pipe({
   name: 'tagFilter'
 })
-
 export class TagFilterPipe implements PipeTransform {
-    transform(comments: PmcComment[], allowedTags: string[], filterEnabled: boolean): PmcComment[] {
-        if(!filterEnabled){
+    transform(comments: AlandaComment[], allowedTags: string[], filterEnabled: boolean): AlandaComment[] {
+        if (!filterEnabled) {
             return comments;
         }
-        let newComments = [];
+        const newComments: AlandaComment[] = [];
         comments.forEach((comment) => {
             comment.tagList.forEach((tag) => {
-                if(allowedTags.indexOf(tag.name) !== -1){
+                if (allowedTags.indexOf(tag.name) !== -1) {
                     newComments.push(comment);
                 }
             });

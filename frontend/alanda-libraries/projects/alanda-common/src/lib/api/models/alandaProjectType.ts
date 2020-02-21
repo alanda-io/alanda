@@ -1,0 +1,29 @@
+export interface AlandaProjectType {
+    guid?: number;
+    idName?: string;
+    name?: string;
+    docuConfigs?: any;
+    allowedTags?: string;
+    allowedProcesses?: any;
+    readRights?: string;
+    writeRights?: string;
+    createRights?: string;
+    deleteRights?: string;
+    readRightGroups?: string[];
+    writeRightGroups?: string[];
+    createRightGroups?: string[];
+    deleteRightGroups?: string[];
+    allowedTagList?: string[];
+    processDefinitions?: any[];
+    allowedSubTypes?: string;
+    allowedSubtypeList?: string[];
+    startProcess?: string;
+    allowedMilestones?: any[];
+    objectType?: string;
+    additionalProperties?: any;
+    configuration?: string;
+    phases?: any[];
+    detailsTemplate?: string;
+    propertiesTemplate?: string;
+    creationPropertiesTemplate?: string;
+}

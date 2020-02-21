@@ -1,14 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MessageService } from 'primeng/components/common/messageservice';
-import { ExtendedTreeNode } from './models/tree-node';
-import { SimpleDocument } from './models/simple-document';
-import { RefObjectService } from '../../api/refobject.service';
-import { DocumentServiceNg } from '../../api/document.service';
+import { ExtendedTreeNode } from '../../models/tree-node';
+import { SimpleDocument } from '../../api/models/alandaSimpleDocument';
+import { AlandaDocumentService } from '../../api/alandaDocument.service';
 
 @Component({
   selector: 'attachments-component',
   templateUrl: './attachments.component.html',
-  providers: [RefObjectService, MessageService]
+  providers: [MessageService]
 })
 export class AttachmentsComponent implements OnInit {
 
@@ -27,20 +26,20 @@ export class AttachmentsComponent implements OnInit {
   treeNode: ExtendedTreeNode[] = [];
   currentFiles: SimpleDocument[]; //passed to attachments-list
 
-  constructor(private documentService: DocumentServiceNg, private messageService: MessageService) {}
+  constructor(private documentService: AlandaDocumentService, private messageService: MessageService) {}
 
   ngOnInit() {
 
     if(!this.mappings){
       this.mappings = "AcquiDoc,SI,SA"
-    } 
+    }
     this.fileCount = 0;
     this.data.mappings = this.mappings;
     if(this.project){
       this.data.refObjectType = 'project';
       this.data.guid = this.project.guid;
       this.data.idName = this.project.projectId;
-    }  
+    }
     else if(this.task){
       this.data.refObjectType = this.task.task_type;
       this.data.idName = this.task.object_name;
@@ -53,7 +52,7 @@ export class AttachmentsComponent implements OnInit {
 
     this.loadTreeConfig();
   }
-  
+
 
   loadTreeConfig(){
     this.documentService.loadTree(this.data.refObjectType, this.data.guid, true, this.data.mappings).subscribe(
@@ -75,7 +74,7 @@ export class AttachmentsComponent implements OnInit {
         this.loadFolderContent();
       },
       error => this.messageService.add({severity:'error', summary:'Load Tree Config', detail: error.message}));
-  }  
+  }
 
   setupTreeNode(node: ExtendedTreeNode){
       node.expanded = false;
@@ -95,7 +94,7 @@ export class AttachmentsComponent implements OnInit {
       fileCount += this.checkFileCount(node.children);
     }
     return fileCount;
-  } 
+  }
 
   loadFolderContent(): void {
      this.documentService.loadFolderContent(this.data.refObjectType, this.data.guid, this.data.selectedNode.id, null, this.data.selectedNode.mapping).subscribe(

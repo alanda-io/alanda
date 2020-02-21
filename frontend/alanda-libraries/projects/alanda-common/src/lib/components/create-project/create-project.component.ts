@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { ProjectType } from '../../models/projectType';
-import { Project } from '../../models/project';
-import { ProjectServiceNg } from '../../api/project.service';
+import { AlandaProjectService } from '../../api/alandaProject.service';
+import { AlandaProjectType } from '../../api/models/alandaProjectType';
+import { AlandaProject } from '../../api/models/alandaProject';
 
 @Component({
   selector: 'create-project-component',
@@ -15,13 +15,13 @@ import { ProjectServiceNg } from '../../api/project.service';
 export class CreateProjectComponent implements OnInit {
 
   public showDelegateDialog: boolean;
-  public projectTypes: ProjectType[] = [];
+  public projectTypes: AlandaProjectType[] = [];
   public allowedTagList: string[];
   public selectedProjectType: any;
-  public project: Project = new Project();
+  public project: AlandaProject;
   public formGroup: FormGroup;
   public isLoading: boolean;
-  constructor (private projectService: ProjectServiceNg,
+  constructor (private projectService: AlandaProjectService,
                private messageService: MessageService,
                private router: Router) {
   }
@@ -54,7 +54,7 @@ export class CreateProjectComponent implements OnInit {
   }
 
   private load(): void {
-    this.projectService.searchCreateAbleProjectType().subscribe((pTypes: ProjectType[]) => {
+    this.projectService.searchCreateAbleProjectType().subscribe((pTypes: AlandaProjectType[]) => {
       this.projectTypes = pTypes;
       }
     );

@@ -3,8 +3,8 @@ import { Component, OnInit, Input  } from "@angular/core";
 import { MessageService } from "primeng/api";
 import { FormGroup, FormControl } from "@angular/forms";
 import { ServerOptions } from "../../../project-monitor/project-monitor.component";
-import { PmcUserServiceNg } from "../../../../api/pmcuser.service";
-import { PropertyService } from "../../../../api/property.service";
+import { PmcUserServiceNg } from "../../../../api/alandaUser.service";
+import { PropertyService } from "../../../../api/alandaProperty.service";
 
 @Component({
     selector: 'dropdown-select',
@@ -57,7 +57,7 @@ export class DropdownSelectComponent implements OnInit {
           }
         }
       );
-    }   
+    }
 
-    
+
   }

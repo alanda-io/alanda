@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { PmcUser } from '../../models/pmcUser';
-import { TaskServiceNg } from '../../api/task.service';
-import { TableAPIServiceNg } from '../../services/tableAPI.service';
-import { PmcUserServiceNg } from '../../api/pmcuser.service';
 import { ServerOptions } from '../../models/serverOptions';
+import { AlandaTaskService } from '../../api/alandaTask.service';
+import { AlandaMonitorAPIService } from '../../services/alandaMonitorApi.service';
+import { AlandaUserService } from '../../api/alandaUser.service';
+import { AlandaUser } from '../../api/models/alandaUser';
 
 
 @Component({
-  selector: 'tasklist-component',
+  selector: 'tasklist',
   templateUrl: './tasklist.component.html' ,
   styles: []
 })
@@ -23,7 +23,7 @@ export class TasklistComponent implements OnInit {
   selectedColumns: any = [];
   loading: boolean = true;
   groupTasks: boolean = false;
-  currentUser: PmcUser;
+  currentUser: AlandaUser;
   serverOptions: ServerOptions;
   menuItems: MenuItem[];
   delegationItems: MenuItem[];
@@ -32,9 +32,9 @@ export class TasklistComponent implements OnInit {
   delegatedTaskData: any;
 
   @ViewChild('tt') turboTable: Table;
- 
-  constructor(private taskService: TaskServiceNg, private tableAPIServiceNg: TableAPIServiceNg, private pmcUserService: PmcUserServiceNg,
-              public messageService: MessageService) {
+
+  constructor(private taskService: AlandaTaskService, private monitorApiService: AlandaMonitorAPIService,
+              private userService: AlandaUserService, public messageService: MessageService) {
     this.serverOptions = {
       pageNumber: 1,
       pageSize: 15,
@@ -48,18 +48,13 @@ export class TasklistComponent implements OnInit {
     ];
   };
 
-  ngOnInit() { 
+  ngOnInit() {
     this.loading = true;
-    this.pmcUserService.getCurrentUser().subscribe(
+    this.userService.getCurrentUser().subscribe(
       user => {
         this.currentUser = user;
-        this.validLayouts = this.tableAPIServiceNg.getTaskListLayouts(user);
-        if(this.currentUser.groups.indexOf('srvreq') !== -1){ 
-          this.validLayouts = this.layouts.filter(l => l.name !== 'default');
-          this.selectedLayout = this.validLayouts[0];
-        } else {
-          this.selectedLayout = this.validLayouts.filter(layout => layout.name === 'default')[0];
-        }
+        this.validLayouts = this.monitorApiService.getTaskListLayouts(user);
+        this.selectedLayout = this.validLayouts.filter(layout => layout.name === 'default')[0];
         this.validLayouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
       },
       error => {
@@ -83,7 +78,7 @@ export class TasklistComponent implements OnInit {
         this.loading = false;
       },
       error => {
-        this.messageService.add({severity:'error', summary:'Load Tasks', detail: error.message}); 
+        this.messageService.add({severity:'error', summary:'Load Tasks', detail: error.message});
         this.loading = false;
       });
   }
@@ -96,14 +91,14 @@ export class TasklistComponent implements OnInit {
       sortOptions[event.sortField] = {dir: dir, prio: 0}
       this.serverOptions.sortOptions = sortOptions;
     }
-    
+
     Object.keys(event.filters).forEach((key) => {
       this.serverOptions.filterOptions[key] = event.filters[key].value;
     })
 
     this.serverOptions.pageNumber = event.first / this.serverOptions.pageSize + 1;
     this.loadTasks(this.serverOptions);
-  }; 
+  };
 
   onChangeLayout(){
     this.serverOptions.pageNumber = 1;
@@ -117,7 +112,7 @@ export class TasklistComponent implements OnInit {
       this.serverOptions.filterOptions[key] = this.selectedLayout.filterOptions[key];
     }else {
       delete this.serverOptions.filterOptions[key];
-    }  
+    }
     this.loadTasks(this.serverOptions);
   }
 
