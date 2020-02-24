@@ -24,10 +24,10 @@ export class SelectMilestoneComponent implements OnInit {
     ngOnInit() {
       this.initMilestoneFormGroup();
       this.milestoneService.getByProjectAndMsIdName(this.project.projectId, this.msName).subscribe(ms => {
-        if (ms.fc) {
+        if (ms && ms.fc) {
           this.milestoneForm.get('fc').setValue(ms.fc);
         }
-        if (ms.act) {
+        if (ms && ms.act) {
           this.milestoneForm.get('act').setValue(ms.act);
         }
       });
