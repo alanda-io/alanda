@@ -5,9 +5,7 @@ import { MessageService } from "primeng/api";
 import { Router } from "@angular/router";
 import { PmcTask } from "../models/pmcTask";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class FormsRegisterService {
 
   private formGroup: FormGroup;
