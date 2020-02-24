@@ -35,8 +35,8 @@ export class SelectMilestoneComponent implements OnInit {
 
     private initMilestoneFormGroup() {
       this.milestoneForm = this.fb.group({
-        fc: [null, Validators.required],
-        act: [null, Validators.required]
+        fc: [null],
+        act: [null]
       });
       this.formsRegisterService.registerForm(this.milestoneForm, `${this.displayName}`);
     }
