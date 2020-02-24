@@ -18,13 +18,19 @@ export class SelectMilestoneComponent implements OnInit {
     @Input() msName: string;
 
     milestoneForm: FormGroup;
-    
+
     constructor(private milestoneService: MilestoneService, private fb: FormBuilder, private formsRegisterService: FormsRegisterService){}
 
-    ngOnInit(){
-      this.milestoneService.getByProjectAndMsIdName(this.project.projectId, this.msName).subscribe();
+    ngOnInit() {
       this.initMilestoneFormGroup();
-
+      this.milestoneService.getByProjectAndMsIdName(this.project.projectId, this.msName).subscribe(ms => {
+        if (ms.fc) {
+          this.milestoneForm.get('fc').setValue(ms.fc);
+        }
+        if (ms.act) {
+          this.milestoneForm.get('act').setValue(ms.act);
+        }
+      });
     }
 
     private initMilestoneFormGroup() {
