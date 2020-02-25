@@ -56,32 +56,8 @@ public class ProcessGroupConnector {
    * Check if a project specific role is set in the propertyStore and then return all groups for that role.
    * If no project specific role is set, the method simply returns all groups for that role.
    * @param roleName
-   * @return
+   * @return list of groups
    */
-  /*
-  public String[] groupsForRole(String roleName) {
-    String[] groups = new String[1];
-    String groupId =
-            propertyService.getStringProperty(
-                    null, null, pmcProjectData.getPmcProjectGuid(), "role_" + roleName);
-    if (groupId != null) {
-      Long lId = Long.parseLong(groupId);
-      PmcGroupDto g = this.pmcUserService.getGroupById(lId);
-      groups[0] = g.getGuid().toString();
-      return groups;
-    } else {
-      PmcRoleDto role = this.roleService.getRole(roleName);
-      if(role != null) {
-        List<PmcGroupDto> pmcGroupDtos = this.groupService.getGroupsForRole(role.getGuid());
-        groups = new String[pmcGroupDtos.size()];
-        for(int i = 0; i < pmcGroupDtos.size(); i++) {
-          groups[i] = pmcGroupDtos.get(i).getGuid().toString();
-        }
-      }
-    }
-    return groups;
-  }*/
-
   public List<String> groupsForRole(String roleName) {
     List<String> groupsResult = new ArrayList<>();
     String groupId =
