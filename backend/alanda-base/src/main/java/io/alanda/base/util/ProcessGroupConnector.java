@@ -2,8 +2,10 @@
 package io.alanda.base.util;
 
 import io.alanda.base.dto.PmcGroupDto;
+import io.alanda.base.dto.PmcRoleDto;
 import io.alanda.base.dto.PmcUserDto;
 import io.alanda.base.process.PmcProjectData;
+import io.alanda.base.service.PmcGroupService;
 import io.alanda.base.service.PmcProjectService;
 import io.alanda.base.service.PmcPropertyService;
 import io.alanda.base.service.PmcRoleService;
@@ -12,6 +14,8 @@ import io.alanda.base.util.cache.UserCache;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.List;
 
 /** @author jlo */
 @Named("grp")
@@ -30,6 +34,8 @@ public class ProcessGroupConnector {
 
   @Inject protected PmcRoleService roleService;
 
+  @Inject protected PmcGroupService groupService;
+
   @Inject protected UserCache userCache;
 
   public String g(String groupName) {
@@ -44,6 +50,57 @@ public class ProcessGroupConnector {
     Long lId = Long.parseLong(groupId);
     PmcGroupDto g = this.pmcUserService.getGroupById(lId);
     return g.getGuid().toString();
+  }
+
+  /**
+   * Check if a project specific role is set in the propertyStore and then return all groups for that role.
+   * If no project specific role is set, the method simply returns all groups for that role.
+   * @param roleName
+   * @return
+   */
+  /*
+  public String[] groupsForRole(String roleName) {
+    String[] groups = new String[1];
+    String groupId =
+            propertyService.getStringProperty(
+                    null, null, pmcProjectData.getPmcProjectGuid(), "role_" + roleName);
+    if (groupId != null) {
+      Long lId = Long.parseLong(groupId);
+      PmcGroupDto g = this.pmcUserService.getGroupById(lId);
+      groups[0] = g.getGuid().toString();
+      return groups;
+    } else {
+      PmcRoleDto role = this.roleService.getRole(roleName);
+      if(role != null) {
+        List<PmcGroupDto> pmcGroupDtos = this.groupService.getGroupsForRole(role.getGuid());
+        groups = new String[pmcGroupDtos.size()];
+        for(int i = 0; i < pmcGroupDtos.size(); i++) {
+          groups[i] = pmcGroupDtos.get(i).getGuid().toString();
+        }
+      }
+    }
+    return groups;
+  }*/
+
+  public List<String> groupsForRole(String roleName) {
+    List<String> groupsResult = new ArrayList<>();
+    String groupId =
+            propertyService.getStringProperty(
+                    null, null, pmcProjectData.getPmcProjectGuid(), "role_" + roleName);
+    if (groupId != null) {
+      Long lId = Long.parseLong(groupId);
+      PmcGroupDto g = this.pmcUserService.getGroupById(lId);
+      groupsResult.add(g.getGuid().toString());
+    } else {
+      PmcRoleDto role = this.roleService.getRole(roleName);
+      if(role != null) {
+        List<PmcGroupDto> pmcGroupDtos = this.groupService.getGroupsForRole(role.getGuid());
+        for (PmcGroupDto pmcGroupDto : pmcGroupDtos) {
+          groupsResult.add(pmcGroupDto.getGuid().toString());
+        }
+      }
+    }
+    return groupsResult;
   }
 
   public String gForRoleNew(String roleName) {
