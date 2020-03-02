@@ -12,7 +12,7 @@
     margin-top: 20px;
   }
 </style>
-    
+
 <p-panel>
   <p-header>Permission Management</p-header>
   <div class="p-grid ui-fluid">
@@ -21,8 +21,8 @@
 
     <div class="p-col-12 p-md-4">
       <p-table #table [value]="permissions" [columns]="permissionColumns" dataKey="guid" [paginator]="true" [rows]="15"
-               [totalRecords]="permissions ? permissions.length : 0" [lazy]="true" [loading]="loading" (onRowUnselect)="onPermissionUnselected()"
-               [autoLayout]="true" selectionMode="single" scrollHeight="320px" (onRowSelect)="onPermissionSelected($event)" 
+               [totalRecords]="totalRecords" [lazy]="true" [loading]="loading" (onRowUnselect)="onPermissionUnselected()"
+               [autoLayout]="true" selectionMode="single" scrollHeight="320px" (onRowSelect)="onPermissionSelected($event)"
                [style]="{'font-size': '12px'}" (onLazyLoad)="onLoadPermissions($event)">
         <ng-template pTemplate="header" let-columns>
           <tr>
@@ -57,7 +57,7 @@
               <form (ngSubmit)="onFormSubmit()" [formGroup]="permissionForm">
 
                 <div class="inputField">
-                  <span class="ui-float-label">  
+                  <span class="ui-float-label">
                     <input id="input-guid" type="text" pInputText formControlName="key">
                     <label for="input-guid">Permission key</label>
                   </span>
@@ -66,11 +66,11 @@
 
                 <div class="p-grid">
                   <div class="p-col-12 p-md-6">
-                    <button pButton type="submit" [label]="selectedPermission ? 'Edit Permission' : 'Create Permission'"></button>
+                    <button pButton type="submit" [label]="selectedPermission ? 'Update Permission' : 'Create Permission'"></button>
                   </div>
                 </div>
 
-              </form>               
+              </form>
             </div>
           </div>
         </p-tabPanel>

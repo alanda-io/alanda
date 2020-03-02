@@ -30,7 +30,7 @@
 
     <div class="p-col-4">
       <p-table #table [value]="users" [columns]="userColumns" dataKey="guid" [paginator]="true" [rows]="15"
-        (onLazyLoad)="onLoadUsers($event)" [lazy]="true" [totalRecords]="users ? users.length : 0" [loading]="loading" 
+        (onLazyLoad)="onLoadUsers($event)" [lazy]="true" [totalRecords]="totalRecords" [loading]="loading"
         [autoLayout]="true" selectionMode="single" [style]="{'font-size': '12px'}" scrollHeight="320px"
         (onRowSelect)="onUserSelected($event)" (onRowUnselect)="onUserUnselected()" [responsive]="true">
         <ng-template pTemplate="header" let-columns>
@@ -63,7 +63,7 @@
           <div class="p-grid">
             <div class="p-col-4">
               <form [formGroup]="userForm" (ngSubmit)="onFormSubmit()">
-                
+
                 <div class="inputField">
                   <span class="ui-float-label">
                     <input id="input-login" type="text" pInputText formControlName="loginName">
@@ -110,10 +110,10 @@
 
                   <div class="p-grid">
                     <div class="p-col-12 p-md-6">
-                      <button pButton type="submit" [label]="selectedUser ? 'Edit User' : 'Create User'"></button>
+                      <button pButton type="submit" [label]="selectedUser ? 'Update User' : 'Create User'"></button>
                     </div>
                     <div class="p-col-12 p-md-6" [hidden]="!selectedUser">
-                      <button pButton type="button" label="Run as user" (click)="runAsUser()"></button>  
+                      <button pButton type="button" label="Run as user" (click)="runAsUser()"></button>
                     </div>
                   </div>
               </form>
@@ -143,9 +143,9 @@
               </div>
           </div>
         </p-tabPanel>
-    
+
         <p-tabPanel header="Groups" *ngIf="selectedUser">
-            <p-pickList [source]="assignedGroups" [target]="availableGroups" sourceHeader="Assigned Groups" 
+            <p-pickList [source]="assignedGroups" [target]="availableGroups" sourceHeader="Assigned Groups"
                         targetHeader="Available Groups" [style]="{height:'100%'}" [responsive]="true" filterBy="groupName"
                         [showSourceControls]="false" [showTargetControls]="false">
               <ng-template let-group pTemplate="item">
@@ -156,9 +156,9 @@
               <p-button label="Update Groups" (click)="onUpdateGroups()"></p-button>
             </div>
         </p-tabPanel>
-    
+
         <p-tabPanel header="Roles" *ngIf="selectedUser">
-            <p-pickList [source]="assignedRoles" [target]="availableRoles" sourceHeader="Assigned Roles" 
+            <p-pickList [source]="assignedRoles" [target]="availableRoles" sourceHeader="Assigned Roles"
                         targetHeader="Available Roles" [responsive]="true" filterBy="name"
                         [showSourceControls]="false" [showTargetControls]="false" (onMoveToTarget)="moveRole($event)">
               <ng-template let-role pTemplate="item">
@@ -169,11 +169,11 @@
               <p-button label="Update Roles" (click)="onUpdateRoles()"></p-button>
             </div>
         </p-tabPanel>
-    
+
         <p-tabPanel header="Permissions" *ngIf="selectedUser">
               <div class="p-grid">
                 <div class="p-col-12">
-                  <p-pickList [source]="grantedPermissions" [target]="availablePermissions" sourceHeader="Granted Permissions" 
+                  <p-pickList [source]="grantedPermissions" [target]="availablePermissions" sourceHeader="Granted Permissions"
                     targetHeader="Available Permissions" [responsive]="true" filterBy="name"
                     [showSourceControls]="false" [showTargetControls]="false" (onMoveToTarget)="movePermission($event)">
                     <ng-template let-p pTemplate="item">
@@ -188,5 +188,5 @@
           </p-tabPanel>
       </p-tabView>
     </div>
-  </div>    
+  </div>
 </p-panel>

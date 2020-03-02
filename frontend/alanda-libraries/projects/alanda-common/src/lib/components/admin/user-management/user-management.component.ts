@@ -22,6 +22,7 @@ import { PmcRole } from "../../../models/pmcRole";
 export class UserManagementComponent implements OnInit {
 
     users: PmcUser[] = [];
+    totalRecords: number;
     selectedUser: PmcUser;
     loading = true;
     availableGroups: PmcGroup[] = [];
@@ -90,31 +91,31 @@ export class UserManagementComponent implements OnInit {
         });
       }
     }
-  
+
     get login(): string {
       return this.userForm.get('loginName').value;
     }
-  
+
     get firstName(): string {
       return this.userForm.get('firstName').value;
     }
-  
+
     get lastName(): string {
       return this.userForm.get('surname').value;
     }
-  
+
     get email(): string {
       return this.userForm.get('email').value;
     }
-  
+
     get mobile(): string {
       return this.userForm.get('mobile').value;
     }
-  
+
     get locked(): boolean {
       return this.userForm.get('locked').value;
     }
-  
+
     private fillUserForm(user: PmcUser) {
       this.userForm.patchValue(user);
     }
@@ -141,6 +142,7 @@ export class UserManagementComponent implements OnInit {
         result => {
           this.loading = false;
           this.users = result.results;
+          this.totalRecords = result.total;
         },
         error => {
           this.loading = false;
@@ -171,7 +173,7 @@ export class UserManagementComponent implements OnInit {
     }
 
     private updateUser(user: PmcUser) {
-      let stringGroups: string[] = new Array<string>(); 
+      let stringGroups: string[] = new Array<string>();
       this.assignedGroups.forEach(item => {
         stringGroups.push(item.groupName);
       });
@@ -180,10 +182,10 @@ export class UserManagementComponent implements OnInit {
           res => {
             this.messageService.add({severity:'success', summary:'Update User', detail:'User has been updated'})
           },
-          error => this.messageService.add({severity:'error', summary:'Update User', detail: error.message})); 
+          error => this.messageService.add({severity:'error', summary:'Update User', detail: error.message}));
     }
-    
-   
+
+
     private loadGroups() {
       let serverOptions: ServerOptions = {
         pageNumber: 1,
@@ -256,7 +258,7 @@ export class UserManagementComponent implements OnInit {
 
 
     onUpdateGroups() {
-      let stringGroups: string[] = new Array<string>(); 
+      let stringGroups: string[] = new Array<string>();
       this.assignedGroups.forEach(item => {
         stringGroups.push(item.groupName);
       });

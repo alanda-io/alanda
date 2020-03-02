@@ -19,10 +19,11 @@ import { PmcUserServiceNg } from "../../../api/pmcuser.service";
 export class RoleManagementComponent implements OnInit {
 
     roles: PmcRole[];
+    totalRecords: number;
     selectedRole: PmcRole;
     usersWithRole: PmcUser[] = [];
     loading: boolean;
-    
+
     roleForm: FormGroup;
     availablePermissions: PmcPermission[] = [];
     grantedPermissions: PmcPermission[] = [];
@@ -53,6 +54,7 @@ export class RoleManagementComponent implements OnInit {
     onLoadRoles(event: LazyLoadEvent) {
       this.pmcRoleService.getRoles().subscribe(res => {
         this.roles = res;
+        this.totalRecords = this.roles.length;
       });
     }
 
@@ -63,7 +65,7 @@ export class RoleManagementComponent implements OnInit {
       }
       if(this.selectedRole) {
         this.selectedRole.name = this.roleName;
-  
+
         this.updateRole(this.selectedRole);
       } else {
         this.createRole({

@@ -15,6 +15,7 @@ import { MessageService, LazyLoadEvent } from "primeng/api";
 export class PermissionManagementComponent implements OnInit {
 
     permissions: PmcPermission[];
+    totalRecords: number;
     selectedPermission: PmcPermission;
     loading: boolean;
     permissionColumns = [

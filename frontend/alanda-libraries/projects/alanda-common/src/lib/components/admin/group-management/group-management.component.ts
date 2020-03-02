@@ -23,6 +23,7 @@ import { PmcRole } from "../../../models/pmcRole";
 export class GroupManagementComponent implements OnInit {
 
   groups: PmcGroup[] = [];
+  totalRecords: number;
   selectedGroup: PmcGroup;
   usersInSelectedGroup: PmcUser[] = [];
 
@@ -38,7 +39,7 @@ export class GroupManagementComponent implements OnInit {
     {field: 'longName', header: 'Long Name'},
     {field: 'groupSource', header: 'Group Source'}
   ];
-  
+
   @ViewChild('table') turboTable: Table;
 
   groupForm: FormGroup;
@@ -47,7 +48,7 @@ export class GroupManagementComponent implements OnInit {
               private pmcRoleService: PmcRoleServiceNg,
               private pmcPermissionService: PmcPermissionServiceNg,
               private fb: FormBuilder,
-              private messageService: MessageService, 
+              private messageService: MessageService,
               private pmcUserService: PmcUserServiceNg) {}
 
   ngOnInit()  {
@@ -135,6 +136,7 @@ export class GroupManagementComponent implements OnInit {
     .subscribe(result => {
       this.loading = false;
       this.groups = result.results;
+      this.totalRecords = this.groups.length;
     });
   }
 
