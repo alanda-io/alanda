@@ -11,6 +11,8 @@ export * from './lib/api/pmcpermission.service';
 export * from './lib/api/document.service';
 export * from './lib/api/project.service';
 export * from './lib/api/history.service';
+export * from './lib/api/processinfo.service';
+export * from './lib/api/process.service';
 
 export * from './lib/services/authorization.service';
 export * from './lib/services/exception-handling.service';

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Inject } from "@angular/core";
-import { ProcessServiceNg } from "../../api/process.service";
+import { ProcessInfoServiceNg } from "../../api/processinfo.service";
 import { PmcTask } from "../../models/pmcTask";
 import { APP_CONFIG, AppSettings } from "../../models/appSettings";
 
@@ -8,14 +8,14 @@ import { APP_CONFIG, AppSettings } from "../../models/appSettings";
     templateUrl: './pio.component.html',
     styleUrls: [],
 })
-export class PioComponent implements OnInit{
+export class PioComponent implements OnInit {
 
     @Input() pid: string;
     @Input() task: PmcTask;
     processName = '';
     endpointUrl: string;
-    
-    constructor(@Inject(APP_CONFIG) private config: AppSettings, private processService: ProcessServiceNg) {
+
+    constructor(@Inject(APP_CONFIG) private config: AppSettings, private processService: ProcessInfoServiceNg) {
         this.endpointUrl = config.API_ENDPOINT + "/pmc-process";
     };
 
