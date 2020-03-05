@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AlandaTaskComponent, AlandaTaskService, AlandaFormsRegisterService,
-         AlandaProjectService } from 'projects/alanda-common/src/public_api';
+         AlandaProjectApiService } from 'projects/alanda-common/src/public_api';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class DefaultTaskComponent extends AlandaTaskComponent {
 
   constructor(formsRegisterService: AlandaFormsRegisterService, route: ActivatedRoute, taskService: AlandaTaskService,
-              projectService: AlandaProjectService) {
+              projectService: AlandaProjectApiService) {
     super(formsRegisterService, route, taskService, projectService);
   }
 

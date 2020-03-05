@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AlandaTaskService, AlandaFormsRegisterService,
-         AlandaProjectService,
+         AlandaProjectApiService,
          AlandaTaskComponent} from 'projects/alanda-common/src/public_api';
 import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
@@ -15,7 +15,7 @@ export class CheckVacationRequestComponent extends AlandaTaskComponent {
   items: SelectItem[];
 
   constructor(formsRegisterService: AlandaFormsRegisterService, route: ActivatedRoute, taskService: AlandaTaskService,
-              projectService: AlandaProjectService) {
+              projectService: AlandaProjectApiService) {
     super(formsRegisterService, route, taskService, projectService);
     this.items = [
       {label: 'Yes', value: true},
