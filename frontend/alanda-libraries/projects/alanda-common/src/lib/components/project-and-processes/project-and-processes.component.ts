@@ -21,11 +21,11 @@ export interface FlattenProjectResult {
 }
 
 @Component({
-    selector: 'project-and-processes',
+    selector: 'alanda-project-and-processes',
     templateUrl: './project-and-processes.component.html' ,
     styles: []
   })
-  export class ProjectAndProcessesComponent implements OnInit {
+  export class AlandaProjectAndProcessesComponent implements OnInit {
 
     @Input() project: AlandaProject;
     @Input() task: AlandaTask;

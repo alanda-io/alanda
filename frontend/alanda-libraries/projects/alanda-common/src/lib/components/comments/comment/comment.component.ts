@@ -6,11 +6,11 @@ import { AlandaCommentTag } from '../../../api/models/alandaCommentTag';
 
 
 @Component({
-  selector: 'comment',
+  selector: 'alanda-comment',
   templateUrl: './comment.component.html',
   styleUrls: [],
 })
-export class CommentComponent {
+export class AlandaCommentComponent {
 
   @Input() comment: AlandaComment;
   @Input() type: string;

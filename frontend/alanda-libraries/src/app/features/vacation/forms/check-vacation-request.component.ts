@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { AlandaTaskTemplateComponent, AlandaTaskService, AlandaFormsRegisterService,
-         AlandaProjectService } from 'projects/alanda-common/src/public_api';
+import { AlandaTaskService, AlandaFormsRegisterService,
+         AlandaProjectService,
+         AlandaTaskComponent} from 'projects/alanda-common/src/public_api';
 import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 
@@ -9,7 +10,7 @@ import { SelectItem } from 'primeng/api';
     templateUrl: './check-vacation-request.component.html',
     styleUrls: [],
   })
-export class CheckVacationRequestComponent extends AlandaTaskTemplateComponent {
+export class CheckVacationRequestComponent extends AlandaTaskComponent {
 
   items: SelectItem[];
 

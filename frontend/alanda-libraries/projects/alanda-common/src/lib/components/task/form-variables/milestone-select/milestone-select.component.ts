@@ -6,11 +6,11 @@ import { AlandaFormsRegisterService } from 'projects/alanda-common/src/lib/servi
 import { convertUTCDate } from 'projects/alanda-common/src/lib/utils/helper-functions';
 
 @Component({
-    selector: 'milestone-select',
+    selector: 'alanda-milestone-select',
     templateUrl: './milestone-select.component.html',
     styleUrls: [],
   })
-export class SelectMilestoneComponent implements OnInit {
+export class AlandaSelectMilestoneComponent implements OnInit {
 
     @Input() project: AlandaProject;
     @Input() displayName: string;

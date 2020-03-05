@@ -6,11 +6,11 @@ import { AlandaPropertyService } from 'projects/alanda-common/src/lib/api/alanda
 import { AlandaFormsRegisterService } from 'projects/alanda-common/src/lib/services/alandaFormsRegister.service';
 
 @Component({
-    selector: 'date-select',
+    selector: 'alanda-date-select',
     templateUrl: './date-select.component.html',
     styleUrls: [],
   })
-export class DateSelectComponent implements OnInit {
+export class AlandaDateSelectComponent implements OnInit {
 
     @Input() key: string;
     @Input() label: string;

@@ -19,7 +19,7 @@ import { mergeMap } from 'rxjs/operators';
   styleUrls: ['./user-management.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class UserManagementComponent implements OnInit {
+export class AlandaUserManagementComponent implements OnInit {
 
     users: AlandaUser[] = [];
     selectedUser: AlandaUser;

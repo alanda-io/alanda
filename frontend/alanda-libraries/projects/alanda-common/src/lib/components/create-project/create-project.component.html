@@ -36,7 +36,7 @@
   }
 </style>
 
- <p-card *ngIf="selectedProjectType && !showDelegateDialog">
+ <p-card *ngIf="!showDialog">
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <div class="p-grid spacer">
       <div class="p-col-12 p-md-6 p-lg-4">
@@ -45,8 +45,8 @@
             <strong>Type (Sub Type):</strong>
           </div>
           <div class="p-col-7" >
-              <span *ngIf="project.subType != null">{{project.subtype}}</span>
-              <span *ngIf="project.subType == null">{{project.pmcProjectType.name}}</span>
+              <span *ngIf="project.subType">{{project.subtype}}</span>
+              <span *ngIf="!project.subType">{{project.pmcProjectType.name}}</span>
           </div>
           <div class="p-col-4">
             <strong>Prio*:</strong>
@@ -97,7 +97,7 @@
  </p-card>
 
 <p-dialog
-          [visible]="showDelegateDialog"
+          [visible]="showDialog"
           [dismissableMask]="true"
           [closable]="true"
           width=300
@@ -105,10 +105,10 @@
   <p-header>
     Create Project
   </p-header>
-  <p-dropdown #dd [options]="projectTypes" filter="true" [(ngModel)]="selectedProjectType" optionLabel="name" [style]="{'width':'100%'}" placeholder = "Project Type..." [filter]="true" ></p-dropdown>
+  <p-dropdown [options]="projectTypes" filter="true" [(ngModel)]="selectedProjectType" optionLabel="name" [style]="{'width':'100%'}" placeholder = "Project Type..." [filter]="true" ></p-dropdown>
   <p-footer>
     <p-button routerLink="" styleClass="ui-button-raised ui-button-info" label="Cancel"></p-button>
-    <p-button (onClick)="onProjectTypeSelected()" styleClass="ui-button-raised ui-button-success" [disabled]="!dd.value || isLoading" label="OK"></p-button>
+    <p-button (onClick)="onProjectTypeSelected()" styleClass="ui-button-raised ui-button-success" label="OK"></p-button>
   </p-footer>
 </p-dialog>
 <div class="loading" *ngIf="isLoading">

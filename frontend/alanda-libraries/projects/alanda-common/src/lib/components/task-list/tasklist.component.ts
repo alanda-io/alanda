@@ -9,11 +9,11 @@ import { AlandaUser } from '../../api/models/alandaUser';
 
 
 @Component({
-  selector: 'tasklist',
+  selector: 'alanda-tasklist',
   templateUrl: './tasklist.component.html' ,
   styles: []
 })
-export class TasklistComponent implements OnInit {
+export class AlandaTasklistComponent implements OnInit {
 
   tasksData: any = {};
   layouts: any[] = [];

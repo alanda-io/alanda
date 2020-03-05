@@ -13,11 +13,11 @@ import { mergeMap, concatMap } from 'rxjs/operators';
 import { AlandaUser } from 'projects/alanda-common/src/lib/api/models/alandaUser';
 
 @Component({
-    selector: 'role-select',
+    selector: 'alanda-role-select',
     templateUrl: './role-select.component.html',
     styleUrls: [],
   })
-export class SelectRoleComponent implements OnInit {
+export class AlandaSelectRoleComponent implements OnInit {
 
     @Input() project: AlandaProject;
     @Input() type: string; //'user' or 'group', determines if suggestions should be of type group or user

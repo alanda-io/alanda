@@ -6,13 +6,13 @@ import { AlandaMonitorAPIService } from '../../services/alandaMonitorApi.service
 import { AlandaProjectService } from '../../api/alandaProject.service';
 
 @Component({
-  selector: 'project-monitor',
+  selector: 'alanda-project-monitor',
   templateUrl: './project-monitor.component.html' ,
   styles: []
 })
-export class ProjectMonitorComponent implements OnInit {
+export class AlandaProjectMonitorComponent implements OnInit {
 
-  @Input() defaultLayout : string;
+  @Input() defaultLayout: string;
 
   projectsData: any = {};
   layouts: any[] = [];

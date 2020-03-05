@@ -1,26 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './views/home/home.component';
-import { UserManagementComponent, CreateProjectComponent, ProjectMonitorComponent, TasklistComponent, AttachmentsComponent,
-         GroupManagementComponent, CommentsComponent, RoleManagementComponent,
-         PermissionManagementComponent } from 'projects/alanda-common/src/public_api';
+import { AlandaUserManagementComponent, AlandaCreateProjectComponent, AlandaProjectMonitorComponent, AlandaTasklistComponent,
+         AlandaGroupManagementComponent, AlandaRoleManagementComponent,
+         AlandaPermissionManagementComponent } from 'projects/alanda-common/src/public_api';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'admin/users', component: UserManagementComponent },
-  { path: 'create/project', component: CreateProjectComponent },
-  { path: 'monitor/projects', component: ProjectMonitorComponent },
-  { path: 'tasks/list', component: TasklistComponent },
-  { path: 'attachment', component: AttachmentsComponent },
-  { path: 'admin/groups', component: GroupManagementComponent },
-  { path: 'admin/roles', component: RoleManagementComponent },
-  { path: 'admin/permissions', component: PermissionManagementComponent },
-  { path: 'comments', component: CommentsComponent },
-  { path: 'process', children: [
+  { path: 'admin/users', component: AlandaUserManagementComponent },
+  { path: 'admin/groups', component: AlandaGroupManagementComponent },
+  { path: 'admin/roles', component: AlandaRoleManagementComponent },
+  { path: 'admin/permissions', component: AlandaPermissionManagementComponent },
+  { path: 'create/project', component: AlandaCreateProjectComponent },
+  { path: 'monitor/projects', component: AlandaProjectMonitorComponent },
+  { path: 'tasks/list', component: AlandaTasklistComponent },
+  { path: 'forms', children: [
     { path: 'vacation', loadChildren: './features/vacation/vacation.module#VacationModule'},
   ]},
-  /* { path: 'forms/:formKey/:taskId', component: FormsControllerComponent },
-  { path: 'projectdetails/:projectId', component: ProjectsControllerComponent }, */
+  { path: 'projectdetails/:projectId', component:  HomeComponent},
   { path: '**', redirectTo: ''}
 ];
 

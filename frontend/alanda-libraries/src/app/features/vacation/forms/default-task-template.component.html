@@ -3,8 +3,8 @@
         margin-bottom: 20px !important;
     }
 </style>
-<project-header [task]="task" [project]="project"></project-header>
-<comments-component [task]="task"></comments-component>
+<alanda-project-header [task]="task" [project]="project"></alanda-project-header>
+<alanda-comments [task]="task"></alanda-comments>
 <p-card styleClass="submitTask">
     <button pButton type="button" (click)="submitTask()" icon="fa fa-check" iconPos="left" class="ui-button-success" label="Complete Task"></button>
 </p-card>

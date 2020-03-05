@@ -13,7 +13,7 @@ import { MessageService, LazyLoadEvent } from 'primeng/api';
   encapsulation: ViewEncapsulation.None,
 
 })
-export class PermissionManagementComponent implements OnInit {
+export class AlandaPermissionManagementComponent implements OnInit {
 
     permissions: AlandaPermission[];
     selectedPermission: AlandaPermission;

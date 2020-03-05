@@ -13,11 +13,11 @@ import { ProjectState } from '../../enums/projectState.enum';
 import { convertUTCDate } from '../../utils/helper-functions';
 
 @Component({
-    selector: 'project-header',
+    selector: 'alanda-project-header',
     templateUrl: './project-header.component.html',
     styleUrls: [],
   })
-  export class ProjectHeaderComponent implements OnInit, AfterViewInit {
+  export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
 
     @ViewChild(ProjectPropertiesDirective) propertiesHost: ProjectPropertiesDirective;
     @Input() project: AlandaProject;

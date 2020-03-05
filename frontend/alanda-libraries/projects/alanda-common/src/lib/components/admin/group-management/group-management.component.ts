@@ -20,7 +20,7 @@ import { mergeMap } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
 
 })
-export class GroupManagementComponent implements OnInit {
+export class AlandaGroupManagementComponent implements OnInit {
 
   groups: AlandaGroup[] = [];
   selectedGroup: AlandaGroup;

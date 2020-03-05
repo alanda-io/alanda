@@ -4,11 +4,11 @@ import { AlandaProcessService } from '../../api/alandaProcess.service';
 import { AlandaTask } from '../../api/models/alandaTask';
 
 @Component({
-    selector: 'pio-component',
+    selector: 'alanda-pio-component',
     templateUrl: './pio.component.html',
     styleUrls: [],
 })
-export class PioComponent implements OnInit{
+export class AlandaPioComponent implements OnInit {
 
     @Input() pid: string;
     @Input() task: AlandaTask;

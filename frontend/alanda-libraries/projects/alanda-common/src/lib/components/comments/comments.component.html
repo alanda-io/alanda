@@ -58,7 +58,7 @@
       </form>
       <p-scrollPanel styleClass="scrollbar">
         <div *ngIf="comments.length > 0">
-          <comment [comment]="comment" [tagFilters]="tagFilters" type="comment" *ngFor="let comment of comments | filter:searchText:'fulltext' | tagFilter: tagFilters:filterEnabled"></comment>
+          <alanda-comment [comment]="comment" [tagFilters]="tagFilters" type="comment" *ngFor="let comment of comments | filter:searchText:'fulltext' | tagFilter: tagFilters:filterEnabled"></alanda-comment>
         </div>
       </p-scrollPanel>
     </div>
@@ -75,4 +75,3 @@
 </p-panel>
 
 
-    

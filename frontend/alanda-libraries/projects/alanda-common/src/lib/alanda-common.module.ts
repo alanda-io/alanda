@@ -34,35 +34,34 @@ import { FormsControllerDirective } from './components/controller/directives/for
 import { MessageModule } from 'primeng/message';
 import { AttachmentsListComponent } from './components/attachments/attachments-list/attachments-list.component';
 import { AttachmentsTreeComponent } from './components/attachments/attachments-tree/attachments-tree.component';
-import { ProjectMonitorComponent } from './components/project-monitor/project-monitor.component';
-import { AttachmentsComponent } from './components/attachments/attachments.component';
+import { AlandaProjectMonitorComponent } from './components/project-monitor/project-monitor.component';
 import { MonitorValuesPipe } from './pipes/nested-object.pipe';
-import { TasklistComponent } from './components/task-list/tasklist.component';
+import { AlandaTasklistComponent } from './components/task-list/tasklist.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { TagFilterPipe } from './pipes/tag-filter.pipe';
-import { CommentsComponent } from './components/comments/comments.component';
-import { CommentComponent } from './components/comments/comment/comment.component';
-import { ProjectHeaderComponent } from './components/project-header/project-header.component';
+import { AlandaCommentsComponent } from './components/comments/comments.component';
+import { AlandaCommentComponent } from './components/comments/comment/comment.component';
+import { AlandaProjectHeaderComponent } from './components/project-header/project-header.component';
 import { ProjectPropertiesDirective } from './components/controller/directives/project.properties.directive';
-import { PioComponent } from './components/pio/pio.component';
+import { AlandaPioComponent } from './components/pio/pio.component';
 import { DiagramComponent } from './components/pio/diagram/diagram.component';
 import { ProcessActivitiesComponent } from './components/pio/process-activities/process-activities.component';
-import { HistoryGridComponent } from './components/history/history-grid.component';
-import { CreateProjectComponent } from './components/create-project/create-project.component';
-import { ProjectAndProcessesComponent } from './components/project-and-processes/project-and-processes.component';
+import { AlandaHistoryGridComponent } from './components/history/history-grid.component';
+import { AlandaCreateProjectComponent } from './components/create-project/create-project.component';
+import { AlandaProjectAndProcessesComponent } from './components/project-and-processes/project-and-processes.component';
 import { ProjectControlItemComponent } from './components/project-and-processes/projectControlItem/project-control-item.component';
 import { AppSettings, APP_CONFIG } from './models/appSettings';
-import { SelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
-import { SelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
-import { DateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
-import { DropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
-import { AlandaTaskTemplateComponent } from './components/task/template/alanda-task-template.component';
+import { AlandaSelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
+import { AlandaSelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
+import { AlandaDateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
+import { AlandaDropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
+import { AlandaTaskComponent } from './components/task/alanda-task.component';
 import { AccordionModule } from 'primeng/accordion'
-import { SelectMilestoneComponent } from './components/task/form-variables/milestone-select/milestone-select.component';
-import { UserManagementComponent } from './components/admin/user-management/user-management.component';
-import { GroupManagementComponent } from './components/admin/group-management/group-management.component';
-import { RoleManagementComponent } from './components/admin/role-management/role-management.component';
-import { PermissionManagementComponent } from './components/admin/permission-management/permission-management.component';
+import { AlandaSelectMilestoneComponent } from './components/task/form-variables/milestone-select/milestone-select.component';
+import { AlandaUserManagementComponent } from './components/admin/user-management/user-management.component';
+import { AlandaGroupManagementComponent } from './components/admin/group-management/group-management.component';
+import { AlandaRoleManagementComponent } from './components/admin/role-management/role-management.component';
+import { AlandaPermissionManagementComponent } from './components/admin/permission-management/permission-management.component';
 import { AlandaUserService } from './api/alandaUser.service';
 import { AlandaTaskService } from './api/alandaTask.service';
 import { AlandaCommentService } from './api/alandaComment.service';
@@ -79,6 +78,7 @@ import { AlandaAuthorizationService } from './services/alandaAuthorization.servi
 import { AlandaExceptionHandlingService } from './services/alandaExceptionHandling.service';
 import { AlandaMonitorAPIService } from './services/alandaMonitorApi.service';
 import { AlandaProjectPropertiesService } from './services/alandaProjectProperties.service';
+import { AlandaAttachmentsComponent } from './components/attachments/attachments.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -117,68 +117,68 @@ import { AlandaProjectPropertiesService } from './services/alandaProjectProperti
     AccordionModule
   ],
   declarations: [
-    UserManagementComponent,
+    AlandaUserManagementComponent,
     AttachmentsListComponent,
     AttachmentsTreeComponent,
-    ProjectMonitorComponent,
-    AttachmentsComponent,
+    AlandaProjectMonitorComponent,
+    AlandaAttachmentsComponent,
     MonitorValuesPipe,
-    TasklistComponent,
+    AlandaTasklistComponent,
     FilterPipe,
     TagFilterPipe,
-    GroupManagementComponent,
-    RoleManagementComponent,
-    PermissionManagementComponent,
-    CommentsComponent,
-    CommentComponent,
-    ProjectHeaderComponent,
+    AlandaGroupManagementComponent,
+    AlandaRoleManagementComponent,
+    AlandaPermissionManagementComponent,
+    AlandaCommentsComponent,
+    AlandaCommentComponent,
+    AlandaProjectHeaderComponent,
     ProjectPropertiesDirective,
     FormsControllerDirective,
-    PioComponent,
+    AlandaPioComponent,
     DiagramComponent,
     ProcessActivitiesComponent,
-    HistoryGridComponent,
-    CreateProjectComponent,
-    ProjectAndProcessesComponent,
+    AlandaHistoryGridComponent,
+    AlandaCreateProjectComponent,
+    AlandaProjectAndProcessesComponent,
     ProjectControlItemComponent,
-    SelectComponent,
-    SelectRoleComponent,
-    DateSelectComponent,
-    DropdownSelectComponent,
-    SelectMilestoneComponent,
-    AlandaTaskTemplateComponent,
+    AlandaSelectComponent,
+    AlandaSelectRoleComponent,
+    AlandaDateSelectComponent,
+    AlandaDropdownSelectComponent,
+    AlandaSelectMilestoneComponent,
+    AlandaTaskComponent,
   ],
   exports: [
-    ProjectMonitorComponent,
-    AttachmentsComponent,
+    AlandaProjectMonitorComponent,
+    AlandaAttachmentsComponent,
     AttachmentsListComponent,
     AttachmentsTreeComponent,
     MonitorValuesPipe,
-    TasklistComponent,
+    AlandaTasklistComponent,
     FilterPipe,
     TagFilterPipe,
-    UserManagementComponent,
-    RoleManagementComponent,
-    GroupManagementComponent,
-    PermissionManagementComponent,
-    CommentsComponent,
-    CommentComponent,
-    ProjectHeaderComponent,
+    AlandaUserManagementComponent,
+    AlandaRoleManagementComponent,
+    AlandaGroupManagementComponent,
+    AlandaPermissionManagementComponent,
+    AlandaCommentsComponent,
+    AlandaCommentComponent,
+    AlandaProjectHeaderComponent,
     ProjectPropertiesDirective,
     FormsControllerDirective,
-    PioComponent,
+    AlandaPioComponent,
     DiagramComponent,
     ProcessActivitiesComponent,
-    HistoryGridComponent,
-    CreateProjectComponent,
-    ProjectAndProcessesComponent,
+    AlandaHistoryGridComponent,
+    AlandaCreateProjectComponent,
+    AlandaProjectAndProcessesComponent,
     ProjectControlItemComponent,
-    SelectComponent,
-    SelectRoleComponent,
-    SelectMilestoneComponent,
-    DateSelectComponent,
-    DropdownSelectComponent,
-    AlandaTaskTemplateComponent
+    AlandaSelectComponent,
+    AlandaSelectRoleComponent,
+    AlandaSelectMilestoneComponent,
+    AlandaDateSelectComponent,
+    AlandaDropdownSelectComponent,
+    AlandaTaskComponent
    ],
   entryComponents: []
 })

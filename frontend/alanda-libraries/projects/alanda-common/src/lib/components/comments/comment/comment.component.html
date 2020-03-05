@@ -112,6 +112,6 @@
     </form>
     </div>
   <div class="p-offset-1 p-col-11" *ngIf="doReply">
-      <comment *ngFor="let reply of comment.replies" [type]="reply" [comment]="reply"></comment>
+      <alanda-comment *ngFor="let reply of comment.replies" [type]="reply" [comment]="reply"></alanda-comment>
   </div>
 </div>

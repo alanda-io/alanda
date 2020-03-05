@@ -8,11 +8,11 @@ import { AlandaCommentTag } from '../../api/models/alandaCommentTag';
 import { AlandaCommentService } from '../../api/alandaComment.service';
 
 @Component({
-  selector: 'comments-component',
+  selector: 'alanda-comments',
   templateUrl: './comments.component.html',
   styleUrls: [],
 })
-export class CommentsComponent implements OnInit {
+export class AlandaCommentsComponent implements OnInit {
 
   @Input() task: any;
   @Input() pid: string;

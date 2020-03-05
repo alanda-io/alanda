@@ -6,11 +6,11 @@ import { AlandaPropertyService } from 'projects/alanda-common/src/lib/api/alanda
 import { ServerOptions } from 'projects/alanda-common/src/lib/models/serverOptions';
 
 @Component({
-    selector: 'dropdown-select',
+    selector: 'alanda-dropdown-select',
     templateUrl: './dropdown-select.component.html',
     styleUrls: [],
   })
-export class DropdownSelectComponent implements OnInit {
+export class AlandaDropdownSelectComponent implements OnInit {
 
     @Input() project: any;
     @Input() displayName: string;

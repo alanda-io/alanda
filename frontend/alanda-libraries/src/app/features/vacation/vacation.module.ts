@@ -4,11 +4,11 @@ import { CardModule } from 'primeng/card';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { VacationProjectDetailsComponent } from './components/project-details/vacation-project-details.component';
+import { VacationProjectDetailsComponent } from './components/vacation-project-details/vacation-project-details.component';
 import { PrepareVacationRequestComponent } from './forms/prepare-vacation-request.component';
 import { CheckVacationRequestComponent } from './forms/check-vacation-request.component';
 import { ModifyVacationRequestComponent } from './forms/modify-vacation-request.component';
-import { ProjectPropertiesVacationComponent } from './components/project-properties/project.properties.vacation.component';
+import { VacationProjectPropertiesComponent } from './components/vacation-project-properties/vacation-project-properties.component';
 import { DefaultTaskComponent } from './forms/default-task-template.component';
 import { VacationRoutingModule } from './vacation-routing.module';
 
@@ -26,26 +26,16 @@ import { VacationRoutingModule } from './vacation-routing.module';
     PrepareVacationRequestComponent,
     CheckVacationRequestComponent,
     ModifyVacationRequestComponent,
-    ProjectPropertiesVacationComponent,
+    VacationProjectPropertiesComponent,
     DefaultTaskComponent
   ],
-/*   exports: [
-    VacationProjectDetailsComponent,
-    PrepareVacationRequestComponent,
-    CheckVacationRequestComponent,
-    ModifyVacationRequestComponent,
-    ProjectPropertiesVacationComponent,
-    FieldsetModule,
-    CardModule,
-    ButtonModule,
-  ], */
   providers: [],
   entryComponents: [
     VacationProjectDetailsComponent,
     PrepareVacationRequestComponent,
     CheckVacationRequestComponent,
     ModifyVacationRequestComponent,
-    ProjectPropertiesVacationComponent,
+    VacationProjectPropertiesComponent,
     DefaultTaskComponent
   ]
 })

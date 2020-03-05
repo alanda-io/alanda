@@ -3,11 +3,11 @@ import { ActivatedRoute } from "@angular/router";
 import { AlandaHistoryService } from '../../api/alandaHistory.service';
 
 @Component({
-    selector: 'history-grid-component',
+    selector: 'alanda-history-grid-component',
     templateUrl: './history-grid.component.html',
     styleUrls: [],
 })
-export class HistoryGridComponent implements OnInit{
+export class AlandaHistoryGridComponent implements OnInit{
 
     @Input() projectGuid: number;
     loadingInProgress = false;

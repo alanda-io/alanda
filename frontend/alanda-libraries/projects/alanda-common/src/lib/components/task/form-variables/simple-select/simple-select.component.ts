@@ -5,11 +5,11 @@ import { AlandaTaskService } from 'projects/alanda-common/src/lib/api/alandaTask
 import { AlandaFormsRegisterService } from 'projects/alanda-common/src/lib/services/alandaFormsRegister.service';
 
 @Component({
-    selector: 'simple-select',
+    selector: 'alanda-simple-select',
     templateUrl: './simple-select.component.html',
     styleUrls: [],
   })
-export class SelectComponent implements OnInit {
+export class AlandaSelectComponent implements OnInit {
 
     @Input() items: SelectItem[];
     @Input() variableName: string;

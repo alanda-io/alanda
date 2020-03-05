@@ -15,7 +15,7 @@ import { AlandaUserService } from '../../../api/alandaUser.service';
   encapsulation: ViewEncapsulation.None,
 
 })
-export class RoleManagementComponent implements OnInit {
+export class AlandaRoleManagementComponent implements OnInit {
 
     roles: AlandaRole[];
     selectedRole: AlandaRole;

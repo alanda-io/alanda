@@ -5,11 +5,11 @@ import { SimpleDocument } from '../../api/models/alandaSimpleDocument';
 import { AlandaDocumentService } from '../../api/alandaDocument.service';
 
 @Component({
-  selector: 'attachments-component',
+  selector: 'alanda-attachments',
   templateUrl: './attachments.component.html',
   providers: [MessageService]
 })
-export class AttachmentsComponent implements OnInit {
+export class AlandaAttachmentsComponent implements OnInit {
 
   @Input() mappings: string;
   @Input() project?: any;

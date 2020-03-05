@@ -3,11 +3,11 @@
         margin-bottom: 20px !important;
     }
 </style>
-<project-header [task]="task" [project]="project"></project-header>
-<comments-component [task]="task"></comments-component>
+<alanda-project-header [task]="task" [project]="project"></alanda-project-header>
+<alanda-comments [task]="task"></alanda-comments>
 <div class="p-grid">
     <div class="p-col-10">
-        <simple-select [task]="task" [items]="items" variableName="requestApproved" label="Approve vacation request?"></simple-select>
+        <alanda-simple-select [task]="task" [items]="items" variableName="requestApproved" label="Approve vacation request?"></alanda-simple-select>
     </div>
     <div class="p-col-2">
         <p-card [style]="{'height': '100%'}">

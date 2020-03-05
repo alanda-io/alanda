@@ -12,35 +12,35 @@ import { AlandaProject } from '../../api/models/alandaProject';
   styles: [],
 })
 
-export class CreateProjectComponent implements OnInit {
+export class AlandaCreateProjectComponent implements OnInit {
 
-  public showDelegateDialog: boolean;
-  public projectTypes: AlandaProjectType[] = [];
-  public allowedTagList: string[];
-  public selectedProjectType: any;
-  public project: AlandaProject;
-  public formGroup: FormGroup;
-  public isLoading: boolean;
+  showDialog = true;
+  projectTypes: AlandaProjectType[] = [];
+  allowedTagList: any[];
+  selectedProjectType: AlandaProjectType;
+  project: AlandaProject = {};
+  formGroup: FormGroup;
+  isLoading = false;
+
   constructor (private projectService: AlandaProjectService,
                private messageService: MessageService,
                private router: Router) {
   }
 
-  ngOnInit(): void {
-    this.load();
-    this.showDelegateDialog = true;
+  ngOnInit() {
+    this.projectService.searchCreateAbleProjectType().subscribe((pTypes: AlandaProjectType[]) => {
+      this.projectTypes = pTypes;
+    });
+    this.showDialog = true;
   }
 
-  onProjectTypeSelected(): void {
-    this.showDelegateDialog = false;
-    this.setupProject();
+  onProjectTypeSelected() {
+    this.showDialog = false;
+    this.project.pmcProjectType = this.selectedProjectType;
+    this.allowedTagList = this.selectedProjectType.allowedTagList.map(tag => { return {value: tag}; });
     this.initFormGroup();
   }
 
-  private setupProject() {
-    this.project.pmcProjectType = this.selectedProjectType;
-    this.allowedTagList = this.selectedProjectType.allowedTagList.map(tag => {return {value: tag}});
-  }
 
   private initFormGroup() {
     this.formGroup = new FormGroup({
@@ -49,32 +49,27 @@ export class CreateProjectComponent implements OnInit {
       projectDueDate: new FormControl(),
       projectTitle: new FormControl(null, {validators: [Validators.required]}),
       projectDetails: new FormControl(null, {validators: [Validators.required]}),
-  });
-
+    });
   }
 
-  private load(): void {
-    this.projectService.searchCreateAbleProjectType().subscribe((pTypes: AlandaProjectType[]) => {
-      this.projectTypes = pTypes;
-      }
-    );
-  }
 
   public onSubmit() {
-    this.project.dueDate = this.formGroup.get('projectDueDate').value;
-    this.project.title = this.formGroup.get('projectTitle').value;
-    this.project.priority = <any>(this.formGroup.get('prio').value).value;
-    this.project.properties = [];
-    this.project.comment = this.formGroup.get('projectDetails').value;
-    this.project.tag = [<any>(this.formGroup.get('tag').value).value];
-    this.isLoading = true;
-    this.projectService.createProject(this.project).subscribe(
-      project => {
-        this.isLoading = false;
-        this.messageService.add({severity:'success', summary:'Create Project', detail: 'Project has been created'})
-        this.router.navigate([`projectdetails/${project.projectId}`]);
-      },
-      error => {this.isLoading = false; this.messageService.add({severity:'error', summary:'Create Project', detail: error.message})});
+    if (this.formGroup.valid) {
+      this.project.dueDate = this.formGroup.get('projectDueDate').value;
+      this.project.title = this.formGroup.get('projectTitle').value;
+      this.project.priority = <any>(this.formGroup.get('prio').value).value;
+      this.project.properties = [];
+      this.project.comment = this.formGroup.get('projectDetails').value;
+      this.project.tag = [<any>(this.formGroup.get('tag').value).value];
+      this.isLoading = true;
+      this.projectService.createProject(this.project).subscribe(
+        project => {
+          this.isLoading = false;
+          this.messageService.add({severity:'success', summary:'Create Project', detail: 'Project has been created'})
+          this.router.navigate([`projectdetails/${project.projectId}`]);
+        },
+        error => {this.isLoading = false; this.messageService.add({severity:'error', summary:'Create Project', detail: error.message})});
+    }
   }
 
 }
