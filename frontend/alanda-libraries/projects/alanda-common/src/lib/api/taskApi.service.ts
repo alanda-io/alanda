@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 import { AlandaTask } from './models/alandaTask';
 import { catchError } from 'rxjs/operators';
 import { AlandaUser } from './models/alandaUser';
-import { AlandaExceptionHandlingService } from '../services/alandaExceptionHandling.service';
+import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 import { ServerOptions } from '../models/serverOptions';
 
 @Injectable()
-export class AlandaTaskService extends AlandaExceptionHandlingService {
+export class AlandaTaskApiService extends AlandaExceptionHandlingService {
 
   private endpointUrl: string;
 

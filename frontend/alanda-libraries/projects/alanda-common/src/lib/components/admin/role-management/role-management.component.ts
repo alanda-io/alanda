@@ -4,10 +4,11 @@ import { AlandaRole } from '../../../api/models/alandaRole';
 import { AlandaUser } from '../../../api/models/alandaUser';
 import { Table } from 'primeng/table';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AlandaRoleService } from '../../../api/alandaRole.service';
-import { AlandaPermissionService } from '../../../api/alandaPermission.service';
+import { AlandaRoleApiService } from '../../../api/roleApi.service';
+import { AlandaPermissionApiService } from '../../../api/permissionApi.service';
 import { MessageService, LazyLoadEvent } from 'primeng/api';
-import { AlandaUserService } from '../../../api/alandaUser.service';
+import { AlandaUserApiService } from '../../../api/userApi.service';
+
 @Component({
   selector: 'alanda-role-management',
   templateUrl: './role-management.component.html',
@@ -33,10 +34,10 @@ export class AlandaRoleManagementComponent implements OnInit {
 
     @ViewChild('table') turboTable: Table;
 
-    constructor(private roleService: AlandaRoleService,
-                private permissionService: AlandaPermissionService,
+    constructor(private roleService: AlandaRoleApiService,
+                private permissionService: AlandaPermissionApiService,
                 private messageService: MessageService,
-                private pmcUserService: AlandaUserService,
+                private pmcUserService: AlandaUserApiService,
                 private fb: FormBuilder) {}
 
     ngOnInit() {

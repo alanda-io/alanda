@@ -2,8 +2,8 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
-import { AlandaMonitorAPIService } from '../../services/alandaMonitorApi.service';
-import { AlandaProjectService } from '../../api/alandaProject.service';
+import { AlandaMonitorAPIService } from '../../services/monitorApi.service';
+import { AlandaProjectApiService } from '../../api/projectApi.service';
 
 @Component({
   selector: 'alanda-project-monitor',
@@ -24,7 +24,7 @@ export class AlandaProjectMonitorComponent implements OnInit {
 
   @ViewChild('tt') turboTable: Table;
 
-  constructor(private projectService: AlandaProjectService, private monitorApiService: AlandaMonitorAPIService,
+  constructor(private projectService: AlandaProjectApiService, private monitorApiService: AlandaMonitorAPIService,
               public messageService: MessageService) {
     this.serverOptions = {
       pageNumber: 1,

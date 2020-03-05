@@ -62,22 +62,22 @@ import { AlandaUserManagementComponent } from './components/admin/user-managemen
 import { AlandaGroupManagementComponent } from './components/admin/group-management/group-management.component';
 import { AlandaRoleManagementComponent } from './components/admin/role-management/role-management.component';
 import { AlandaPermissionManagementComponent } from './components/admin/permission-management/permission-management.component';
-import { AlandaUserService } from './api/alandaUser.service';
-import { AlandaTaskService } from './api/alandaTask.service';
-import { AlandaCommentService } from './api/alandaComment.service';
-import { AlandaDocumentService } from './api/alandaDocument.service';
-import { AlandaGroupService } from './api/alandaGroup.service';
-import { AlandaHistoryService } from './api/alandaHistory.service';
-import { AlandaMilestoneService } from './api/alandaMilestone.service';
-import { AlandaPermissionService } from './api/alandaPermission.service';
-import { AlandaProcessService } from './api/alandaProcess.service';
-import { AlandaProjectService } from './api/alandaProject.service';
-import { AlandaPropertyService } from './api/alandaProperty.service';
-import { AlandaRoleService } from './api/alandaRole.service';
-import { AlandaAuthorizationService } from './services/alandaAuthorization.service';
-import { AlandaExceptionHandlingService } from './services/alandaExceptionHandling.service';
-import { AlandaMonitorAPIService } from './services/alandaMonitorApi.service';
-import { AlandaProjectPropertiesService } from './services/alandaProjectProperties.service';
+import { AlandaUserApiService } from './api/userApi.service';
+import { AlandaTaskApiService } from './api/taskApi.service';
+import { AlandaCommentApiService } from './api/commentApi.service';
+import { AlandaDocumentApiService } from './api/documentApi.service';
+import { AlandaGroupApiService } from './api/groupApi.service';
+import { AlandaHistoryApiService } from './api/historyApi.service';
+import { AlandaMilestoneApiService } from './api/milestoneApi.service';
+import { AlandaPermissionApiService } from './api/permissionApi.service';
+import { AlandaProcessApiService } from './api/processApi.service';
+import { AlandaProjectApiService } from './api/projectApi.service';
+import { AlandaPropertyApiService } from './api/propertyApi.service';
+import { AlandaRoleApiService } from './api/roleApi.service';
+import { AlandaAuthorizationService } from './services/authorization.service';
+import { AlandaExceptionHandlingService } from './services/exceptionHandling.service';
+import { AlandaMonitorAPIService } from './services/monitorApi.service';
+import { AlandaProjectPropertiesService } from './services/projectProperties.service';
 import { AlandaAttachmentsComponent } from './components/attachments/attachments.component';
 @NgModule({
   imports: [
@@ -188,18 +188,18 @@ export class AlandaCommonModule {
     return {
       ngModule: AlandaCommonModule,
       providers: [
-        AlandaUserService,
-        AlandaTaskService,
-        AlandaCommentService,
-        AlandaDocumentService,
-        AlandaGroupService,
-        AlandaHistoryService,
-        AlandaMilestoneService,
-        AlandaPermissionService,
-        AlandaProcessService,
-        AlandaProjectService,
-        AlandaPropertyService,
-        AlandaRoleService,
+        AlandaUserApiService,
+        AlandaTaskApiService,
+        AlandaCommentApiService,
+        AlandaDocumentApiService,
+        AlandaGroupApiService,
+        AlandaHistoryApiService,
+        AlandaMilestoneApiService,
+        AlandaPermissionApiService,
+        AlandaProcessApiService,
+        AlandaProjectApiService,
+        AlandaPropertyApiService,
+        AlandaRoleApiService,
         AlandaAuthorizationService,
         AlandaExceptionHandlingService,
         AlandaMonitorAPIService,

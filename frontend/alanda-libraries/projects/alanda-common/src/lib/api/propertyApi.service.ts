@@ -4,10 +4,10 @@ import { APP_CONFIG, AppSettings } from '../models/appSettings';
 import { Observable } from 'rxjs';
 import { AlandaProperty } from './models/alandaProperty';
 import { catchError } from 'rxjs/operators';
-import { AlandaExceptionHandlingService } from '../services/alandaExceptionHandling.service';
+import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
 @Injectable()
-  export class AlandaPropertyService extends AlandaExceptionHandlingService {
+  export class AlandaPropertyApiService extends AlandaExceptionHandlingService {
 
     endpointUrl: string;
 

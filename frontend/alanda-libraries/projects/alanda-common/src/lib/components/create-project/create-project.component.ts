@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { AlandaProjectService } from '../../api/alandaProject.service';
+import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { AlandaProjectType } from '../../api/models/alandaProjectType';
 import { AlandaProject } from '../../api/models/alandaProject';
 
@@ -22,7 +22,7 @@ export class AlandaCreateProjectComponent implements OnInit {
   formGroup: FormGroup;
   isLoading = false;
 
-  constructor (private projectService: AlandaProjectService,
+  constructor (private projectService: AlandaProjectApiService,
                private messageService: MessageService,
                private router: Router) {
   }

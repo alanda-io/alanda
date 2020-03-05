@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { AlandaHistoryService } from '../../api/alandaHistory.service';
+import { AlandaHistoryApiService } from '../../api/historyApi.service';
 
 @Component({
     selector: 'alanda-history-grid-component',
@@ -32,7 +32,7 @@ export class AlandaHistoryGridComponent implements OnInit{
         {displayName:'Log Date', name: 'Log Date', field: 'logDate'}
       ]
 
-    constructor(private historyService: AlandaHistoryService, private route: ActivatedRoute) {};
+    constructor(private historyService: AlandaHistoryApiService, private route: ActivatedRoute) {};
 
     ngOnInit(){
         if(this.route.snapshot.params['projectId']) {

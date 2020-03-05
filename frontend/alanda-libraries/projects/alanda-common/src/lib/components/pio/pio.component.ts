@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Inject } from "@angular/core";
 import { APP_CONFIG, AppSettings } from "../../models/appSettings";
-import { AlandaProcessService } from '../../api/alandaProcess.service';
+import { AlandaProcessApiService } from '../../api/processApi.service';
 import { AlandaTask } from '../../api/models/alandaTask';
 
 @Component({
@@ -15,7 +15,7 @@ export class AlandaPioComponent implements OnInit {
     processName = '';
     endpointUrl: string;
 
-    constructor(@Inject(APP_CONFIG) private config: AppSettings, private processService: AlandaProcessService) {
+    constructor(@Inject(APP_CONFIG) private config: AppSettings, private processService: AlandaProcessApiService) {
         this.endpointUrl = config.API_ENDPOINT + "/pmc-process";
     };
 

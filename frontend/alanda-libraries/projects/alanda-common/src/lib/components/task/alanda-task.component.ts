@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AlandaProject } from '../../api/models/alandaProject';
 import { AlandaTask } from '../../api/models/alandaTask';
-import { AlandaFormsRegisterService } from '../../services/alandaFormsRegister.service';
+import { AlandaFormsRegisterService } from '../../services/formsRegister.service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap } from 'rxjs/operators';
-import { AlandaTaskService } from '../../api/alandaTask.service';
-import { AlandaProjectService } from '../../api/alandaProject.service';
+import { AlandaProjectApiService } from '../../api/projectApi.service';
+import { AlandaTaskApiService } from '../../api/taskApi.service';
 
 @Component({
     providers: [AlandaFormsRegisterService],
@@ -17,7 +17,7 @@ export class AlandaTaskComponent implements OnInit {
   task: AlandaTask;
 
   constructor(public formsRegisterService: AlandaFormsRegisterService, private route: ActivatedRoute,
-              private taskService: AlandaTaskService, private projectService: AlandaProjectService) {}
+              private taskService: AlandaTaskApiService, private projectService: AlandaProjectApiService) {}
 
   ngOnInit() {
 

@@ -5,13 +5,13 @@ import { AlandaRole } from '../../../api/models/alandaRole';
 import { AlandaUser } from '../../../api/models/alandaUser';
 import { Table } from 'primeng/table';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AlandaGroupService } from '../../../api/alandaGroup.service';
-import { AlandaRoleService } from '../../../api/alandaRole.service';
-import { AlandaPermissionService } from '../../../api/alandaPermission.service';
+import { AlandaGroupApiService } from '../../../api/groupApi.service';
+import { AlandaRoleApiService } from '../../../api/roleApi.service';
+import { AlandaPermissionApiService } from '../../../api/permissionApi.service';
 import { MessageService, LazyLoadEvent } from 'primeng/api';
-import { AlandaUserService } from '../../../api/alandaUser.service';
 import { ServerOptions } from '../../../models/serverOptions';
 import { mergeMap } from 'rxjs/operators';
+import { AlandaUserApiService } from '../../../api/userApi.service';
 
 @Component({
   selector: 'alanda-group-management',
@@ -43,12 +43,12 @@ export class AlandaGroupManagementComponent implements OnInit {
 
   groupForm: FormGroup;
 
-  constructor(private groupService: AlandaGroupService,
-              private roleService: AlandaRoleService,
-              private permissionService: AlandaPermissionService,
+  constructor(private groupService: AlandaGroupApiService,
+              private roleService: AlandaRoleApiService,
+              private permissionService: AlandaPermissionApiService,
               private fb: FormBuilder,
               private messageService: MessageService,
-              private userService: AlandaUserService) {}
+              private userService: AlandaUserApiService) {}
 
   ngOnInit()  {
     this.initGroupForm();

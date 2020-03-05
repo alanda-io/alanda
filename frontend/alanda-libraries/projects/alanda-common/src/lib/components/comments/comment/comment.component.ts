@@ -1,8 +1,8 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AlandaComment } from '../../../api/models/alandaComment';
-import { AlandaCommentService } from '../../../api/alandaComment.service';
 import { AlandaCommentTag } from '../../../api/models/alandaCommentTag';
+import { AlandaCommentApiService } from '../../../api/commentApi.service';
 
 
 @Component({
@@ -20,7 +20,7 @@ export class AlandaCommentComponent {
   doReply: boolean;
   loadingInProgress: boolean;
 
-  constructor(private pmcCommentService: AlandaCommentService) {}
+  constructor(private pmcCommentService: AlandaCommentApiService) {}
 
   tagClass(tag: AlandaCommentTag): string{
     /* if(!this.filterEnabled || this.tagFilters.indexOf(tag.name) !== -1){

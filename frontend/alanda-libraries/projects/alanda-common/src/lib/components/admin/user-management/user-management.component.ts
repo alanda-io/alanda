@@ -5,13 +5,13 @@ import { AlandaRole } from '../../../api/models/alandaRole';
 import { AlandaUser } from '../../../api/models/alandaUser';
 import { Table } from 'primeng/table';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AlandaGroupService } from '../../../api/alandaGroup.service';
-import { AlandaRoleService } from '../../../api/alandaRole.service';
-import { AlandaPermissionService } from '../../../api/alandaPermission.service';
+import { AlandaRoleApiService } from '../../../api/roleApi.service';
+import { AlandaPermissionApiService } from '../../../api/permissionApi.service';
 import { MessageService, LazyLoadEvent } from 'primeng/api';
-import { AlandaUserService } from '../../../api/alandaUser.service';
 import { ServerOptions } from '../../../models/serverOptions';
 import { mergeMap } from 'rxjs/operators';
+import { AlandaUserApiService } from '../../../api/userApi.service';
+import { AlandaGroupApiService } from '../../../api/groupApi.service';
 
 @Component({
   selector: 'alanda-user-management',
@@ -40,10 +40,10 @@ export class AlandaUserManagementComponent implements OnInit {
     @ViewChild('table') turboTable: Table;
     userForm: FormGroup;
 
-    constructor(private userService: AlandaUserService,
-                private groupService: AlandaGroupService,
-                private roleService: AlandaRoleService,
-                private permissionService: AlandaPermissionService,
+    constructor(private userService: AlandaUserApiService,
+                private groupService: AlandaGroupApiService,
+                private roleService: AlandaRoleApiService,
+                private permissionService: AlandaPermissionApiService,
                 private messageService: MessageService,
                 private fb: FormBuilder) {
     }

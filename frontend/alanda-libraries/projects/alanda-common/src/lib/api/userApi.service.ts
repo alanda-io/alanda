@@ -8,11 +8,11 @@ import { catchError, tap } from 'rxjs/operators';
 import { AlandaRole } from './models/alandaRole';
 import { AlandaGroup } from './models/alandaGroup';
 import { AlandaPermission } from './models/alandaPermission';
-import { AlandaExceptionHandlingService } from '../services/alandaExceptionHandling.service';
+import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 import { ServerOptions } from '../models/serverOptions';
 
 @Injectable()
-export class AlandaUserService extends AlandaExceptionHandlingService {
+export class AlandaUserApiService extends AlandaExceptionHandlingService {
 
   private endpointUrl: string;
   public user$: BehaviorSubject<AlandaUser> = new BehaviorSubject(null);

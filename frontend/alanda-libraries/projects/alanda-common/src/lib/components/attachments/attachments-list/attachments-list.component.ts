@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { SimpleDocument } from '../../../api/models/alandaSimpleDocument';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AlandaDocumentService } from '../../../api/alandaDocument.service';
+import { AlandaDocumentApiService } from '../../../api/documentApi.service';
 
 @Component({
   selector: 'attachments-list',
@@ -19,7 +19,7 @@ export class AttachmentsListComponent implements OnInit {
   previewContent: {id: string, pdf: boolean};
 
   constructor(
-    private documentService: AlandaDocumentService,
+    private documentService: AlandaDocumentApiService,
     public sanitizer: DomSanitizer
   ) {}
 

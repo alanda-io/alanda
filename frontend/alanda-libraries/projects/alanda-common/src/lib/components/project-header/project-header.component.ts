@@ -4,13 +4,13 @@ import { AlandaProject } from '../../api/models/alandaProject';
 import { AlandaTask } from '../../api/models/alandaTask';
 import { AlandaUser } from '../../api/models/alandaUser';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AlandaTaskService } from '../../api/alandaTask.service';
 import { MessageService } from 'primeng/api';
-import { AlandaProjectService } from '../../api/alandaProject.service';
-import { AlandaFormsRegisterService } from '../../services/alandaFormsRegister.service';
-import { AlandaProjectPropertiesService } from '../../services/alandaProjectProperties.service';
+import { AlandaProjectApiService } from '../../api/projectApi.service';
+import { AlandaFormsRegisterService } from '../../services/formsRegister.service';
+import { AlandaProjectPropertiesService } from '../../services/projectProperties.service';
 import { ProjectState } from '../../enums/projectState.enum';
 import { convertUTCDate } from '../../utils/helper-functions';
+import { AlandaTaskApiService } from '../../api/taskApi.service';
 
 @Component({
     selector: 'alanda-project-header',
@@ -31,8 +31,8 @@ import { convertUTCDate } from '../../utils/helper-functions';
     projectHeaderForm: FormGroup;
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver, private propertiesService: AlandaProjectPropertiesService,
-                private taskService: AlandaTaskService, private cdRef: ChangeDetectorRef, private messageService: MessageService,
-                private fb: FormBuilder, private projectService: AlandaProjectService,
+                private taskService: AlandaTaskApiService, private cdRef: ChangeDetectorRef, private messageService: MessageService,
+                private fb: FormBuilder, private projectService: AlandaProjectApiService,
                 private formsRegisterService: AlandaFormsRegisterService) {}
 
     ngOnInit() {

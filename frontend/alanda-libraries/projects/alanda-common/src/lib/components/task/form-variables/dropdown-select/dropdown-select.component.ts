@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { AlandaUserService } from 'projects/alanda-common/src/lib/api/alandaUser.service';
 import { MessageService } from 'primeng/api';
-import { AlandaPropertyService } from 'projects/alanda-common/src/lib/api/alandaProperty.service';
+import { AlandaPropertyApiService } from 'projects/alanda-common/src/lib/api/propertyApi.service';
 import { ServerOptions } from 'projects/alanda-common/src/lib/models/serverOptions';
+import { AlandaUserApiService } from 'projects/alanda-common/src/lib/api/userApi.service';
 
 @Component({
     selector: 'alanda-dropdown-select',
@@ -20,8 +20,7 @@ export class AlandaDropdownSelectComponent implements OnInit {
     users: any[];
     userForm: FormGroup;
 
-    constructor(private userService: AlandaUserService, private messageService: MessageService,
-                private propertyService: AlandaPropertyService){}
+    constructor(private userService: AlandaUserApiService, private propertyService: AlandaPropertyApiService) {}
 
     ngOnInit(){
       let serverOptions: ServerOptions = {

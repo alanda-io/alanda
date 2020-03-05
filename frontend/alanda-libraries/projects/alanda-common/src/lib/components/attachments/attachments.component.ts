@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { ExtendedTreeNode } from '../../models/tree-node';
 import { SimpleDocument } from '../../api/models/alandaSimpleDocument';
-import { AlandaDocumentService } from '../../api/alandaDocument.service';
+import { AlandaDocumentApiService } from '../../api/documentApi.service';
 
 @Component({
   selector: 'alanda-attachments',
@@ -26,7 +26,7 @@ export class AlandaAttachmentsComponent implements OnInit {
   treeNode: ExtendedTreeNode[] = [];
   currentFiles: SimpleDocument[]; //passed to attachments-list
 
-  constructor(private documentService: AlandaDocumentService, private messageService: MessageService) {}
+  constructor(private documentService: AlandaDocumentApiService, private messageService: MessageService) {}
 
   ngOnInit() {
 

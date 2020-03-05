@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AlandaTaskService } from '../api/alandaTask.service';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { AlandaTask } from '../api/models/alandaTask';
+import { AlandaTaskApiService } from '../api/taskApi.service';
 
 @Injectable()
 export class AlandaFormsRegisterService {
 
-  private formGroup: FormGroup;
+  private formGroup: FormGroup = new FormGroup({});
   private loading = false;
 
-  constructor(private taskService: AlandaTaskService, private messageService: MessageService, private router: Router) {}
+  constructor(private taskService: AlandaTaskApiService, private messageService: MessageService, private router: Router) {}
 
   public isValid(): boolean {
     return this.formGroup.valid;
@@ -21,10 +21,7 @@ export class AlandaFormsRegisterService {
     return this.formGroup;
   }
 
-  public registerForm(formGroup: FormGroup, identifier: string): void {
-    if (!this.formGroup) {
-      this.formGroup = new FormGroup({});
-    }
+  public registerForm(formGroup: FormGroup, identifier: string) {
     this.formGroup.addControl(identifier, formGroup);
   }
 

@@ -8,10 +8,10 @@ import { AlandaGroup } from './models/alandaGroup';
 import { catchError } from 'rxjs/operators';
 import { AlandaPermission } from './models/alandaPermission';
 import { AlandaRole } from './models/alandaRole';
-import { AlandaExceptionHandlingService } from '../services/alandaExceptionHandling.service';
+import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
 @Injectable()
-export class AlandaGroupService extends AlandaExceptionHandlingService {
+export class AlandaGroupApiService extends AlandaExceptionHandlingService {
 
   private endpointUrl: string;
 

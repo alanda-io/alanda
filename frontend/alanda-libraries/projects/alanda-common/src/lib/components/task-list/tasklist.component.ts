@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
-import { AlandaTaskService } from '../../api/alandaTask.service';
-import { AlandaMonitorAPIService } from '../../services/alandaMonitorApi.service';
-import { AlandaUserService } from '../../api/alandaUser.service';
+import { AlandaMonitorAPIService } from '../../services/monitorApi.service';
 import { AlandaUser } from '../../api/models/alandaUser';
+import { AlandaTaskApiService } from '../../api/taskApi.service';
+import { AlandaUserApiService } from '../../api/userApi.service';
 
 
 @Component({
@@ -33,8 +33,8 @@ export class AlandaTasklistComponent implements OnInit {
 
   @ViewChild('tt') turboTable: Table;
 
-  constructor(private taskService: AlandaTaskService, private monitorApiService: AlandaMonitorAPIService,
-              private userService: AlandaUserService, public messageService: MessageService) {
+  constructor(private taskService: AlandaTaskApiService, private monitorApiService: AlandaMonitorAPIService,
+              private userService: AlandaUserApiService, public messageService: MessageService) {
     this.serverOptions = {
       pageNumber: 1,
       pageSize: 15,

@@ -5,10 +5,10 @@ import { APP_CONFIG, AppSettings } from '../models/appSettings';
 import { ExtendedTreeNode } from '../models/tree-node';
 import { SimpleDocument } from './models/alandaSimpleDocument';
 import { catchError } from 'rxjs/operators';
-import { AlandaExceptionHandlingService } from '../services/alandaExceptionHandling.service';
+import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
 @Injectable()
-export class AlandaDocumentService extends AlandaExceptionHandlingService {
+export class AlandaDocumentApiService extends AlandaExceptionHandlingService {
 
   private documentEndpointUrl: string;
 

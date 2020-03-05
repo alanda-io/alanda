@@ -6,10 +6,10 @@ import { AlandaCommentResponse } from './models/alandaCommentResponse';
 import { catchError } from 'rxjs/operators';
 import { AlandaCommentPostBody } from './models/alandaCommentPostBody';
 import { AlandaReplyPostBody } from './models/alandaReplyPostBody';
-import { AlandaExceptionHandlingService } from '../services/alandaExceptionHandling.service';
+import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
 @Injectable()
-export class AlandaCommentService extends AlandaExceptionHandlingService {
+export class AlandaCommentApiService extends AlandaExceptionHandlingService {
 
   private endpointUrl: string;
 

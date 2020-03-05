@@ -1,7 +1,7 @@
 import { OnInit, Component, Input } from "@angular/core";
 import { ProcessRelation } from "../../enums/processRelation.enum";
 import { AlandaProject } from '../../api/models/alandaProject';
-import { AlandaProjectService } from '../../api/alandaProject.service';
+import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { AlandaProcess } from '../../api/models/alandaProcess';
 import { AlandaTask } from '../../api/models/alandaTask';
 
@@ -36,7 +36,7 @@ export interface FlattenProjectResult {
     projectList: FlattenProjectResult[] = [];
     parentList: AlandaProject[] = [];
 
-    constructor(private pmcProjectService: AlandaProjectService) {}
+    constructor(private pmcProjectService: AlandaProjectApiService) {}
 
     ngOnInit() {
       this.mainProcess = this.getMainProcess(this.project.processes);

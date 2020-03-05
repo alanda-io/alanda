@@ -2,8 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AlandaProject } from 'projects/alanda-common/src/lib/api/models/alandaProject';
 import { MessageService } from 'primeng/api';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AlandaPropertyService } from 'projects/alanda-common/src/lib/api/alandaProperty.service';
-import { AlandaFormsRegisterService } from 'projects/alanda-common/src/lib/services/alandaFormsRegister.service';
+import { AlandaPropertyApiService } from 'projects/alanda-common/src/lib/api/propertyApi.service';
+import { AlandaFormsRegisterService } from 'projects/alanda-common/src/lib/services/formsRegister.service';
 
 @Component({
     selector: 'alanda-date-select',
@@ -19,7 +19,7 @@ export class AlandaDateSelectComponent implements OnInit {
 
     dateForm: FormGroup;
 
-    constructor(private messageService: MessageService, private propertyService: AlandaPropertyService,
+    constructor(private messageService: MessageService, private propertyService: AlandaPropertyApiService,
                 private formsRegisterService: AlandaFormsRegisterService){}
 
     ngOnInit(){

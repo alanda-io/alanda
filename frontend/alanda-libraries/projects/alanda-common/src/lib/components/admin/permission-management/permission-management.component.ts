@@ -1,9 +1,8 @@
 import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
 import { AlandaPermission } from '../../../api/models/alandaPermission';
-
 import { Table } from 'primeng/table';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AlandaPermissionService } from '../../../api/alandaPermission.service';
+import { AlandaPermissionApiService } from '../../../api/permissionApi.service';
 import { MessageService, LazyLoadEvent } from 'primeng/api';
 
 @Component({
@@ -26,7 +25,7 @@ export class AlandaPermissionManagementComponent implements OnInit {
 
     @ViewChild('table') turboTable: Table;
 
-    constructor(private permissionService: AlandaPermissionService, private fb: FormBuilder, private messageService: MessageService) {}
+    constructor(private permissionService: AlandaPermissionApiService, private fb: FormBuilder, private messageService: MessageService) {}
 
     ngOnInit() {
       this.initPermissionForm();

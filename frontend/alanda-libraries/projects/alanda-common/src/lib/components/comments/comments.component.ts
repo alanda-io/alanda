@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 import { MessageService } from 'primeng/api';
 import { AlandaComment } from '../../api/models/alandaComment';
 import { AlandaCommentTag } from '../../api/models/alandaCommentTag';
-import { AlandaCommentService } from '../../api/alandaComment.service';
+import { AlandaCommentApiService } from '../../api/commentApi.service';
 
 @Component({
   selector: 'alanda-comments',
@@ -30,7 +30,7 @@ export class AlandaCommentsComponent implements OnInit {
   subject = ' ';
   content = '';
 
-  constructor(private commentService: AlandaCommentService, private messageService: MessageService,
+  constructor(private commentService: AlandaCommentApiService, private messageService: MessageService,
               private datePipe: DatePipe) {}
 
   ngOnInit() {

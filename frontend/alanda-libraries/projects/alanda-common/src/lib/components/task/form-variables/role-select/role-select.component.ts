@@ -4,13 +4,13 @@ import { AlandaGroup } from 'projects/alanda-common/src/lib/api/models/alandaGro
 import { AlandaRole } from 'projects/alanda-common/src/lib/api/models/alandaRole';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SelectItemGroup, SelectItem } from 'primeng/api';
-import { AlandaUserService } from 'projects/alanda-common/src/lib/api/alandaUser.service';
-import { AlandaPropertyService } from 'projects/alanda-common/src/lib/api/alandaProperty.service';
-import { AlandaGroupService } from 'projects/alanda-common/src/lib/api/alandaGroup.service';
-import { AlandaRoleService } from 'projects/alanda-common/src/lib/api/alandaRole.service';
-import { AlandaFormsRegisterService } from 'projects/alanda-common/src/lib/services/alandaFormsRegister.service';
+import { AlandaPropertyApiService } from 'projects/alanda-common/src/lib/api/propertyApi.service';
+import { AlandaRoleApiService } from 'projects/alanda-common/src/lib/api/roleApi.service';
+import { AlandaFormsRegisterService } from 'projects/alanda-common/src/lib/services/formsRegister.service';
 import { mergeMap, concatMap } from 'rxjs/operators';
 import { AlandaUser } from 'projects/alanda-common/src/lib/api/models/alandaUser';
+import { AlandaUserApiService } from 'projects/alanda-common/src/lib/api/userApi.service';
+import { AlandaGroupApiService } from 'projects/alanda-common/src/lib/api/groupApi.service';
 
 @Component({
     selector: 'alanda-role-select',
@@ -36,8 +36,8 @@ export class AlandaSelectRoleComponent implements OnInit {
     role: AlandaRole;
     roleSelectFormGroup: FormGroup;
 
-    constructor(private userService: AlandaUserService, private propService: AlandaPropertyService,
-                private groupService: AlandaGroupService, private roleService: AlandaRoleService,
+    constructor(private userService: AlandaUserApiService, private propService: AlandaPropertyApiService,
+                private groupService: AlandaGroupApiService, private roleService: AlandaRoleApiService,
                 private formsRegisterService: AlandaFormsRegisterService){}
 
     ngOnInit(){

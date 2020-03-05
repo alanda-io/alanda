@@ -2,22 +2,22 @@
  * Public API Surface of alanda-common
  */
 
-export * from './lib/api/alandaTask.service';
-export * from './lib/api/alandaUser.service';
-export * from './lib/api/alandaRole.service';
-export * from './lib/api/alandaGroup.service';
-export * from './lib/api/alandaPermission.service';
-export * from './lib/api/alandaDocument.service';
-export * from './lib/api/alandaProject.service';
-export * from './lib/api/alandaHistory.service';
+export * from './lib/api/taskApi.service';
+export * from './lib/api/userApi.service';
+export * from './lib/api/roleApi.service';
+export * from './lib/api/groupApi.service';
+export * from './lib/api/permissionApi.service';
+export * from './lib/api/documentApi.service';
+export * from './lib/api/projectApi.service';
+export * from './lib/api/historyApi.service';
 
-export * from './lib/services/alandaAuthorization.service';
-export * from './lib/services/alandaExceptionHandling.service';
-export * from './lib/services/alandaFormsRegister.service';
-export * from './lib/services/alandaProjectProperties.service';
+export * from './lib/services/authorization.service';
+export * from './lib/services/exceptionHandling.service';
+export * from './lib/services/formsRegister.service';
+export * from './lib/services/projectProperties.service';
 export * from './lib/services/project-details.service';
-export * from './lib/services/alandaFormsRegister.service';
-export * from './lib/services/alandaMonitorApi.service';
+export * from './lib/services/formsRegister.service';
+export * from './lib/services/monitorApi.service';
 
 export * from './lib/interceptors/basic-auth.interceptor';
 export * from './lib/interceptors/error.interceptor';

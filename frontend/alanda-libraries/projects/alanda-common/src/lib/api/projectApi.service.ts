@@ -8,10 +8,10 @@ import { ServerOptions } from '../models/serverOptions';
 import { AlandaListResult } from './models/alandaListResult';
 import { AlandaProcess } from './models/alandaProcess';
 import { AlandaProjectType } from './models/alandaProjectType';
-import { AlandaExceptionHandlingService } from '../services/alandaExceptionHandling.service';
+import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
 @Injectable()
-export class AlandaProjectService extends AlandaExceptionHandlingService {
+export class AlandaProjectApiService extends AlandaExceptionHandlingService {
 
     private endpoint: string;
 
