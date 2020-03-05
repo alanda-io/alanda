@@ -3,12 +3,12 @@
 --changeset fsa:basic-camunda-user
 Insert into PMC_GROUP (GUID, GROUPNAME, LONGNAME, GROUPSOURCE, CREATED, CREATEUSER, LASTUPDATE, UPDATEUSER, VERSION, SOURCEID, SOURCENAME,
                        ACTIVE, EMAIL, PHONE)
-values (1, 'admin', 'Administrators', 'alanda', null, null, null, null, 0, null, null, 1, null, null);
+values (SEQ_GUID_PK.nextval, 'admin', 'Administrators', 'alanda', null, null, null, null, 0, null, null, 1, null, null);
 Insert into PMC_USER (GUID, LOGINNAME, FIRSTNAME, SURNAME, EMAIL, MOBILE, LOCKED, CREATED, CREATEUSER, LASTUPDATE, UPDATEUSER, VERSION,
                       PASSWORD, LAST_LOGIN, PMC_DEPARTMENT, EXTERNALGUID, SOURCE, COMPANY)
-values (1, 'alanda', 'Alan', 'Da', 'alanda@alanda.io', null, 0, null, null, null, null, 0, null, null, null, null, 'alanda', null);
+values (SEQ_GUID_PK.nextval, 'alanda', 'Alan', 'Da', 'alanda@alanda.io', null, 0, null, null, null, null, 0, null, null, null, null, 'alanda', null);
 Insert into PMC_USER_GROUP (REF_USER, REF_GROUP, SELECT_CONTACT)
-values (1, 1, 1);
+values ((SELECT guid FROM PMC_USER WHERE loginname = 'alanda'), (SELECT guid FROM PMC_GROUP WHERE groupname = 'admin'), (SELECT guid FROM PMC_USER WHERE loginname = 'alanda'));
 
 --changeset fsa:basic-camunda-auth
 insert into ACT_RU_AUTHORIZATION (ID_, REV_, TYPE_, GROUP_ID_, RESOURCE_TYPE_, RESOURCE_ID_, PERMS_)
