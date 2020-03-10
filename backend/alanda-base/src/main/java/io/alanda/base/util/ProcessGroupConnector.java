@@ -60,9 +60,11 @@ public class ProcessGroupConnector {
    */
   public List<String> groupsForRole(String roleName) {
     List<String> groupsResult = new ArrayList<>();
-    String groupId =
-            propertyService.getStringProperty(
-                    null, null, pmcProjectData.getPmcProjectGuid(), "role_" + roleName);
+    String groupId = null;
+    if(pmcProjectData.getPmcProjectGuid() != null) {
+      groupId = propertyService.getStringProperty(
+                      null, null, pmcProjectData.getPmcProjectGuid(), "role_" + roleName);
+    }
     if (groupId != null) {
       Long lId = Long.parseLong(groupId);
       PmcGroupDto g = this.pmcUserService.getGroupById(lId);
