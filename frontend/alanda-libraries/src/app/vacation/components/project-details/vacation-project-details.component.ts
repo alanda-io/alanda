@@ -1,6 +1,6 @@
 
 import { Component } from "@angular/core";
-import { Project } from "projects/alanda-common/src/public_api";
+import { Project } from 'projects/alanda-common/src/lib/models/project';
 
 
 @Component({

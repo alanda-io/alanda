@@ -1,0 +1,30 @@
+<p-panel [toggleable]="true">
+  <p-header>
+    <span class="ui-panel-title title">Projects & Processes</span>
+  </p-header>
+
+  <p-treeTable [value]="projectTree">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Process / Task</th>
+            <th>Ref. Object</th>
+            <th>Assignment</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Comments</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+        <tr>
+            <td>
+                <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                {{rowNode.projectId}}
+            </td>
+            <td>{{rowData.refObjectIdName}}</td>
+            <td>{{rowData }}</td>
+        </tr>
+    </ng-template>
+</p-treeTable>
+
+</p-panel>
+

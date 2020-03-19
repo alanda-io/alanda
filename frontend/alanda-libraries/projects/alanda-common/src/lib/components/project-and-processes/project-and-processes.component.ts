@@ -41,7 +41,8 @@ export interface FlattenProjectResult {
     ngOnInit() {
       this.mainProcess = this.getMainProcess(this.project.processes);
       this.pid = this.task ? this.task.process_instance_id : this.mainProcess.processInstanceId;
-      this.pmcProjectService.getProjectTreeByGuid(this.project.guid).subscribe(project => {
+      this.pmcProjectService.getProjectByGuid(this.project.guid, true).subscribe(project => {
+        console.log("projectTree", project);
         for(let parent of project.parents) {
           this.parentList.push(parent);
         }
@@ -78,13 +79,13 @@ export interface FlattenProjectResult {
     }
 
     private flattenChildProjects(project: Project, level: number, result: FlattenProjectResult[]) {
-      this.pmcProjectService.getProcessesAndTasksForProject(project.guid).subscribe(res => {
+      /* this.pmcProjectService.getProcessesAndTasksForProject(project.guid).subscribe(res => {
         let flattenProject: FlattenProjectResult = {project: project, level: level, initExpanded: !level, processesAndTasks: res};
         this.projectList.push(flattenProject);
         for(let child of project.children) {
           this.flattenChildProjects(child, level + 1, result);
         }
-      });
+      }); */
     }
-  
+
   }

@@ -86,6 +86,9 @@ import { GroupManagementComponent } from './components/admin/group-management/gr
 import { RoleManagementComponent } from './components/admin/role-management/role-management.component';
 import { PermissionManagementComponent } from './components/admin/permission-management/permission-management.component';
 import { HistoryServiceNg } from './api/history.service';
+import { ProjectAndProcessesNewComponent } from './components/project-and-processes-new/project-and-processes-new.component';
+import { TreeTableModule } from 'primeng/treetable';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -121,7 +124,8 @@ import { HistoryServiceNg } from './api/history.service';
     FieldsetModule,
     CalendarModule,
     MessageModule,
-    AccordionModule
+    AccordionModule,
+    TreeTableModule
   ],
   declarations: [
     UserManagementComponent,
@@ -157,6 +161,7 @@ import { HistoryServiceNg } from './api/history.service';
     DropdownSelectComponent,
     SelectMilestoneComponent,
     AlandaTaskTemplateComponent,
+    ProjectAndProcessesNewComponent
   ],
   exports: [
     ProjectMonitorComponent,
@@ -191,7 +196,8 @@ import { HistoryServiceNg } from './api/history.service';
     SelectMilestoneComponent,
     DateSelectComponent,
     DropdownSelectComponent,
-    AlandaTaskTemplateComponent
+    AlandaTaskTemplateComponent,
+    ProjectAndProcessesNewComponent
    ],
   entryComponents: [
   ]
