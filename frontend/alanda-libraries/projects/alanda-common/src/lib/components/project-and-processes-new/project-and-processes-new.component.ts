@@ -4,9 +4,9 @@ import { PmcTask } from '../../models/pmcTask';
 import { TreeNode } from 'primeng/api';
 import { ProjectServiceNg } from '../../api/project.service';
 import { Process } from '../../models/process';
-import { map } from 'rxjs/operators';
+import { map, mergeMap, toArray } from 'rxjs/operators';
 import { TaskServiceNg } from '../../api/task.service';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 
 @Component({
     selector: 'project-and-processes-new',
@@ -33,6 +33,30 @@ import { Observable } from 'rxjs';
 
     // this method should return a project observable with all processes and tasks
     private getProjectWithProcessesAndTasks(guid: number): Observable<Project> {
+      return this.pmcProjectService.getProjectByGuid(guid, true).pipe(
+        mergeMap(project => this.getProcessesAndTasks(project.processes).pipe(
+          map(processes => {
+            project.processes = processes;
+            return project;
+          })
+        )
+      ));
+    }
+
+    private getProcessesAndTasks(processes: Process[]): Observable<Process[]> {
+      return from(processes).pipe(
+        mergeMap(proc =>
+          this.taskService.search(proc.processInstanceId).pipe(
+            map(tasks => {
+              proc.tasks = tasks;
+              return proc;
+            })
+          )
+        ),
+        toArray()
+      );
+    }
+
 
       /* private addTasksToProcesses(processes: Process[]): any {
       const requestList: Observable<PmcTask[]>[] = [];
@@ -42,10 +66,9 @@ import { Observable } from 'rxjs';
       forkJoin(requestList);
     } */
 
-    return null;
-    }
 
     private setupTreeNodes(project: Project): TreeNode[] {
+      console.log("complete project", project);
       /* this.pmcProjectService.getProcessesAndTasksForProject(project.guid).subscribe(res => {
         res.active.forEach(proc => {
           // proc.label
@@ -55,7 +78,6 @@ import { Observable } from 'rxjs';
         });
       }); */
 
-      this.pmcProjectService.getProjectMainProcess(project.guid).subscribe();
 
       const childProjects: TreeNode[] = [];
       const parentProject: TreeNode = {};
