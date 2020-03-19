@@ -9,7 +9,7 @@ import { AlandaTaskApiService } from 'projects/alanda-common/src/lib/api/taskApi
     templateUrl: './simple-select.component.html',
     styleUrls: [],
   })
-export class AlandaSelectComponent implements OnInit {
+export class AlandaSimpleSelectComponent implements OnInit {
 
     @Input() items: SelectItem[];
     @Input() variableName: string;

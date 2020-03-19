@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppSettings } from '../models/appSettings';
 import { Observable } from 'rxjs';
-import { AlandaRole } from './models/alandaRole';
+import { AlandaRole } from './models/role';
 import { catchError } from 'rxjs/operators';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 

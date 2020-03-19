@@ -1,13 +1,13 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { APP_CONFIG, AppSettings } from '../models/appSettings';
-import { AlandaProject } from './models/alandaProject';
+import { AlandaProject } from './models/project';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ServerOptions } from '../models/serverOptions';
-import { AlandaListResult } from './models/alandaListResult';
-import { AlandaProcess } from './models/alandaProcess';
-import { AlandaProjectType } from './models/alandaProjectType';
+import { AlandaListResult } from './models/listResult';
+import { AlandaProcess } from './models/process';
+import { AlandaProjectType } from './models/projectType';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
 @Injectable()

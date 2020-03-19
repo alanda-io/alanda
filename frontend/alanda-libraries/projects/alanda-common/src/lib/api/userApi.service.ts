@@ -1,13 +1,13 @@
 import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AlandaUser } from './models/alandaUser';
+import { AlandaUser } from './models/user';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppSettings } from '../models/appSettings';
-import { AlandaListResult } from './models/alandaListResult';
+import { AlandaListResult } from './models/listResult';
 import { catchError, tap } from 'rxjs/operators';
-import { AlandaRole } from './models/alandaRole';
-import { AlandaGroup } from './models/alandaGroup';
-import { AlandaPermission } from './models/alandaPermission';
+import { AlandaRole } from './models/role';
+import { AlandaGroup } from './models/group';
+import { AlandaPermission } from './models/permission';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 import { ServerOptions } from '../models/serverOptions';
 

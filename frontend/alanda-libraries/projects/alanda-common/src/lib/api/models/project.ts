@@ -1,10 +1,10 @@
-import { AlandaProcess } from './alandaProcess';
+import { AlandaProcess } from './process';
 import { ProjectState } from '../../enums/projectState.enum';
-import { AlandaMilestone } from './alandaMilestone';
-import { AlandaSimplePhase } from './alandaSimplePhase';
-import { AlandaHistoryLog } from './alandaHistoryLog';
-import { AlandaProperty } from './alandaProperty';
-import { AlandaProjectType } from './alandaProjectType';
+import { AlandaMilestone } from './milestone';
+import { AlandaSimplePhase } from './simplePhase';
+import { AlandaHistoryLog } from './historyLog';
+import { AlandaProperty } from './property';
+import { AlandaProjectType } from './projectType';
 
 export interface AlandaProject {
     guid?: number;

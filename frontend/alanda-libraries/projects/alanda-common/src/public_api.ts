@@ -22,10 +22,10 @@ export * from './lib/services/monitorApi.service';
 export * from './lib/interceptors/basic-auth.interceptor';
 export * from './lib/interceptors/error.interceptor';
 
-export * from './lib/api/models/alandaTask';
+export * from './lib/api/models/task';
 export * from './lib/models/appSettings';
-export * from './lib/api/models/alandaUser';
-export * from './lib/api/models/alandaProjectType';
+export * from './lib/api/models/user';
+export * from './lib/api/models/projectType';
 
 export * from './lib/alanda-common.module';
 

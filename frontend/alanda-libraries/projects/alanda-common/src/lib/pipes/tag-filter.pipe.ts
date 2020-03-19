@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AlandaComment } from '../api/models/alandaComment';
+import { AlandaComment } from '../api/models/comment';
 
 @Pipe({
   name: 'tagFilter'

@@ -1,4 +1,4 @@
-import { AlandaTask } from './alandaTask';
+import { AlandaTask } from './task';
 import { ProcessResultStatus } from '../../enums/processResultStatus.enum';
 import { ProcessRelation } from '../../enums/processRelation.enum';
 import { ProjectState } from '../../enums/projectState.enum';

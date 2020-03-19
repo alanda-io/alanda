@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { state, style, transition, animate, trigger } from '@angular/animations';
-import { AlandaUserService } from 'projects/alanda-common/src/public_api';
+import { AlandaUserApiService } from 'projects/alanda-common/src/public_api';
 
 @Component({
   selector: 'app-header',
@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
   private scrollPos = 0;
   autoHide = true;
 
-  constructor(public userService: AlandaUserService) {}
+  constructor(public userService: AlandaUserApiService) {}
 
   ngOnInit() {
     this.userService.getCurrentUser().subscribe();

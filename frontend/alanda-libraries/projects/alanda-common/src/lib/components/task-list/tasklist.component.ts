@@ -3,9 +3,10 @@ import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
 import { AlandaMonitorAPIService } from '../../services/monitorApi.service';
-import { AlandaUser } from '../../api/models/alandaUser';
+import { AlandaUser } from '../../api/models/user';
 import { AlandaTaskApiService } from '../../api/taskApi.service';
 import { AlandaUserApiService } from '../../api/userApi.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,20 +22,20 @@ export class AlandaTasklistComponent implements OnInit {
   selectedLayout: any = {};
   selectedTask: any = {};
   selectedColumns: any = [];
-  loading: boolean = true;
-  groupTasks: boolean = false;
+  loading = true;
+  groupTasks = false;
   currentUser: AlandaUser;
   serverOptions: ServerOptions;
   menuItems: MenuItem[];
   delegationItems: MenuItem[];
-  showDelegateDialog: boolean = false;
+  showDelegateDialog = false;
   candidateUsers: any[] = [];
   delegatedTaskData: any;
 
   @ViewChild('tt') turboTable: Table;
 
   constructor(private taskService: AlandaTaskApiService, private monitorApiService: AlandaMonitorAPIService,
-              private userService: AlandaUserApiService, public messageService: MessageService) {
+              private userService: AlandaUserApiService, public messageService: MessageService, private router: Router) {
     this.serverOptions = {
       pageNumber: 1,
       pageSize: 15,
@@ -46,7 +47,7 @@ export class AlandaTasklistComponent implements OnInit {
       {label: 'Download CSV', icon: 'pi pi-fw pi-download', command: (onclick) => this.turboTable.exportCSV()},
       {label: 'Reset all filters', icon: 'pi pi-fw pi-times', command: (onclick) => this.turboTable.reset()},
     ];
-  };
+  }
 
   ngOnInit() {
     this.loading = true;
@@ -214,7 +215,11 @@ export class AlandaTasklistComponent implements OnInit {
     return encodeURIComponent(v).replace(/%/g,'~');
   }
 
-  openTask(formKey: string, taskId: string) {
+  /* openTask(formKey: string, taskId: string) {
     return '/forms/' + encodeURIComponent(formKey) + '/' + taskId;
+  } */
+  openTask(formKey: string, taskId: string) {
+    console.log('/forms/' + formKey + '/' + taskId);
+    this.router.navigate(['/forms/' + formKey + '/' + taskId]);
   }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { AlandaTask } from '../api/models/alandaTask';
+import { AlandaTask } from '../api/models/task';
 import { AlandaTaskApiService } from '../api/taskApi.service';
 
 @Injectable()
@@ -50,7 +50,7 @@ export class AlandaFormsRegisterService {
         },
         error => {
           this.loading = false;
-          this.messageService.add({severity:'error', summary: 'Could not complete task', detail: error.message});
+          this.messageService.add({severity: 'error', summary: 'Could not complete task', detail: error.message});
         });
     } else {
       this.messageService.add({severity: 'error', summary: 'Could not complete task', detail: 'Please fill out all required fields'});

@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterContentInit, OnDestroy, OnChanges, Input, ViewChild, ElementRef, Inject, SimpleChanges } from '@angular/core';
-import { AlandaTask } from '../../../api/models/alandaTask';
+import { AlandaTask } from '../../../api/models/task';
 import * as BpmnJS from 'bpmn-js/dist/bpmn-navigated-viewer.production.min.js';
 import { APP_CONFIG, AppSettings } from '../../../models/appSettings';
 import { HttpClient } from '@angular/common/http';

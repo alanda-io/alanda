@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AlandaUser } from '../api/models/alandaUser';
+import { AlandaUser } from '../api/models/user';
 
 @Injectable()
 export class AlandaAuthorizationService {

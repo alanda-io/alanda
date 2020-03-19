@@ -5,7 +5,7 @@ import { CheckVacationRequestComponent } from './forms/check-vacation-request.co
 import { ModifyVacationRequestComponent } from './forms/modify-vacation-request.component';
 
 const routes: Routes = [
-  { path: 'vacation.prepare-vacation-request/:taskId', component: PrepareVacationRequestComponent},
+  { path: 'prepare-vacation-request/:taskId', component: PrepareVacationRequestComponent},
   { path: 'check-vacation-request/:taskId', component: CheckVacationRequestComponent},
   { path: 'modify-vacation-request/:taskId', component: ModifyVacationRequestComponent},
   { path: '**', redirectTo: ''}

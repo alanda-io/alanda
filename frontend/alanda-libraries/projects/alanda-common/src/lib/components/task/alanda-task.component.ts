@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AlandaProject } from '../../api/models/alandaProject';
-import { AlandaTask } from '../../api/models/alandaTask';
+import { AlandaProject } from '../../api/models/project';
+import { AlandaTask } from '../../api/models/task';
 import { AlandaFormsRegisterService } from '../../services/formsRegister.service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap } from 'rxjs/operators';

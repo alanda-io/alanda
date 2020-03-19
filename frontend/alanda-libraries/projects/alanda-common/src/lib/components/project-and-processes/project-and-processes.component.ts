@@ -1,9 +1,9 @@
 import { OnInit, Component, Input } from "@angular/core";
 import { ProcessRelation } from "../../enums/processRelation.enum";
-import { AlandaProject } from '../../api/models/alandaProject';
+import { AlandaProject } from '../../api/models/project';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
-import { AlandaProcess } from '../../api/models/alandaProcess';
-import { AlandaTask } from '../../api/models/alandaTask';
+import { AlandaProcess } from '../../api/models/process';
+import { AlandaTask } from '../../api/models/task';
 
 interface ProjectTree {
   id: number;

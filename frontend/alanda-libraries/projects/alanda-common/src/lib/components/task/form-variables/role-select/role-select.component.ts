@@ -1,14 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AlandaProject } from 'projects/alanda-common/src/lib/api/models/alandaProject';
-import { AlandaGroup } from 'projects/alanda-common/src/lib/api/models/alandaGroup';
-import { AlandaRole } from 'projects/alanda-common/src/lib/api/models/alandaRole';
+import { AlandaProject } from 'projects/alanda-common/src/lib/api/models/project';
+import { AlandaGroup } from 'projects/alanda-common/src/lib/api/models/group';
+import { AlandaRole } from 'projects/alanda-common/src/lib/api/models/role';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SelectItemGroup, SelectItem } from 'primeng/api';
 import { AlandaPropertyApiService } from 'projects/alanda-common/src/lib/api/propertyApi.service';
 import { AlandaRoleApiService } from 'projects/alanda-common/src/lib/api/roleApi.service';
 import { AlandaFormsRegisterService } from 'projects/alanda-common/src/lib/services/formsRegister.service';
 import { mergeMap, concatMap } from 'rxjs/operators';
-import { AlandaUser } from 'projects/alanda-common/src/lib/api/models/alandaUser';
+import { AlandaUser } from 'projects/alanda-common/src/lib/api/models/user';
 import { AlandaUserApiService } from 'projects/alanda-common/src/lib/api/userApi.service';
 import { AlandaGroupApiService } from 'projects/alanda-common/src/lib/api/groupApi.service';
 

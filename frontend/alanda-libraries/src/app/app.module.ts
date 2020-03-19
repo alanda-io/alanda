@@ -31,7 +31,6 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     BrowserAnimationsModule,
     AppRoutingModule,
     AlandaCommonModule.forRoot(CURRENT_CONFIG),
-    VacationModule,
     LayoutModule,
     CoreModule,
     ViewsModule

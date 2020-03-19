@@ -2,8 +2,8 @@ import { OnInit, Component, Input } from "@angular/core";
 import { ProcessRelation } from "../../../enums/processRelation.enum";
 import { Router } from "@angular/router";
 import { FlattenProjectResult } from "../project-and-processes.component";
-import { AlandaProcess } from '../../../api/models/alandaProcess';
-import { AlandaTask } from '../../../api/models/alandaTask';
+import { AlandaProcess } from '../../../api/models/process';
+import { AlandaTask } from '../../../api/models/task';
 
 @Component({
     selector: 'project-control-item',

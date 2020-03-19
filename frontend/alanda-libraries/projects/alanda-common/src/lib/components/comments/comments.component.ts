@@ -3,8 +3,8 @@ import { Panel } from 'primeng/panel';
 import { NgForm } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MessageService } from 'primeng/api';
-import { AlandaComment } from '../../api/models/alandaComment';
-import { AlandaCommentTag } from '../../api/models/alandaCommentTag';
+import { AlandaComment } from '../../api/models/comment';
+import { AlandaCommentTag } from '../../api/models/commentTag';
 import { AlandaCommentApiService } from '../../api/commentApi.service';
 
 @Component({

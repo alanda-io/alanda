@@ -3,8 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
-import { AlandaProjectType } from '../../api/models/alandaProjectType';
-import { AlandaProject } from '../../api/models/alandaProject';
+import { AlandaProjectType } from '../../api/models/projectType';
+import { AlandaProject } from '../../api/models/project';
 
 @Component({
   selector: 'create-project-component',

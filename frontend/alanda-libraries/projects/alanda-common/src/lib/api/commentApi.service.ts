@@ -2,10 +2,10 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AppSettings, APP_CONFIG } from '../models/appSettings';
 import { Observable } from 'rxjs';
-import { AlandaCommentResponse } from './models/alandaCommentResponse';
+import { AlandaCommentResponse } from './models/commentResponse';
 import { catchError } from 'rxjs/operators';
-import { AlandaCommentPostBody } from './models/alandaCommentPostBody';
-import { AlandaReplyPostBody } from './models/alandaReplyPostBody';
+import { AlandaCommentPostBody } from './models/commenPostBody';
+import { AlandaReplyPostBody } from './models/replyPostBody';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
 @Injectable()

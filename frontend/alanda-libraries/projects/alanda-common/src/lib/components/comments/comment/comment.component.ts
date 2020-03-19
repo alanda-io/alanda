@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AlandaComment } from '../../../api/models/alandaComment';
-import { AlandaCommentTag } from '../../../api/models/alandaCommentTag';
+import { AlandaComment } from '../../../api/models/comment';
+import { AlandaCommentTag } from '../../../api/models/commentTag';
 import { AlandaCommentApiService } from '../../../api/commentApi.service';
 
 

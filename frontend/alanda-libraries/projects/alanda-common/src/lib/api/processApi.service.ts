@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppSettings } from '../models/appSettings';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AlandaProcess } from './models/alandaProcess';
+import { AlandaProcess } from './models/process';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
 @Injectable()

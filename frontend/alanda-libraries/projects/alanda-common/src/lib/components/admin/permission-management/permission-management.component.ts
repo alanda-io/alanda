@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
-import { AlandaPermission } from '../../../api/models/alandaPermission';
+import { AlandaPermission } from '../../../api/models/permission';
 import { Table } from 'primeng/table';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlandaPermissionApiService } from '../../../api/permissionApi.service';

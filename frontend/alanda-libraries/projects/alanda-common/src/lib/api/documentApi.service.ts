@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APP_CONFIG, AppSettings } from '../models/appSettings';
 import { ExtendedTreeNode } from '../models/tree-node';
-import { SimpleDocument } from './models/alandaSimpleDocument';
+import { SimpleDocument } from './models/simpleDocument';
 import { catchError } from 'rxjs/operators';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 

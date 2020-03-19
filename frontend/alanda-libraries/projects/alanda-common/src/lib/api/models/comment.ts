@@ -1,4 +1,4 @@
-import { AlandaCommentTag } from './alandaCommentTag';
+import { AlandaCommentTag } from './commentTag';
 
 export interface AlandaComment {
   guid?: number;

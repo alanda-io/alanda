@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppSettings } from '../models/appSettings';
 import { ServerOptions } from '../models/serverOptions';
 import { Observable } from 'rxjs';
-import { AlandaListResult } from './models/alandaListResult';
-import { AlandaGroup } from './models/alandaGroup';
+import { AlandaListResult } from './models/listResult';
+import { AlandaGroup } from './models/group';
 import { catchError } from 'rxjs/operators';
-import { AlandaPermission } from './models/alandaPermission';
-import { AlandaRole } from './models/alandaRole';
+import { AlandaPermission } from './models/permission';
+import { AlandaRole } from './models/role';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
 @Injectable()

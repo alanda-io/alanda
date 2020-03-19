@@ -2,9 +2,9 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppSettings } from '../models/appSettings';
 import { Observable } from 'rxjs';
-import { AlandaTask } from './models/alandaTask';
+import { AlandaTask } from './models/task';
 import { catchError } from 'rxjs/operators';
-import { AlandaUser } from './models/alandaUser';
+import { AlandaUser } from './models/user';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 import { ServerOptions } from '../models/serverOptions';
 

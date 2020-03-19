@@ -1,4 +1,4 @@
-import { AlandaPermission } from './alandaPermission';
+import { AlandaPermission } from './permission';
 
 export interface AlandaRole {
   guid?: number;

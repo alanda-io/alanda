@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { ExtendedTreeNode } from '../../models/tree-node';
-import { SimpleDocument } from '../../api/models/alandaSimpleDocument';
+import { SimpleDocument } from '../../api/models/simpleDocument';
 import { AlandaDocumentApiService } from '../../api/documentApi.service';
 
 @Component({

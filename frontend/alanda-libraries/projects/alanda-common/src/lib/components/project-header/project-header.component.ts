@@ -1,8 +1,8 @@
 import { Component, OnInit, AfterViewInit, ViewChild, Input, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 import { ProjectPropertiesDirective } from '../controller/directives/project.properties.directive';
-import { AlandaProject } from '../../api/models/alandaProject';
-import { AlandaTask } from '../../api/models/alandaTask';
-import { AlandaUser } from '../../api/models/alandaUser';
+import { AlandaProject } from '../../api/models/project';
+import { AlandaTask } from '../../api/models/task';
+import { AlandaUser } from '../../api/models/user';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { AlandaProjectApiService } from '../../api/projectApi.service';

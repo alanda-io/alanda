@@ -51,7 +51,7 @@ import { AlandaCreateProjectComponent } from './components/create-project/create
 import { AlandaProjectAndProcessesComponent } from './components/project-and-processes/project-and-processes.component';
 import { ProjectControlItemComponent } from './components/project-and-processes/projectControlItem/project-control-item.component';
 import { AppSettings, APP_CONFIG } from './models/appSettings';
-import { AlandaSelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
+import { AlandaSimpleSelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
 import { AlandaSelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
 import { AlandaDateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
 import { AlandaDropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
@@ -79,6 +79,7 @@ import { AlandaExceptionHandlingService } from './services/exceptionHandling.ser
 import { AlandaMonitorAPIService } from './services/monitorApi.service';
 import { AlandaProjectPropertiesService } from './services/projectProperties.service';
 import { AlandaAttachmentsComponent } from './components/attachments/attachments.component';
+import { AlandaFormsRegisterService } from './services/formsRegister.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -141,7 +142,7 @@ import { AlandaAttachmentsComponent } from './components/attachments/attachments
     AlandaCreateProjectComponent,
     AlandaProjectAndProcessesComponent,
     ProjectControlItemComponent,
-    AlandaSelectComponent,
+    AlandaSimpleSelectComponent,
     AlandaSelectRoleComponent,
     AlandaDateSelectComponent,
     AlandaDropdownSelectComponent,
@@ -173,7 +174,7 @@ import { AlandaAttachmentsComponent } from './components/attachments/attachments
     AlandaCreateProjectComponent,
     AlandaProjectAndProcessesComponent,
     ProjectControlItemComponent,
-    AlandaSelectComponent,
+    AlandaSimpleSelectComponent,
     AlandaSelectRoleComponent,
     AlandaSelectMilestoneComponent,
     AlandaDateSelectComponent,
@@ -204,6 +205,7 @@ export class AlandaCommonModule {
         AlandaExceptionHandlingService,
         AlandaMonitorAPIService,
         AlandaProjectPropertiesService,
+        AlandaFormsRegisterService,
         {
           provide: APP_CONFIG,
           useValue: config

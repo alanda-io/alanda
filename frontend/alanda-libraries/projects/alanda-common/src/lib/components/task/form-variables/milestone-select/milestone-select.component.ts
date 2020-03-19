@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AlandaProject } from 'projects/alanda-common/src/lib/api/models/alandaProject';
+import { AlandaProject } from 'projects/alanda-common/src/lib/api/models/project';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlandaMilestoneApiService } from 'projects/alanda-common/src/lib/api/milestoneApi.service';
 import { AlandaFormsRegisterService } from 'projects/alanda-common/src/lib/services/formsRegister.service';

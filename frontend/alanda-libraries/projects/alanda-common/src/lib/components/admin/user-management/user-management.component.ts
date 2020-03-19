@@ -1,8 +1,8 @@
 import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
-import { AlandaGroup } from '../../../api/models/alandaGroup';
-import { AlandaPermission } from '../../../api/models/alandaPermission';
-import { AlandaRole } from '../../../api/models/alandaRole';
-import { AlandaUser } from '../../../api/models/alandaUser';
+import { AlandaGroup } from '../../../api/models/group';
+import { AlandaPermission } from '../../../api/models/permission';
+import { AlandaRole } from '../../../api/models/role';
+import { AlandaUser } from '../../../api/models/user';
 import { Table } from 'primeng/table';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlandaRoleApiService } from '../../../api/roleApi.service';

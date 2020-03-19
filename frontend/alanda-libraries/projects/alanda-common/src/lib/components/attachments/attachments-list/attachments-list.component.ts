@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { SimpleDocument } from '../../../api/models/alandaSimpleDocument';
+import { SimpleDocument } from '../../../api/models/simpleDocument';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AlandaDocumentApiService } from '../../../api/documentApi.service';
 

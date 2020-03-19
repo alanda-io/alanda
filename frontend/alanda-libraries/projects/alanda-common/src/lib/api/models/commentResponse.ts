@@ -1,4 +1,4 @@
-import { AlandaComment } from './alandaComment';
+import { AlandaComment } from './comment';
 
 export interface AlandaCommentResponse {
   comments: AlandaComment[];

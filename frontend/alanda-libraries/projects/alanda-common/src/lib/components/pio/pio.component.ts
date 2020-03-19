@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Inject } from "@angular/core";
 import { APP_CONFIG, AppSettings } from "../../models/appSettings";
 import { AlandaProcessApiService } from '../../api/processApi.service';
-import { AlandaTask } from '../../api/models/alandaTask';
+import { AlandaTask } from '../../api/models/task';
 
 @Component({
     selector: 'alanda-pio-component',
