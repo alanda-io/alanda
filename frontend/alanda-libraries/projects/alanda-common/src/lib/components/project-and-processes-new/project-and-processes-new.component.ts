@@ -31,7 +31,6 @@ import { Observable, from } from 'rxjs';
       });
     }
 
-    // this method should return a project observable with all processes and tasks
     private getProjectWithProcessesAndTasks(guid: number): Observable<Project> {
       return this.pmcProjectService.getProjectByGuid(guid, true).pipe(
         mergeMap(project => this.getProcessesAndTasks(project.processes).pipe(
@@ -58,26 +57,8 @@ import { Observable, from } from 'rxjs';
     }
 
 
-      /* private addTasksToProcesses(processes: Process[]): any {
-      const requestList: Observable<PmcTask[]>[] = [];
-      processes.forEach(proc => {
-        requestList.push(this.taskService.search(proc.processInstanceId));
-      });
-      forkJoin(requestList);
-    } */
-
 
     private setupTreeNodes(project: Project): TreeNode[] {
-      console.log("complete project", project);
-      /* this.pmcProjectService.getProcessesAndTasksForProject(project.guid).subscribe(res => {
-        res.active.forEach(proc => {
-          // proc.label
-          proc.tasks.forEach(task => {
-            // task.task_name
-          });
-        });
-      }); */
-
 
       const childProjects: TreeNode[] = [];
       const parentProject: TreeNode = {};
