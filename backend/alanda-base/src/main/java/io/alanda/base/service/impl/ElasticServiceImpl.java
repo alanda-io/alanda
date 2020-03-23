@@ -688,18 +688,20 @@ public class ElasticServiceImpl implements ElasticService {
       ElasticProcessHitDto elasticProcessHitDto = new ElasticProcessHitDto();
       elasticProcessHitDto.setBusinessKey((String) hit.getSourceAsMap().get("businessKey"));
       //TODO: add missing properties
+      elasticProcessHitDto.setCustomerProject((Map<String, Object>) hit.getSourceAsMap().get("customerProject"));
 
       Map<String, Object> project = (Map<String, Object>) hit.getSourceAsMap().get("project");
+
       PmcProjectDto pmcProjectDto = new PmcProjectDto();
       pmcProjectDto.setStatus((String) project.get("status"));
       pmcProjectDto.setGuid(Long.valueOf((Integer) project.get("guid")));
       pmcProjectDto.setCustomerProjectId(project.get("customerProjectId") != null ? Long.valueOf((Integer) project.get("customerProjectId")) : null);
       pmcProjectDto.setProjectId((String) project.get("projectId"));
       pmcProjectDto.setTitle((String) project.get("title"));
+      pmcProjectDto.setRefObjectIdName((String) project.get("refObjectIdName"));
       //TODO: add missing properties
       elasticProcessHitDto.setProject(pmcProjectDto);
       result.add(elasticProcessHitDto);
-      logger.debug("~" + elasticProcessHitDto.toString());
     }
 
     return result;
