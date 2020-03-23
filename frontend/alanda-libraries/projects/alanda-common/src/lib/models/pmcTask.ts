@@ -1,6 +1,6 @@
 import { ProjectState } from "../enums/project-status.enum";
 
-export class PmcTask{
+export class PmcTask {
     public assignee: string;
     public created: string;
     public due: string;
@@ -26,4 +26,8 @@ export class PmcTask{
     public process_definition_key: string;
     public process_package_key: string;
     public suspension_state: boolean;
+}
+
+export function isTask(p: any): p is PmcTask {
+  return p.task_id !== undefined;
 }

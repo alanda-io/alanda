@@ -18,10 +18,13 @@
         <tr>
             <td>
                 <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                {{rowNode.projectId}}
+                {{rowData.label}}
             </td>
-            <td>{{rowData.refObjectIdName}}</td>
-            <td>{{rowData }}</td>
+            <td>{{rowData.refObject}}</td>
+            <td>{{rowData.assignee}}</td>
+            <td>{{rowData.start}}</td>
+            <td>{{rowData.end}}</td>
+            <td>{{rowData.comment}}</td>
         </tr>
     </ng-template>
 </p-treeTable>

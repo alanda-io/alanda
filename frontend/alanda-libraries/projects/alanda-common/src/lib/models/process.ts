@@ -24,3 +24,7 @@ export class Process {
   public processDefinitionId: string;
   public activeOrSuspended: boolean;
 }
+
+export function isProcess(p: any): p is Process {
+  return p.processInstanceId !== undefined;
+}
