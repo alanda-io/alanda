@@ -26,7 +26,7 @@ export class ProjectAndProcessesComponent implements OnInit {
   static mapProjectToTreeNode(project: Project): TreeNode {
     return {
       data: {
-        label: project.projectId,
+        label: `${project.projectId} (${project.pmcProjectType.name} / ${project.title})`,
         refObject: project.refObjectIdName,
         assignee: project.ownerName,
         start: project.createDate,
