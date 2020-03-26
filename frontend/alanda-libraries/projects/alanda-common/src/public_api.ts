@@ -54,3 +54,4 @@ export * from './lib/components/task/template/alanda-task-template.component';
 export * from './lib/components/history/history-grid.component';
 export * from './lib/components/history/history-grid.component';
 export * from './lib/components/controller/directives/project.properties.directive';
+export * from './lib/components/project-and-processes/project-and-processes.component';
