@@ -64,15 +64,16 @@ export class ProjectAndProcessesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.flattenProjects(this.project).forEach(flattenProject => {
-      this.getProjectWithProcessesAndTasks(flattenProject.guid).pipe(
-        map(project => {
-          return ProjectAndProcessesComponent.mapProjectToTreeNode(project);
-        }),
-      ).subscribe(treeNode => {
-        this.projectTree = [treeNode];
-      });
-    });
+    from(this.flattenProjects(this.project)).pipe(
+      mergeMap(flattenProject => {
+        return this.getProjectWithProcessesAndTasks(flattenProject.guid).pipe(
+          map(project => {
+            return ProjectAndProcessesComponent.mapProjectToTreeNode(project);
+          })
+        );
+      }),
+      toArray()
+    ).subscribe(treeNodes => this.projectTree = treeNodes);
   }
 
   private getProjectWithProcessesAndTasks(guid: number): Observable<Project> {
