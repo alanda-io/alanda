@@ -26,7 +26,7 @@ export class ProjectServiceNg extends ExceptionHandlingService{
     constructor(private http: HttpClient, @Inject(APP_CONFIG) config: AppSettings) {
         super();
         this.endpoint = config.API_ENDPOINT + '/project';
-    };
+    }
 
     public getProjectByGuid(guid: number, tree: boolean  = false): Observable<Project> {
       let params = new HttpParams().set('tree', ''+tree);
@@ -38,8 +38,8 @@ export class ProjectServiceNg extends ExceptionHandlingService{
         return this.http.get<Project>(`${this.endpoint}/${id}`).pipe(catchError(this.handleError<Project>('getProjectByProjectId')));
     }
 
-    public loadProjects(serverOptions: ServerOptions): Observable<ListResult<Project>> {
-        return this.http.post<ListResult<Project>>(`${this.endpoint}/projectsel`,serverOptions).pipe(catchError(this.handleError<ListResult<Project>>('loadProjects')));
+    public loadProjects(serverOptions: ServerOptions): Observable<ListResult<any>> {
+        return this.http.post<ListResult<any>>(`${this.endpoint}/projectsel`,serverOptions).pipe(catchError(this.handleError<ListResult<any>>('loadProjects')));
     }
 
     public updateProject(project): Observable<Project> {

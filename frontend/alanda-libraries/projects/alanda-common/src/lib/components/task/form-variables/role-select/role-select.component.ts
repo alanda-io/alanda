@@ -38,10 +38,10 @@ export class SelectRoleComponent implements OnInit {
     roleSelectFormGroup: FormGroup;
 
     constructor(private userService: PmcUserServiceNg, private propService: PropertyService,
-                private groupService: PmcGroupServiceNg, private roleService: PmcRoleServiceNg, 
+                private groupService: PmcGroupServiceNg, private roleService: PmcRoleServiceNg,
                 private formsRegisterService: FormsRegisterService){}
 
-    ngOnInit(){  
+    ngOnInit(){
       this.initFormGroup();
       this.loadDropdown();
     }
@@ -94,13 +94,12 @@ export class SelectRoleComponent implements OnInit {
               this.optionsGrouped.push({label: group.longName, items: mappedUsers});
               this.optionsGrouped = [...this.optionsGrouped];
             } else {
-              console.log("users ", users);
               users.forEach(user => {
                 if(this.options.filter(entry => entry.label == user.displayName).length == 0) {
                   this.options.push({label: user.displayName, value: user.guid});
                   this.options = [...this.options];
                 }
-              }); 
+              });
             }
             this.loadProperty();
           });
@@ -110,7 +109,7 @@ export class SelectRoleComponent implements OnInit {
 
     private initFormGroup() {
       this.roleSelectFormGroup = new FormGroup({
-        selected: new FormControl('', Validators.required)
+        selected: new FormControl('')
       });
       this.formsRegisterService.registerForm(this.roleSelectFormGroup, this.formName);
     }
@@ -141,7 +140,7 @@ export class SelectRoleComponent implements OnInit {
             this.roleSelectFormGroup.get('selected').setValue({label: group.longName, value: group.guid});
           }
         });
-      } 
+      }
     }
 
     onChange() {
@@ -154,5 +153,5 @@ export class SelectRoleComponent implements OnInit {
       }
     }
 
-    
+
   }
