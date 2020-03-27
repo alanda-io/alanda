@@ -5,25 +5,28 @@
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
+    "downlevelIteration": true,
     "experimentalDecorators": true,
-    "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
     "lib": [
-      "es2017",
+      "es2018",
       "dom"
     ],
     "paths": {
       "alanda-common": [
         "projects/alanda-common/src"
       ]
-      // ],
-      // "alanda-common/*": [
-      //   "dist/alanda-common/*"
+      // "alanda-common": [
+      //   "dist/alanda-common/alanda-common",
+      //   "dist/alanda-common"
       // ]
     }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
   }
 }

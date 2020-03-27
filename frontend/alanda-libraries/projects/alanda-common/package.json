@@ -2,12 +2,12 @@
   "name": "alanda-common",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/common": "6.1.10",
-    "@angular/core": "6.1.10",
-    "primeng": "6.1.5",
-    "primeicons": "1.0.0",
-    "primeflex": "1.0.0-rc.1",
-    "font-awesome": "4.7.0",
-    "bpmn-js": "3.4.1"
+    "@angular/common": "^9.0.7",
+    "@angular/core": "^9.0.7",
+    "tslib": "^1.10.0",
+    "primeng": "9.0.2",
+    "primeicons": "2.0.0",
+    "primeflex": "1.0.0",
+    "bpmn-js": "6.3.4"
   }
 }

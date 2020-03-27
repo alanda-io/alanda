@@ -14,7 +14,6 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ALANDA_CONFIG } from './app.settings';
 import { AppRoutingModule } from './app-routing.module';
-import { AppSettings, APP_CONFIG, ProjectDetailsServiceNg, AlandaCommonModule } from 'projects/alanda-common/src/public_api';
 import { HomeComponent } from './components/home/home.component';
 import { VacationModule } from './vacation/vacation.module';
 import { VacationProjectPropertiesService } from './vacation/services/vacation-projectproperties.service';
@@ -22,6 +21,7 @@ import { VacationProjectDetailsService } from './vacation/services/vacation-proj
 import { VacationFormsService } from './vacation/services/vacation-forms.service';
 import { FormsServiceNg } from 'projects/alanda-common/src/lib/services/forms.service';
 import { ProjectPropertiesServiceNg } from 'projects/alanda-common/src/lib/services/project-properties.service';
+import { AppSettings, AlandaCommonModule, APP_CONFIG, ProjectDetailsServiceNg } from 'projects/alanda-common/src/public-api';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 @NgModule({

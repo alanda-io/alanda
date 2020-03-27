@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-import { UserManagementComponent, CreateProjectComponent, ProjectMonitorComponent, TasklistComponent,AttachmentsComponent,
-         GroupManagementComponent, CommentsComponent, FormsControllerComponent, ProjectsControllerComponent, RoleManagementComponent, PermissionManagementComponent } from 'projects/alanda-common/src/public_api';
+import { UserManagementComponent, CreateProjectComponent, ProjectMonitorComponent, TasklistComponent, AttachmentsComponent, GroupManagementComponent, 
+  RoleManagementComponent, PermissionManagementComponent, CommentsComponent, FormsControllerComponent, ProjectsControllerComponent } from 'projects/alanda-common/src/public-api';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

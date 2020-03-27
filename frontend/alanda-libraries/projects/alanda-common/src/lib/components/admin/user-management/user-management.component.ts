@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
 import { PmcUserServiceNg } from "../../../api/pmcuser.service";
-import { LazyLoadEvent, MessageService } from "primeng/components/common/api";
+import { LazyLoadEvent, MessageService } from "primeng/api";
 import { PmcGroupServiceNg } from "../../../api/pmcgroup.service";
 import { mergeMap } from "rxjs/operators";
 import { PmcRoleServiceNg } from "../../../api/pmcrole.service";

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MessageService } from 'primeng/components/common/messageservice';
+import { MessageService } from 'primeng/api';
 import { ExtendedTreeNode } from './models/tree-node';
 import { SimpleDocument } from './models/simple-document';
 import { RefObjectService } from '../../api/refobject.service';

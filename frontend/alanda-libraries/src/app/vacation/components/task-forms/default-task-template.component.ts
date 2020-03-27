@@ -1,6 +1,6 @@
 
 import { Component } from "@angular/core";
-import { FormsRegisterService, AlandaTaskTemplateComponent } from "projects/alanda-common/src/public_api";
+import { AlandaTaskTemplateComponent, FormsRegisterService } from 'projects/alanda-common/src/public-api';
 
 @Component({
     selector: 'default-task',
