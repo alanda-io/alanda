@@ -22,7 +22,7 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
 
     public getProjectByGuid(guid: number): Observable<AlandaProject> {
         return this.http.get<AlandaProject>(`${this.endpoint}/guid/${guid}`)
-        .pipe(catchError(this.handleError<AlandaProject>('getProjectByGuid')));
+        .pipe(catchError(this.handleError<AlandaProject>('getProjectByGuid', null)));
     }
 
     public getProjectByProjectId(id: string): Observable<AlandaProject> {

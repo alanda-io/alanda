@@ -104,8 +104,8 @@
                           </p-splitButton>
                       </ng-container>
                       <ng-template [ngIf]="col.name == 'Task Name'" [ngIfElse]="default">
-                          <!-- <a [routerLink]="openTask(task.task.formKey, task.task.task_id)">{{ task | nestedObject: col.field }}</a> -->
-                          <a routerLink="" (click)="openTask(task.task.formKey, task.task.task_id)">{{ task | nestedObject: col.field }}</a>
+                          <a [routerLink]="'/forms/' + task.task.formKey + '/' + task.task.task_id">{{ task | nestedObject: col.field }}</a>
+                          <!-- <a routerLink="" (click)="openTask(task.task.formKey, task.task.task_id)">{{ task | nestedObject: col.field }}</a> -->
                       </ng-template>
                       <ng-template #default>
                         {{ task | nestedObject: col.field}}

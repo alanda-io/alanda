@@ -29,7 +29,7 @@ import { ListboxModule } from 'primeng/listbox';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CalendarModule } from 'primeng/calendar';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsControllerDirective } from './components/controller/directives/forms-controller.directive';
 import { MessageModule } from 'primeng/message';
 import { AttachmentsListComponent } from './components/attachments/attachments-list/attachments-list.component';
@@ -77,9 +77,12 @@ import { AlandaRoleApiService } from './api/roleApi.service';
 import { AlandaAuthorizationService } from './services/authorization.service';
 import { AlandaExceptionHandlingService } from './services/exceptionHandling.service';
 import { AlandaMonitorAPIService } from './services/monitorApi.service';
-import { AlandaProjectPropertiesService } from './services/projectProperties.service';
 import { AlandaAttachmentsComponent } from './components/attachments/attachments.component';
 import { AlandaFormsRegisterService } from './services/formsRegister.service';
+import { AlandaProjectsControllerComponent } from './components/controller/projects-controller/projects-controller.component';
+import { ProjectDetailsDirective } from './components/controller/directives/project-details.directive';
+import { AlandaProjectDetailsService } from './services/project-details.service';
+import { AlandaProjectPropertiesService } from './services/project-properties.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -135,6 +138,7 @@ import { AlandaFormsRegisterService } from './services/formsRegister.service';
     AlandaProjectHeaderComponent,
     ProjectPropertiesDirective,
     FormsControllerDirective,
+    ProjectDetailsDirective,
     AlandaPioComponent,
     DiagramComponent,
     ProcessActivitiesComponent,
@@ -148,6 +152,7 @@ import { AlandaFormsRegisterService } from './services/formsRegister.service';
     AlandaDropdownSelectComponent,
     AlandaSelectMilestoneComponent,
     AlandaTaskComponent,
+    AlandaProjectsControllerComponent
   ],
   exports: [
     AlandaProjectMonitorComponent,
@@ -167,6 +172,7 @@ import { AlandaFormsRegisterService } from './services/formsRegister.service';
     AlandaProjectHeaderComponent,
     ProjectPropertiesDirective,
     FormsControllerDirective,
+    ProjectDetailsDirective,
     AlandaPioComponent,
     DiagramComponent,
     ProcessActivitiesComponent,
@@ -179,7 +185,8 @@ import { AlandaFormsRegisterService } from './services/formsRegister.service';
     AlandaSelectMilestoneComponent,
     AlandaDateSelectComponent,
     AlandaDropdownSelectComponent,
-    AlandaTaskComponent
+    AlandaTaskComponent,
+    AlandaProjectsControllerComponent
    ],
   entryComponents: []
 })
@@ -206,10 +213,12 @@ export class AlandaCommonModule {
         AlandaMonitorAPIService,
         AlandaProjectPropertiesService,
         AlandaFormsRegisterService,
+        AlandaProjectDetailsService,
         {
           provide: APP_CONFIG,
           useValue: config
         },
+        DatePipe
       ]
     };
   }

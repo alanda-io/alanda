@@ -8,48 +8,57 @@ import { AppComponent } from './app.component';
  * the client project
  */
 
-import { MessageService } from 'primeng/api';
-import { ALANDA_CONFIG } from './app.settings';
 import { AppRoutingModule } from './app-routing.module';
-import { AppSettings, APP_CONFIG, ProjectDetailsServiceNg, AlandaCommonModule,
-         AlandaProjectPropertiesService} from 'projects/alanda-common/src/public_api';
-import { VacationModule } from './features/vacation/vacation.module';
-import { VacationProjectPropertiesService } from './features/vacation/services/vacation-projectproperties.service';
-import { VacationProjectDetailsService } from './features/vacation/services/vacation-projectdetails.service';
 import { LayoutModule } from './layout/layout.module';
 import { CoreModule } from './core/core.module';
 import { ViewsModule } from './views/views.module';
-
+import { AlandaCommonModule, AppSettings, APP_CONFIG, AlandaProjectPropertiesService, AlandaProjectDetailsService } from 'projects/alanda-common/src/public_api';
+import { ALANDA_CONFIG } from './app.settings';
+import { ProjectPropertiesService } from './core/services/projectproperties.service';
+import { ProjectDetailsService } from './core/services/projectdetails.service';
+import { VacationProjectDetailsComponent } from './components/vacation-project-details/vacation-project-details.component';
+import { VacationProjectPropertiesComponent } from './components/vacation-project-properties/vacation-project-properties.component';
+import { FieldsetModule } from 'primeng/fieldset';
+import { CardModule } from 'primeng/card';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
+
 @NgModule({
   declarations: [
     AppComponent,
+    VacationProjectDetailsComponent,
+    VacationProjectPropertiesComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AlandaCommonModule.forRoot(CURRENT_CONFIG),
     LayoutModule,
     CoreModule,
-    ViewsModule
+    ViewsModule,
+    AlandaCommonModule.forRoot(CURRENT_CONFIG),
+    FieldsetModule,
+    CardModule,
   ],
   providers: [
     {provide: APP_CONFIG, useValue: CURRENT_CONFIG},
-    {provide: AlandaProjectPropertiesService, useClass: VacationProjectPropertiesService },
-    {provide: ProjectDetailsServiceNg, useClass: VacationProjectDetailsService},
-    MessageService,
+    {provide: AlandaProjectPropertiesService, useClass: ProjectPropertiesService },
+    {provide: AlandaProjectDetailsService, useClass: ProjectDetailsService },
+  ],
+  entryComponents: [
+    VacationProjectDetailsComponent,
+    VacationProjectPropertiesComponent
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
 
-  constructor(@Inject(APP_CONFIG) config: AppSettings) {
-    console.log('Settings', config);
+  constructor() {
   }
 
   ngDoBootstrap() {
 
   }
 }
+
+

@@ -6,7 +6,7 @@
     ::ng-deep .ui-dropdown-label {
         font-size: 12px !important;
     }
-    
+
     .spacer {
         margin-top: 10px;
     }
@@ -20,7 +20,7 @@
     <p-header>
         <div>
             <span *ngIf="task != null"><b>{{task.task_name}}</b> / </span>
-            <a [routerLink]="'/projectdetails/' + project.projectId">{{project.projectId}}</a> 
+            <a [routerLink]="'/projectdetails/' + project.projectId">{{project.projectId}}</a>
             <span *ngIf="project.refObjectIdName"> / {{project.refObjectIdName}} </span> / {{project.status}}
             <span *ngIf="snoozedTask">
                 &nbsp;(Task Snoozed) z<sup>z<sup>z</sup></sup>
@@ -58,7 +58,7 @@
                         <strong>Prio:</strong>
                     </div>
                     <div class="p-col-8">
-                        <p-dropdown formControlName="prio" [options]="priorities" (onChange)="updateProject()" optionLabel="label"></p-dropdown>
+                        <p-dropdown formControlName="priority" [options]="priorities" optionLabel="label"></p-dropdown>
                     </div>
                     <div class="p-col-4">
                         <strong>Tag(s):</strong>
@@ -67,11 +67,10 @@
                         <p-autoComplete
                             formControlName="tag"
                             [multiple]="true"
-                            [forceSelection]="true" 
+                            [forceSelection]="true"
                             [dropdown]="true"
-                            [suggestions]="allowedTagList" 
-                            (completeMethod)="searchTag($event)"
-                            (onSelect)="updateProject()">
+                            [suggestions]="allowedTagList"
+                            (completeMethod)="searchTag($event)">
                         </p-autoComplete>
                     </div>
                 </div>
@@ -83,33 +82,31 @@
                         <strong>Task Due Date:</strong>
                     </div>
                     <div class="p-col-8" *ngIf="task != null">
-                        <p-calendar formControlName="taskDueDate" (onSelect)="updateDueDateOfTask()" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
-                        <!-- <p-message *ngIf="true" severity="error" text="Field is required"></p-message> -->
+                        <p-calendar formControlName="taskDueDate" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
                     </div>
                     <div class="p-col-4">
                         <strong>Project Due Date:</strong>
                     </div>
                     <div class="p-col-8">
-                        <p-calendar formControlName="projectDueDate" (onSelect)="updateProject()" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+                        <p-calendar formControlName="dueDate" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
                     </div>
                     <div class="p-col-4">
                     <strong>Project Title:</strong>
                     </div>
                     <div class="p-col-8">
-                        <input pInputText formControlName="projectTitle" type="text" value="{{project.title}}" (change)="updateProject()">
+                        <input pInputText formControlName="title" type="text" value="{{project.title}}">
                     </div>
                 </div>
             </div>
             <div class="p-col-12 p-md-12 p-lg-4">
-                <textarea pInputTextarea maxLength="2000" formControlName="projectDetails" (change)="updateProject()" placeholder="Project Details" [rows]="6">{{project.comment}}</textarea>
+                <textarea pInputTextarea maxLength="2000" formControlName="details" placeholder="Project Details" [rows]="6">{{project.comment}}</textarea>
             </div>
         </div>
     </form>
-    <!-- Project Properties -->
     <ng-template properties-host></ng-template>
 </p-panel>
 
-<p-dialog 
+<p-dialog
   [visible]="showDelegateDialog"
   [modal]="true"
   [dismissableMask]="true"
