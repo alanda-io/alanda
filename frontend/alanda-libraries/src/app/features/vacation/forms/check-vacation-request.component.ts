@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AlandaFormsRegisterService,
          AlandaProjectApiService,
          AlandaTaskComponent,
-         AlandaTaskApiService} from 'projects/alanda-common/src/public_api';
+         AlandaTaskApiService} from 'projects/alanda-common/src/public-api';
 import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
 

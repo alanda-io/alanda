@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { MenuItem } from 'primeng/components/common/menuitem';
 import { state, style, transition, animate, trigger } from '@angular/animations';
-import { AlandaUserApiService } from 'projects/alanda-common/src/public_api';
+import { AlandaUserApiService } from 'projects/alanda-common/src/public-api';
+import { MenuItem } from 'primeng/api/menuitem';
 
 @Component({
   selector: 'app-header',

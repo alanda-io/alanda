@@ -1,7 +1,8 @@
 <h4><b>{{displayName}}:</b></h4>
 <form [formGroup]="userForm">
+  <!-- removed [autoWidth]="false" on v9 update -->
     <p-dropdown [disabled]="project.status == 'CANCELED' || project.status == 'COMPLETED'" [options]="users"
-        formControlName="user" optionLabel="displayName" [autoWidth]="false" [style]="{'width':'200px'}" placeholder="Select" (onChange)="save()"></p-dropdown>
+        formControlName="user" optionLabel="displayName" [style]="{'width':'200px'}" placeholder="Select" (onChange)="save()"></p-dropdown>
 </form>
 
 

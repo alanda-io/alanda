@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MessageService } from 'primeng/components/common/messageservice';
 import { ExtendedTreeNode } from '../../models/tree-node';
 import { SimpleDocument } from '../../api/models/simpleDocument';
 import { AlandaDocumentApiService } from '../../api/documentApi.service';
@@ -7,7 +6,7 @@ import { AlandaDocumentApiService } from '../../api/documentApi.service';
 @Component({
   selector: 'alanda-attachments',
   templateUrl: './attachments.component.html',
-  providers: [MessageService]
+  providers: []
 })
 export class AlandaAttachmentsComponent implements OnInit {
 
@@ -26,7 +25,7 @@ export class AlandaAttachmentsComponent implements OnInit {
   treeNode: ExtendedTreeNode[] = [];
   currentFiles: SimpleDocument[]; //passed to attachments-list
 
-  constructor(private documentService: AlandaDocumentApiService, private messageService: MessageService) {}
+  constructor(private documentService: AlandaDocumentApiService) {}
 
   ngOnInit() {
 
@@ -72,8 +71,7 @@ export class AlandaAttachmentsComponent implements OnInit {
         }
 
         this.loadFolderContent();
-      },
-      error => this.messageService.add({severity:'error', summary:'Load Tree Config', detail: error.message}));
+      });
   }
 
   setupTreeNode(node: ExtendedTreeNode){

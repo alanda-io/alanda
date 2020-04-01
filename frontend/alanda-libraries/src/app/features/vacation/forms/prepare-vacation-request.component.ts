@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { AlandaTaskComponent, AlandaFormsRegisterService,
-         AlandaProjectApiService,
-         AlandaTaskApiService} from 'projects/alanda-common/src/public_api';
 import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
+import { AlandaFormsRegisterService, AlandaProjectApiService, AlandaTaskApiService, AlandaTaskComponent } from 'projects/alanda-common/src/public-api';
 
 @Component({
     selector: 'prepare-vacation-request',

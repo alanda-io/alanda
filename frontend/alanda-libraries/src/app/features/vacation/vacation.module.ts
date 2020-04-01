@@ -12,25 +12,26 @@ import { SharedModule } from 'src/app/shared/shared.module';
     //SharedModule,
   ],
   declarations: [
-    PrepareVacationRequestComponent,
+    /* PrepareVacationRequestComponent,
     CheckVacationRequestComponent,
     ModifyVacationRequestComponent,
-    DefaultTaskComponent,
+    DefaultTaskComponent, */
   ],
   exports: [
-    PrepareVacationRequestComponent,
+    /* PrepareVacationRequestComponent,
     CheckVacationRequestComponent,
     ModifyVacationRequestComponent,
-    DefaultTaskComponent,
+    DefaultTaskComponent, */
   ],
   providers: [],
   entryComponents: [
-    PrepareVacationRequestComponent,
+    /* PrepareVacationRequestComponent,
     CheckVacationRequestComponent,
     ModifyVacationRequestComponent,
-    DefaultTaskComponent
+    DefaultTaskComponent */
   ]
 })
 export class VacationModule {
   constructor() {}
 }
+

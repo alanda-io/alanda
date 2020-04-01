@@ -12,7 +12,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { LayoutModule } from './layout/layout.module';
 import { CoreModule } from './core/core.module';
 import { ViewsModule } from './views/views.module';
-import { AlandaCommonModule, AppSettings, APP_CONFIG, AlandaProjectPropertiesService, AlandaProjectDetailsService } from 'projects/alanda-common/src/public_api';
+import { AlandaCommonModule, AppSettings, APP_CONFIG, AlandaProjectPropertiesService,
+         AlandaProjectDetailsService } from 'projects/alanda-common/src/public-api';
 import { ALANDA_CONFIG } from './app.settings';
 import { ProjectPropertiesService } from './core/services/projectproperties.service';
 import { ProjectDetailsService } from './core/services/projectdetails.service';

@@ -1,5 +1,3 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -16,7 +14,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TabViewModule } from 'primeng/tabview';
 import { PickListModule } from 'primeng/picklist';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { HttpClientModule } from '@angular/common/http';
 import { TreeModule } from 'primeng/tree';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { SplitButtonModule } from 'primeng/splitbutton';
@@ -29,7 +26,6 @@ import { ListboxModule } from 'primeng/listbox';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CalendarModule } from 'primeng/calendar';
-import { CommonModule, DatePipe } from '@angular/common';
 import { FormsControllerDirective } from './components/controller/directives/forms-controller.directive';
 import { MessageModule } from 'primeng/message';
 import { AttachmentsListComponent } from './components/attachments/attachments-list/attachments-list.component';
@@ -83,6 +79,10 @@ import { ProjectDetailsDirective } from './components/controller/directives/proj
 import { AlandaProjectDetailsService } from './services/project-details.service';
 import { AlandaProjectPropertiesService } from './services/project-properties.service';
 import { TreeTableModule } from 'primeng/treetable';
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [

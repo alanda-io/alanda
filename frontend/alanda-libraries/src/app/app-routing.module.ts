@@ -6,7 +6,7 @@ import { AlandaCreateProjectComponent, AlandaProjectMonitorComponent, AlandaTask
          AlandaPermissionManagementComponent,
          AlandaUserManagementComponent,
          AlandaProjectsControllerComponent,
-         } from 'projects/alanda-common/src/public_api';
+         } from 'projects/alanda-common/src/public-api';
 import { PrepareVacationRequestComponent } from './features/vacation/forms/prepare-vacation-request.component';
 import { CheckVacationRequestComponent } from './features/vacation/forms/check-vacation-request.component';
 import { ModifyVacationRequestComponent } from './features/vacation/forms/modify-vacation-request.component';
