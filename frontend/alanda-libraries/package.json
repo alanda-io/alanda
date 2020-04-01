@@ -27,6 +27,7 @@
     "primeng": "9.0.2",
     "primeicons": "2.0.0",
     "primeflex": "1.0.0",
+    "font-awesome": "4.7.0",
     "@angular/cdk": "9.2.0",
     "bpmn-js": "6.3.4"
   },

@@ -27,6 +27,7 @@ export * from './lib/api/models/task';
 export * from './lib/models/appSettings';
 export * from './lib/api/models/user';
 export * from './lib/api/models/projectType';
+export * from './lib/api/models/project';
 
 export * from './lib/pipes/nested-object.pipe';
 export * from './lib/pipes/filter.pipe';
