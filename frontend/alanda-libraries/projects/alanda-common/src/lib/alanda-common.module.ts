@@ -83,6 +83,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MessagesModule } from 'primeng/messages';
 
 @NgModule({
   imports: [
@@ -118,9 +119,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     InputTextareaModule,
     FieldsetModule,
     CalendarModule,
-    MessageModule,
+    MessagesModule,
     AccordionModule,
-    TreeTableModule
+    TreeTableModule,
+    MessageModule
   ],
   declarations: [
     AlandaUserManagementComponent,

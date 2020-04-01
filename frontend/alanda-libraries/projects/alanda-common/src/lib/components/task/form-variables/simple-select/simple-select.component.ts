@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { AlandaFormsRegisterService } from 'projects/alanda-common/src/lib/services/formsRegister.service';
-import { AlandaTaskApiService } from 'projects/alanda-common/src/lib/api/taskApi.service';
+import { AlandaFormsRegisterService } from '../../../../services/formsRegister.service';
+import { AlandaTaskApiService } from '../../../../api/taskApi.service';
 
 @Component({
     selector: 'alanda-simple-select',

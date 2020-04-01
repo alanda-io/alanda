@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AlandaProject } from 'projects/alanda-common/src/lib/api/models/project';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AlandaMilestoneApiService } from 'projects/alanda-common/src/lib/api/milestoneApi.service';
-import { AlandaFormsRegisterService } from 'projects/alanda-common/src/lib/services/formsRegister.service';
-import { convertUTCDate } from 'projects/alanda-common/src/lib/utils/helper-functions';
+import { AlandaProject } from '../../../../api/models/project';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { AlandaMilestoneApiService } from '../../../../api/milestoneApi.service';
+import { AlandaFormsRegisterService } from '../../../../services/formsRegister.service';
+import { convertUTCDate } from '../../../../utils/helper-functions';
 
 @Component({
     selector: 'alanda-milestone-select',

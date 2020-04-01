@@ -50,6 +50,7 @@ export * from './lib/components/controller/projects-controller/projects-controll
 export * from './lib/components/attachments/attachments-list/attachments-list.component';
 export * from './lib/components/attachments/attachments-tree/attachments-tree.component';
 export * from './lib/components/project-header/project-header.component';
+export * from './lib/components/controller/directives/project-details.directive';
 export * from './lib/components/create-project/create-project.component';
 export * from './lib/components/attachments/attachments.component';
 export * from './lib/components/comments/comments.component';

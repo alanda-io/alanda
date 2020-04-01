@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AlandaProject } from 'projects/alanda-common/src/lib/api/models/project';
 import { MessageService } from 'primeng/api';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AlandaPropertyApiService } from 'projects/alanda-common/src/lib/api/propertyApi.service';
-import { AlandaFormsRegisterService } from 'projects/alanda-common/src/lib/services/formsRegister.service';
+import { AlandaPropertyApiService } from '../../../../api/propertyApi.service';
+import { AlandaFormsRegisterService } from '../../../../services/formsRegister.service';
+import { AlandaProject } from '../../../../api/models/project';
 
 @Component({
     selector: 'alanda-date-select',

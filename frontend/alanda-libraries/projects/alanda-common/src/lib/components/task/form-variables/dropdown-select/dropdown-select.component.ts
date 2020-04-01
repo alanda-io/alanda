@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { AlandaPropertyApiService } from 'projects/alanda-common/src/lib/api/propertyApi.service';
-import { ServerOptions } from 'projects/alanda-common/src/lib/models/serverOptions';
-import { AlandaUserApiService } from 'projects/alanda-common/src/lib/api/userApi.service';
+import { AlandaPropertyApiService } from '../../../../api/propertyApi.service';
+import { ServerOptions } from '../../../../models/serverOptions';
+import { AlandaUserApiService } from '../../../../api/userApi.service';
 
 @Component({
     selector: 'alanda-dropdown-select',
