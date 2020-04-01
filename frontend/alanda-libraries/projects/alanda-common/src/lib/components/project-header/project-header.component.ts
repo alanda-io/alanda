@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, Input, ComponentFactoryResolver,
-         ChangeDetectorRef, OnChanges, SimpleChanges } from '@angular/core';
+         ChangeDetectorRef } from '@angular/core';
 import { ProjectPropertiesDirective } from '../controller/directives/project.properties.directive';
 import { AlandaProject } from '../../api/models/project';
 import { AlandaTask } from '../../api/models/task';
@@ -12,7 +12,7 @@ import { ProjectState } from '../../enums/projectState.enum';
 import { convertUTCDate } from '../../utils/helper-functions';
 import { AlandaTaskApiService } from '../../api/taskApi.service';
 import { map, switchMap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { Observable, of, iif, race, merge } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AlandaProjectPropertiesService } from '../../services/project-properties.service';
 
 @Component({

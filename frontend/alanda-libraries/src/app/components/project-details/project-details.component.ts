@@ -4,11 +4,11 @@ import { AlandaProject } from 'projects/alanda-common/src/lib/api/models/project
 
 
 @Component({
-    selector: 'vacation-project-details-component',
-    templateUrl: './vacation-project-details.component.html',
+    selector: 'project-details-component',
+    templateUrl: './project-details.component.html',
     styleUrls: [],
   })
-  export class VacationProjectDetailsComponent {
+  export class ProjectDetailsComponent {
 
     project: AlandaProject;
     pid: string;

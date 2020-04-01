@@ -8,10 +8,16 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
-    VacationRoutingModule,
-    SharedModule,
+    //VacationRoutingModule,
+    //SharedModule,
   ],
   declarations: [
+    PrepareVacationRequestComponent,
+    CheckVacationRequestComponent,
+    ModifyVacationRequestComponent,
+    DefaultTaskComponent,
+  ],
+  exports: [
     PrepareVacationRequestComponent,
     CheckVacationRequestComponent,
     ModifyVacationRequestComponent,

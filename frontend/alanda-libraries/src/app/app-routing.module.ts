@@ -7,6 +7,9 @@ import { AlandaCreateProjectComponent, AlandaProjectMonitorComponent, AlandaTask
          AlandaUserManagementComponent,
          AlandaProjectsControllerComponent,
          } from 'projects/alanda-common/src/public_api';
+import { PrepareVacationRequestComponent } from './features/vacation/forms/prepare-vacation-request.component';
+import { CheckVacationRequestComponent } from './features/vacation/forms/check-vacation-request.component';
+import { ModifyVacationRequestComponent } from './features/vacation/forms/modify-vacation-request.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -17,7 +20,12 @@ const routes: Routes = [
   { path: 'create/project', component: AlandaCreateProjectComponent },
   { path: 'monitor/projects', component: AlandaProjectMonitorComponent },
   { path: 'tasks/list', component: AlandaTasklistComponent },
-  { path: 'forms/vacation', loadChildren: './features/vacation/vacation.module#VacationModule'},
+  //{ path: 'forms/vacation', loadChildren: './features/vacation/vacation.module#VacationModule'},
+  { path: 'forms/vacation', children: [
+    { path: 'prepare-vacation-request/:taskId', component: PrepareVacationRequestComponent},
+    { path: 'check-vacation-request/:taskId', component: CheckVacationRequestComponent},
+    { path: 'modify-vacation-request/:taskId', component: ModifyVacationRequestComponent},
+  ]},
   { path: 'projectdetails/:projectId', component:  AlandaProjectsControllerComponent},
   { path: '**', redirectTo: ''}
 ];

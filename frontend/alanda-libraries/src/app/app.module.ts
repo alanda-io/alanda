@@ -16,18 +16,33 @@ import { AlandaCommonModule, AppSettings, APP_CONFIG, AlandaProjectPropertiesSer
 import { ALANDA_CONFIG } from './app.settings';
 import { ProjectPropertiesService } from './core/services/projectproperties.service';
 import { ProjectDetailsService } from './core/services/projectdetails.service';
-import { VacationProjectDetailsComponent } from './components/vacation-project-details/vacation-project-details.component';
-import { VacationProjectPropertiesComponent } from './components/vacation-project-properties/vacation-project-properties.component';
-import { FieldsetModule } from 'primeng/fieldset';
+import { ProjectDetailsComponent } from './components/project-details/project-details.component';
+import { ProjectPropertiesComponent } from './components/project-properties/project-properties.component';
+import { SharedModule } from './shared/shared.module';
+import { VacationModule } from './features/vacation/vacation.module';
+import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
+import { FieldsetModule } from 'primeng/fieldset';
+import { ButtonModule } from 'primeng/button';
+import { PrepareVacationRequestComponent } from './features/vacation/forms/prepare-vacation-request.component';
+import { CheckVacationRequestComponent } from './features/vacation/forms/check-vacation-request.component';
+import { ModifyVacationRequestComponent } from './features/vacation/forms/modify-vacation-request.component';
+import { DefaultTaskComponent } from './features/vacation/forms/default-task-template.component';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 
 @NgModule({
   declarations: [
     AppComponent,
-    VacationProjectDetailsComponent,
-    VacationProjectPropertiesComponent
+    ProjectDetailsComponent,
+    ProjectPropertiesComponent,
+
+
+
+    PrepareVacationRequestComponent,
+    CheckVacationRequestComponent,
+    ModifyVacationRequestComponent,
+    DefaultTaskComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,9 +51,16 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     LayoutModule,
     CoreModule,
     ViewsModule,
-    AlandaCommonModule.forRoot(CURRENT_CONFIG),
-    FieldsetModule,
+    //SharedModule,
+
+    //VacationModule,
+    CommonModule,
     CardModule,
+    FieldsetModule,
+    ButtonModule,
+
+
+    AlandaCommonModule.forRoot(CURRENT_CONFIG)
   ],
   providers: [
     {provide: APP_CONFIG, useValue: CURRENT_CONFIG},
@@ -46,8 +68,14 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     {provide: AlandaProjectDetailsService, useClass: ProjectDetailsService },
   ],
   entryComponents: [
-    VacationProjectDetailsComponent,
-    VacationProjectPropertiesComponent
+    ProjectDetailsComponent,
+    ProjectPropertiesComponent,
+
+
+    PrepareVacationRequestComponent,
+    CheckVacationRequestComponent,
+    ModifyVacationRequestComponent,
+    DefaultTaskComponent,
   ],
   bootstrap: [AppComponent]
 })

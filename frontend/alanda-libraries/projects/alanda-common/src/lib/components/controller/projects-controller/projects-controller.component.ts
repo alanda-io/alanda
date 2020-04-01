@@ -4,7 +4,7 @@ import { switchMap } from 'rxjs/operators';
 import { AlandaProjectApiService } from '../../../api/projectApi.service';
 import { AlandaProjectDetailsService } from '../../../services/project-details.service';
 import { AlandaProject } from '../../../api/models/project';
-import { ProjectPropertiesDirective } from '../directives/project.properties.directive';
+import { ProjectDetailsDirective } from '../directives/project-details.directive';
 
 
 @Component({
@@ -16,7 +16,7 @@ import { ProjectPropertiesDirective } from '../directives/project.properties.dir
     project: any;
     pid: string;
     activeTab = 0;
-    @ViewChild(ProjectPropertiesDirective) projectDetailsHost: ProjectPropertiesDirective;
+    @ViewChild(ProjectDetailsDirective) projectDetailsHost: ProjectDetailsDirective;
 
     constructor(private route: ActivatedRoute, private projectService: AlandaProjectApiService,
                 private componentFactoryResolver: ComponentFactoryResolver, private projectDetailsService: AlandaProjectDetailsService) {
