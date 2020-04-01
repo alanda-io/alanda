@@ -49,7 +49,6 @@ import { ProcessActivitiesComponent } from './components/pio/process-activities/
 import { AlandaHistoryGridComponent } from './components/history/history-grid.component';
 import { AlandaCreateProjectComponent } from './components/create-project/create-project.component';
 import { AlandaProjectAndProcessesComponent } from './components/project-and-processes/project-and-processes.component';
-import { ProjectControlItemComponent } from './components/project-and-processes/projectControlItem/project-control-item.component';
 import { AppSettings, APP_CONFIG } from './models/appSettings';
 import { AlandaSimpleSelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
 import { AlandaSelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
@@ -83,6 +82,8 @@ import { AlandaProjectsControllerComponent } from './components/controller/proje
 import { ProjectDetailsDirective } from './components/controller/directives/project-details.directive';
 import { AlandaProjectDetailsService } from './services/project-details.service';
 import { AlandaProjectPropertiesService } from './services/project-properties.service';
+import { TreeTableModule } from 'primeng/treetable';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -118,7 +119,8 @@ import { AlandaProjectPropertiesService } from './services/project-properties.se
     FieldsetModule,
     CalendarModule,
     MessageModule,
-    AccordionModule
+    AccordionModule,
+    TreeTableModule
   ],
   declarations: [
     AlandaUserManagementComponent,
@@ -144,15 +146,14 @@ import { AlandaProjectPropertiesService } from './services/project-properties.se
     ProcessActivitiesComponent,
     AlandaHistoryGridComponent,
     AlandaCreateProjectComponent,
-    AlandaProjectAndProcessesComponent,
-    ProjectControlItemComponent,
     AlandaSimpleSelectComponent,
     AlandaSelectRoleComponent,
     AlandaDateSelectComponent,
     AlandaDropdownSelectComponent,
     AlandaSelectMilestoneComponent,
     AlandaTaskComponent,
-    AlandaProjectsControllerComponent
+    AlandaProjectsControllerComponent,
+    AlandaProjectAndProcessesComponent,
   ],
   exports: [
     AlandaProjectMonitorComponent,
@@ -178,15 +179,14 @@ import { AlandaProjectPropertiesService } from './services/project-properties.se
     ProcessActivitiesComponent,
     AlandaHistoryGridComponent,
     AlandaCreateProjectComponent,
-    AlandaProjectAndProcessesComponent,
-    ProjectControlItemComponent,
     AlandaSimpleSelectComponent,
     AlandaSelectRoleComponent,
     AlandaSelectMilestoneComponent,
     AlandaDateSelectComponent,
     AlandaDropdownSelectComponent,
     AlandaTaskComponent,
-    AlandaProjectsControllerComponent
+    AlandaProjectsControllerComponent,
+    AlandaProjectAndProcessesComponent
    ],
   entryComponents: []
 })

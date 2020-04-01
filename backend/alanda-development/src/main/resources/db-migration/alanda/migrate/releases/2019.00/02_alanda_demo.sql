@@ -79,6 +79,7 @@ Insert into PMC_MILESTONE (GUID, IDNAME, DESCRIPTION, CREATED, CREATEUSER, LASTU
 Insert into PMC_MILESTONE (GUID, IDNAME, DESCRIPTION, CREATED, CREATEUSER, LASTUPDATE, UPDATEUSER, VERSION) values (2, 'VACATION_END', 'Vacation End', CURRENT_DATE, 1, null, null, 1);
 
 --changeset yko:alanda-demo-milestones-permissions
+<<<<<<< HEAD
 Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (5,0,'ms:write:VACATION:*:*:VACATION_START:fc');
 Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (6,0,'ms:write:VACATION:*:*:VACATION_END:fc');
 Insert into PMC_PERMISSION (GUID,VERSION,KEY) values (7,0,'ms:write:VACATION:*:*:VACATION_START:act');

@@ -20,16 +20,22 @@ export class AlandaSelectMilestoneComponent implements OnInit {
 
     constructor(private milestoneService: AlandaMilestoneApiService, private fb: FormBuilder, private formsRegisterService: AlandaFormsRegisterService){}
 
-    ngOnInit(){
-      this.milestoneService.getByProjectAndMsIdName(this.project.projectId, this.msName).subscribe();
+    ngOnInit() {
       this.initMilestoneFormGroup();
-
+      this.milestoneService.getByProjectAndMsIdName(this.project.projectId, this.msName).subscribe(ms => {
+        if (ms && ms.fc) {
+          this.milestoneForm.get('fc').setValue(ms.fc);
+        }
+        if (ms && ms.act) {
+          this.milestoneForm.get('act').setValue(ms.act);
+        }
+      });
     }
 
     private initMilestoneFormGroup() {
       this.milestoneForm = this.fb.group({
-        fc: [null, Validators.required],
-        act: [null, Validators.required]
+        fc: [null],
+        act: [null]
       });
       this.formsRegisterService.registerForm(this.milestoneForm, `${this.displayName}`);
     }

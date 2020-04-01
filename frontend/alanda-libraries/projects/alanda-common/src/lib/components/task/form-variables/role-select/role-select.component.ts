@@ -93,7 +93,6 @@ export class AlandaSelectRoleComponent implements OnInit {
               this.optionsGrouped.push({label: group.longName, items: mappedUsers});
               this.optionsGrouped = [...this.optionsGrouped];
             } else {
-              console.log("users ", users);
               users.forEach(user => {
                 if(this.options.filter(entry => entry.label == user.displayName).length == 0) {
                   this.options.push({label: user.displayName, value: user.guid});
@@ -109,7 +108,7 @@ export class AlandaSelectRoleComponent implements OnInit {
 
     private initFormGroup() {
       this.roleSelectFormGroup = new FormGroup({
-        selected: new FormControl('', Validators.required)
+        selected: new FormControl('')
       });
       this.formsRegisterService.registerForm(this.roleSelectFormGroup, this.formName);
     }

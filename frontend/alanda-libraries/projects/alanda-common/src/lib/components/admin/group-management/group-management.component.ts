@@ -30,7 +30,7 @@ export class AlandaGroupManagementComponent implements OnInit {
   grantedPermissions: AlandaPermission[] = [];
   availableRoles: AlandaRole[] = [];
   assignedRoles: AlandaRole[] = [];
-
+  totalRecords: number;
   loading = true;
   groupColumns = [
     {field: 'guid', header: 'Guid'},
@@ -135,6 +135,7 @@ export class AlandaGroupManagementComponent implements OnInit {
     .subscribe(result => {
       this.loading = false;
       this.groups = result.results;
+      this.totalRecords = this.groups.length;
     });
   }
 

@@ -24,6 +24,7 @@ export class AlandaUserManagementComponent implements OnInit {
     users: AlandaUser[] = [];
     selectedUser: AlandaUser;
     loading = true;
+    totalRecords: number;
     availableGroups: AlandaGroup[] = [];
     assignedGroups: AlandaGroup[] = [];
     availablePermissions: AlandaPermission[] = [];
@@ -141,6 +142,7 @@ export class AlandaUserManagementComponent implements OnInit {
         result => {
           this.loading = false;
           this.users = result.results;
+          this.totalRecords = result.total;
         },
         error => {
           this.loading = false;

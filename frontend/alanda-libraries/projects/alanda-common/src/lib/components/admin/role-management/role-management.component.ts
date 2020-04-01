@@ -22,6 +22,7 @@ export class AlandaRoleManagementComponent implements OnInit {
     selectedRole: AlandaRole;
     usersWithRole: AlandaUser[] = [];
     loading: boolean;
+    totalRecords: number;
 
     roleForm: FormGroup;
     availablePermissions: AlandaPermission[] = [];
@@ -53,6 +54,7 @@ export class AlandaRoleManagementComponent implements OnInit {
     onLoadRoles(event: LazyLoadEvent) {
       this.roleService.getRoles().subscribe(res => {
         this.roles = res;
+        this.totalRecords = this.roles.length;
       });
     }
 

@@ -20,9 +20,10 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
         this.endpoint = config.API_ENDPOINT + '/project';
     }
 
-    public getProjectByGuid(guid: number): Observable<AlandaProject> {
-        return this.http.get<AlandaProject>(`${this.endpoint}/guid/${guid}`)
-        .pipe(catchError(this.handleError<AlandaProject>('getProjectByGuid', null)));
+    public getProjectByGuid(guid: number, tree: boolean  = false): Observable<AlandaProject> {
+      const params = new HttpParams().set('tree', '' + tree);
+      return this.http.get<AlandaProject>(`${this.endpoint}/guid/${guid}`, {params: params})
+      .pipe(catchError(this.handleError<AlandaProject>('getProjectByGuid')));
     }
 
     public getProjectByProjectId(id: string): Observable<AlandaProject> {

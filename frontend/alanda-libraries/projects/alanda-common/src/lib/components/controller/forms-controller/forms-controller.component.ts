@@ -8,7 +8,6 @@ import { FormsServiceNg } from "../../../services/forms.service";
 import { TaskServiceNg } from "../../../api/alandaTask.service";
 import { Project } from "../../../models/project";
 import { AlandaTaskTemplateComponent } from "../../task/template/alanda-task-template.component";
-import { MessageService } from "primeng/api";
 
 @Component({
     selector: 'forms-controller-component',
@@ -22,7 +21,7 @@ import { MessageService } from "primeng/api";
     @ViewChild(FormsControllerDirective) formsHost: FormsControllerDirective;
 
     constructor(private route: ActivatedRoute, private taskService: TaskServiceNg, private projectService: ProjectServiceNg,
-                private componentFactoryResolver: ComponentFactoryResolver, private formsService: FormsServiceNg, private messageService: MessageService){
+                private componentFactoryResolver: ComponentFactoryResolver, private formsService: FormsServiceNg){
     }
 
     ngAfterViewInit() {
@@ -32,12 +31,15 @@ import { MessageService } from "primeng/api";
         ).subscribe(task => {
             this.task = task;
             this.projectService.getProjectByGuid(task.pmcProjectGuid).subscribe(project => {
-                this.loadTaskFormComponent(task, project);
-            }, err => this.messageService.add({severity: 'error', summary: 'project not found', detail: err.message}));
-        }, err => this.messageService.add({severity: 'error', summary: 'task not found', detail: err.message}));
+              this.loadTaskFormComponent(task, project);
+            });
+          } else {
+            this.loadTaskFormComponent(task, null);
+          }
+        });
     }
 
-    loadTaskFormComponent(task: PmcTask, project: Project) {
+    loadTaskFormComponent(task: PmcTask, project?: Project) {
         let componentFactory = this.componentFactoryResolver
             .resolveComponentFactory(this.formsService.getFormByKey(task.formKey));
         let viewContainerRef = this.formsHost.viewContainerRef;

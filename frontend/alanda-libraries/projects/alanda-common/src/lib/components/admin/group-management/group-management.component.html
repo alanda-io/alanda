@@ -21,7 +21,7 @@
 
     <div class="p-col-12 p-md-4">
       <p-table #table [value]="groups" [columns]="groupColumns" dataKey="guid" [paginator]="true" [rows]="15"
-               (onLazyLoad)="onLoadGroups($event)" [lazy]="true" [totalRecords]="groups ? groups.length : 0" [loading]="loading" 
+               (onLazyLoad)="onLoadGroups($event)" [lazy]="true" [totalRecords]="totalRecords" [loading]="loading"
                [autoLayout]="true" selectionMode="single" [style]="{'font-size': '12px'}" scrollHeight="320px"
                (onRowSelect)="onGroupSelected($event)" (onRowUnselect)="onGroupUnselected()">
         <ng-template pTemplate="header" let-columns>
@@ -55,9 +55,9 @@
           <div class="p-grid">
             <div class="p-col-4">
               <form [formGroup]="groupForm" (ngSubmit)="onFormSubmit()">
-                
+
                 <div class="inputField">
-                  <span class="ui-float-label">  
+                  <span class="ui-float-label">
                     <input id="input-guid" type="text" pInputText formControlName="groupName">
                     <label for="input-guid">Groupname</label>
                   </span>
@@ -81,7 +81,7 @@
 
                 <div class="p-grid">
                   <div class="p-col-12 p-md-6">
-                    <button pButton type="submit" [label]="selectedGroup ? 'Edit Group' : 'Create Group'"></button>
+                    <button pButton type="submit" [label]="selectedGroup ? 'Update Group' : 'Create Group'"></button>
                   </div>
                 </div>
               </form>
@@ -95,11 +95,11 @@
                 </p-scrollPanel>
               </p-panel>
             </div>
-          </div>                        
+          </div>
         </p-tabPanel>
         <p-tabPanel header="Roles" *ngIf="selectedGroup">
           <ng-template pTemplate="content">
-            <p-pickList [source]="assignedRoles" [target]="availableRoles" sourceHeader="Assigned Roles" 
+            <p-pickList [source]="assignedRoles" [target]="availableRoles" sourceHeader="Assigned Roles"
                         targetHeader="Available Roles" [responsive]="true" filterBy="name"
                         [showSourceControls]="false" [showTargetControls]="false">
               <ng-template let-role pTemplate="item">
@@ -114,7 +114,7 @@
 
         <p-tabPanel header="Permissions" *ngIf="selectedGroup">
             <ng-template pTemplate="content">
-              <p-pickList [source]="grantedPermissions" [target]="availablePermissions" sourceHeader="Granted Permissions" 
+              <p-pickList [source]="grantedPermissions" [target]="availablePermissions" sourceHeader="Granted Permissions"
                 targetHeader="Available Permissions" [responsive]="true" filterBy="name"
                 [showSourceControls]="false" [showTargetControls]="false">
                 <ng-template let-p pTemplate="item">

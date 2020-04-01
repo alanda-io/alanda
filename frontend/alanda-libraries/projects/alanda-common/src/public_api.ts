@@ -45,3 +45,4 @@ export * from './lib/components/attachments/attachments.component';
 export * from './lib/components/task/alanda-task.component';
 export * from './lib/components/history/history-grid.component';
 export * from './lib/components/controller/projects-controller/projects-controller.component';
+export * from './lib/components/project-and-processes/project-and-processes.component';

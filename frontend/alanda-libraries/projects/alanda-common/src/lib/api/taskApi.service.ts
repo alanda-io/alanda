@@ -59,4 +59,15 @@ export class AlandaTaskApiService extends AlandaExceptionHandlingService {
   setVariable(taskId: string, varName: string, data: any): Observable<void> {
     return this.http.put<void>(this.endpointUrl + `/${taskId}/variables/${varName}`, data);
   }
+
+  search(processInstanceId?: string, taskDefinitionKey?: string): Observable<AlandaTask[]> {
+    let qParams = '';
+    if (processInstanceId) {
+      qParams = qParams + `?processInstanceId=${processInstanceId}`;
+    }
+    if (taskDefinitionKey) {
+      qParams = qParams + `?taskDefinitionKey=${taskDefinitionKey}`;
+    }
+    return this.http.get<AlandaTask[]>(this.endpointUrl + '/search' + qParams);
+  }
 }

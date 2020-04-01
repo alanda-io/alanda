@@ -12,7 +12,7 @@
     margin-top: 20px;
   }
 </style>
-  
+
 
 <p-panel>
   <p-header>Role Management</p-header>
@@ -22,7 +22,7 @@
 
     <div class="p-col-12 p-lg-4">
       <p-table #table [value]="roles" [columns]="roleColumns" dataKey="guid" [paginator]="true" [rows]="15"
-               [totalRecords]="roles ? roles.length : 0" [lazy]="true" [loading]="loading" (onLazyLoad)="onLoadRoles($event)"
+               [totalRecords]="totalRecords" [lazy]="true" [loading]="loading" (onLazyLoad)="onLoadRoles($event)"
                [autoLayout]="true" selectionMode="single" [style]="{'font-size': '12px'}" scrollHeight="320px"
                (onRowSelect)="onRoleSelect($event)" (onRowUnselect)="onRoleUnselect()">
         <ng-template pTemplate="header" let-columns>
@@ -55,24 +55,24 @@
         <p-tabPanel header="General">
             <div class="p-grid">
               <div class="p-col-4">
-                <form (ngSubmit)="onFormSubmit()" [formGroup]="roleForm">   
+                <form (ngSubmit)="onFormSubmit()" [formGroup]="roleForm">
 
                   <div class="inputField">
-                    <span class="ui-float-label">  
+                    <span class="ui-float-label">
                       <input id="input-guid" type="text" pInputText formControlName="name">
                       <label for="input-guid">Rolename</label>
                     </span>
                     <span *ngIf="roleForm.dirty && !roleForm.get('name').valid" style="font-size: 10px; color: red">Please enter a rolename</span>
                   </div>
-                  
+
                   <div class="p-grid">
                     <div class="p-col-12 p-md-6">
-                      <button pButton type="submit" [label]="selectedRole ? 'Edit Role' : 'Create Role'"></button>
+                      <button pButton type="submit" [label]="selectedRole ? 'Update Role' : 'Create Role'"></button>
                     </div>
                   </div>
 
-                </form> 
-              </div>    
+                </form>
+              </div>
               <div class="p-col-12 p-md-8">
                 <p-panel header="Users" *ngIf="selectedRole && usersWithRole.length > 0">
                   <p-scrollPanel [style]="{height:'150px'}">
@@ -81,14 +81,14 @@
                     </div>
                   </p-scrollPanel>
                 </p-panel>
-              </div>         
+              </div>
             </div>
         </p-tabPanel>
 
         <p-tabPanel header="Permissions" *ngIf="selectedRole">
               <div class="p-grid">
                 <div class="p-col-12">
-              <p-pickList [source]="grantedPermissions" [target]="availablePermissions" sourceHeader="Granted Permissions" 
+              <p-pickList [source]="grantedPermissions" [target]="availablePermissions" sourceHeader="Granted Permissions"
                 targetHeader="Available Permissions" [responsive]="true" filterBy="name"
                 [showSourceControls]="false" [showTargetControls]="false">
                 <ng-template let-p pTemplate="item">

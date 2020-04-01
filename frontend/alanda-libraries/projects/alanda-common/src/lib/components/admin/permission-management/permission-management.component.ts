@@ -17,6 +17,8 @@ export class AlandaPermissionManagementComponent implements OnInit {
     permissions: AlandaPermission[];
     selectedPermission: AlandaPermission;
     loading: boolean;
+    totalRecords: number;
+
     permissionColumns = [
       {field: 'guid', header: 'Guid'},
       {field: 'key', header: 'Key'},

@@ -1,5 +1,7 @@
 package io.alanda.base.dto;
 
+import java.util.Map;
+
 public class ElasticProcessHitDto {
 
   private String processInstanceId;
@@ -15,6 +17,8 @@ public class ElasticProcessHitDto {
   //TODO: add missing properties
 
   private PmcProjectDto project;
+
+  private Map<String, Object> customerProject;
 
   public String getProcessInstanceId() {
     return processInstanceId;
@@ -62,5 +66,13 @@ public class ElasticProcessHitDto {
 
   public void setProject(PmcProjectDto project) {
     this.project = project;
+  }
+
+  public Map<String, Object> getCustomerProject() {
+    return customerProject;
+  }
+
+  public void setCustomerProject(Map<String, Object> customerProject) {
+    this.customerProject = customerProject;
   }
 }
