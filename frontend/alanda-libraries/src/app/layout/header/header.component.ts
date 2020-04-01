@@ -6,7 +6,6 @@ import { MenuItem } from 'primeng/api/menuitem';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css'],
   animations: [
     trigger('autoHide', [
       state('open', style({

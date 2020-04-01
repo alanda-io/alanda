@@ -55,11 +55,9 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     //SharedModule,
 
     //VacationModule,
-    CommonModule,
     CardModule,
     FieldsetModule,
     ButtonModule,
-
 
     AlandaCommonModule.forRoot(CURRENT_CONFIG)
   ],

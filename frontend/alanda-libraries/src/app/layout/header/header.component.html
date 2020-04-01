@@ -1,14 +1,45 @@
+<style>
+::ng-deep .ui-menubar {
+  width: 100%;
+  /* position: fixed; */
+  z-index: 99999999;
+  border-radius: 0px !important;
+  background: #007ad9 !important;
+}
+
+/* Style invalid and touched PrimeNG input components */
+::ng-deep .ng-touched.ng-invalid:not(form) > div{
+  border: 1px solid red;
+}
+
+::ng-deep p-calendar.ng-invalid.ng-touched input {
+  border: 1px solid red;
+}
+
+::ng-deep p-autocomplete .ng-touched.ng-invalid span{
+  border: 1px solid red;
+}
+
+.subMenu{
+  background-color: #c3def8;
+  width: 100%;
+  color: black;
+  margin-top: 5px;
+  font-size: 11px;
+  padding: 0 25px 0 25px;
+}
+
+</style>
 <p-toast></p-toast>
 <div [@autoHide]="autoHide ? 'open' : 'closed'">
   <p-menubar [model]="items"></p-menubar>
-  <!-- <div class="subMenu">
+  <div class="subMenu">
     <div class="p-grid p-justify-between">
-        <div class="p-col-6">
-        </div>
+      <div class="p-col-6"></div>
       <div class="p-col-6" *ngIf="userService.user$ | async as user" style="text-align: right">
         <span>{{user.firstName}} {{user.surname}}</span>
         <span *ngIf="user.runAs"> ( logged in as {{user.runAs}} <i class="pi pi-user-minus" (click)="releaseRunAs()"></i>)</span>
       </div>
     </div>
-  </div> -->
+  </div>
 </div>
