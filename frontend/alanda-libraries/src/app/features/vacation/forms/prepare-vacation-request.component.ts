@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
-import { AlandaFormsRegisterService, AlandaProjectApiService, AlandaTaskApiService, AlandaTaskComponent } from 'projects/alanda-common/src/public-api';
+import { AlandaFormsRegisterService, AlandaProjectApiService, AlandaTaskApiService, AlandaTaskFormComponent } from 'projects/alanda-common/src/public-api';
 
 @Component({
     selector: 'prepare-vacation-request',
     templateUrl: './prepare-vacation-request.component.html',
     styleUrls: [],
   })
-  export class PrepareVacationRequestComponent extends AlandaTaskComponent {
+  export class PrepareVacationRequestComponent extends AlandaTaskFormComponent {
 
     items: SelectItem[];
 

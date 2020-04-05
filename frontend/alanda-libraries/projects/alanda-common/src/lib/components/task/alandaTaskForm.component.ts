@@ -11,7 +11,7 @@ import { AlandaTaskApiService } from '../../api/taskApi.service';
     providers: [AlandaFormsRegisterService],
     template: '',
 })
-export class AlandaTaskComponent implements OnInit {
+export class AlandaTaskFormComponent implements OnInit {
 
   project: AlandaProject;
   task: AlandaTask;

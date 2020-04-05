@@ -67,7 +67,7 @@ export * from './lib/components/task/form-variables/date-select/date-select.comp
 export * from './lib/components/task/form-variables/dropdown-select/dropdown-select.component';
 export * from './lib/components/task/form-variables/milestone-select/milestone-select.component';
 export * from './lib/components/task/form-variables/role-select/role-select.component';
-export * from './lib/components/task/alanda-task.component';
+export * from './lib/components/task/alandaTaskForm.component';
 export * from './lib/components/history/history-grid.component';
 export * from './lib/components/controller/projects-controller/projects-controller.component';
 export * from './lib/components/project-and-processes/project-and-processes.component';

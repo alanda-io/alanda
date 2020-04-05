@@ -50,7 +50,7 @@ import { AlandaSimpleSelectComponent } from './components/task/form-variables/si
 import { AlandaSelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
 import { AlandaDateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
 import { AlandaDropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
-import { AlandaTaskComponent } from './components/task/alanda-task.component';
+import { AlandaTaskFormComponent } from './components/task/alandaTaskForm.component';
 import { AccordionModule } from 'primeng/accordion'
 import { AlandaSelectMilestoneComponent } from './components/task/form-variables/milestone-select/milestone-select.component';
 import { AlandaUserManagementComponent } from './components/admin/user-management/user-management.component';
@@ -153,7 +153,7 @@ import { MessagesModule } from 'primeng/messages';
     AlandaDateSelectComponent,
     AlandaDropdownSelectComponent,
     AlandaSelectMilestoneComponent,
-    AlandaTaskComponent,
+    AlandaTaskFormComponent,
     AlandaProjectsControllerComponent,
     AlandaProjectAndProcessesComponent,
   ],
@@ -186,7 +186,7 @@ import { MessagesModule } from 'primeng/messages';
     AlandaSelectMilestoneComponent,
     AlandaDateSelectComponent,
     AlandaDropdownSelectComponent,
-    AlandaTaskComponent,
+    AlandaTaskFormComponent,
     AlandaProjectsControllerComponent,
     AlandaProjectAndProcessesComponent
    ],
