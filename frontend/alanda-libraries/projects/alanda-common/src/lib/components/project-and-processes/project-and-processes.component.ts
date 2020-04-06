@@ -7,6 +7,7 @@ import { AlandaTask } from '../../api/models/task';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { AlandaTaskApiService } from '../../api/taskApi.service';
 import { AlandaProcess } from '../../api/models/process';
+import { ProjectAndProcessesService } from '../../services/project-and-processes.service';
 
 @Component({
   selector: 'alanda-project-and-processes',
@@ -20,55 +21,17 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
 
   projectTree: TreeNode[] = [];
 
-  constructor(private projectService: AlandaProjectApiService, private taskService: AlandaTaskApiService) {
+  constructor(private projectService: AlandaProjectApiService, private taskService: AlandaTaskApiService,
+    private projectAndProcessesService: ProjectAndProcessesService) {
   }
 
-  static mapProjectToTreeNode(project: AlandaProject): TreeNode {
-    return {
-      data: {
-        label: `${project.projectId} (${project.pmcProjectType.name} / ${project.title})`,
-        refObject: project.refObjectIdName,
-        assignee: project.ownerName,
-        start: project.createDate,
-        comment: project.comment,
-      },
-      children: project.processes.map(process => AlandaProjectAndProcessesComponent.mapProcessToTreeNode(process)),
-      expanded: true
-    };
-  }
-
-  static mapProcessToTreeNode(process: AlandaProcess): TreeNode {
-    return {
-      data: {
-        label: process.label,
-        refObject: process.processKey,
-        start: process.startTime,
-        end: process.endTime,
-        comment: process.resultComment,
-      },
-      children: process.tasks.map(task => AlandaProjectAndProcessesComponent.mapTaskToTreeNode(task)),
-      expanded: true
-    };
-  }
-
-  static mapTaskToTreeNode(task: AlandaTask): TreeNode {
-    return {
-      data: {
-        label: task.task_name,
-        refObject: task.process_definition_key,
-        assignee: task.assignee,
-        comment: task.comment,
-        routerLink: `/forms/${task.formKey}/${task.task_id}`
-      },
-    };
-  }
 
   ngOnInit() {
     from(this.flattenProjects(this.project)).pipe(
       mergeMap(flattenProject => {
         return this.getProjectWithProcessesAndTasks(flattenProject.guid).pipe(
           map(project => {
-            return AlandaProjectAndProcessesComponent.mapProjectToTreeNode(project);
+            return this.projectAndProcessesService.mapProjectToTreeNode(project);
           })
         );
       }),
