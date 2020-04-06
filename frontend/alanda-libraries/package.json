@@ -9,6 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-common": "ng build alanda-common",
+    "publish-common": "cd dist/alanda-common && npm publish",
     "watch": "ng --version && ng build alanda-common --watch"
   },
   "private": true,
