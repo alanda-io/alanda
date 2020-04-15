@@ -4,7 +4,7 @@
   "description": "A framework for developing processes the easy way.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "commit": "npx git-cz"
+    "cm": "npx git-cz"
   },
   "repository": {
     "type": "git",
@@ -17,11 +17,19 @@
   },
   "homepage": "https://github.com/alanda-io/alanda#readme",
   "devDependencies": {
-    "cz-conventional-changelog": "^3.1.0"
+    "commitizen": "^4.0.4",
+    "cz-conventional-changelog": "^3.1.0",
+    "husky": "^4.2.5"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "____prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }
 }
