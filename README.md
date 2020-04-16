@@ -2,6 +2,8 @@
 
 A framework for developing processes the easy way.
 
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
 # License 
 Except where otherwise specified, source code in this repository is  licensed under
 the CDDL license.
