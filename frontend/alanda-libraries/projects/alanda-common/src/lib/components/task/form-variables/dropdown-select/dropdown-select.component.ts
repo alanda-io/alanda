@@ -15,9 +15,17 @@ export class AlandaDropdownSelectComponent implements OnInit {
     @Input() displayName: string;
     @Input() key: string;
     @Input() groupId?: number;
+    @Input()
+    set rootFormGroup(rootFormGroup: FormGroup) {
+      if (rootFormGroup) {
+        rootFormGroup.addControl('alanda-dropdown-select', this.userForm);
+      }
+    }
 
     users: any[];
-    userForm: FormGroup;
+    userForm = new FormGroup({
+      user: new FormControl(null),
+    });
 
     constructor(private userService: AlandaUserApiService, private propertyService: AlandaPropertyApiService) {}
 

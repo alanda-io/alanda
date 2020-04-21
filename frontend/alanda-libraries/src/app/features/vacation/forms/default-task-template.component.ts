@@ -1,19 +1,28 @@
-import { Component } from '@angular/core';
-import { AlandaTaskFormComponent, AlandaFormsRegisterService,
-         AlandaProjectApiService,
-         AlandaTaskApiService} from 'projects/alanda-common/src/public-api';
-import { ActivatedRoute } from '@angular/router';
+import { Component, AfterViewInit } from '@angular/core';
+import { BaseFormComponent,
+         AlandaTaskFormService} from 'projects/alanda-common/src/public-api';
 
 @Component({
     selector: 'default-task',
     templateUrl: './default-task-template.component.html',
     styleUrls: [],
+    providers: [AlandaTaskFormService]
   })
-export class DefaultTaskComponent extends AlandaTaskFormComponent {
+export class DefaultTaskComponent implements BaseFormComponent, AfterViewInit {
 
-  constructor(formsRegisterService: AlandaFormsRegisterService, route: ActivatedRoute, taskService: AlandaTaskApiService,
-              projectService: AlandaProjectApiService) {
-    super(formsRegisterService, route, taskService, projectService);
+  state$ = this.taskFormService.state$;
+  rootForm = this.taskFormService.rootForm;
+
+  constructor(private taskFormService: AlandaTaskFormService) {
+
+  }
+  
+  submit(): void {
+    this.taskFormService.submit();
+  };
+
+  ngAfterViewInit(): void {
+    // this.formManagerService.addValidators();
   }
 
 }

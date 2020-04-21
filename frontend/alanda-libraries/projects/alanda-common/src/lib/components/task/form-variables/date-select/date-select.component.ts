@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AlandaPropertyApiService } from '../../../../api/propertyApi.service';
-import { AlandaFormsRegisterService } from '../../../../services/formsRegister.service';
 import { AlandaProject } from '../../../../api/models/project';
 
 @Component({
@@ -16,22 +15,22 @@ export class AlandaDateSelectComponent implements OnInit {
     @Input() label: string;
     @Input() project: AlandaProject;
     @Input() formName: string;
-
-    dateForm: FormGroup;
-
-    constructor(private messageService: MessageService, private propertyService: AlandaPropertyApiService,
-                private formsRegisterService: AlandaFormsRegisterService){}
-
-    ngOnInit(){
-      this.initFormGroup();
-      this.load();
+    @Input()
+    set rootFormGroup(rootFormGroup: FormGroup) {
+      if (rootFormGroup) {
+        rootFormGroup.addControl(this.formName, this.dateForm);
+      }
     }
 
-    initFormGroup() {
-      this.dateForm = new FormGroup({
-        date: new FormControl(null, Validators.required),
-      });
-      this.formsRegisterService.registerForm(this.dateForm, this.formName);
+    dateForm = new FormGroup({
+      date: new FormControl(null, Validators.required),
+    });
+
+    constructor(private messageService: MessageService, private propertyService: AlandaPropertyApiService,
+              ){}
+
+    ngOnInit(){
+      this.load();
     }
 
     save() {

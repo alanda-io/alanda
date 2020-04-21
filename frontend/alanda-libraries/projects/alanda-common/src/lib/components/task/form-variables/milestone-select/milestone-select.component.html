@@ -4,7 +4,7 @@
         font-weight: 600;
     }
 </style>
-<form [formGroup]="milestoneForm">
+<div [formGroup]="milestoneForm">
     <div class="p-grid">
         <div class="p-col-12">
             <b>{{displayName}}</b>
@@ -24,4 +24,4 @@
             <p-calendar formControlName="act" placeholder="Select" (onSelect)="onChange()" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
         </div>
     </div>
-</form>
+  </div>

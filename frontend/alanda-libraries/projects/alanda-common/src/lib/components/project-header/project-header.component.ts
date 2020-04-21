@@ -7,7 +7,6 @@ import { AlandaUser } from '../../api/models/user';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
-import { AlandaFormsRegisterService } from '../../services/formsRegister.service';
 import { ProjectState } from '../../enums/projectState.enum';
 import { convertUTCDate } from '../../utils/helper-functions';
 import { AlandaTaskApiService } from '../../api/taskApi.service';
@@ -25,6 +24,13 @@ import { AlandaProjectPropertiesService } from '../../services/project-propertie
     @ViewChild(ProjectPropertiesDirective) propertiesHost: ProjectPropertiesDirective;
     @Input() project: AlandaProject;
     @Input() task: AlandaTask;
+    @Input()
+    set rootFormGroup(rootFormGroup: FormGroup) {
+      if (rootFormGroup) {
+        rootFormGroup.addControl('alanda-project-header', this.projectHeaderForm);
+      }
+    }
+
 
     taskDueDate: Date;
     loading: boolean;
@@ -33,12 +39,19 @@ import { AlandaProjectPropertiesService } from '../../services/project-propertie
     showDelegateDialog: boolean;
     allowedTagList: string[];
     priorities = [{label: '0 - Emergency', value: 0}, {label: '1 - Urgent', value: 1}, {label: '2 - Normal', value: 2}];
-    projectHeaderForm: FormGroup;
+    projectHeaderForm = this.fb.group({
+      tag: null,
+      priority: null,
+      dueDate: null,
+      title: null,
+      details: null,
+      taskDueDate: null,
+    });
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver, private propertiesService: AlandaProjectPropertiesService,
                 private taskService: AlandaTaskApiService, private cdRef: ChangeDetectorRef, private messageService: MessageService,
                 private fb: FormBuilder, private projectService: AlandaProjectApiService,
-                private formsRegisterService: AlandaFormsRegisterService) {}
+                ) {}
 
     ngOnInit() {
       this.initFormGroup();
@@ -108,14 +121,6 @@ import { AlandaProjectPropertiesService } from '../../services/project-propertie
     }
 
     private initFormGroup() {
-      this.projectHeaderForm = this.fb.group({
-        tag: null,
-        priority: null,
-        dueDate: null,
-        title: null,
-        details: null,
-        taskDueDate: null,
-      });
 
       this.allowedTagList = this.project.pmcProjectType.allowedTagList;
         this.projectHeaderForm.patchValue(this.project, {emitEvent: false});
@@ -128,7 +133,7 @@ import { AlandaProjectPropertiesService } from '../../services/project-propertie
           this.projectHeaderForm.patchValue({taskDueDate: new Date(this.task.due)}, {emitEvent: false});
           this.taskDueDate = new Date(this.task.due);
         }
-      this.formsRegisterService.registerForm(this.projectHeaderForm, 'projectHeaderForm');
+
     }
 
     searchTag(event: Event) {

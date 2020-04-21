@@ -29,6 +29,7 @@ import { PrepareVacationRequestComponent } from './features/vacation/forms/prepa
 import { CheckVacationRequestComponent } from './features/vacation/forms/check-vacation-request.component';
 import { ModifyVacationRequestComponent } from './features/vacation/forms/modify-vacation-request.component';
 import { DefaultTaskComponent } from './features/vacation/forms/default-task-template.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 
@@ -53,7 +54,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     CoreModule,
     ViewsModule,
     //SharedModule,
-
+    ReactiveFormsModule,
     //VacationModule,
     CardModule,
     FieldsetModule,

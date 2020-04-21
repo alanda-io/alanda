@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AlandaProject } from '../../../../api/models/project';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { AlandaMilestoneApiService } from '../../../../api/milestoneApi.service';
-import { AlandaFormsRegisterService } from '../../../../services/formsRegister.service';
 import { convertUTCDate } from '../../../../utils/helper-functions';
 
 @Component({
@@ -15,13 +14,21 @@ export class AlandaSelectMilestoneComponent implements OnInit {
     @Input() project: AlandaProject;
     @Input() displayName: string;
     @Input() msName: string;
+    @Input()
+    set rootFormGroup(rootFormGroup: FormGroup) {
+      if (rootFormGroup) {
+        rootFormGroup.addControl(this.displayName, this.milestoneForm);
+      }
+    }
 
-    milestoneForm: FormGroup;
+    milestoneForm = this.fb.group({
+      fc: [null],
+      act: [null]
+    });
 
-    constructor(private milestoneService: AlandaMilestoneApiService, private fb: FormBuilder, private formsRegisterService: AlandaFormsRegisterService){}
+    constructor(private milestoneService: AlandaMilestoneApiService, private fb: FormBuilder) {}
 
     ngOnInit() {
-      this.initMilestoneFormGroup();
       this.milestoneService.getByProjectAndMsIdName(this.project.projectId, this.msName).subscribe(ms => {
         if (ms && ms.fc) {
           this.milestoneForm.get('fc').setValue(ms.fc);
@@ -30,14 +37,6 @@ export class AlandaSelectMilestoneComponent implements OnInit {
           this.milestoneForm.get('act').setValue(ms.act);
         }
       });
-    }
-
-    private initMilestoneFormGroup() {
-      this.milestoneForm = this.fb.group({
-        fc: [null],
-        act: [null]
-      });
-      this.formsRegisterService.registerForm(this.milestoneForm, `${this.displayName}`);
     }
 
     onChange() {

@@ -50,7 +50,6 @@ import { AlandaSimpleSelectComponent } from './components/task/form-variables/si
 import { AlandaSelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
 import { AlandaDateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
 import { AlandaDropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
-import { AlandaTaskFormComponent } from './components/task/alandaTaskForm.component';
 import { AccordionModule } from 'primeng/accordion'
 import { AlandaSelectMilestoneComponent } from './components/task/form-variables/milestone-select/milestone-select.component';
 import { AlandaUserManagementComponent } from './components/admin/user-management/user-management.component';
@@ -73,7 +72,6 @@ import { AlandaAuthorizationService } from './services/authorization.service';
 import { AlandaExceptionHandlingService } from './services/exceptionHandling.service';
 import { AlandaMonitorAPIService } from './services/monitorApi.service';
 import { AlandaAttachmentsComponent } from './components/attachments/attachments.component';
-import { AlandaFormsRegisterService } from './services/formsRegister.service';
 import { AlandaProjectsControllerComponent } from './components/controller/projects-controller/projects-controller.component';
 import { ProjectDetailsDirective } from './components/controller/directives/project-details.directive';
 import { AlandaProjectDetailsService } from './services/project-details.service';
@@ -84,6 +82,8 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessagesModule } from 'primeng/messages';
+import { AlandaTaskFormService } from './form/alanda-task-form.service';
+import { Error500Interceptor } from './interceptors/error500.interceptor';
 
 @NgModule({
   imports: [
@@ -153,7 +153,6 @@ import { MessagesModule } from 'primeng/messages';
     AlandaDateSelectComponent,
     AlandaDropdownSelectComponent,
     AlandaSelectMilestoneComponent,
-    AlandaTaskFormComponent,
     AlandaProjectsControllerComponent,
     AlandaProjectAndProcessesComponent,
   ],
@@ -186,7 +185,6 @@ import { MessagesModule } from 'primeng/messages';
     AlandaSelectMilestoneComponent,
     AlandaDateSelectComponent,
     AlandaDropdownSelectComponent,
-    AlandaTaskFormComponent,
     AlandaProjectsControllerComponent,
     AlandaProjectAndProcessesComponent
    ],
@@ -214,8 +212,9 @@ export class AlandaCommonModule {
         AlandaExceptionHandlingService,
         AlandaMonitorAPIService,
         AlandaProjectPropertiesService,
-        AlandaFormsRegisterService,
         AlandaProjectDetailsService,
+        AlandaTaskFormService,
+        Error500Interceptor,
         {
           provide: APP_CONFIG,
           useValue: config

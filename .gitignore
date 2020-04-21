@@ -11,3 +11,4 @@
 /backend/alanda-development/src/test/resources/docker-camunda/image/src_modules/io/alanda/alanda-comment-plugin/main/alanda-comment-plugin-0.0.1-SNAPSHOT.jar
 /backend/alanda-development/src/test/resources/docker-camunda/image/src_modules/io/alanda/alanda-identity-plugin/main/alanda-identity-plugin-0.0.1-SNAPSHOT.jar
 /backend/alanda-development/src/test/resources/docker-camunda/image/src_modules/io/alanda/camunda/es/history/main/alanda-camunda-es-history-plugin-0.0.1-SNAPSHOT.jar
+node_modules

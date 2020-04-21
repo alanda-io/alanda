@@ -1,5 +1,5 @@
 <h4><b>{{displayName}}:</b></h4>
-<form [formGroup]="roleSelectFormGroup">
+<div [formGroup]="roleSelectFormGroup">
     <span *ngIf="!grouping">
         <p-dropdown
         [options]="options" 
@@ -19,6 +19,6 @@
         (onChange)="onChange()" 
         [style]="{'width':'100%'}"></p-dropdown>
     </span>
-</form>
+  </div>
 
 

@@ -14,14 +14,16 @@ export * from './lib/api/processApi.service';
 
 export * from './lib/services/authorization.service';
 export * from './lib/services/exceptionHandling.service';
-export * from './lib/services/formsRegister.service';
 export * from './lib/services/project-properties.service';
 export * from './lib/services/project-details.service';
-export * from './lib/services/formsRegister.service';
 export * from './lib/services/monitorApi.service';
+export * from './lib/form/alanda-task-form.service';
+export * from './lib/form/base-form.component.interface';
+export * from './lib/form/base-state';
 
 export * from './lib/interceptors/basic-auth.interceptor';
-export * from './lib/interceptors/error.interceptor';
+export * from './lib/interceptors/error400.interceptor';
+export * from './lib/interceptors/error500.interceptor';
 
 export * from './lib/api/models/task';
 export * from './lib/models/appSettings';
@@ -67,7 +69,6 @@ export * from './lib/components/task/form-variables/date-select/date-select.comp
 export * from './lib/components/task/form-variables/dropdown-select/dropdown-select.component';
 export * from './lib/components/task/form-variables/milestone-select/milestone-select.component';
 export * from './lib/components/task/form-variables/role-select/role-select.component';
-export * from './lib/components/task/alandaTaskForm.component';
 export * from './lib/components/history/history-grid.component';
 export * from './lib/components/controller/projects-controller/projects-controller.component';
 export * from './lib/components/project-and-processes/project-and-processes.component';

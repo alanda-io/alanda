@@ -1,23 +1,32 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, AfterViewInit } from '@angular/core';
 import { SelectItem } from 'primeng/api';
-import { AlandaFormsRegisterService, AlandaProjectApiService, AlandaTaskApiService, AlandaTaskFormComponent } from 'projects/alanda-common/src/public-api';
+import { AlandaTaskFormService, BaseFormComponent } from 'projects/alanda-common/src/public-api';
 
 @Component({
     selector: 'prepare-vacation-request',
     templateUrl: './prepare-vacation-request.component.html',
     styleUrls: [],
+    providers: [AlandaTaskFormService]
   })
-  export class PrepareVacationRequestComponent extends AlandaTaskFormComponent {
+  export class PrepareVacationRequestComponent implements BaseFormComponent, AfterViewInit {
 
+    state$ = this.taskFormService.state$;
+    rootForm = this.taskFormService.rootForm;
     items: SelectItem[];
 
-    constructor(formsRegisterService: AlandaFormsRegisterService, route: ActivatedRoute, taskService: AlandaTaskApiService,
-                projectService: AlandaProjectApiService) {
-      super(formsRegisterService, route, taskService, projectService);
+    constructor(private taskFormService: AlandaTaskFormService) {
       this.items = [
         {label: 'Yes', value: true},
         {label: 'No', value: false}
       ];
     }
+
+    submit(): void {
+      this.taskFormService.submit();
+    };
+  
+    ngAfterViewInit(): void {
+      // this.formManagerService.addValidators();
+    }
+
   }

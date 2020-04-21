@@ -6,7 +6,6 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SelectItemGroup, SelectItem } from 'primeng/api';
 import { AlandaPropertyApiService } from '../../../../api/propertyApi.service';
 import { AlandaRoleApiService } from '../../../../api/roleApi.service';
-import { AlandaFormsRegisterService } from '../../../../services/formsRegister.service';
 import { mergeMap, concatMap } from 'rxjs/operators';
 import { AlandaUser } from '../../../../api/models/user';
 import { AlandaUserApiService } from '../../../../api/userApi.service';
@@ -29,19 +28,28 @@ export class AlandaSelectRoleComponent implements OnInit {
     @Input() grouping?: boolean = false; // if type == user, group users by their groups in dropdown
     //TODO: @Input() parent?: SelectRoleComponent;
     @Input() formName: string;
+
+    @Input()
+    set rootFormGroup(rootFormGroup: FormGroup) {
+      if (rootFormGroup) {
+        rootFormGroup.addControl('alanda-role-select', this.roleSelectFormGroup);
+      }
+    }
+
     groups: AlandaGroup[];
     items: string[] = [];
     options: {label: string, value: number}[] = [];
     optionsGrouped: SelectItemGroup[] = [];
     role: AlandaRole;
-    roleSelectFormGroup: FormGroup;
+    roleSelectFormGroup = new FormGroup({
+      selected: new FormControl('')
+    });
 
     constructor(private userService: AlandaUserApiService, private propService: AlandaPropertyApiService,
                 private groupService: AlandaGroupApiService, private roleService: AlandaRoleApiService,
-                private formsRegisterService: AlandaFormsRegisterService){}
+                ){}
 
     ngOnInit(){
-      this.initFormGroup();
       this.loadDropdown();
     }
 
@@ -104,13 +112,6 @@ export class AlandaSelectRoleComponent implements OnInit {
           });
         });
       })
-    }
-
-    private initFormGroup() {
-      this.roleSelectFormGroup = new FormGroup({
-        selected: new FormControl('')
-      });
-      this.formsRegisterService.registerForm(this.roleSelectFormGroup, this.formName);
     }
 
     private loadProperty() {

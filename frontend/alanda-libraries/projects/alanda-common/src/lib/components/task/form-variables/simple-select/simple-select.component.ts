@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { AlandaFormsRegisterService } from '../../../../services/formsRegister.service';
 import { AlandaTaskApiService } from '../../../../api/taskApi.service';
 
 @Component({
@@ -17,23 +16,23 @@ export class AlandaSimpleSelectComponent implements OnInit {
     @Input() label: string;
     @Input() type?: string;
 
-    selectForm: FormGroup;
+    @Input()
+    set rootFormGroup(rootFormGroup: FormGroup) {
+      if (rootFormGroup) {
+        rootFormGroup.addControl('alanda-simple-select', this.selectForm);
+      }
+    }
 
-    constructor(private taskService: AlandaTaskApiService, private fb: FormBuilder, private formsRegisterService: AlandaFormsRegisterService){}
+    selectForm = this.fb.group({
+      selected: [null, Validators.required]
+    });
+
+    constructor(private taskService: AlandaTaskApiService, private fb: FormBuilder){}
 
     ngOnInit(){
       if(!this.type) {
         this.type = 'string';
       }
-
-      this.initFormGroup();
-    }
-
-    private initFormGroup() {
-      this.selectForm = this.fb.group({
-        selected: [null, Validators.required]
-      });
-      this.formsRegisterService.registerForm(this.selectForm, "selectForm");
     }
 
     save() {
