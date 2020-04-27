@@ -9,15 +9,18 @@ import { AlandaListResult } from './models/listResult';
 import { AlandaProcess } from './models/process';
 import { AlandaProjectType } from './models/projectType';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
+import { AlandaRefObject } from './models/refObject';
 
 @Injectable()
 export class AlandaProjectApiService extends AlandaExceptionHandlingService {
 
     private endpoint: string;
+    private refObjectEndpoint: string;
 
     constructor(private http: HttpClient, @Inject(APP_CONFIG) config: AppSettings) {
         super();
         this.endpoint = config.API_ENDPOINT + '/project';
+        this.refObjectEndpoint = config.API_ENDPOINT + '/refobjects';
     }
 
     public getProjectByGuid(guid: number, tree: boolean  = false): Observable<AlandaProject> {
@@ -75,6 +78,11 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
     public getProcessesAndTasksForProject(guid: number): Observable<Map<string, any>> {
         return this.http.get<Map<string, any>>(`${this.endpoint}/project/${guid}/processes-and-tasks`)
         .pipe(catchError(this.handleError<Map<string, any>>('getProcessesAndTasksForProject')));
+    }
+
+    public autocompleteRefObjects(searchTerm: string , objectType: string): Observable<AlandaRefObject[]> {
+        let type = objectType.toLowerCase();
+        return this.http.get<AlandaRefObject[]>(`${this.refObjectEndpoint}/${type}?search=${searchTerm}`)
     }
 }
 
