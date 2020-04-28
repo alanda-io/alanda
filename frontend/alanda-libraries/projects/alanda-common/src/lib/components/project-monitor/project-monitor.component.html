@@ -32,14 +32,14 @@
                 <p-table #tt
                   [style]="{'min-height':'500px'}"
                   [resizableColumns]="true"
-                  [value]="projectsData.results" 
+                  [value]="projectsData.results"
                   [columns]="selectedLayout.columnDefs"
-                  [paginator]="true" 
-                  [rows]="15" 
+                  [paginator]="true"
+                  [rows]="serverOptions.pageSize"
                   [lazy]="true"
                   [totalRecords]="projectsData.total"
                   (onLazyLoad)="loadProjectsLazy($event)"
-                  [tableStyle]="{'table-layout':'100%'}" 
+                  [tableStyle]="{'table-layout':'100%'}"
                   [autoLayout]="true"
                   [loading]="loading"
                   [responsive]="true">
@@ -48,7 +48,7 @@
                       <p-menu #menu [popup]="true" [model]="menuItems" appendTo="body"></p-menu>
                       <button type="button" pButton icon="fa fa-fw fa-list" (click)="menu.toggle($event)" style="float:right; width: 50px"></button>
                     </div>
-                    <!--                     
+                    <!--
                     <div class="ui-helper-clearfix">
                       <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="Export CSV" (click)="tt.exportCSV()" style="float:right; width: 130px"></button>
                     </div> -->
@@ -61,9 +61,9 @@
                     </tr>
                     <tr>
                       <th *ngFor="let col of columns">
-                          <input 
-                            pInputText 
-                            type="text" 
+                          <input
+                            pInputText
+                            type="text"
                             (input)="tt.filter($event.target.value, col.field, 'contains')"
                             [value] ="tt.filters[col.field] ? tt.filters[col.field].value : ''"
                             style="width: 100%"
@@ -73,9 +73,9 @@
                     </tr>
                   </ng-template>
                   <ng-template pTemplate="body" let-project let-columns="columns" >
-                    <tr 
+                    <tr
                       [pSelectableRow]="project"
-                      class="ng-center-cell">  
+                      class="ng-center-cell">
                       <td *ngFor="let col of columns" [ngClass]="getCondition(project, col.template)" style="font-size: 12px; white-space: nowrap;">
                         <ng-template [ngIf]="col.name == 'Project ID'" [ngIfElse]="default">
                           <!-- <a [attr.href]="'#/pmc/projectdetails/' + project.project.projectId" target="blank">{{ project | monitorValues: col.field }}</a> -->
@@ -85,11 +85,17 @@
                           {{ project | monitorValues: col.field }}
                         </ng-template>
                       </td>
-                    </tr>  
+                    </tr>
                   </ng-template>
                   <ng-template pTemplate="paginatorright">
+                    <span *ngIf="editablePageSize" style="margin-right: 10px">
+                      Rows per page:
+                      <al-pagesize-select #pageSizeSelect (onChange)="changePageSize($event)" [maxPageSize]="projectsData.total"></al-pagesize-select>
+                    </span>
                     <span *ngIf="projectsData.total">
-                      Total: {{projectsData.total}}
+                      Total:
+                      <ng-container *ngIf="!editablePageSize; else settableTotal">{{projectsData.total}}</ng-container>
+                      <ng-template #settableTotal><a (click)="pageSizeSelect.setPageSize(projectsData.total)">{{projectsData.total}}</a></ng-template>
                     </span>
                   </ng-template>
                 </p-table>

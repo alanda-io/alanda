@@ -3,8 +3,9 @@ import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ProjectServiceNg } from '../../api/project.service';
 import { TableAPIServiceNg } from '../../services/tableAPI.service';
+import { AlandaPagesizeSelectComponent } from '../pagesize-select/pagesize-select.component';
 export type ServerOptions = {
-  pageNumber: number, 
+  pageNumber: number,
   pageSize: number,
   filterOptions: any,
   sortOptions: any
@@ -18,6 +19,7 @@ export type ServerOptions = {
 export class ProjectMonitorComponent implements OnInit {
 
   @Input() defaultLayout : string;
+  @Input() editablePageSize: boolean = false;
 
   projectsData: any = {};
   layouts: any[] = [];
@@ -28,7 +30,8 @@ export class ProjectMonitorComponent implements OnInit {
   menuItems: MenuItem[];
 
   @ViewChild('tt') turboTable: Table;
- 
+  @ViewChild('pageSizeSelect') pageSizeSelect: AlandaPagesizeSelectComponent;
+
   constructor(private projectService: ProjectServiceNg, private tableAPIServiceNg: TableAPIServiceNg, public messageService: MessageService) {
     this.serverOptions = {
       pageNumber: 1,
@@ -47,7 +50,7 @@ export class ProjectMonitorComponent implements OnInit {
     const data = this.tableAPIServiceNg.getProjectMonitorLayouts();
     for(const k in data) {
       this.layouts.push(data[k]);
-    }    
+    }
     this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
 
     this.selectedLayout = this.layouts.filter(layout => layout.name === 'all')[0];
@@ -60,7 +63,7 @@ export class ProjectMonitorComponent implements OnInit {
         this.projectsData = res;
         this.loading = false;
       }
-    ); 
+    );
   }
 
   loadProjectsLazy(event: LazyLoadEvent){
@@ -75,11 +78,11 @@ export class ProjectMonitorComponent implements OnInit {
     this.serverOptions.filterOptions = {};
     for(let key of Object.keys(this.selectedLayout.filterOptions)){
       this.serverOptions.filterOptions[key] = this.selectedLayout.filterOptions[key];
-    }    
+    }
     for(let key in event.filters){
       this.serverOptions.filterOptions[key] = event.filters[key].value;
     }
-    
+
     this.serverOptions.pageNumber = event.first / this.serverOptions.pageSize + 1;
     this.loadProjects(this.serverOptions);
   }
@@ -104,4 +107,17 @@ export class ProjectMonitorComponent implements OnInit {
     return '/projectdetails/' + projectId;
   }
 
+  changePageSize(pageSize: number) {
+    console.log('Page size changed', pageSize);
+    const oldPageSize = this.serverOptions.pageSize;
+    const oldPageNumber = this.serverOptions.pageNumber;
+
+    // first entry should be visible after changing rows per page
+    const firstEntry = oldPageSize * (oldPageNumber - 1) + 1;
+
+    this.serverOptions.pageSize = pageSize;
+    this.serverOptions.pageNumber = Math.ceil(firstEntry / pageSize);
+
+    this.loadProjects(this.serverOptions);
+  }
 }
