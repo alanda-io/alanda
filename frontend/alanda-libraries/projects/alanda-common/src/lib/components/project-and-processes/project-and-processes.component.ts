@@ -23,7 +23,7 @@ export class ProjectAndProcessesComponent implements OnInit {
   constructor(private pmcProjectService: ProjectServiceNg, private taskService: TaskServiceNg) {
   }
 
-  static mapProjectToTreeNode(project: Project): TreeNode {
+  mapProjectToTreeNode(project: Project): TreeNode {
     return {
       data: {
         label: `${project.projectId} (${project.pmcProjectType.name} / ${project.title})`,
@@ -32,12 +32,12 @@ export class ProjectAndProcessesComponent implements OnInit {
         start: project.createDate,
         comment: project.comment,
       },
-      children: project.processes.map(process => ProjectAndProcessesComponent.mapProcessToTreeNode(process)),
+      children: project.processes.map(process => this.mapProcessToTreeNode(process)),
       expanded: true
     };
   }
 
-  static mapProcessToTreeNode(process: Process): TreeNode {
+  mapProcessToTreeNode(process: Process): TreeNode {
     return {
       data: {
         label: process.label,
@@ -46,12 +46,12 @@ export class ProjectAndProcessesComponent implements OnInit {
         end: process.endTime,
         comment: process.resultComment,
       },
-      children: process.tasks.map(task => ProjectAndProcessesComponent.mapTaskToTreeNode(task)),
+      children: process.tasks.map(task => this.mapTaskToTreeNode(task)),
       expanded: true
     };
   }
 
-  static mapTaskToTreeNode(task: PmcTask): TreeNode {
+  mapTaskToTreeNode(task: PmcTask): TreeNode {
     return {
       data: {
         label: task.task_name,
@@ -68,7 +68,7 @@ export class ProjectAndProcessesComponent implements OnInit {
       mergeMap(flattenProject => {
         return this.getProjectWithProcessesAndTasks(flattenProject.guid).pipe(
           map(project => {
-            return ProjectAndProcessesComponent.mapProjectToTreeNode(project);
+            return this.mapProjectToTreeNode(project);
           })
         );
       }),
