@@ -90,7 +90,7 @@
   </div>
   <div class="p-col comment-box bubble-effect">
     <div class="header">
-      <i style="margin-right: 10px">{{comment.createDate | date:'dd.MM.yy HH:mm'}}</i>
+      <i style="margin-right: 10px">{{comment.createDate | date:'dd.MM.yyyy HH:mm'}}</i>
       <a href="Javascript:void()" (click)="doReply=!doReply"><span *ngIf="comment.replies.length > 0" class="fa fa-comments"> {{comment.replies.length}} Replies</span></a>
     </div>
     {{comment.text}}
