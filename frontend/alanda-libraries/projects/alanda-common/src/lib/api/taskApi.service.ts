@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { APP_CONFIG, AppSettings } from '../models/appSettings';
 import { Observable } from 'rxjs';
 import { AlandaTask } from './models/task';
@@ -61,13 +61,13 @@ export class AlandaTaskApiService extends AlandaExceptionHandlingService {
   }
 
   search(processInstanceId?: string, taskDefinitionKey?: string): Observable<AlandaTask[]> {
-    let qParams = '';
+    let qParams = new HttpParams();
     if (processInstanceId) {
-      qParams = qParams + `?processInstanceId=${processInstanceId}`;
+      qParams = qParams.set('processInstanceId',processInstanceId);
     }
     if (taskDefinitionKey) {
-      qParams = qParams + `?taskDefinitionKey=${taskDefinitionKey}`;
+      qParams = qParams.set('taskDefinitionKey', taskDefinitionKey);
     }
-    return this.http.get<AlandaTask[]>(this.endpointUrl + '/search' + qParams);
+    return this.http.get<AlandaTask[]>(this.endpointUrl + '/search', { params: qParams });
   }
 }
