@@ -8,7 +8,6 @@ import { SelectItem } from 'primeng/api';
     selector: 'modify-vacation-request',
     templateUrl: './modify-vacation-request.component.html',
     styleUrls: [],
-    providers: [AlandaTaskFormService]
   })
 export class ModifyVacationRequestComponent implements BaseFormComponent, AfterViewInit {
 

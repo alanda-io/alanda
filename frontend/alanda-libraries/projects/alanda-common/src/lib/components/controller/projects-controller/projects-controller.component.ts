@@ -1,50 +1,84 @@
-import { Component, OnInit, ComponentFactoryResolver, ViewChild } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { switchMap, tap, map, distinctUntilChanged } from 'rxjs/operators';
 import { AlandaProjectApiService } from '../../../api/projectApi.service';
-import { AlandaProjectDetailsService } from '../../../services/project-details.service';
 import { AlandaProject } from '../../../api/models/project';
-import { ProjectDetailsDirective } from '../directives/project-details.directive';
+import { Subscription } from 'rxjs';
+import { RxState } from '@rx-angular/state';
+import { BaseState } from '../../../form/base-state';
 
+export interface ProjectControllerState extends BaseState {
+  pid: string;
+}
 
 @Component({
     templateUrl: './projects-controller.component.html',
     styleUrls: [],
+    providers: [RxState]
   })
-  export class AlandaProjectsControllerComponent implements OnInit {
+  export class AlandaProjectsControllerComponent implements OnInit, OnDestroy {
 
-    project: any;
-    pid: string;
     activeTab = 0;
-    @ViewChild(ProjectDetailsDirective) projectDetailsHost: ProjectDetailsDirective;
+    paramSub: Subscription;
 
-    constructor(private route: ActivatedRoute, private projectService: AlandaProjectApiService,
-                private componentFactoryResolver: ComponentFactoryResolver, private projectDetailsService: AlandaProjectDetailsService) {
-    }
+    // routerParams$ = this.router.events
+    // .pipe(
+    //   filter((event: RouterEvent): boolean => (event instanceof NavigationEnd)),
+    //   map(() => this.router.routerState.snapshot.root),
+    //   // @TODO if we get away from global task managing dete this line and move coed
+    //   map(snapshot => this.collectParams(snapshot)),
+    //   tap(snapshot => console.log('sn', snapshot)),
+    //   distinctUntilChanged(sn => sn.projectId),
+    //   switchMap((params) => {
+    //     console.log(params);
+    //     return this.projectService.getProjectByProjectId(params.projectId);
+    //   })
+    // );
+
+    routerParams$ = this.route.params.pipe(
+      map(p => p.projectId),
+      distinctUntilChanged(),
+    );
+
+    fetchProjectByProjectId$ = this.routerParams$.pipe(
+      switchMap((projectId) => {
+        return this.projectService.getProjectByProjectId(projectId);
+      })
+    )
+
+    getPidFromProject$ = this.state.select('project').pipe(
+      map((project: AlandaProject) => {
+        return project.processes.find(proc => (proc.relation === 'MAIN')).processInstanceId;
+      })
+    )
+
+    forwardByType$ = this.state.select('project').pipe(
+      tap((project: AlandaProject) => {
+        console.log(project.projectTypeIdName.toLowerCase());
+        this.router.navigate([project.projectTypeIdName.toLowerCase()], { relativeTo: this.route });
+      })
+    )
+
+    constructor(private route: ActivatedRoute,
+                private router: Router,
+                private projectService: AlandaProjectApiService,
+                public state: RxState<ProjectControllerState>) {
+
+                  this.state.connect('project', this.fetchProjectByProjectId$);
+                  this.state.connect('pid', this.getPidFromProject$);
+                  this.state.hold(this.forwardByType$);
+                }
+
+
 
     ngOnInit() {
-        this.route.paramMap.pipe(
-            switchMap((params: ParamMap) =>
-                this.projectService.getProjectByProjectId(params.get('projectId')))
-        ).subscribe(
-          project => {
-            this.project = project;
-            this.loadProjectDetailsComponent(project);
-        });
+
     }
 
-    private loadProjectDetailsComponent(project: AlandaProject) {
-      const componentFactory = this.componentFactoryResolver
-          .resolveComponentFactory(this.projectDetailsService.getPropsForType(project.projectTypeIdName));
-      const viewContainerRef = this.projectDetailsHost.viewContainerRef;
-      viewContainerRef.clear();
-      this.projectService.getProjectMainProcess(project.guid).subscribe(
-        (process) => {
-          this.pid = process.processInstanceId;
-          const componentRef = viewContainerRef.createComponent(componentFactory);
-          (<any>componentRef.instance).project = project;
-          (<any>componentRef.instance).pid = process.processInstanceId;
-        });
-      }
+    ngOnDestroy() {
+      console.log('ProjectsController destroy');
+    }
+
+
   }
 

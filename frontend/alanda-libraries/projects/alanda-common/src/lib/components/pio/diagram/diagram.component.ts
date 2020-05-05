@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterContentInit, OnDestroy, OnChanges, Input, ViewChild, ElementRef, Inject, SimpleChanges } from '@angular/core';
 import { AlandaTask } from '../../../api/models/task';
-import * as BpmnJS from 'bpmn-js/dist/bpmn-navigated-viewer.production.min.js';
+// import * as BpmnJS from 'bpmn-js/dist/bpmn-navigated-viewer.production.min.js';
+import * as BpmnJS from 'bpmn-js/dist/bpmn-navigated-viewer.development.js';
 import { APP_CONFIG, AppSettings } from '../../../models/appSettings';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
@@ -16,7 +17,8 @@ export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, On
 
     @Input() pid: string;
     @Input() task: AlandaTask;
-    @ViewChild('ref') private el: ElementRef;
+
+    @ViewChild('ref', { static: true }) private el: ElementRef;
     endpointUrl: string;
     private bpmnJS: BpmnJS;
     activities: any[] = [];

@@ -26,7 +26,6 @@ import { ListboxModule } from 'primeng/listbox';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CalendarModule } from 'primeng/calendar';
-import { FormsControllerDirective } from './components/controller/directives/forms-controller.directive';
 import { MessageModule } from 'primeng/message';
 import { AttachmentsListComponent } from './components/attachments/attachments-list/attachments-list.component';
 import { AttachmentsTreeComponent } from './components/attachments/attachments-tree/attachments-tree.component';
@@ -73,7 +72,6 @@ import { AlandaExceptionHandlingService } from './services/exceptionHandling.ser
 import { AlandaMonitorAPIService } from './services/monitorApi.service';
 import { AlandaAttachmentsComponent } from './components/attachments/attachments.component';
 import { AlandaProjectsControllerComponent } from './components/controller/projects-controller/projects-controller.component';
-import { ProjectDetailsDirective } from './components/controller/directives/project-details.directive';
 import { AlandaProjectDetailsService } from './services/project-details.service';
 import { AlandaProjectPropertiesService } from './services/project-properties.service';
 import { TreeTableModule } from 'primeng/treetable';
@@ -84,6 +82,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessagesModule } from 'primeng/messages';
 import { AlandaTaskFormService } from './form/alanda-task-form.service';
 import { Error500Interceptor } from './interceptors/error500.interceptor';
+import { AlandaFormsControllerComponent } from './form/forms-controller/forms-controller.component';
 
 @NgModule({
   imports: [
@@ -141,8 +140,7 @@ import { Error500Interceptor } from './interceptors/error500.interceptor';
     AlandaCommentComponent,
     AlandaProjectHeaderComponent,
     ProjectPropertiesDirective,
-    FormsControllerDirective,
-    ProjectDetailsDirective,
+    AlandaFormsControllerComponent,
     AlandaPioComponent,
     DiagramComponent,
     ProcessActivitiesComponent,
@@ -173,8 +171,6 @@ import { Error500Interceptor } from './interceptors/error500.interceptor';
     AlandaCommentComponent,
     AlandaProjectHeaderComponent,
     ProjectPropertiesDirective,
-    FormsControllerDirective,
-    ProjectDetailsDirective,
     AlandaPioComponent,
     DiagramComponent,
     ProcessActivitiesComponent,

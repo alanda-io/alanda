@@ -7,7 +7,6 @@ import { AlandaTaskFormService } from 'projects/alanda-common/src/lib/form/aland
     selector: 'check-vacation-request',
     templateUrl: './check-vacation-request.component.html',
     styleUrls: [],
-    providers: [AlandaTaskFormService]
   })
 export class CheckVacationRequestComponent implements  BaseFormComponent, AfterViewInit {
 
@@ -21,7 +20,7 @@ export class CheckVacationRequestComponent implements  BaseFormComponent, AfterV
       {label: 'No', value: false}
     ];
   }
-  
+
   submit(): void {
     this.taskFormService.submit();
   };

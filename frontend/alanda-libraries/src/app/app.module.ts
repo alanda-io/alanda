@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, Inject } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 
 /**
@@ -21,14 +21,9 @@ import { ProjectDetailsComponent } from './components/project-details/project-de
 import { ProjectPropertiesComponent } from './components/project-properties/project-properties.component';
 import { SharedModule } from './shared/shared.module';
 import { VacationModule } from './features/vacation/vacation.module';
-import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
 import { FieldsetModule } from 'primeng/fieldset';
 import { ButtonModule } from 'primeng/button';
-import { PrepareVacationRequestComponent } from './features/vacation/forms/prepare-vacation-request.component';
-import { CheckVacationRequestComponent } from './features/vacation/forms/check-vacation-request.component';
-import { ModifyVacationRequestComponent } from './features/vacation/forms/modify-vacation-request.component';
-import { DefaultTaskComponent } from './features/vacation/forms/default-task-template.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
@@ -38,13 +33,6 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     AppComponent,
     ProjectDetailsComponent,
     ProjectPropertiesComponent,
-
-
-
-    PrepareVacationRequestComponent,
-    CheckVacationRequestComponent,
-    ModifyVacationRequestComponent,
-    DefaultTaskComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,29 +41,16 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     LayoutModule,
     CoreModule,
     ViewsModule,
-    //SharedModule,
+    SharedModule,
     ReactiveFormsModule,
-    //VacationModule,
     CardModule,
     FieldsetModule,
     ButtonModule,
-
     AlandaCommonModule.forRoot(CURRENT_CONFIG)
   ],
   providers: [
     {provide: APP_CONFIG, useValue: CURRENT_CONFIG},
     {provide: AlandaProjectPropertiesService, useClass: ProjectPropertiesService },
-    {provide: AlandaProjectDetailsService, useClass: ProjectDetailsService },
-  ],
-  entryComponents: [
-    ProjectDetailsComponent,
-    ProjectPropertiesComponent,
-
-
-    PrepareVacationRequestComponent,
-    CheckVacationRequestComponent,
-    ModifyVacationRequestComponent,
-    DefaultTaskComponent,
   ],
   bootstrap: [AppComponent]
 })

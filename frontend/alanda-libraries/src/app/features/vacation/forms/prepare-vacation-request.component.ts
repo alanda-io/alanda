@@ -6,7 +6,6 @@ import { AlandaTaskFormService, BaseFormComponent } from 'projects/alanda-common
     selector: 'prepare-vacation-request',
     templateUrl: './prepare-vacation-request.component.html',
     styleUrls: [],
-    providers: [AlandaTaskFormService]
   })
   export class PrepareVacationRequestComponent implements BaseFormComponent, AfterViewInit {
 
@@ -24,7 +23,7 @@ import { AlandaTaskFormService, BaseFormComponent } from 'projects/alanda-common
     submit(): void {
       this.taskFormService.submit();
     };
-  
+
     ngAfterViewInit(): void {
       // this.formManagerService.addValidators();
     }

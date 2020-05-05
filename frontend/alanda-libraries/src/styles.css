@@ -3,6 +3,7 @@
 @import 'primeng/resources/primeng.css';
 @import 'primeflex/primeflex.css';
 @import 'primeicons/primeicons.css';
+@import 'font-awesome/css/font-awesome.css';
 
 .content {
   font-family: "Open Sans", "Helvetica Neue", sans-serif

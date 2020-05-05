@@ -577,7 +577,7 @@
                 <http-listener name="default" socket-binding="http" redirect-socket="https" enable-http2="true"/>
                 <https-listener name="https" socket-binding="https" security-realm="ApplicationRealm" enable-http2="true"/>
                 <host name="default-host" alias="localhost">
-                    <location name="/" handler="alanda"/>
+                    <location name="/" handler="welcome-content"/>
                     <http-invoker security-realm="ApplicationRealm"/>
                 </host>
             </server>
@@ -587,7 +587,6 @@
             </servlet-container>
             <handlers>
                 <file name="welcome-content" path="${jboss.home.dir}/welcome-content"/>
-                <file name="alanda" path="${jboss.server.base.dir}/deployments_alanda/alanda"/>
             </handlers>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:webservices:2.0">

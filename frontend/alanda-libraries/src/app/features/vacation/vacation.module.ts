@@ -8,28 +8,17 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
-    //VacationRoutingModule,
-    //SharedModule,
+    VacationRoutingModule,
+    SharedModule,
   ],
   declarations: [
-    /* PrepareVacationRequestComponent,
+    PrepareVacationRequestComponent,
     CheckVacationRequestComponent,
     ModifyVacationRequestComponent,
-    DefaultTaskComponent, */
+    DefaultTaskComponent,
   ],
-  exports: [
-    /* PrepareVacationRequestComponent,
-    CheckVacationRequestComponent,
-    ModifyVacationRequestComponent,
-    DefaultTaskComponent, */
-  ],
+  exports: [],
   providers: [],
-  entryComponents: [
-    /* PrepareVacationRequestComponent,
-    CheckVacationRequestComponent,
-    ModifyVacationRequestComponent,
-    DefaultTaskComponent */
-  ]
 })
 export class VacationModule {
   constructor() {}

@@ -50,13 +50,11 @@ export * from './lib/components/admin/permission-management/permission-managemen
 export * from './lib/components/comments/comments.component';
 export * from './lib/components/comments/comment/comment.component';
 
-export * from './lib/components/controller/directives/forms-controller.directive';
 export * from './lib/components/controller/directives/project.properties.directive';
 export * from './lib/components/controller/projects-controller/projects-controller.component';
 export * from './lib/components/attachments/attachments-list/attachments-list.component';
 export * from './lib/components/attachments/attachments-tree/attachments-tree.component';
 export * from './lib/components/project-header/project-header.component';
-export * from './lib/components/controller/directives/project-details.directive';
 export * from './lib/components/create-project/create-project.component';
 export * from './lib/components/attachments/attachments.component';
 export * from './lib/components/comments/comments.component';
@@ -73,6 +71,6 @@ export * from './lib/components/task/form-variables/dropdown-select/dropdown-sel
 export * from './lib/components/task/form-variables/milestone-select/milestone-select.component';
 export * from './lib/components/task/form-variables/role-select/role-select.component';
 export * from './lib/components/history/history-grid.component';
-export * from './lib/components/controller/projects-controller/projects-controller.component';
+export * from './lib/form/forms-controller/forms-controller.component';
 export * from './lib/components/project-and-processes/project-and-processes.component';
 export * from './lib/models/alandaTaskFormPanel';

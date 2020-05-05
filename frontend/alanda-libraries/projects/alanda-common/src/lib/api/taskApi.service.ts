@@ -64,6 +64,10 @@ export class AlandaTaskApiService extends AlandaExceptionHandlingService {
     return this.http.get<any>(this.endpointUrl + `/${taskId}/variables/${varName}`);
   }
 
+  snoozeTask(taskId: string, days: number): Observable<any> {
+    return this.http.put(this.endpointUrl + `/${taskId}/snooze`, days);
+  }
+
   search(processInstanceId?: string, taskDefinitionKey?: string): Observable<AlandaTask[]> {
     let qParams = new HttpParams();
     if (processInstanceId) {

@@ -4,6 +4,7 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { AlandaCommonModule } from 'projects/alanda-common/src/public-api';
+import { ReactiveFormsModule } from '@angular/forms';
 ;
 
 @NgModule({
@@ -13,6 +14,7 @@ import { AlandaCommonModule } from 'projects/alanda-common/src/public-api';
     FieldsetModule,
     ButtonModule,
     AlandaCommonModule,
+    ReactiveFormsModule,
   ],
   exports: [
     CommonModule,
@@ -20,6 +22,7 @@ import { AlandaCommonModule } from 'projects/alanda-common/src/public-api';
     FieldsetModule,
     ButtonModule,
     AlandaCommonModule,
+    ReactiveFormsModule,
   ],
   declarations: []
 })

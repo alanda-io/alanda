@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {RxState} from 'ngx-rx-state';
-import {ActivatedRoute, Router} from '@angular/router';
-import {filter, map, switchMap} from 'rxjs/operators';
+import {RxState} from '@rx-angular/state';
+import {ActivatedRoute, Router, ActivatedRouteSnapshot, RouterEvent, NavigationEnd} from '@angular/router';
+import {filter, map, switchMap, tap} from 'rxjs/operators';
 
 import {of} from "rxjs";
 import {FormBuilder} from "@angular/forms";
@@ -23,14 +23,15 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState> {
 
   rootForm = this.fb.group({});
 
-  routerParams$ = this.route.params;
-  /*
+  // routerParams$ = this.route.params;
+
   routerParams$ = this.router.events
     .pipe(filter((event: RouterEvent): boolean => (event instanceof NavigationEnd)),
       map(() => this.router.routerState.snapshot.root),
-      // @TODO if we get away from global task managing dete this line and move coed
-      map(snapshot => this.collectParams(snapshot))
-    );*/
+      // @TODO if we get away from global task managing dete this line and move code
+      map(snapshot => this.collectParams(snapshot)),
+      tap(sn => console.log('sn', sn))
+    );
   urlTaskId$ = this.routerParams$.pipe(map(p => p.taskId));
 
   fetchTaskById$ = this.urlTaskId$.pipe(
@@ -48,6 +49,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState> {
   )
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private taskService: AlandaTaskApiService,
@@ -57,16 +59,15 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState> {
       this.connect('project', this.fetchProjectByGuid$);
   }
 
-  /*
-    private collectParams(root: ActivatedRouteSnapshot): any {
-      const params: any = {};
-      (function mergeParamsFromSnapshot(snapshot: ActivatedRouteSnapshot) {
-        Object.assign(params, snapshot.params);
-        snapshot.children.forEach(mergeParamsFromSnapshot);
-      })(root);
-      return (params);
-    }
-  */
+
+  private collectParams(root: ActivatedRouteSnapshot): any {
+    const params: any = {};
+    (function mergeParamsFromSnapshot(snapshot: ActivatedRouteSnapshot) {
+      Object.assign(params, snapshot.params);
+      snapshot.children.forEach(mergeParamsFromSnapshot);
+    })(root);
+    return (params);
+  }
 
   addValidators(validators) {
     this.rootForm.setValidators(validators);
@@ -74,7 +75,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState> {
 
   submit(): void {
     if (this.rootForm.valid) {
-      this.taskService.complete(this.getState().task.task_id)
+      this.taskService.complete(this.get().task.task_id)
     }
   }
 

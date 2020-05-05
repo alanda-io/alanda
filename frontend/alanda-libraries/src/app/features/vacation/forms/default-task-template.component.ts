@@ -6,7 +6,6 @@ import { BaseFormComponent,
     selector: 'default-task',
     templateUrl: './default-task-template.component.html',
     styleUrls: [],
-    providers: [AlandaTaskFormService]
   })
 export class DefaultTaskComponent implements BaseFormComponent, AfterViewInit {
 
@@ -16,7 +15,7 @@ export class DefaultTaskComponent implements BaseFormComponent, AfterViewInit {
   constructor(private taskFormService: AlandaTaskFormService) {
 
   }
-  
+
   submit(): void {
     this.taskFormService.submit();
   };

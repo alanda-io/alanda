@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AlandaUser } from './models/user';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { APP_CONFIG, AppSettings } from '../models/appSettings';
 import { AlandaListResult } from './models/listResult';
 import { catchError, tap } from 'rxjs/operators';
@@ -110,4 +110,15 @@ export class AlandaUserApiService extends AlandaExceptionHandlingService {
     .pipe(catchError(this.handleError<AlandaUser[]>('getUsersForRole')));
   }
 
+  searchUsers(text: string ,groupName: string): Observable<AlandaUser[]> {
+    let params = new HttpParams();
+    if (text) {
+      params = params.set('text', text);
+    }
+    if (groupName) {
+      params = params.set('groupName', groupName);
+    }
+    return this.http.get<AlandaUser[]>(`${this.endpointUrl}/search`,{ params: params })
+    .pipe(catchError(this.handleError<AlandaUser[]>('searchUsers')));
+  }
 }
