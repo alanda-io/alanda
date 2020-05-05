@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, Inject } from '@angular/core';
-
 import { AppComponent } from './app.component';
 
 /**
@@ -15,12 +14,14 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ALANDA_CONFIG } from './app.settings';
 import { AppRoutingModule } from './app-routing.module';
-import { AppSettings, APP_CONFIG, ProjectPropertiesServiceNg, ProjectDetailsServiceNg, FormsServiceNg, AlandaCommonModule } from 'projects/alanda-common/src/public_api';
+import { AppSettings, APP_CONFIG, ProjectDetailsServiceNg, AlandaCommonModule } from 'projects/alanda-common/src/public_api';
 import { HomeComponent } from './components/home/home.component';
 import { VacationModule } from './vacation/vacation.module';
 import { VacationProjectPropertiesService } from './vacation/services/vacation-projectproperties.service';
 import { VacationProjectDetailsService } from './vacation/services/vacation-projectdetails.service';
 import { VacationFormsService } from './vacation/services/vacation-forms.service';
+import { FormsServiceNg } from 'projects/alanda-common/src/lib/services/forms.service';
+import { ProjectPropertiesServiceNg } from 'projects/alanda-common/src/lib/services/project-properties.service';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 @NgModule({
@@ -47,7 +48,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
+export class AppModule {
 
   constructor(@Inject(APP_CONFIG) config: AppSettings) {
     console.log("Settings", config);

@@ -6,9 +6,15 @@ import { catchError } from "rxjs/operators";
 import { APP_CONFIG, AppSettings } from "../models/appSettings";
 import { Project } from "../models/project";
 import { ListResult } from "../models/listResult";
-import { ServerOptions } from "../components/project-monitor/project-monitor.component";
 import { Process } from "../models/process";
 import { ProjectType } from "../models/projectType";
+import { ServerOptions } from '../models/serverOptions';
+
+type ProjectAndProcessesResponse = {
+  phaseNames: any,
+  allowed: {default: any[]},
+  active: Process[]
+};
 
 @Injectable({
     providedIn: 'root'
@@ -20,10 +26,12 @@ export class ProjectServiceNg extends ExceptionHandlingService{
     constructor(private http: HttpClient, @Inject(APP_CONFIG) config: AppSettings) {
         super();
         this.endpoint = config.API_ENDPOINT + '/project';
-    };
+    }
 
-    public getProjectByGuid(guid: number): Observable<Project> {
-        return this.http.get<Project>(`${this.endpoint}/guid/${guid}`).pipe(catchError(this.handleError<Project>('getProjectByGuid')));
+    public getProjectByGuid(guid: number, tree: boolean  = false): Observable<Project> {
+      let params = new HttpParams().set('tree', ''+tree);
+      return this.http.get<Project>(`${this.endpoint}/guid/${guid}`, {params: params})
+      .pipe(catchError(this.handleError<Project>('getProjectByGuid')));
     }
 
     public getProjectByProjectId(id: string): Observable<Project> {
@@ -60,13 +68,10 @@ export class ProjectServiceNg extends ExceptionHandlingService{
         return this.http.post<Project>(`${this.endpoint}/create`, project).pipe(catchError(this.handleError<Project>('createProject')));
     }
 
-    public getProjectTreeByGuid(guid: number): Observable<Project> {
-        return this.http.get<Project>(`${this.endpoint}/guid/${guid}?tree=true`).pipe(catchError(this.handleError<Project>('getProjectTreeByGuid')));
+    public getProcessesAndTasksForProject(guid: number): Observable<ProjectAndProcessesResponse> {
+        return this.http.get<ProjectAndProcessesResponse>(`${this.endpoint}/project/${guid}/processes-and-tasks`);
     }
 
-    public getProcessesAndTasksForProject(guid: number): Observable<Map<string, any>> {
-        return this.http.get<Map<string, any>>(`${this.endpoint}/project/${guid}/processes-and-tasks`);
-    }
 }
 
 

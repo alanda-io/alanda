@@ -71,7 +71,6 @@ import { ProcessActivitiesComponent } from './components/pio/process-activities/
 import { HistoryGridComponent } from './components/history/history-grid.component';
 import { CreateProjectComponent } from './components/create-project/create-project.component';
 import { ProjectAndProcessesComponent } from './components/project-and-processes/project-and-processes.component';
-import { ProjectControlItemComponent } from './components/project-and-processes/projectControlItem/project-control-item.component';
 import { AppSettings, APP_CONFIG } from './models/appSettings';
 import { PropertyService } from './api/property.service';
 import { SelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
@@ -86,6 +85,8 @@ import { GroupManagementComponent } from './components/admin/group-management/gr
 import { RoleManagementComponent } from './components/admin/role-management/role-management.component';
 import { PermissionManagementComponent } from './components/admin/permission-management/permission-management.component';
 import { HistoryServiceNg } from './api/history.service';
+import { TreeTableModule } from 'primeng/treetable';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -121,7 +122,8 @@ import { HistoryServiceNg } from './api/history.service';
     FieldsetModule,
     CalendarModule,
     MessageModule,
-    AccordionModule
+    AccordionModule,
+    TreeTableModule
   ],
   declarations: [
     UserManagementComponent,
@@ -150,13 +152,13 @@ import { HistoryServiceNg } from './api/history.service';
     HistoryGridComponent,
     CreateProjectComponent,
     ProjectAndProcessesComponent,
-    ProjectControlItemComponent,
     SelectComponent,
     SelectRoleComponent,
     DateSelectComponent,
     DropdownSelectComponent,
     SelectMilestoneComponent,
     AlandaTaskTemplateComponent,
+    ProjectAndProcessesComponent
   ],
   exports: [
     ProjectMonitorComponent,
@@ -185,13 +187,13 @@ import { HistoryServiceNg } from './api/history.service';
     HistoryGridComponent,
     CreateProjectComponent,
     ProjectAndProcessesComponent,
-    ProjectControlItemComponent,
     SelectComponent,
     SelectRoleComponent,
     SelectMilestoneComponent,
     DateSelectComponent,
     DropdownSelectComponent,
-    AlandaTaskTemplateComponent
+    AlandaTaskTemplateComponent,
+    ProjectAndProcessesComponent
    ],
   entryComponents: [
   ]

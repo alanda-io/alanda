@@ -24,6 +24,17 @@ export class TaskServiceNg extends ExceptionHandlingService{
     return this.http.get<PmcTask>(this.endpointUrl + `/${taskId}`).pipe(catchError(this.handleError<PmcTask>('getTask')));
   }
 
+  search(processInstanceId?: string, taskDefinitionKey?: string): Observable<PmcTask[]> {
+    let qParams = '';
+    if (processInstanceId) {
+      qParams = qParams + `?processInstanceId=${processInstanceId}`;
+    }
+    if (taskDefinitionKey) {
+      qParams = qParams + `?taskDefinitionKey=${taskDefinitionKey}`;
+    }
+    return this.http.get<PmcTask[]>(this.endpointUrl + '/search' + qParams);
+  }
+
   loadTasks(serverOptions: ServerOptions): Observable<any[]> {
     return this.http.post<any[]>(this.endpointUrl + '/list',serverOptions).pipe(catchError(this.handleError<any[]>('loadTasks')));
   }
