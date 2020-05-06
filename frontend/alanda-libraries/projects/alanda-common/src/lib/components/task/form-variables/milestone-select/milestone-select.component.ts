@@ -16,6 +16,7 @@ export class SelectMilestoneComponent implements OnInit {
     @Input() project: Project;
     @Input() displayName: string;
     @Input() msName: string;
+    @Input() dateFormat = 'dd.mm.yy';
 
     milestoneForm: FormGroup;
 
@@ -25,10 +26,10 @@ export class SelectMilestoneComponent implements OnInit {
       this.initMilestoneFormGroup();
       this.milestoneService.getByProjectAndMsIdName(this.project.projectId, this.msName).subscribe(ms => {
         if (ms && ms.fc) {
-          this.milestoneForm.get('fc').setValue(ms.fc);
+          this.milestoneForm.get('fc').setValue(new Date(ms.fc));
         }
         if (ms && ms.act) {
-          this.milestoneForm.get('act').setValue(ms.act);
+          this.milestoneForm.get('act').setValue(new Date(ms.act));
         }
       });
     }

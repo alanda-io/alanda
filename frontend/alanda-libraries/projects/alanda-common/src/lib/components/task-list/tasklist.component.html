@@ -36,7 +36,7 @@
                 [style]="{'width': '200px'}"
                 optionLabel="displayName"
                 (onChange)="onChangeLayout()">
-              </p-dropdown> 
+              </p-dropdown>
             </span>
           </div>
           <div class="p-col-align-center switchTaskButtons">
@@ -46,13 +46,13 @@
         </div>
 
         <div class = "p-grid">
-          <div class="p-col"> 
+          <div class="p-col">
               <p-table #tt
-                
-                [value]="tasksData.results" 
+
+                [value]="tasksData.results"
                 [columns]="selectedLayout.columnDefs"
-                [paginator]="true" 
-                [rows]="15" 
+                [paginator]="true"
+                [rows]="15"
                 [lazy]="true"
                 [totalRecords]="tasksData.total"
                 (onLazyLoad)="loadTasksLazy($event)"
@@ -76,9 +76,9 @@
                   </tr>
                   <tr>
                     <th *ngFor="let col of columns">
-                        <input 
-                          pInputText 
-                          type="text" 
+                        <input
+                          pInputText
+                          type="text"
                           (input)="tt.filter($event.target.value, col.field, 'contains')"
                           [value] ="tt.filters[col.field] ? tt.filters[col.field].value : ''"
                           style="width: 100%"
@@ -87,12 +87,12 @@
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-task let-columns="columns">
-                  <tr 
+                  <tr
                     [pSelectableRow]="task"
-                    class="ng-center-cell">  
-                    <td 
-                      *ngFor="let col of columns" 
-                      [ngClass]="getCondition(task, col.template)" 
+                    class="ng-center-cell">
+                    <td
+                      *ngFor="let col of columns"
+                      [ngClass]="getCondition(task, col.template)"
                       style="font-size: 12px; white-space: nowrap;">
                       <ng-container *ngIf="col.name == 'Action'">
                           <p-splitButton
@@ -108,10 +108,11 @@
                           <!-- <a [attr.href]="'#/forms/' + encodeURIAndReplace(task.task.formKey) + '/' + task.task.task_id" target="blank">{{ task | monitorValues: col.field }}</a> -->
                       </ng-template>
                       <ng-template #default>
-                        {{ task | monitorValues: col.field | filter: col.filter}}
+                        <ng-container *ngIf="col.type && col.type === 'date'">{{ task | monitorValues: col.field | date: dateFormat}}</ng-container>
+                        <ng-container *ngIf="!col || col.type !== 'date'">{{ task | monitorValues: col.field | filter: col.filter}}</ng-container>
                       </ng-template>
                     </td>
-                  </tr>  
+                  </tr>
                 </ng-template>
                 <ng-template pTemplate="paginatorright">
                   <span *ngIf="tasksData.total">Total: {{tasksData.total}}</span>
@@ -122,7 +123,7 @@
     </p-panel>
   </div>
 </div>
-<p-dialog 
+<p-dialog
   [visible]="showDelegateDialog"
   [modal]="true"
   [dismissableMask]="true"

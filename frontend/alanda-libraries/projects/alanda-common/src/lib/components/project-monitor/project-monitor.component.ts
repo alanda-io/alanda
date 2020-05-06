@@ -18,8 +18,10 @@ export type ServerOptions = {
 })
 export class ProjectMonitorComponent implements OnInit {
 
-  @Input() defaultLayout : string;
+
   @Input() editablePageSize: boolean = false;
+  @Input() defaultLayout = 'all';
+  @Input() dateFormat = 'dd.MM.yyyy';
 
   projectsData: any = {};
   layouts: any[] = [];
@@ -52,8 +54,7 @@ export class ProjectMonitorComponent implements OnInit {
       this.layouts.push(data[k]);
     }
     this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
-
-    this.selectedLayout = this.layouts.filter(layout => layout.name === 'all')[0];
+    this.selectedLayout = this.layouts.filter(layout => layout.name === this.defaultLayout)[0];
   }
 
   loadProjects(serverOptions: ServerOptions){

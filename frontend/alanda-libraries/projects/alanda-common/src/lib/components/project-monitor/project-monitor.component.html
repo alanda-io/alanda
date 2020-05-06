@@ -78,11 +78,11 @@
                       class="ng-center-cell">
                       <td *ngFor="let col of columns" [ngClass]="getCondition(project, col.template)" style="font-size: 12px; white-space: nowrap;">
                         <ng-template [ngIf]="col.name == 'Project ID'" [ngIfElse]="default">
-                          <!-- <a [attr.href]="'#/pmc/projectdetails/' + project.project.projectId" target="blank">{{ project | monitorValues: col.field }}</a> -->
                           <a [routerLink]="openProject(project.project.projectId)">{{ project | monitorValues: col.field }}</a>
                         </ng-template>
                         <ng-template #default>
-                          {{ project | monitorValues: col.field }}
+                          <ng-container *ngIf="col.type && col.type === 'date'">{{ project | monitorValues: col.field | date: dateFormat}}</ng-container>
+                          <ng-container *ngIf="!col || col.type !== 'date'">{{ project | monitorValues: col.field }}</ng-container>
                         </ng-template>
                       </td>
                     </tr>

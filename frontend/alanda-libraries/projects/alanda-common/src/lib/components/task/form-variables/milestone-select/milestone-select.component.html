@@ -15,13 +15,13 @@
             <span class="ms-title">FC</span>
         </div>
         <div class="p-col-9">
-            <p-calendar inputId="fc" formControlName="fc" placeholder="Select" (onSelect)="onChange()" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+           <p-calendar formControlName="fc" placeholder="Select" (onSelect)="onChange()" [showIcon]="true" [dateFormat]="dateFormat"></p-calendar>
         </div>
         <div class="p-col-3">
             <span class="ms-title">ACT</span>
         </div>
         <div class="p-col-9">
-            <p-calendar formControlName="act" placeholder="Select" (onSelect)="onChange()" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+            <p-calendar formControlName="act" placeholder="Select" (onSelect)="onChange()" [showIcon]="true" [dateFormat]="dateFormat"></p-calendar>
         </div>
     </div>
 </form>
