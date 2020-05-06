@@ -86,6 +86,7 @@ import { RoleManagementComponent } from './components/admin/role-management/role
 import { PermissionManagementComponent } from './components/admin/permission-management/permission-management.component';
 import { HistoryServiceNg } from './api/history.service';
 import { TreeTableModule } from 'primeng/treetable';
+import { AlandaPagesizeSelectComponent } from './components/pagesize-select/pagesize-select.component';
 
 @NgModule({
   imports: [
@@ -158,7 +159,8 @@ import { TreeTableModule } from 'primeng/treetable';
     DropdownSelectComponent,
     SelectMilestoneComponent,
     AlandaTaskTemplateComponent,
-    ProjectAndProcessesComponent
+    ProjectAndProcessesComponent,
+    AlandaPagesizeSelectComponent
   ],
   exports: [
     ProjectMonitorComponent,

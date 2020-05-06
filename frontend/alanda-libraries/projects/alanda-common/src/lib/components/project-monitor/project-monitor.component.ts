@@ -3,6 +3,7 @@ import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ProjectServiceNg } from '../../api/project.service';
 import { TableAPIServiceNg } from '../../services/tableAPI.service';
+import { AlandaPagesizeSelectComponent } from '../pagesize-select/pagesize-select.component';
 export type ServerOptions = {
   pageNumber: number,
   pageSize: number,
@@ -17,6 +18,8 @@ export type ServerOptions = {
 })
 export class ProjectMonitorComponent implements OnInit {
 
+
+  @Input() editablePageSize: boolean = false;
   @Input() defaultLayout = 'all';
   @Input() dateFormat = 'dd.MM.yyyy';
 
@@ -29,6 +32,7 @@ export class ProjectMonitorComponent implements OnInit {
   menuItems: MenuItem[];
 
   @ViewChild('tt') turboTable: Table;
+  @ViewChild('pageSizeSelect') pageSizeSelect: AlandaPagesizeSelectComponent;
 
   constructor(private projectService: ProjectServiceNg, private tableAPIServiceNg: TableAPIServiceNg, public messageService: MessageService) {
     this.serverOptions = {
@@ -104,4 +108,17 @@ export class ProjectMonitorComponent implements OnInit {
     return '/projectdetails/' + projectId;
   }
 
+  changePageSize(pageSize: number) {
+    console.log('Page size changed', pageSize);
+    const oldPageSize = this.serverOptions.pageSize;
+    const oldPageNumber = this.serverOptions.pageNumber;
+
+    // first entry should be visible after changing rows per page
+    const firstEntry = oldPageSize * (oldPageNumber - 1) + 1;
+
+    this.serverOptions.pageSize = pageSize;
+    this.serverOptions.pageNumber = Math.ceil(firstEntry / pageSize);
+
+    this.loadProjects(this.serverOptions);
+  }
 }
