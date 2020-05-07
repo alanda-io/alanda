@@ -97,10 +97,9 @@ export class AlandaDocumentApiService extends AlandaExceptionHandlingService {
   }
 
   loadFolderContent(objectType: string, objectId: number, folderId: number, fileMask: string, mappings?: string): Observable<SimpleDocument[]> {
-    let params: any = {};
-    if(mappings){
-      params.mappings = mappings;
-    }
+    let params = new HttpParams()
+    .set('file-mask', fileMask)
+    .set('mappings', mappings);
     return this.http.get<any>(`${this.documentEndpointUrl}/refObject/${objectType}/${objectId}/guid/${folderId}`, { params: params })
     .pipe(catchError(this.handleError('loadFolderContent', [])));
   }

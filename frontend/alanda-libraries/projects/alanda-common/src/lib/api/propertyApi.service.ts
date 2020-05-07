@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { APP_CONFIG, AppSettings } from '../models/appSettings';
 import { Observable } from 'rxjs';
 import { AlandaProperty } from './models/property';
@@ -58,18 +58,43 @@ import { AlandaExceptionHandlingService } from '../services/exceptionHandling.se
     }
 
     get(entityId, entityType, projectGuid, key): Observable<AlandaProperty> {
-        let urlString = '/get?';
+        let params = new HttpParams().set('key', key);
         if (entityId) {
-            urlString += 'entity-id=' + entityId + '&';
+            params = params.set('entity-id', entityId);
         }
         if (entityType) {
-            urlString += 'entity-type=' + entityType + '&';
+            params = params.set('entity-type', entityType);
         }
         if (projectGuid) {
-            urlString += 'pmc-project-guid=' + projectGuid + '&';
+           params = params.set('pmc-project-guid', projectGuid);
         }
-        urlString += 'key=' + key;
-        return this.http.get<AlandaProperty>(`${this.endpointUrl}${urlString}`)
+        return this.http.get<AlandaProperty>(`${this.endpointUrl}/get`, { params: params })
         .pipe(catchError(this.handleError<AlandaProperty>('getProperty')));
     }
+
+    getPropertyWithPrefix(projectGuid: number , prefix: string, delimiter?: string ):  Observable<AlandaProperty[]> {
+      let params = new HttpParams();
+      if (delimiter) {
+        params = params.set('delim', delimiter);
+      }
+      return this.http.get<AlandaProperty[]>(`${this.endpointUrl}/get-with-prefix/${projectGuid}/${prefix}`, { params: params })
+        .pipe(catchError(this.handleError<AlandaProperty[]>('getPropertyWithPrefix')));
+
+    }
+
+    delete(entityId, entityType, pmcProjectGuid, key): Observable<void> {
+      let params = new HttpParams().set('key', key);
+      if (entityId) {
+          params = params.set('entity-id', entityId);
+      }
+      if (entityType) {
+          params = params.set('entity-type', entityType);
+      }
+      if (pmcProjectGuid) {
+         params = params.set('pmc-project-guid', pmcProjectGuid);
+      }
+      return this.http.delete<void>(`${this.endpointUrl}/delete`, { params: params })
+        .pipe(catchError(this.handleError<void>('deleteProperty')));
+    }
+
 }
