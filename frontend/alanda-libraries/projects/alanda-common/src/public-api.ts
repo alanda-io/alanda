@@ -11,6 +11,9 @@ export * from './lib/api/documentApi.service';
 export * from './lib/api/projectApi.service';
 export * from './lib/api/historyApi.service';
 export * from './lib/api/processApi.service';
+export * from './lib/api/propertyApi.service';
+export * from './lib/api/milestoneApi.service';
+export * from './lib/api/commentApi.service';
 
 export * from './lib/services/authorization.service';
 export * from './lib/services/exceptionHandling.service';
