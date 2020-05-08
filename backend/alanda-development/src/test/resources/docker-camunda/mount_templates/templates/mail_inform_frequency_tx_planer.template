@@ -1,7 +1,0 @@
-<html>
-Dear $FirstName $Surname,<br/>
-<br/>
-the frequency request for link $linkIdName has been denied.<br/>
-<br/>
-This is an automatically generated Email, please do not reply!
-</html>

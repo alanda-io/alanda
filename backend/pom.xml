@@ -75,9 +75,9 @@
       <layout>default</layout>
       <releases>
         <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
+        <updatePolicy>never</updatePolicy>
       </releases>
- 		</repository>
+    </repository>
   </repositories>
   
 
