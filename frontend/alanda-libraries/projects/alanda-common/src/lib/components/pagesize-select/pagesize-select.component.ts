@@ -17,7 +17,7 @@ import { Dropdown } from 'primeng/dropdown';
 @Component({
   selector: 'al-pagesize-select',
   template: `
-    <p-dropdown #dropdown [placeholder]="defaultPageSize.toString()" editable="true" [options]="pageSizeOptions"
+    <p-dropdown #dropdown [placeholder]="defaultPageSize.toString()" [options]="pageSizeOptions"
                 (onChange)="selectedPageSize.next($event.value)" showTransitionOptions="0ms" hideTransitionOptions="0ms"></p-dropdown>`,
   styles: [`
     p-dropdown ::ng-deep .ui-inputtext {
@@ -31,7 +31,7 @@ import { Dropdown } from 'primeng/dropdown';
   `],
 })
 export class AlandaPagesizeSelectComponent implements OnInit, OnChanges, OnDestroy {
-  static defaultPageSizes = [15, 75, 250, 1000, 5000];
+  static defaultPageSizes = [15, 75, 250, 1000];
 
   private unsubscribe$ = new Subject<void>();
   selectedPageSize = new Subject<number>();
@@ -40,6 +40,7 @@ export class AlandaPagesizeSelectComponent implements OnInit, OnChanges, OnDestr
 
   @Input() pageSizes: number[] = AlandaPagesizeSelectComponent.defaultPageSizes;
   @Input() maxPageSize: number;
+  @Input() maxAllowedPageSize = 1000;
   @Input() defaultPageSize: number = 15;
   pageSizeOptions: SelectItem[] = this.trimPageSizes();
 
@@ -70,10 +71,12 @@ export class AlandaPagesizeSelectComponent implements OnInit, OnChanges, OnDestr
   private trimPageSizes(): SelectItem[] {
     let sizes: number[];
 
+
     if (this.maxPageSize === undefined) {
       sizes = [...this.pageSizes];
     } else {
-      sizes = [...this.pageSizes.filter(ps => ps < this.maxPageSize), this.maxPageSize];
+      const max = Math.min(this.maxPageSize, this.maxAllowedPageSize);
+      sizes = [...this.pageSizes.filter(ps => ps < max), max];
     }
 
     if (sizes.indexOf(this.defaultPageSize) === -1) {

@@ -93,9 +93,7 @@
                       <al-pagesize-select #pageSizeSelect (onChange)="changePageSize($event)" [maxPageSize]="projectsData.total"></al-pagesize-select>
                     </span>
                     <span *ngIf="projectsData.total">
-                      Total:
-                      <ng-container *ngIf="!editablePageSize; else settableTotal">{{projectsData.total}}</ng-container>
-                      <ng-template #settableTotal><a (click)="pageSizeSelect.setPageSize(projectsData.total)">{{projectsData.total}}</a></ng-template>
+                      Total: {{projectsData.total}}
                     </span>
                   </ng-template>
                 </p-table>
