@@ -44,7 +44,7 @@ import { AlandaProjectPropertiesService } from '../../services/project-propertie
       priority: null,
       dueDate: null,
       title: null,
-      details: null,
+      comment: null,
       taskDueDate: null,
     });
 
@@ -95,7 +95,7 @@ import { AlandaProjectPropertiesService } from '../../services/project-propertie
             tag: change.tag,
             dueDate: convertUTCDate(new Date(change.dueDate)),
             title: change.title,
-            details: change.details,
+            comment: change.comment,
             };
           }),
           switchMap(project => this.projectService.updateProject(project))
