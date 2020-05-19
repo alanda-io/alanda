@@ -1,0 +1,28 @@
+<style>
+  .ms-title {
+    margin-right: 5px;
+    font-weight: 600;
+  }
+</style>
+<div [formGroup]="milestoneForm">
+  <div class="p-grid">
+    <div class="p-col-12">
+      <b>{{ displayName }}</b>
+    </div>
+
+    <!-- FC -->
+    <div class="p-col-3">
+      <span class="ms-title">FC</span>
+    </div>
+    <div class="p-col-9">
+      <p-calendar
+        inputId="fc"
+        formControlName="fc"
+        placeholder="Select"
+        (onSelect)="onChange()"
+        [showIcon]="true"
+        dateFormat="yy-mm-dd"
+      ></p-calendar>
+    </div>
+  </div>
+</div>

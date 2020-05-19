@@ -6,14 +6,16 @@ import {
   Validators,
   AbstractControl,
 } from "@angular/forms";
-import { AlandaTaskApiService } from "../../../../api/taskApi.service";
+import { AlandaTaskApiService } from "../../../api/taskApi.service";
+
+const SELECTOR: string = "alanda-var-select";
 
 @Component({
-  selector: "alanda-simple-select",
-  templateUrl: "./simple-select.component.html",
+  selector: SELECTOR,
+  templateUrl: "./var-select.component.html",
   styleUrls: [],
 })
-export class AlandaSimpleSelectComponent implements OnInit {
+export class AlandaVarSelectComponent implements OnInit {
   @Input() items: SelectItem[];
   @Input() variableName: string;
   @Input() task: any;
@@ -24,7 +26,7 @@ export class AlandaSimpleSelectComponent implements OnInit {
   set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {
       rootFormGroup.addControl(
-        `alanda-simple-select-${this.variableName}`,
+        `${SELECTOR}-${this.variableName}`,
         this.selectForm
       );
     }
@@ -46,14 +48,14 @@ export class AlandaSimpleSelectComponent implements OnInit {
     this.taskService
       .getVariable(this.task.task_id, this.variableName)
       .subscribe((resp) => {
-        this.selectForm.get("selected").setValue(resp.value);
+        this.selected.setValue(resp.value);
       });
   }
 
   save() {
     this.taskService
       .setVariable(this.task.task_id, this.variableName, {
-        value: this.selectForm.get("selected").value,
+        value: this.selected.value,
         type: this.type,
       })
       .subscribe();

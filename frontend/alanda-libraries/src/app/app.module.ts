@@ -1,30 +1,33 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NgModule } from "@angular/core";
+import { AppComponent } from "./app.component";
 
 /**
  * Add here your alanda-common components to test them independently from
  * the client project
  */
 
-import { AppRoutingModule } from './app-routing.module';
-import { LayoutModule } from './layout/layout.module';
-import { CoreModule } from './core/core.module';
-import { ViewsModule } from './views/views.module';
-import { AlandaCommonModule, AppSettings, APP_CONFIG, AlandaProjectPropertiesService,
-         AlandaProjectDetailsService } from 'projects/alanda-common/src/public-api';
-import { ALANDA_CONFIG } from './app.settings';
-import { ProjectPropertiesService } from './core/services/projectproperties.service';
-import { ProjectDetailsService } from './core/services/projectdetails.service';
-import { ProjectDetailsComponent } from './components/project-details/project-details.component';
-import { ProjectPropertiesComponent } from './components/project-properties/project-properties.component';
-import { SharedModule } from './shared/shared.module';
-import { VacationModule } from './features/vacation/vacation.module';
-import { CardModule } from 'primeng/card';
-import { FieldsetModule } from 'primeng/fieldset';
-import { ButtonModule } from 'primeng/button';
-import { ReactiveFormsModule } from '@angular/forms';
+import { AppRoutingModule } from "./app-routing.module";
+import { LayoutModule } from "./layout/layout.module";
+import { CoreModule } from "./core/core.module";
+import { ViewsModule } from "./views/views.module";
+import {
+  AlandaCommonModule,
+  AppSettings,
+  APP_CONFIG,
+  AlandaProjectPropertiesService,
+} from "projects/alanda-common/src/public-api";
+import { ALANDA_CONFIG } from "./app.settings";
+import { ProjectPropertiesService } from "./core/services/projectproperties.service";
+import { ProjectDetailsComponent } from "./components/project-details/project-details.component";
+import { ProjectPropertiesComponent } from "./components/project-properties/project-properties.component";
+import { SharedModule } from "./shared/shared.module";
+import { CardModule } from "primeng/card";
+import { FieldsetModule } from "primeng/fieldset";
+import { ButtonModule } from "primeng/button";
+import { ReactiveFormsModule } from "@angular/forms";
+import { MessageService } from "primeng/api";
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 
@@ -46,22 +49,20 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     CardModule,
     FieldsetModule,
     ButtonModule,
-    AlandaCommonModule.forRoot(CURRENT_CONFIG)
+    AlandaCommonModule.forRoot(CURRENT_CONFIG),
   ],
   providers: [
-    {provide: APP_CONFIG, useValue: CURRENT_CONFIG},
-    {provide: AlandaProjectPropertiesService, useClass: ProjectPropertiesService },
+    { provide: APP_CONFIG, useValue: CURRENT_CONFIG },
+    {
+      provide: AlandaProjectPropertiesService,
+      useClass: ProjectPropertiesService,
+    },
+    MessageService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
+  constructor() {}
 
-  constructor() {
-  }
-
-  ngDoBootstrap() {
-
-  }
+  ngDoBootstrap() {}
 }
-
-

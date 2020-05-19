@@ -1,28 +1,35 @@
-<style>
-    ::ng-deep .ui-panel {
-        margin-bottom: 20px !important;
-    }
-    ::ng-deep .hideheader .ui-tabview-panels {
-      padding: 0em !important;
-      border: none !important;
-    }
-</style>
 <ng-container *ngIf="state$ | async as taskFormState">
-  <div *ngIf="taskFormState.project"> <!-- hack until project header is properly refactored -->
-  <alanda-project-header [task]="taskFormState.task" [project]="taskFormState.project"></alanda-project-header>
-  <alanda-project-and-processes [task]="taskFormState.task" [project]="taskFormState.project"></alanda-project-and-processes>
+  <alanda-project-header
+    [task]="taskFormState.task"
+    [project]="taskFormState.project"
+  ></alanda-project-header>
+  <alanda-project-and-processes
+    [task]="taskFormState.task"
+    [project]="taskFormState.project"
+  ></alanda-project-and-processes>
 
   <alanda-comments [task]="taskFormState.task"></alanda-comments>
   <div class="p-grid">
-      <div class="p-col-10">
-          <alanda-simple-select [task]="taskFormState.task" [items]="items" variableName="requestApproved" label="Approve vacation request?"></alanda-simple-select>
-      </div>
-      <div class="p-col-2">
-          <p-card [style]="{'height': '100%'}">
-              <button pButton type="button" (click)="submit()" icon="fa fa-check" iconPos="left" class="ui-button-success" label="Complete Task"></button>
-          </p-card>
-      </div>
+    <div class="p-col-10">
+      <alanda-simple-select
+        [task]="taskFormState.task"
+        [items]="items"
+        variableName="requestApproved"
+        label="Approve vacation request?"
+      ></alanda-simple-select>
+    </div>
+    <div class="p-col-2">
+      <p-card [style]="{ height: '100%' }">
+        <button
+          pButton
+          type="button"
+          (click)="submit()"
+          icon="fa fa-check"
+          iconPos="left"
+          class="ui-button-success"
+          label="Complete Task"
+        ></button>
+      </p-card>
     </div>
   </div>
 </ng-container>
-
