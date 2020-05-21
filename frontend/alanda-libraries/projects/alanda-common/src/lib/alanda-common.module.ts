@@ -83,6 +83,9 @@ import { MessagesModule } from 'primeng/messages';
 import { AlandaTaskFormService } from './form/alanda-task-form.service';
 import { Error500Interceptor } from './interceptors/error500.interceptor';
 import { AlandaFormsControllerComponent } from './form/forms-controller/forms-controller.component';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { PapActionsComponent } from './components/project-and-processes/pap-actions/pap-actions.component';
+import { RelateDialogComponent } from './components/project-and-processes/pap-actions/relate-dialog/relate-dialog.component';
 
 @NgModule({
   imports: [
@@ -121,7 +124,8 @@ import { AlandaFormsControllerComponent } from './form/forms-controller/forms-co
     MessagesModule,
     AccordionModule,
     TreeTableModule,
-    MessageModule
+    MessageModule,
+    DynamicDialogModule
   ],
   declarations: [
     AlandaUserManagementComponent,
@@ -153,6 +157,8 @@ import { AlandaFormsControllerComponent } from './form/forms-controller/forms-co
     AlandaSelectMilestoneComponent,
     AlandaProjectsControllerComponent,
     AlandaProjectAndProcessesComponent,
+    PapActionsComponent,
+    RelateDialogComponent,
   ],
   exports: [
     AlandaProjectMonitorComponent,
@@ -182,9 +188,11 @@ import { AlandaFormsControllerComponent } from './form/forms-controller/forms-co
     AlandaDateSelectComponent,
     AlandaDropdownSelectComponent,
     AlandaProjectsControllerComponent,
-    AlandaProjectAndProcessesComponent
+    AlandaProjectAndProcessesComponent,
+    PapActionsComponent,
+    RelateDialogComponent,
    ],
-  entryComponents: []
+  entryComponents: [RelateDialogComponent]
 })
 export class AlandaCommonModule {
 

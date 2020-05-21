@@ -26,4 +26,5 @@ export interface AlandaTask {
     process_definition_key?: string;
     process_package_key?: string;
     suspension_state?: boolean;
+    actinst_type?: string;
 }

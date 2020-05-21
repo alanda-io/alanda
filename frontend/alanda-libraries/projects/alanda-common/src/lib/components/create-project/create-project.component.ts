@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { AlandaProjectType } from '../../api/models/projectType';
 import { AlandaProject } from '../../api/models/project';
+import { mergeMap, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'create-project-component',
+  selector: 'alanda-create-project',
   templateUrl: './create-project.component.html',
   styles: [],
 })
@@ -16,22 +17,29 @@ export class AlandaCreateProjectComponent implements OnInit {
 
   showDialog = true;
   projectTypes: AlandaProjectType[] = [];
-  allowedTagList: any[];
   selectedProjectType: AlandaProjectType;
+  allowedTagList: any[];
   project: AlandaProject = {};
   formGroup: FormGroup;
   isLoading = false;
 
-  constructor (private projectService: AlandaProjectApiService,
+  constructor( public projectService: AlandaProjectApiService,
                private messageService: MessageService,
-               private router: Router) {
+               private router: Router, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.projectService.searchCreateAbleProjectType().subscribe((pTypes: AlandaProjectType[]) => {
-      this.projectTypes = pTypes;
-    });
-    this.showDialog = true;
+    const parentProjectGuid = this.activatedRoute.snapshot.paramMap.get('projectGuid');
+    if (parentProjectGuid) {
+      this.projectService.getProjectByGuid(Number(parentProjectGuid)).pipe(
+        tap(project => this.project.parents = [project]),
+        mergeMap( _ => this.projectService.searchCreateAbleProjectType())
+      ).subscribe(types => this.projectTypes = types);
+    } else {
+      this.projectService.searchCreateAbleProjectType().subscribe(types => {
+        this.projectTypes = types;
+      });
+    }
   }
 
   onProjectTypeSelected() {
@@ -40,7 +48,6 @@ export class AlandaCreateProjectComponent implements OnInit {
     this.allowedTagList = this.selectedProjectType.allowedTagList.map(tag => { return {value: tag}; });
     this.initFormGroup();
   }
-
 
   private initFormGroup() {
     this.formGroup = new FormGroup({
@@ -57,18 +64,18 @@ export class AlandaCreateProjectComponent implements OnInit {
     if (this.formGroup.valid) {
       this.project.dueDate = this.formGroup.get('projectDueDate').value;
       this.project.title = this.formGroup.get('projectTitle').value;
-      this.project.priority = <any>(this.formGroup.get('prio').value).value;
+      this.project.priority = (this.formGroup.get('prio').value).value;
       this.project.properties = [];
       this.project.comment = this.formGroup.get('projectDetails').value;
-      this.project.tag = [<any>(this.formGroup.get('tag').value).value];
+      this.project.tag = [(this.formGroup.get('tag').value).value];
       this.isLoading = true;
       this.projectService.createProject(this.project).subscribe(
         project => {
           this.isLoading = false;
-          this.messageService.add({severity:'success', summary:'Create Project', detail: 'Project has been created'})
+          this.messageService.add({severity: 'success', summary: 'Create Project', detail: 'Project has been created'});
           this.router.navigate([`projectdetails/${project.projectId}`]);
         },
-        error => {this.isLoading = false; this.messageService.add({severity:'error', summary:'Create Project', detail: error.message})});
+        error => {this.isLoading = false; this.messageService.add({severity: 'error', summary: 'Create Project', detail: error.message});});
     }
   }
 
