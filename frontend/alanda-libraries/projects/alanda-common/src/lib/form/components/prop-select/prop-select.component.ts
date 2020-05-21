@@ -6,17 +6,20 @@ import {
   Validators,
   AbstractControl,
 } from "@angular/forms";
-import { AlandaTaskApiService } from "../../../../api/taskApi.service";
+import { AlandaPropertyApiService } from "../../../api/propertyApi.service";
+import { AlandaProject } from "../../../api/models/project";
+
+const SELECTOR: string = "alanda-prop-select";
 
 @Component({
-  selector: "alanda-simple-select",
-  templateUrl: "./simple-select.component.html",
+  selector: SELECTOR,
+  templateUrl: "./prop-select.component.html",
   styleUrls: [],
 })
-export class AlandaSimpleSelectComponent implements OnInit {
+export class AlandaPropSelectComponent implements OnInit {
   @Input() items: SelectItem[];
-  @Input() variableName: string;
-  @Input() task: any;
+  @Input() propertyName: string;
+  @Input() project: AlandaProject;
   @Input() label: string;
   @Input() type?: string;
 
@@ -24,7 +27,7 @@ export class AlandaSimpleSelectComponent implements OnInit {
   set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {
       rootFormGroup.addControl(
-        `alanda-simple-select-${this.variableName}`,
+        `${SELECTOR}-${this.propertyName}`,
         this.selectForm
       );
     }
@@ -35,7 +38,7 @@ export class AlandaSimpleSelectComponent implements OnInit {
   });
 
   constructor(
-    private taskService: AlandaTaskApiService,
+    private propertyService: AlandaPropertyApiService,
     private fb: FormBuilder
   ) {}
 
@@ -43,19 +46,23 @@ export class AlandaSimpleSelectComponent implements OnInit {
     if (!this.type) {
       this.type = "string";
     }
-    this.taskService
-      .getVariable(this.task.task_id, this.variableName)
+    this.propertyService
+      .get(null, null, this.project.guid, this.propertyName)
       .subscribe((resp) => {
-        this.selectForm.get("selected").setValue(resp.value);
+        this.selected.setValue(resp.value);
       });
   }
 
   save() {
-    this.taskService
-      .setVariable(this.task.task_id, this.variableName, {
-        value: this.selectForm.get("selected").value,
-        type: this.type,
-      })
+    this.propertyService
+      .set(
+        null,
+        null,
+        this.project.guid,
+        this.propertyName,
+        this.selected.value,
+        this.type
+      )
       .subscribe();
   }
 

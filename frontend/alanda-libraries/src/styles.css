@@ -1,21 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'primeng/resources/themes/nova-light/theme.css';
-@import 'primeng/resources/primeng.css';
-@import 'primeflex/primeflex.css';
-@import 'primeicons/primeicons.css';
-@import 'font-awesome/css/font-awesome.css';
+@import "primeng/resources/themes/nova-light/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeflex/primeflex.css";
+@import "primeicons/primeicons.css";
+@import "font-awesome/css/font-awesome.css";
 
 .content {
-  font-family: "Open Sans", "Helvetica Neue", sans-serif
+  font-family: "Open Sans", "Helvetica Neue", sans-serif;
 }
-
 
 body {
   margin: 0;
   padding: 0;
 }
 
-
-.ui-widget, .ui-widget .ui-widget {
+.ui-widget,
+.ui-widget .ui-widget {
   font-size: 12px;
+}
+
+.form-root-tabs.ui-tabview .ui-tabview-panels {
+  /* background-color: #f4f4f4; */
 }

@@ -68,7 +68,7 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
-    <repository>
+<!--    <repository>
       <id>maven.oracle.com</id>
       <name>oracle-maven-repo</name>
       <url>https://maven.oracle.com</url>
@@ -77,7 +77,7 @@
         <enabled>true</enabled>
         <updatePolicy>always</updatePolicy>
       </releases>
- 		</repository>
+    </repository>-->
   </repositories>
   
 
