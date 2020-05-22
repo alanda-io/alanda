@@ -45,7 +45,7 @@ export class AlandaCommentsComponent implements OnInit {
 
   autogrow () {
     const textArea = document.getElementById('textarea');
-    if (this.content.length == 0) {
+    if (this.content.length === 0) {
       textArea.style.height = textArea.style.minHeight;
     } else {
       textArea.style.height = textArea.scrollHeight + 'px';

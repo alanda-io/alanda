@@ -121,7 +121,7 @@ export class AlandaGroupManagementComponent implements OnInit {
 
     if (event.sortField) {
       const sortOptions = {};
-      const dir = event.sortOrder == 1 ? 'asc' : 'desc';
+      const dir = event.sortOrder === 1 ? 'asc' : 'desc';
       sortOptions[event.sortField] = { dir: dir, prio: 0 };
       serverOptions.sortOptions = sortOptions;
     }
@@ -165,7 +165,7 @@ export class AlandaGroupManagementComponent implements OnInit {
         this.availableRoles = result.filter(all => {
           return this.assignedRoles.filter(assigned => {
             return assigned.guid === all.guid;
-          }).length == 0;
+          }).length === 0;
         });
       });
   }
@@ -182,7 +182,7 @@ export class AlandaGroupManagementComponent implements OnInit {
         this.availablePermissions = result.filter(all => {
           return this.grantedPermissions.filter(assigned => {
             return assigned.guid === all.guid;
-          }).length == 0;
+          }).length === 0;
         });
       });
   }

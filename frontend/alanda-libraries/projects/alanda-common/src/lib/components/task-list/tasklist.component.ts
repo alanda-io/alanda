@@ -87,7 +87,7 @@ export class AlandaTasklistComponent implements OnInit {
     this.serverOptions = this.getNewServerOptions();
     if (event.sortField) {
       const sortOptions = {};
-      const dir = event.sortOrder == 1 ? 'asc' : 'desc';
+      const dir = event.sortOrder === 1 ? 'asc' : 'desc';
       sortOptions[event.sortField] = { dir: dir, prio: 0 };
       this.serverOptions.sortOptions = sortOptions;
     }
@@ -191,7 +191,7 @@ export class AlandaTasklistComponent implements OnInit {
       this.taskService.assign(this.delegatedTaskData.task.task_id, selectedUser.guid).subscribe(
         res => {
           this.loading = false;
-          if (this.groupTasks || selectedUser.guid == String(this.currentUser.guid)) {
+          if (this.groupTasks || selectedUser.guid === String(this.currentUser.guid)) {
             this.delegatedTaskData.task.assignee_id = +selectedUser.guid;
             this.delegatedTaskData.task.assignee = selectedUser.displayName;
           } else {

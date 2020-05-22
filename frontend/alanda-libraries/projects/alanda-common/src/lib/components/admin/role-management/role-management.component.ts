@@ -125,7 +125,7 @@ export class AlandaRoleManagementComponent implements OnInit {
         this.availablePermissions = result.filter(all => {
           return this.grantedPermissions.filter(assigned => {
             return assigned.guid === all.guid;
-          }).length == 0;
+          }).length === 0;
         });
       });
   }

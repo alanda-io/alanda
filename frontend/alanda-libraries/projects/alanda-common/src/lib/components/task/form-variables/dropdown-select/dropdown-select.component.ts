@@ -57,7 +57,7 @@ export class AlandaDropdownSelectComponent implements OnInit {
     this.propertyService.get(null, null, this.project.guid, this.key).subscribe(
       res => {
         if (res.value) {
-          const user = this.users.filter(u => u.displayName == res.value)[0];
+          const user = this.users.filter(u => u.displayName === res.value)[0];
           this.userForm.get('user').setValue(user);
         }
       }

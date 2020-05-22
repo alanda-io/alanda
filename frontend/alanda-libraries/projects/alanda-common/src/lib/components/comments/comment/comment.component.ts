@@ -24,7 +24,7 @@ export class AlandaCommentComponent {
   tagClass (tag: AlandaCommentTag): string {
     /* if(!this.filterEnabled || this.tagFilters.indexOf(tag.name) !== -1){
       //TODO: remove? improve
-      if(tag.name == '#escalation'){
+      if(tag.name === '#escalation'){
         return 'ui-button-danger';
       }
       if(tag.name.startsWith('#')){
@@ -41,7 +41,7 @@ export class AlandaCommentComponent {
 
   autogrow () {
     const textArea = document.getElementById('replyTextarea');
-    if (this.comment.replyText && this.comment.replyText.length == 0) {
+    if (this.comment.replyText && this.comment.replyText.length === 0) {
       textArea.style.height = textArea.style.minHeight;
     } else {
       textArea.style.height = textArea.scrollHeight + 'px';
@@ -85,7 +85,7 @@ export class AlandaCommentComponent {
 
   refresh () {
     this.pmcCommentService.getCommentsforPid(this.comment.procInstId).subscribe(res => {
-      this.comment = res.comments.filter(comment => comment.guid == this.comment.guid)[0];
+      this.comment = res.comments.filter(comment => comment.guid === this.comment.guid)[0];
     });
   }
 }

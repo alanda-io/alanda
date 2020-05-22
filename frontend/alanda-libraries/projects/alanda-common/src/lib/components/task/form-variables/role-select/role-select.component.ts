@@ -27,10 +27,10 @@ export class AlandaSelectRoleComponent implements OnInit {
   @Input() type: string; // 'user' or 'group', determines if suggestions should be of type group or user
   @Input() displayName: string;
   @Input() roleName: string;
-  @Input() onlyInherited?: boolean = false; // if type == user and if set to true, only include users who have the role assigned through a group
+  @Input() onlyInherited?: boolean = false; // if type === user and if set to true, only include users who have the role assigned through a group
   @Input() inherited?: boolean = false; // this will replace onlyinherited above when it's done and its gona be much better zapperlott
-  @Input() groupFilter?: string[]; // if type == user, additional filtering for groups is possible
-  @Input() grouping?: boolean = false; // if type == user, group users by their groups in dropdown
+  @Input() groupFilter?: string[]; // if type === user, additional filtering for groups is possible
+  @Input() grouping?: boolean = false; // if type === user, group users by their groups in dropdown
   // TODO: @Input() parent?: SelectRoleComponent;
   @Input() formName: string;
 
@@ -133,8 +133,8 @@ export class AlandaSelectRoleComponent implements OnInit {
           } else {
             users.forEach((user) => {
               if (
-                this.options.filter((entry) => entry.label == user.displayName)
-                  .length == 0
+                this.options.filter((entry) => entry.label === user.displayName)
+                  .length === 0
               ) {
                 this.options.push({
                   label: user.displayName,
@@ -151,7 +151,7 @@ export class AlandaSelectRoleComponent implements OnInit {
   }
 
   private loadProperty () {
-    if (this.type == 'user') {
+    if (this.type === 'user') {
       this.propService
         .get(null, 'user', this.project.guid, 'role_' + this.roleName)
         .pipe(concatMap((res) => this.userService.getUser(Number(res.value))))
@@ -172,7 +172,7 @@ export class AlandaSelectRoleComponent implements OnInit {
               .setValue({ label: user.displayName, value: user.guid });
           }
         });
-    } else if (this.type == 'group') {
+    } else if (this.type === 'group') {
       this.propService
         .get(null, 'group', this.project.guid, 'role_grp_' + this.roleName)
         .pipe(
@@ -191,7 +191,7 @@ export class AlandaSelectRoleComponent implements OnInit {
   }
 
   onChange () {
-    if (this.type == 'user') {
+    if (this.type === 'user') {
       const selected = this.grouping
         ? this.roleSelectFormGroup.get('selected')
         : this.roleSelectFormGroup.get('selected').value;
@@ -204,7 +204,7 @@ export class AlandaSelectRoleComponent implements OnInit {
           selected.value
         )
         .subscribe();
-    } else if (this.type == 'group') {
+    } else if (this.type === 'group') {
       const selected = this.roleSelectFormGroup.get('selected').value;
       this.propService
         .setString(
