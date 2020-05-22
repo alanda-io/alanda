@@ -36,10 +36,11 @@ import { stringify } from 'querystring';
 export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   @ViewChild(ProjectPropertiesDirective)
   propertiesHost: ProjectPropertiesDirective;
+
   @Input() project: AlandaProject;
   @Input() task: AlandaTask;
   @Input()
-  set rootFormGroup(rootFormGroup: FormGroup) {
+  set rootFormGroup (rootFormGroup: FormGroup) {
     if (rootFormGroup) {
       rootFormGroup.addControl('alanda-project-header', this.projectHeaderForm);
     }
@@ -56,6 +57,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     { label: '1 - Urgent', value: 1 },
     { label: '2 - Normal', value: 2 },
   ];
+
   projectHeaderForm = this.fb.group({
     tag: null,
     priority: null,
@@ -65,18 +67,18 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     taskDueDate: null,
   });
 
-  constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private propertiesService: AlandaProjectPropertiesService,
-    private taskService: AlandaTaskApiService,
-    private cdRef: ChangeDetectorRef,
-    private messageService: MessageService,
-    private fb: FormBuilder,
-    private projectService: AlandaProjectApiService,
-    private propertyService: AlandaPropertyApiService
+  constructor (
+    private readonly componentFactoryResolver: ComponentFactoryResolver,
+    private readonly propertiesService: AlandaProjectPropertiesService,
+    private readonly taskService: AlandaTaskApiService,
+    private readonly cdRef: ChangeDetectorRef,
+    private readonly messageService: MessageService,
+    private readonly fb: FormBuilder,
+    private readonly projectService: AlandaProjectApiService,
+    private readonly propertyService: AlandaPropertyApiService
   ) {}
 
-  ngOnInit() {
+  ngOnInit () {
     this.initFormGroup();
     this.projectHeaderForm.valueChanges
       .pipe(
@@ -97,12 +99,12 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     this.propertyService
       .getPropertiesMap(this.project.guid)
       .subscribe((ret) => {
-        let props: Map<string, any> = ret;
+        const props: Map<string, any> = ret;
         console.log('props', props);
       });
   }
 
-  private updateProject(changes: any): Observable<AlandaProject> {
+  private updateProject (changes: any): Observable<AlandaProject> {
     console.log(changes);
     if (
       changes.taskDueDate &&
@@ -149,12 +151,12 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit () {
     this.loadProjectPropertiesComponent();
     this.cdRef.detectChanges();
   }
 
-  private loadProjectPropertiesComponent() {
+  private loadProjectPropertiesComponent () {
     if (
       this.propertiesService.getPropsForType(this.project.projectTypeIdName) ===
       undefined
@@ -170,7 +172,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     (<any>componentRef.instance).project = this.project;
   }
 
-  private initFormGroup() {
+  private initFormGroup () {
     this.allowedTagList = this.project.pmcProjectType.allowedTagList;
     this.projectHeaderForm.patchValue(this.project, { emitEvent: false });
     if (this.project.status.valueOf() === ProjectState.CANCELED.valueOf()) {
@@ -187,11 +189,11 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     }
   }
 
-  searchTag(event: Event) {
+  searchTag (event: Event) {
     this.allowedTagList = [...this.allowedTagList];
   }
 
-  openDelegationForm(): void {
+  openDelegationForm (): void {
     this.taskService
       .getCandidates(this.task.task_id)
       .subscribe((candidates) => {
@@ -200,7 +202,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
       });
   }
 
-  delegateTask(selectedUser: AlandaUser): void {
+  delegateTask (selectedUser: AlandaUser): void {
     if (selectedUser) {
       this.taskService.assign(this.task.task_id, selectedUser.guid).subscribe(
         () => {

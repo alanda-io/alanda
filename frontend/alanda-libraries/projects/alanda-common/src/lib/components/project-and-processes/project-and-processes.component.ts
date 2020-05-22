@@ -15,18 +15,17 @@ import { ProjectAndProcessesService } from '../../services/project-and-processes
   styles: [],
 })
 export class AlandaProjectAndProcessesComponent implements OnInit {
-
   @Input() project: AlandaProject;
   @Input() task: AlandaTask;
 
   projectTree: TreeNode[] = [];
 
-  constructor(private projectService: AlandaProjectApiService, private taskService: AlandaTaskApiService,
-    private projectAndProcessesService: ProjectAndProcessesService) {
+  constructor (private readonly projectService: AlandaProjectApiService, private readonly taskService: AlandaTaskApiService,
+    private readonly projectAndProcessesService: ProjectAndProcessesService) {
   }
 
 
-  ngOnInit() {
+  ngOnInit () {
     from(this.flattenProjects(this.project)).pipe(
       mergeMap(flattenProject => {
         return this.getProjectWithProcessesAndTasks(flattenProject.guid).pipe(
@@ -39,18 +38,18 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
     ).subscribe(treeNodes => this.projectTree = treeNodes);
   }
 
-  private getProjectWithProcessesAndTasks(guid: number): Observable<AlandaProject> {
+  private getProjectWithProcessesAndTasks (guid: number): Observable<AlandaProject> {
     return this.projectService.getProjectByGuid(guid, true).pipe(
       mergeMap(project => this.getProcessesAndTasks(project.processes).pipe(
         map(processes => {
           project.processes = processes;
           return project;
         }),
-        ),
+      ),
       ));
   }
 
-  private getProcessesAndTasks(processes: AlandaProcess[]): Observable<AlandaProcess[]> {
+  private getProcessesAndTasks (processes: AlandaProcess[]): Observable<AlandaProcess[]> {
     return from(processes).pipe(
       mergeMap(proc =>
         this.taskService.search(proc.processInstanceId).pipe(
@@ -64,7 +63,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
   }
 
   // TODO: improve this method to support nested and more complex project family structures
-  private flattenProjects(project: AlandaProject): AlandaProject[] {
+  private flattenProjects (project: AlandaProject): AlandaProject[] {
     const flattenProjectList: AlandaProject[] = [];
 
     if (project.parents && project.parents.length > 0) {

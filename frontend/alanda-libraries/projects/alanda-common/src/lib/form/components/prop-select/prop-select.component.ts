@@ -24,7 +24,7 @@ export class AlandaPropSelectComponent implements OnInit {
   @Input() type?: string;
 
   @Input()
-  set rootFormGroup(rootFormGroup: FormGroup) {
+  set rootFormGroup (rootFormGroup: FormGroup) {
     if (rootFormGroup) {
       rootFormGroup.addControl(
         `${SELECTOR}-${this.propertyName}`,
@@ -37,12 +37,12 @@ export class AlandaPropSelectComponent implements OnInit {
     selected: [null, Validators.required],
   });
 
-  constructor(
-    private propertyService: AlandaPropertyApiService,
-    private fb: FormBuilder
+  constructor (
+    private readonly propertyService: AlandaPropertyApiService,
+    private readonly fb: FormBuilder
   ) {}
 
-  ngOnInit() {
+  ngOnInit () {
     if (!this.type) {
       this.type = 'string';
     }
@@ -53,7 +53,7 @@ export class AlandaPropSelectComponent implements OnInit {
       });
   }
 
-  save() {
+  save () {
     this.propertyService
       .set(
         null,
@@ -66,7 +66,7 @@ export class AlandaPropSelectComponent implements OnInit {
       .subscribe();
   }
 
-  get selected(): AbstractControl {
+  get selected (): AbstractControl {
     return this.selectForm.get('selected');
   }
 }

@@ -24,18 +24,18 @@ const SELECTOR = 'alanda-role-select';
 })
 export class AlandaSelectRoleComponent implements OnInit {
   @Input() project: AlandaProject;
-  @Input() type: string; //'user' or 'group', determines if suggestions should be of type group or user
+  @Input() type: string; // 'user' or 'group', determines if suggestions should be of type group or user
   @Input() displayName: string;
   @Input() roleName: string;
   @Input() onlyInherited?: boolean = false; // if type == user and if set to true, only include users who have the role assigned through a group
   @Input() inherited?: boolean = false; // this will replace onlyinherited above when it's done and its gona be much better zapperlott
   @Input() groupFilter?: string[]; // if type == user, additional filtering for groups is possible
   @Input() grouping?: boolean = false; // if type == user, group users by their groups in dropdown
-  //TODO: @Input() parent?: SelectRoleComponent;
+  // TODO: @Input() parent?: SelectRoleComponent;
   @Input() formName: string;
 
   @Input()
-  set rootFormGroup(rootFormGroup: FormGroup) {
+  set rootFormGroup (rootFormGroup: FormGroup) {
     if (rootFormGroup) {
       rootFormGroup.addControl(
         `${SELECTOR}-${this.roleName}`,
@@ -46,25 +46,25 @@ export class AlandaSelectRoleComponent implements OnInit {
 
   groups: AlandaGroup[];
   items: string[] = [];
-  options: { label: string; value: number }[] = [];
+  options: { label: string, value: number }[] = [];
   optionsGrouped: SelectItemGroup[] = [];
   role: AlandaRole;
   roleSelectFormGroup = new FormGroup({
     selected: new FormControl(''),
   });
 
-  constructor(
-    private userService: AlandaUserApiService,
-    private propService: AlandaPropertyApiService,
-    private groupService: AlandaGroupApiService,
-    private roleService: AlandaRoleApiService
+  constructor (
+    private readonly userService: AlandaUserApiService,
+    private readonly propService: AlandaPropertyApiService,
+    private readonly groupService: AlandaGroupApiService,
+    private readonly roleService: AlandaRoleApiService
   ) {}
 
-  ngOnInit() {
+  ngOnInit () {
     this.loadDropdown();
   }
 
-  loadDropdown() {
+  loadDropdown () {
     if (this.type === 'user') {
       if (!this.onlyInherited) {
         if (this.grouping) {
@@ -110,7 +110,7 @@ export class AlandaSelectRoleComponent implements OnInit {
     } else console.warn('wrong type input for role-select');
   }
 
-  private addUsersToOptions(u?: AlandaUser[]) {
+  private addUsersToOptions (u?: AlandaUser[]) {
     this.groupService.getGroupsForRole(this.roleName).subscribe((groups) => {
       this.groups = groups;
       this.groups.forEach((group) => {
@@ -119,7 +119,7 @@ export class AlandaSelectRoleComponent implements OnInit {
             users.push(...u);
           }
           if (this.grouping) {
-            let mappedUsers: SelectItem[] = [];
+            const mappedUsers: SelectItem[] = [];
             mappedUsers.push(
               ...users.map((user) => {
                 return { label: user.displayName, value: user.guid };
@@ -150,7 +150,7 @@ export class AlandaSelectRoleComponent implements OnInit {
     });
   }
 
-  private loadProperty() {
+  private loadProperty () {
     if (this.type == 'user') {
       this.propService
         .get(null, 'user', this.project.guid, 'role_' + this.roleName)
@@ -158,13 +158,12 @@ export class AlandaSelectRoleComponent implements OnInit {
         .subscribe((user) => {
           if (this.grouping) {
             this.optionsGrouped.forEach((group) => {
-              let filteredGroup = group.items.filter(
+              const filteredGroup = group.items.filter(
                 (item) => item.value === user.guid
               );
               if (filteredGroup.length > 0) {
                 const item = filteredGroup[0];
                 this.roleSelectFormGroup.get('selected').setValue(item.value);
-                return;
               }
             });
           } else {
@@ -191,9 +190,9 @@ export class AlandaSelectRoleComponent implements OnInit {
     }
   }
 
-  onChange() {
+  onChange () {
     if (this.type == 'user') {
-      let selected = this.grouping
+      const selected = this.grouping
         ? this.roleSelectFormGroup.get('selected')
         : this.roleSelectFormGroup.get('selected').value;
       this.propService
@@ -206,7 +205,7 @@ export class AlandaSelectRoleComponent implements OnInit {
         )
         .subscribe();
     } else if (this.type == 'group') {
-      let selected = this.roleSelectFormGroup.get('selected').value;
+      const selected = this.roleSelectFormGroup.get('selected').value;
       this.propService
         .setString(
           null,
@@ -219,7 +218,7 @@ export class AlandaSelectRoleComponent implements OnInit {
     }
   }
 
-  get selected(): AbstractControl {
+  get selected (): AbstractControl {
     return this.roleSelectFormGroup.get('selected');
   }
 }

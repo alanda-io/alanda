@@ -4,8 +4,7 @@ import { Directive, ViewContainerRef } from '@angular/core';
   selector: '[properties-host]'
 })
 export class ProjectPropertiesDirective {
-
-  constructor(public viewContainerRef: ViewContainerRef) {
+  constructor (public viewContainerRef: ViewContainerRef) {
 
   }
 }

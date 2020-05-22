@@ -10,5 +10,5 @@ export class ProjectPropertiesComponent {
   state$ = this.taskFormService.state$;
   rootForm = this.taskFormService.rootForm;
 
-  constructor(private taskFormService: AlandaTaskFormService) {}
+  constructor (private readonly taskFormService: AlandaTaskFormService) {}
 }

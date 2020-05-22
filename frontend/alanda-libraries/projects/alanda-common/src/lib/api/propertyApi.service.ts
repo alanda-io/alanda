@@ -10,15 +10,15 @@ import { AlandaExceptionHandlingService } from '../services/exceptionHandling.se
 export class AlandaPropertyApiService extends AlandaExceptionHandlingService {
   endpointUrl: string;
 
-  constructor(
-    private http: HttpClient,
+  constructor (
+    private readonly http: HttpClient,
     @Inject(APP_CONFIG) config: AppSettings
   ) {
     super();
     this.endpointUrl = config.API_ENDPOINT + '/pmc-property';
   }
 
-  setDate(
+  setDate (
     entityId,
     entityType,
     projectGuid,
@@ -28,7 +28,7 @@ export class AlandaPropertyApiService extends AlandaExceptionHandlingService {
     return this.set(entityId, entityType, projectGuid, key, value, 'DATE');
   }
 
-  setString(
+  setString (
     entityId,
     entityType,
     projectGuid,
@@ -58,7 +58,7 @@ export class AlandaPropertyApiService extends AlandaExceptionHandlingService {
         .pipe(catchError(this.handleError('getGroupRole')));
     } */
 
-  set(
+  set (
     entityId,
     entityType,
     projectGuid,
@@ -79,7 +79,7 @@ export class AlandaPropertyApiService extends AlandaExceptionHandlingService {
       .pipe(catchError(this.handleError<AlandaProperty>('setProperty')));
   }
 
-  get(entityId, entityType, projectGuid, key): Observable<AlandaProperty> {
+  get (entityId, entityType, projectGuid, key): Observable<AlandaProperty> {
     let params = new HttpParams().set('key', key);
     if (entityId) {
       params = params.set('entity-id', entityId);
@@ -95,7 +95,7 @@ export class AlandaPropertyApiService extends AlandaExceptionHandlingService {
       .pipe(catchError(this.handleError<AlandaProperty>('getProperty')));
   }
 
-  getPropertyWithPrefix(
+  getPropertyWithPrefix (
     projectGuid: number,
     prefix: string,
     delimiter?: string
@@ -108,19 +108,19 @@ export class AlandaPropertyApiService extends AlandaExceptionHandlingService {
       .get<AlandaProperty[]>(
         `${this.endpointUrl}/get-with-prefix/${projectGuid}/${prefix}`,
         { params: params }
-      )
+    )
       .pipe(
         catchError(this.handleError<AlandaProperty[]>('getPropertyWithPrefix'))
       );
   }
 
-  getPropertiesMap(projectGuid: number): Observable<Map<string, any>> {
+  getPropertiesMap (projectGuid: number): Observable<Map<string, any>> {
     return this.http
       .get<Map<string, any>>(`${this.endpointUrl}/propertiesmap/${projectGuid}`)
       .pipe(catchError(this.handleError<Map<string, any>>('getPropertiesMap')));
   }
 
-  delete(entityId, entityType, pmcProjectGuid, key): Observable<void> {
+  delete (entityId, entityType, pmcProjectGuid, key): Observable<void> {
     let params = new HttpParams().set('key', key);
     if (entityId) {
       params = params.set('entity-id', entityId);

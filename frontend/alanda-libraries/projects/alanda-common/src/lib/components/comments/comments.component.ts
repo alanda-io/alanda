@@ -13,7 +13,6 @@ import { AlandaCommentApiService } from '../../api/commentApi.service';
   styleUrls: [],
 })
 export class AlandaCommentsComponent implements OnInit {
-
   @Input() task: any;
   @Input() pid: string;
   @ViewChild('commentPanel') commentPanel: Panel;
@@ -30,11 +29,11 @@ export class AlandaCommentsComponent implements OnInit {
   subject = ' ';
   content = '';
 
-  constructor(private commentService: AlandaCommentApiService, private messageService: MessageService,
-              private datePipe: DatePipe) {}
+  constructor (private readonly commentService: AlandaCommentApiService, private readonly messageService: MessageService,
+    private readonly datePipe: DatePipe) {}
 
-  ngOnInit() {
-    if(this.task){
+  ngOnInit () {
+    if (this.task) {
       this.procInstId = this.task.process_instance_id;
       this.taskId = this.task.task_id;
     } else {
@@ -44,31 +43,31 @@ export class AlandaCommentsComponent implements OnInit {
     this.loadComments();
   }
 
-  autogrow(){
-    let  textArea = document.getElementById('textarea')
-    if(this.content.length == 0) {
+  autogrow () {
+    const textArea = document.getElementById('textarea');
+    if (this.content.length == 0) {
       textArea.style.height = textArea.style.minHeight;
     } else {
       textArea.style.height = textArea.scrollHeight + 'px';
     }
   }
 
-  onSubmitComment(form: NgForm) {
+  onSubmitComment (form: NgForm) {
     this.loadingInProgress = true;
     this.commentService.postComment({
-        subject: this.subject,
-        text: this.content,
-        taskId: this.taskId,
-        procInstId: this.procInstId,
-      }).subscribe(
-        res => {
-          form.reset();
-          this.loadComments();
-          this.loadingInProgress = false;
-        });
+      subject: this.subject,
+      text: this.content,
+      taskId: this.taskId,
+      procInstId: this.procInstId,
+    }).subscribe(
+      res => {
+        form.reset();
+        this.loadComments();
+        this.loadingInProgress = false;
+      });
   }
 
-  loadComments() {
+  loadComments () {
     this.loadingInProgress = true;
     this.commentService.getCommentsforPid(this.procInstId).subscribe(
       (res: any) => {
@@ -79,44 +78,44 @@ export class AlandaCommentsComponent implements OnInit {
         res.comments.forEach((comment) => {
           this.processComment(comment, true);
         });
-        if(res.filterByRefObject){
-          let tagName = '#' + res.refObjectIdName;
-          if(!this.tagHash[tagName]){
+        if (res.filterByRefObject) {
+          const tagName = '#' + res.refObjectIdName;
+          if (!this.tagHash[tagName]) {
             this.tagHash[tagName] = 1;
-            this.tags.push({name: tagName, type: 'user', status: true});
+            this.tags.push({ name: tagName, type: 'user', status: true });
           }
           this.filterEnabled = true;
           this.tagFilters.push(tagName);
         }
-        if(this.comments.length > 0 && this.task){
-          let procName = this.task.process_name;
-          if(this.tagHash[procName]){
+        if (this.comments.length > 0 && this.task) {
+          const procName = this.task.process_name;
+          if (this.tagHash[procName]) {
             this.filterEnabled = true;
             this.tagFilters.push(procName);
           }
         }
       },
-      error => this.messageService.add({severity:'error', summary:'Get Comments', detail: error.message}));
+      error => this.messageService.add({ severity: 'error', summary: 'Get Comments', detail: error.message }));
   }
 
-  processComment(comment: AlandaComment, topLevel: boolean): void {
+  processComment (comment: AlandaComment, topLevel: boolean): void {
     comment.createDate = new Date(comment.createDate);
     comment.textDate = this.datePipe.transform(comment.createDate, 'dd.LL.yy HH:mm');
-    if(!topLevel) {
+    if (!topLevel) {
       return;
     }
     let commentFulltext = `${comment.text.toLowerCase()} ${comment.authorName.toLowerCase()} ${comment.textDate}`;
 
     this.extractTags(comment);
     this.comments.push(comment);
-    for(let tag of comment.tagList){
-      commentFulltext += ` ${tag.name}`
-      if(!this.tagHash[tag.name]){
+    for (const tag of comment.tagList) {
+      commentFulltext += ` ${tag.name}`;
+      if (!this.tagHash[tag.name]) {
         this.tagHash[tag.name] = 1;
-        this.tags.push({name: tag.name, type: tag.type, status: true});
+        this.tags.push({ name: tag.name, type: tag.type, status: true });
       }
 
-      for(let reply of comment.replies){
+      for (const reply of comment.replies) {
         this.processComment(reply, false);
         commentFulltext += `${reply.text.toLowerCase()} ${reply.authorName.toLowerCase()} ${reply.textDate}`;
       }
@@ -124,28 +123,28 @@ export class AlandaCommentsComponent implements OnInit {
     }
   }
 
-  togglePanel() {
-    if(this.commentPanel.collapsed){
+  togglePanel () {
+    if (this.commentPanel.collapsed) {
       this.loadComments();
     }
   }
 
-  tagClass(tag: AlandaCommentTag): string{
-    if(this.tagFilters.indexOf(tag.name) != -1) {
+  tagClass (tag: AlandaCommentTag): string {
+    if (this.tagFilters.includes(tag.name)) {
       return 'ui-button-success';
     }
     return 'ui-button-info';
   }
 
-  extractTags(comment: AlandaComment) {
+  extractTags (comment: AlandaComment) {
     comment.tagList = [];
-    if(comment.processName){
+    if (comment.processName) {
       comment.tagList.push(
-        {name: comment.processName, type: 'process'}
-        );
+        { name: comment.processName, type: 'process' }
+      );
     }
-    if(comment.taskName){
-      comment.tagList.push({name: comment.taskName, type: 'task'})
+    if (comment.taskName) {
+      comment.tagList.push({ name: comment.taskName, type: 'task' });
     }
     /* if(comment.siteIdName){
       comment.tagList.push(new CommentTag(`Site ${comment.siteIdName}`, 'bo'))
@@ -153,31 +152,30 @@ export class AlandaCommentsComponent implements OnInit {
     if(comment.saIdName){
       comment.tagList.push(new CommentTag(`SearchArea ${comment.saIdName}`, 'bo'))
     } */
-    if(comment.subject){
-      if(comment.subject.includes('#')){
+    if (comment.subject) {
+      if (comment.subject.includes('#')) {
         comment.subject.match(/#\w+/g).forEach((value) => {
-          comment.tagList.push({name: value, type: 'user'});
-        })
+          comment.tagList.push({ name: value, type: 'user' });
+        });
         comment.subject = comment.subject.replace(/#\w+/g, '');
       }
     }
   }
 
-  toggleFilter(name: string) {
-    let filterIndex = this.tagFilters.indexOf(name);
-    if(filterIndex !== -1){
-      this.tagFilters.splice(filterIndex,1);
-      if(this.tagFilters.length === 0){
+  toggleFilter (name: string) {
+    const filterIndex = this.tagFilters.indexOf(name);
+    if (filterIndex !== -1) {
+      this.tagFilters.splice(filterIndex, 1);
+      if (this.tagFilters.length === 0) {
         this.filterEnabled = false;
       }
-    }
-    else {
+    } else {
       this.tagFilters.push(name);
       this.filterEnabled = true;
     }
   }
 
-  clearFilters() {
+  clearFilters () {
     this.tagFilters = [];
     this.filterEnabled = false;
   }

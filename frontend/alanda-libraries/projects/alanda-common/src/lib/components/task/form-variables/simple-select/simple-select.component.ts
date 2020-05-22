@@ -21,7 +21,7 @@ export class AlandaSimpleSelectComponent implements OnInit {
   @Input() type?: string;
 
   @Input()
-  set rootFormGroup(rootFormGroup: FormGroup) {
+  set rootFormGroup (rootFormGroup: FormGroup) {
     if (rootFormGroup) {
       rootFormGroup.addControl(
         `alanda-simple-select-${this.variableName}`,
@@ -34,12 +34,12 @@ export class AlandaSimpleSelectComponent implements OnInit {
     selected: [null, Validators.required],
   });
 
-  constructor(
-    private taskService: AlandaTaskApiService,
-    private fb: FormBuilder
+  constructor (
+    private readonly taskService: AlandaTaskApiService,
+    private readonly fb: FormBuilder
   ) {}
 
-  ngOnInit() {
+  ngOnInit () {
     if (!this.type) {
       this.type = 'string';
     }
@@ -50,7 +50,7 @@ export class AlandaSimpleSelectComponent implements OnInit {
       });
   }
 
-  save() {
+  save () {
     this.taskService
       .setVariable(this.task.task_id, this.variableName, {
         value: this.selectForm.get('selected').value,
@@ -59,7 +59,7 @@ export class AlandaSimpleSelectComponent implements OnInit {
       .subscribe();
   }
 
-  get selected(): AbstractControl {
+  get selected (): AbstractControl {
     return this.selectForm.get('selected');
   }
 }

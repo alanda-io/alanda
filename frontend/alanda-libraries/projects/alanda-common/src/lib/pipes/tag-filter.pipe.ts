@@ -5,18 +5,18 @@ import { AlandaComment } from '../api/models/comment';
   name: 'tagFilter'
 })
 export class TagFilterPipe implements PipeTransform {
-    transform(comments: AlandaComment[], allowedTags: string[], filterEnabled: boolean): AlandaComment[] {
-        if (!filterEnabled) {
-            return comments;
-        }
-        const newComments: AlandaComment[] = [];
-        comments.forEach((comment) => {
-            comment.tagList.forEach((tag) => {
-                if (allowedTags.indexOf(tag.name) !== -1) {
-                    newComments.push(comment);
-                }
-            });
-        });
-        return newComments;
+  transform (comments: AlandaComment[], allowedTags: string[], filterEnabled: boolean): AlandaComment[] {
+    if (!filterEnabled) {
+      return comments;
     }
+    const newComments: AlandaComment[] = [];
+    comments.forEach((comment) => {
+      comment.tagList.forEach((tag) => {
+        if (allowedTags.includes(tag.name)) {
+          newComments.push(comment);
+        }
+      });
+    });
+    return newComments;
+  }
 }

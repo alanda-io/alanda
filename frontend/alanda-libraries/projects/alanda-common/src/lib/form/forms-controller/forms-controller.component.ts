@@ -11,7 +11,7 @@ export class AlandaFormsControllerComponent implements AfterViewInit {
   state$ = this.taskFormService.state$;
   activeTab = 0;
 
-  constructor(private taskFormService: AlandaTaskFormService) {}
+  constructor (private readonly taskFormService: AlandaTaskFormService) {}
 
-  ngAfterViewInit() {}
+  ngAfterViewInit () {}
 }

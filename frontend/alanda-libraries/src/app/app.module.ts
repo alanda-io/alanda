@@ -62,7 +62,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor() {}
+  constructor () {}
 
-  ngDoBootstrap() {}
+  ngDoBootstrap () {}
 }

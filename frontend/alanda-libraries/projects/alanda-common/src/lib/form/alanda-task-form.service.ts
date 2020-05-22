@@ -24,8 +24,8 @@ import { AlandaTaskApiService } from '../api/taskApi.service';
 import { MessageService } from 'primeng/api';
 
 export interface AlandaTaskFormState {
-  task?: AlandaTask;
-  project?: AlandaProject;
+  task?: AlandaTask
+  project?: AlandaProject
   //  rootFormData: { [controlName: string]: any }
 }
 
@@ -45,6 +45,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     map((snapshot) => this.collectParams(snapshot))
     // tap((sn) => console.log("sn", sn))
   );
+
   urlTaskId$ = this.routerParams$.pipe(map((p) => p.taskId));
 
   fetchTaskById$ = this.urlTaskId$.pipe(
@@ -52,7 +53,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
       return this.taskService.getTask(tid);
     }),
     concatMap((task: AlandaTask) => {
-      if (!!task.pmcProjectGuid) {
+      if (task.pmcProjectGuid) {
         return this.projectService
           .getProjectByGuid(task.pmcProjectGuid)
           .pipe(map((project) => ({ task, project })));
@@ -61,31 +62,31 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     })
   );
 
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private taskService: AlandaTaskApiService,
-    private projectService: AlandaProjectApiService,
-    private messageService: MessageService
+  constructor (
+    private readonly router: Router,
+    private readonly fb: FormBuilder,
+    private readonly taskService: AlandaTaskApiService,
+    private readonly projectService: AlandaProjectApiService,
+    private readonly messageService: MessageService
   ) {
     super();
     this.connect(this.fetchTaskById$);
   }
 
-  private collectParams(root: ActivatedRouteSnapshot): any {
+  private collectParams (root: ActivatedRouteSnapshot): any {
     const params: any = {};
-    (function mergeParamsFromSnapshot(snapshot: ActivatedRouteSnapshot) {
+    (function mergeParamsFromSnapshot (snapshot: ActivatedRouteSnapshot) {
       Object.assign(params, snapshot.params);
       snapshot.children.forEach(mergeParamsFromSnapshot);
     })(root);
     return params;
   }
 
-  addValidators(validators) {
+  addValidators (validators) {
     this.rootForm.setValidators(validators);
   }
 
-  submit(): Observable<any> {
+  submit (): Observable<any> {
     this.rootForm.markAllAsTouched();
     if (this.rootForm.valid) {
       return this.taskService.complete(this.get().task.task_id).pipe(

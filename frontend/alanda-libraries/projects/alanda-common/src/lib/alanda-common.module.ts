@@ -192,7 +192,7 @@ import { AlandaPropSelectComponent } from './form/components/prop-select/prop-se
   entryComponents: [],
 })
 export class AlandaCommonModule {
-  public static forRoot(config: AppSettings): ModuleWithProviders {
+  public static forRoot (config: AppSettings): ModuleWithProviders {
     return {
       ngModule: AlandaCommonModule,
       providers: [

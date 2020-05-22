@@ -12,56 +12,55 @@ import { AlandaExceptionHandlingService } from '../services/exceptionHandling.se
 
 @Injectable()
 export class AlandaGroupApiService extends AlandaExceptionHandlingService {
+  private readonly endpointUrl: string;
 
-  private endpointUrl: string;
-
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) config: AppSettings) {
+  constructor (private readonly http: HttpClient, @Inject(APP_CONFIG) config: AppSettings) {
     super();
     this.endpointUrl = config.API_ENDPOINT + '/group';
   }
 
-  getGroups(serverOptions: ServerOptions): Observable<AlandaListResult<AlandaGroup>> {
+  getGroups (serverOptions: ServerOptions): Observable<AlandaListResult<AlandaGroup>> {
     return this.http.post<AlandaListResult<AlandaGroup>>(`${this.endpointUrl}/list`, serverOptions)
-    .pipe(catchError(this.handleError<AlandaListResult<AlandaGroup>>('getGroups', null)));
+      .pipe(catchError(this.handleError<AlandaListResult<AlandaGroup>>('getGroups', null)));
   }
 
-  getGroupByGuid(guid: number): Observable<AlandaGroup> {
+  getGroupByGuid (guid: number): Observable<AlandaGroup> {
     return this.http.get<AlandaGroup>(`${this.endpointUrl}/singleGroupById/${guid}`)
-    .pipe(catchError(this.handleError<AlandaGroup>('getGroupByGuid', null)));
+      .pipe(catchError(this.handleError<AlandaGroup>('getGroupByGuid', null)));
   }
 
-  getGroupByName(name: string): Observable<AlandaGroup> {
+  getGroupByName (name: string): Observable<AlandaGroup> {
     return this.http.get<AlandaGroup>(`${this.endpointUrl}/singleGroupByName/${name}`)
-    .pipe(catchError(this.handleError<AlandaGroup>('getGroupByName', null)));
+      .pipe(catchError(this.handleError<AlandaGroup>('getGroupByName', null)));
   }
 
-  getGroupsForRole(roleName: string): Observable<AlandaGroup[]> {
+  getGroupsForRole (roleName: string): Observable<AlandaGroup[]> {
     return this.http.get<AlandaGroup[]>(`${this.endpointUrl}/rolename/${roleName}`)
-    .pipe(catchError(this.handleError<AlandaGroup[]>('getGroupsForRole', null)));
+      .pipe(catchError(this.handleError<AlandaGroup[]>('getGroupsForRole', null)));
   }
 
-  save(group: AlandaGroup): Observable<AlandaGroup> {
+  save (group: AlandaGroup): Observable<AlandaGroup> {
     return this.http.post<AlandaGroup>(`${this.endpointUrl}/create`, group)
-    .pipe(catchError(this.handleError<AlandaGroup>('save')));
+      .pipe(catchError(this.handleError<AlandaGroup>('save')));
   }
 
-  update(group: AlandaGroup): Observable<AlandaGroup> {
+  update (group: AlandaGroup): Observable<AlandaGroup> {
     return this.http.put<AlandaGroup>(`${this.endpointUrl}/update`, group)
-    .pipe(catchError(this.handleError<AlandaGroup>('update')));
+      .pipe(catchError(this.handleError<AlandaGroup>('update')));
   }
 
-  getEffectivePermissionsForGroup(guid: number): Observable<AlandaPermission[]> {
+  getEffectivePermissionsForGroup (guid: number): Observable<AlandaPermission[]> {
     return this.http.get<AlandaPermission[]>(`${this.endpointUrl}/permissions/effective/${guid}`)
-    .pipe(catchError(this.handleError<AlandaPermission[]>('getEffectivePermissionsForGroup', [])));
+      .pipe(catchError(this.handleError<AlandaPermission[]>('getEffectivePermissionsForGroup', [])));
   }
 
-  updatePermissionsForGroup(guid: number, permissions: AlandaPermission[]): Observable<AlandaGroup> {
+  updatePermissionsForGroup (guid: number, permissions: AlandaPermission[]): Observable<AlandaGroup> {
     return this.http.put<AlandaGroup>(`${this.endpointUrl}/permissions/update/${guid}`, permissions)
-    .pipe(catchError(this.handleError<any>('updatePermissionsForGroup')));
+      .pipe(catchError(this.handleError<any>('updatePermissionsForGroup')));
   }
 
-  updateRolesForGroup(guid: number, roles: AlandaRole[]): Observable<AlandaGroup> {
+  updateRolesForGroup (guid: number, roles: AlandaRole[]): Observable<AlandaGroup> {
     return this.http.put<AlandaGroup>(`${this.endpointUrl}/roles/update/${guid}`, roles)
-    .pipe(catchError(this.handleError<any>('updateRolesForGroup')));
+      .pipe(catchError(this.handleError<any>('updateRolesForGroup')));
   }
 }
