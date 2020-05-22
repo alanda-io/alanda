@@ -194,6 +194,8 @@ import { RelateDialogComponent } from "./components/project-and-processes/pap-ac
     AlandaProjectAndProcessesComponent,
     PapActionsComponent,
     RelateDialogComponent,
+    AlandaVarSelectComponent,
+    AlandaPropSelectComponent,
    ],
   entryComponents: [
     RelateDialogComponent,
