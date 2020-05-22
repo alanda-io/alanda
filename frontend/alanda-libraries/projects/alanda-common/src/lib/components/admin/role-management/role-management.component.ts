@@ -12,7 +12,7 @@ import { AlandaUserApiService } from '../../../api/userApi.service';
 @Component({
   selector: 'alanda-role-management',
   templateUrl: './role-management.component.html',
-  styleUrls: ['./role-management.component.css'],
+  styleUrls: ['./role-management.component.scss'],
   encapsulation: ViewEncapsulation.None,
 
 })

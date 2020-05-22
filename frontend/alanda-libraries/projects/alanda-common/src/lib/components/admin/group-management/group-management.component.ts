@@ -16,7 +16,7 @@ import { AlandaUserApiService } from '../../../api/userApi.service';
 @Component({
   selector: 'alanda-group-management',
   templateUrl: './group-management.component.html',
-  styleUrls: ['./group-management.component.css'],
+  styleUrls: ['./group-management.component.scss'],
   encapsulation: ViewEncapsulation.None,
 
 })

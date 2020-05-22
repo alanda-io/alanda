@@ -24,7 +24,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -161,6 +161,12 @@
           }
         }
       }
-    }},
-  "defaultProject": "alanda-libraries"
+    }
+  },
+  "defaultProject": "alanda-libraries",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
