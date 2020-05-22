@@ -1,5 +1,8 @@
 module.exports = {
-  extends: ['standard-with-typescript', 'plugin:@angular-eslint/recommended'],
+  extends: [
+    'standard-with-typescript',
+    'plugin:@angular-eslint/recommended'
+  ],
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
