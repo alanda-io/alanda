@@ -122,7 +122,7 @@ export class AlandaGroupManagementComponent implements OnInit {
 
     if (event.sortField) {
       let sortOptions = {}
-      const dir = event.sortOrder == 1 ? "asc" : "desc";
+      const dir = event.sortOrder == 1 ? 'asc' : 'desc';
       sortOptions[event.sortField] = {dir: dir, prio: 0}
       serverOptions.sortOptions = sortOptions;
     }

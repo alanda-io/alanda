@@ -41,7 +41,7 @@ export class AlandaCommentComponent {
   }
 
   autogrow(){
-    let  textArea = document.getElementById("replyTextarea")
+    let  textArea = document.getElementById('replyTextarea')
     if(this.comment.replyText && this.comment.replyText.length == 0) {
       textArea.style.height = textArea.style.minHeight;
     } else {

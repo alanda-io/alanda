@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Inject } from "@angular/core";
+import { Component, OnInit, Input, Inject } from '@angular/core';
 
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { APP_CONFIG, AppSettings } from "../../../models/appSettings";
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { APP_CONFIG, AppSettings } from '../../../models/appSettings';
 
 @Component({
     selector: 'process-activities-component',
@@ -27,7 +27,7 @@ export class ProcessActivitiesComponent implements OnInit {
     ];
 
     constructor(@Inject(APP_CONFIG) private config: AppSettings, private http: HttpClient) {
-        this.endpointUrl = config.API_ENDPOINT + "/finder/pio/activities";
+        this.endpointUrl = config.API_ENDPOINT + '/finder/pio/activities';
     }
 
     ngOnInit() {

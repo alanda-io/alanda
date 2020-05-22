@@ -1,19 +1,19 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { SelectItem } from "primeng/api";
+import { Component, OnInit, Input } from '@angular/core';
+import { SelectItem } from 'primeng/api';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   AbstractControl,
-} from "@angular/forms";
-import { AlandaPropertyApiService } from "../../../api/propertyApi.service";
-import { AlandaProject } from "../../../api/models/project";
+} from '@angular/forms';
+import { AlandaPropertyApiService } from '../../../api/propertyApi.service';
+import { AlandaProject } from '../../../api/models/project';
 
-const SELECTOR: string = "alanda-prop-select";
+const SELECTOR = 'alanda-prop-select';
 
 @Component({
   selector: SELECTOR,
-  templateUrl: "./prop-select.component.html",
+  templateUrl: './prop-select.component.html',
   styleUrls: [],
 })
 export class AlandaPropSelectComponent implements OnInit {
@@ -44,7 +44,7 @@ export class AlandaPropSelectComponent implements OnInit {
 
   ngOnInit() {
     if (!this.type) {
-      this.type = "string";
+      this.type = 'string';
     }
     this.propertyService
       .get(null, null, this.project.guid, this.propertyName)
@@ -67,6 +67,6 @@ export class AlandaPropSelectComponent implements OnInit {
   }
 
   get selected(): AbstractControl {
-    return this.selectForm.get("selected");
+    return this.selectForm.get('selected');
   }
 }

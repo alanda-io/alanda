@@ -26,7 +26,7 @@ export class AttachmentsListComponent implements OnInit {
   ngOnInit() {
     this.fileColumns = [
       {field: 'name', header: 'Name', sort: true},
-      {field: 'lastModified', header: 'Last Modified', prio: "ui-p-5", sort: true},
+      {field: 'lastModified', header: 'Last Modified', prio: 'ui-p-5', sort: true},
       {field: 'size', header: 'Size', sort: true},
       {field: 'action', header: 'Action', sort: false}
     ];
@@ -45,7 +45,7 @@ export class AttachmentsListComponent implements OnInit {
   }
 
   previewAllowed(fileName: string): boolean{
-    let ext = fileName.split(".").pop().toLowerCase()
+    let ext = fileName.split('.').pop().toLowerCase()
     return this.previewExtensions.indexOf(ext) != -1;
   }
 

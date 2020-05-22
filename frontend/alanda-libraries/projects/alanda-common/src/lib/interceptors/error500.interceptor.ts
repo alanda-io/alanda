@@ -5,9 +5,9 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest
-} from "@angular/common/http";
-import {EMPTY, Observable, throwError} from "rxjs";
-import {catchError} from "rxjs/operators";
+} from '@angular/common/http';
+import {EMPTY, Observable, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
 
 export class Error500Interceptor implements HttpInterceptor {
 

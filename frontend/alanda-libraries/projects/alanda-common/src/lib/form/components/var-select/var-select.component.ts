@@ -1,18 +1,18 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { SelectItem } from "primeng/api";
+import { Component, OnInit, Input } from '@angular/core';
+import { SelectItem } from 'primeng/api';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   AbstractControl,
-} from "@angular/forms";
-import { AlandaTaskApiService } from "../../../api/taskApi.service";
+} from '@angular/forms';
+import { AlandaTaskApiService } from '../../../api/taskApi.service';
 
-const SELECTOR: string = "alanda-var-select";
+const SELECTOR = 'alanda-var-select';
 
 @Component({
   selector: SELECTOR,
-  templateUrl: "./var-select.component.html",
+  templateUrl: './var-select.component.html',
   styleUrls: [],
 })
 export class AlandaVarSelectComponent implements OnInit {
@@ -43,7 +43,7 @@ export class AlandaVarSelectComponent implements OnInit {
 
   ngOnInit() {
     if (!this.type) {
-      this.type = "string";
+      this.type = 'string';
     }
     this.taskService
       .getVariable(this.task.task_id, this.variableName)
@@ -62,6 +62,6 @@ export class AlandaVarSelectComponent implements OnInit {
   }
 
   get selected(): AbstractControl {
-    return this.selectForm.get("selected");
+    return this.selectForm.get('selected');
   }
 }

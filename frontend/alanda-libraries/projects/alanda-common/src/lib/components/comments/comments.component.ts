@@ -17,8 +17,8 @@ export class AlandaCommentsComponent implements OnInit {
   @Input() task: any;
   @Input() pid: string;
   @ViewChild('commentPanel') commentPanel: Panel;
-  loadingInProgress: boolean = false;
-  filterEnabled: boolean = false;
+  loadingInProgress = false;
+  filterEnabled = false;
   comments: AlandaComment[] = [];
   tags: AlandaCommentTag[] = [];
   commentCount: number;
@@ -45,7 +45,7 @@ export class AlandaCommentsComponent implements OnInit {
   }
 
   autogrow(){
-    let  textArea = document.getElementById("textarea")
+    let  textArea = document.getElementById('textarea')
     if(this.content.length == 0) {
       textArea.style.height = textArea.style.minHeight;
     } else {

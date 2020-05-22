@@ -6,31 +6,31 @@ import {
   Input,
   ComponentFactoryResolver,
   ChangeDetectorRef,
-} from "@angular/core";
-import { ProjectPropertiesDirective } from "../controller/directives/project.properties.directive";
-import { AlandaProject } from "../../api/models/project";
-import { AlandaTask } from "../../api/models/task";
-import { AlandaUser } from "../../api/models/user";
-import { FormGroup, FormBuilder } from "@angular/forms";
-import { MessageService } from "primeng/api";
-import { AlandaProjectApiService } from "../../api/projectApi.service";
-import { ProjectState } from "../../enums/projectState.enum";
-import { convertUTCDate } from "../../utils/helper-functions";
-import { AlandaTaskApiService } from "../../api/taskApi.service";
+} from '@angular/core';
+import { ProjectPropertiesDirective } from '../controller/directives/project.properties.directive';
+import { AlandaProject } from '../../api/models/project';
+import { AlandaTask } from '../../api/models/task';
+import { AlandaUser } from '../../api/models/user';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { AlandaProjectApiService } from '../../api/projectApi.service';
+import { ProjectState } from '../../enums/projectState.enum';
+import { convertUTCDate } from '../../utils/helper-functions';
+import { AlandaTaskApiService } from '../../api/taskApi.service';
 import {
   map,
   switchMap,
   debounceTime,
   distinctUntilChanged,
-} from "rxjs/operators";
-import { Observable, of } from "rxjs";
-import { AlandaProjectPropertiesService } from "../../services/project-properties.service";
-import { AlandaPropertyApiService } from "../../api/propertyApi.service";
-import { stringify } from "querystring";
+} from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { AlandaProjectPropertiesService } from '../../services/project-properties.service';
+import { AlandaPropertyApiService } from '../../api/propertyApi.service';
+import { stringify } from 'querystring';
 
 @Component({
-  selector: "alanda-project-header",
-  templateUrl: "./project-header.component.html",
+  selector: 'alanda-project-header',
+  templateUrl: './project-header.component.html',
   styleUrls: [],
 })
 export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
@@ -41,7 +41,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {
-      rootFormGroup.addControl("alanda-project-header", this.projectHeaderForm);
+      rootFormGroup.addControl('alanda-project-header', this.projectHeaderForm);
     }
   }
 
@@ -52,9 +52,9 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   showDelegateDialog: boolean;
   allowedTagList: string[];
   priorities = [
-    { label: "0 - Emergency", value: 0 },
-    { label: "1 - Urgent", value: 1 },
-    { label: "2 - Normal", value: 2 },
+    { label: '0 - Emergency', value: 0 },
+    { label: '1 - Urgent', value: 1 },
+    { label: '2 - Normal', value: 2 },
   ];
   projectHeaderForm = this.fb.group({
     tag: null,
@@ -86,9 +86,9 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
       )
       .subscribe((project) => {
         this.messageService.add({
-          severity: "success",
-          summary: "Update Project",
-          detail: "Project has been updated",
+          severity: 'success',
+          summary: 'Update Project',
+          detail: 'Project has been updated',
         });
         if (project.version) {
           this.project.version = project.version;
@@ -98,7 +98,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
       .getPropertiesMap(this.project.guid)
       .subscribe((ret) => {
         let props: Map<string, any> = ret;
-        console.log("props", props);
+        console.log('props', props);
       });
   }
 
@@ -116,17 +116,17 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
         .subscribe(
           (res) => {
             this.messageService.add({
-              severity: "success",
-              summary: "Update task due date",
-              detail: "Due date of task has been updated",
+              severity: 'success',
+              summary: 'Update task due date',
+              detail: 'Due date of task has been updated',
             });
             this.taskDueDate = changes.taskDueDate;
             return of();
           },
           (error) => {
             this.messageService.add({
-              severity: "error",
-              summary: "Update Due Date Of Task",
+              severity: 'error',
+              summary: 'Update Due Date Of Task',
               detail: error.message,
             });
             return of();
@@ -204,14 +204,14 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     if (selectedUser) {
       this.taskService.assign(this.task.task_id, selectedUser.guid).subscribe(
         () => {
-          this.task.assignee_id = "" + selectedUser.guid;
+          this.task.assignee_id = '' + selectedUser.guid;
           this.task.assignee = selectedUser.displayName;
           this.showDelegateDialog = false;
         },
         (error) =>
           this.messageService.add({
-            severity: "error",
-            summary: "Delegate Task",
+            severity: 'error',
+            summary: 'Delegate Task',
             detail: error.message,
           })
       );

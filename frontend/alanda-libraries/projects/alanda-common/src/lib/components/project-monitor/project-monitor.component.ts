@@ -18,7 +18,7 @@ export class AlandaProjectMonitorComponent implements OnInit {
   layouts: any[] = [];
   selectedLayout: any = {};
   selectedColumns: any = [];
-  loading: boolean = true;
+  loading = true;
   serverOptions: ServerOptions;
   menuItems: MenuItem[];
 
@@ -64,7 +64,7 @@ export class AlandaProjectMonitorComponent implements OnInit {
     sortOptions['project.projectId'] = {dir: 'desc', prio: 0};
     if(event.sortField){
       sortOptions = {}
-      const dir = event.sortOrder == 1 ? "asc" : "desc";
+      const dir = event.sortOrder == 1 ? 'asc' : 'desc';
       sortOptions[event.sortField] = {dir: dir, prio: 0}
     }
     this.serverOptions.sortOptions = sortOptions;

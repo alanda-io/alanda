@@ -1,4 +1,4 @@
-import { AppSettings } from "../../projects/alanda-common/src/lib/models/appSettings";
+import { AppSettings } from '../../projects/alanda-common/src/lib/models/appSettings';
 
 
 export const ALANDA_CONFIG: AppSettings = {

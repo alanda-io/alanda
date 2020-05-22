@@ -49,7 +49,7 @@ export class AlandaDocumentApiService extends AlandaExceptionHandlingService {
   }
 
   getFolderUrl(objectType: string, objectId: number, folderId: number, mappings?: string): string {
-    let params = "?";
+    let params = '?';
     if(mappings){
       params += `mappings=${mappings}`;
     }
@@ -57,7 +57,7 @@ export class AlandaDocumentApiService extends AlandaExceptionHandlingService {
   }
 
   getFolderUrlByName(objectType: string, objectId: number, folderName: string, mappings?: string) : string {
-    let params = "?";
+    let params = '?';
     if(mappings){
       params += `mappings=${mappings}`;
     }
@@ -65,7 +65,7 @@ export class AlandaDocumentApiService extends AlandaExceptionHandlingService {
   }
 
   getDownloadUrl(objectType: string, objectId: number, folderId: number, fileId: number, inline?: boolean, mappings?: string): string {
-    let params = "?";
+    let params = '?';
     if(inline){
       params += `inline=${inline}&`;
     }
@@ -76,7 +76,7 @@ export class AlandaDocumentApiService extends AlandaExceptionHandlingService {
   }
 
   getDownloadAllUrl(objectType: string, objectId: number, folderId: number, mappings?: string): string {
-    let params = "?";
+    let params = '?';
     if(mappings){
       params += `mappings=${mappings}&`;
     }
@@ -85,8 +85,8 @@ export class AlandaDocumentApiService extends AlandaExceptionHandlingService {
 
   loadTree(objectType: string, objectId:  number, includeFileCount?: boolean, mappings?: string): Observable<ExtendedTreeNode> {
     let params: any = {
-      'fileCount': String(includeFileCount),
-      'mappings': mappings,
+      fileCount: String(includeFileCount),
+      mappings: mappings,
     }
     return this.http.get<any>(`${this.documentEndpointUrl}/refObject/${objectType}/${objectId}`, { params: params }).pipe(catchError(this.handleError('loadTree')));
   }

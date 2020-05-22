@@ -1,11 +1,11 @@
-import { Injectable, OnInit, OnDestroy } from "@angular/core";
-import { RxState } from "@rx-angular/state";
+import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { RxState } from '@rx-angular/state';
 import {
   Router,
   ActivatedRouteSnapshot,
   RouterEvent,
   NavigationEnd,
-} from "@angular/router";
+} from '@angular/router';
 import {
   filter,
   map,
@@ -13,15 +13,15 @@ import {
   concatMap,
   tap,
   catchError,
-} from "rxjs/operators";
+} from 'rxjs/operators';
 
-import { of, Observable, EMPTY } from "rxjs";
-import { FormBuilder } from "@angular/forms";
-import { AlandaTask } from "../api/models/task";
-import { AlandaProject } from "../api/models/project";
-import { AlandaProjectApiService } from "../api/projectApi.service";
-import { AlandaTaskApiService } from "../api/taskApi.service";
-import { MessageService } from "primeng/api";
+import { of, Observable, EMPTY } from 'rxjs';
+import { FormBuilder } from '@angular/forms';
+import { AlandaTask } from '../api/models/task';
+import { AlandaProject } from '../api/models/project';
+import { AlandaProjectApiService } from '../api/projectApi.service';
+import { AlandaTaskApiService } from '../api/taskApi.service';
+import { MessageService } from 'primeng/api';
 
 export interface AlandaTaskFormState {
   task?: AlandaTask;
@@ -91,8 +91,8 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
       return this.taskService.complete(this.get().task.task_id).pipe(
         tap((resp) =>
           this.messageService.add({
-            severity: "success",
-            summary: "Task completed",
+            severity: 'success',
+            summary: 'Task completed',
             detail: `The task ${
               this.get().task.task_name
             } has been successfully completed!`,
@@ -100,8 +100,8 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
         ),
         catchError((error) => {
           this.messageService.add({
-            severity: "error",
-            summary: "Task completion fails",
+            severity: 'error',
+            summary: 'Task completion fails',
             detail: `The task ${
               this.get().task.task_name
             } could not be completed: ${error}`,
@@ -110,7 +110,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
         })
       );
     } else {
-      console.log("errors", this.rootForm.errors);
+      console.log('errors', this.rootForm.errors);
       return of(this.rootForm.errors);
     }
   }

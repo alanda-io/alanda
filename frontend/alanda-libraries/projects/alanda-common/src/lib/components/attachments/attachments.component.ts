@@ -15,7 +15,7 @@ export class AlandaAttachmentsComponent implements OnInit {
   @Input() task?: any;
   @Input() pid?: string;
 
-  panelShown: boolean = false;
+  panelShown = false;
   uploaderUrl: string;
   showUpload: boolean;
   downloadAllUrl: string;
@@ -30,7 +30,7 @@ export class AlandaAttachmentsComponent implements OnInit {
   ngOnInit() {
 
     if(!this.mappings){
-      this.mappings = "AcquiDoc,SI,SA"
+      this.mappings = 'AcquiDoc,SI,SA'
     }
     this.fileCount = 0;
     this.data.mappings = this.mappings;
@@ -76,10 +76,10 @@ export class AlandaAttachmentsComponent implements OnInit {
 
   setupTreeNode(node: ExtendedTreeNode){
       node.expanded = false;
-      node.collapsedIcon = "fa fa-folder";
-      node.expandedIcon = "fa fa-folder-open";
+      node.collapsedIcon = 'fa fa-folder';
+      node.expandedIcon = 'fa fa-folder-open';
       node.name = node.label;
-      node.label = node.name + " (" + node.files + ")";
+      node.label = node.name + ' (' + node.files + ')';
       for(let child of node.children){
         this.setupTreeNode(child);
       }
@@ -99,7 +99,7 @@ export class AlandaAttachmentsComponent implements OnInit {
        (res) => {
         this.currentFiles = res;
         this.data.selectedNode.files = res.length
-        this.data.selectedNode.label = this.data.selectedNode.name + " (" + res.length + ")";
+        this.data.selectedNode.label = this.data.selectedNode.name + ' (' + res.length + ')';
         this.fileCount = this.checkFileCount(this.treeNode);
        }
      );

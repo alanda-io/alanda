@@ -1,13 +1,13 @@
-import { Component, AfterViewInit } from "@angular/core";
+import { Component, AfterViewInit } from '@angular/core';
 import {
   AlandaTaskFormService,
   BaseFormComponent,
-} from "projects/alanda-common/src/public-api";
-import { SelectItem } from "primeng/api";
+} from 'projects/alanda-common/src/public-api';
+import { SelectItem } from 'primeng/api';
 
 @Component({
-  selector: "modify-vacation-request",
-  templateUrl: "./modify-vacation-request.component.html",
+  selector: 'modify-vacation-request',
+  templateUrl: './modify-vacation-request.component.html',
   styleUrls: [],
 })
 export class ModifyVacationRequestComponent
@@ -18,8 +18,8 @@ export class ModifyVacationRequestComponent
 
   constructor(private taskFormService: AlandaTaskFormService) {
     this.items = [
-      { label: "Yes", value: true },
-      { label: "No", value: false },
+      { label: 'Yes', value: true },
+      { label: 'No', value: false },
     ];
   }
   submit(): void {

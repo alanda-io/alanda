@@ -1,20 +1,20 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { AlandaUser } from "../api/models/user";
+import { Injectable, OnDestroy } from '@angular/core';
+import { AlandaUser } from '../api/models/user';
 
 @Injectable()
 export class AlandaAuthorizationService {
   accessLevel = {
-    read: "read",
-    write: "write",
-    start: "start",
-    cancel: "cancel",
-    create: "create",
+    read: 'read',
+    write: 'write',
+    start: 'start',
+    cancel: 'cancel',
+    create: 'create',
   };
 
-  WILDCARD_TOKEN: "*";
-  PART_DIVIDER_TOKEN: ":";
-  SUBPART_DIVIDER_TOKEN: ",";
-  PERMISSION_PLACEHOLDER: "#{permissions}";
+  WILDCARD_TOKEN: '*';
+  PART_DIVIDER_TOKEN: ':';
+  SUBPART_DIVIDER_TOKEN: ',';
+  PERMISSION_PLACEHOLDER: '#{permissions}';
 
   constructor() {}
 
@@ -53,7 +53,7 @@ export class AlandaAuthorizationService {
       !Array.isArray(currentUser.stringPermissions)
     ) {
       console.log(
-        "currentUser has no valid stringPermissions property -> no access"
+        'currentUser has no valid stringPermissions property -> no access'
       );
       return false;
     }

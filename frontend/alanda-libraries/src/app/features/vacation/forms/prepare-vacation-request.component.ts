@@ -1,14 +1,14 @@
-import { Component, AfterViewInit } from "@angular/core";
-import { SelectItem } from "primeng/api";
+import { Component, AfterViewInit } from '@angular/core';
+import { SelectItem } from 'primeng/api';
 import {
   AlandaTaskFormService,
   BaseFormComponent,
-} from "projects/alanda-common/src/public-api";
-import { Validators, AbstractControl } from "@angular/forms";
+} from 'projects/alanda-common/src/public-api';
+import { Validators, AbstractControl } from '@angular/forms';
 
 @Component({
-  selector: "prepare-vacation-request",
-  templateUrl: "./prepare-vacation-request.component.html",
+  selector: 'prepare-vacation-request',
+  templateUrl: './prepare-vacation-request.component.html',
   styleUrls: [],
 })
 export class PrepareVacationRequestComponent
@@ -19,8 +19,8 @@ export class PrepareVacationRequestComponent
 
   constructor(private taskFormService: AlandaTaskFormService) {
     this.items = [
-      { label: "Yes", value: true },
-      { label: "No", value: false },
+      { label: 'Yes', value: true },
+      { label: 'No', value: false },
     ];
   }
 
@@ -31,11 +31,11 @@ export class PrepareVacationRequestComponent
   ngAfterViewInit(): void {
     this.roleSelector.setValidators([Validators.required]);
     this.roleSelector.updateValueAndValidity();
-    console.log("rootForm", this.rootForm);
+    console.log('rootForm', this.rootForm);
     // this.formManagerService.addValidators();
   }
 
   get roleSelector(): AbstractControl {
-    return this.rootForm.get("alanda-role-select-vacation-approver.selected");
+    return this.rootForm.get('alanda-role-select-vacation-approver.selected');
   }
 }

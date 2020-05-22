@@ -1,17 +1,14 @@
 module.exports = {
   extends: ['plugin:@angular-eslint/recommended'],
   rules: {
-    // ORIGINAL tslint.json -> "directive-selector": [true, "attribute", "app", "camelCase"],
-    '@angular-eslint/directive-selector': [
-      'error',
-      { type: 'attribute', prefix: 'app', style: 'camelCase' },
-    ],
-
     // ORIGINAL tslint.json -> "component-selector": [true, "element", "app", "kebab-case"],
     '@angular-eslint/component-selector': [
-      'error',
-      { type: 'element', prefix: 'app', style: 'kebab-case' },
+      'warn',
+      { type: 'element', prefix: 'alanda', style: 'kebab-case' },
     ],
+    'max-len': [
+      'warn'
+    ]
   },
   overrides: [
     {

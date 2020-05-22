@@ -24,7 +24,7 @@ export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, On
     activities: any[] = [];
 
     constructor(@Inject(APP_CONFIG) private config: AppSettings, private http: HttpClient) {
-        this.endpointUrl = config.API_ENDPOINT + "/pmc-process";
+        this.endpointUrl = config.API_ENDPOINT + '/pmc-process';
         this.bpmnJS = new BpmnJS({
             keyboard: { bindTo: document }
           });

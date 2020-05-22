@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AlandaHistoryApiService } from '../../api/historyApi.service';
 
 @Component({

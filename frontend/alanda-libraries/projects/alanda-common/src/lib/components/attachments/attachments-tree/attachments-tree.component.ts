@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, EventEmitter, Output } from "@angular/core";
-import { TreeNode } from "primeng/api";
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { TreeNode } from 'primeng/api';
 
 @Component({
     selector: 'attachments-tree',

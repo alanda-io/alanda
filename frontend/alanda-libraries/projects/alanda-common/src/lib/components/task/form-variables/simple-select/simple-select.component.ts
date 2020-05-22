@@ -1,16 +1,16 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { SelectItem } from "primeng/api";
+import { Component, OnInit, Input } from '@angular/core';
+import { SelectItem } from 'primeng/api';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   AbstractControl,
-} from "@angular/forms";
-import { AlandaTaskApiService } from "../../../../api/taskApi.service";
+} from '@angular/forms';
+import { AlandaTaskApiService } from '../../../../api/taskApi.service';
 
 @Component({
-  selector: "alanda-simple-select",
-  templateUrl: "./simple-select.component.html",
+  selector: 'alanda-simple-select',
+  templateUrl: './simple-select.component.html',
   styleUrls: [],
 })
 export class AlandaSimpleSelectComponent implements OnInit {
@@ -41,25 +41,25 @@ export class AlandaSimpleSelectComponent implements OnInit {
 
   ngOnInit() {
     if (!this.type) {
-      this.type = "string";
+      this.type = 'string';
     }
     this.taskService
       .getVariable(this.task.task_id, this.variableName)
       .subscribe((resp) => {
-        this.selectForm.get("selected").setValue(resp.value);
+        this.selectForm.get('selected').setValue(resp.value);
       });
   }
 
   save() {
     this.taskService
       .setVariable(this.task.task_id, this.variableName, {
-        value: this.selectForm.get("selected").value,
+        value: this.selectForm.get('selected').value,
         type: this.type,
       })
       .subscribe();
   }
 
   get selected(): AbstractControl {
-    return this.selectForm.get("selected");
+    return this.selectForm.get('selected');
   }
 }

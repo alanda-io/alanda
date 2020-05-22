@@ -71,9 +71,9 @@ export class AlandaTasklistComponent implements OnInit {
       res => {
         this.tasksData = res;
         for(let task of this.tasksData.results){
-          task['claimLabel'] = "Claim";
+          task['claimLabel'] = 'Claim';
           if(this.currentUser.guid === +task.task.assignee_id){
-            task['claimLabel'] = "Unclaim";
+            task['claimLabel'] = 'Unclaim';
           }
         }
         this.loading = false;
@@ -88,7 +88,7 @@ export class AlandaTasklistComponent implements OnInit {
     this.serverOptions = this.getNewServerOptions();
     if(event.sortField){
       let sortOptions = {}
-      const dir = event.sortOrder == 1 ? "asc" : "desc";
+      const dir = event.sortOrder == 1 ? 'asc' : 'desc';
       sortOptions[event.sortField] = {dir: dir, prio: 0}
       this.serverOptions.sortOptions = sortOptions;
     }
@@ -103,7 +103,7 @@ export class AlandaTasklistComponent implements OnInit {
 
   onChangeLayout(){
     this.serverOptions.pageNumber = 1;
-    const key = "project.additionalInfo.rootparent.projectTypeIdName";
+    const key = 'project.additionalInfo.rootparent.projectTypeIdName';
     this.serverOptions.filterOptions = {hideSnoozedTasks: 1};
     if(!this.groupTasks){
       this.serverOptions.filterOptions['mytasks'] = 1;
@@ -141,8 +141,8 @@ export class AlandaTasklistComponent implements OnInit {
           this.loading = false;
           if(this.groupTasks){
             task.task.assignee_id = 0;
-            task.task.assignee = "";
-            task.claimLabel = "Claim";
+            task.task.assignee = '';
+            task.claimLabel = 'Claim';
           } else{
             this.tasksData.results.splice(this.tasksData.results.indexOf(task),1);
           }
@@ -156,7 +156,7 @@ export class AlandaTasklistComponent implements OnInit {
           this.loading = false;
           task.task.assignee_id = String(this.currentUser.guid);
           task.task.assignee = this.currentUser.firstName + ' ' + this.currentUser.surname;
-          task.claimLabel = "Unclaim";
+          task.claimLabel = 'Unclaim';
           this.messageService.add({severity:'success', summary:'Claim Task', detail: 'Task has been claimed'});
         },
         error => {this.loading = false; this.messageService.add({severity:'error', summary:'Claim Task', detail: error.message})});
