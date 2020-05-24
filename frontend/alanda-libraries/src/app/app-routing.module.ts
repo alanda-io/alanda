@@ -12,6 +12,7 @@ import { AlandaCreateProjectComponent, AlandaProjectMonitorComponent, AlandaTask
 // import { ModifyVacationRequestComponent } from './features/vacation/forms/modify-vacation-request.component';
 // import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 import { AlandaFormsControllerComponent } from 'projects/alanda-common/src/lib/form/forms-controller/forms-controller.component';
+import {PermissionsDemoComponent} from "./components/permissions-demo/permissions-demo.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'admin/groups', component: AlandaGroupManagementComponent },
   { path: 'admin/roles', component: AlandaRoleManagementComponent },
   { path: 'admin/permissions', component: AlandaPermissionManagementComponent },
+  { path: 'admin/permissions-demo', component: PermissionsDemoComponent },
   { path: 'create/project', component: AlandaCreateProjectComponent },
   { path: 'monitor/projects', component: AlandaProjectMonitorComponent },
   { path: 'tasks/list', component: AlandaTasklistComponent },

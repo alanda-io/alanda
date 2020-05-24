@@ -161,6 +161,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "alanda-libraries"
+    }
+  },
+  "defaultProject": "alanda-libraries",
+  "cli": {
+    "analytics": false
+  }
 }

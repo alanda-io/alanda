@@ -49,7 +49,7 @@ import { AlandaSimpleSelectComponent } from './components/task/form-variables/si
 import { AlandaSelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
 import { AlandaDateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
 import { AlandaDropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
-import { AccordionModule } from 'primeng/accordion'
+import { AccordionModule } from 'primeng/accordion';
 import { AlandaSelectMilestoneComponent } from './components/task/form-variables/milestone-select/milestone-select.component';
 import { AlandaUserManagementComponent } from './components/admin/user-management/user-management.component';
 import { AlandaGroupManagementComponent } from './components/admin/group-management/group-management.component';
@@ -67,7 +67,7 @@ import { AlandaProcessApiService } from './api/processApi.service';
 import { AlandaProjectApiService } from './api/projectApi.service';
 import { AlandaPropertyApiService } from './api/propertyApi.service';
 import { AlandaRoleApiService } from './api/roleApi.service';
-import { AlandaAuthorizationService } from './services/authorization.service';
+import { AlandaAuthorizationService } from './permissions/authorization.service';
 import { AlandaExceptionHandlingService } from './services/exceptionHandling.service';
 import { AlandaMonitorAPIService } from './services/monitorApi.service';
 import { AlandaAttachmentsComponent } from './components/attachments/attachments.component';
@@ -83,6 +83,7 @@ import { MessagesModule } from 'primeng/messages';
 import { AlandaTaskFormService } from './form/alanda-task-form.service';
 import { Error500Interceptor } from './interceptors/error500.interceptor';
 import { AlandaFormsControllerComponent } from './form/forms-controller/forms-controller.component';
+import {PermissionModule} from './permissions/permission.module';
 
 @NgModule({
   imports: [
@@ -152,9 +153,10 @@ import { AlandaFormsControllerComponent } from './form/forms-controller/forms-co
     AlandaDropdownSelectComponent,
     AlandaSelectMilestoneComponent,
     AlandaProjectsControllerComponent,
-    AlandaProjectAndProcessesComponent,
+    AlandaProjectAndProcessesComponent
   ],
   exports: [
+    PermissionModule,
     AlandaProjectMonitorComponent,
     AlandaAttachmentsComponent,
     AttachmentsListComponent,

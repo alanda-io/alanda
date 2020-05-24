@@ -25,6 +25,8 @@ import { CardModule } from 'primeng/card';
 import { FieldsetModule } from 'primeng/fieldset';
 import { ButtonModule } from 'primeng/button';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PermissionsDemoComponent } from './components/permissions-demo/permissions-demo.component';
+import {PermissionModule} from "../../projects/alanda-common/src/lib/permissions/permission.module";
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 
@@ -33,6 +35,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     AppComponent,
     ProjectDetailsComponent,
     ProjectPropertiesComponent,
+    PermissionsDemoComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +49,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     CardModule,
     FieldsetModule,
     ButtonModule,
+    PermissionModule,
     AlandaCommonModule.forRoot(CURRENT_CONFIG)
   ],
   providers: [

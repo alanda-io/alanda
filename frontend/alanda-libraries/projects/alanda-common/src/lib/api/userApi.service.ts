@@ -110,7 +110,7 @@ export class AlandaUserApiService extends AlandaExceptionHandlingService {
     .pipe(catchError(this.handleError<AlandaUser[]>('getUsersForRole')));
   }
 
-  searchUsers(text: string ,groupName: string): Observable<AlandaUser[]> {
+  searchUsers(text: string, groupName: string): Observable<AlandaUser[]> {
     let params = new HttpParams();
     if (text) {
       params = params.set('text', text);

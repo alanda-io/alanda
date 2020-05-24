@@ -31,7 +31,7 @@
     "font-awesome": "4.7.0",
     "@angular/cdk": "9.2.0",
     "bpmn-js": "6.5.1",
-    "@rx-angular/state": "1.0.3"
+    "@rx-angular/state": "1.1.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.1",
