@@ -31,7 +31,7 @@ export class AlandaPermissionApiService extends AlandaExceptionHandlingService {
     .pipe(catchError(this.handleError('update')));
   }
 
-  getPermissionByGuid(guid: number): Observable<AlandaPermission>{
+  getPermissionByGuid(guid: number): Observable<AlandaPermission> {
     return this.http.get<AlandaPermission>(`${this.endpointUrl}/single/${guid}`)
     .pipe(catchError(this.handleError('getPermissionByGuid', null)));
   }
