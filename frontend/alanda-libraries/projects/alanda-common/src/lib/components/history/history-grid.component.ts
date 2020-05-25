@@ -37,10 +37,10 @@ export class AlandaHistoryGridComponent implements OnInit {
   ngOnInit () {
     if (this.route.snapshot.params.projectId) {
       console.log('history - project');
-      this.serverOptions.filterOptions.pmcProjectGuid = this.projectGuid;
-    } else if (this.route.snapshot.params.banfId) {
-      this.serverOptions.filterOptions.refObjectIdName = this.route.snapshot.params.banfId;
-      this.serverOptions.filterOptions.refObjectType = 'PO';
+      this.serverOptions.filterOptions['pmcProjectGuid'] = this.projectGuid;
+    } else if (this.route.snapshot.params['banfId']) {
+      this.serverOptions.filterOptions['refObjectIdName'] = this.route.snapshot.params['banfId'];
+      this.serverOptions.filterOptions['refObjectType'] = 'PO';
     }
   }
 

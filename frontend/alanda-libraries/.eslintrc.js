@@ -27,6 +27,9 @@ module.exports = {
     ],
     'max-len': [
       'warn'
+    ],
+    'dot-notation': [
+      'off'
     ]
   },
   overrides: [
