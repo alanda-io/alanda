@@ -1,19 +1,4 @@
-<style>
-  .ui-picklist-item{
-    word-break: break-all;
-  }
-
-  .inputField{
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-
-  .ui-panel {
-    margin-top: 20px;
-  }
-</style>
-
-<p-panel>
+<p-panel class="permission-management">
   <p-header>Permission Management</p-header>
   <div class="p-grid ui-fluid">
 
@@ -33,7 +18,7 @@
           </tr>
           <tr>
             <th *ngFor="let col of columns">
-              <input pInputText type="text" (input)="table.filter($event.target.value, col.field, col.filterMatchMode)" style="padding: 0.3em">
+              <input pInputText type="text" (input)="table.filter($event.target.value, col.field, col.filterMatchMode)">
             </th>
           </tr>
         </ng-template>
@@ -56,12 +41,12 @@
             <div class="p-col-4">
               <form (ngSubmit)="onFormSubmit()" [formGroup]="permissionForm">
 
-                <div class="inputField">
+                <div class="input-field">
                   <span class="ui-float-label">
                     <input id="input-guid" type="text" pInputText formControlName="key">
                     <label for="input-guid">Permission key</label>
                   </span>
-                  <span *ngIf="permissionForm.dirty && !permissionForm.get('key').valid" style="font-size: 10px; color: red">Please enter a permission key</span>
+                  <span class="valid-error" *ngIf="permissionForm.dirty && !permissionForm.get('key').valid">Please enter a permission key</span>
                 </div>
 
                 <div class="p-grid">

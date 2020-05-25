@@ -1,27 +1,3 @@
-<style>
-  .ui-picklist-item {
-    word-break: break-all;
-    font-size: 12px;
-  }
-
-  .inputField{
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-
-  .ui-scrollpanel-content {
-    font-size: 12px;
-  }
-
-  #source {
-    float: right;
-  }
-
-  .ui-panel {
-    margin-top: 20px;
-  }
-</style>
-
 <p-panel>
   <p-header>User Management</p-header>
   <div class="p-grid ui-fluid">
@@ -64,7 +40,7 @@
             <div class="p-col-4">
               <form [formGroup]="userForm" (ngSubmit)="onFormSubmit()">
 
-                <div class="inputField">
+                <div class="input-field">
                   <span class="ui-float-label">
                     <input id="input-login" type="text" pInputText formControlName="loginName">
                     <label for="input-login">Login</label>
@@ -72,7 +48,7 @@
                   <span *ngIf="userForm.dirty && !userForm.get('loginName').valid" style="font-size: 10px; color: red">Please enter a login</span>
                 </div>
 
-                <div class="inputField">
+                <div class="input-field">
                   <span class="ui-float-label">
                     <input id="input-firstname" type="text" pInputText formControlName="firstName">
                     <label for="input-firstname">First Name</label>
@@ -80,7 +56,7 @@
                   <span *ngIf="userForm.dirty && !userForm.get('firstName').valid" style="font-size: 10px; color: red">Please enter a first name</span>
                 </div>
 
-                <div class="inputField">
+                <div class="input-field">
                   <span class="ui-float-label">
                     <input id="input-surname" type="text" pInputText formControlName="surname">
                     <label for="input-surname">Surname</label>
@@ -88,7 +64,7 @@
                   <span *ngIf="userForm.dirty && !userForm.get('surname').valid" style="font-size: 10px; color: red">Please enter a surname</span>
                 </div>
 
-                <div class="inputField">
+                <div class="input-field">
                   <span class="ui-float-label">
                     <input id="input-email" type="email" pInputText formControlName="email">
                     <label for="input-email">E-Mail</label>
@@ -96,13 +72,13 @@
                   <span *ngIf="userForm.dirty && !userForm.get('email').valid" style="font-size: 10px; color: red">Please enter an email</span>
                 </div>
 
-                <div class="inputField">
+                <div class="input-field">
                   <span class="ui-float-label">
                     <input id="input-mobile" style="height: 100%" type="tel" pInputText formControlName="mobile">
                     <label for="input-mobile">Mobile</label>
                   </span>
                 </div>
-                <div class="inputField">
+                <div class="input-field">
                   <p id="locked" [hidden]="locked">Not locked</p>
                   <p id="locked" [hidden]="!locked">Locked</p>
                   <p-inputSwitch formControlName="locked"></p-inputSwitch>
@@ -162,7 +138,7 @@
                         targetHeader="Available Roles" [responsive]="true" filterBy="name"
                         [showSourceControls]="false" [showTargetControls]="false" (onMoveToTarget)="moveRole($event)">
               <ng-template let-role pTemplate="item">
-                {{role.name}} <span id="source" *ngIf="role.source">({{role.source}})</span>
+                {{role.name}} <span class="source" *ngIf="role.source">({{role.source}})</span>
               </ng-template>
             </p-pickList>
             <div class="p-col-12">
@@ -177,7 +153,7 @@
                     targetHeader="Available Permissions" [responsive]="true" filterBy="name"
                     [showSourceControls]="false" [showTargetControls]="false" (onMoveToTarget)="movePermission($event)">
                     <ng-template let-p pTemplate="item">
-                      {{p.key}} <span id="source" *ngIf="p.source">({{p.source}})</span>
+                      {{p.key}} <span class="source" *ngIf="p.source">({{p.source}})</span>
                     </ng-template>
                   </p-pickList>
                 </div>
