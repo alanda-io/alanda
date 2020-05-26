@@ -26,7 +26,6 @@ import {
 import { Observable, of } from 'rxjs';
 import { AlandaProjectPropertiesService } from '../../services/project-properties.service';
 import { AlandaPropertyApiService } from '../../api/propertyApi.service';
-import { stringify } from 'querystring';
 
 @Component({
   selector: 'alanda-project-header',
@@ -78,7 +77,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     private readonly propertyService: AlandaPropertyApiService
   ) {}
 
-  ngOnInit () {
+  ngOnInit (): void {
     this.initFormGroup();
     this.projectHeaderForm.valueChanges
       .pipe(
@@ -151,12 +150,12 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit () {
+  ngAfterViewInit (): void {
     this.loadProjectPropertiesComponent();
     this.cdRef.detectChanges();
   }
 
-  private loadProjectPropertiesComponent () {
+  private loadProjectPropertiesComponent (): void {
     if (
       this.propertiesService.getPropsForType(this.project.projectTypeIdName) ===
       undefined
@@ -172,7 +171,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     (<any>componentRef.instance).project = this.project;
   }
 
-  private initFormGroup () {
+  private initFormGroup (): void {
     this.allowedTagList = this.project.pmcProjectType.allowedTagList;
     this.projectHeaderForm.patchValue(this.project, { emitEvent: false });
     if (this.project.status.valueOf() === ProjectState.CANCELED.valueOf()) {
@@ -189,7 +188,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     }
   }
 
-  searchTag (event: Event) {
+  searchTag (event: Event): void {
     this.allowedTagList = [...this.allowedTagList];
   }
 
