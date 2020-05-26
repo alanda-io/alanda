@@ -77,7 +77,7 @@
                       [pSelectableRow]="project"
                       class="ng-center-cell">
                       <td *ngFor="let col of columns" [ngClass]="getCondition(project, col.template)" style="font-size: 12px; white-space: nowrap;">
-                        <ng-template [ngIf]="col.name == 'Project ID'" [ngIfElse]="default">
+                        <ng-template [ngIf]="col.name === 'Project ID'" [ngIfElse]="default">
                           <!-- <a [attr.href]="'#/pmc/projectdetails/' + project.project.projectId" target="blank">{{ project | monitorValues: col.field }}</a> -->
                           <a [routerLink]="openProject(project.project.projectId)">{{ project | nestedObject: col.field }}</a>
                         </ng-template>
