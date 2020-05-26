@@ -1,5 +1,5 @@
 export interface AlandaPermission {
-  guid?: number;
-  key?: string;
-  source?: string;
+  guid?: number
+  key?: string
+  source?: string
 }

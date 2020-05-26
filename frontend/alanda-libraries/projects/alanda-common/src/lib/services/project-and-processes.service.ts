@@ -9,10 +9,9 @@ import { AlandaTask } from '../api/models/task';
   providedIn: 'root'
 })
 export class ProjectAndProcessesService {
+  constructor () { }
 
-  constructor() { }
-
-  mapProjectToTreeNode(project: AlandaProject): TreeNode {
+  mapProjectToTreeNode (project: AlandaProject): TreeNode {
     return {
       data: {
         label: `${project.projectId} (${project.pmcProjectType.name} / ${project.title})`,
@@ -26,7 +25,7 @@ export class ProjectAndProcessesService {
     };
   }
 
-  mapProcessToTreeNode(process: AlandaProcess): TreeNode {
+  mapProcessToTreeNode (process: AlandaProcess): TreeNode {
     return {
       data: {
         label: process.label,
@@ -40,7 +39,7 @@ export class ProjectAndProcessesService {
     };
   }
 
-  mapTaskToTreeNode(task: AlandaTask): TreeNode {
+  mapTaskToTreeNode (task: AlandaTask): TreeNode {
     return {
       data: {
         label: task.task_name,

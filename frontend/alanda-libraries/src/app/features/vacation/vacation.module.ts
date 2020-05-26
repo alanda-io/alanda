@@ -21,6 +21,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
   providers: [],
 })
 export class VacationModule {
-  constructor() {}
+  constructor () {}
 }
 

@@ -99,7 +99,7 @@
         <p-button label="{{tag.name}}" icon="pi pi-tag" iconPos="left" type="button" [styleClass]="tagClass(tag)"></p-button>
       </li>
     </ul>
-    <div *ngIf="type == 'comment'">
+    <div *ngIf="type === 'comment'">
       <p-button label="Reply" style="float: right" (click)="doReply=!doReply; autofocus()" icon="fa fa-reply" iconPos="left" type="button"></p-button>
     </div>
   </div>

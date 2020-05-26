@@ -94,7 +94,7 @@
                       *ngFor="let col of columns"
                       [ngClass]="getCondition(task, col.template)"
                       style="font-size: 12px; white-space: nowrap;">
-                      <ng-container *ngIf="col.name == 'Action'">
+                      <ng-container *ngIf="col.name === 'Action'">
                           <p-splitButton
                             [showTransitionOptions]="'0ms'"
                             [hideTransitionOptions]="'0ms'"
@@ -103,7 +103,7 @@
                             (onDropdownClick)="openDelegationForm(task)">
                           </p-splitButton>
                       </ng-container>
-                      <ng-template [ngIf]="col.name == 'Task Name'" [ngIfElse]="default">
+                      <ng-template [ngIf]="col.name === 'Task Name'" [ngIfElse]="default">
                           <a [routerLink]="'/forms/' + task.task.formKey + '/' + task.task.task_id">{{ task | nestedObject: col.field }}</a>
                           <!-- <a routerLink="" (click)="openTask(task.task.formKey, task.task.task_id)">{{ task | nestedObject: col.field }}</a> -->
                       </ng-template>

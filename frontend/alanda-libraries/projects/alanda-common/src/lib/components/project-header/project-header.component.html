@@ -30,7 +30,7 @@
                     <span *ngFor="let candidateGroup of task.candidateGroups | filter: '!Administrators'">
                         <b>Responsible:</b> {{candidateGroup}} |
                     </span>
-                    <span *ngIf="task.assignee == null" id="assignedTo">
+                    <span *ngIf="task.assignee === null" id="assignedTo">
                         currently unassigned
                     </span>
                     <span *ngIf="task.assignee != null" id="assignedTo">
@@ -52,7 +52,7 @@
                     </div>
                     <div class="p-col-8" >
                         <span *ngIf="project.subType != null">{{project.subtype}}</span>
-                        <span *ngIf="project.subType == null">{{project.pmcProjectType.name}}</span>
+                        <span *ngIf="project.subType === null">{{project.pmcProjectType.name}}</span>
                     </div>
                     <div class="p-col-4">
                         <strong>Prio:</strong>
