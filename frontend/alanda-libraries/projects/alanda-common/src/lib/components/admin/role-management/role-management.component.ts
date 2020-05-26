@@ -12,9 +12,7 @@ import { AlandaUserApiService } from '../../../api/userApi.service';
 @Component({
   selector: 'alanda-role-management',
   templateUrl: './role-management.component.html',
-  styleUrls: ['./role-management.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-
+  styleUrls: ['./role-management.component.scss']
 })
 export class AlandaRoleManagementComponent implements OnInit {
   roles: AlandaRole[];

@@ -8,8 +8,7 @@ import { MessageService, LazyLoadEvent } from 'primeng/api';
 @Component({
   selector: 'alanda-permission-management',
   templateUrl: './permission-management.component.html',
-  styleUrls: ['./permission-management.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./permission-management.component.scss']
 
 })
 export class AlandaPermissionManagementComponent implements OnInit {

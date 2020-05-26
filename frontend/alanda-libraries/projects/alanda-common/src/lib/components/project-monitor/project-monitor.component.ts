@@ -8,7 +8,7 @@ import { AlandaProjectApiService } from '../../api/projectApi.service';
 @Component({
   selector: 'alanda-project-monitor',
   templateUrl: './project-monitor.component.html',
-  styles: []
+  styleUrls: ['./project-monitor.component.scss']
 })
 export class AlandaProjectMonitorComponent implements OnInit {
   @Input() defaultLayout: string;

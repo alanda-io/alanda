@@ -7,7 +7,7 @@ import { convertUTCDate } from '../../../../utils/helper-functions';
 @Component({
   selector: 'alanda-milestone-new',
   templateUrl: './milestone-new.component.html',
-  styleUrls: [],
+  styleUrls: ['./milestone-new.component.scss'],
 })
 export class AlandaSelectMilestoneNewComponent implements OnInit {
   @Input() project: AlandaProject;

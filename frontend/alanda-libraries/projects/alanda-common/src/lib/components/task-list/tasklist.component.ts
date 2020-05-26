@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'alanda-tasklist',
   templateUrl: './tasklist.component.html',
-  styles: []
+  styleUrls: ['./task-list.component.scss']
 })
 export class AlandaTasklistComponent implements OnInit {
   tasksData: any = {};
