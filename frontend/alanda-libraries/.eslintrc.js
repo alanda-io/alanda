@@ -1,4 +1,9 @@
 module.exports = {
+  root: true,
+  parser: '@typescript-eslint/parser',
+  plugins: [
+    '@typescript-eslint',
+  ],
   extends: [
     'standard-with-typescript',
     'plugin:@angular-eslint/recommended'
@@ -7,6 +12,7 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module',
     project: [
+      'tsconfig.json',
       'tsconfig.app.json',
       'tsconfig.spec.json',
       'e2e/tsconfig.json',
