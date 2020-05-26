@@ -9,7 +9,7 @@ import { Validators, AbstractControl } from '@angular/forms';
 @Component({
   selector: 'prepare-vacation-request',
   templateUrl: './prepare-vacation-request.component.html',
-  styleUrls: [],
+  styleUrls: ['./prepare-vacation-request.component.scss'],
 })
 export class PrepareVacationRequestComponent
 implements BaseFormComponent, AfterViewInit {

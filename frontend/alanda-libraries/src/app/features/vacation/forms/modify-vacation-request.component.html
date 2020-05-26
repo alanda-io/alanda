@@ -1,8 +1,3 @@
-<style>
-  ::ng-deep .ui-panel {
-    margin-bottom: 20px !important;
-  }
-</style>
 <ng-container *ngIf="state$ | async as taskFormState">
   <form [formGroup]="rootForm" (submit)="submit()">
     <alanda-project-header

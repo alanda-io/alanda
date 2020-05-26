@@ -10,7 +10,7 @@ import { AlandaCommentApiService } from '../../api/commentApi.service';
 @Component({
   selector: 'alanda-comments',
   templateUrl: './comments.component.html',
-  styleUrls: [],
+  styleUrls: ['./comments.component.scss']
 })
 export class AlandaCommentsComponent implements OnInit {
   @Input() task: any;

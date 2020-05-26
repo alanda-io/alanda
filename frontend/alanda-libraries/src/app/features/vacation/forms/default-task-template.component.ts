@@ -7,7 +7,7 @@ import {
 @Component({
   selector: 'default-task',
   templateUrl: './default-task-template.component.html',
-  styleUrls: [],
+  styleUrls: ['./default-task-template.component.scss'],
 })
 export class DefaultTaskComponent implements BaseFormComponent, AfterViewInit {
   state$ = this.taskFormService.state$;

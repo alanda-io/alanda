@@ -8,7 +8,7 @@ import { SelectItem } from 'primeng/api';
 @Component({
   selector: 'modify-vacation-request',
   templateUrl: './modify-vacation-request.component.html',
-  styleUrls: [],
+  styleUrls: ['./modify-vacation-request.component.scss'],
 })
 export class ModifyVacationRequestComponent
 implements BaseFormComponent, AfterViewInit {
