@@ -108,6 +108,11 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
             } could not be completed: ${error}`,
           });
           return EMPTY;
+        }),
+        tap((val) => {
+          if (val !== EMPTY) {
+            this.router.navigate(['/']);
+          }
         })
       );
     } else {
