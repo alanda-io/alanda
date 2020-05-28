@@ -3,25 +3,36 @@ import {RxState} from '@rx-angular/state';
 import {AlandaUserApiService} from '../api/userApi.service';
 import {AlandaUser} from '../api/models/user';
 import {combineLatest} from 'rxjs';
-import {AccessLevels} from './interfaces-and-types';
 import {hasPermission, resolveTokens} from './utils/permission-checks';
 import {ElementManager, getManagersByElementRef} from './utils/element-manager';
 
+/**
+ *
+ * @description
+ * Takes a permission string and applies specific behavior for the host element.
+ * Can be used on any dom element or component.
+ *
+ * @example
+ * <field-set permissions="ms:write">
+ *   ...
+ * </field-set>
+ */
 @Directive({
   // tslint:disable-next-line:directive-selector
   selector: '[permissions]'
 })
 export class PermissionsDirective extends RxState<{
   user: AlandaUser,
-  currentPermissionTokens: string[]
+  permissionString: string
 }> {
 
   hostElementManagers: ElementManager[] = getManagersByElementRef(this.hostElement);
 
-
   @Input('permissions')
   set rights(permissionString: string) {
-    this.set({currentPermissionTokens: resolveTokens(permissionString)});
+    this.set({
+      permissionString
+    });
   }
 
   constructor(
@@ -30,24 +41,21 @@ export class PermissionsDirective extends RxState<{
   ) {
     super();
     this.connect('user', this.userService.user$);
-    this.hold(this.select(), console.log);
 
     this.hold(
       combineLatest([
         this.select('user'),
-        this.select('currentPermissionTokens')
+        this.select('permissionString')
       ]),
-      ([user, tokens]) => {
-
-        // @TODO-Michael what token is what?? 0 1 right??
-        const accessLevel = tokens[1] as AccessLevels;
-        const entityIdentifier = tokens[0];
+      ([user, permissionString]) => {
+        const tokens: string[][] = resolveTokens(permissionString);
+        const accessLevel = tokens[1];
 
         if (user === null) {
-          this.forbidAll(accessLevel);
+          this.forbidAll(permissionString);
         }
 
-        const permissionsGranted = hasPermission(entityIdentifier, accessLevel, user);
+        const permissionsGranted = hasPermission(user, permissionString);
 
         this.hostElementManagers.forEach((manager) => {
           if (permissionsGranted) {
@@ -61,7 +69,6 @@ export class PermissionsDirective extends RxState<{
 
   forbidAll(accessLevel) {
     this.hostElementManagers.forEach((manager) => {
-      console.log('manager', manager);
       manager.applyForbiddenBehavior(accessLevel);
     });
   }

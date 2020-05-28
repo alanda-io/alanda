@@ -1,5 +1,4 @@
 import {
-  AccessLevels,
   PART_DIVIDER_TOKEN,
   PERMISSION_PLACEHOLDER,
   SUBPART_DIVIDER_TOKEN,
@@ -11,16 +10,19 @@ import {AlandaUser} from '../../api/models/user';
  *
  * @description
  * Receives a permission string in the format provided by the [apache shiro](https://shiro.apache.org/permissions.html) standard.
- * Returns an array of tokens
+ * Returns an array of token arrays.
+ *
+ * A permission string consists out of part which in turn can be divided in subparts.
+ * Parts and sub parts are divided by delimiters. The parts delimiter is ':' and the sub part delimiter is ",".
  *
  * @example
- * @TODO
+ * const tokens = resolveTokens('ms:write,read:xyz') // [['ms'], ['write', 'read'], ['xyz']]
  *
  * @param tokenizedString: string - the string to parse
  *
- * @returns tokens { string[] }  - string array of tokens
+ * @returns tokens { string[][] } - array of token arrays
  */
-export function resolveTokens(tokenizedString: string): string[] {
+export function resolveTokens(tokenizedString: string): string[][] {
   const parts = [];
   if (tokenizedString) {
     tokenizedString = tokenizedString.trim();
@@ -33,21 +35,18 @@ export function resolveTokens(tokenizedString: string): string[] {
 }
 
 /**
- * @TODO considerRenaming to hasRole?
- * hasPmcRole
- *
  * @description
  * Checks if a given user has a given role
  *
  * @example
- * const hasAdminRole: boolean = hasPmcRole('admin', user);
+ * const hasAdminRole: boolean = hasRole('admin', user);
  *
  * @param role - the role to check for
  * @param user - the user to check against
  *
  * @returns hasPermissions { boolean } - true if user has given role, false if not
  */
-export function hasPmcRole(role: string, user: AlandaUser): boolean {
+export function hasRole(role: string, user: AlandaUser): boolean {
   return user.roles.indexOf(role) !== -1;
 }
 
@@ -56,21 +55,15 @@ export function hasPmcRole(role: string, user: AlandaUser): boolean {
  * Checks if a given user has granted rights for a specified entity and accessLevel
  *
  * @example
- * @TODO
+ * const isPermitted = hasPermission(user,'ms:write', 'write');
  *
- * @param entityIdentifier: string - entity to check rights for
- * @param accessLevel: AccessLevels - Level of access
  * @param currentUser: AlandaUser - user to check rights for
+ * @param permissionString: string - entity to check rights for
+ * @param accessLevel: AccessLevels - Level of access
  *
  * @returns isGranted {boolean} - true if rights are granted, false if not
  */
-export function hasPermission(entityIdentifier: string, accessLevel?: AccessLevels, currentUser?: AlandaUser): boolean {
-  // @TODO Why making the param optional anyway if a user is required
-  if (!currentUser) {
-    return false;
-  }
-  // @TODO => logging should be (if even kept in code) only on in development
-  // console.log('currentUser has no valid stringPermissions property -> no access');
+export function hasPermission(currentUser: AlandaUser, permissionString: string, accessLevel?: string): boolean {
   // If the user has no valid permission strings no access is granted
   if (!currentUser.stringPermissions || !Array.isArray(currentUser.stringPermissions)) {
     return false;
@@ -78,30 +71,35 @@ export function hasPermission(entityIdentifier: string, accessLevel?: AccessLeve
   const permissions = currentUser.stringPermissions;
   let requestedPermission;
   if (accessLevel) {
-    requestedPermission = entityIdentifier.replace(PERMISSION_PLACEHOLDER, accessLevel);
+    requestedPermission = permissionString.replace(PERMISSION_PLACEHOLDER, accessLevel);
   } else {
-    requestedPermission = entityIdentifier;
+    requestedPermission = permissionString;
   }
   return permissions.some(permission => implies(requestedPermission, permission));
 }
 
 /**
- * implies
  *
  * @description
+ * checks if the requested permission string is implied by given permissions of a user.
+ *
+ * @example
+ * const isImplied = implies('ms:write', 'ms:write');
+ *
+ * @see http://shiro.apache.org/permissions.html#implication-not-equality
  *
  * @param requestedPerm - permissions to check for
  * @param userPerm - user permissions to check against
  */
 function implies(requestedPerm: string, userPerm: string): boolean {
   let isImplied = true;
-  const requestedParts: string[] = resolveTokens(requestedPerm);
-  const userParts: string[] = resolveTokens(userPerm);
-  // @TODO needs docs or refactoring
+  const requestedParts: string[][] = resolveTokens(requestedPerm);
+  const userParts: string[][] = resolveTokens(userPerm);
+
   for (let i = 0; i < requestedParts.length; i++) {
-    const userPart: string = userParts[i];
+    const userPart: string[] = userParts[i];
     if (i < requestedParts.length) {
-      const requestedPart: string = requestedParts[i];
+      const requestedPart: string[] = requestedParts[i];
       if (!containsWildCardToken(userPart) && !containsAll(userPart, requestedPart)) {
         isImplied = false;
         break;
@@ -122,28 +120,36 @@ function implies(requestedPerm: string, userPerm: string): boolean {
  * @description
  * Checks if a given permissionStringPart contains a wildcard character `*`
  *
+ * @example
+ * const hasWildCardToken = containsWildCardToken('ms:write'); // false
+ * const hasWildCardToken = containsWildCardToken('ms:write:*'); // true
+ *
  * @param permissionStringPart - the string to check
  *
  * @returns containsWildCardToken{ boolean } - true if the given string contains a wild card token, false if not
  */
-function containsWildCardToken(permissionStringPart: string): boolean {
+function containsWildCardToken(permissionStringPart: string[]): boolean {
   return permissionStringPart.indexOf(WILDCARD_TOKEN) > -1;
 }
 
 /**
- * containsAll
  *
- * @TODO mention when to use it, or what for?
+ * @description
+ * Checks if all tokens are contained
  *
- * @TODO is the typing correct here? are we really comparing characters?
- * @param userPermissionsString - ???
- * @param permissionsStringToCheck - ???
+ * @example
+ * const allContained = containsAll(['ms','write'], ['ms']) // false
+ * const allContained = containsAll(['ms','write'], ['ms','write']) // true
+ *
+ * @param userPermissionTokens - the permission tokens of the user
+ * @param requestedPermissionTokens - the permission tokens to check
+ *
+ * @return true if all tokens are contained, false if not
  */
-function containsAll(userPermissionsString: string, permissionsStringToCheck: string): boolean {
+function containsAll(userPermissionTokens: string[], requestedPermissionTokens: string[]): boolean {
   let contains = true;
-  // @TODO use Array.some
-  for (let i = 0; i < permissionsStringToCheck.length; i++) {
-    if (userPermissionsString.indexOf(permissionsStringToCheck[i]) === -1) {
+  for (let i = 0; i < requestedPermissionTokens.length; i++) {
+    if (!userPermissionTokens.includes(requestedPermissionTokens[i])) {
       contains = false;
       break;
     }
@@ -152,17 +158,15 @@ function containsAll(userPermissionsString: string, permissionsStringToCheck: st
 }
 
 /**
- * resolveSubParts
- *
  * @description
- * receives a sub part (@TODO explain what the sub part is) of a permission string
+ * receives a sub part of a permission string
  * in the format provided by the [apache shiro](https://shiro.apache.org/permissions.html) standard,
  * and returns the contained tokens as string array.
  *
  * @example
- * @TODO
+ * const subTokens = resolveSubParts('write,read,delete'); // ['write','read','delete']
  *
- * @param tokenizedString: string - the string to parse
+ * @param permissionStringSubPart: string - the string to parse
  *
  * @returns tokens { string[] }  - string array of tokens
  */

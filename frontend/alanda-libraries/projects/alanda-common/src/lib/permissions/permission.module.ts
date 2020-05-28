@@ -9,4 +9,5 @@ import {PermissionsDirective} from './permissions.directive';
   declarations: [PermissionsDirective],
   exports: [PermissionsDirective]
 })
+// forRoot for UserService
 export class PermissionModule { }

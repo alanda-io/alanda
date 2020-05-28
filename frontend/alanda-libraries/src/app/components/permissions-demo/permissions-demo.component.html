@@ -4,7 +4,7 @@
 
 
 <form (ngSubmit)="onSubmit()" [formGroup]="demoForm">
-  <fieldset class="set-a" permissions="read:write">
+  <fieldset class="set-a" permissions="ms:write:MS_NAME">
     <div class="inputField">
                   <span class="ui-float-label">
                     <input id="input-guid" type="text" pInputText formControlName="guid">
@@ -25,7 +25,7 @@
                     <label for="input-title">title</label>
                   </span>
     </div>
-    <div class="inputField" permissions="read:write">
+    <div class="inputField" permissions="ms:write:MS_NAME">
                   <span class="ui-float-label">
                     <input id="input-status" type="text" pInputText formControlName="status">
                     <label for="input-status">status</label>
@@ -33,7 +33,7 @@
     </div>
     <div class="inputField">
                   <span class="ui-float-label">
-                    <input permissions="read:write" id="input-phases" type="text" pInputText formControlName="phases">
+                    <input permissions="ms:write:MS_NAME" id="input-phases" type="text" pInputText formControlName="phases">
                     <label for="input-phases">phases</label>
                   </span>
     </div>
@@ -44,4 +44,8 @@
                   </span>
     </div>
   </fieldset>
+
+  <button permissions="mtts:read:??????">
+    Save
+  </button>
 </form>

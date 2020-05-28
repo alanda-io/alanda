@@ -1,12 +1,11 @@
-import {AccessLevels} from '../interfaces-and-types';
 import {ElementRef} from '@angular/core';
 
 export interface ElementManager {
   element: HTMLElement;
 
-  applyForbiddenBehavior(accessLevel: AccessLevels): void;
+  applyForbiddenBehavior(accessLevel: string[]): void;
 
-  applyGrantedBehavior(accessLevel: AccessLevels): void;
+  applyGrantedBehavior(accessLevel: string[]): void;
 }
 
 export function getManagersByElementRef(elementRef: ElementRef): ElementManager[] {
@@ -14,7 +13,7 @@ export function getManagersByElementRef(elementRef: ElementRef): ElementManager[
   const nativeElement = elementRef.nativeElement;
   const tagName = nativeElement.tagName;
 
-  if (['FIELDSET', 'INPUT', 'SELECT'].includes(tagName)) {
+  if (['FIELDSET', 'INPUT', 'SELECT', 'BUTTON'].includes(tagName)) {
     managers.push(new AttributeManager(nativeElement));
   } else if (['DIV'].includes(tagName)) {
     managers.push(new ClassManager(nativeElement));
@@ -31,11 +30,11 @@ class AttributeManager implements ElementManager {
   constructor(public element: HTMLElement) {
   }
 
-  applyGrantedBehavior(accessLevel: AccessLevels): void {
+  applyGrantedBehavior(accessLevel: string[]): void {
     this.element.removeAttribute(this.disabledAttribute);
   }
 
-  applyForbiddenBehavior(accessLevel: AccessLevels): void {
+  applyForbiddenBehavior(accessLevel: string[]): void {
     this.element.setAttribute(this.disabledAttribute, this.disabledAttribute);
   }
 
@@ -47,13 +46,12 @@ class ClassManager implements ElementManager {
   constructor(public element: HTMLElement) {
   }
 
-  applyGrantedBehavior(accessLevel: AccessLevels): void {
+  applyGrantedBehavior(accessLevel: string[]): void {
     this.element.classList.remove(this.disabledClass);
   }
 
-  applyForbiddenBehavior(accessLevel: AccessLevels): void {
+  applyForbiddenBehavior(accessLevel: string[]): void {
     this.element.classList.add(this.disabledClass);
   }
 
 }
-
