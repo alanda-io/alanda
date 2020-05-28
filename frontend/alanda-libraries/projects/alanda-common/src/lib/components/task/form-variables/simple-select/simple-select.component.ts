@@ -11,7 +11,7 @@ import { AlandaTaskApiService } from '../../../../api/taskApi.service';
 @Component({
   selector: 'alanda-simple-select',
   templateUrl: './simple-select.component.html',
-  styleUrls: [],
+  styleUrls: ['./simple-select.component.scss'],
 })
 export class AlandaSimpleSelectComponent implements OnInit {
   @Input() items: SelectItem[];

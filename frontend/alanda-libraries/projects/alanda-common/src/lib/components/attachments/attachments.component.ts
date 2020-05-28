@@ -6,7 +6,7 @@ import { AlandaDocumentApiService } from '../../api/documentApi.service';
 @Component({
   selector: 'alanda-attachments',
   templateUrl: './attachments.component.html',
-  providers: []
+  styleUrls: ['./attachments.component.scss']
 })
 export class AlandaAttachmentsComponent implements OnInit {
   @Input() mappings: string;

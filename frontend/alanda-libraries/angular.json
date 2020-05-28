@@ -5,7 +5,11 @@
   "projects": {
     "alanda-libraries": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -24,7 +28,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -125,6 +129,11 @@
     },
     "@alanda/common": {
       "projectType": "library",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "root": "projects/alanda-common",
       "sourceRoot": "projects/alanda-common/src",
       "prefix": "lib",
@@ -163,6 +172,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "alanda-libraries"
 }

@@ -9,7 +9,7 @@ import { AlandaProject } from '../../api/models/project';
 @Component({
   selector: 'create-project-component',
   templateUrl: './create-project.component.html',
-  styles: [],
+  styleUrls: ['./create-project.component.scss'],
 })
 
 export class AlandaCreateProjectComponent implements OnInit {

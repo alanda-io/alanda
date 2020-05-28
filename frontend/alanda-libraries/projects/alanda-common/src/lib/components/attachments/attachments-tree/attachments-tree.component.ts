@@ -3,7 +3,7 @@ import { TreeNode } from 'primeng/api';
 
 @Component({
   selector: 'attachments-tree',
-  templateUrl: './attachments-tree.component.html'
+  templateUrl: './attachments-tree.component.html',
 })
 export class AttachmentsTreeComponent {
   @Input() treeNode: TreeNode[];

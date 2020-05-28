@@ -1,19 +1,4 @@
-<style>
-  .ui-picklist-item{
-    word-break: break-all;
-  }
-
-  .inputField{
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-
-  .ui-panel {
-    margin-top: 20px;
-  }
-</style>
-
-<p-panel>
+<p-panel class="group-management">
   <p-header>Group Management</p-header>
   <div class="p-grid ui-fluid">
 
@@ -56,23 +41,23 @@
             <div class="p-col-4">
               <form [formGroup]="groupForm" (ngSubmit)="onFormSubmit()">
 
-                <div class="inputField">
+                <div class="input-field">
                   <span class="ui-float-label">
                     <input id="input-guid" type="text" pInputText formControlName="groupName">
                     <label for="input-guid">Groupname</label>
                   </span>
-                  <span *ngIf="groupForm.dirty && !groupForm.get('groupName').valid" style="font-size: 10px; color: red">Please enter a groupname</span>
+                  <span class="valid-error" *ngIf="groupForm.dirty && !groupForm.get('groupName').valid" style="">Please enter a groupname</span>
                 </div>
 
-                <div class="inputField">
+                <div class="input-field">
                   <span class="ui-float-label">
                     <input id="input-login" type="text" pInputText formControlName="longName">
                     <label for="input-login">Longname</label>
                   </span>
-                  <span *ngIf="groupForm.dirty && !groupForm.get('longName').valid" style="font-size: 10px; color: red">Please enter a group longname</span>
+                  <span class="valid-error" *ngIf="groupForm.dirty && !groupForm.get('longName').valid">Please enter a group longname</span>
                 </div>
 
-                <div class="inputField">
+                <div class="input-field">
                   <span class="ui-float-label">
                     <input id="input-login" type="text" pInputText formControlName="groupSource">
                     <label for="input-login">Source</label>

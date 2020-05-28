@@ -1,0 +1,43 @@
+.comments {
+  input {
+    width: 100%;
+  }
+
+  .textarea {
+    max-height: 100px;
+    min-height: auto;
+    overflow: hidden;
+    overflow-y: scroll;
+    resize: none;
+    width: 100%;
+  }
+
+  .form-buttons {
+    margin-bottom: 15px;
+    margin-top: 5px;
+    text-align: right;
+  }
+
+  .taglist {
+    float: left;
+    margin-right: 5px;
+  }
+
+  .spacer-bottom {
+    margin-bottom: 10px;
+  }
+
+  ::ng-deep .ui-scrollpanel-content {
+    max-height: 500px;
+  }
+
+  ::ng-deep .scrollbar .ui-scrollpanel-wrapper {
+    border-right: 9px solid #f4f4f4;
+  }
+
+  ::ng-deep .scrollbar .ui-scrollpanel-bar {
+    background-color: #1976d2;
+    opacity: 1;
+    transition: background-color 0.3s;
+  }
+}

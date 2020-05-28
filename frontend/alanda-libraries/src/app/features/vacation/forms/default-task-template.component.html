@@ -1,8 +1,3 @@
-<style>
-    ::ng-deep .ui-panel {
-        margin-bottom: 20px !important;
-    }
-</style>
 <ng-container *ngIf="state$ | async as taskFormState">
   <div *ngIf="taskFormState.project">
     <form [formGroup]="rootForm" (submit)="submit()">

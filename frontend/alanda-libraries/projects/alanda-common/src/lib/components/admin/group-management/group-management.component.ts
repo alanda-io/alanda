@@ -16,9 +16,7 @@ import { AlandaUserApiService } from '../../../api/userApi.service';
 @Component({
   selector: 'alanda-group-management',
   templateUrl: './group-management.component.html',
-  styleUrls: ['./group-management.component.css'],
-  encapsulation: ViewEncapsulation.None,
-
+  styleUrls: ['./group-management.component.scss']
 })
 export class AlandaGroupManagementComponent implements OnInit {
   groups: AlandaGroup[] = [];

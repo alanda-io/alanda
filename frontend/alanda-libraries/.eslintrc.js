@@ -1,47 +1,65 @@
 module.exports = {
-  extends: [
-    'standard-with-typescript',
-    'plugin:@angular-eslint/recommended'
-  ],
+  env: {
+    browser: true,
+    node: true
+  },
+  extends: 'standard',
   parserOptions: {
     ecmaVersion: 2020,
-    sourceType: 'module',
-    project: [
-      'tsconfig.app.json',
-      'tsconfig.spec.json',
-      'e2e/tsconfig.json',
-      'projects/alanda-common/tsconfig.lib.json',
-      'projects/alanda-common/tsconfig.spec.json'
-    ]
+    sourceType: 'module'
   },
   rules: {
-    '@typescript-eslint/semi': [
+    'semi': [
       'error',
       'always',
-      { "omitLastInOneLineBlock": true }
-    ],
-    // ORIGINAL tslint.json -> "component-selector": [true, "element", "app", "kebab-case"],
-    '@angular-eslint/component-selector': [
-      'warn',
-      { type: 'element', prefix: 'alanda', style: 'kebab-case' },
-    ],
-    'max-len': [
-      'warn'
-    ],
-    'dot-notation': [
-      'off'
+      { omitLastInOneLineBlock: true }
     ]
   },
   overrides: [
     {
-      files: ['*.component.ts'],
+      files: ['*.ts'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
-        ecmaVersion: 2020,
-        sourceType: 'module',
+        project: [
+          'tsconfig.json',
+          'tsconfig.app.json',
+          'tsconfig.spec.json',
+          'e2e/tsconfig.json',
+          'projects/alanda-common/tsconfig.lib.json',
+          'projects/alanda-common/tsconfig.spec.json'
+        ]
       },
-      plugins: ['@angular-eslint/template'],
-      processor: '@angular-eslint/template/extract-inline-html',
-    },
+      plugins: [
+        '@typescript-eslint',
+      ],
+      extends: [
+        'standard-with-typescript',
+        'plugin:@angular-eslint/recommended'
+      ],
+      rules: {
+        '@typescript-eslint/semi': [
+          'error',
+          'always',
+          { omitLastInOneLineBlock: true }
+        ],
+        '@angular-eslint/component-selector': [
+          'warn',
+          { type: 'element', prefix: 'alanda', style: 'kebab-case' },
+        ],
+        'max-len': [
+          'off'
+        ],
+        'dot-notation': [
+          'off'
+        ]
+      },
+      overrides: [
+        {
+          files: ['*.component.ts'],
+          plugins: ['@angular-eslint/template'],
+          processor: '@angular-eslint/template/extract-inline-html'
+        }
+      ]
+    }
   ],
 };

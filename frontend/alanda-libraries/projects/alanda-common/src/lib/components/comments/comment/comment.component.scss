@@ -1,0 +1,82 @@
+.comment {
+  * {
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+
+  .comment-box {
+    background: #dae2f0;
+    border-radius: 5px;
+    margin-left: 20px;
+    min-height: 70px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    position: relative;
+    width: 80%;
+  }
+
+  .subject {
+    font-size: 16px;
+    font-weight: 900;
+  }
+
+  .header {
+    display: block;
+  }
+
+  .bubble-effect::before {
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-right: 10px solid #dae2f0;
+    border-top: 10px solid #dae2f0;
+    content: '';
+    height: 0;
+    left: -19px;
+    position: absolute;
+    top: 20px;
+    width: 0;
+  }
+
+  .avatar {
+    display: block;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 60px;
+    width: 55px;
+  }
+
+  .author {
+    font-weight: 900;
+    line-height: 20px;
+    text-align: center;
+    width: 100%;
+  }
+
+  textarea {
+    max-height: 100px;
+    min-height: auto;
+    overflow: hidden;
+    overflow-y: scroll;
+    resize: none;
+    width: 100%;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    float: left;
+    margin-left: 2px;
+  }
+
+  li p-button {
+    display: block;
+    width: 100%;
+  }
+}

@@ -1,20 +1,4 @@
-<style>
-  .ui-picklist-item{
-    word-break: break-all;
-  }
-
-  .inputField{
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-
-  .ui-panel {
-    margin-top: 20px;
-  }
-</style>
-
-
-<p-panel>
+<p-panel class="role-management">
   <p-header>Role Management</p-header>
   <div class="p-grid ui-fluid">
 
@@ -34,7 +18,7 @@
           </tr>
           <tr>
             <th *ngFor="let col of columns">
-              <input pInputText type="text" (input)="table.filter($event.target.value, col.field, col.filterMatchMode)" style="padding: 0.3em">
+              <input pInputText type="text" (input)="table.filter($event.target.value, col.field, col.filterMatchMode)">
             </th>
           </tr>
         </ng-template>
@@ -57,12 +41,12 @@
               <div class="p-col-4">
                 <form (ngSubmit)="onFormSubmit()" [formGroup]="roleForm">
 
-                  <div class="inputField">
+                  <div class="input-field">
                     <span class="ui-float-label">
                       <input id="input-guid" type="text" pInputText formControlName="name">
                       <label for="input-guid">Rolename</label>
                     </span>
-                    <span *ngIf="roleForm.dirty && !roleForm.get('name').valid" style="font-size: 10px; color: red">Please enter a rolename</span>
+                    <span class="valid-error" *ngIf="roleForm.dirty && !roleForm.get('name').valid">Please enter a rolename</span>
                   </div>
 
                   <div class="p-grid">

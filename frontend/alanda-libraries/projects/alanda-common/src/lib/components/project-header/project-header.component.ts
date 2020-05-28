@@ -30,7 +30,7 @@ import { AlandaPropertyApiService } from '../../api/propertyApi.service';
 @Component({
   selector: 'alanda-project-header',
   templateUrl: './project-header.component.html',
-  styleUrls: [],
+  styleUrls: ['./project-header.component.scss'],
 })
 export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   @ViewChild(ProjectPropertiesDirective)
