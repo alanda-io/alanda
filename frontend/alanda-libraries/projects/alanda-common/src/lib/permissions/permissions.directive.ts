@@ -5,7 +5,7 @@ import {AlandaUser} from '../api/models/user';
 import {combineLatest} from 'rxjs';
 import {AccessLevels} from './interfaces-and-types';
 import {hasPermission, resolveTokens} from './utils/permission-checks';
-import {getManagersByElementRef} from './utils/element-manager';
+import {ElementManager, getManagersByElementRef} from './utils/element-manager';
 
 @Directive({
   // tslint:disable-next-line:directive-selector
@@ -15,6 +15,9 @@ export class PermissionsDirective extends RxState<{
   user: AlandaUser,
   currentPermissionTokens: string[]
 }> {
+
+  hostElementManagers: ElementManager[] = getManagersByElementRef(this.hostElement);
+
 
   @Input('permissions')
   set rights(permissionString: string) {
@@ -26,8 +29,8 @@ export class PermissionsDirective extends RxState<{
     private userService: AlandaUserApiService
   ) {
     super();
-    const hostElementManagers = getManagersByElementRef(this.hostElement);
     this.connect('user', this.userService.user$);
+    this.hold(this.select(), console.log);
 
     this.hold(
       combineLatest([
@@ -35,11 +38,18 @@ export class PermissionsDirective extends RxState<{
         this.select('currentPermissionTokens')
       ]),
       ([user, tokens]) => {
+
         // @TODO-Michael what token is what?? 0 1 right??
         const accessLevel = tokens[1] as AccessLevels;
         const entityIdentifier = tokens[0];
+
+        if (user === null) {
+          this.forbidAll(accessLevel);
+        }
+
         const permissionsGranted = hasPermission(entityIdentifier, accessLevel, user);
-        hostElementManagers.forEach((manager) => {
+
+        this.hostElementManagers.forEach((manager) => {
           if (permissionsGranted) {
             manager.applyGrantedBehavior(accessLevel);
           } else {
@@ -47,6 +57,13 @@ export class PermissionsDirective extends RxState<{
           }
         });
       });
+  }
+
+  forbidAll(accessLevel) {
+    this.hostElementManagers.forEach((manager) => {
+      console.log('manager', manager);
+      manager.applyForbiddenBehavior(accessLevel);
+    });
   }
 
 }

@@ -1,4 +1,10 @@
-import {AccessLevels} from '../interfaces-and-types';
+import {
+  AccessLevels,
+  PART_DIVIDER_TOKEN,
+  PERMISSION_PLACEHOLDER,
+  SUBPART_DIVIDER_TOKEN,
+  WILDCARD_TOKEN
+} from '../interfaces-and-types';
 import {AlandaUser} from '../../api/models/user';
 
 /**
@@ -18,9 +24,9 @@ export function resolveTokens(tokenizedString: string): string[] {
   const parts = [];
   if (tokenizedString) {
     tokenizedString = tokenizedString.trim();
-    const tokens: string[] = tokenizedString.split(this.PART_DIVIDER_TOKEN);
+    const tokens: string[] = tokenizedString.split(PART_DIVIDER_TOKEN);
     tokens.forEach((token) => {
-      parts.push(this.resolveSubParts(token));
+      parts.push(resolveSubParts(token));
     });
     return parts;
   }
@@ -32,6 +38,9 @@ export function resolveTokens(tokenizedString: string): string[] {
  *
  * @description
  * Checks if a given user has a given role
+ *
+ * @example
+ * const hasAdminRole: boolean = hasPmcRole('admin', user);
  *
  * @param role - the role to check for
  * @param user - the user to check against
@@ -46,6 +55,9 @@ export function hasPmcRole(role: string, user: AlandaUser): boolean {
  * @description
  * Checks if a given user has granted rights for a specified entity and accessLevel
  *
+ * @example
+ * @TODO
+ *
  * @param entityIdentifier: string - entity to check rights for
  * @param accessLevel: AccessLevels - Level of access
  * @param currentUser: AlandaUser - user to check rights for
@@ -57,7 +69,7 @@ export function hasPermission(entityIdentifier: string, accessLevel?: AccessLeve
   if (!currentUser) {
     return false;
   }
-  // @TODO => logging should be (if kept in code) only on in development
+  // @TODO => logging should be (if even kept in code) only on in development
   // console.log('currentUser has no valid stringPermissions property -> no access');
   // If the user has no valid permission strings no access is granted
   if (!currentUser.stringPermissions || !Array.isArray(currentUser.stringPermissions)) {
@@ -66,11 +78,11 @@ export function hasPermission(entityIdentifier: string, accessLevel?: AccessLeve
   const permissions = currentUser.stringPermissions;
   let requestedPermission;
   if (accessLevel) {
-    requestedPermission = entityIdentifier.replace(this.PERMISSION_PLACEHOLDER, accessLevel);
+    requestedPermission = entityIdentifier.replace(PERMISSION_PLACEHOLDER, accessLevel);
   } else {
     requestedPermission = entityIdentifier;
   }
-  return permissions.some(permission => this.implies(requestedPermission, permission));
+  return permissions.some(permission => implies(requestedPermission, permission));
 }
 
 /**
@@ -90,12 +102,12 @@ function implies(requestedPerm: string, userPerm: string): boolean {
     const userPart: string = userParts[i];
     if (i < requestedParts.length) {
       const requestedPart: string = requestedParts[i];
-      if (!this.containsWildCardToken(userPart) && !this.containsAll(userPart, requestedPart)) {
+      if (!containsWildCardToken(userPart) && !containsAll(userPart, requestedPart)) {
         isImplied = false;
         break;
       }
     } else {
-      if (!this.containsWildCardToken(userPart)) {
+      if (!containsWildCardToken(userPart)) {
         isImplied = false;
         break;
       }
@@ -115,7 +127,7 @@ function implies(requestedPerm: string, userPerm: string): boolean {
  * @returns containsWildCardToken{ boolean } - true if the given string contains a wild card token, false if not
  */
 function containsWildCardToken(permissionStringPart: string): boolean {
-  return permissionStringPart.indexOf(this.WILDCARD_TOKEN) > -1;
+  return permissionStringPart.indexOf(WILDCARD_TOKEN) > -1;
 }
 
 /**
@@ -156,7 +168,7 @@ function containsAll(userPermissionsString: string, permissionsStringToCheck: st
  */
 function resolveSubParts(permissionStringSubPart: string): string[] {
   const tokensOfSubParts: string[] = [];
-  const tokens = permissionStringSubPart.split(this.SUBPART_DIVIDER_TOKEN);
+  const tokens = permissionStringSubPart.split(SUBPART_DIVIDER_TOKEN);
   tokens.forEach((token, i) => {
     token = token.trim();
     tokensOfSubParts[i] = token;

@@ -3,7 +3,13 @@ import {FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-permissions-demo',
-  templateUrl: './permissions-demo.component.html'
+  templateUrl: './permissions-demo.component.html',
+  styles: [`
+    .disabled,
+    [disabled] {
+      border: 1px solid red;
+    }
+  `]
 })
 export class PermissionsDemoComponent implements OnInit {
 

@@ -1,7 +1,7 @@
 import {AccessLevels} from '../interfaces-and-types';
 import {ElementRef} from '@angular/core';
 
-interface ElementManager {
+export interface ElementManager {
   element: HTMLElement;
 
   applyForbiddenBehavior(accessLevel: AccessLevels): void;
@@ -16,9 +16,9 @@ export function getManagersByElementRef(elementRef: ElementRef): ElementManager[
 
   if (['FIELDSET', 'INPUT', 'SELECT'].includes(tagName)) {
     managers.push(new AttributeManager(nativeElement));
-  }
-
-  if (['DIV'].includes(tagName)) {
+  } else if (['DIV'].includes(tagName)) {
+    managers.push(new ClassManager(nativeElement));
+  } else {
     managers.push(new ClassManager(nativeElement));
   }
 
@@ -32,11 +32,11 @@ class AttributeManager implements ElementManager {
   }
 
   applyGrantedBehavior(accessLevel: AccessLevels): void {
-    this.element.setAttribute(this.disabledAttribute, this.disabledAttribute);
+    this.element.removeAttribute(this.disabledAttribute);
   }
 
   applyForbiddenBehavior(accessLevel: AccessLevels): void {
-    this.element.removeAttribute(this.disabledAttribute);
+    this.element.setAttribute(this.disabledAttribute, this.disabledAttribute);
   }
 
 }
@@ -48,11 +48,11 @@ class ClassManager implements ElementManager {
   }
 
   applyGrantedBehavior(accessLevel: AccessLevels): void {
-    this.element.classList.add(this.disabledClass);
+    this.element.classList.remove(this.disabledClass);
   }
 
   applyForbiddenBehavior(accessLevel: AccessLevels): void {
-    this.element.classList.remove(this.disabledClass);
+    this.element.classList.add(this.disabledClass);
   }
 
 }
