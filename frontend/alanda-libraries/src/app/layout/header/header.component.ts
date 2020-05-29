@@ -1,4 +1,4 @@
-import {Component, OnInit, HostListener, ViewChild} from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { state, style, transition, animate, trigger } from '@angular/animations';
 import { AlandaUserApiService } from 'projects/alanda-common/src/public-api';
 import { MenuItem } from 'primeng/api/menuitem';
