@@ -20,12 +20,11 @@ export class AlandaCommentsComponent implements OnInit {
   filterEnabled = false;
   comments: AlandaComment[] = [];
   tags: AlandaCommentTag[] = [];
-  commentCount: number;
   procInstId: string;
   taskId: string;
   tagHash = {};
   tagFilters: string[] = [];
-  searchText: string;
+  searchText = '';
   subject = ' ';
   content = '';
 
@@ -128,6 +127,7 @@ export class AlandaCommentsComponent implements OnInit {
   }
 
   extractTags (comment: AlandaComment): void {
+    comment.tagList = [];
     if (comment.taskName !== '') {
       comment.tagList.push({ name: comment.taskName, type: 'task' });
     }
@@ -160,17 +160,21 @@ export class AlandaCommentsComponent implements OnInit {
   }
 
   get filteredCommentsBySearchAndTags (): Array<AlandaComment> {
-    const commentsFilteredBySearch: AlandaComment[] = this.comments.filter((comment: AlandaComment) => {
-      return comment.fulltext === this.searchText;
-    });
+    let filteredComments: AlandaComment[] = this.comments;
 
-    if (!this.filterEnabled) {
-      return commentsFilteredBySearch;
-    }
-    return commentsFilteredBySearch.filter((comment) => {
-      comment.tagList.filter((tag) => {
-        return this.tagFilters.includes(tag.name);
+    if (this.searchText.trim().length > 0) {
+      filteredComments = this.comments.filter((comment: AlandaComment) => {
+        return comment.fulltext.trim().toLowerCase().includes(this.searchText.trim().toLowerCase());
       });
-    });
+    }
+
+    if (this.filterEnabled) {
+      return filteredComments.filter((comment) => {
+        return comment.tagList.filter((tag) => {
+          return this.tagFilters.includes(tag.name);
+        });
+      });
+    }
+    return filteredComments;
   }
 }

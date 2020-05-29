@@ -14,12 +14,27 @@
     text-align: right;
   }
 
-  .taglist {
+  .comment {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .tag-wrapper {
     float: left;
-    margin-right: 5px;
+    margin: 5px 5px 5px 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 
   .spacer-bottom {
     margin-bottom: 10px;
+  }
+
+  .comments-no-entry {
+    font-size: 18px;
+    padding: 25px;
+    text-align: center;
   }
 }

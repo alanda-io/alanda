@@ -60,19 +60,23 @@
     width: 100%;
   }
 
-  ul {
+  .tag-list {
     list-style-type: none;
     margin: 0;
     padding: 0;
+
+    .tag-item {
+      float: left;
+      margin-left: 2px;
+
+      .item {
+        display: block;
+        width: 100%;
+      }
+    }
   }
 
-  li {
-    float: left;
-    margin-left: 2px;
-  }
-
-  li p-button {
-    display: block;
-    width: 100%;
+  .reply-to-comment {
+    float: right;
   }
 }

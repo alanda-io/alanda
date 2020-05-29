@@ -9,13 +9,13 @@
       <a href="Javascript:void()" (click)="doReply=!doReply"><span *ngIf="comment.replies.length > 0" class="fa fa-comments"> {{comment.replies.length}} Replies</span></a>
     </div>
     {{comment.text}}
-    <ul *ngFor="let tag of comment.tagList">
-      <li>
-        <p-button label="{{tag.name}}" icon="pi pi-tag" iconPos="left" type="button" [styleClass]="tagClass(tag)"></p-button>
+    <ul class="tag-list" *ngFor="let tag of comment.tagList">
+      <li class="tag-item">
+        <p-button class="item" label="{{tag.name}}" icon="pi pi-tag" iconPos="left" type="button" [styleClass]="tagClass(tag)"></p-button>
       </li>
     </ul>
     <div *ngIf="type === 'comment'">
-      <p-button label="Reply" style="float: right;" (click)="doReply=!doReply; autofocus()" icon="fa fa-reply" iconPos="left" type="button"></p-button>
+      <p-button label="Reply" class="reply-to-comment" (click)="doReply=!doReply; autofocus()" icon="fa fa-reply" iconPos="left" type="button"></p-button>
     </div>
   </div>
 </div>
@@ -23,7 +23,7 @@
   <div class="p-offset-1 p-col-11" [hidden]="!doReply">
     <form (ngSubmit)="onSubmitReply(replyForm)" #replyForm="ngForm">
       <textarea pInputTextarea name="replyText" #replyContent autoResize="autoResize" [rows]="4" [(ngModel)]="comment.replyText" maxLength="1000" placeholder="Write a reply..." required></textarea>
-      <p-button type="submit" style="float:right;" icon="fa fa-paper-plane" iconPos="left" label="Post Reply" [disabled]="!replyForm.valid"></p-button>
+      <p-button type="submit" class="reply-to-comment" icon="fa fa-paper-plane" iconPos="left" label="Post Reply" [disabled]="!replyForm.valid"></p-button>
     </form>
     </div>
   <div class="p-offset-1 p-col-11" *ngIf="doReply">
