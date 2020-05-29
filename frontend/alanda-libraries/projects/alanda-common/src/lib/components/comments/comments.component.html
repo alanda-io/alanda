@@ -7,15 +7,13 @@
   <div class="p-grid">
     <div class="p-lg-10 p-sm-12">
       <form (ngSubmit)="onSubmitComment(commentForm)" #commentForm="ngForm">
-        <textarea id="textarea" (keyup)="autogrow()" name="content" [(ngModel)]="content" pInputTextarea maxLength="4000" [rows]="1" placeholder="Write a comment..."></textarea>
+        <textarea pInputTextarea id="textarea" class="comment-textarea" [rows]="4" autoResize="autoResize" name="content" [(ngModel)]="content" maxLength="4000" placeholder="Write a comment..."></textarea>
         <div class="form-buttons">
           <p-button type="submit" icon="fa fa-paper-plane" iconPos="left" label="Post Comment" [disabled]="!content"></p-button>
         </div>
       </form>
-      <p-scrollPanel styleClass="scrollbar">
-        <div *ngIf="comments.length > 0">
-          <alanda-comment [comment]="comment" [tagFilters]="tagFilters" type="comment" *ngFor="let comment of comments | filter:searchText:'fulltext' | tagFilter: tagFilters:filterEnabled"></alanda-comment>
-        </div>
+      <p-scrollPanel [style]="{height: '500px'}" *ngIf="comments.length > 0">
+        <alanda-comment [comment]="comment" [tagFilters]="tagFilters" type="comment" *ngFor="let comment of filteredCommentsBySearchAndTags"></alanda-comment>
       </p-scrollPanel>
     </div>
     <div class="p-col">

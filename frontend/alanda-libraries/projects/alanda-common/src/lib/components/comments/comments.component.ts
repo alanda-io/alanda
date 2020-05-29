@@ -32,7 +32,7 @@ export class AlandaCommentsComponent implements OnInit {
   constructor (private readonly commentService: AlandaCommentApiService, private readonly messageService: MessageService,
     private readonly datePipe: DatePipe) {}
 
-  ngOnInit () {
+  ngOnInit (): void {
     if (this.task) {
       this.procInstId = this.task.process_instance_id;
       this.taskId = this.task.task_id;
@@ -41,15 +41,6 @@ export class AlandaCommentsComponent implements OnInit {
       this.procInstId = this.pid;
     }
     this.loadComments();
-  }
-
-  autogrow () {
-    const textArea = document.getElementById('textarea');
-    if (this.content.length === 0) {
-      textArea.style.height = textArea.style.minHeight;
-    } else {
-      textArea.style.height = textArea.scrollHeight + 'px';
-    }
   }
 
   onSubmitComment (form: NgForm) {
@@ -123,7 +114,7 @@ export class AlandaCommentsComponent implements OnInit {
     }
   }
 
-  togglePanel () {
+  togglePanel (): void {
     if (this.commentPanel.collapsed) {
       this.loadComments();
     }
@@ -136,23 +127,11 @@ export class AlandaCommentsComponent implements OnInit {
     return 'ui-button-info';
   }
 
-  extractTags (comment: AlandaComment) {
-    comment.tagList = [];
-    if (comment.processName) {
-      comment.tagList.push(
-        { name: comment.processName, type: 'process' }
-      );
-    }
-    if (comment.taskName) {
+  extractTags (comment: AlandaComment): void {
+    if (comment.taskName !== '') {
       comment.tagList.push({ name: comment.taskName, type: 'task' });
     }
-    /* if(comment.siteIdName){
-      comment.tagList.push(new CommentTag(`Site ${comment.siteIdName}`, 'bo'))
-    }
-    if(comment.saIdName){
-      comment.tagList.push(new CommentTag(`SearchArea ${comment.saIdName}`, 'bo'))
-    } */
-    if (comment.subject) {
+    if (comment.subject !== '') {
       if (comment.subject.includes('#')) {
         comment.subject.match(/#\w+/g).forEach((value) => {
           comment.tagList.push({ name: value, type: 'user' });
@@ -162,7 +141,7 @@ export class AlandaCommentsComponent implements OnInit {
     }
   }
 
-  toggleFilter (name: string) {
+  toggleFilter (name: string): void {
     const filterIndex = this.tagFilters.indexOf(name);
     if (filterIndex !== -1) {
       this.tagFilters.splice(filterIndex, 1);
@@ -175,8 +154,23 @@ export class AlandaCommentsComponent implements OnInit {
     }
   }
 
-  clearFilters () {
+  clearFilters (): void {
     this.tagFilters = [];
     this.filterEnabled = false;
+  }
+
+  get filteredCommentsBySearchAndTags (): Array<AlandaComment> {
+    const commentsFilteredBySearch: AlandaComment[] = this.comments.filter((comment: AlandaComment) => {
+      return comment.fulltext === this.searchText;
+    });
+
+    if (!this.filterEnabled) {
+      return commentsFilteredBySearch;
+    }
+    return commentsFilteredBySearch.filter((comment) => {
+      comment.tagList.filter((tag) => {
+        return this.tagFilters.includes(tag.name);
+      });
+    });
   }
 }

@@ -4,7 +4,6 @@ import { AlandaComment } from '../../../api/models/comment';
 import { AlandaCommentTag } from '../../../api/models/commentTag';
 import { AlandaCommentApiService } from '../../../api/commentApi.service';
 
-
 @Component({
   selector: 'alanda-comment',
   templateUrl: './comment.component.html',
@@ -13,39 +12,18 @@ import { AlandaCommentApiService } from '../../../api/commentApi.service';
 export class AlandaCommentComponent {
   @Input() comment: AlandaComment;
   @Input() type: string;
-  @Input() tagFilters;
+  @Input() tagFilters: Array<string>;
   @ViewChild('replyContent') textArea: ElementRef;
-  filterEnabled: boolean;
   doReply: boolean;
   loadingInProgress: boolean;
 
   constructor (private readonly pmcCommentService: AlandaCommentApiService) {}
 
   tagClass (tag: AlandaCommentTag): string {
-    /* if(!this.filterEnabled || this.tagFilters.indexOf(tag.name) !== -1){
-      //TODO: remove? improve
-      if(tag.name === '#escalation'){
-        return 'ui-button-danger';
-      }
-      if(tag.name.startsWith('#')){
-        return 'ui-button-warning';
-      }
-      return 'ui-button-success';
-    }
-    return 'ui-button-info'; */
-    if (this.tagFilters.includes((tag.name))) {
+    if (this.tagFilters.includes(tag.name)) {
       return 'ui-button-success';
     }
     return 'ui-button-info';
-  }
-
-  autogrow () {
-    const textArea = document.getElementById('replyTextarea');
-    if (this.comment.replyText && this.comment.replyText.length === 0) {
-      textArea.style.height = textArea.style.minHeight;
-    } else {
-      textArea.style.height = textArea.scrollHeight + 'px';
-    }
   }
 
   autofocus () {
@@ -68,20 +46,6 @@ export class AlandaCommentComponent {
       }
     );
   }
-
-  /* toggleFilter(name: string) {
-    let filterIndex = this.tagFilters.indexOf(name);
-    if(filterIndex !== -1){
-      this.tagFilters.splice(filterIndex,1);
-      if(this.tagFilters.length === 0){
-        this.filterEnabled = false;
-      }
-    }
-    else {
-      this.tagFilters.push(name);
-      this.filterEnabled = true;
-     }
-  } */
 
   refresh () {
     this.pmcCommentService.getCommentsforPid(this.comment.procInstId).subscribe(res => {
