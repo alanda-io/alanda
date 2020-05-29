@@ -1,8 +1,3 @@
-<style>
-  ::ng-deep .ui-panel {
-    margin-bottom: 20px !important;
-  }
-</style>
 <ng-container *ngIf="state$ | async as taskFormState">
   <form [formGroup]="rootForm" (submit)="submit()">
     <alanda-project-header
@@ -10,6 +5,7 @@
       [project]="taskFormState.project"
     ></alanda-project-header>
     <alanda-comments [task]="taskFormState.task"></alanda-comments>
+    <alanda-attachments [task]="taskFormState.task" [project]="taskFormState.project"></alanda-attachments>
     <div class="p-grid">
       <div class="p-col-2">
         <alanda-var-select

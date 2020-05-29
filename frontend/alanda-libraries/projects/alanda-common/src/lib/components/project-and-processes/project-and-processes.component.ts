@@ -16,7 +16,6 @@ import { ProcessRelation } from '../../enums/processRelation.enum';
   styleUrls : ['./project-and-processes.component.css'],
 })
 export class AlandaProjectAndProcessesComponent implements OnInit {
-
   @Input() project: AlandaProject;
   @Input() task: AlandaTask;
 
@@ -27,7 +26,8 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
   projectWithParentsAndChildren: AlandaProject;
   loading: boolean;
 
-  constructor(private projectService: AlandaProjectApiService, private projectAndProcessesService: ProjectAndProcessesService) {}
+  constructor (private readonly projectService: AlandaProjectApiService, private readonly projectAndProcessesService: ProjectAndProcessesService) {
+  }
 
   ngOnInit() {}
 

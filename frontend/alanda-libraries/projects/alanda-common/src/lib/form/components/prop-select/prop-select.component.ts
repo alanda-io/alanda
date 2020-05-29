@@ -1,19 +1,19 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { SelectItem } from "primeng/api";
+import { Component, OnInit, Input } from '@angular/core';
+import { SelectItem } from 'primeng/api';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   AbstractControl,
-} from "@angular/forms";
-import { AlandaPropertyApiService } from "../../../api/propertyApi.service";
-import { AlandaProject } from "../../../api/models/project";
+} from '@angular/forms';
+import { AlandaPropertyApiService } from '../../../api/propertyApi.service';
+import { AlandaProject } from '../../../api/models/project';
 
-const SELECTOR: string = "alanda-prop-select";
+const SELECTOR = 'alanda-prop-select';
 
 @Component({
   selector: SELECTOR,
-  templateUrl: "./prop-select.component.html",
+  templateUrl: './prop-select.component.html',
   styleUrls: [],
 })
 export class AlandaPropSelectComponent implements OnInit {
@@ -24,7 +24,7 @@ export class AlandaPropSelectComponent implements OnInit {
   @Input() type?: string;
 
   @Input()
-  set rootFormGroup(rootFormGroup: FormGroup) {
+  set rootFormGroup (rootFormGroup: FormGroup) {
     if (rootFormGroup) {
       rootFormGroup.addControl(
         `${SELECTOR}-${this.propertyName}`,
@@ -37,14 +37,14 @@ export class AlandaPropSelectComponent implements OnInit {
     selected: [null, Validators.required],
   });
 
-  constructor(
-    private propertyService: AlandaPropertyApiService,
-    private fb: FormBuilder
+  constructor (
+    private readonly propertyService: AlandaPropertyApiService,
+    private readonly fb: FormBuilder
   ) {}
 
-  ngOnInit() {
+  ngOnInit () {
     if (!this.type) {
-      this.type = "string";
+      this.type = 'string';
     }
     this.propertyService
       .get(null, null, this.project.guid, this.propertyName)
@@ -53,7 +53,7 @@ export class AlandaPropSelectComponent implements OnInit {
       });
   }
 
-  save() {
+  save () {
     this.propertyService
       .set(
         null,
@@ -66,7 +66,7 @@ export class AlandaPropSelectComponent implements OnInit {
       .subscribe();
   }
 
-  get selected(): AbstractControl {
-    return this.selectForm.get("selected");
+  get selected (): AbstractControl {
+    return this.selectForm.get('selected');
   }
 }

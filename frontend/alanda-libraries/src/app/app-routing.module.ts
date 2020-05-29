@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './views/home/home.component';
-import { AlandaCreateProjectComponent, AlandaProjectMonitorComponent, AlandaTasklistComponent,
-         AlandaGroupManagementComponent, AlandaRoleManagementComponent,
-         AlandaPermissionManagementComponent,
-         AlandaUserManagementComponent,
-         AlandaProjectsControllerComponent,
-         } from '../../projects/alanda-common/src/public-api';
+import {
+  AlandaCreateProjectComponent, AlandaProjectMonitorComponent, AlandaTasklistComponent,
+  AlandaGroupManagementComponent, AlandaRoleManagementComponent,
+  AlandaPermissionManagementComponent,
+  AlandaUserManagementComponent,
+  AlandaProjectsControllerComponent,
+} from '../../projects/alanda-common/src/public-api';
 // import { PrepareVacationRequestComponent } from './features/vacation/forms/prepare-vacation-request.component';
 // import { CheckVacationRequestComponent } from './features/vacation/forms/check-vacation-request.component';
 // import { ModifyVacationRequestComponent } from './features/vacation/forms/modify-vacation-request.component';
@@ -23,17 +24,21 @@ const routes: Routes = [
   { path: 'create/project/:projectGuid', component: AlandaCreateProjectComponent },
   { path: 'monitor/projects', component: AlandaProjectMonitorComponent },
   { path: 'tasks/list', component: AlandaTasklistComponent },
-  { path: 'forms', children: [
-    {
-      path: 'vacation',
-      component: AlandaFormsControllerComponent,
-      loadChildren: () =>
+  {
+    path: 'forms',
+    children: [
+      {
+        path: 'vacation',
+        component: AlandaFormsControllerComponent,
+        loadChildren: () =>
         import('./features/vacation/vacation.module').then(
           (m) => m.VacationModule,
         ),
-    },
-  ]},
-  { path: 'projectdetails/:projectId',
+      },
+    ]
+  },
+  {
+    path: 'projectdetails/:projectId',
     component: AlandaProjectsControllerComponent,
     children: [
       {
@@ -43,13 +48,14 @@ const routes: Routes = [
             (m) => m.VacationModule,
           ),
       }
-    ] },
+    ]
+  },
   // { path: 'projectdetails/:projectId', component:  AlandaProjectsControllerComponent},
-  { path: '**', redirectTo: ''}
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload'})],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

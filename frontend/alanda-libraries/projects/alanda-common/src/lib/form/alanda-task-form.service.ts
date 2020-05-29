@@ -1,11 +1,11 @@
-import { Injectable, OnInit, OnDestroy } from "@angular/core";
-import { RxState } from "@rx-angular/state";
+import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { RxState } from '@rx-angular/state';
 import {
   Router,
   ActivatedRouteSnapshot,
   RouterEvent,
   NavigationEnd,
-} from "@angular/router";
+} from '@angular/router';
 import {
   filter,
   map,
@@ -13,19 +13,19 @@ import {
   concatMap,
   tap,
   catchError,
-} from "rxjs/operators";
+} from 'rxjs/operators';
 
-import { of, Observable, EMPTY } from "rxjs";
-import { FormBuilder } from "@angular/forms";
-import { AlandaTask } from "../api/models/task";
-import { AlandaProject } from "../api/models/project";
-import { AlandaProjectApiService } from "../api/projectApi.service";
-import { AlandaTaskApiService } from "../api/taskApi.service";
-import { MessageService } from "primeng/api";
+import { of, Observable, EMPTY } from 'rxjs';
+import { FormBuilder } from '@angular/forms';
+import { AlandaTask } from '../api/models/task';
+import { AlandaProject } from '../api/models/project';
+import { AlandaProjectApiService } from '../api/projectApi.service';
+import { AlandaTaskApiService } from '../api/taskApi.service';
+import { MessageService } from 'primeng/api';
 
 export interface AlandaTaskFormState {
-  task?: AlandaTask;
-  project?: AlandaProject;
+  task?: AlandaTask
+  project?: AlandaProject
   //  rootFormData: { [controlName: string]: any }
 }
 
@@ -45,6 +45,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     map((snapshot) => this.collectParams(snapshot))
     // tap((sn) => console.log("sn", sn))
   );
+
   urlTaskId$ = this.routerParams$.pipe(map((p) => p.taskId));
 
   fetchTaskById$ = this.urlTaskId$.pipe(
@@ -52,7 +53,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
       return this.taskService.getTask(tid);
     }),
     concatMap((task: AlandaTask) => {
-      if (!!task.pmcProjectGuid) {
+      if (task.pmcProjectGuid) {
         return this.projectService
           .getProjectByGuid(task.pmcProjectGuid)
           .pipe(map((project) => ({ task, project })));
@@ -61,38 +62,38 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     })
   );
 
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private taskService: AlandaTaskApiService,
-    private projectService: AlandaProjectApiService,
-    private messageService: MessageService
+  constructor (
+    private readonly router: Router,
+    private readonly fb: FormBuilder,
+    private readonly taskService: AlandaTaskApiService,
+    private readonly projectService: AlandaProjectApiService,
+    private readonly messageService: MessageService
   ) {
     super();
     this.connect(this.fetchTaskById$);
   }
 
-  private collectParams(root: ActivatedRouteSnapshot): any {
+  private collectParams (root: ActivatedRouteSnapshot): any {
     const params: any = {};
-    (function mergeParamsFromSnapshot(snapshot: ActivatedRouteSnapshot) {
+    (function mergeParamsFromSnapshot (snapshot: ActivatedRouteSnapshot) {
       Object.assign(params, snapshot.params);
       snapshot.children.forEach(mergeParamsFromSnapshot);
     })(root);
     return params;
   }
 
-  addValidators(validators) {
+  addValidators (validators) {
     this.rootForm.setValidators(validators);
   }
 
-  submit(): Observable<any> {
+  submit (): Observable<any> {
     this.rootForm.markAllAsTouched();
     if (this.rootForm.valid) {
       return this.taskService.complete(this.get().task.task_id).pipe(
         tap((resp) =>
           this.messageService.add({
-            severity: "success",
-            summary: "Task completed",
+            severity: 'success',
+            summary: 'Task completed',
             detail: `The task ${
               this.get().task.task_name
             } has been successfully completed!`,
@@ -100,17 +101,22 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
         ),
         catchError((error) => {
           this.messageService.add({
-            severity: "error",
-            summary: "Task completion fails",
+            severity: 'error',
+            summary: 'Task completion fails',
             detail: `The task ${
               this.get().task.task_name
             } could not be completed: ${error}`,
           });
           return EMPTY;
+        }),
+        tap((val) => {
+          if (val !== EMPTY) {
+            this.router.navigate(['/']);
+          }
         })
       );
     } else {
-      console.log("errors", this.rootForm.errors);
+      console.log('errors', this.rootForm.errors);
       return of(this.rootForm.errors);
     }
   }

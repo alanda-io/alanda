@@ -1,17 +1,17 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { SelectItem } from "primeng/api";
+import { Component, OnInit, Input } from '@angular/core';
+import { SelectItem } from 'primeng/api';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   AbstractControl,
-} from "@angular/forms";
-import { AlandaTaskApiService } from "../../../../api/taskApi.service";
+} from '@angular/forms';
+import { AlandaTaskApiService } from '../../../../api/taskApi.service';
 
 @Component({
-  selector: "alanda-simple-select",
-  templateUrl: "./simple-select.component.html",
-  styleUrls: [],
+  selector: 'alanda-simple-select',
+  templateUrl: './simple-select.component.html',
+  styleUrls: ['./simple-select.component.scss'],
 })
 export class AlandaSimpleSelectComponent implements OnInit {
   @Input() items: SelectItem[];
@@ -21,7 +21,7 @@ export class AlandaSimpleSelectComponent implements OnInit {
   @Input() type?: string;
 
   @Input()
-  set rootFormGroup(rootFormGroup: FormGroup) {
+  set rootFormGroup (rootFormGroup: FormGroup) {
     if (rootFormGroup) {
       rootFormGroup.addControl(
         `alanda-simple-select-${this.variableName}`,
@@ -34,32 +34,32 @@ export class AlandaSimpleSelectComponent implements OnInit {
     selected: [null, Validators.required],
   });
 
-  constructor(
-    private taskService: AlandaTaskApiService,
-    private fb: FormBuilder
+  constructor (
+    private readonly taskService: AlandaTaskApiService,
+    private readonly fb: FormBuilder
   ) {}
 
-  ngOnInit() {
+  ngOnInit () {
     if (!this.type) {
-      this.type = "string";
+      this.type = 'string';
     }
     this.taskService
       .getVariable(this.task.task_id, this.variableName)
       .subscribe((resp) => {
-        this.selectForm.get("selected").setValue(resp.value);
+        this.selectForm.get('selected').setValue(resp.value);
       });
   }
 
-  save() {
+  save () {
     this.taskService
       .setVariable(this.task.task_id, this.variableName, {
-        value: this.selectForm.get("selected").value,
+        value: this.selectForm.get('selected').value,
         type: this.type,
       })
       .subscribe();
   }
 
-  get selected(): AbstractControl {
-    return this.selectForm.get("selected");
+  get selected (): AbstractControl {
+    return this.selectForm.get('selected');
   }
 }

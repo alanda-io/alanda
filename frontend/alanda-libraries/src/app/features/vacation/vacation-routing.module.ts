@@ -7,10 +7,10 @@ import { ProjectDetailsComponent } from 'src/app/components/project-details/proj
 
 const routes: Routes = [
   { path: '', component: ProjectDetailsComponent },
-  { path: 'prepare-vacation-request/:taskId', component: PrepareVacationRequestComponent},
-  { path: 'check-vacation-request/:taskId', component: CheckVacationRequestComponent},
-  { path: 'modify-vacation-request/:taskId', component: ModifyVacationRequestComponent},
-  { path: '**', redirectTo: ''}
+  { path: 'prepare-vacation-request/:taskId', component: PrepareVacationRequestComponent },
+  { path: 'check-vacation-request/:taskId', component: CheckVacationRequestComponent },
+  { path: 'modify-vacation-request/:taskId', component: ModifyVacationRequestComponent },
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

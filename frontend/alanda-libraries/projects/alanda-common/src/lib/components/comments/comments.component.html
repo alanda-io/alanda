@@ -1,48 +1,4 @@
-<style>
-  input {
-    width: 100%;
-  }
-
-  textarea {
-    width: 100%;
-    resize: none;
-    max-height: 100px;
-    min-height: auto;
-    overflow: hidden;
-    overflow-y: scroll;
-  }
-
-  .form-buttons {
-    text-align: right;
-    margin-top: 5px;
-    margin-bottom: 15px;
-  }
-
-  .taglist{
-    margin-right: 5px;
-    float: left;
-  }
-
-  .spacer-bottom {
-    margin-bottom: 10px;
-  }
-
-  ::ng-deep .ui-scrollpanel-content{
-    max-height: 500px;
-  }
-
-  ::ng-deep .scrollbar .ui-scrollpanel-wrapper {
-    border-right: 9px solid #f4f4f4;
-  }
-
-  ::ng-deep .scrollbar .ui-scrollpanel-bar {
-    background-color: #1976d2;
-    opacity: 1;
-    transition: background-color .3s;
-  }
-
-</style>
-<p-panel #commentPanel [toggleable]="true" (onBeforeToggle)="togglePanel()">
+<p-panel class="comments" #commentPanel [toggleable]="true" (onBeforeToggle)="togglePanel()">
   <p-header>
     Comments
     <p-button label="{{comments.length}}" styleClass="ui-button-rounded"></p-button>
