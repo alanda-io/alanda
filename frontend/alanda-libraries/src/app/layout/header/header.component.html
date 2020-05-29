@@ -1,13 +1,10 @@
 <p-toast></p-toast>
 <div [@autoHide]="autoHide ? 'open' : 'closed'">
-  <p-menubar [model]="items"></p-menubar>
-  <div class="subMenu">
-    <div class="p-grid p-justify-between">
-      <div class="p-col-6"></div>
-      <div class="p-col-6" *ngIf="userService.user$ | async as user" style="text-align: right">
-        <span>{{user.firstName}} {{user.surname}}</span>
-        <span *ngIf="user.runAs"> ( logged in as {{user.runAs}} <i class="pi pi-user-minus" (click)="releaseRunAs()"></i>)</span>
-      </div>
+  <p-menubar [model]="items">
+    <div class="sub-menu" *ngIf="userService.user$ | async as user">
+      <span>{{user.firstName}} {{user.surname}}</span>
+      <span *ngIf="user.runAs"> ( logged in as {{user.runAs}} <i class="pi pi-user-minus" (click)="releaseRunAs()"></i>)</span>
     </div>
-  </div>
+
+  </p-menubar>
 </div>

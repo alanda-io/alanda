@@ -1,10 +1,10 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import {Component, OnInit, HostListener, ViewChild} from '@angular/core';
 import { state, style, transition, animate, trigger } from '@angular/animations';
 import { AlandaUserApiService } from 'projects/alanda-common/src/public-api';
 import { MenuItem } from 'primeng/api/menuitem';
 
 @Component({
-  selector: 'app-header',
+  selector: 'alanda-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   animations: [
@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
 
   constructor (public userService: AlandaUserApiService) {}
 
-  ngOnInit () {
+  ngOnInit (): void {
     this.userService.getCurrentUser().subscribe();
     this.items = [
       { label: 'Home', routerLink: [''], icon: 'fa fa-home', routerLinkActiveOptions: {} },
@@ -76,7 +76,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  releaseRunAs () {
+  releaseRunAs (): void {
     this.userService.releaseRunAs().subscribe();
   }
 }

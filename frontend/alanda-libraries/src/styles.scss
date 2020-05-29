@@ -1,13 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+@import '../projects/alanda-common/src/styles/variables';
 @import '../projects/alanda-common/src/styles/main';
 
-.content {
-  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
 body {
+  width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: $font-color;
+}
+
+.container {
+  background: $container-background;
 }
 
 .ui-widget,
