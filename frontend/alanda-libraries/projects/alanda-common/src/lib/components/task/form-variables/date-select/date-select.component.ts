@@ -17,6 +17,7 @@ export class DateSelectComponent implements OnInit {
     @Input() label: string;
     @Input() project: Project;
     @Input() formName: string;
+    @Input() dateFormat = 'dd.mm.yy';
 
     dateForm: FormGroup;
 
@@ -51,5 +52,5 @@ export class DateSelectComponent implements OnInit {
           }
         }
       );
-    }    
+    }
   }

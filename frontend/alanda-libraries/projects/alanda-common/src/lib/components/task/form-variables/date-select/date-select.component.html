@@ -1,4 +1,4 @@
 <h4><b>{{label}}:</b></h4>
 <form [formGroup]="dateForm">
-    <p-calendar formControlName="date" placeholder="Select" (onSelect)="save()" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+    <p-calendar formControlName="date" placeholder="Select" (onSelect)="save()" [showIcon]="true" [dateFormat]="dateFormat"></p-calendar>
 </form>
