@@ -2,7 +2,7 @@
   <p-header>
     <span class="ui-panel-title title">Projects & Processes</span>
   </p-header>
-  <p-treeTable [autoLayout]="true"  [value]="treeStructure">
+  <p-treeTable [autoLayout]="true"  [loading]="loading" [value]="treeStructure">
     <ng-template pTemplate="header">
         <tr>
             <th>Process / Task</th>
@@ -15,8 +15,8 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-      <tr *ngIf="rowData.type !== 'allowed-processes'">
-        <td>
+      <tr *ngIf="rowData.type !== 'new-process'">
+        <td [ngStyle]="{'font-weight':rowData.type === 'project' ? '700' : '400' }">
           <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
           <span [ngClass]="getIconClass(rowData.type)"></span>
           <a *ngIf="rowData.routerLink" [routerLink]="rowData.routerLink"> {{rowData.label}}</a>
@@ -28,13 +28,14 @@
         <td>{{rowData.end}}</td>
         <td>{{rowData.comment}}</td>
         <td>
-          <alanda-pap-actions [data]="rowData"></alanda-pap-actions>
+          <alanda-pap-actions [data]="rowData" (changeEvent)="loadProjectAndProcesses()"></alanda-pap-actions>
         </td>
       </tr>
-      <tr *ngIf="rowData.type === 'allowed-processes'" [hidden]="rowData.value.default.length === 0">
+      <!-- <tr *ngIf="rowData.type === 'new-process'">
         <td>
-          <p-dropdown #selectSubprocess [style]="{'width':'100%'}" [options]="rowData.value.default" (onChange)="onSubprocessSelected(rowData, selectSubprocess.value)"
-          placeholder="Select Process" optionLabel="processName"></p-dropdown>
+          <p-dropdown #selectSubprocess [style]="{'width':'100%'}" [options]="allowedProcesses[rowData.relatedProject.guid]"
+          (onChange)="onSubprocessSelected(rowData, selectSubprocess.value)" [(ngModel)]="rowData.value" placeholder="Select Process"
+          optionLabel="label"></p-dropdown>
         </td>
         <td>
           <p-dropdown [style]="{'width':'100%'}" [disabled]="true" [options]="" placeholder="Reference Object" optionLabel=""></p-dropdown>
@@ -42,8 +43,8 @@
         <td colspan="4">
           <input [style]="{'width':'100%'}" type="text" placeholder="Details" [disabled]="true" pInputText />
         </td>
-        <td></td>
-      </tr>
+        <td><alanda-pap-actions [data]="rowData" (changeEvent)="loadProjectAndProcesses()"></alanda-pap-actions></td>
+      </tr> -->
     </ng-template>
   </p-treeTable>
 </p-panel>

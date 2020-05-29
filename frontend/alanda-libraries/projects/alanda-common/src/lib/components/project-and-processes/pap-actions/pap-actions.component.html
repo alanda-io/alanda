@@ -6,10 +6,22 @@
     <span>{{data.value.status}}</span>
   </ng-container>
 
-  <ng-container *ngSwitchCase="'process'">
+  <ng-container *ngSwitchCase="'child'">
     <p-menu #menu [popup]="true" [model]="optionItems" appendTo="body"></p-menu>
-    <span class="fa fa-stop fa-lg stop-action-icon" (click)="cancelType = 'process'; displayCancelDialog = true"></span>
+    <span class="fa fa-cog fa-lg option-action-icon" (click)="menu.toggle($event)"></span>
+    <span class="fa fa-stop fa-lg stop-action-icon" (click)="cancelType = 'project'; displayCancelDialog = true"></span>
     <span>{{data.value.status}}</span>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'process'">
+    <span [hidden]="" class="fa fa-stop fa-lg stop-action-icon" (click)="cancelType = 'process'; displayCancelDialog = true"></span>
+    <span>{{data.value.status}}</span>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'new-process'">
+    <span *ngIf="data.label" class="fa fa-play fa-lg play-action-icon"></span>
+    <span *ngIf="data.label" class="fa fa-times fa-lg remove-action-icon"></span>
+    <span *ngIf="data.label">NEW</span>
   </ng-container>
 </ng-container>
 
