@@ -72,6 +72,39 @@ export class ProjectServiceNg extends ExceptionHandlingService{
         return this.http.get<ProjectAndProcessesResponse>(`${this.endpoint}/project/${guid}/processes-and-tasks`);
     }
 
+  public getChildTypes(idName: string): Observable<ProjectType[]> {
+    return this.http.get<ProjectType[]>(`${this.endpoint}/type/${idName}/child-types`);
+  }
+
+  public getParentTypes(idName: string): Observable<ProjectType[]> {
+    return this.http.get<ProjectType[]>(`${this.endpoint}/type/${idName}/parent-types`);
+  }
+
+  public updateProjectRelations(projectId: string, additionalChildren: string, removeChildren: string,
+                                additionalParents: string, removeParents: string): Observable<Project> {
+    let queryString = '';
+    if (additionalChildren) {
+      queryString += 'additional-children=' + additionalChildren + '&';
+    }
+    if (removeChildren) {
+      queryString += 'remove-children=' + removeChildren + '&';
+    }
+    if (additionalParents) {
+      queryString += 'additional-parents=' + additionalParents + '&';
+    }
+    if (removeParents) {
+      queryString += 'remove-parents=' + removeParents + '&';
+    }
+    if (queryString.length > 1) {
+      queryString = '?' + queryString.substring(0, queryString.length - 1);
+    }
+    return this.http.put<Project>(`${this.endpoint}/${projectId}/update-relations${queryString}`, {});
+  }
+
+
+
+
+
 }
 
 
