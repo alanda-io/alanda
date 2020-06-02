@@ -16,7 +16,7 @@ export class AlandaCreateProjectComponent implements OnInit {
   showDialog = true;
   projectTypes: AlandaProjectType[] = [];
   allowedTagList: any[];
-  selectedProjectType: AlandaProjectType;
+  selectedProjectType: AlandaProjectType = {};
   project: AlandaProject = {};
   formGroup: FormGroup;
   isLoading = false;
@@ -26,22 +26,24 @@ export class AlandaCreateProjectComponent implements OnInit {
     private readonly router: Router) {
   }
 
-  ngOnInit () {
+  ngOnInit (): void {
     this.projectService.searchCreateAbleProjectType().subscribe((pTypes: AlandaProjectType[]) => {
       this.projectTypes = pTypes;
     });
     this.showDialog = true;
   }
 
-  onProjectTypeSelected () {
-    this.showDialog = false;
-    this.project.pmcProjectType = this.selectedProjectType;
-    this.allowedTagList = this.selectedProjectType.allowedTagList.map(tag => { return { value: tag } });
-    this.initFormGroup();
+  onProjectTypeSelected (): void {
+    if (Object.keys(this.selectedProjectType).length !== 0) {
+      this.showDialog = false;
+      this.project.pmcProjectType = this.selectedProjectType;
+      this.allowedTagList = this.selectedProjectType.allowedTagList.map(tag => { return { value: tag } });
+      this.initFormGroup();
+    }
   }
 
 
-  private initFormGroup () {
+  private initFormGroup (): void {
     this.formGroup = new FormGroup({
       tag: new FormControl(null, { validators: [Validators.required] }),
       prio: new FormControl(null, { validators: [Validators.required] }),
@@ -52,7 +54,7 @@ export class AlandaCreateProjectComponent implements OnInit {
   }
 
 
-  public onSubmit () {
+  public onSubmit (): void {
     if (this.formGroup.valid) {
       this.project.dueDate = this.formGroup.get('projectDueDate').value;
       this.project.title = this.formGroup.get('projectTitle').value;
