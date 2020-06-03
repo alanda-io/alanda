@@ -46,7 +46,7 @@ export class AlandaSelectRoleComponent implements OnInit {
 
   groups: AlandaGroup[];
   items: string[] = [];
-  options: { label: string, value: number }[] = [];
+  options: { label: string; value: number }[] = [];
   optionsGrouped: SelectItemGroup[] = [];
   role: AlandaRole;
   roleSelectFormGroup = new FormGroup({

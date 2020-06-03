@@ -1,6 +1,6 @@
 export interface AlandaMilestone {
-  idName?: string
-  fc?: Date
-  act?: Date
-  baseline?: Date
+  idName?: string;
+  fc?: Date;
+  act?: Date;
+  baseline?: Date;
 }

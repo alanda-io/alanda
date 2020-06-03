@@ -11,7 +11,6 @@ import { LazyLoadEvent } from 'primeng/api/public_api';
   templateUrl: './relate-dialog.component.html',
 })
 export class RelateDialogComponent implements OnInit {
-
   projects: AlandaProject[] = [];
   projectTypes: AlandaProjectType[] = [];
   loading = true;
@@ -24,17 +23,17 @@ export class RelateDialogComponent implements OnInit {
     sortOptions: {}
   };
 
-  constructor(private projectService: AlandaProjectApiService, public ref: DynamicDialogRef, public config: DynamicDialogConfig) {}
+  constructor (private readonly projectService: AlandaProjectApiService, public ref: DynamicDialogRef, public config: DynamicDialogConfig) {}
 
-  ngOnInit() {}
+  ngOnInit () {}
 
-  loadProjectsLazy(event: LazyLoadEvent) {
+  loadProjectsLazy (event: LazyLoadEvent) {
     let sortOptions = {};
-    sortOptions['project.projectId'] = {dir: 'desc', prio: 0};
+    sortOptions['project.projectId'] = { dir: 'desc', prio: 0 };
     if (event.sortField) {
       sortOptions = {};
       const dir = event.sortOrder === 1 ? 'asc' : 'desc';
-      sortOptions[event.sortField] = {dir, prio: 0};
+      sortOptions[event.sortField] = { dir, prio: 0 };
     }
     this.serverOptions.sortOptions = sortOptions;
     this.serverOptions.filterOptions = {};
@@ -53,16 +52,15 @@ export class RelateDialogComponent implements OnInit {
     this.loadProjects(this.serverOptions);
   }
 
-  private loadProjects(serverOptions: ServerOptions) {
+  private loadProjects (serverOptions: ServerOptions) {
     this.loading = true;
     this.projectService.loadProjects(serverOptions).subscribe(
       res => {
         this.projects = [];
         res.results.forEach(value => this.projects.push(value.project));
         this.loading = false;
-        },
+      },
       error => this.loading = false
-      );
+    );
   }
-
 }

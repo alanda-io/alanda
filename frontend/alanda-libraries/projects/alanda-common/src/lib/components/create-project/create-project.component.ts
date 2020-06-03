@@ -22,17 +22,17 @@ export class AlandaCreateProjectComponent implements OnInit {
   formGroup: FormGroup;
   isLoading = false;
 
-  constructor( public readonly projectService: AlandaProjectApiService,
-               private readonly messageService: MessageService,
-               private readonly router: Router, private readonly activatedRoute: ActivatedRoute) {
+  constructor (public readonly projectService: AlandaProjectApiService,
+    private readonly messageService: MessageService,
+    private readonly router: Router, private readonly activatedRoute: ActivatedRoute) {
   }
 
-  ngOnInit() {
+  ngOnInit () {
     const parentProjectGuid = this.activatedRoute.snapshot.paramMap.get('projectGuid');
     if (parentProjectGuid) {
       this.projectService.getProjectByGuid(Number(parentProjectGuid)).pipe(
         tap(project => this.project.parents = [project]),
-        mergeMap( _ => this.projectService.searchCreateAbleProjectType())
+        mergeMap(_ => this.projectService.searchCreateAbleProjectType())
       ).subscribe(types => this.projectTypes = types);
     } else {
       this.projectService.searchCreateAbleProjectType().subscribe(types => {
