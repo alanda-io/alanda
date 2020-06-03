@@ -21,6 +21,7 @@ const routes: Routes = [
   { path: 'admin/roles', component: AlandaRoleManagementComponent },
   { path: 'admin/permissions', component: AlandaPermissionManagementComponent },
   { path: 'create/project', component: AlandaCreateProjectComponent },
+  { path: 'create/project/:projectGuid', component: AlandaCreateProjectComponent },
   { path: 'monitor/projects', component: AlandaProjectMonitorComponent },
   { path: 'tasks/list', component: AlandaTasklistComponent },
   {

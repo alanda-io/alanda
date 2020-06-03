@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { AlandaProjectType } from '../../api/models/projectType';
 import { AlandaProject } from '../../api/models/project';
+import { mergeMap, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'create-project-component',
+  selector: 'alanda-create-project',
   templateUrl: './create-project.component.html',
   styleUrls: ['./create-project.component.scss'],
 })
@@ -15,22 +16,29 @@ import { AlandaProject } from '../../api/models/project';
 export class AlandaCreateProjectComponent implements OnInit {
   showDialog = true;
   projectTypes: AlandaProjectType[] = [];
-  allowedTagList: any[];
   selectedProjectType: AlandaProjectType;
+  allowedTagList: any[];
   project: AlandaProject = {};
   formGroup: FormGroup;
   isLoading = false;
 
-  constructor (private readonly projectService: AlandaProjectApiService,
-    private readonly messageService: MessageService,
-    private readonly router: Router) {
+  constructor( public readonly projectService: AlandaProjectApiService,
+               private readonly messageService: MessageService,
+               private readonly router: Router, private readonly activatedRoute: ActivatedRoute) {
   }
 
-  ngOnInit () {
-    this.projectService.searchCreateAbleProjectType().subscribe((pTypes: AlandaProjectType[]) => {
-      this.projectTypes = pTypes;
-    });
-    this.showDialog = true;
+  ngOnInit() {
+    const parentProjectGuid = this.activatedRoute.snapshot.paramMap.get('projectGuid');
+    if (parentProjectGuid) {
+      this.projectService.getProjectByGuid(Number(parentProjectGuid)).pipe(
+        tap(project => this.project.parents = [project]),
+        mergeMap( _ => this.projectService.searchCreateAbleProjectType())
+      ).subscribe(types => this.projectTypes = types);
+    } else {
+      this.projectService.searchCreateAbleProjectType().subscribe(types => {
+        this.projectTypes = types;
+      });
+    }
   }
 
   onProjectTypeSelected () {

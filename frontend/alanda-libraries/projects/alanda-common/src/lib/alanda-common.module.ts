@@ -84,6 +84,9 @@ import { Error500Interceptor } from './interceptors/error500.interceptor';
 import { AlandaFormsControllerComponent } from './form/forms-controller/forms-controller.component';
 import { AlandaVarSelectComponent } from './form/components/var-select/var-select.component';
 import { AlandaPropSelectComponent } from './form/components/prop-select/prop-select.component';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { PapActionsComponent } from './components/project-and-processes/pap-actions/pap-actions.component';
+import { RelateDialogComponent } from './components/project-and-processes/pap-actions/relate-dialog/relate-dialog.component';
 
 @NgModule({
   imports: [
@@ -123,6 +126,7 @@ import { AlandaPropSelectComponent } from './form/components/prop-select/prop-se
     AccordionModule,
     TreeTableModule,
     MessageModule,
+    DynamicDialogModule
   ],
   declarations: [
     AlandaUserManagementComponent,
@@ -154,6 +158,8 @@ import { AlandaPropSelectComponent } from './form/components/prop-select/prop-se
     AlandaSelectMilestoneComponent,
     AlandaProjectsControllerComponent,
     AlandaProjectAndProcessesComponent,
+    PapActionsComponent,
+    RelateDialogComponent,
     AlandaVarSelectComponent,
     AlandaPropSelectComponent,
   ],
@@ -186,10 +192,16 @@ import { AlandaPropSelectComponent } from './form/components/prop-select/prop-se
     AlandaDropdownSelectComponent,
     AlandaProjectsControllerComponent,
     AlandaProjectAndProcessesComponent,
+    PapActionsComponent,
+    RelateDialogComponent,
+    AlandaVarSelectComponent,
+    AlandaPropSelectComponent,
+   ],
+  entryComponents: [
+    RelateDialogComponent,
     AlandaVarSelectComponent,
     AlandaPropSelectComponent,
   ],
-  entryComponents: [],
 })
 export class AlandaCommonModule {
   public static forRoot (config: AppSettings): ModuleWithProviders {

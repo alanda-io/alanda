@@ -131,4 +131,64 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
       `${this.refObjectEndpoint}/${type}?search=${searchTerm}`
     );
   }
+
+  public stopProject(projectGuid: number, reason?: string): Observable<AlandaProject> {
+    let url = `${this.endpoint}/project/${projectGuid}/stop`;
+    if (reason) {
+      url += `?reason=${reason}`;
+    }
+    return this.http.get<AlandaProject>(url);
+  }
+
+  public getChildTypes(idName: string): Observable<AlandaProjectType[]> {
+    return this.http.get<AlandaProjectType[]>(`${this.endpoint}/type/${idName}/child-types`);
+  }
+
+  public getParentTypes(idName: string): Observable<AlandaProjectType[]> {
+    return this.http.get<AlandaProjectType[]>(`${this.endpoint}/type/${idName}/parent-types`);
+  }
+
+  public updateProjectRelations(projectId: string, additionalChildren: string, removeChildren: string,
+                                additionalParents: string, removeParents: string): Observable<AlandaProject> {
+    let queryString = '';
+    if (additionalChildren) {
+      queryString += 'additional-children=' + additionalChildren + '&';
+    }
+    if (removeChildren) {
+      queryString += 'remove-children=' + removeChildren + '&';
+    }
+    if (additionalParents) {
+      queryString += 'additional-parents=' + additionalParents + '&';
+    }
+    if (removeParents) {
+      queryString += 'remove-parents=' + removeParents + '&';
+    }
+    if (queryString.length > 1) {
+      queryString = '?' + queryString.substring(0, queryString.length - 1);
+    }
+    return this.http.put<AlandaProject>(`${this.endpoint}/${projectId}/update-relations${queryString}`, {});
+  }
+
+  public saveProjectProcess(projectGuid: number, process: AlandaProcess): Observable<AlandaProcess> {
+    return this.http.post<AlandaProcess>(`${this.endpoint}/project/${projectGuid}/process`, process);
+  }
+
+  public startProjectProcess(projectGuid: number, processGuid: number): Observable<AlandaProcess> {
+    return this.http.get<AlandaProcess>(`${this.endpoint}/project/${projectGuid}/process/${processGuid}/start`);
+  }
+
+  public stopProjectProcess(projectGuid: number, processGuid: number, reason): Observable<AlandaProcess> {
+    if (reason) {
+      return this.http.get<AlandaProcess>(`${this.endpoint}/project/${projectGuid}/process/${processGuid}/stop?reason=${reason}`);
+    }
+    return this.http.get<AlandaProcess>(`${this.endpoint}/project/${projectGuid}/process/${processGuid}/stop`);
+  }
+
+  public removeProjectProcess(projectGuid: number, processGuid: number, reason): Observable<any> {
+    if (reason) {
+      return this.http.delete<any>(`${this.endpoint}/project/${projectGuid}/process/${processGuid}?reason=${reason}`);
+    }
+    return this.http.delete<any>(`${this.endpoint}/project/${projectGuid}/process/${processGuid}`);
+  }
+
 }
