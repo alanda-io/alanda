@@ -15,7 +15,6 @@ export * from './lib/api/propertyApi.service';
 export * from './lib/api/milestoneApi.service';
 export * from './lib/api/commentApi.service';
 
-export * from './lib/services/authorization.service';
 export * from './lib/services/exceptionHandling.service';
 export * from './lib/services/project-properties.service';
 export * from './lib/services/monitorApi.service';
