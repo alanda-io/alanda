@@ -13,7 +13,7 @@ import { ProcessRelation } from '../../enums/processRelation.enum';
 @Component({
   selector: 'alanda-project-and-processes',
   templateUrl: './project-and-processes.component.html',
-  styleUrls : ['./project-and-processes.component.css'],
+  styleUrls: ['./project-and-processes.component.css'],
 })
 export class AlandaProjectAndProcessesComponent implements OnInit {
   @Input() project: AlandaProject;
@@ -29,9 +29,9 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
   constructor (private readonly projectService: AlandaProjectApiService, private readonly projectAndProcessesService: ProjectAndProcessesService) {
   }
 
-  ngOnInit() {}
+  ngOnInit () {}
 
-  getIconClass(type: string): string {
+  getIconClass (type: string): string {
     switch (type) {
       case 'project':
       case 'parent':
@@ -43,7 +43,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
     }
   }
 
-  onSubprocessSelected(rowData: TreeNodeData, selection: {processName: string, processDefinitionKey: string}) {
+  onSubprocessSelected (rowData: TreeNodeData, selection: {processName: string; processDefinitionKey: string}) {
     const process: AlandaProcess = {};
     process.status = ProjectState.NEW;
     process.relation = ProcessRelation.CHILD;
@@ -58,7 +58,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
     });
   }
 
-  loadProjectAndProcesses(collapsed?: boolean) {
+  loadProjectAndProcesses (collapsed?: boolean) {
     if (collapsed) {
       return;
     }
@@ -81,16 +81,16 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
     });
   }
 
-  private getProjectWithProcessesAndTasks(project: AlandaProject): Observable<AlandaProject> {
+  private getProjectWithProcessesAndTasks (project: AlandaProject): Observable<AlandaProject> {
     return this.projectService.getProcessesAndTasksForProject(project.guid).pipe(
       map((result: any) => {
         project.processes = result.active;
-        this.allowedProcesses[project.guid] = result.allowed.default.map(p => ({label: p.processName, processKey: p.processDefinitionKey}));
+        this.allowedProcesses[project.guid] = result.allowed.default.map(p => ({ label: p.processName, processKey: p.processDefinitionKey }));
         return project;
       }));
   }
 
-  private updateTreeStructure(projects: TreeNode[]): TreeNode[] {
+  private updateTreeStructure (projects: TreeNode[]): TreeNode[] {
     const updatedTreeStructure: TreeNode[] = [];
     const parents = projects.filter(node => node.data.type === 'parent');
     const children = projects.filter(node => node.data.type === 'child');
@@ -102,17 +102,17 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
       .mapNewProcessToTreeNode(filteredNode, null)); */
 
     if (parents.length) {
-      updatedTreeStructure.push({data: {label: `Parent Projects (${parents.length})`}, children: parents});
+      updatedTreeStructure.push({ data: { label: `Parent Projects (${parents.length})` }, children: parents });
     }
     updatedTreeStructure.push(...currentProject);
     if (children.length) {
-      updatedTreeStructure.push({data: {label: `Child Projects (${children.length})`}, children});
+      updatedTreeStructure.push({ data: { label: `Child Projects (${children.length})` }, children });
     }
-    console.log("xx", updatedTreeStructure);
+    console.log('xx', updatedTreeStructure);
     return updatedTreeStructure;
   }
 
-  private flattenProjects(project: AlandaProject): AlandaProject[] {
+  private flattenProjects (project: AlandaProject): AlandaProject[] {
     const projects: AlandaProject[] = [];
     if (!project.parentIds) {
       project.parentIds = [];
@@ -131,5 +131,4 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
     });
     return projects;
   }
-
 }

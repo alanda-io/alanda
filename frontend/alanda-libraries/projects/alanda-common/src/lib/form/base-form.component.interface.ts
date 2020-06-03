@@ -1,4 +1,4 @@
 
 export interface BaseFormComponent {
-  submit(): void
+  submit(): void;
 }

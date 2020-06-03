@@ -24,8 +24,8 @@ import { AlandaTaskApiService } from '../api/taskApi.service';
 import { MessageService } from 'primeng/api';
 
 export interface AlandaTaskFormState {
-  task?: AlandaTask
-  project?: AlandaProject
+  task?: AlandaTask;
+  project?: AlandaProject;
   //  rootFormData: { [controlName: string]: any }
 }
 

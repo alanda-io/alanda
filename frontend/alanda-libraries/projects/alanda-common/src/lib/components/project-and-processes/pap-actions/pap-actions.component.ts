@@ -10,11 +10,10 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'alanda-pap-actions',
   templateUrl: './pap-actions.component.html',
-  styleUrls : ['./pap-actions.component.css'],
+  styleUrls: ['./pap-actions.component.css'],
   providers: [DialogService]
 })
 export class PapActionsComponent implements OnInit, OnDestroy {
-
   @Input() data: TreeNodeData;
 
   optionItems: MenuItem[];
@@ -27,9 +26,9 @@ export class PapActionsComponent implements OnInit, OnDestroy {
 
   @Output() changeEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private dialogService: DialogService, private projectService: AlandaProjectApiService, private router: Router) {}
+  constructor (private readonly dialogService: DialogService, private readonly projectService: AlandaProjectApiService, private readonly router: Router) {}
 
-  ngOnInit() {
+  ngOnInit () {
     this.optionItems = [
       {
         label: 'Create subproject',
@@ -59,7 +58,7 @@ export class PapActionsComponent implements OnInit, OnDestroy {
     ];
   }
 
-  onCancelClick(reason: string) {
+  onCancelClick (reason: string) {
     if (this.cancelType === 'project') {
       this.projectService.stopProject(this.data.id, reason).subscribe(res => {
         this.changeEvent.emit();
@@ -71,7 +70,7 @@ export class PapActionsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private openDynamicDialogModal(header: string, data: any): DynamicDialogRef {
+  private openDynamicDialogModal (header: string, data: any): DynamicDialogRef {
     return this.dialogService.open(RelateDialogComponent, {
       data,
       header,
@@ -79,9 +78,9 @@ export class PapActionsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private relateMeTo() {
+  private relateMeTo () {
     this.projectService.getParentTypes(this.data.value.projectTypeIdName).subscribe(types => {
-      this.ref = this.openDynamicDialogModal('Select projects new parent project(s)', {types: types.map(type => type.idName)});
+      this.ref = this.openDynamicDialogModal('Select projects new parent project(s)', { types: types.map(type => type.idName) });
       this.ref.onClose.subscribe((project: AlandaProject) => {
         if (project) {
           this.projectService.updateProjectRelations(this.data.value.projectId, null, null, project.projectId, null).subscribe(res => {
@@ -92,8 +91,8 @@ export class PapActionsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private unrelateMe() {
-    this.ref = this.openDynamicDialogModal('Select parent project(s) to unrelate me from', {projectId: this.data.value.projectId});
+  private unrelateMe () {
+    this.ref = this.openDynamicDialogModal('Select parent project(s) to unrelate me from', { projectId: this.data.value.projectId });
     this.ref.onClose.subscribe((project: AlandaProject) => {
       if (project) {
         this.projectService.updateProjectRelations(this.data.value.projectId, null, null, null, project.projectId).subscribe(res => {
@@ -103,9 +102,9 @@ export class PapActionsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private relateSubproject() {
+  private relateSubproject () {
     this.projectService.getChildTypes(this.data.value.projectTypeIdName).subscribe(types => {
-      this.ref = this.openDynamicDialogModal('Select project(s) to add as subproject', {types: types.map(type => type.idName)});
+      this.ref = this.openDynamicDialogModal('Select project(s) to add as subproject', { types: types.map(type => type.idName) });
       this.ref.onClose.subscribe((project: AlandaProject) => {
         if (project) {
           this.projectService.updateProjectRelations(this.data.value.projectId, project.projectId, null, null, null).subscribe(res => {
@@ -113,13 +112,12 @@ export class PapActionsComponent implements OnInit, OnDestroy {
           });
         }
       });
-
     });
   }
 
-  private moveMeTo() {
+  private moveMeTo () {
     this.projectService.getParentTypes(this.data.value.projectTypeIdName).subscribe(types => {
-      this.ref = this.openDynamicDialogModal('Select new parent project(s)', {types: types.map(type => type.idName)});
+      this.ref = this.openDynamicDialogModal('Select new parent project(s)', { types: types.map(type => type.idName) });
       this.ref.onClose.subscribe((project: AlandaProject) => {
         if (project) {
           this.projectService.updateProjectRelations(this.data.value.projectId, null, null, project.projectId, '*').subscribe(res => {
@@ -127,17 +125,14 @@ export class PapActionsComponent implements OnInit, OnDestroy {
           });
         }
       });
-
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy () {
     if (this.ref) {
       this.ref.close();
     }
   }
-
-
 }
 
 
