@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { Panel } from 'primeng/panel';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MessageService } from 'primeng/api';
@@ -15,7 +14,6 @@ import { AlandaCommentApiService } from '../../api/commentApi.service';
 export class AlandaCommentsComponent implements OnInit {
   @Input() task: any;
   @Input() pid: string;
-  @ViewChild('commentPanel') commentPanel: Panel;
   loadingInProgress = false;
   filterEnabled = false;
   comments: AlandaComment[] = [];
@@ -42,7 +40,7 @@ export class AlandaCommentsComponent implements OnInit {
     this.loadComments();
   }
 
-  onSubmitComment (form: NgForm) {
+  onSubmitComment (form: NgForm): void {
     this.loadingInProgress = true;
     this.commentService.postComment({
       subject: this.subject,
@@ -57,7 +55,7 @@ export class AlandaCommentsComponent implements OnInit {
       });
   }
 
-  loadComments () {
+  loadComments (): void {
     this.loadingInProgress = true;
     this.commentService.getCommentsforPid(this.procInstId).subscribe(
       (res: any) => {
@@ -110,12 +108,6 @@ export class AlandaCommentsComponent implements OnInit {
         commentFulltext += `${reply.text.toLowerCase()} ${reply.authorName.toLowerCase()} ${reply.textDate}`;
       }
       comment.fulltext = commentFulltext;
-    }
-  }
-
-  togglePanel (): void {
-    if (this.commentPanel.collapsed) {
-      this.loadComments();
     }
   }
 
