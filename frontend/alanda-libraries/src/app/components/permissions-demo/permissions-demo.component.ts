@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-permissions-demo',
@@ -12,7 +12,6 @@ import {FormBuilder} from '@angular/forms';
   `]
 })
 export class PermissionsDemoComponent implements OnInit {
-
   demoForm = this.fb.group({
     guid: [],
     projectName: [],
@@ -22,15 +21,14 @@ export class PermissionsDemoComponent implements OnInit {
     running: []
   });
 
-  constructor(private fb: FormBuilder) {
+  constructor (private readonly fb: FormBuilder) {
   }
 
-  ngOnInit() {
-
-  }
-
-  onSubmit() {
+  ngOnInit () {
 
   }
 
+  onSubmit () {
+
+  }
 }

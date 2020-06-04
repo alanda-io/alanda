@@ -11,7 +11,7 @@ export enum AccessLevels {
   create = 'create'
 }
 
-export const WILDCARD_TOKEN =  '*';
+export const WILDCARD_TOKEN = '*';
 export const PART_DIVIDER_TOKEN = ':';
 export const SUBPART_DIVIDER_TOKEN = ',';
 export const PERMISSION_PLACEHOLDER = '#{permissions}';

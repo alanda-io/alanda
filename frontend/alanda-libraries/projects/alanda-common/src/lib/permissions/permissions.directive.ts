@@ -1,10 +1,10 @@
-import {Directive, ElementRef, Input} from '@angular/core';
-import {RxState} from '@rx-angular/state';
-import {AlandaUserApiService} from '../api/userApi.service';
-import {AlandaUser} from '../api/models/user';
-import {combineLatest} from 'rxjs';
-import {hasPermission, resolveTokens} from './utils/permission-checks';
-import {ElementManager, getManagersByElementRef} from './utils/element-manager';
+import { Directive, ElementRef, Input } from '@angular/core';
+import { RxState } from '@rx-angular/state';
+import { AlandaUserApiService } from '../api/userApi.service';
+import { AlandaUser } from '../api/models/user';
+import { combineLatest } from 'rxjs';
+import { hasPermission, resolveTokens } from './utils/permission-checks';
+import { ElementManager, getManagersByElementRef } from './utils/element-manager';
 
 /**
  *
@@ -22,22 +22,21 @@ import {ElementManager, getManagersByElementRef} from './utils/element-manager';
   selector: '[permissions]'
 })
 export class PermissionsDirective extends RxState<{
-  user: AlandaUser,
-  permissionString: string
+  user: AlandaUser;
+  permissionString: string;
 }> {
-
   hostElementManagers: ElementManager[] = getManagersByElementRef(this.hostElement);
 
   @Input('permissions')
-  set rights(permissionString: string) {
+  set rights (permissionString: string) {
     this.set({
       permissionString
     });
   }
 
-  constructor(
+  constructor (
     public hostElement: ElementRef,
-    private userService: AlandaUserApiService
+    private readonly userService: AlandaUserApiService
   ) {
     super();
     this.connect('user', this.userService.user$);
@@ -67,10 +66,9 @@ export class PermissionsDirective extends RxState<{
       });
   }
 
-  forbidAll(accessLevel) {
+  forbidAll (accessLevel) {
     this.hostElementManagers.forEach((manager) => {
       manager.applyForbiddenBehavior(accessLevel);
     });
   }
-
 }

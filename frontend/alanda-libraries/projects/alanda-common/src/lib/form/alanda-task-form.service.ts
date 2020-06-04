@@ -1,11 +1,11 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { RxState } from "@rx-angular/state";
+import { Injectable, OnDestroy } from '@angular/core';
+import { RxState } from '@rx-angular/state';
 import {
   Router,
   ActivatedRouteSnapshot,
   RouterEvent,
   NavigationEnd,
-} from "@angular/router";
+} from '@angular/router';
 import {
   filter,
   map,
@@ -13,15 +13,15 @@ import {
   concatMap,
   tap,
   catchError,
-} from "rxjs/operators";
+} from 'rxjs/operators';
 
-import { of, Observable, EMPTY, PartialObserver, throwError } from "rxjs";
-import { FormBuilder } from "@angular/forms";
-import { AlandaTask } from "../api/models/task";
-import { AlandaProject } from "../api/models/project";
-import { AlandaProjectApiService } from "../api/projectApi.service";
-import { AlandaTaskApiService } from "../api/taskApi.service";
-import { MessageService } from "primeng/api";
+import { of, Observable, EMPTY, PartialObserver, throwError } from 'rxjs';
+import { FormBuilder } from '@angular/forms';
+import { AlandaTask } from '../api/models/task';
+import { AlandaProject } from '../api/models/project';
+import { AlandaProjectApiService } from '../api/projectApi.service';
+import { AlandaTaskApiService } from '../api/taskApi.service';
+import { MessageService } from 'primeng/api';
 
 export interface AlandaTaskFormState {
   task?: AlandaTask;
@@ -62,7 +62,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     })
   );
 
-  constructor(
+  constructor (
     private readonly router: Router,
     private readonly fb: FormBuilder,
     private readonly taskService: AlandaTaskApiService,
@@ -73,28 +73,28 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     this.connect(this.fetchTaskById$);
   }
 
-  private collectParams(root: ActivatedRouteSnapshot): any {
+  private collectParams (root: ActivatedRouteSnapshot): any {
     const params: any = {};
-    (function mergeParamsFromSnapshot(snapshot: ActivatedRouteSnapshot) {
+    (function mergeParamsFromSnapshot (snapshot: ActivatedRouteSnapshot) {
       Object.assign(params, snapshot.params);
       snapshot.children.forEach(mergeParamsFromSnapshot);
     })(root);
     return params;
   }
 
-  addValidators(validators): void {
+  addValidators (validators): void {
     this.rootForm.setValidators(validators);
   }
 
-  submit(alternate?: Observable<any>): Observable<any> {
+  submit (alternate?: Observable<any>): Observable<any> {
     this.rootForm.markAllAsTouched();
     if (this.rootForm.valid) {
       return this.taskService.complete(this.get().task.task_id).pipe(
         catchError((error) => {
-          console.log("in catchError", error);
+          console.log('in catchError', error);
           this.messageService.add({
-            severity: "error",
-            summary: "Task completion failed",
+            severity: 'error',
+            summary: 'Task completion failed',
             detail: `The task ${
               this.get().task.task_name
             } could not be completed: ${error}`,
@@ -103,8 +103,8 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
         }),
         tap((resp) =>
           this.messageService.add({
-            severity: "success",
-            summary: "Task completed",
+            severity: 'success',
+            summary: 'Task completed',
             detail: `The task ${
               this.get().task.task_name
             } has been successfully completed!`,
@@ -114,16 +114,16 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
           if (alternate != null) {
             return alternate;
           } else {
-            return of(["/"]);
+            return of(['/']);
           }
         }),
         tap((val) => {
-          console.log("in tap, val");
+          console.log('in tap, val');
           this.router.navigate(val).catch(() => {});
         })
       );
     } else {
-      console.log("errors", this.rootForm.errors);
+      console.log('errors', this.rootForm.errors);
       return of(this.rootForm.errors);
     }
   }

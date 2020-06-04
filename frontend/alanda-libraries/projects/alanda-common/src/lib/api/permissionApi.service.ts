@@ -1,44 +1,44 @@
-import { Injectable, Inject } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { APP_CONFIG, AppSettings } from "../models/appSettings";
-import { Observable } from "rxjs";
-import { AlandaPermission } from "./models/permission";
-import { catchError } from "rxjs/operators";
-import { AlandaExceptionHandlingService } from "../services/exceptionHandling.service";
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { APP_CONFIG, AppSettings } from '../models/appSettings';
+import { Observable } from 'rxjs';
+import { AlandaPermission } from './models/permission';
+import { catchError } from 'rxjs/operators';
+import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
 @Injectable()
 export class AlandaPermissionApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;
 
-  constructor(
+  constructor (
     private readonly http: HttpClient,
     @Inject(APP_CONFIG) config: AppSettings
   ) {
     super();
-    this.endpointUrl = config.API_ENDPOINT + "/permission";
+    this.endpointUrl = config.API_ENDPOINT + '/permission';
   }
 
-  getPermissions(): Observable<AlandaPermission[]> {
+  getPermissions (): Observable<AlandaPermission[]> {
     return this.http
       .get<AlandaPermission[]>(`${this.endpointUrl}/list`)
-      .pipe(catchError(this.handleError("getPermissions", [])));
+      .pipe(catchError(this.handleError('getPermissions', [])));
   }
 
-  save(permission: AlandaPermission): Observable<AlandaPermission> {
+  save (permission: AlandaPermission): Observable<AlandaPermission> {
     return this.http
       .post<AlandaPermission>(`${this.endpointUrl}/create`, permission)
-      .pipe(catchError(this.handleError("save")));
+      .pipe(catchError(this.handleError('save')));
   }
 
-  update(permission: AlandaPermission): Observable<AlandaPermission> {
+  update (permission: AlandaPermission): Observable<AlandaPermission> {
     return this.http
       .put<AlandaPermission>(`${this.endpointUrl}/update`, permission)
-      .pipe(catchError(this.handleError("update")));
+      .pipe(catchError(this.handleError('update')));
   }
 
-  getPermissionByGuid(guid: number): Observable<AlandaPermission> {
+  getPermissionByGuid (guid: number): Observable<AlandaPermission> {
     return this.http
       .get<AlandaPermission>(`${this.endpointUrl}/single/${guid}`)
-      .pipe(catchError(this.handleError("getPermissionByGuid", null)));
+      .pipe(catchError(this.handleError('getPermissionByGuid', null)));
   }
 }
