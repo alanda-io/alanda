@@ -29,10 +29,10 @@ export class AlandaCommentsComponent implements OnInit {
   subject = ' ';
   content = '';
 
-  constructor (private readonly commentService: AlandaCommentApiService, private readonly messageService: MessageService,
+  constructor(private readonly commentService: AlandaCommentApiService, private readonly messageService: MessageService,
     private readonly datePipe: DatePipe) {}
 
-  ngOnInit () {
+  ngOnInit() {
     if (this.task) {
       this.procInstId = this.task.process_instance_id;
       this.taskId = this.task.task_id;
@@ -43,7 +43,7 @@ export class AlandaCommentsComponent implements OnInit {
     this.loadComments();
   }
 
-  autogrow () {
+  autogrow() {
     const textArea = document.getElementById('textarea');
     if (this.content.length === 0) {
       textArea.style.height = textArea.style.minHeight;
@@ -52,7 +52,7 @@ export class AlandaCommentsComponent implements OnInit {
     }
   }
 
-  onSubmitComment (form: NgForm) {
+  onSubmitComment(form: NgForm) {
     this.loadingInProgress = true;
     this.commentService.postComment({
       subject: this.subject,
@@ -67,7 +67,7 @@ export class AlandaCommentsComponent implements OnInit {
       });
   }
 
-  loadComments () {
+  loadComments() {
     this.loadingInProgress = true;
     this.commentService.getCommentsforPid(this.procInstId).subscribe(
       (res: any) => {
@@ -98,7 +98,7 @@ export class AlandaCommentsComponent implements OnInit {
       error => this.messageService.add({ severity: 'error', summary: 'Get Comments', detail: error.message }));
   }
 
-  processComment (comment: AlandaComment, topLevel: boolean): void {
+  processComment(comment: AlandaComment, topLevel: boolean): void {
     comment.createDate = new Date(comment.createDate);
     comment.textDate = this.datePipe.transform(comment.createDate, 'dd.LL.yy HH:mm');
     if (!topLevel) {
@@ -123,20 +123,20 @@ export class AlandaCommentsComponent implements OnInit {
     }
   }
 
-  togglePanel () {
+  togglePanel() {
     if (this.commentPanel.collapsed) {
       this.loadComments();
     }
   }
 
-  tagClass (tag: AlandaCommentTag): string {
+  tagClass(tag: AlandaCommentTag): string {
     if (this.tagFilters.includes(tag.name)) {
       return 'ui-button-success';
     }
     return 'ui-button-info';
   }
 
-  extractTags (comment: AlandaComment) {
+  extractTags(comment: AlandaComment) {
     comment.tagList = [];
     if (comment.processName) {
       comment.tagList.push(
@@ -162,7 +162,7 @@ export class AlandaCommentsComponent implements OnInit {
     }
   }
 
-  toggleFilter (name: string) {
+  toggleFilter(name: string) {
     const filterIndex = this.tagFilters.indexOf(name);
     if (filterIndex !== -1) {
       this.tagFilters.splice(filterIndex, 1);
@@ -175,7 +175,7 @@ export class AlandaCommentsComponent implements OnInit {
     }
   }
 
-  clearFilters () {
+  clearFilters() {
     this.tagFilters = [];
     this.filterEnabled = false;
   }

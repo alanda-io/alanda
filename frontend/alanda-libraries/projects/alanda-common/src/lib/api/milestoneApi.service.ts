@@ -9,17 +9,17 @@ import { AlandaExceptionHandlingService } from '../services/exceptionHandling.se
 export class AlandaMilestoneApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;
 
-  constructor (private readonly http: HttpClient, @Inject(APP_CONFIG) config: AppSettings) {
+  constructor(private readonly http: HttpClient, @Inject(APP_CONFIG) config: AppSettings) {
     super();
     this.endpointUrl = config.API_ENDPOINT + '/ms';
   }
 
-  getByProjectAndMsIdName (projectId: string, msIdName: string): Observable<any> {
+  getByProjectAndMsIdName(projectId: string, msIdName: string): Observable<any> {
     return this.http.get<any>(`${this.endpointUrl}/project/${projectId}/ms/${msIdName}`)
       .pipe(catchError(this.handleError('getByProjectAndMsIdName')));
   }
 
-  updateByProjectAndMsIdName (projectId: string, msIdName: string, fc: string, act: string, reason: string,
+  updateByProjectAndMsIdName(projectId: string, msIdName: string, fc: string, act: string, reason: string,
     delFc: boolean, delAct: boolean) {
     let url = `${this.endpointUrl}/project/${projectId}/ms/${msIdName}?delFc=${delFc}&delAct=${delAct}`;
     if (reason) {

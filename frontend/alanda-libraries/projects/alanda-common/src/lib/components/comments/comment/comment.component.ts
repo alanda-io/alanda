@@ -19,9 +19,9 @@ export class AlandaCommentComponent {
   doReply: boolean;
   loadingInProgress: boolean;
 
-  constructor (private readonly pmcCommentService: AlandaCommentApiService) {}
+  constructor(private readonly pmcCommentService: AlandaCommentApiService) {}
 
-  tagClass (tag: AlandaCommentTag): string {
+  tagClass(tag: AlandaCommentTag): string {
     /* if(!this.filterEnabled || this.tagFilters.indexOf(tag.name) !== -1){
       //TODO: remove? improve
       if(tag.name === '#escalation'){
@@ -39,7 +39,7 @@ export class AlandaCommentComponent {
     return 'ui-button-info';
   }
 
-  autogrow () {
+  autogrow() {
     const textArea = document.getElementById('replyTextarea');
     if (this.comment.replyText && this.comment.replyText.length === 0) {
       textArea.style.height = textArea.style.minHeight;
@@ -48,12 +48,12 @@ export class AlandaCommentComponent {
     }
   }
 
-  autofocus () {
+  autofocus() {
     const area = this.textArea;
-    setTimeout(function () { area.nativeElement.focus() });
+    setTimeout(function() { area.nativeElement.focus() });
   }
 
-  onSubmitReply (form: NgForm) {
+  onSubmitReply(form: NgForm) {
     this.loadingInProgress = true;
     this.pmcCommentService.postComment({
       text: this.comment.replyText,
@@ -83,7 +83,7 @@ export class AlandaCommentComponent {
      }
   } */
 
-  refresh () {
+  refresh() {
     this.pmcCommentService.getCommentsforPid(this.comment.procInstId).subscribe(res => {
       this.comment = res.comments.filter(comment => comment.guid === this.comment.guid)[0];
     });

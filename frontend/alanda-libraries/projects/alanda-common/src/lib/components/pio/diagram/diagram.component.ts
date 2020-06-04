@@ -22,14 +22,14 @@ export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, On
   private readonly bpmnJS: BpmnJS;
   activities: any[] = [];
 
-  constructor (@Inject(APP_CONFIG) private readonly config: AppSettings, private readonly http: HttpClient) {
+  constructor(@Inject(APP_CONFIG) private readonly config: AppSettings, private readonly http: HttpClient) {
     this.endpointUrl = config.API_ENDPOINT + '/pmc-process';
     this.bpmnJS = new BpmnJS({
       keyboard: { bindTo: document }
     });
   };
 
-  loadActivities (canvas) {
+  loadActivities(canvas) {
     this.http.get(`${this.endpointUrl}/${this.pid}/activities`).subscribe(
       (res: any) => {
         const overlays = this.bpmnJS.get('overlays');
@@ -50,7 +50,7 @@ export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, On
     );
   }
 
-  addTokenOverlay (canvas, overlays, activityId, count) {
+  addTokenOverlay(canvas, overlays, activityId, count) {
     overlays.add(activityId, null, {
       html: '<span class="lol pd-token pd-token-count">' + count + '</span>',
       type: 'badge',
@@ -66,7 +66,7 @@ export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, On
     canvas.addMarker(activityId, 'highlight');
   }
 
-  addActToMap (act: any) {
+  addActToMap(act: any) {
     if (act.childActivityInstances.length > 0) {
       for (const inst of act.childActivityInstances) {
         this.addToMap(inst.activityId);
@@ -76,7 +76,7 @@ export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, On
     }
   }
 
-  addToMap (activityId: string) {
+  addToMap(activityId: string) {
     if (activityId.includes('#')) {
       activityId = activityId.substring(0, activityId.indexOf('#'));
     }
@@ -87,25 +87,25 @@ export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, On
     }
   }
 
-  ngOnInit () {
+  ngOnInit() {
 
   }
 
-  ngOnChanges (changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges) {
     if (changes.pid) {
       this.loadDiagram();
     }
   }
 
-  ngAfterContentInit (): void {
+  ngAfterContentInit(): void {
     this.bpmnJS.attachTo(this.el.nativeElement);
   }
 
-  ngOnDestroy (): void {
+  ngOnDestroy(): void {
     this.bpmnJS.destroy();
   }
 
-  loadDiagram () {
+  loadDiagram() {
     this.http.get(`${this.endpointUrl}/${this.pid}/definition/xml`)
       .pipe(
         catchError(err => throwError(err)),

@@ -62,7 +62,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     })
   );
 
-  constructor (
+  constructor(
     private readonly router: Router,
     private readonly fb: FormBuilder,
     private readonly taskService: AlandaTaskApiService,
@@ -73,20 +73,20 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     this.connect(this.fetchTaskById$);
   }
 
-  private collectParams (root: ActivatedRouteSnapshot): any {
+  private collectParams(root: ActivatedRouteSnapshot): any {
     const params: any = {};
-    (function mergeParamsFromSnapshot (snapshot: ActivatedRouteSnapshot) {
+    (function mergeParamsFromSnapshot(snapshot: ActivatedRouteSnapshot) {
       Object.assign(params, snapshot.params);
       snapshot.children.forEach(mergeParamsFromSnapshot);
     })(root);
     return params;
   }
 
-  addValidators (validators): void {
+  addValidators(validators): void {
     this.rootForm.setValidators(validators);
   }
 
-  submit (alternate?: Observable<any>): Observable<any> {
+  submit(alternate?: Observable<any>): Observable<any> {
     this.rootForm.markAllAsTouched();
     if (this.rootForm.valid) {
       return this.taskService.complete(this.get().task.task_id).pipe(

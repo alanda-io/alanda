@@ -21,14 +21,14 @@ export class PermissionsDemoComponent implements OnInit {
     running: []
   });
 
-  constructor (private readonly fb: FormBuilder) {
+  constructor(private readonly fb: FormBuilder) {
   }
 
-  ngOnInit () {
+  ngOnInit() {
 
   }
 
-  onSubmit () {
+  onSubmit() {
 
   }
 }

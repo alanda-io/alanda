@@ -26,26 +26,26 @@ export class AlandaPermissionManagementComponent implements OnInit {
 
   @ViewChild('table') turboTable: Table;
 
-  constructor (private readonly permissionService: AlandaPermissionApiService, private readonly fb: FormBuilder, private readonly messageService: MessageService) {}
+  constructor(private readonly permissionService: AlandaPermissionApiService, private readonly fb: FormBuilder, private readonly messageService: MessageService) {}
 
-  ngOnInit () {
+  ngOnInit() {
     this.initPermissionForm();
   }
 
-  private initPermissionForm () {
+  private initPermissionForm() {
     this.permissionForm = this.fb.group({
       key: ['', Validators.required]
     });
   }
 
-  onLoadPermissions (event: LazyLoadEvent) {
+  onLoadPermissions(event: LazyLoadEvent) {
     this.permissionService.getPermissions().subscribe(res => {
       this.permissions = res;
     }
     );
   }
 
-  onFormSubmit () {
+  onFormSubmit() {
     if (!this.permissionForm.valid) {
       this.permissionForm.markAsDirty();
       return;
@@ -60,25 +60,25 @@ export class AlandaPermissionManagementComponent implements OnInit {
     }
   }
 
-  onPermissionSelected (event) {
+  onPermissionSelected(event) {
     this.selectedPermission = event.data;
     this.fillPermissionForm(this.selectedPermission);
   }
 
-  onPermissionUnselected () {
+  onPermissionUnselected() {
     this.selectedPermission = null;
     this.initPermissionForm();
   }
 
-  private fillPermissionForm (permission: AlandaPermission) {
+  private fillPermissionForm(permission: AlandaPermission) {
     this.permissionForm.patchValue(permission);
   }
 
-  get key (): string {
+  get key(): string {
     return this.permissionForm.get('key').value;
   }
 
-  private createPermission (permission: AlandaPermission) {
+  private createPermission(permission: AlandaPermission) {
     this.permissionService.save(permission).subscribe(
       res => {
         this.messageService.add({ severity: 'success', summary: 'Create permission', detail: 'Permission has been created' });
@@ -87,7 +87,7 @@ export class AlandaPermissionManagementComponent implements OnInit {
       error => this.messageService.add({ severity: 'error', summary: 'Create permission', detail: error.message }));
   }
 
-  private updatePermission (permission: AlandaPermission) {
+  private updatePermission(permission: AlandaPermission) {
     this.permissionService.update(permission).subscribe(
       res => {
         this.messageService.add({ severity: 'success', summary: 'Update permission', detail: 'Permission has been updated' });

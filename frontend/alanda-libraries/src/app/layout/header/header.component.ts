@@ -28,9 +28,9 @@ export class HeaderComponent implements OnInit {
   private scrollPos = 0;
   autoHide = true;
 
-  constructor (public userService: AlandaUserApiService) {}
+  constructor(public userService: AlandaUserApiService) {}
 
-  ngOnInit () {
+  ngOnInit() {
     this.userService.getCurrentUser().subscribe();
     this.items = [
       { label: 'Home', routerLink: [''], icon: 'fa fa-home', routerLinkActiveOptions: {} },
@@ -66,7 +66,7 @@ export class HeaderComponent implements OnInit {
   }
 
   @HostListener('window:scroll', [])
-  onWindowScroll () {
+  onWindowScroll() {
     if (window.pageYOffset > this.scrollPos) {
       this.scrollPos = window.pageYOffset;
       this.autoHide = false;
@@ -76,7 +76,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  releaseRunAs () {
+  releaseRunAs() {
     this.userService.releaseRunAs().subscribe();
   }
 }

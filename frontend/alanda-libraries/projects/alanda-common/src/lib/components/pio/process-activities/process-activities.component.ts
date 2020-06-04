@@ -25,15 +25,15 @@ export class ProcessActivitiesComponent implements OnInit {
     { name: 'Assignee', field: 'assignee' }
   ];
 
-  constructor (@Inject(APP_CONFIG) private readonly config: AppSettings, private readonly http: HttpClient) {
+  constructor(@Inject(APP_CONFIG) private readonly config: AppSettings, private readonly http: HttpClient) {
     this.endpointUrl = config.API_ENDPOINT + '/finder/pio/activities';
   }
 
-  ngOnInit () {
+  ngOnInit() {
     this.loadSearchResults();
   }
 
-  loadSearchResults () {
+  loadSearchResults() {
     let params = new HttpParams();
     params = params.append('pid', this.pid);
     params = params.append('extendedView', String(this.extendedView));

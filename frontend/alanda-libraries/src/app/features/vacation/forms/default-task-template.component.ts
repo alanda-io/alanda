@@ -13,15 +13,15 @@ export class DefaultTaskComponent implements BaseFormComponent, AfterViewInit {
   state$ = this.taskFormService.state$;
   rootForm = this.taskFormService.rootForm;
 
-  constructor (private readonly taskFormService: AlandaTaskFormService) {
+  constructor(private readonly taskFormService: AlandaTaskFormService) {
 
   }
 
-  submit (): void {
+  submit(): void {
     this.taskFormService.submit();
   };
 
-  ngAfterViewInit (): void {
+  ngAfterViewInit(): void {
     // this.formManagerService.addValidators();
   }
 }

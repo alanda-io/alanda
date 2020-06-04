@@ -28,13 +28,13 @@ export class PermissionsDirective extends RxState<{
   hostElementManagers: ElementManager[] = getManagersByElementRef(this.hostElement);
 
   @Input('permissions')
-  set rights (permissionString: string) {
+  set rights(permissionString: string) {
     this.set({
       permissionString
     });
   }
 
-  constructor (
+  constructor(
     public hostElement: ElementRef,
     private readonly userService: AlandaUserApiService
   ) {
@@ -66,7 +66,7 @@ export class PermissionsDirective extends RxState<{
       });
   }
 
-  forbidAll (accessLevel) {
+  forbidAll(accessLevel) {
     this.hostElementManagers.forEach((manager) => {
       manager.applyForbiddenBehavior(accessLevel);
     });
