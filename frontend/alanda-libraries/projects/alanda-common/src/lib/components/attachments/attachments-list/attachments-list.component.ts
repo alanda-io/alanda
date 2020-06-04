@@ -16,7 +16,7 @@ export class AttachmentsListComponent implements OnInit {
   selectionValue: SimpleDocument;
   fileColumns: any[];
   previewExtensions = ['jpg', 'jpeg', 'gif', 'png', 'pdf'];
-  previewContent: {id: string, pdf: boolean};
+  previewContent: {id: string; pdf: boolean};
 
   constructor (
     private readonly documentService: AlandaDocumentApiService,

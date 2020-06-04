@@ -5,6 +5,8 @@ import {
   BaseFormComponent,
 } from 'projects/alanda-common/src/public-api';
 import { Validators, AbstractControl } from '@angular/forms';
+import { NavigationEnd, Router } from '@angular/router';
+import { PartialObserver } from 'rxjs';
 
 @Component({
   selector: 'prepare-vacation-request',
@@ -17,7 +19,10 @@ implements BaseFormComponent, AfterViewInit {
   rootForm = this.taskFormService.rootForm;
   items: SelectItem[];
 
-  constructor (private readonly taskFormService: AlandaTaskFormService) {
+  constructor (
+    private readonly taskFormService: AlandaTaskFormService,
+    private readonly router: Router
+  ) {
     this.items = [
       { label: 'Yes', value: true },
       { label: 'No', value: false },
@@ -25,7 +30,19 @@ implements BaseFormComponent, AfterViewInit {
   }
 
   submit (): void {
+    // const observer: PartialObserver<any> = {
+    //   next: (val) => {
+    //     this.router.navigate([]).catch(() => {});
+    //   },
+    // };
     this.taskFormService.submit().subscribe();
+    // pipe(
+    //   switchMap(wiza)
+    // )
+    // .subscribe(
+    //   (route) =>
+    //   NavigationEnd(rout)
+    // );
   }
 
   ngAfterViewInit (): void {

@@ -42,6 +42,19 @@ module.exports = {
           'always',
           { omitLastInOneLineBlock: true }
         ],
+        '@typescript-eslint/member-delimiter-style': [
+          'error',
+          {
+            multiline: {
+              delimiter: 'semi',
+              requireLast: true
+            },
+            singleline: {
+              delimiter: 'semi',
+              requireLast: false
+            }
+          }
+        ],
         '@angular-eslint/component-selector': [
           'warn',
           { type: 'element', prefix: 'alanda', style: 'kebab-case' },

@@ -24,7 +24,7 @@
     "@angular/platform-browser": "~9.1.2",
     "@angular/platform-browser-dynamic": "~9.1.2",
     "@angular/router": "~9.1.2",
-    "@rx-angular/state": "1.0.3",
+    "@rx-angular/state": "~1.1.1",
     "bpmn-js": "6.5.1",
     "font-awesome": "4.7.0",
     "normalize.css": "^8.0.1",

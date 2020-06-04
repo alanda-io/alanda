@@ -10,28 +10,35 @@ import { AlandaExceptionHandlingService } from '../services/exceptionHandling.se
 export class AlandaPermissionApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;
 
-  constructor (private readonly http: HttpClient, @Inject(APP_CONFIG) config: AppSettings) {
+  constructor (
+    private readonly http: HttpClient,
+    @Inject(APP_CONFIG) config: AppSettings
+  ) {
     super();
     this.endpointUrl = config.API_ENDPOINT + '/permission';
   }
 
   getPermissions (): Observable<AlandaPermission[]> {
-    return this.http.get<AlandaPermission[]>(`${this.endpointUrl}/list`)
+    return this.http
+      .get<AlandaPermission[]>(`${this.endpointUrl}/list`)
       .pipe(catchError(this.handleError('getPermissions', [])));
   }
 
   save (permission: AlandaPermission): Observable<AlandaPermission> {
-    return this.http.post<AlandaPermission>(`${this.endpointUrl}/create`, permission)
+    return this.http
+      .post<AlandaPermission>(`${this.endpointUrl}/create`, permission)
       .pipe(catchError(this.handleError('save')));
   }
 
   update (permission: AlandaPermission): Observable<AlandaPermission> {
-    return this.http.put<AlandaPermission>(`${this.endpointUrl}/update`, permission)
+    return this.http
+      .put<AlandaPermission>(`${this.endpointUrl}/update`, permission)
       .pipe(catchError(this.handleError('update')));
   }
 
   getPermissionByGuid (guid: number): Observable<AlandaPermission> {
-    return this.http.get<AlandaPermission>(`${this.endpointUrl}/single/${guid}`)
+    return this.http
+      .get<AlandaPermission>(`${this.endpointUrl}/single/${guid}`)
       .pipe(catchError(this.handleError('getPermissionByGuid', null)));
   }
 }

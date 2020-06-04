@@ -8,7 +8,7 @@ import { RxState } from '@rx-angular/state';
 import { BaseState } from '../../../form/base-state';
 
 export interface ProjectControllerState extends BaseState {
-  pid: string
+  pid: string;
 }
 
 @Component({

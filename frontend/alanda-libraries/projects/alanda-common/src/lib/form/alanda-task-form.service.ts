@@ -1,4 +1,4 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { RxState } from '@rx-angular/state';
 import {
   Router,
@@ -15,7 +15,7 @@ import {
   catchError,
 } from 'rxjs/operators';
 
-import { of, Observable, EMPTY } from 'rxjs';
+import { of, Observable, EMPTY, PartialObserver, throwError } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
 import { AlandaTask } from '../api/models/task';
 import { AlandaProject } from '../api/models/project';
@@ -24,8 +24,8 @@ import { AlandaTaskApiService } from '../api/taskApi.service';
 import { MessageService } from 'primeng/api';
 
 export interface AlandaTaskFormState {
-  task?: AlandaTask
-  project?: AlandaProject
+  task?: AlandaTask;
+  project?: AlandaProject;
   //  rootFormData: { [controlName: string]: any }
 }
 
@@ -82,14 +82,25 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     return params;
   }
 
-  addValidators (validators) {
+  addValidators (validators): void {
     this.rootForm.setValidators(validators);
   }
 
-  submit (): Observable<any> {
+  submit (alternate?: Observable<any>): Observable<any> {
     this.rootForm.markAllAsTouched();
     if (this.rootForm.valid) {
       return this.taskService.complete(this.get().task.task_id).pipe(
+        catchError((error) => {
+          console.log('in catchError', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Task completion failed',
+            detail: `The task ${
+              this.get().task.task_name
+            } could not be completed: ${error}`,
+          });
+          return EMPTY;
+        }),
         tap((resp) =>
           this.messageService.add({
             severity: 'success',
@@ -99,20 +110,16 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
             } has been successfully completed!`,
           })
         ),
-        catchError((error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Task completion fails',
-            detail: `The task ${
-              this.get().task.task_name
-            } could not be completed: ${error}`,
-          });
-          return EMPTY;
+        switchMap((val) => {
+          if (alternate != null) {
+            return alternate;
+          } else {
+            return of(['/']);
+          }
         }),
         tap((val) => {
-          if (val !== EMPTY) {
-            this.router.navigate(['/']);
-          }
+          console.log('in tap, val');
+          this.router.navigate(val).catch(() => {});
         })
       );
     } else {

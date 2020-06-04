@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { AlandaProjectType } from '../../api/models/projectType';
 import { AlandaProject } from '../../api/models/project';
+import { mergeMap, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'create-project-component',
+  selector: 'alanda-create-project',
   templateUrl: './create-project.component.html',
   styleUrls: ['./create-project.component.scss'],
 })
@@ -21,9 +22,9 @@ export class AlandaCreateProjectComponent implements OnInit {
   formGroup: FormGroup;
   isLoading = false;
 
-  constructor (private readonly projectService: AlandaProjectApiService,
+  constructor (public readonly projectService: AlandaProjectApiService,
     private readonly messageService: MessageService,
-    private readonly router: Router) {
+    private readonly router: Router, private readonly activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit (): void {
