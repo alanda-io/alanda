@@ -26,12 +26,12 @@ export class AlandaCommentComponent {
     return 'ui-button-info';
   }
 
-  autofocus () {
+  autofocus (): void {
     const area = this.textArea;
     setTimeout(function () { area.nativeElement.focus() });
   }
 
-  onSubmitReply (form: NgForm) {
+  onSubmitReply (form: NgForm): void {
     this.loadingInProgress = true;
     this.pmcCommentService.postComment({
       text: this.comment.replyText,
@@ -47,7 +47,7 @@ export class AlandaCommentComponent {
     );
   }
 
-  refresh () {
+  refresh (): void {
     this.pmcCommentService.getCommentsforPid(this.comment.procInstId).subscribe(res => {
       this.comment = res.comments.filter(comment => comment.guid === this.comment.guid)[0];
     });
