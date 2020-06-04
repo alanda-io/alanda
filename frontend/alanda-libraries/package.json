@@ -12,6 +12,7 @@
     "build-common": "ng build @alanda/common",
     "publish-common": "cd dist/alanda-common && npm login --registry=https://repo.alanda.io/repository/alanda/ && npm publish",
     "publish-eslint": "cd projects/alanda-eslint-config-standard && npm login --registry=https://repo.alanda.io/repository/alanda/ && npm publish",
+    "publish-stylelint": "cd projects/alanda-stylelint-config-standard && npm login --registry=https://repo.alanda.io/repository/alanda/ && npm publish",
     "watch": "ng --version && ng build alanda-common --watch"
   },
   "private": true,
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@alanda/eslint-config-standard": "^1.0.1",
+    "@alanda/stylelint-config-standard": "^1.0.1",
     "@angular-devkit/build-angular": "~0.901.1",
     "@angular-devkit/build-ng-packagr": "~0.901.1",
     "@angular-eslint/builder": "0.0.1-alpha.32",
