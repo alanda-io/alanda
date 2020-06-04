@@ -39,7 +39,7 @@ export class AlandaUserManagementComponent implements OnInit {
   @ViewChild('table') turboTable: Table;
   userForm: FormGroup;
 
-  constructor (private readonly userService: AlandaUserApiService,
+  constructor(private readonly userService: AlandaUserApiService,
     private readonly groupService: AlandaGroupApiService,
     private readonly roleService: AlandaRoleApiService,
     private readonly permissionService: AlandaPermissionApiService,
@@ -47,11 +47,11 @@ export class AlandaUserManagementComponent implements OnInit {
     private readonly fb: FormBuilder) {
   }
 
-  ngOnInit () {
+  ngOnInit() {
     this.initUserForm();
   }
 
-  private initUserForm () {
+  private initUserForm() {
     this.userForm = this.fb.group({
       loginName: ['', Validators.required],
       firstName: ['', Validators.required],
@@ -62,7 +62,7 @@ export class AlandaUserManagementComponent implements OnInit {
     });
   }
 
-  onFormSubmit () {
+  onFormSubmit() {
     if (!this.userForm.valid) {
       this.userForm.markAsDirty();
       return;
@@ -90,35 +90,35 @@ export class AlandaUserManagementComponent implements OnInit {
     }
   }
 
-  get login (): string {
+  get login(): string {
     return this.userForm.get('loginName').value;
   }
 
-  get firstName (): string {
+  get firstName(): string {
     return this.userForm.get('firstName').value;
   }
 
-  get lastName (): string {
+  get lastName(): string {
     return this.userForm.get('surname').value;
   }
 
-  get email (): string {
+  get email(): string {
     return this.userForm.get('email').value;
   }
 
-  get mobile (): string {
+  get mobile(): string {
     return this.userForm.get('mobile').value;
   }
 
-  get locked (): boolean {
+  get locked(): boolean {
     return this.userForm.get('locked').value;
   }
 
-  private fillUserForm (user: AlandaUser) {
+  private fillUserForm(user: AlandaUser) {
     this.userForm.patchValue(user);
   }
 
-  onLoadUsers (event: LazyLoadEvent) {
+  onLoadUsers(event: LazyLoadEvent) {
     this.loading = true;
     const serverOptions: ServerOptions = {
       pageNumber: (event.first / event.rows) + 1,
@@ -148,7 +148,7 @@ export class AlandaUserManagementComponent implements OnInit {
         });
   }
 
-  onUserSelected (event: any) {
+  onUserSelected(event: any) {
     this.selectedUser = event.data;
     this.fillUserForm(this.selectedUser);
     this.loadRoles();
@@ -156,12 +156,12 @@ export class AlandaUserManagementComponent implements OnInit {
     this.loadPermissions();
   }
 
-  onUserUnselected () {
+  onUserUnselected() {
     this.selectedUser = null;
     this.initUserForm();
   }
 
-  private createUser (user: AlandaUser) {
+  private createUser(user: AlandaUser) {
     this.userService.save(user).subscribe(
       res => {
         this.messageService.add({ severity: 'success', summary: 'Create New User', detail: 'User has been created' });
@@ -170,7 +170,7 @@ export class AlandaUserManagementComponent implements OnInit {
       error => this.messageService.add({ severity: 'error', summary: 'Create User', detail: error.message }));
   }
 
-  private updateUser (user: AlandaUser) {
+  private updateUser(user: AlandaUser) {
     const stringGroups: string[] = new Array<string>();
     this.assignedGroups.forEach(item => {
       stringGroups.push(item.groupName);
@@ -184,7 +184,7 @@ export class AlandaUserManagementComponent implements OnInit {
   }
 
 
-  private loadGroups () {
+  private loadGroups() {
     const serverOptions: ServerOptions = {
       pageNumber: 1,
       pageSize: 999999,
@@ -209,7 +209,7 @@ export class AlandaUserManagementComponent implements OnInit {
         error => this.messageService.add({ severity: 'error', summary: 'Get Groups For User', detail: error.message }));
   }
 
-  private loadRoles () {
+  private loadRoles() {
     this.userService.getEffectiveRolesForUser(this.selectedUser.guid)
       .pipe(
         mergeMap(roles => {
@@ -228,7 +228,7 @@ export class AlandaUserManagementComponent implements OnInit {
         error => this.messageService.add({ severity: 'error', summary: 'Load Roles', detail: error.message }));
   }
 
-  private loadPermissions (): void{
+  private loadPermissions(): void{
     this.userService.getEffectivePermissionsForUser(this.selectedUser.guid)
       .pipe(
         mergeMap((permissions: AlandaPermission[]) => {
@@ -247,7 +247,7 @@ export class AlandaUserManagementComponent implements OnInit {
         error => this.messageService.add({ severity: 'error', summary: 'Load Permissions', detail: error.message }));
   }
 
-  runAsUser () {
+  runAsUser() {
     this.userService.runAsUser(this.selectedUser.loginName).subscribe(
       user => this.messageService.add({ severity: 'success', summary: 'Run As User', detail: `Run as ${user.loginName}` }),
       error => this.messageService.add({ severity: 'error', summary: 'Run As User', detail: error.message })
@@ -255,7 +255,7 @@ export class AlandaUserManagementComponent implements OnInit {
   }
 
 
-  onUpdateGroups () {
+  onUpdateGroups() {
     const stringGroups: string[] = new Array<string>();
     this.assignedGroups.forEach(item => {
       stringGroups.push(item.groupName);
@@ -268,21 +268,21 @@ export class AlandaUserManagementComponent implements OnInit {
     );
   }
 
-  onUpdateRoles () {
+  onUpdateRoles() {
     this.userService.updateRolesForUser(this.selectedUser.guid, this.assignedRoles).subscribe(
       result => this.messageService.add({ severity: 'success', summary: 'Update Roles', detail: 'Roles have been updated' }),
       error => this.messageService.add({ severity: 'error', summary: 'Update Roles', detail: error.message })
     );
   }
 
-  onUpdatePermissions () {
+  onUpdatePermissions() {
     this.userService.updatePermissionsForUser(this.selectedUser.guid, this.grantedPermissions).subscribe(
       result => this.messageService.add({ severity: 'success', summary: 'Update Permissions', detail: 'Permissions have been updated' }),
       error => this.messageService.add({ severity: 'error', summary: 'Update Permissions', detail: error.message })
     );
   }
 
-  moveRole (event) {
+  moveRole(event) {
     event.items.forEach(item => {
       if (item.source) {
         this.assignedRoles.push(item);
@@ -291,7 +291,7 @@ export class AlandaUserManagementComponent implements OnInit {
     });
   }
 
-  movePermission (event) {
+  movePermission(event) {
     event.items.forEach(item => {
       if (item.source) {
         this.grantedPermissions.push(item);
@@ -300,7 +300,7 @@ export class AlandaUserManagementComponent implements OnInit {
     });
   }
 
-  onTabChange (event) {
+  onTabChange(event) {
     if (event.index === 1) {
       this.loadGroups();
     }

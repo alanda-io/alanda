@@ -24,9 +24,9 @@ export class AlandaAttachmentsComponent implements OnInit {
   treeNode: ExtendedTreeNode[] = [];
   currentFiles: SimpleDocument[]; // passed to attachments-list
 
-  constructor (private readonly documentService: AlandaDocumentApiService) {}
+  constructor(private readonly documentService: AlandaDocumentApiService) {}
 
-  ngOnInit () {
+  ngOnInit() {
     if (!this.mappings) {
       this.mappings = 'AcquiDoc,SI,SA';
     }
@@ -49,7 +49,7 @@ export class AlandaAttachmentsComponent implements OnInit {
   }
 
 
-  loadTreeConfig () {
+  loadTreeConfig() {
     this.documentService.loadTree(this.data.refObjectType, this.data.guid, true, this.data.mappings).subscribe(
       res => {
         res.name = this.data.idName;
@@ -69,7 +69,7 @@ export class AlandaAttachmentsComponent implements OnInit {
       });
   }
 
-  setupTreeNode (node: ExtendedTreeNode) {
+  setupTreeNode(node: ExtendedTreeNode) {
     node.expanded = false;
     node.collapsedIcon = 'fa fa-folder';
     node.expandedIcon = 'fa fa-folder-open';
@@ -80,7 +80,7 @@ export class AlandaAttachmentsComponent implements OnInit {
     }
   }
 
-  checkFileCount (nodeList): number {
+  checkFileCount(nodeList): number {
     let fileCount = 0;
     for (const node of nodeList) {
       fileCount += node.files;
@@ -89,7 +89,7 @@ export class AlandaAttachmentsComponent implements OnInit {
     return fileCount;
   }
 
-  loadFolderContent (): void {
+  loadFolderContent(): void {
     this.documentService.loadFolderContent(this.data.refObjectType, this.data.guid, this.data.selectedNode.id, null, this.data.selectedNode.mapping).subscribe(
       (res) => {
         this.currentFiles = res;
@@ -100,29 +100,29 @@ export class AlandaAttachmentsComponent implements OnInit {
     );
   }
 
-  refreshUrls (event?: any): void {
+  refreshUrls(event?: any): void {
     this.downloadAllUrl = this.documentService.getDownloadAllUrl(this.data.refObjectType, this.data.guid, this.data.selectedNode.id, this.data.selectedNode.mapping);
     this.uploaderUrl = this.documentService.getFolderUrl(this.data.refObjectType, this.data.guid, this.data.selectedNode.id, this.data.selectedNode.mapping);
   }
 
-  onUpload (event: any): void {
+  onUpload(event: any): void {
     this.loadFolderContent();
   }
 
-  togglePanel () {
+  togglePanel() {
     this.panelShown = !this.panelShown;
     if (!this.panelShown) {
       this.loadTreeConfig();
     }
   }
 
-  onSelectedNodeChange ($event) {
+  onSelectedNodeChange($event) {
     this.data.selectedNode = $event;
     this.refreshUrls();
     this.loadFolderContent();
   }
 
-  onDeleteFile () {
+  onDeleteFile() {
     this.loadFolderContent();
   }
 }

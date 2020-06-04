@@ -9,5 +9,5 @@ import { MessageService } from 'primeng/api';
   ],
 })
 export class CoreModule {
-  constructor () {}
+  constructor() {}
 }

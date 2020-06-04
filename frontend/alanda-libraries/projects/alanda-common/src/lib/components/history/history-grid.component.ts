@@ -32,9 +32,9 @@ export class AlandaHistoryGridComponent implements OnInit {
     { displayName: 'Log Date', name: 'Log Date', field: 'logDate' }
   ];
 
-  constructor (private readonly historyService: AlandaHistoryApiService, private readonly route: ActivatedRoute) {};
+  constructor(private readonly historyService: AlandaHistoryApiService, private readonly route: ActivatedRoute) {};
 
-  ngOnInit () {
+  ngOnInit() {
     if (this.route.snapshot.params.projectId) {
       console.log('history - project');
       this.serverOptions.filterOptions['pmcProjectGuid'] = this.projectGuid;
@@ -44,11 +44,11 @@ export class AlandaHistoryGridComponent implements OnInit {
     }
   }
 
-  loadLazy (event) {
+  loadLazy(event) {
     this.loadEntries();
   }
 
-  loadEntries () {
+  loadEntries() {
     this.loadingInProgress = true;
     console.log('filterOptions', this.serverOptions.filterOptions);
     this.historyService.search(this.serverOptions.filterOptions, this.serverOptions.pageNumber, this.serverOptions.pageSize).subscribe(

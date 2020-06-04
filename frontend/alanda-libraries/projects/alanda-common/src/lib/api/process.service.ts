@@ -11,13 +11,13 @@ import { AppSettings, APP_CONFIG } from '../models/appSettings';
 export class ProcessServiceNg extends ExceptionHandlingService {
   endpointUrl: string;
 
-  constructor (private readonly http: HttpClient,
+  constructor(private readonly http: HttpClient,
     @Inject(APP_CONFIG) config: AppSettings) {
     super();
     this.endpointUrl = config.API_ENDPOINT + '/pmc-process';
   }
 
-  getVariable (processInstanceId, variableName): Observable<any> {
+  getVariable(processInstanceId, variableName): Observable<any> {
     return this.http.get(`${this.endpointUrl}/${processInstanceId}/variables/${variableName}`, {}).pipe(catchError(this.handleError('getVariable', null)));
   }
 }

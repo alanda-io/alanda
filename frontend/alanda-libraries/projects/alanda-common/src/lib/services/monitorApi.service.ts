@@ -4,7 +4,7 @@ import { hasPermission, hasRole } from '../permissions/utils/permission-checks';
 
 @Injectable()
 export class AlandaMonitorAPIService {
-  constructor () {}
+  constructor() {}
 
   projectMonitorColumnDefs = {
     allColumnDefs: [
@@ -170,11 +170,11 @@ export class AlandaMonitorAPIService {
     },
   };
 
-  public getProjectMonitorLayouts (): any {
+  public getProjectMonitorLayouts(): any {
     return this.projectMonitorLayouts;
   }
 
-  public getTaskListLayouts (user: AlandaUser): any {
+  public getTaskListLayouts(user: AlandaUser): any {
     let layouts: any[] = Object.keys(this.taskLayouts).map(
       (key) => this.taskLayouts[key]
     );

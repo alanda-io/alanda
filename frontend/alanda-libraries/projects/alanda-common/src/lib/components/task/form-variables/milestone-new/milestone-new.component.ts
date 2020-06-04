@@ -14,7 +14,7 @@ export class AlandaSelectMilestoneNewComponent implements OnInit {
   @Input() displayName: string;
   @Input() msName: string;
   @Input()
-  set rootFormGroup (rootFormGroup: FormGroup) {
+  set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {
       rootFormGroup.addControl(this.displayName, this.milestoneForm);
     }
@@ -25,12 +25,12 @@ export class AlandaSelectMilestoneNewComponent implements OnInit {
     act: [null],
   });
 
-  constructor (
+  constructor(
     private readonly milestoneService: AlandaMilestoneApiService,
     private readonly fb: FormBuilder
   ) {}
 
-  ngOnInit () {
+  ngOnInit() {
     this.milestoneService
       .getByProjectAndMsIdName(this.project.projectId, this.msName)
       .subscribe((ms) => {
@@ -43,7 +43,7 @@ export class AlandaSelectMilestoneNewComponent implements OnInit {
       });
   }
 
-  onChange () {
+  onChange() {
     const fc = this.milestoneForm.get('fc').value
       ? convertUTCDate(new Date(this.milestoneForm.get('fc').value))
         .toISOString()

@@ -206,7 +206,7 @@ import { PermissionModule } from './permissions/permission.module';
   ],
 })
 export class AlandaCommonModule {
-  public static forRoot (config: AppSettings): ModuleWithProviders {
+  public static forRoot(config: AppSettings): ModuleWithProviders {
     return {
       ngModule: AlandaCommonModule,
       providers: [

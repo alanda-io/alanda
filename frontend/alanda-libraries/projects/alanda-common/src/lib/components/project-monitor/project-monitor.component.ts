@@ -23,7 +23,7 @@ export class AlandaProjectMonitorComponent implements OnInit {
 
   @ViewChild('tt') turboTable: Table;
 
-  constructor (private readonly projectService: AlandaProjectApiService, private readonly monitorApiService: AlandaMonitorAPIService,
+  constructor(private readonly projectService: AlandaProjectApiService, private readonly monitorApiService: AlandaMonitorAPIService,
     public messageService: MessageService) {
     this.serverOptions = {
       pageNumber: 1,
@@ -38,7 +38,7 @@ export class AlandaProjectMonitorComponent implements OnInit {
     ];
   };
 
-  ngOnInit () {
+  ngOnInit() {
     const data = this.monitorApiService.getProjectMonitorLayouts();
     for (const k in data) {
       this.layouts.push(data[k]);
@@ -48,7 +48,7 @@ export class AlandaProjectMonitorComponent implements OnInit {
     this.selectedLayout = this.layouts.filter(layout => layout.name === 'all')[0];
   }
 
-  loadProjects (serverOptions: ServerOptions) {
+  loadProjects(serverOptions: ServerOptions) {
     this.loading = true;
     this.projectService.loadProjects(serverOptions).subscribe(
       res => {
@@ -58,7 +58,7 @@ export class AlandaProjectMonitorComponent implements OnInit {
     );
   }
 
-  loadProjectsLazy (event: LazyLoadEvent) {
+  loadProjectsLazy(event: LazyLoadEvent) {
     let sortOptions = {};
     sortOptions['project.projectId'] = { dir: 'desc', prio: 0 };
     if (event.sortField) {
@@ -79,7 +79,7 @@ export class AlandaProjectMonitorComponent implements OnInit {
     this.loadProjects(this.serverOptions);
   }
 
-  onChangeLayout () {
+  onChangeLayout() {
     this.serverOptions.pageNumber = 1;
     this.serverOptions.filterOptions = {};
     for (const key of Object.keys(this.selectedLayout.filterOptions)) {
@@ -88,14 +88,14 @@ export class AlandaProjectMonitorComponent implements OnInit {
     this.loadProjects(this.serverOptions);
   }
 
-  public getCondition (obj, condition) {
+  public getCondition(obj, condition) {
     if (condition === undefined) return '';
     const props = Object.keys(obj).reduce((acc, next) => `${acc} , ${next}`);
     const evalCon = new Function(` return function ({${props}})  { return ${condition}} `);
     return evalCon()(obj);
   }
 
-  openProject (projectId: string) {
+  openProject(projectId: string) {
     return '/projectdetails/' + projectId;
   }
 }

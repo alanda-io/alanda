@@ -23,11 +23,11 @@ export class RelateDialogComponent implements OnInit {
     sortOptions: {}
   };
 
-  constructor (private readonly projectService: AlandaProjectApiService, public ref: DynamicDialogRef, public config: DynamicDialogConfig) {}
+  constructor(private readonly projectService: AlandaProjectApiService, public ref: DynamicDialogRef, public config: DynamicDialogConfig) {}
 
-  ngOnInit () {}
+  ngOnInit() {}
 
-  loadProjectsLazy (event: LazyLoadEvent) {
+  loadProjectsLazy(event: LazyLoadEvent) {
     let sortOptions = {};
     sortOptions['project.projectId'] = { dir: 'desc', prio: 0 };
     if (event.sortField) {
@@ -52,7 +52,7 @@ export class RelateDialogComponent implements OnInit {
     this.loadProjects(this.serverOptions);
   }
 
-  private loadProjects (serverOptions: ServerOptions) {
+  private loadProjects(serverOptions: ServerOptions) {
     this.loading = true;
     this.projectService.loadProjects(serverOptions).subscribe(
       res => {

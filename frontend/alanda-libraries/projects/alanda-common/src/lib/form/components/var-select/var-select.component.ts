@@ -23,7 +23,7 @@ export class AlandaVarSelectComponent implements OnInit {
   @Input() type?: string;
 
   @Input()
-  set rootFormGroup (rootFormGroup: FormGroup) {
+  set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {
       rootFormGroup.addControl(
         `${SELECTOR}-${this.variableName}`,
@@ -36,12 +36,12 @@ export class AlandaVarSelectComponent implements OnInit {
     selected: [null, Validators.required],
   });
 
-  constructor (
+  constructor(
     private readonly taskService: AlandaTaskApiService,
     private readonly fb: FormBuilder
   ) {}
 
-  ngOnInit () {
+  ngOnInit() {
     if (!this.type) {
       this.type = 'string';
     }
@@ -52,7 +52,7 @@ export class AlandaVarSelectComponent implements OnInit {
       });
   }
 
-  save () {
+  save() {
     this.taskService
       .setVariable(this.task.task_id, this.variableName, {
         value: this.selected.value,
@@ -61,7 +61,7 @@ export class AlandaVarSelectComponent implements OnInit {
       .subscribe();
   }
 
-  get selected (): AbstractControl {
+  get selected(): AbstractControl {
     return this.selectForm.get('selected');
   }
 }

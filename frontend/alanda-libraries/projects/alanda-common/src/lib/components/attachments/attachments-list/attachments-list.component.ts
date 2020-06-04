@@ -18,12 +18,12 @@ export class AttachmentsListComponent implements OnInit {
   previewExtensions = ['jpg', 'jpeg', 'gif', 'png', 'pdf'];
   previewContent: {id: string; pdf: boolean};
 
-  constructor (
+  constructor(
     private readonly documentService: AlandaDocumentApiService,
     public sanitizer: DomSanitizer
   ) {}
 
-  ngOnInit () {
+  ngOnInit() {
     this.fileColumns = [
       { field: 'name', header: 'Name', sort: true },
       { field: 'lastModified', header: 'Last Modified', prio: 'ui-p-5', sort: true },
@@ -32,7 +32,7 @@ export class AttachmentsListComponent implements OnInit {
     ];
   }
 
-  setPreview (file) {
+  setPreview(file) {
     this.previewContent = { id: null, pdf: false };
     this.previewContent.id = file.guid;
     if (file.name.endsWith('.pdf')) {
@@ -40,16 +40,16 @@ export class AttachmentsListComponent implements OnInit {
     }
   }
 
-  download (fileId: number): string {
+  download(fileId: number): string {
     return this.documentService.getDownloadUrl(this.data.refObjectType, this.data.guid, this.data.selectedNode.id, fileId, true, this.data.selectedNode.mapping);
   }
 
-  previewAllowed (fileName: string): boolean {
+  previewAllowed(fileName: string): boolean {
     const ext = fileName.split('.').pop().toLowerCase();
     return this.previewExtensions.includes(ext);
   }
 
-  deleteFile (file: SimpleDocument) {
+  deleteFile(file: SimpleDocument) {
     this.documentService.deleteFile(this.data.refObjectType, this.data.guid, this.data.selectedNode.id, +file.guid, this.data.selectedNode.mapping).subscribe(
       (res) => {
         this.currentFiles.splice(this.currentFiles.indexOf(file), 1);

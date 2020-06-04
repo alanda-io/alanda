@@ -11,9 +11,9 @@ export class AttachmentsTreeComponent {
 
   selectedFile: TreeNode[];
 
-  nodeSelect (event) {
+  nodeSelect(event) {
     this.nodeChangedEvent.emit(event.node);
   }
 
-  constructor () {}
+  constructor() {}
 }

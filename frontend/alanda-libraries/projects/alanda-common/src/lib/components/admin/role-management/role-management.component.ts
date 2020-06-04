@@ -32,30 +32,30 @@ export class AlandaRoleManagementComponent implements OnInit {
 
   @ViewChild('table') turboTable: Table;
 
-  constructor (private readonly roleService: AlandaRoleApiService,
+  constructor(private readonly roleService: AlandaRoleApiService,
     private readonly permissionService: AlandaPermissionApiService,
     private readonly messageService: MessageService,
     private readonly pmcUserService: AlandaUserApiService,
     private readonly fb: FormBuilder) {}
 
-  ngOnInit () {
+  ngOnInit() {
     this.initRoleForm();
   }
 
-  private initRoleForm () {
+  private initRoleForm() {
     this.roleForm = this.fb.group({
       name: ['', Validators.required]
     });
   }
 
-  onLoadRoles (event: LazyLoadEvent) {
+  onLoadRoles(event: LazyLoadEvent) {
     this.roleService.getRoles().subscribe(res => {
       this.roles = res;
       this.totalRecords = this.roles.length;
     });
   }
 
-  onFormSubmit () {
+  onFormSubmit() {
     if (!this.roleForm.valid) {
       this.roleForm.markAsDirty();
       return;
@@ -71,18 +71,18 @@ export class AlandaRoleManagementComponent implements OnInit {
     }
   }
 
-  get roleName (): string {
+  get roleName(): string {
     return this.roleForm.get('name').value;
   }
 
-  private loadUsers () {
+  private loadUsers() {
     this.usersWithRole = [];
     this.pmcUserService.getUsersForRole(this.selectedRole.guid).subscribe(users => {
       this.usersWithRole.push(...users);
     });
   }
 
-  private updateRole (pmcRole: AlandaRole) {
+  private updateRole(pmcRole: AlandaRole) {
     this.roleService.update(pmcRole).subscribe(
       res => {
         this.messageService.add({ severity: 'success', summary: 'Update Role', detail: 'Role has been updated' });
@@ -91,7 +91,7 @@ export class AlandaRoleManagementComponent implements OnInit {
       error => this.messageService.add({ severity: 'error', summary: 'Update Role', detail: error.message }));
   }
 
-  private createRole (pmcRole: AlandaRole) {
+  private createRole(pmcRole: AlandaRole) {
     this.roleService.save(pmcRole).subscribe(
       res => {
         this.messageService.add({ severity: 'success', summary: 'Create Role', detail: 'Role has been created' });
@@ -100,23 +100,23 @@ export class AlandaRoleManagementComponent implements OnInit {
       error => this.messageService.add({ severity: 'error', summary: 'Create Role', detail: error.message }));
   }
 
-  onRoleSelect (event) {
+  onRoleSelect(event) {
     this.selectedRole = event.data;
     this.fillRoleForm(this.selectedRole);
     this.loadPermissions();
     this.loadUsers();
   }
 
-  onRoleUnselect () {
+  onRoleUnselect() {
     this.selectedRole = null;
     this.initRoleForm();
   }
 
-  private fillRoleForm (role: AlandaRole) {
+  private fillRoleForm(role: AlandaRole) {
     this.roleForm.patchValue(role);
   }
 
-  private loadPermissions () {
+  private loadPermissions() {
     this.grantedPermissions = [...this.selectedRole.permissions];
     this.permissionService.getPermissions()
       .subscribe(result => {
@@ -128,7 +128,7 @@ export class AlandaRoleManagementComponent implements OnInit {
       });
   }
 
-  updatePermissions () {
+  updatePermissions() {
     this.selectedRole.permissions = [...this.grantedPermissions];
     this.roleService.update(this.selectedRole).subscribe(
       res => {
