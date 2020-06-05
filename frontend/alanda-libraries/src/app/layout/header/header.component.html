@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<div [@autoHide]="autoHide ? 'open' : 'closed'">
+<div [@autoHide]="autoHide ? 'open' : 'closed'" class="header-container">
   <p-menubar [model]="items">
     <div class="sub-menu" *ngIf="userService.user$ | async as user">
       <span>{{user.firstName}} {{user.surname}}</span>

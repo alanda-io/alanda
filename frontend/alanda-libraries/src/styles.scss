@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import '../projects/alanda-common/src/styles/variables';
 @import '../projects/alanda-common/src/styles/main';
+@import '~primeng/resources/themes/nova-light/theme.css';
 
 body {
   color: $font-color;
