@@ -37,8 +37,8 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@alanda/eslint-config-standard": "^1.0.3",
-    "@alanda/stylelint-config-standard": "^1.0.1",
+    "@alanda/eslint-config-standard": "^1.0.5",
+    "@alanda/stylelint-config-standard": "^1.0.2",
     "@angular-devkit/build-angular": "~0.901.1",
     "@angular-devkit/build-ng-packagr": "~0.901.1",
     "@angular-eslint/builder": "0.0.1-alpha.32",

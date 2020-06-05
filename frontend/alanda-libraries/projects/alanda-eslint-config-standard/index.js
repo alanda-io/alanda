@@ -12,12 +12,33 @@ module.exports = {
         omitLastInOneLineBlock: true
       }
     ],
+    'space-before-function-paren': [
+      'error',
+      'never'
+    ],
+    'max-len': [
+      'error',
+      {
+        code: 120,
+        comments: 120,
+        ignoreUrls: true,
+        ignoreTemplateLiterals: true,
+        ignoreStrings: true
+      }
+    ],
+    'dot-notation': [
+      'off'
+    ],
     '@typescript-eslint/semi': [
       'error',
       'always',
       {
         omitLastInOneLineBlock: true
       }
+    ],
+    '@typescript-eslint/space-before-function-paren': [
+      'error',
+      'never'
     ],
     '@typescript-eslint/member-delimiter-style': [
       'error',
@@ -32,10 +53,6 @@ module.exports = {
         }
       }
     ],
-    '@typescript-eslint/space-before-function-paren': [
-      'error',
-      'never'
-    ],
     '@angular-eslint/component-selector': [
       'warn',
       {
@@ -43,12 +60,6 @@ module.exports = {
         prefix: 'alanda',
         style: 'kebab-case'
       }
-    ],
-    'max-len': [
-      'off'
-    ],
-    'dot-notation': [
-      'off'
     ]
   }
 };
