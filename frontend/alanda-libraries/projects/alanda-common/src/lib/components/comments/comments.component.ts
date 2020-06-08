@@ -5,13 +5,23 @@ import { MessageService } from 'primeng/api';
 import { AlandaComment } from '../../api/models/comment';
 import { AlandaCommentTag } from '../../api/models/commentTag';
 import { AlandaCommentApiService } from '../../api/commentApi.service';
+import { AlandaTaskFormService } from '../../form/alanda-task-form.service';
+import {
+  map
+} from 'rxjs/operators';
+import { RxState } from '@rx-angular/state';
+
+export interface AlandaCommentState {
+  comments: Array<AlandaComment>;
+  tags: AlandaCommentTag;
+}
 
 @Component({
   selector: 'alanda-comments',
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.scss']
 })
-export class AlandaCommentsComponent implements OnInit {
+export class AlandaCommentsComponent extends RxState<AlandaCommentState> implements OnInit {
   @Input() task: any;
   @Input() pid: string;
   loadingInProgress = false;
@@ -31,10 +41,19 @@ export class AlandaCommentsComponent implements OnInit {
     searchText: ['']
   });
 
+  comments$ = this.taskFormService.select('comments').pipe(map((comments) => {
+    console.log('comments', this.filteredCommentsBySearchAndTags(comments));
+    return this.filteredCommentsBySearchAndTags(comments);
+  }));
+
   constructor(private readonly commentService: AlandaCommentApiService,
     private readonly messageService: MessageService,
     private readonly datePipe: DatePipe,
-    private readonly fb: FormBuilder) {}
+    private readonly fb: FormBuilder,
+    private readonly taskFormService: AlandaTaskFormService) {
+    super();
+    this.connect('comments', this.comments$);
+  }
 
   ngOnInit(): void {
     if (this.task) {
@@ -44,7 +63,8 @@ export class AlandaCommentsComponent implements OnInit {
       this.taskId = null;
       this.procInstId = this.pid;
     }
-    this.loadComments();
+
+    this.comments = this.taskFormService.get().comments;
   }
 
   onSubmitComment(): void {
@@ -169,22 +189,20 @@ export class AlandaCommentsComponent implements OnInit {
     return this.commentForm.get('comment').value;
   }
 
-  get filteredCommentsBySearchAndTags(): Array<AlandaComment> {
-    let filteredComments: AlandaComment[] = this.comments;
-
+  filteredCommentsBySearchAndTags(comments: AlandaComment[] = []): Array<AlandaComment> {
     if (this.searchText.trim().length > 0) {
-      filteredComments = this.comments.filter((comment: AlandaComment) => {
+      comments = comments.filter((comment: AlandaComment) => {
         return comment.fulltext.trim().toLowerCase().includes(this.searchText.trim().toLowerCase());
       });
     }
 
     if (this.filterEnabled) {
-      return filteredComments.filter((comment) => {
+      return comments.filter((comment) => {
         return comment.tagList.findIndex((tag) => {
           return this.tagFilters.includes(tag.name);
         }) > -1;
       });
     }
-    return filteredComments;
+    return comments;
   }
 }

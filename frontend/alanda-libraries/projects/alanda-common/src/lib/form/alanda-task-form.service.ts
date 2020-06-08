@@ -15,18 +15,25 @@ import {
   catchError,
 } from 'rxjs/operators';
 
-import { of, Observable, EMPTY, PartialObserver, throwError } from 'rxjs';
+import { of, Observable, EMPTY } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
 import { AlandaTask } from '../api/models/task';
 import { AlandaProject } from '../api/models/project';
 import { AlandaProjectApiService } from '../api/projectApi.service';
 import { AlandaTaskApiService } from '../api/taskApi.service';
 import { MessageService } from 'primeng/api';
+import { AlandaComment } from '../api/models/comment';
+import { AlandaCommentTag } from '../api/models/commentTag';
+import { AlandaCommentApiService } from '../api/commentApi.service';
+import { AlandaCommentResponse } from '../api/models/commentResponse';
+import { DatePipe } from '@angular/common';
 
 export interface AlandaTaskFormState {
   task?: AlandaTask;
   project?: AlandaProject;
   //  rootFormData: { [controlName: string]: any }
+  comments: Array<AlandaComment>;
+  tags: AlandaCommentTag;
 }
 
 @Injectable()
@@ -62,15 +69,30 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     })
   );
 
+  fetchComments$ = this.select('task').pipe(
+    switchMap((task: AlandaTask) => {
+      return this.commentService.getCommentsforPid(task.process_instance_id);
+    }),
+    map((commentResponse: AlandaCommentResponse) => commentResponse.comments),
+    map((comments: AlandaComment[]) => {
+      return comments.map((comment: AlandaComment) => {
+        return this.processComment(comment);
+      });
+    })
+  );
+
   constructor(
     private readonly router: Router,
     private readonly fb: FormBuilder,
     private readonly taskService: AlandaTaskApiService,
     private readonly projectService: AlandaProjectApiService,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+    private readonly commentService: AlandaCommentApiService,
+    private readonly datePipe: DatePipe,
   ) {
     super();
     this.connect(this.fetchTaskById$);
+    this.connect('comments', this.fetchComments$);
   }
 
   private collectParams(root: ActivatedRouteSnapshot): any {
@@ -126,5 +148,37 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
       console.log('errors', this.rootForm.errors);
       return of(this.rootForm.errors);
     }
+  }
+
+  processComment(comment: AlandaComment): AlandaComment {
+    comment.createDate = new Date(comment.createDate);
+    comment.textDate = this.datePipe.transform(comment.createDate, 'dd.LL.yy HH:mm');
+    let commentFulltext = `${comment.text.toLowerCase()} ${comment.authorName.toLowerCase()} ${comment.textDate}`;
+
+    comment.tagList = [];
+    if (comment.taskName !== '') {
+      comment.tagList.push({ name: comment.taskName, type: 'task' });
+    }
+    if (comment.subject.includes('#')) {
+      comment.subject.match(/#\w+/g).forEach((value) => {
+        comment.tagList.push({ name: value, type: 'user' });
+      });
+      comment.subject = comment.subject.replace(/#\w+/g, '');
+    }
+
+    comment.tagList.forEach(tag => {
+      commentFulltext += ` ${tag.name}`;
+    });
+
+    comment.replies = comment.replies.map((reply: AlandaComment) => {
+      reply.createDate = new Date(reply.createDate);
+      reply.textDate = this.datePipe.transform(reply.createDate, 'dd.LL.yy HH:mm');
+      commentFulltext += ` ${reply.text.toLowerCase()} ${reply.authorName.toLowerCase()} ${reply.textDate}`;
+      return reply;
+    });
+
+    comment.fulltext = commentFulltext;
+
+    return comment;
   }
 }
