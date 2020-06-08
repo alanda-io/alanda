@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(public userService: AlandaUserApiService) {}
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.userService.getCurrentUser().subscribe();
     this.items = [
       { label: 'Home', routerLink: ['/'], icon: 'fa fa-home', routerLinkActiveOptions: { exact: true } },
@@ -73,7 +73,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  releaseRunAs (): void {
+  releaseRunAs(): void {
     this.userService.releaseRunAs().subscribe();
   }
 }

@@ -1,20 +1,20 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
   Validators,
   AbstractControl,
-} from "@angular/forms";
-import { AlandaTaskApiService } from "../../../api/taskApi.service";
-import { AlandaUserApiService } from "../../../api/userApi.service";
-import { AlandaUser } from "../../../api/models/user";
-import { tap, concatMap } from "rxjs/operators";
+} from '@angular/forms';
+import { AlandaTaskApiService } from '../../../api/taskApi.service';
+import { AlandaUserApiService } from '../../../api/userApi.service';
+import { AlandaUser } from '../../../api/models/user';
+import { tap, concatMap } from 'rxjs/operators';
 
-const SELECTOR = "alanda-var-role-user-select";
+const SELECTOR = 'alanda-var-role-user-select';
 
 @Component({
   selector: SELECTOR,
-  templateUrl: "./var-role-user-select.component.html",
+  templateUrl: './var-role-user-select.component.html',
   styleUrls: [],
 })
 export class AlandaVarRoleUserSelectComponent implements OnInit {
@@ -23,7 +23,7 @@ export class AlandaVarRoleUserSelectComponent implements OnInit {
   @Input() label: string;
   @Input() role: string;
   items: AlandaUser[];
-  type: string = "long";
+  type = 'long';
 
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
@@ -49,7 +49,7 @@ export class AlandaVarRoleUserSelectComponent implements OnInit {
 
   ngOnInit() {
     this.userService
-      .searchUsers("", this.role)
+      .searchUsers('', this.role)
       .pipe(
         tap((ret) => {
           this.items = ret;
@@ -80,6 +80,6 @@ export class AlandaVarRoleUserSelectComponent implements OnInit {
   }
 
   get selected(): AbstractControl {
-    return this.selectForm.get("selected");
+    return this.selectForm.get('selected');
   }
 }

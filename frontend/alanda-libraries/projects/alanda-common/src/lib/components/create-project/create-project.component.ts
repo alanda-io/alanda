@@ -41,7 +41,7 @@ export class AlandaCreateProjectComponent implements OnInit {
     }
   }
 
-  onProjectTypeSelected (): void {
+  onProjectTypeSelected(): void {
     this.showDialog = false;
     this.project.pmcProjectType = this.selectedProjectType;
     this.allowedTagList = this.selectedProjectType.allowedTagList.map(tag => { return { value: tag } });
@@ -49,7 +49,7 @@ export class AlandaCreateProjectComponent implements OnInit {
   }
 
 
-  private initFormGroup (): void {
+  private initFormGroup(): void {
     this.formGroup = new FormGroup({
       tag: new FormControl(null, { validators: [Validators.required] }),
       prio: new FormControl(null, { validators: [Validators.required] }),
@@ -60,7 +60,7 @@ export class AlandaCreateProjectComponent implements OnInit {
   }
 
 
-  public onSubmit (): void {
+  public onSubmit(): void {
     if (this.formGroup.valid) {
       this.project.dueDate = this.formGroup.get('projectDueDate').value;
       this.project.title = this.formGroup.get('projectTitle').value;

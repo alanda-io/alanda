@@ -21,21 +21,21 @@ export class AlandaCommentComponent {
     replyText: ['', Validators.required]
   });
 
-  constructor (private readonly pmcCommentService: AlandaCommentApiService, private readonly fb: FormBuilder) {}
+  constructor(private readonly pmcCommentService: AlandaCommentApiService, private readonly fb: FormBuilder) {}
 
-  tagClass (tag: AlandaCommentTag): string {
+  tagClass(tag: AlandaCommentTag): string {
     if (this.tagFilters.includes(tag.name)) {
       return 'ui-button-success';
     }
     return 'ui-button-info';
   }
 
-  autofocus (): void {
+  autofocus(): void {
     const area = this.textArea;
     setTimeout(function() { area.nativeElement.focus() });
   }
 
-  onSubmitReply (): void {
+  onSubmitReply(): void {
     if (!this.commentReplyForm.valid) {
       this.commentReplyForm.markAsDirty();
       return;
@@ -56,7 +56,7 @@ export class AlandaCommentComponent {
     );
   }
 
-  refresh (): void {
+  refresh(): void {
     this.pmcCommentService.getCommentsforPid(this.comment.procInstId).subscribe(res => {
       this.comment = res.comments.filter(comment => comment.guid === this.comment.guid)[0];
     });

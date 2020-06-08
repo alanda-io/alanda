@@ -31,12 +31,12 @@ export class AlandaCommentsComponent implements OnInit {
     searchText: ['']
   });
 
-  constructor (private readonly commentService: AlandaCommentApiService,
+  constructor(private readonly commentService: AlandaCommentApiService,
     private readonly messageService: MessageService,
     private readonly datePipe: DatePipe,
     private readonly fb: FormBuilder) {}
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     if (this.task) {
       this.procInstId = this.task.process_instance_id;
       this.taskId = this.task.task_id;
@@ -47,7 +47,7 @@ export class AlandaCommentsComponent implements OnInit {
     this.loadComments();
   }
 
-  onSubmitComment (): void {
+  onSubmitComment(): void {
     if (!this.commentForm.valid) {
       this.commentForm.markAsDirty();
       return;
@@ -67,7 +67,7 @@ export class AlandaCommentsComponent implements OnInit {
       });
   }
 
-  loadComments (): void {
+  loadComments(): void {
     this.loadingInProgress = true;
     this.commentService.getCommentsforPid(this.procInstId).subscribe(
       (res: any) => {
@@ -123,14 +123,14 @@ export class AlandaCommentsComponent implements OnInit {
     }
   }
 
-  tagClass (tag: AlandaCommentTag): string {
+  tagClass(tag: AlandaCommentTag): string {
     if (this.tagFilters.includes(tag.name)) {
       return 'ui-button-success';
     }
     return 'ui-button-info';
   }
 
-  extractTags (comment: AlandaComment): void {
+  extractTags(comment: AlandaComment): void {
     comment.tagList = [];
     if (comment.taskName !== '') {
       comment.tagList.push({ name: comment.taskName, type: 'task' });
@@ -143,7 +143,7 @@ export class AlandaCommentsComponent implements OnInit {
     }
   }
 
-  toggleFilter (name: string): void {
+  toggleFilter(name: string): void {
     const filterIndex = this.tagFilters.indexOf(name);
     if (filterIndex !== -1) {
       this.tagFilters.splice(filterIndex, 1);
@@ -156,20 +156,20 @@ export class AlandaCommentsComponent implements OnInit {
     }
   }
 
-  clearFilters (): void {
+  clearFilters(): void {
     this.tagFilters = [];
     this.filterEnabled = false;
   }
 
-  get searchText (): string {
+  get searchText(): string {
     return this.commentFilterForm.get('searchText').value;
   }
 
-  get comment (): string {
+  get comment(): string {
     return this.commentForm.get('comment').value;
   }
 
-  get filteredCommentsBySearchAndTags (): Array<AlandaComment> {
+  get filteredCommentsBySearchAndTags(): Array<AlandaComment> {
     let filteredComments: AlandaComment[] = this.comments;
 
     if (this.searchText.trim().length > 0) {
