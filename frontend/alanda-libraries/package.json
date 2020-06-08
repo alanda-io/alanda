@@ -12,6 +12,7 @@
     "build-common": "ng build @alanda/common",
     "publish-common": "cd dist/alanda-common && npm login --registry=https://repo.alanda.io/repository/alanda/ && npm publish",
     "publish-eslint": "cd projects/alanda-eslint-config-standard && npm login --registry=https://repo.alanda.io/repository/alanda/ && npm publish",
+    "publish-stylelint": "cd projects/alanda-stylelint-config-standard && npm login --registry=https://repo.alanda.io/repository/alanda/ && npm publish",
     "watch": "ng --version && ng build alanda-common --watch"
   },
   "private": true,
@@ -36,7 +37,8 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@alanda/eslint-config-standard": "^1.0.1",
+    "@alanda/eslint-config-standard": "^1.0.5",
+    "@alanda/stylelint-config-standard": "^1.0.2",
     "@angular-devkit/build-angular": "~0.901.1",
     "@angular-devkit/build-ng-packagr": "~0.901.1",
     "@angular-eslint/builder": "0.0.1-alpha.32",
@@ -69,8 +71,8 @@
     "ng-packagr": "^9.0.0",
     "protractor": "~5.4.3",
     "stylelint": "^13.5.0",
+    "stylelint-config-recommended-scss": "^4.2.0",
     "stylelint-config-sass-guidelines": "^7.0.0",
-    "stylelint-config-standard": "^20.0.0",
     "stylelint-scss": "^3.17.2",
     "ts-node": "~8.3.0",
     "typescript": "~3.7.5"
