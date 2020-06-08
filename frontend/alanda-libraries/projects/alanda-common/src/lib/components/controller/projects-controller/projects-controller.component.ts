@@ -12,73 +12,69 @@ export interface ProjectControllerState extends BaseState {
 }
 
 @Component({
-    templateUrl: './projects-controller.component.html',
-    styleUrls: [],
-    providers: [RxState]
-  })
-  export class AlandaProjectsControllerComponent implements OnInit, OnDestroy {
+  templateUrl: './projects-controller.component.html',
+  styleUrls: [],
+  providers: [RxState]
+})
+export class AlandaProjectsControllerComponent implements OnInit, OnDestroy {
+  activeTab = 0;
+  paramSub: Subscription;
 
-    activeTab = 0;
-    paramSub: Subscription;
+  // routerParams$ = this.router.events
+  // .pipe(
+  //   filter((event: RouterEvent): boolean => (event instanceof NavigationEnd)),
+  //   map(() => this.router.routerState.snapshot.root),
+  //   // @TODO if we get away from global task managing dete this line and move coed
+  //   map(snapshot => this.collectParams(snapshot)),
+  //   tap(snapshot => console.log('sn', snapshot)),
+  //   distinctUntilChanged(sn => sn.projectId),
+  //   switchMap((params) => {
+  //     console.log(params);
+  //     return this.projectService.getProjectByProjectId(params.projectId);
+  //   })
+  // );
 
-    // routerParams$ = this.router.events
-    // .pipe(
-    //   filter((event: RouterEvent): boolean => (event instanceof NavigationEnd)),
-    //   map(() => this.router.routerState.snapshot.root),
-    //   // @TODO if we get away from global task managing dete this line and move coed
-    //   map(snapshot => this.collectParams(snapshot)),
-    //   tap(snapshot => console.log('sn', snapshot)),
-    //   distinctUntilChanged(sn => sn.projectId),
-    //   switchMap((params) => {
-    //     console.log(params);
-    //     return this.projectService.getProjectByProjectId(params.projectId);
-    //   })
-    // );
+  routerParams$ = this.route.params.pipe(
+    map(p => p.projectId),
+    distinctUntilChanged(),
+  );
 
-    routerParams$ = this.route.params.pipe(
-      map(p => p.projectId),
-      distinctUntilChanged(),
-    );
+  fetchProjectByProjectId$ = this.routerParams$.pipe(
+    switchMap((projectId) => {
+      return this.projectService.getProjectByProjectId(projectId);
+    })
+  );
 
-    fetchProjectByProjectId$ = this.routerParams$.pipe(
-      switchMap((projectId) => {
-        return this.projectService.getProjectByProjectId(projectId);
-      })
-    )
+  getPidFromProject$ = this.state.select('project').pipe(
+    map((project: AlandaProject) => {
+      return project.processes.find(proc => (proc.relation === 'MAIN')).processInstanceId;
+    })
+  );
 
-    getPidFromProject$ = this.state.select('project').pipe(
-      map((project: AlandaProject) => {
-        return project.processes.find(proc => (proc.relation === 'MAIN')).processInstanceId;
-      })
-    )
+  forwardByType$ = this.state.select('project').pipe(
+    tap((project: AlandaProject) => {
+      console.log(project.projectTypeIdName.toLowerCase());
+      this.router.navigate([project.projectTypeIdName.toLowerCase()], { relativeTo: this.route });
+    })
+  );
 
-    forwardByType$ = this.state.select('project').pipe(
-      tap((project: AlandaProject) => {
-        console.log(project.projectTypeIdName.toLowerCase());
-        this.router.navigate([project.projectTypeIdName.toLowerCase()], { relativeTo: this.route });
-      })
-    )
-
-    constructor(private route: ActivatedRoute,
-                private router: Router,
-                private projectService: AlandaProjectApiService,
-                public state: RxState<ProjectControllerState>) {
-
-                  this.state.connect('project', this.fetchProjectByProjectId$);
-                  this.state.connect('pid', this.getPidFromProject$);
-                  this.state.hold(this.forwardByType$);
-                }
+  constructor(private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly projectService: AlandaProjectApiService,
+    public state: RxState<ProjectControllerState>) {
+    this.state.connect('project', this.fetchProjectByProjectId$);
+    this.state.connect('pid', this.getPidFromProject$);
+    this.state.hold(this.forwardByType$);
+  }
 
 
 
-    ngOnInit() {
-
-    }
-
-    ngOnDestroy() {
-      console.log('ProjectsController destroy');
-    }
-
+  ngOnInit() {
 
   }
+
+  ngOnDestroy() {
+    console.log('ProjectsController destroy');
+  }
+}
 

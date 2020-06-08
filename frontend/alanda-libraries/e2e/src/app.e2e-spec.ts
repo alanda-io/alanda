@@ -13,7 +13,7 @@ describe('workspace-project App', () => {
     expect(page.getTitleText()).toEqual('alanda-libraries app is running!');
   });
 
-  afterEach(async () => {
+  afterEach(async() => {
     // Assert that there are no errors emitted from the browser
     const logs = await browser.manage().logs().get(logging.Type.BROWSER);
     expect(logs).not.toContain(jasmine.objectContaining({

@@ -8,10 +8,9 @@ import { AlandaCommentApiService } from '../../../api/commentApi.service';
 @Component({
   selector: 'alanda-comment',
   templateUrl: './comment.component.html',
-  styleUrls: [],
+  styleUrls: ['./comment.component.scss']
 })
 export class AlandaCommentComponent {
-
   @Input() comment: AlandaComment;
   @Input() type: string;
   @Input() tagFilters;
@@ -20,12 +19,12 @@ export class AlandaCommentComponent {
   doReply: boolean;
   loadingInProgress: boolean;
 
-  constructor(private pmcCommentService: AlandaCommentApiService) {}
+  constructor(private readonly pmcCommentService: AlandaCommentApiService) {}
 
-  tagClass(tag: AlandaCommentTag): string{
+  tagClass(tag: AlandaCommentTag): string {
     /* if(!this.filterEnabled || this.tagFilters.indexOf(tag.name) !== -1){
       //TODO: remove? improve
-      if(tag.name == '#escalation'){
+      if(tag.name === '#escalation'){
         return 'ui-button-danger';
       }
       if(tag.name.startsWith('#')){
@@ -34,15 +33,15 @@ export class AlandaCommentComponent {
       return 'ui-button-success';
     }
     return 'ui-button-info'; */
-    if(this.tagFilters.includes((tag.name))) {
+    if (this.tagFilters.includes((tag.name))) {
       return 'ui-button-success';
     }
     return 'ui-button-info';
   }
 
-  autogrow(){
-    let  textArea = document.getElementById("replyTextarea")
-    if(this.comment.replyText && this.comment.replyText.length == 0) {
+  autogrow() {
+    const textArea = document.getElementById('replyTextarea');
+    if (this.comment.replyText && this.comment.replyText.length === 0) {
       textArea.style.height = textArea.style.minHeight;
     } else {
       textArea.style.height = textArea.scrollHeight + 'px';
@@ -50,8 +49,8 @@ export class AlandaCommentComponent {
   }
 
   autofocus() {
-    let area = this.textArea;
-    setTimeout(function(){area.nativeElement.focus()});
+    const area = this.textArea;
+    setTimeout(function() { area.nativeElement.focus() });
   }
 
   onSubmitReply(form: NgForm) {
@@ -82,12 +81,11 @@ export class AlandaCommentComponent {
       this.tagFilters.push(name);
       this.filterEnabled = true;
      }
-  }*/
+  } */
 
   refresh() {
     this.pmcCommentService.getCommentsforPid(this.comment.procInstId).subscribe(res => {
-      this.comment = res.comments.filter(comment => comment.guid == this.comment.guid)[0];
+      this.comment = res.comments.filter(comment => comment.guid === this.comment.guid)[0];
     });
   }
-
 }

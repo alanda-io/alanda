@@ -1,14 +1,4 @@
-<style>
-  ::ng-deep .ui-lightbox {
-    margin: 0px !important;
-    left: 0;
-    right: 0;
-    max-width: 50%;
-    max-height: auto;
-  }
-</style>
-
-<p-table #dataTable [value]="currentFiles" [columns]="fileColumns"  [scrollable]="true" scrollHeight="320px" autoLayout="true" dataKey="guid">
+<p-table class="attachment-list" #dataTable [value]="currentFiles" [columns]="fileColumns"  [scrollable]="true" scrollHeight="320px" autoLayout="true" dataKey="guid">
   <!-- 'let-columns' allows access to the ng-template context columns property-->
   <ng-template pTemplate="header" let-columns>
     <tr>
@@ -32,7 +22,7 @@
               <span class="pi pi-image" style="font-size: 1.5em"></span>
             </a> -->
               <ng-template [ngIf]="!file.name.endsWith('.pdf')" [ngIfElse]="pdfpreview">
-                <p-lightbox type="content">
+                <p-lightbox class="lightbox" type="content">
                   <a href="#">
                     <span class="pi pi-image" style="font-size: 1.5em"></span>
                   </a>
@@ -40,7 +30,7 @@
                 </p-lightbox>
               </ng-template>
               <ng-template #pdfpreview>
-                  <p-lightbox type="content">
+                  <p-lightbox class="lightbox" type="content">
                       <a href="#">
                         <span class="pi pi-image" style="font-size: 1.5em"></span>
                       </a>

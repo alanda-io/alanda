@@ -9,7 +9,6 @@ import { AlandaTask } from '../api/models/task';
   providedIn: 'root'
 })
 export class ProjectAndProcessesService {
-
   constructor() { }
 
   mapProjectToTreeNode(project: AlandaProject): TreeNode {

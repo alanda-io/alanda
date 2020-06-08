@@ -3,8 +3,7 @@ import { Component } from '@angular/compiler/src/core';
 
 @Injectable()
 export class AlandaProjectPropertiesService {
-
-  private propertyComponents: Map<string, Type<any>>;
+  private readonly propertyComponents: Map<string, Type<any>>;
 
   constructor() {
     this.propertyComponents = new Map<string, Type<any>>();

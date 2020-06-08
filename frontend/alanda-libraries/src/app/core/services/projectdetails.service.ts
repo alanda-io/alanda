@@ -4,8 +4,7 @@ import { ProjectDetailsComponent } from 'src/app/components/project-details/proj
 
 @Injectable()
 export class ProjectDetailsService {
-
-  private propertyComponents: Map<string, Type<any>>;
+  private readonly propertyComponents: Map<string, Type<any>>;
 
   constructor() {
     this.propertyComponents = new Map<string, Type<any>>();

@@ -5,7 +5,11 @@
   "projects": {
     "alanda-libraries": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -24,7 +28,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -96,8 +100,9 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
+            "eslintConfig": ".eslintrc.js",
             "tsConfig": [
               "tsconfig.app.json",
               "tsconfig.spec.json",
@@ -124,6 +129,11 @@
     },
     "@alanda/common": {
       "projectType": "library",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "root": "projects/alanda-common",
       "sourceRoot": "projects/alanda-common/src",
       "prefix": "lib",
@@ -149,8 +159,9 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
+            "eslintConfig": ".eslintrc.js",
             "tsConfig": [
               "projects/alanda-common/tsconfig.lib.json",
               "projects/alanda-common/tsconfig.spec.json"
@@ -161,6 +172,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "alanda-libraries"
 }

@@ -5,16 +5,17 @@ import { ModifyVacationRequestComponent } from './forms/modify-vacation-request.
 import { DefaultTaskComponent } from './forms/default-task-template.component';
 import { VacationRoutingModule } from './vacation-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { InformSubstituteComponent } from './forms/inform-substitute.component';
+import { PerformHandoverActivitiesComponent } from './forms/perform-handover-activities.component';
 
 @NgModule({
-  imports: [
-    VacationRoutingModule,
-    SharedModule,
-  ],
+  imports: [VacationRoutingModule, SharedModule],
   declarations: [
     PrepareVacationRequestComponent,
     CheckVacationRequestComponent,
     ModifyVacationRequestComponent,
+    InformSubstituteComponent,
+    PerformHandoverActivitiesComponent,
     DefaultTaskComponent,
   ],
   exports: [],
@@ -23,4 +24,3 @@ import { SharedModule } from 'src/app/shared/shared.module';
 export class VacationModule {
   constructor() {}
 }
-

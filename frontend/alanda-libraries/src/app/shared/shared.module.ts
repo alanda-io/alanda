@@ -27,7 +27,5 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: []
 })
 export class SharedModule {
-
   constructor() {}
-
 }

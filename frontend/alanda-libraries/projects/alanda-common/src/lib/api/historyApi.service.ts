@@ -7,24 +7,22 @@ import { AlandaExceptionHandlingService } from '../services/exceptionHandling.se
 
 @Injectable()
 export class AlandaHistoryApiService extends AlandaExceptionHandlingService {
+  private readonly endpointUrl: string;
 
-    private endpointUrl: string;
+  constructor(private readonly http: HttpClient, @Inject(APP_CONFIG) config: AppSettings) {
+    super();
+    this.endpointUrl = config.API_ENDPOINT + '/history';
+  }
 
-    constructor(private http: HttpClient, @Inject(APP_CONFIG) config: AppSettings) {
-        super();
-        this.endpointUrl = config.API_ENDPOINT + '/history';
+  search(filterOptions, pageNumber, pageSize): Observable<any[]> {
+    const searchDto = {};
+    console.log('filterOpts', filterOptions);
+    for (const key of Object.keys(filterOptions)) {
+      if (filterOptions[key] !== '') {
+        searchDto[key] = encodeURIComponent(filterOptions[key]);
+      }
     }
-
-    search(filterOptions, pageNumber, pageSize): Observable<any[]> {
-        const searchDto = {};
-        console.log('filterOpts', filterOptions);
-        for (const key of Object.keys(filterOptions)) {
-            if (filterOptions[key] !== '') {
-                searchDto[key] = encodeURIComponent(filterOptions[key]);
-            }
-        }
-        return this.http.post<any[]>(`${this.endpointUrl}/search/${pageNumber}/${pageSize}`, searchDto)
-        .pipe(catchError(this.handleError('search', [])));
-    }
-
+    return this.http.post<any[]>(`${this.endpointUrl}/search/${pageNumber}/${pageSize}`, searchDto)
+      .pipe(catchError(this.handleError('search', [])));
+  }
 }

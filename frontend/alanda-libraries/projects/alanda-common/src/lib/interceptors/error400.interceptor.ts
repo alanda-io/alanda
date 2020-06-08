@@ -5,7 +5,6 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class Error400Interceptor implements HttpInterceptor {
-
   constructor() {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

@@ -1,0 +1,3 @@
+{
+  "extends": ["@alanda/stylelint-config-standard"]
+}
