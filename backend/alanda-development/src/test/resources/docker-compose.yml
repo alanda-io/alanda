@@ -10,6 +10,7 @@ services:
       - JAVA_OPTS=-Xms512m -Xmx3500m -XX:MetaspaceSize=128M -XX:MaxMetaspaceSize=512m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true
       - SKIP_DB_CONFIG=true
       - TZ=Europe/Vienna
+      - DEBUG=true
     volumes:
       - ./docker-camunda/mount_deployment:/camunda/standalone/deployments_alanda
       - ./docker-camunda/mount_logs:/camunda/standalone/log
@@ -18,7 +19,7 @@ services:
     ports:
       - 8080:8080
       - 9990:9990
-      - 8787:8787
+      - 8787:8000
     networks:
       - default
 
