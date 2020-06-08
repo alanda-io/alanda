@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MessageService } from 'primeng/api';
 import { AlandaComment } from '../../api/models/comment';
@@ -22,12 +22,19 @@ export class AlandaCommentsComponent implements OnInit {
   taskId: string;
   tagHash = {};
   tagFilters: string[] = [];
-  searchText = '';
-  subject = ' ';
-  content = '';
 
-  constructor (private readonly commentService: AlandaCommentApiService, private readonly messageService: MessageService,
-    private readonly datePipe: DatePipe) {}
+  commentForm = this.fb.group({
+    comment: ['', Validators.required]
+  });
+
+  commentFilterForm = this.fb.group({
+    searchText: ['']
+  });
+
+  constructor (private readonly commentService: AlandaCommentApiService,
+    private readonly messageService: MessageService,
+    private readonly datePipe: DatePipe,
+    private readonly fb: FormBuilder) {}
 
   ngOnInit (): void {
     if (this.task) {
@@ -40,16 +47,21 @@ export class AlandaCommentsComponent implements OnInit {
     this.loadComments();
   }
 
-  onSubmitComment (form: NgForm): void {
+  onSubmitComment (): void {
+    if (!this.commentForm.valid) {
+      this.commentForm.markAsDirty();
+      return;
+    }
+
     this.loadingInProgress = true;
     this.commentService.postComment({
-      subject: this.subject,
-      text: this.content,
+      subject: ' ',
+      text: this.comment,
       taskId: this.taskId,
       procInstId: this.procInstId,
     }).subscribe(
       res => {
-        form.reset();
+        this.commentForm.reset();
         this.loadComments();
         this.loadingInProgress = false;
       });
@@ -123,13 +135,11 @@ export class AlandaCommentsComponent implements OnInit {
     if (comment.taskName !== '') {
       comment.tagList.push({ name: comment.taskName, type: 'task' });
     }
-    if (comment.subject !== '') {
-      if (comment.subject.includes('#')) {
-        comment.subject.match(/#\w+/g).forEach((value) => {
-          comment.tagList.push({ name: value, type: 'user' });
-        });
-        comment.subject = comment.subject.replace(/#\w+/g, '');
-      }
+    if (comment.subject.includes('#')) {
+      comment.subject.match(/#\w+/g).forEach((value) => {
+        comment.tagList.push({ name: value, type: 'user' });
+      });
+      comment.subject = comment.subject.replace(/#\w+/g, '');
     }
   }
 
@@ -151,6 +161,14 @@ export class AlandaCommentsComponent implements OnInit {
     this.filterEnabled = false;
   }
 
+  get searchText (): string {
+    return this.commentFilterForm.get('searchText').value;
+  }
+
+  get comment (): string {
+    return this.commentForm.get('comment').value;
+  }
+
   get filteredCommentsBySearchAndTags (): Array<AlandaComment> {
     let filteredComments: AlandaComment[] = this.comments;
 
@@ -162,9 +180,9 @@ export class AlandaCommentsComponent implements OnInit {
 
     if (this.filterEnabled) {
       return filteredComments.filter((comment) => {
-        return comment.tagList.filter((tag) => {
+        return comment.tagList.findIndex((tag) => {
           return this.tagFilters.includes(tag.name);
-        });
+        }) > -1;
       });
     }
     return filteredComments;

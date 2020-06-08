@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AlandaComment } from '../../../api/models/comment';
 import { AlandaCommentTag } from '../../../api/models/commentTag';
 import { AlandaCommentApiService } from '../../../api/commentApi.service';
@@ -14,10 +14,14 @@ export class AlandaCommentComponent {
   @Input() type: string;
   @Input() tagFilters: Array<string>;
   @ViewChild('replyContent') textArea: ElementRef;
-  doReply: boolean;
+  doReply = false;
   loadingInProgress: boolean;
 
-  constructor (private readonly pmcCommentService: AlandaCommentApiService) {}
+  commentReplyForm = this.fb.group({
+    replyText: ['', Validators.required]
+  });
+
+  constructor (private readonly pmcCommentService: AlandaCommentApiService, private readonly fb: FormBuilder) {}
 
   tagClass (tag: AlandaCommentTag): string {
     if (this.tagFilters.includes(tag.name)) {
@@ -31,17 +35,22 @@ export class AlandaCommentComponent {
     setTimeout(function () { area.nativeElement.focus() });
   }
 
-  onSubmitReply (form: NgForm): void {
+  onSubmitReply (): void {
+    if (!this.commentReplyForm.valid) {
+      this.commentReplyForm.markAsDirty();
+      return;
+    }
+
     this.loadingInProgress = true;
     this.pmcCommentService.postComment({
-      text: this.comment.replyText,
+      text: this.commentReplyForm.get('replyText').value,
       taskId: this.comment.taskId,
       procInstId: this.comment.procInstId,
       replyTo: this.comment.guid
     }).subscribe(
       res => {
         this.refresh();
-        form.reset();
+        this.commentReplyForm.reset();
         this.loadingInProgress = false;
       }
     );
