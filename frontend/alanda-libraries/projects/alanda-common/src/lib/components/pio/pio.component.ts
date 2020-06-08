@@ -14,15 +14,15 @@ export class AlandaPioComponent implements OnInit {
   processName = '';
   endpointUrl: string;
 
-  constructor (@Inject(APP_CONFIG) private readonly config: AppSettings, private readonly processService: AlandaProcessApiService) {
+  constructor(@Inject(APP_CONFIG) private readonly config: AppSettings, private readonly processService: AlandaProcessApiService) {
     this.endpointUrl = config.API_ENDPOINT + '/pmc-process';
   };
 
-  ngOnInit () {
+  ngOnInit() {
     this.getProcessInfo(this.pid);
   }
 
-  getProcessInfo (pid) {
+  getProcessInfo(pid) {
     this.processService.getProcessInfoForProcessInstance(pid).subscribe((res) => {
       // this.processName = res.processName;
     });

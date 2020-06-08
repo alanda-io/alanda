@@ -35,7 +35,7 @@ export class AlandaSelectRoleComponent implements OnInit {
   @Input() formName: string;
 
   @Input()
-  set rootFormGroup (rootFormGroup: FormGroup) {
+  set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {
       rootFormGroup.addControl(
         `${SELECTOR}-${this.roleName}`,
@@ -53,18 +53,18 @@ export class AlandaSelectRoleComponent implements OnInit {
     selected: new FormControl(''),
   });
 
-  constructor (
+  constructor(
     private readonly userService: AlandaUserApiService,
     private readonly propService: AlandaPropertyApiService,
     private readonly groupService: AlandaGroupApiService,
     private readonly roleService: AlandaRoleApiService
   ) {}
 
-  ngOnInit () {
+  ngOnInit() {
     this.loadDropdown();
   }
 
-  loadDropdown () {
+  loadDropdown() {
     if (this.type === 'user') {
       if (!this.onlyInherited) {
         if (this.grouping) {
@@ -110,7 +110,7 @@ export class AlandaSelectRoleComponent implements OnInit {
     } else console.warn('wrong type input for role-select');
   }
 
-  private addUsersToOptions (u?: AlandaUser[]) {
+  private addUsersToOptions(u?: AlandaUser[]) {
     this.groupService.getGroupsForRole(this.roleName).subscribe((groups) => {
       this.groups = groups;
       this.groups.forEach((group) => {
@@ -150,7 +150,7 @@ export class AlandaSelectRoleComponent implements OnInit {
     });
   }
 
-  private loadProperty () {
+  private loadProperty() {
     if (this.type === 'user') {
       this.propService
         .get(null, 'user', this.project.guid, 'role_' + this.roleName)
@@ -190,7 +190,7 @@ export class AlandaSelectRoleComponent implements OnInit {
     }
   }
 
-  onChange () {
+  onChange() {
     if (this.type === 'user') {
       const selected = this.grouping
         ? this.roleSelectFormGroup.get('selected')
@@ -218,7 +218,7 @@ export class AlandaSelectRoleComponent implements OnInit {
     }
   }
 
-  get selected (): AbstractControl {
+  get selected(): AbstractControl {
     return this.roleSelectFormGroup.get('selected');
   }
 }

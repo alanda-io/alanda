@@ -15,7 +15,7 @@ export class AlandaDateSelectComponent implements OnInit {
   @Input() project: AlandaProject;
   @Input() formName: string;
   @Input()
-  set rootFormGroup (rootFormGroup: FormGroup) {
+  set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {
       rootFormGroup.addControl(this.formName, this.dateForm);
     }
@@ -25,21 +25,21 @@ export class AlandaDateSelectComponent implements OnInit {
     date: new FormControl(null, Validators.required),
   });
 
-  constructor (private readonly messageService: MessageService, private readonly propertyService: AlandaPropertyApiService,
+  constructor(private readonly messageService: MessageService, private readonly propertyService: AlandaPropertyApiService,
   ) {}
 
-  ngOnInit () {
+  ngOnInit() {
     this.load();
   }
 
-  save () {
+  save() {
     // TODO: use better variable name, maybe improve
     const d = new Date(this.dateForm.get('date').value);
     const utcDate = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
     this.propertyService.setString(null, null, this.project.guid, this.key, utcDate.toISOString().substring(0, 10)).subscribe();
   }
 
-  load () {
+  load() {
     this.propertyService.get(null, null, this.project.guid, this.key).subscribe(
       res => {
         if (res.value) {

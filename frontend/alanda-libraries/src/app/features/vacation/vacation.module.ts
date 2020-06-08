@@ -22,5 +22,5 @@ import { PerformHandoverActivitiesComponent } from './forms/perform-handover-act
   providers: [],
 })
 export class VacationModule {
-  constructor () {}
+  constructor() {}
 }

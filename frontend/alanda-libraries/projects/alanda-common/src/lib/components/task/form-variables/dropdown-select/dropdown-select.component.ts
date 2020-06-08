@@ -15,7 +15,7 @@ export class AlandaDropdownSelectComponent implements OnInit {
   @Input() key: string;
   @Input() groupId?: number;
   @Input()
-  set rootFormGroup (rootFormGroup: FormGroup) {
+  set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {
       rootFormGroup.addControl('alanda-dropdown-select', this.userForm);
     }
@@ -26,9 +26,9 @@ export class AlandaDropdownSelectComponent implements OnInit {
     user: new FormControl(null),
   });
 
-  constructor (private readonly userService: AlandaUserApiService, private readonly propertyService: AlandaPropertyApiService) {}
+  constructor(private readonly userService: AlandaUserApiService, private readonly propertyService: AlandaPropertyApiService) {}
 
-  ngOnInit () {
+  ngOnInit() {
     const serverOptions: ServerOptions = {
       pageNumber: 1,
       pageSize: 999999,
@@ -43,17 +43,17 @@ export class AlandaDropdownSelectComponent implements OnInit {
     this.initFormGroup();
   }
 
-  initFormGroup () {
+  initFormGroup() {
     this.userForm = new FormGroup({
       user: new FormControl(null),
     });
   }
 
-  save () {
+  save() {
     this.propertyService.setString(null, null, this.project.guid, this.key, this.userForm.get('user').value.displayName).subscribe();
   }
 
-  load () {
+  load() {
     this.propertyService.get(null, null, this.project.guid, this.key).subscribe(
       res => {
         if (res.value) {

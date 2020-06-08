@@ -98,7 +98,7 @@ export class AlandaCommentsComponent implements OnInit {
       error => this.messageService.add({ severity: 'error', summary: 'Get Comments', detail: error.message }));
   }
 
-  processComment (comment: AlandaComment, topLevel: boolean): void {
+  processComment(comment: AlandaComment, topLevel: boolean): void {
     comment.createDate = new Date(comment.createDate);
     comment.textDate = this.datePipe.transform(comment.createDate, 'dd.LL.yy HH:mm');
     if (!topLevel) {

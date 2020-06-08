@@ -5,7 +5,10 @@
       [project]="taskFormState.project"
     ></alanda-project-header>
     <alanda-comments [task]="taskFormState.task"></alanda-comments>
-    <alanda-attachments [task]="taskFormState.task" [project]="taskFormState.project"></alanda-attachments>
+    <alanda-attachments
+      [task]="taskFormState.task"
+      [project]="taskFormState.project"
+    ></alanda-attachments>
     <div class="p-grid">
       <div class="p-col-2">
         <alanda-var-select
@@ -16,7 +19,7 @@
           label="Require handover?"
         ></alanda-var-select>
       </div>
-      <div class="p-col-8">
+      <div class="p-col-2">
         <alanda-prop-select
           [rootFormGroup]="rootForm"
           [project]="taskFormState.project"
@@ -25,6 +28,15 @@
           propertyName="propertyRequired"
           label="Require property?"
         ></alanda-prop-select>
+      </div>
+      <div class="p-col-6">
+        <alanda-var-role-user-select
+          [rootFormGroup]="rootForm"
+          [task]="taskFormState.task"
+          variableName="bpSupplier"
+          label="BP Supplier:"
+          [role]="'akqui'"
+        ></alanda-var-role-user-select>
       </div>
       <div class="p-col-2">
         <p-card [style]="{ height: '100%' }">

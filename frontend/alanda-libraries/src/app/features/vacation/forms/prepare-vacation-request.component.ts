@@ -19,7 +19,7 @@ implements BaseFormComponent, AfterViewInit {
   rootForm = this.taskFormService.rootForm;
   items: SelectItem[];
 
-  constructor (
+  constructor(
     private readonly taskFormService: AlandaTaskFormService,
     private readonly router: Router
   ) {
@@ -29,7 +29,7 @@ implements BaseFormComponent, AfterViewInit {
     ];
   }
 
-  submit (): void {
+  submit(): void {
     // const observer: PartialObserver<any> = {
     //   next: (val) => {
     //     this.router.navigate([]).catch(() => {});
@@ -45,14 +45,14 @@ implements BaseFormComponent, AfterViewInit {
     // );
   }
 
-  ngAfterViewInit (): void {
+  ngAfterViewInit(): void {
     this.roleSelector.setValidators([Validators.required]);
     this.roleSelector.updateValueAndValidity();
     console.log('rootForm', this.rootForm);
     // this.formManagerService.addValidators();
   }
 
-  get roleSelector (): AbstractControl {
+  get roleSelector(): AbstractControl {
     return this.rootForm.get('alanda-role-select-vacation-approver.selected');
   }
 }

@@ -5,11 +5,11 @@ import { Component } from '@angular/compiler/src/core';
 export class AlandaProjectPropertiesService {
   private readonly propertyComponents: Map<string, Type<any>>;
 
-  constructor () {
+  constructor() {
     this.propertyComponents = new Map<string, Type<any>>();
   }
 
-  getPropsForType (key: string): Type<Component> {
+  getPropsForType(key: string): Type<Component> {
     return this.propertyComponents.get(key);
   }
 }

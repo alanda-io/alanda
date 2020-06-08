@@ -6,12 +6,12 @@ import { ProjectDetailsComponent } from 'src/app/components/project-details/proj
 export class ProjectDetailsService {
   private readonly propertyComponents: Map<string, Type<any>>;
 
-  constructor () {
+  constructor() {
     this.propertyComponents = new Map<string, Type<any>>();
     this.propertyComponents.set('VACATION', ProjectDetailsComponent);
   }
 
-  getPropsForType (key: string): Type<Component> {
+  getPropsForType(key: string): Type<Component> {
     return this.propertyComponents.get(key);
   }
 }

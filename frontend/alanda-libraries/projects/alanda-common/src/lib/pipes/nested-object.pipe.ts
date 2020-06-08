@@ -2,7 +2,7 @@ import { PipeTransform, Pipe } from '@angular/core';
 
 @Pipe({ name: 'nestedObject' })
 export class MonitorValuesPipe implements PipeTransform {
-  transform (obj: any, path: string): any {
+  transform(obj: any, path: string): any {
     if (path === undefined) {
       return '';
     }

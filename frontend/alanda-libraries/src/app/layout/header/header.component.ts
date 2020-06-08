@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
   private scrollPos = 0;
   autoHide = true;
 
-  constructor (public userService: AlandaUserApiService) {}
+  constructor(public userService: AlandaUserApiService) {}
 
   ngOnInit (): void {
     this.userService.getCurrentUser().subscribe();
@@ -63,7 +63,7 @@ export class HeaderComponent implements OnInit {
   }
 
   @HostListener('window:scroll', [])
-  onWindowScroll () {
+  onWindowScroll() {
     if (window.pageYOffset > this.scrollPos) {
       this.scrollPos = window.pageYOffset;
       this.autoHide = false;

@@ -32,7 +32,7 @@ export class AlandaCommentComponent {
 
   autofocus (): void {
     const area = this.textArea;
-    setTimeout(function () { area.nativeElement.focus() });
+    setTimeout(function() { area.nativeElement.focus() });
   }
 
   onSubmitReply (): void {

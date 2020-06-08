@@ -1,0 +1,23 @@
+version: "3.1"
+services:
+  alanda-oracle-service:
+    build: ./image
+    image: oracle/database:11.2.0.2-xe
+    container_name: alanda-oracle
+    shm_size: '1gb'
+    environment:
+        - ORACLE_PWD=mypasswd
+    volumes:
+      - ./mount_data:/u01/app/oracle/oradata
+    ports:
+      - 8081:8080
+      - 11521:1521
+    networks:
+      - default
+
+networks:
+  default:
+    external:
+      name:  alanda_bpma_bridge
+
+

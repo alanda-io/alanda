@@ -22,7 +22,7 @@ import { AlandaUser } from '../../api/models/user';
  *
  * @returns tokens { string[][] } - array of token arrays
  */
-export function resolveTokens (tokenizedString: string): string[][] {
+export function resolveTokens(tokenizedString: string): string[][] {
   const parts = [];
   if (tokenizedString) {
     tokenizedString = tokenizedString.trim();
@@ -46,7 +46,7 @@ export function resolveTokens (tokenizedString: string): string[][] {
  *
  * @returns hasPermissions { boolean } - true if user has given role, false if not
  */
-export function hasRole (role: string, user: AlandaUser): boolean {
+export function hasRole(role: string, user: AlandaUser): boolean {
   return user.roles.includes(role);
 }
 
@@ -63,7 +63,7 @@ export function hasRole (role: string, user: AlandaUser): boolean {
  *
  * @returns isGranted {boolean} - true if rights are granted, false if not
  */
-export function hasPermission (currentUser: AlandaUser, permissionString: string, accessLevel?: string): boolean {
+export function hasPermission(currentUser: AlandaUser, permissionString: string, accessLevel?: string): boolean {
   // If the user has no valid permission strings no access is granted
   if (!currentUser.stringPermissions || !Array.isArray(currentUser.stringPermissions)) {
     return false;
@@ -91,7 +91,7 @@ export function hasPermission (currentUser: AlandaUser, permissionString: string
  * @param requestedPerm - permissions to check for
  * @param userPerm - user permissions to check against
  */
-function implies (requestedPerm: string, userPerm: string): boolean {
+function implies(requestedPerm: string, userPerm: string): boolean {
   let isImplied = true;
   const requestedParts: string[][] = resolveTokens(requestedPerm);
   const userParts: string[][] = resolveTokens(userPerm);
@@ -128,7 +128,7 @@ function implies (requestedPerm: string, userPerm: string): boolean {
  *
  * @returns containsWildCardToken{ boolean } - true if the given string contains a wild card token, false if not
  */
-function containsWildCardToken (permissionStringPart: string[]): boolean {
+function containsWildCardToken(permissionStringPart: string[]): boolean {
   return permissionStringPart.includes(WILDCARD_TOKEN);
 }
 
@@ -146,7 +146,7 @@ function containsWildCardToken (permissionStringPart: string[]): boolean {
  *
  * @return true if all tokens are contained, false if not
  */
-function containsAll (userPermissionTokens: string[], requestedPermissionTokens: string[]): boolean {
+function containsAll(userPermissionTokens: string[], requestedPermissionTokens: string[]): boolean {
   let contains = true;
   for (let i = 0; i < requestedPermissionTokens.length; i++) {
     if (!userPermissionTokens.includes(requestedPermissionTokens[i])) {
@@ -170,7 +170,7 @@ function containsAll (userPermissionTokens: string[], requestedPermissionTokens:
  *
  * @returns tokens { string[] }  - string array of tokens
  */
-function resolveSubParts (permissionStringSubPart: string): string[] {
+function resolveSubParts(permissionStringSubPart: string): string[] {
   const tokensOfSubParts: string[] = [];
   const tokens = permissionStringSubPart.split(SUBPART_DIVIDER_TOKEN);
   tokens.forEach((token, i) => {

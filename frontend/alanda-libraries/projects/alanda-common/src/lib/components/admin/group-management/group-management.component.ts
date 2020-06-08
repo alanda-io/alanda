@@ -40,18 +40,18 @@ export class AlandaGroupManagementComponent implements OnInit {
 
   groupForm: FormGroup;
 
-  constructor (private readonly groupService: AlandaGroupApiService,
+  constructor(private readonly groupService: AlandaGroupApiService,
     private readonly roleService: AlandaRoleApiService,
     private readonly permissionService: AlandaPermissionApiService,
     private readonly fb: FormBuilder,
     private readonly messageService: MessageService,
     private readonly userService: AlandaUserApiService) {}
 
-  ngOnInit () {
+  ngOnInit() {
     this.initGroupForm();
   }
 
-  private initGroupForm () {
+  private initGroupForm() {
     this.groupForm = this.fb.group({
       groupName: ['', Validators.required],
       longName: ['', Validators.required],
@@ -59,7 +59,7 @@ export class AlandaGroupManagementComponent implements OnInit {
     });
   }
 
-  onFormSubmit () {
+  onFormSubmit() {
     if (!this.groupForm.valid) {
       this.groupForm.markAsDirty();
       return;
@@ -79,7 +79,7 @@ export class AlandaGroupManagementComponent implements OnInit {
     }
   }
 
-  private updateGroup (group: AlandaGroup) {
+  private updateGroup(group: AlandaGroup) {
     this.groupService.update(group).subscribe(
       res => {
         this.messageService.add({ severity: 'success', summary: 'Update User', detail: 'Group has been updated' });
@@ -87,7 +87,7 @@ export class AlandaGroupManagementComponent implements OnInit {
       error => this.messageService.add({ severity: 'error', summary: 'Update User', detail: error.message }));
   }
 
-  private createGroup (group: AlandaGroup) {
+  private createGroup(group: AlandaGroup) {
     this.groupService.save(group).subscribe(
       res => {
         this.messageService.add({ severity: 'success', summary: 'Create New Group', detail: 'Group has been created' });
@@ -96,19 +96,19 @@ export class AlandaGroupManagementComponent implements OnInit {
       error => this.messageService.add({ severity: 'error', summary: 'Create Group', detail: error.message }));
   }
 
-  get groupName (): string {
+  get groupName(): string {
     return this.groupForm.get('groupName').value;
   }
 
-  get longName (): string {
+  get longName(): string {
     return this.groupForm.get('longName').value;
   }
 
-  private fillGroupForm (group: AlandaGroup) {
+  private fillGroupForm(group: AlandaGroup) {
     this.groupForm.patchValue(group);
   }
 
-  onLoadGroups (event: LazyLoadEvent) {
+  onLoadGroups(event: LazyLoadEvent) {
     this.loading = true;
     const serverOptions: ServerOptions = {
       pageNumber: (event.first / event.rows) + 1,
@@ -136,7 +136,7 @@ export class AlandaGroupManagementComponent implements OnInit {
       });
   }
 
-  onGroupSelected (event) {
+  onGroupSelected(event) {
     this.selectedGroup = event.data;
     this.fillGroupForm(this.selectedGroup);
     this.loadRoles();
@@ -144,19 +144,19 @@ export class AlandaGroupManagementComponent implements OnInit {
     this.loadPermissions();
   }
 
-  onGroupUnselected () {
+  onGroupUnselected() {
     this.selectedGroup = null;
     this.initGroupForm();
   }
 
-  private loadUsers () {
+  private loadUsers() {
     this.usersInSelectedGroup = [];
     this.userService.getUsersByGroupId(this.selectedGroup.guid).subscribe(res => {
       this.usersInSelectedGroup = res;
     });
   }
 
-  private loadRoles () {
+  private loadRoles() {
     this.assignedRoles = [...this.selectedGroup.roles];
     this.roleService.getRoles()
       .subscribe(result => {
@@ -168,7 +168,7 @@ export class AlandaGroupManagementComponent implements OnInit {
       });
   }
 
-  private loadPermissions () {
+  private loadPermissions() {
     this.groupService.getEffectivePermissionsForGroup(this.selectedGroup.guid)
       .pipe(
         mergeMap((permissions: AlandaPermission[]) => {
@@ -185,7 +185,7 @@ export class AlandaGroupManagementComponent implements OnInit {
       });
   }
 
-  updateRoles () {
+  updateRoles() {
     this.groupService.updateRolesForGroup(this.selectedGroup.guid, this.assignedRoles).subscribe(
       res => {
         this.messageService.add({ severity: 'success', summary: 'Update roles', detail: 'Roles have been updated' });
@@ -194,7 +194,7 @@ export class AlandaGroupManagementComponent implements OnInit {
       error => this.messageService.add({ severity: 'error', summary: 'Update roles', detail: error.message }));
   }
 
-  updatePermissions () {
+  updatePermissions() {
     this.groupService.updatePermissionsForGroup(this.selectedGroup.guid, this.grantedPermissions).subscribe(
       res => {
         this.messageService.add({ severity: 'success', summary: 'Update permissions', detail: 'Permissions have been updated' });

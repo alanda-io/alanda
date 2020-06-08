@@ -33,7 +33,7 @@ export class AlandaTasklistComponent implements OnInit {
 
   @ViewChild('tt') turboTable: Table;
 
-  constructor (private readonly taskService: AlandaTaskApiService, private readonly monitorApiService: AlandaMonitorAPIService,
+  constructor(private readonly taskService: AlandaTaskApiService, private readonly monitorApiService: AlandaMonitorAPIService,
     private readonly userService: AlandaUserApiService, public messageService: MessageService, private readonly router: Router) {
     this.serverOptions = {
       pageNumber: 1,
@@ -48,7 +48,7 @@ export class AlandaTasklistComponent implements OnInit {
     ];
   }
 
-  ngOnInit () {
+  ngOnInit() {
     this.loading = true;
     this.userService.getCurrentUser().subscribe(
       user => {
@@ -64,7 +64,7 @@ export class AlandaTasklistComponent implements OnInit {
     );
   }
 
-  loadTasks (serverOptions: ServerOptions) {
+  loadTasks(serverOptions: ServerOptions) {
     this.loading = true;
     this.taskService.loadTasks(serverOptions).subscribe(
       res => {
@@ -83,7 +83,7 @@ export class AlandaTasklistComponent implements OnInit {
       });
   }
 
-  loadTasksLazy (event: LazyLoadEvent) {
+  loadTasksLazy(event: LazyLoadEvent) {
     this.serverOptions = this.getNewServerOptions();
     if (event.sortField) {
       const sortOptions = {};
@@ -100,7 +100,7 @@ export class AlandaTasklistComponent implements OnInit {
     this.loadTasks(this.serverOptions);
   };
 
-  onChangeLayout () {
+  onChangeLayout() {
     this.serverOptions.pageNumber = 1;
     const key = 'project.additionalInfo.rootparent.projectTypeIdName';
     this.serverOptions.filterOptions = { hideSnoozedTasks: 1 };
@@ -116,7 +116,7 @@ export class AlandaTasklistComponent implements OnInit {
     this.loadTasks(this.serverOptions);
   }
 
-  toggleGroupTasks (v: boolean) {
+  toggleGroupTasks(v: boolean) {
     this.groupTasks = v;
     delete this.serverOptions.filterOptions.mytasks;
     if (!this.groupTasks) {
@@ -125,14 +125,14 @@ export class AlandaTasklistComponent implements OnInit {
     this.loadTasks(this.serverOptions);
   }
 
-  getCondition (obj, condition) {
+  getCondition(obj, condition) {
     if (condition === undefined) return '';
     const props = Object.keys(obj).reduce((acc, next) => `${acc} , ${next}`);
     const evalCon = new Function(` return function ({${props}})  { return ${condition}} `);
     return evalCon()(obj);
   }
 
-  claimAction (task) {
+  claimAction(task) {
     this.loading = true;
     if (this.currentUser.guid === +task.task.assignee_id) {
       this.taskService.unclaim(task.task.task_id).subscribe(
@@ -162,7 +162,7 @@ export class AlandaTasklistComponent implements OnInit {
   }
 
 
-  getNewServerOptions (): ServerOptions {
+  getNewServerOptions(): ServerOptions {
     const serverOptions: ServerOptions = { pageNumber: 1, pageSize: 15, filterOptions: { hideSnoozedTasks: 1 }, sortOptions: {} };
     if (this.selectedLayout.filterOptions) {
       for (const key of Object.keys(this.selectedLayout.filterOptions)) {
@@ -175,7 +175,7 @@ export class AlandaTasklistComponent implements OnInit {
     return serverOptions;
   }
 
-  openDelegationForm (data) {
+  openDelegationForm(data) {
     this.delegatedTaskData = data;
     this.taskService.getCandidates(data.task.task_id).subscribe(
       (res) => {
@@ -185,7 +185,7 @@ export class AlandaTasklistComponent implements OnInit {
     );
   }
 
-  delegateTask (selectedUser) {
+  delegateTask(selectedUser) {
     if (selectedUser) {
       this.loading = true;
       this.taskService.assign(this.delegatedTaskData.task.task_id, selectedUser.guid).subscribe(
@@ -204,19 +204,19 @@ export class AlandaTasklistComponent implements OnInit {
     }
   }
 
-  hideDelegateDialog () {
+  hideDelegateDialog() {
     this.delegatedTaskData = {};
     this.showDelegateDialog = false;
   }
 
-  encodeURIAndReplace (v): string {
+  encodeURIAndReplace(v): string {
     return encodeURIComponent(v).replace(/%/g, '~');
   }
 
   /* openTask(formKey: string, taskId: string) {
     return '/forms/' + encodeURIComponent(formKey) + '/' + taskId;
   } */
-  openTask (formKey: string, taskId: string) {
+  openTask(formKey: string, taskId: string) {
     console.log('/forms/' + formKey + '/' + taskId);
     this.router.navigate(['/forms/' + formKey + '/' + taskId]);
   }

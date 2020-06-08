@@ -5,7 +5,7 @@ import { AlandaComment } from '../api/models/comment';
   name: 'tagFilter'
 })
 export class TagFilterPipe implements PipeTransform {
-  transform (comments: AlandaComment[], allowedTags: string[], filterEnabled: boolean): AlandaComment[] {
+  transform(comments: AlandaComment[], allowedTags: string[], filterEnabled: boolean): AlandaComment[] {
     if (!filterEnabled) {
       return comments;
     }

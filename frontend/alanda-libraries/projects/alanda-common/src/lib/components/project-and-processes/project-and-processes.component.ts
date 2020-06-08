@@ -29,14 +29,14 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
   projectWithParentsAndChildren: AlandaProject;
   loading: boolean;
 
-  constructor (
+  constructor(
     private readonly projectService: AlandaProjectApiService,
     private readonly projectAndProcessesService: ProjectAndProcessesService
   ) {}
 
-  ngOnInit () {}
+  ngOnInit() {}
 
-  getIconClass (type: string): string {
+  getIconClass(type: string): string {
     switch (type) {
       case 'project':
       case 'parent':
@@ -53,7 +53,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
     }
   }
 
-  onSubprocessSelected (
+  onSubprocessSelected(
     rowData: TreeNodeData,
     selection: { processName: string; processDefinitionKey: string }
   ) {
@@ -73,7 +73,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
       });
   }
 
-  loadProjectAndProcesses (collapsed?: boolean) {
+  loadProjectAndProcesses(collapsed?: boolean) {
     if (collapsed) {
       return;
     }
@@ -103,7 +103,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
       });
   }
 
-  private getProjectWithProcessesAndTasks (
+  private getProjectWithProcessesAndTasks(
     project: AlandaProject
   ): Observable<AlandaProject> {
     return this.projectService
@@ -122,7 +122,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
       );
   }
 
-  private updateTreeStructure (projects: TreeNode[]): TreeNode[] {
+  private updateTreeStructure(projects: TreeNode[]): TreeNode[] {
     const updatedTreeStructure: TreeNode[] = [];
     const parents = projects.filter((node) => node.data.type === 'parent');
     const children = projects.filter((node) => node.data.type === 'child');
@@ -151,7 +151,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
     return updatedTreeStructure;
   }
 
-  private flattenProjects (project: AlandaProject): AlandaProject[] {
+  private flattenProjects(project: AlandaProject): AlandaProject[] {
     const projects: AlandaProject[] = [];
     if (!project.parentIds) {
       project.parentIds = [];

@@ -39,7 +39,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   @Input() project: AlandaProject;
   @Input() task: AlandaTask;
   @Input()
-  set rootFormGroup (rootFormGroup: FormGroup) {
+  set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {
       rootFormGroup.addControl('alanda-project-header', this.projectHeaderForm);
     }
@@ -66,7 +66,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     taskDueDate: null,
   });
 
-  constructor (
+  constructor(
     private readonly componentFactoryResolver: ComponentFactoryResolver,
     private readonly propertiesService: AlandaProjectPropertiesService,
     private readonly taskService: AlandaTaskApiService,
@@ -77,7 +77,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     private readonly propertyService: AlandaPropertyApiService
   ) {}
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.initFormGroup();
     this.projectHeaderForm.valueChanges
       .pipe(
@@ -103,7 +103,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
       });
   }
 
-  private updateProject (changes: any): Observable<AlandaProject> {
+  private updateProject(changes: any): Observable<AlandaProject> {
     console.log(changes);
     if (
       changes.taskDueDate &&
@@ -150,12 +150,12 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit (): void {
+  ngAfterViewInit(): void {
     this.loadProjectPropertiesComponent();
     this.cdRef.detectChanges();
   }
 
-  private loadProjectPropertiesComponent (): void {
+  private loadProjectPropertiesComponent(): void {
     if (
       this.propertiesService.getPropsForType(this.project.projectTypeIdName) ===
       undefined
@@ -171,7 +171,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     (<any>componentRef.instance).project = this.project;
   }
 
-  private initFormGroup (): void {
+  private initFormGroup(): void {
     this.allowedTagList = this.project.pmcProjectType.allowedTagList;
     this.projectHeaderForm.patchValue(this.project, { emitEvent: false });
     if (this.project.status.valueOf() === ProjectState.CANCELED.valueOf()) {
@@ -188,11 +188,11 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     }
   }
 
-  searchTag (event: Event): void {
+  searchTag(event: Event): void {
     this.allowedTagList = [...this.allowedTagList];
   }
 
-  openDelegationForm (): void {
+  openDelegationForm(): void {
     this.taskService
       .getCandidates(this.task.task_id)
       .subscribe((candidates) => {
@@ -201,7 +201,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
       });
   }
 
-  delegateTask (selectedUser: AlandaUser): void {
+  delegateTask(selectedUser: AlandaUser): void {
     if (selectedUser) {
       this.taskService.assign(this.task.task_id, selectedUser.guid).subscribe(
         () => {

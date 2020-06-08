@@ -16,18 +16,18 @@ implements BaseFormComponent, AfterViewInit {
   rootForm = this.taskFormService.rootForm;
   items: SelectItem[];
 
-  constructor (private readonly taskFormService: AlandaTaskFormService) {
+  constructor(private readonly taskFormService: AlandaTaskFormService) {
     this.items = [
       { label: 'Yes', value: true },
       { label: 'No', value: false },
     ];
   }
 
-  submit (): void {
+  submit(): void {
     this.taskFormService.submit().subscribe();
   }
 
-  ngAfterViewInit (): void {
+  ngAfterViewInit(): void {
     // this.formManagerService.addValidators();
   }
 }

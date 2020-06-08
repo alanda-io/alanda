@@ -9,12 +9,12 @@ import { AlandaExceptionHandlingService } from '../services/exceptionHandling.se
 export class AlandaHistoryApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;
 
-  constructor (private readonly http: HttpClient, @Inject(APP_CONFIG) config: AppSettings) {
+  constructor(private readonly http: HttpClient, @Inject(APP_CONFIG) config: AppSettings) {
     super();
     this.endpointUrl = config.API_ENDPOINT + '/history';
   }
 
-  search (filterOptions, pageNumber, pageSize): Observable<any[]> {
+  search(filterOptions, pageNumber, pageSize): Observable<any[]> {
     const searchDto = {};
     console.log('filterOpts', filterOptions);
     for (const key of Object.keys(filterOptions)) {
