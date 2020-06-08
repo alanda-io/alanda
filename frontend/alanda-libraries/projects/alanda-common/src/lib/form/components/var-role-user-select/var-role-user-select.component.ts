@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from "@angular/core";
 import {
   FormGroup,
   FormBuilder,
-  Validators,
   AbstractControl,
 } from "@angular/forms";
 import { AlandaTaskApiService } from "../../../api/taskApi.service";
@@ -23,7 +22,7 @@ export class AlandaVarRoleUserSelectComponent implements OnInit {
   @Input() label: string;
   @Input() role: string;
   items: AlandaUser[];
-  type: string = "long";
+  type: string = "Long";
 
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
@@ -36,7 +35,7 @@ export class AlandaVarRoleUserSelectComponent implements OnInit {
   }
 
   selectForm = this.fb.group({
-    selected: [null, Validators.required],
+    selected: [null],
   });
 
   constructor(

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlandaUser } from '../api/models/user';
-import { hasPermission, hasRole } from '../permissions/utils/permission-checks';
+import { Authorizations } from '../permissions/utils/permission-checks';
 
 @Injectable()
 export class AlandaMonitorAPIService {
@@ -179,10 +179,10 @@ export class AlandaMonitorAPIService {
       (key) => this.taskLayouts[key]
     );
     layouts = layouts.filter((layout) => {
-      if (hasRole('Admin', user)) {
+      if (Authorizations.hasRole('Admin', user)) {
         return layout;
       } else {
-        return hasPermission(user, 'task:layout:' + layout.name, null);
+        return Authorizations.hasPermission(user, 'task:layout:' + layout.name, null);
       }
     });
     layouts.push(this.taskLayouts.default);

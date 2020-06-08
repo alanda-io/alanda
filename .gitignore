@@ -12,3 +12,6 @@
 /backend/alanda-development/src/test/resources/docker-camunda/image/src_modules/io/alanda/alanda-identity-plugin/main/alanda-identity-plugin-0.0.1-SNAPSHOT.jar
 /backend/alanda-development/src/test/resources/docker-camunda/image/src_modules/io/alanda/camunda/es/history/main/alanda-camunda-es-history-plugin-0.0.1-SNAPSHOT.jar
 node_modules
+/backend/alanda-development/src/test/resources/docker-oracle/mount_data/XE/
+/backend/alanda-development/src/test/resources/docker-oracle/mount_data/dbconfig/XE/
+/backend/alanda-development/src/test/resources/docker-oracle/image/oracle-xe-11.2.0-1.0.x86_64.rpm.zip

@@ -88,6 +88,7 @@ import { PapActionsComponent } from "./components/project-and-processes/pap-acti
 import { RelateDialogComponent } from "./components/project-and-processes/pap-actions/relate-dialog/relate-dialog.component";
 import { PermissionModule } from "./permissions/permission.module";
 import { AlandaVarRoleUserSelectComponent } from "./form/components/var-role-user-select/var-role-user-select.component";
+import { AlandaVarDisplayComponent } from './form/components/var-display/var-display.component';
 
 @NgModule({
   imports: [
@@ -165,6 +166,7 @@ import { AlandaVarRoleUserSelectComponent } from "./form/components/var-role-use
     AlandaPropSelectComponent,
     AlandaProjectAndProcessesComponent,
     AlandaVarRoleUserSelectComponent,
+    AlandaVarDisplayComponent,
   ],
   exports: [
     PermissionModule,
@@ -201,6 +203,7 @@ import { AlandaVarRoleUserSelectComponent } from "./form/components/var-role-use
     AlandaVarSelectComponent,
     AlandaPropSelectComponent,
     AlandaVarRoleUserSelectComponent,
+    AlandaVarDisplayComponent,
   ],
   entryComponents: [
     RelateDialogComponent,
