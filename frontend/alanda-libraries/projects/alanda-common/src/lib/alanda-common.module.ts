@@ -78,7 +78,6 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessagesModule } from 'primeng/messages';
-import { AlandaTaskFormService } from './form/alanda-task-form.service';
 import { Error500Interceptor } from './interceptors/error500.interceptor';
 import { AlandaFormsControllerComponent } from './form/forms-controller/forms-controller.component';
 import { AlandaVarSelectComponent } from './form/components/var-select/var-select.component';
@@ -228,7 +227,6 @@ export class AlandaCommonModule {
         AlandaExceptionHandlingService,
         AlandaMonitorAPIService,
         AlandaProjectPropertiesService,
-        AlandaTaskFormService,
         Error500Interceptor,
         {
           provide: APP_CONFIG,

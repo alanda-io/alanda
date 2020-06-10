@@ -3,16 +3,18 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { AlandaComment } from '../../../api/models/comment';
 import { AlandaCommentTag } from '../../../api/models/commentTag';
 import { AlandaCommentApiService } from '../../../api/commentApi.service';
+import { RxState } from '@rx-angular/state';
+import { AlandaCommentsService, AlandaCommentState } from '../../../services/comments.service';
 
 @Component({
   selector: 'alanda-comment',
   templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss']
+  styleUrls: ['./comment.component.scss'],
+  providers: [AlandaCommentsService]
 })
-export class AlandaCommentComponent {
+export class AlandaCommentComponent extends RxState<AlandaCommentState> {
   @Input() comment: AlandaComment;
   @Input() type: string;
-  @Input() tagFilters: Array<string>;
   @ViewChild('replyContent') textArea: ElementRef;
   doReply = false;
   loadingInProgress: boolean;
@@ -21,13 +23,13 @@ export class AlandaCommentComponent {
     replyText: ['', Validators.required]
   });
 
-  constructor(private readonly pmcCommentService: AlandaCommentApiService, private readonly fb: FormBuilder) {}
+  constructor(private readonly pmcCommentService: AlandaCommentApiService, private readonly fb: FormBuilder,
+    private readonly commentsService: AlandaCommentsService) {
+    super();
+  }
 
   tagClass(tag: AlandaCommentTag): string {
-    if (this.tagFilters.includes(tag.name)) {
-      return 'ui-button-success';
-    }
-    return 'ui-button-info';
+    return this.commentsService.tagClass(tag);
   }
 
   autofocus(): void {

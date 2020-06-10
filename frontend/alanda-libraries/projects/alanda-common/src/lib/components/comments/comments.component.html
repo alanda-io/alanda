@@ -1,4 +1,4 @@
-<p-panel class="comments" [toggleable]="true" *ngIf="this.select('comments') | async as comments">
+<p-panel class="comments" [toggleable]="true" *ngIf="comments$ | async as comments">
   <p-header>
     Comments
     <p-button label="{{comments.length}}" styleClass="ui-button-rounded"></p-button>
@@ -13,7 +13,7 @@
         </div>
       </form>
       <p-scrollPanel [style]="{height: '500px'}" *ngIf="comments.length > 0; else elseBlock">
-        <alanda-comment class="comment" [comment]="comment" [tagFilters]="tagFilters" [type]="'comment'" *ngFor="let comment of comments"></alanda-comment>
+        <alanda-comment class="comment" [comment]="comment" [type]="'comment'" *ngFor="let comment of comments"></alanda-comment>
       </p-scrollPanel>
       <ng-template #elseBlock>
         <div class="comments-no-entry">
@@ -25,11 +25,11 @@
       <form [formGroup]="commentFilterForm">
         <input formControlName="searchText" pInputText placeholder="Search comments">
       </form>
-        <div *ngFor="let tag of tags" class="tag-wrapper">
-          <p-button label="{{tag.name}}" icon="pi pi-tag" iconPos="left" type="button" (onClick)="toggleFilter(tag.name)" [styleClass]="tagClass(tag)"></p-button>
+        <div *ngFor="let tag of tags$ | async" class="tag-wrapper">
+          <p-button label="{{tag.name}}" icon="pi pi-tag" iconPos="left" type="button" (onClick)="toggleFilter(tag)" [styleClass]="tagClass(tag)"></p-button>
         </div>
       <div class="tag-wrapper">
-        <p-button label="Clear Filters" icon="pi pi-times-circle" iconPos="left" type="button" (onClick)="clearFilters()" *ngIf="filterEnabled" styleClass="ui-button-danger"></p-button>
+        <p-button label="Clear Filters" icon="pi pi-times-circle" iconPos="left" type="button" (onClick)="clearFilters()" *ngIf="tagFiltersEnabled$ | async" styleClass="ui-button-danger"></p-button>
       </div>
     </div>
   </div>
