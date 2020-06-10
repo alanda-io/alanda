@@ -12,7 +12,6 @@ import { AlandaTaskFormService } from '../form/alanda-task-form.service';
 
 export interface AlandaCommentState {
   comments: AlandaComment[];
-  filteredComments: AlandaComment[];
   tagObjectMap: {[tagName: string]: TagObject};
   activeTagFilters: {[tagName: string]: boolean};
   searchText: string;
@@ -51,10 +50,10 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     })
   );
 
-  filteredComments$ = combineLatest([this.select('comments'), this.select('searchText')]).pipe(
-    map(([comments, searchText]: [AlandaComment[], string]) => {
-      return this.filterCommentsBySearchText(comments, searchText);
-      // return this.filterCommentsByTags(filteredComments, activeTagFilters);
+  filteredComments$ = combineLatest([this.select('comments'), this.select('searchText'), this.select('activeTagFilters')]).pipe(
+    map(([comments, searchText, activeTagFilters]: [AlandaComment[], string, {string: boolean}]) => {
+      const filteredComments = this.filterCommentsBySearchText(comments, searchText);
+      return this.filterCommentsByTags(filteredComments, activeTagFilters);
     }),
   );
 
@@ -62,9 +61,8 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     private readonly datePipe: DatePipe,
     private readonly taskFormService: AlandaTaskFormService) {
     super();
-    this.set({ activeTagFilters: {} });
+    this.set({ comments: [], activeTagFilters: {}, searchText: '' });
     this.connect('comments', this.comments$);
-    this.connect('filteredComments', this.filteredComments$);
     this.connect('tagObjectMap', this.tagObjectMap$);
   }
 

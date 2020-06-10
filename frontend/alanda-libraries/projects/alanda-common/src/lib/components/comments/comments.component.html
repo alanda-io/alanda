@@ -29,7 +29,7 @@
           <p-button label="{{tag.name}}" icon="pi pi-tag" iconPos="left" type="button" (onClick)="toggleFilter(tag)" [styleClass]="tagClass(tag)"></p-button>
         </div>
       <div class="tag-wrapper">
-        <p-button label="Clear Filters" icon="pi pi-times-circle" iconPos="left" type="button" (onClick)="clearFilters()" *ngIf="tagFiltersEnabled$ | async" styleClass="ui-button-danger"></p-button>
+        <p-button label="Clear Filters" icon="pi pi-times-circle" iconPos="left" type="button" (onClick)="clearFilters()" *ngIf="hasActiveFilters$ | async" styleClass="ui-button-danger"></p-button>
       </div>
     </div>
   </div>

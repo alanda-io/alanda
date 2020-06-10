@@ -35,8 +35,8 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentState> impleme
   comments$ = this.select('comments');
   tags$ = this.commentsService.select('tagObjectMap').pipe(map((obj: {[tagName: string]: TagObject}) => Object.values(obj)));
 
-  tagFiltersEnabled$ = this.commentsService.select('activeTagFilters').pipe(
-    map(obj => Object.keys(obj).length)
+  hasActiveFilters$ = this.commentsService.select('activeTagFilters').pipe(
+    map(filters => Object.keys(filters).length)
   );
 
   constructor(private readonly commentService: AlandaCommentApiService,
