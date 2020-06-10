@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AlandaProjectApiService } from 'projects/alanda-common/src/lib/api/projectApi.service';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog/';
-import { AlandaProject } from 'projects/alanda-common/src/lib/api/models/project';
-import { ServerOptions } from 'projects/alanda-common/src/lib/models/serverOptions';
-import { AlandaProjectType } from 'projects/alanda-common/src/lib/api/models/projectType';
+import { AlandaProject } from '../../../../api/models/project';
+import { ServerOptions } from '../../../../models/serverOptions';
+import { AlandaProjectType } from '../../../../api/models/projectType';
 import { LazyLoadEvent } from 'primeng/api/public_api';
+import { AlandaProjectApiService } from '../../../../api/projectApi.service';
 
 @Component({
   selector: 'alanda-relate-dialog',

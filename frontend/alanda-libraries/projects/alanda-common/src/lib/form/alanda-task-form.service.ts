@@ -15,7 +15,7 @@ import {
   catchError,
 } from 'rxjs/operators';
 
-import { of, Observable, EMPTY, PartialObserver, throwError } from 'rxjs';
+import { of, Observable, EMPTY } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
 import { AlandaTask } from '../api/models/task';
 import { AlandaProject } from '../api/models/project';
