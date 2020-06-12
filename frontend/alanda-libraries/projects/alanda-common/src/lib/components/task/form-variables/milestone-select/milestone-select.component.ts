@@ -17,6 +17,7 @@ export class SelectMilestoneComponent implements OnInit {
     @Input() displayName: string;
     @Input() msName: string;
     @Input() dateFormat = 'dd.mm.yy';
+    @Input() disabled: boolean;
 
     milestoneForm: FormGroup;
 
