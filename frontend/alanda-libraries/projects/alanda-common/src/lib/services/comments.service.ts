@@ -50,6 +50,16 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     })
   );
 
+  activeTagFilters$ = this.select('tagObjectMap').pipe(
+    map(tags => {
+      const activeFilters = {};
+      Object.keys(tags).forEach((key: string) => {
+        activeFilters[key] = false;
+      });
+      return activeFilters;
+    })
+  );
+
   filteredComments$ = combineLatest([this.select('comments'), this.select('searchText'), this.select('activeTagFilters')]).pipe(
     map(([comments, searchText, activeTagFilters]: [AlandaComment[], string, {string: boolean}]) => {
       const filteredComments = this.filterCommentsBySearchText(comments, searchText);
@@ -62,6 +72,7 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     private readonly taskFormService: AlandaTaskFormService) {
     super();
     this.set({ comments: [], activeTagFilters: {}, searchText: '' });
+    this.connect('activeTagFilters', this.activeTagFilters$);
     this.connect('comments', this.comments$);
     this.connect('tagObjectMap', this.tagObjectMap$);
   }
@@ -108,20 +119,29 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
   }
 
   filterCommentsByTags(comments: AlandaComment[], activeTagFilters: {string: boolean }): Array<AlandaComment> {
-    if (Object.keys(activeTagFilters).length > 0) {
-      return comments.filter((comment) => {
-        return comment.tagList.findIndex((tag) => {
-          return activeTagFilters[tag.name];
-        }) > -1;
-      });
-    }
-    return comments;
+    const filteredComments = comments.filter((comment) => {
+      return comment.tagList.findIndex((tag) => {
+        return activeTagFilters[tag.name];
+      }) > -1;
+    });
+    return filteredComments.length > 0 ? filteredComments : comments;
   }
 
-  public tagClass(tag: AlandaCommentTag): string {
+  tagClass(tag: AlandaCommentTag): string {
     if (this.get().activeTagFilters[tag.name]) {
       return 'ui-button-success';
     }
     return 'ui-button-info';
+  }
+
+  toggleTagFilter(tag: AlandaCommentTag): void {
+    this.set('activeTagFilters', (oldState: AlandaCommentState) => {
+      oldState.activeTagFilters[tag.name] = !oldState.activeTagFilters[tag.name];
+      return oldState.activeTagFilters;
+    });
+  }
+
+  clearAllTagFilters(): void {
+    this.set({ activeTagFilters: {} });
   }
 }

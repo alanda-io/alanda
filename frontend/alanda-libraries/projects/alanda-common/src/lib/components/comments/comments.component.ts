@@ -36,10 +36,14 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentState> impleme
   tags$ = this.commentsService.select('tagObjectMap').pipe(map((obj: {[tagName: string]: TagObject}) => Object.values(obj)));
 
   hasActiveFilters$ = this.commentsService.select('activeTagFilters').pipe(
-    map(filters => Object.keys(filters).length)
+    map(filters => {
+      return Object.values(filters).forEach(value => {
+        return value;
+      });
+    })
   );
 
-  constructor(private readonly commentService: AlandaCommentApiService,
+  constructor(private readonly commentApiService: AlandaCommentApiService,
     private readonly messageService: MessageService,
     private readonly datePipe: DatePipe,
     private readonly fb: FormBuilder,
@@ -69,7 +73,7 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentState> impleme
     }
 
     this.loadingInProgress = true;
-    this.commentService.postComment({
+    this.commentApiService.postComment({
       subject: ' ',
       text: this.commentForm.get('comment').value,
       taskId: this.taskId,
@@ -77,7 +81,6 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentState> impleme
     }).subscribe(
       res => {
         this.commentForm.reset();
-        // this.loadComments();
         this.loadingInProgress = false;
       });
   }
@@ -86,14 +89,11 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentState> impleme
     return this.commentsService.tagClass(tag);
   }
 
-  toggleFilter(tag: AlandaCommentTag): void {
-    this.commentsService.set('activeTagFilters', (oldState: AlandaCommentState) => {
-      oldState.activeTagFilters[tag.name] = !oldState.activeTagFilters[tag.name];
-      return oldState.activeTagFilters;
-    });
+  toggleTagFilter(tag: AlandaCommentTag): void {
+    this.commentsService.toggleTagFilter(tag);
   }
 
-  clearFilters(): void {
-    this.commentsService.set({ activeTagFilters: {} });
+  clearAllTagFilters(): void {
+    this.commentsService.clearAllTagFilters();
   }
 }
