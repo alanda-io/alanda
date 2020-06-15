@@ -88,7 +88,8 @@ import { PapActionsComponent } from "./components/project-and-processes/pap-acti
 import { RelateDialogComponent } from "./components/project-and-processes/pap-actions/relate-dialog/relate-dialog.component";
 import { PermissionModule } from "./permissions/permission.module";
 import { AlandaVarRoleUserSelectComponent } from "./form/components/var-role-user-select/var-role-user-select.component";
-import { AlandaVarDisplayComponent } from './form/components/var-display/var-display.component';
+import { AlandaVarDisplayComponent } from "./form/components/var-display/var-display.component";
+import { AlandaPropCheckboxComponent } from "./form/components/prop-checkbox/prop-checkbox.component";
 
 @NgModule({
   imports: [
@@ -164,6 +165,7 @@ import { AlandaVarDisplayComponent } from './form/components/var-display/var-dis
     RelateDialogComponent,
     AlandaVarSelectComponent,
     AlandaPropSelectComponent,
+    AlandaPropCheckboxComponent,
     AlandaProjectAndProcessesComponent,
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
@@ -202,6 +204,7 @@ import { AlandaVarDisplayComponent } from './form/components/var-display/var-dis
     RelateDialogComponent,
     AlandaVarSelectComponent,
     AlandaPropSelectComponent,
+    AlandaPropCheckboxComponent,
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
   ],
