@@ -1,6 +1,6 @@
 {
   "name": "@alanda/common",
-  "version": "9.0.9",
+  "version": "9.0.11",
   "peerDependencies": {
     "@angular/common": "^9.1.1",
     "@angular/core": "^9.1.1",
@@ -12,6 +12,6 @@
     "@rx-angular/state": "~1.1.1"
   },
   "publishConfig": {
-    "registry": "http://repo.alanda.io/repository/alanda/"
+    "registry": "https://repo.alanda.io/repository/alanda/"
   }
 }

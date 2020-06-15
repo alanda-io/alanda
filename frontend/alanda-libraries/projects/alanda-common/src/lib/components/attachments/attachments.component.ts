@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { ExtendedTreeNode } from '../../models/tree-node';
 import { SimpleDocument } from '../../api/models/simpleDocument';
 import { AlandaDocumentApiService } from '../../api/documentApi.service';
@@ -106,6 +106,7 @@ export class AlandaAttachmentsComponent implements OnInit {
   }
 
   onUpload(event: any): void {
+    console.log('event', event);
     this.loadFolderContent();
   }
 

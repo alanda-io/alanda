@@ -43,7 +43,7 @@ export class AlandaVarSelectComponent implements OnInit {
 
   ngOnInit() {
     if (!this.type) {
-      this.type = 'string';
+      this.type = 'String';
     }
     this.taskService
       .getVariable(this.task.task_id, this.variableName)

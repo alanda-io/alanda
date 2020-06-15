@@ -3,8 +3,10 @@ import { RxState } from '@rx-angular/state';
 import { AlandaUserApiService } from '../api/userApi.service';
 import { AlandaUser } from '../api/models/user';
 import { combineLatest } from 'rxjs';
-import { hasPermission, resolveTokens } from './utils/permission-checks';
+import { Authorizations } from './utils/permission-checks';
 import { ElementManager, getManagersByElementRef } from './utils/element-manager';
+import { filter, tap } from 'rxjs/operators';
+import { NgControlStatus } from '@angular/forms';
 
 /**
  *
@@ -47,14 +49,14 @@ export class PermissionsDirective extends RxState<{
         this.select('permissionString')
       ]),
       ([user, permissionString]) => {
-        const tokens: string[][] = resolveTokens(permissionString);
+        const tokens: string[][] = Authorizations.resolveTokens(permissionString);
         const accessLevel = tokens[1];
 
         if (user === null) {
           this.forbidAll(permissionString);
         }
 
-        const permissionsGranted = hasPermission(user, permissionString);
+        const permissionsGranted = Authorizations.hasPermission(user, permissionString);
 
         this.hostElementManagers.forEach((manager) => {
           if (permissionsGranted) {
@@ -66,7 +68,7 @@ export class PermissionsDirective extends RxState<{
       });
   }
 
-  forbidAll(accessLevel) {
+  forbidAll(accessLevel): void {
     this.hostElementManagers.forEach((manager) => {
       manager.applyForbiddenBehavior(accessLevel);
     });
