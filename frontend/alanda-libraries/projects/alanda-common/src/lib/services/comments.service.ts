@@ -135,9 +135,10 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
   }
 
   toggleTagFilter(tag: AlandaCommentTag): void {
-    this.set('activeTagFilters', (oldState: AlandaCommentState) => {
-      oldState.activeTagFilters[tag.name] = !oldState.activeTagFilters[tag.name];
-      return oldState.activeTagFilters;
+    this.set({
+      activeTagFilters: {
+        [tag.name]: !this.get().activeTagFilters[tag.name]
+      }
     });
   }
 
