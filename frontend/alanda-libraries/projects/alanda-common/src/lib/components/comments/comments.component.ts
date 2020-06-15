@@ -10,6 +10,7 @@ import {
 } from 'rxjs/operators';
 import { RxState } from '@rx-angular/state';
 import { AlandaCommentState, AlandaCommentsService } from '../../services/comments.service';
+import { AlandaComment } from '../../api/models/comment';
 
 @Component({
   selector: 'alanda-comments',
@@ -20,7 +21,6 @@ import { AlandaCommentState, AlandaCommentsService } from '../../services/commen
 export class AlandaCommentsComponent extends RxState<AlandaCommentState> implements OnInit {
   @Input() task: any;
   @Input() pid: string;
-  loadingInProgress = false;
   procInstId: string;
   taskId: string;
 
@@ -73,17 +73,20 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentState> impleme
       this.commentForm.markAsDirty();
       return;
     }
-
-    this.loadingInProgress = true;
     this.commentApiService.postComment({
       subject: ' ',
       text: this.commentForm.get('comment').value,
       taskId: this.taskId,
       procInstId: this.procInstId,
     }).subscribe(
-      res => {
+      (newComment) => {
+        const comments = this.commentsService.get().comments;
+        const comment: AlandaComment = Object.assign({}, newComment);
+        comments.unshift(this.commentsService.processComment(comment));
+        this.commentsService.set({
+          comments: comments
+        });
         this.commentForm.reset();
-        this.loadingInProgress = false;
       });
   }
 

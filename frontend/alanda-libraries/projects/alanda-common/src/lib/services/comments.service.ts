@@ -78,7 +78,10 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
   processComment(comment: AlandaComment): AlandaComment {
     comment.createDate = new Date(comment.createDate);
     comment.textDate = this.datePipe.transform(comment.createDate, 'dd.LL.yy HH:mm');
-    let commentFulltext = `${comment.text.toLowerCase()} ${comment.authorName.toLowerCase()} ${comment.textDate}`;
+
+    let commentFulltext = this.extendFulltextComment(comment.text);
+    commentFulltext = this.extendFulltextComment(comment.authorName, commentFulltext);
+    commentFulltext = this.extendFulltextComment(comment.textDate, commentFulltext);
 
     comment.tagList = [];
     if (comment.taskName !== '') {
@@ -98,13 +101,23 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     comment.replies = comment.replies.map((reply: AlandaComment) => {
       reply.createDate = new Date(reply.createDate);
       reply.textDate = this.datePipe.transform(reply.createDate, 'dd.LL.yy HH:mm');
-      commentFulltext += ` ${reply.text.toLowerCase()} ${reply.authorName.toLowerCase()} ${reply.textDate}`;
+
+      commentFulltext = this.extendFulltextComment(reply.text, commentFulltext);
+      commentFulltext = this.extendFulltextComment(reply.authorName, commentFulltext);
+      commentFulltext = this.extendFulltextComment(reply.textDate, commentFulltext);
       return reply;
     });
 
     comment.fulltext = commentFulltext;
 
     return comment;
+  }
+
+  extendFulltextComment(text: string, fulltext: string = ''): string {
+    if (text !== null && text.length > 0) {
+      fulltext += ` ${text.toLowerCase()}`;
+    }
+    return fulltext.trim();
   }
 
   filterCommentsBySearchText(comments: AlandaComment[], searchText: string): Array<AlandaComment> {
