@@ -12,15 +12,9 @@ import { AlandaTaskFormService } from '../form/alanda-task-form.service';
 
 export interface AlandaCommentState {
   comments: AlandaComment[];
-  tagObjectMap: {[tagName: string]: TagObject};
+  tagObjectMap: {[tagName: string]: AlandaCommentTag};
   activeTagFilters: {[tagName: string]: boolean};
   searchText: string;
-}
-
-export interface TagObject {
-  name: string;
-  type: string;
-  status: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -43,7 +37,7 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
       const tagMap = {};
       commentResponse.comments.forEach((comment: AlandaComment) => {
         comment.tagList.forEach((tag: AlandaCommentTag) => {
-          tagMap[tag.name] = { name: tag.name, type: tag.type, status: true };
+          tagMap[tag.name] = { name: tag.name, type: tag.type };
         });
       });
       return tagMap;
@@ -60,7 +54,11 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     })
   );
 
-  filteredComments$ = combineLatest([this.select('comments'), this.select('searchText'), this.select('activeTagFilters')]).pipe(
+  filteredComments$ = combineLatest(
+    [this.select('comments'),
+      this.select('searchText'),
+      this.select('activeTagFilters')]
+  ).pipe(
     map(([comments, searchText, activeTagFilters]: [AlandaComment[], string, {string: boolean}]) => {
       const filteredComments = this.filterCommentsBySearchText(comments, searchText);
       return this.filterCommentsByTags(filteredComments, activeTagFilters);
@@ -135,10 +133,8 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
   }
 
   toggleTagFilter(tag: AlandaCommentTag): void {
-    this.set({
-      activeTagFilters: {
-        [tag.name]: !this.get().activeTagFilters[tag.name]
-      }
+    this.set('activeTagFilters', oldState => {
+      return { [tag.name]: !oldState.activeTagFilters[tag.name] };
     });
   }
 

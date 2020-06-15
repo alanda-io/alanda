@@ -9,7 +9,7 @@ import {
   map
 } from 'rxjs/operators';
 import { RxState } from '@rx-angular/state';
-import { AlandaCommentState, AlandaCommentsService, TagObject } from '../../services/comments.service';
+import { AlandaCommentState, AlandaCommentsService } from '../../services/comments.service';
 
 @Component({
   selector: 'alanda-comments',
@@ -33,7 +33,9 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentState> impleme
   });
 
   comments$ = this.select('comments');
-  tags$ = this.commentsService.select('tagObjectMap').pipe(map((obj: {[tagName: string]: TagObject}) => Object.values(obj)));
+  tags$ = this.commentsService.select('tagObjectMap').pipe(
+    map((obj: {[tagName: string]: AlandaCommentTag}) => Object.values(obj))
+  );
 
   hasActiveFilters$ = this.commentsService.select('activeTagFilters').pipe(
     map(filters => {
