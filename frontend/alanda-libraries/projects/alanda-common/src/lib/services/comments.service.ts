@@ -1,31 +1,53 @@
 import { AlandaComment } from '../api/models/comment';
 import { Injectable } from '@angular/core';
 import { RxState } from '@rx-angular/state';
-import { map, share, switchMap } from 'rxjs/operators';
 import { AlandaTask } from '../api/models/task';
 import { AlandaCommentResponse } from '../api/models/commentResponse';
 import { AlandaCommentTag } from '../api/models/commentTag';
-import { combineLatest } from 'rxjs';
 import { AlandaCommentApiService } from '../api/commentApi.service';
 import { DatePipe } from '@angular/common';
 import { AlandaTaskFormService } from '../form/alanda-task-form.service';
-import { FormGroup } from '@angular/forms';
+import { map, share, switchMap } from 'rxjs/operators';
+import { combineLatest, merge } from 'rxjs';
 
 export interface AlandaCommentState {
   comments: AlandaComment[];
   tagObjectMap: {[tagName: string]: AlandaCommentTag};
   activeTagFilters: {[tagName: string]: boolean};
   searchText: string;
+  commentText: string;
+  task: AlandaTask;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AlandaCommentsService extends RxState<AlandaCommentState> {
-  commentResponse$ = this.taskFormService.select('task').pipe(
+  task$ = this.taskFormService.select('task');
+
+  commentResponse$ = this.task$.pipe(
     switchMap((task: AlandaTask) => this.commentApiService.getCommentsforPid(task.process_instance_id)),
     share()
   );
 
-  comments$ = this.commentResponse$.pipe(
+  commentPostResponse$ = this.select('commentText').pipe(
+    switchMap((commentText: string) => this.commentApiService.postComment({
+      subject: ' ',
+      text: commentText,
+      taskId: this.get().task.task_id,
+      procInstId: this.get().task.process_instance_id,
+    })),
+    map((newComment: AlandaComment) => {
+      this.set('comments', oldState => {
+        const comments = oldState.comments;
+        const comment: AlandaComment = Object.assign({}, newComment);
+        comments.unshift(this.processComment(comment));
+        return comments;
+      });
+      return newComment;
+    }),
+    switchMap((comment: AlandaComment) => this.commentApiService.getCommentsforPid(comment.procInstId))
+  );
+
+  comments$ = merge(this.commentResponse$, this.commentPostResponse$).pipe(
     map((commentResponse: AlandaCommentResponse) => {
       return commentResponse.comments.map((comment: AlandaComment) => {
         return this.processComment(comment);
@@ -72,6 +94,7 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     private readonly taskFormService: AlandaTaskFormService) {
     super();
     this.set({ comments: [], activeTagFilters: {}, searchText: '' });
+    this.connect('task', this.task$);
     this.connect('activeTagFilters', this.activeTagFilters$);
     this.connect('comments', this.comments$);
     this.connect('tagObjectMap', this.tagObjectMap$);
@@ -90,7 +113,7 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
       comment.tagList.push({ name: comment.taskName, type: 'task' });
     }
     if (comment.subject.includes('#')) {
-      comment.subject.match(/#\w+/g).forEach((value) => {
+      comment.subject.match(/#\w+/g).forEach((value: string) => {
         comment.tagList.push({ name: value, type: 'user' });
       });
       comment.subject = comment.subject.replace(/#\w+/g, '');
@@ -111,7 +134,6 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     });
 
     comment.fulltext = commentFulltext;
-
     return comment;
   }
 
@@ -132,8 +154,8 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
   }
 
   filterCommentsByTags(comments: AlandaComment[], activeTagFilters: {string: boolean }): Array<AlandaComment> {
-    const filteredComments = comments.filter((comment) => {
-      return comment.tagList.findIndex((tag) => {
+    const filteredComments = comments.filter((comment: AlandaComment) => {
+      return comment.tagList.findIndex((tag: AlandaCommentTag) => {
         return activeTagFilters[tag.name];
       }) > -1;
     });
@@ -155,29 +177,5 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
 
   clearAllTagFilters(): void {
     this.set({ activeTagFilters: {} });
-  }
-
-  submitComment(state: AlandaCommentState, commentForm: FormGroup, taskId, procInstId): AlandaCommentState {
-    if (commentForm.invalid) {
-      commentForm.markAsDirty();
-      return state;
-    }
-
-    this.commentApiService.postComment({
-      subject: ' ',
-      text: commentForm.get('comment').value,
-      taskId: taskId,
-      procInstId: procInstId,
-    }).subscribe(
-      (commentResponse) => {
-        this.set('comments', oldState => {
-          const comments = oldState.comments;
-          const comment: AlandaComment = Object.assign({}, commentResponse);
-          comments.unshift(this.processComment(comment));
-          return comments;
-        });
-      });
-    commentForm.reset();
-    return state;
   }
 }

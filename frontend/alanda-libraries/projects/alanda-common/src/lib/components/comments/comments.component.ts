@@ -42,19 +42,27 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentState> impleme
   );
 
   commentFormSubmit$ = new Subject();
+  commentText$ = this.commentFormSubmit$.pipe(
+    map((commentForm: FormGroup) => {
+      if (commentForm.invalid) {
+        commentForm.markAsDirty();
+        return;
+      }
+      const commentText = commentForm.value.comment.trim();
+      commentForm.reset();
+      return commentText;
+    })
+  );
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly commentsService: AlandaCommentsService) {
     super();
     this.connect('comments', this.commentsService.filteredComments$);
+    this.commentsService.connect('commentText', this.commentText$);
     this.commentsService.connect('searchText', this.commentFilterForm.get('searchText').valueChanges.pipe(
       map(text => text.trim().toLowerCase())
     ));
-    this.connect(this.commentFormSubmit$,
-      (state: AlandaCommentState, commentForm: FormGroup) =>
-        this.commentsService.submitComment(state, commentForm, this.taskId, this.procInstId)
-    );
   }
 
   ngOnInit(): void {

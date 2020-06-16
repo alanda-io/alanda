@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { AlandaCommentPostBody } from './models/commenPostBody';
 import { AlandaReplyPostBody } from './models/replyPostBody';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
+import { AlandaComment } from './models/comment';
 
 @Injectable()
 export class AlandaCommentApiService extends AlandaExceptionHandlingService {
@@ -22,8 +23,8 @@ export class AlandaCommentApiService extends AlandaExceptionHandlingService {
       .pipe(catchError(this.handleError<AlandaCommentResponse>('getCommentsforPid')));
   }
 
-  postComment(comment: (AlandaCommentPostBody | AlandaReplyPostBody)): Observable<void> {
-    return this.http.post<void>(`${this.endpointUrl}/post`, comment)
-      .pipe(catchError(this.handleError<void>('postComment')));
+  postComment(comment: (AlandaCommentPostBody | AlandaReplyPostBody)): Observable<AlandaComment> {
+    return this.http.post<AlandaComment>(`${this.endpointUrl}/post`, comment)
+      .pipe(catchError(this.handleError<AlandaComment>('postComment')));
   }
 }
