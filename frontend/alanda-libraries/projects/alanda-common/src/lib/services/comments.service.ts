@@ -9,6 +9,7 @@ import { combineLatest } from 'rxjs';
 import { AlandaCommentApiService } from '../api/commentApi.service';
 import { DatePipe } from '@angular/common';
 import { AlandaTaskFormService } from '../form/alanda-task-form.service';
+import { FormGroup } from '@angular/forms';
 
 export interface AlandaCommentState {
   comments: AlandaComment[];
@@ -20,7 +21,7 @@ export interface AlandaCommentState {
 @Injectable({ providedIn: 'root' })
 export class AlandaCommentsService extends RxState<AlandaCommentState> {
   commentResponse$ = this.taskFormService.select('task').pipe(
-    switchMap((task: AlandaTask) => this.commentService.getCommentsforPid(task.process_instance_id)),
+    switchMap((task: AlandaTask) => this.commentApiService.getCommentsforPid(task.process_instance_id)),
     share()
   );
 
@@ -65,7 +66,8 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     }),
   );
 
-  constructor(private readonly commentService: AlandaCommentApiService,
+  constructor(
+    private readonly commentApiService: AlandaCommentApiService,
     private readonly datePipe: DatePipe,
     private readonly taskFormService: AlandaTaskFormService) {
     super();
@@ -153,5 +155,29 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
 
   clearAllTagFilters(): void {
     this.set({ activeTagFilters: {} });
+  }
+
+  submitComment(state: AlandaCommentState, commentForm: FormGroup, taskId, procInstId): AlandaCommentState {
+    if (commentForm.invalid) {
+      commentForm.markAsDirty();
+      return state;
+    }
+
+    this.commentApiService.postComment({
+      subject: ' ',
+      text: commentForm.get('comment').value,
+      taskId: taskId,
+      procInstId: procInstId,
+    }).subscribe(
+      (commentResponse) => {
+        this.set('comments', oldState => {
+          const comments = oldState.comments;
+          const comment: AlandaComment = Object.assign({}, commentResponse);
+          comments.unshift(this.processComment(comment));
+          return comments;
+        });
+      });
+    commentForm.reset();
+    return state;
   }
 }

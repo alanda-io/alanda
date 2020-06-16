@@ -1,16 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { DatePipe } from '@angular/common';
-import { MessageService } from 'primeng/api';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlandaCommentTag } from '../../api/models/commentTag';
-import { AlandaCommentApiService } from '../../api/commentApi.service';
-import { AlandaTaskFormService } from '../../form/alanda-task-form.service';
-import {
-  map
-} from 'rxjs/operators';
 import { RxState } from '@rx-angular/state';
 import { AlandaCommentState, AlandaCommentsService } from '../../services/comments.service';
-import { AlandaComment } from '../../api/models/comment';
+import { Subject } from 'rxjs';
+import { AlandaTask } from '../../api/models/task';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'alanda-comments',
@@ -19,7 +14,7 @@ import { AlandaComment } from '../../api/models/comment';
   providers: [AlandaCommentsService]
 })
 export class AlandaCommentsComponent extends RxState<AlandaCommentState> implements OnInit {
-  @Input() task: any;
+  @Input() task: AlandaTask;
   @Input() pid: string;
   procInstId: string;
   taskId: string;
@@ -33,6 +28,7 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentState> impleme
   });
 
   comments$ = this.select('comments');
+
   tags$ = this.commentsService.select('tagObjectMap').pipe(
     map((obj: {[tagName: string]: AlandaCommentTag}) => Object.values(obj))
   );
@@ -45,49 +41,30 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentState> impleme
     })
   );
 
-  constructor(private readonly commentApiService: AlandaCommentApiService,
-    private readonly messageService: MessageService,
-    private readonly datePipe: DatePipe,
+  commentFormSubmit$ = new Subject();
+
+  constructor(
     private readonly fb: FormBuilder,
-    private readonly taskFormService: AlandaTaskFormService,
     private readonly commentsService: AlandaCommentsService) {
     super();
     this.connect('comments', this.commentsService.filteredComments$);
     this.commentsService.connect('searchText', this.commentFilterForm.get('searchText').valueChanges.pipe(
       map(text => text.trim().toLowerCase())
     ));
+    this.connect(this.commentFormSubmit$,
+      (state: AlandaCommentState, commentForm: FormGroup) =>
+        this.commentsService.submitComment(state, commentForm, this.taskId, this.procInstId)
+    );
   }
 
   ngOnInit(): void {
-    if (this.task) {
+    if (this.task !== undefined) {
       this.procInstId = this.task.process_instance_id;
       this.taskId = this.task.task_id;
     } else {
       this.taskId = null;
       this.procInstId = this.pid;
     }
-  }
-
-  onSubmitComment(): void {
-    if (!this.commentForm.valid) {
-      this.commentForm.markAsDirty();
-      return;
-    }
-    this.commentApiService.postComment({
-      subject: ' ',
-      text: this.commentForm.get('comment').value,
-      taskId: this.taskId,
-      procInstId: this.procInstId,
-    }).subscribe(
-      (newComment) => {
-        const comments = this.commentsService.get().comments;
-        const comment: AlandaComment = Object.assign({}, newComment);
-        comments.unshift(this.commentsService.processComment(comment));
-        this.commentsService.set({
-          comments: comments
-        });
-        this.commentForm.reset();
-      });
   }
 
   tagClass(tag: AlandaCommentTag): string {
