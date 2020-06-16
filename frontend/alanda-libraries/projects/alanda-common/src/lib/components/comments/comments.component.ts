@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlandaCommentTag } from '../../api/models/commentTag';
 import { RxState } from '@rx-angular/state';
@@ -13,11 +13,9 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./comments.component.scss'],
   providers: [AlandaCommentsService]
 })
-export class AlandaCommentsComponent extends RxState<AlandaCommentState> implements OnInit {
+export class AlandaCommentsComponent extends RxState<AlandaCommentState> {
   @Input() task: AlandaTask;
   @Input() pid: string;
-  procInstId: string;
-  taskId: string;
 
   commentForm = this.fb.group({
     comment: ['', Validators.required]
@@ -63,16 +61,6 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentState> impleme
     this.commentsService.connect('searchText', this.commentFilterForm.get('searchText').valueChanges.pipe(
       map(text => text.trim().toLowerCase())
     ));
-  }
-
-  ngOnInit(): void {
-    if (this.task !== undefined) {
-      this.procInstId = this.task.process_instance_id;
-      this.taskId = this.task.task_id;
-    } else {
-      this.taskId = null;
-      this.procInstId = this.pid;
-    }
   }
 
   tagClass(tag: AlandaCommentTag): string {

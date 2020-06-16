@@ -16,14 +16,11 @@ export interface AlandaCommentState {
   activeTagFilters: {[tagName: string]: boolean};
   searchText: string;
   commentText: string;
-  task: AlandaTask;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AlandaCommentsService extends RxState<AlandaCommentState> {
-  task$ = this.taskFormService.select('task');
-
-  commentResponse$ = this.task$.pipe(
+  commentResponse$ = this.taskFormService.select('task').pipe(
     switchMap((task: AlandaTask) => this.commentApiService.getCommentsforPid(task.process_instance_id)),
     share()
   );
@@ -32,8 +29,8 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     switchMap((commentText: string) => this.commentApiService.postComment({
       subject: ' ',
       text: commentText,
-      taskId: this.get().task.task_id,
-      procInstId: this.get().task.process_instance_id,
+      taskId: this.taskFormService.get().task.task_id,
+      procInstId: this.taskFormService.get().task.process_instance_id,
     })),
     map((newComment: AlandaComment) => {
       this.set('comments', oldState => {
@@ -94,7 +91,6 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     private readonly taskFormService: AlandaTaskFormService) {
     super();
     this.set({ comments: [], activeTagFilters: {}, searchText: '' });
-    this.connect('task', this.task$);
     this.connect('activeTagFilters', this.activeTagFilters$);
     this.connect('comments', this.comments$);
     this.connect('tagObjectMap', this.tagObjectMap$);

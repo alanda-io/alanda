@@ -9,8 +9,7 @@ import { AlandaCommentsService, AlandaCommentState } from '../../../services/com
 @Component({
   selector: 'alanda-comment',
   templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss'],
-  providers: [AlandaCommentsService]
+  styleUrls: ['./comment.component.scss']
 })
 export class AlandaCommentComponent extends RxState<AlandaCommentState> {
   @Input() comment: AlandaComment;
@@ -23,8 +22,10 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState> {
     replyText: ['', Validators.required]
   });
 
-  constructor(private readonly pmcCommentService: AlandaCommentApiService, private readonly fb: FormBuilder,
-    private readonly commentsService: AlandaCommentsService) {
+  constructor(
+    private readonly pmcCommentService: AlandaCommentApiService,
+    private readonly commentsService: AlandaCommentsService,
+    private readonly fb: FormBuilder) {
     super();
   }
 
