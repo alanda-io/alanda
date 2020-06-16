@@ -47,7 +47,7 @@ import { DatePipe, CommonModule } from '@angular/common';
 import { FormsServiceNg } from './services/forms.service';
 import { FormsControllerDirective } from './components/controller/directives/forms-controller.directive';
 import { ProjectDetailsServiceNg } from './services/project-details.service';
-import { MessageService } from 'primeng/api';
+import { MessageService} from 'primeng/api';
 import { MessageModule } from 'primeng/message';
 import { FormsRegisterService } from './services/forms-register.service';
 import { AttachmentsListComponent } from './components/attachments/attachments-list/attachments-list.component';
@@ -70,7 +70,6 @@ import { DiagramComponent } from './components/pio/diagram/diagram.component';
 import { ProcessActivitiesComponent } from './components/pio/process-activities/process-activities.component';
 import { HistoryGridComponent } from './components/history/history-grid.component';
 import { CreateProjectComponent } from './components/create-project/create-project.component';
-import { ProjectAndProcessesComponent } from './components/project-and-processes/project-and-processes.component';
 import { AppSettings, APP_CONFIG } from './models/appSettings';
 import { PropertyService } from './api/property.service';
 import { SelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
@@ -87,6 +86,10 @@ import { PermissionManagementComponent } from './components/admin/permission-man
 import { HistoryServiceNg } from './api/history.service';
 import { TreeTableModule } from 'primeng/treetable';
 import { AlandaPagesizeSelectComponent } from './components/pagesize-select/pagesize-select.component';
+import {AlandaProjectAndProcessesComponent} from './components/project-and-processes/project-and-processes.component';
+import {PapActionsComponent} from './components/project-and-processes/pap-actions/pap-actions.component';
+import {RelateDialogComponent} from './components/project-and-processes/pap-actions/relate-dialog/relate-dialog.component';
+import {DynamicDialogModule} from 'primeng/dynamicdialog';
 
 @NgModule({
   imports: [
@@ -124,7 +127,8 @@ import { AlandaPagesizeSelectComponent } from './components/pagesize-select/page
     CalendarModule,
     MessageModule,
     AccordionModule,
-    TreeTableModule
+    TreeTableModule,
+    DynamicDialogModule
   ],
   declarations: [
     UserManagementComponent,
@@ -152,15 +156,16 @@ import { AlandaPagesizeSelectComponent } from './components/pagesize-select/page
     ProcessActivitiesComponent,
     HistoryGridComponent,
     CreateProjectComponent,
-    ProjectAndProcessesComponent,
     SelectComponent,
     SelectRoleComponent,
     DateSelectComponent,
     DropdownSelectComponent,
     SelectMilestoneComponent,
     AlandaTaskTemplateComponent,
-    ProjectAndProcessesComponent,
-    AlandaPagesizeSelectComponent
+    AlandaProjectAndProcessesComponent,
+    AlandaPagesizeSelectComponent,
+    PapActionsComponent,
+    RelateDialogComponent
   ],
   exports: [
     ProjectMonitorComponent,
@@ -188,16 +193,18 @@ import { AlandaPagesizeSelectComponent } from './components/pagesize-select/page
     ProcessActivitiesComponent,
     HistoryGridComponent,
     CreateProjectComponent,
-    ProjectAndProcessesComponent,
     SelectComponent,
     SelectRoleComponent,
     SelectMilestoneComponent,
     DateSelectComponent,
     DropdownSelectComponent,
     AlandaTaskTemplateComponent,
-    ProjectAndProcessesComponent
+    AlandaProjectAndProcessesComponent,
+    PapActionsComponent,
+    RelateDialogComponent
    ],
   entryComponents: [
+    RelateDialogComponent
   ]
 })
 export class AlandaCommonModule {

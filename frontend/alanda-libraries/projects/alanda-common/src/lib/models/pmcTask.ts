@@ -26,6 +26,7 @@ export class PmcTask {
     public process_definition_key: string;
     public process_package_key: string;
     public suspension_state: boolean;
+    public actinst_type: string;
 }
 
 export function isTask(p: any): p is PmcTask {

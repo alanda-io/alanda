@@ -22,6 +22,7 @@ export class ProjectMonitorComponent implements OnInit {
   @Input() editablePageSize: boolean = false;
   @Input() defaultLayout = 'all';
   @Input() dateFormat = 'dd.MM.yyyy';
+  @Input() title = 'Project Monitor';
 
   projectsData: any = {};
   layouts: any[] = [];

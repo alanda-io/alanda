@@ -72,6 +72,14 @@ export class ProjectServiceNg extends ExceptionHandlingService{
         return this.http.get<ProjectAndProcessesResponse>(`${this.endpoint}/project/${guid}/processes-and-tasks`);
     }
 
+  public stopProject(projectGuid: number, reason?: string): Observable<Project> {
+    let url = `${this.endpoint}/project/${projectGuid}/stop`;
+    if (reason) {
+      url += `?reason=${reason}`;
+    }
+    return this.http.get<Project>(url);
+  }
+
   public getChildTypes(idName: string): Observable<ProjectType[]> {
     return this.http.get<ProjectType[]>(`${this.endpoint}/type/${idName}/child-types`);
   }
@@ -99,6 +107,28 @@ export class ProjectServiceNg extends ExceptionHandlingService{
       queryString = '?' + queryString.substring(0, queryString.length - 1);
     }
     return this.http.put<Project>(`${this.endpoint}/${projectId}/update-relations${queryString}`, {});
+  }
+
+  public saveProjectProcess(projectGuid: number, process: Process): Observable<Process> {
+    return this.http.post<Process>(`${this.endpoint}/project/${projectGuid}/process`, process);
+  }
+
+  public startProjectProcess(projectGuid: number, processGuid: number): Observable<Process> {
+    return this.http.get<Process>(`${this.endpoint}/project/${projectGuid}/process/${processGuid}/start`);
+  }
+
+  public stopProjectProcess(projectGuid: number, processGuid: number, reason): Observable<Process> {
+    if (reason) {
+      return this.http.get<Process>(`${this.endpoint}/project/${projectGuid}/process/${processGuid}/stop?reason=${reason}`);
+    }
+    return this.http.get<Process>(`${this.endpoint}/project/${projectGuid}/process/${processGuid}/stop`);
+  }
+
+  public removeProjectProcess(projectGuid: number, processGuid: number, reason): Observable<any> {
+    if (reason) {
+      return this.http.delete<any>(`${this.endpoint}/project/${projectGuid}/process/${processGuid}?reason=${reason}`);
+    }
+    return this.http.delete<any>(`${this.endpoint}/project/${projectGuid}/process/${processGuid}`);
   }
 
 

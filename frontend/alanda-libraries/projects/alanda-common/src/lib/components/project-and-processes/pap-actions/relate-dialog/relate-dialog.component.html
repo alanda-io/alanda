@@ -1,0 +1,43 @@
+<p-table #dt [value]="projects" [paginator]="true" [rows]="15" [lazy]="true" (onLazyLoad)="loadProjectsLazy($event)"
+[loading]="loading" [responsive]="true" selectionMode="single" [(selection)]="selectedProject" [rows]="15" [totalRecords]="projects.length">
+  <ng-template pTemplate="header">
+      <tr>
+          <th pSortableColumn="project.projectId">
+            Project ID<p-sortIcon></p-sortIcon>
+          </th>
+          <th pSortableColumn="project.title">
+            Title<p-sortIcon></p-sortIcon>
+          </th>
+          <th pSortableColumn="project.pmcProjectType.name">
+            Project Type <p-sortIcon></p-sortIcon>
+          </th>
+          <th pSortableColumn="project.subType">
+            Sub Type<p-sortIcon></p-sortIcon>
+          </th>
+          <th pSortableColumn="project.refObjectIdName">
+            Ref Object<p-sortIcon></p-sortIcon>
+          </th>
+      </tr>
+      <tr>
+        <th><input pInputText type="text" (input)="dt.filter($event.target.value, 'project.projectId', 'contains')"></th>
+        <th><input pInputText type="text" (input)="dt.filter($event.target.value, 'project.title', 'contains')"></th>
+        <th><input pInputText type="text" (input)="dt.filter($event.target.value, 'project.pmcProjectType.name', 'contains')"></th>
+        <th><input pInputText type="text" (input)="dt.filter($event.target.value, 'project.subType', 'contains')"></th>
+        <th><input pInputText type="text" (input)="dt.filter($event.target.value, 'project.refObjectIdName', 'contains')"></th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-project>
+      <tr [pSelectableRow]="project">
+          <td>{{project.projectId}}</td>
+          <td>{{project.title}}</td>
+          <td>{{project.projectType}}</td>
+          <td>{{project.subType}}</td>
+          <td>{{project.refObjectIdName}}</td>
+      </tr>
+  </ng-template>
+</p-table>
+
+<div style="float: right; padding: 20px;">
+  <button pButton type="button" label="Cancel" class="ui-button-secondary" (click)="ref.close()"></button>
+  <button pButton type="button" label="OK" (click)="ref.close(selectedProject)"></button>
+</div>

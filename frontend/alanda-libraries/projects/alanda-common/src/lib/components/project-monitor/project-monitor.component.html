@@ -14,7 +14,7 @@
   <div class="p-col">
     <p-panel>
         <p-header>
-          <span class="ui-panel-title title">Project Monitor</span>
+          <span class="ui-panel-title title">{{ title }}</span>
         </p-header>
         <div class="p-grid">
           <div class="p-col">
@@ -30,7 +30,7 @@
           <div class = "p-grid">
             <div class="p-col">
                 <p-table #tt
-                  [style]="{'min-height':'500px'}"
+                  [style]="{'min-height':'500px', width:'100%'}"
                   [resizableColumns]="true"
                   [value]="projectsData.results"
                   [columns]="selectedLayout.columnDefs"
