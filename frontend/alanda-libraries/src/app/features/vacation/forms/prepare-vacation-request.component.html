@@ -19,7 +19,7 @@
           label="Require handover?"
         ></alanda-var-select>
       </div>
-      <div class="p-col-8">
+      <div class="p-col-2">
         <alanda-prop-select
           [rootFormGroup]="rootForm"
           [project]="taskFormState.project"
@@ -28,6 +28,13 @@
           propertyName="propertyRequired"
           label="Require property?"
         ></alanda-prop-select>
+      </div>
+      <div class="p-col-6">
+        <alanda-prop-checkbox
+          [project]="taskFormState.project"
+          propertyName="propertyChecked"
+          label="Checked property?"
+        ></alanda-prop-checkbox>
       </div>
       <div class="p-col-2">
         <p-card [style]="{ height: '100%' }">

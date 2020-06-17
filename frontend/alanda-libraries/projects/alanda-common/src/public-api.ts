@@ -23,13 +23,13 @@ export * from "./lib/form/base-form.component.interface";
 export * from "./lib/form/base-state";
 export * from "./lib/form/components/var-select/var-select.component";
 export * from "./lib/form/components/prop-select/prop-select.component";
+export * from "./lib/form/components/prop-checkbox/prop-checkbox.component";
 export * from "./lib/form/components/var-role-user-select/var-role-user-select.component";
 export * from "./lib/form/components/var-display/var-display.component";
 
-
-export * from './lib/interceptors/basic-auth.interceptor';
-export * from './lib/interceptors/error400.interceptor';
-export * from './lib/interceptors/error500.interceptor';
+export * from "./lib/interceptors/basic-auth.interceptor";
+export * from "./lib/interceptors/error400.interceptor";
+export * from "./lib/interceptors/error500.interceptor";
 
 export * from './lib/enums/projectState.enum';
 export * from './lib/enums/historyLogAction.enum';
