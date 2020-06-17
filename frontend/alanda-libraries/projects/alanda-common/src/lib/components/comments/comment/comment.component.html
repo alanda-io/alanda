@@ -16,7 +16,7 @@
     <div *ngIf="comment.tagList && comment.tagList.length">
       <ul class="tag-list" *ngFor="let tag of comment.tagList">
         <li class="tag-item">
-          <p-button class="item" label="{{tag.name}}" icon="pi pi-tag" iconPos="left" type="button" [styleClass]="tagClass(tag)"></p-button>
+          <p-button class="item" label="{{tag.name}}" icon="pi pi-tag" iconPos="left" type="button" [styleClass]="tagClass(tag)" (onClick)="toggleTagFilter(tag)"></p-button>
         </li>
       </ul>
     </div>

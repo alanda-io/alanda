@@ -101,8 +101,9 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
   }
 
   /**
-   * Process a comment to extend the AlandaComment object by commentFulltext and tagList
+   * Process an AlandaComment by commentFulltext and tagList and returns a new AlandaComment
    * @param oldComment
+   * @return AlandaComment
    */
   processComment(oldComment: AlandaComment): AlandaComment {
     const comment: AlandaComment = Object.assign({}, oldComment);
@@ -164,7 +165,7 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
    * @param comments
    * @param searchText
    */
-  filterCommentsBySearchText(comments: AlandaComment[], searchText: string): Array<AlandaComment> {
+  filterCommentsBySearchText(comments: AlandaComment[], searchText: string): AlandaComment[] {
     if (searchText.length > 0) {
       return comments.filter((comment: AlandaComment) => {
         return comment.fulltext.trim().toLowerCase().includes(searchText);
@@ -178,7 +179,7 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
    * @param comments
    * @param activeTagFilters
    */
-  filterCommentsByTags(comments: AlandaComment[], activeTagFilters: {string: boolean }): Array<AlandaComment> {
+  filterCommentsByTags(comments: AlandaComment[], activeTagFilters: {string: boolean }): AlandaComment[] {
     const filteredComments = comments.filter((comment: AlandaComment) => {
       return comment.tagList.findIndex((tag: AlandaCommentTag) => {
         return activeTagFilters[tag.name];

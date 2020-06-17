@@ -36,6 +36,10 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState> {
     return this.commentsService.tagClass(tag);
   }
 
+  toggleTagFilter(tag: AlandaCommentTag): void {
+    this.commentsService.toggleTagFilter(tag);
+  }
+
   /**
    * Autofocus the textarea if it is visible
    */
