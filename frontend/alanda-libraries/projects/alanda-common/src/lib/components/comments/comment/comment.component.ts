@@ -23,7 +23,7 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState> {
   });
 
   constructor(
-    private readonly pmcCommentService: AlandaCommentApiService,
+    private readonly commentApiService: AlandaCommentApiService,
     private readonly commentsService: AlandaCommentsService,
     private readonly fb: FormBuilder) {
     super();
@@ -45,23 +45,24 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState> {
     }
 
     this.loadingInProgress = true;
-    this.pmcCommentService.postComment({
+    this.commentApiService.postComment({
       text: this.commentReplyForm.get('replyText').value,
       taskId: this.comment.taskId,
       procInstId: this.comment.procInstId,
       replyTo: this.comment.guid
     }).subscribe(
       res => {
-        this.refresh();
+        this.refreshComment();
         this.commentReplyForm.reset();
         this.loadingInProgress = false;
       }
     );
   }
 
-  refresh(): void {
-    this.pmcCommentService.getCommentsforPid(this.comment.procInstId).subscribe(res => {
+  refreshComment(): void {
+    this.commentApiService.getCommentsforPid(this.comment.procInstId).subscribe(res => {
       this.comment = res.comments.filter(comment => comment.guid === this.comment.guid)[0];
+      this.comment = this.commentsService.processComment(this.comment);
     });
   }
 }

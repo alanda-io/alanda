@@ -1,10 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlandaCommentTag } from '../../api/models/commentTag';
 import { RxState } from '@rx-angular/state';
 import { AlandaCommentState, AlandaCommentsService } from '../../services/comments.service';
 import { Subject } from 'rxjs';
-import { AlandaTask } from '../../api/models/task';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -14,9 +13,6 @@ import { map } from 'rxjs/operators';
   providers: [AlandaCommentsService]
 })
 export class AlandaCommentsComponent extends RxState<AlandaCommentState> {
-  @Input() task: AlandaTask;
-  @Input() pid: string;
-
   commentForm = this.fb.group({
     comment: ['', Validators.required]
   });

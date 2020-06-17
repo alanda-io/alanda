@@ -98,7 +98,7 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
 
   processComment(comment: AlandaComment): AlandaComment {
     comment.createDate = new Date(comment.createDate);
-    comment.textDate = this.datePipe.transform(comment.createDate, 'dd.LL.yy HH:mm');
+    comment.textDate = this.datePipe.transform(comment.createDate, 'dd.LL.yyyy HH:mm');
 
     let commentFulltext = this.extendFulltextComment(comment.text);
     commentFulltext = this.extendFulltextComment(comment.authorName, commentFulltext);
@@ -121,7 +121,7 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
 
     comment.replies = comment.replies.map((reply: AlandaComment) => {
       reply.createDate = new Date(reply.createDate);
-      reply.textDate = this.datePipe.transform(reply.createDate, 'dd.LL.yy HH:mm');
+      reply.textDate = this.datePipe.transform(reply.createDate, 'dd.LL.yyyy HH:mm');
 
       commentFulltext = this.extendFulltextComment(reply.text, commentFulltext);
       commentFulltext = this.extendFulltextComment(reply.authorName, commentFulltext);
