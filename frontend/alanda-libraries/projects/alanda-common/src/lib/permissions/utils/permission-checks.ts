@@ -181,5 +181,4 @@ export class Authorizations {
     }
     return contains;
   }
-
 }

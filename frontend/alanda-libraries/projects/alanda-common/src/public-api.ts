@@ -15,21 +15,21 @@ export * from './lib/api/propertyApi.service';
 export * from './lib/api/milestoneApi.service';
 export * from './lib/api/commentApi.service';
 
-export * from "./lib/services/exceptionHandling.service";
-export * from "./lib/services/project-properties.service";
-export * from "./lib/services/monitorApi.service";
-export * from "./lib/form/alanda-task-form.service";
-export * from "./lib/form/base-form.component.interface";
-export * from "./lib/form/base-state";
-export * from "./lib/form/components/var-select/var-select.component";
-export * from "./lib/form/components/prop-select/prop-select.component";
-export * from "./lib/form/components/prop-checkbox/prop-checkbox.component";
-export * from "./lib/form/components/var-role-user-select/var-role-user-select.component";
-export * from "./lib/form/components/var-display/var-display.component";
+export * from './lib/services/exceptionHandling.service';
+export * from './lib/services/project-properties.service';
+export * from './lib/services/monitorApi.service';
+export * from './lib/form/alanda-task-form.service';
+export * from './lib/form/base-form.component.interface';
+export * from './lib/form/base-state';
+export * from './lib/form/components/var-select/var-select.component';
+export * from './lib/form/components/prop-select/prop-select.component';
+export * from './lib/form/components/prop-checkbox/prop-checkbox.component';
+export * from './lib/form/components/var-role-user-select/var-role-user-select.component';
+export * from './lib/form/components/var-display/var-display.component';
 
-export * from "./lib/interceptors/basic-auth.interceptor";
-export * from "./lib/interceptors/error400.interceptor";
-export * from "./lib/interceptors/error500.interceptor";
+export * from './lib/interceptors/basic-auth.interceptor';
+export * from './lib/interceptors/error400.interceptor';
+export * from './lib/interceptors/error500.interceptor';
 
 export * from './lib/enums/projectState.enum';
 export * from './lib/enums/historyLogAction.enum';
