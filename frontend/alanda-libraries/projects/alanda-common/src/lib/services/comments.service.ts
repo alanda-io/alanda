@@ -112,7 +112,7 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     commentFulltext = this.extendFulltextComment(comment.textDate, commentFulltext);
 
     comment.tagList = [];
-    if (comment.taskName !== '') {
+    if (comment.taskName !== '' && comment.taskName !== null) {
       comment.tagList.push({ name: comment.taskName, type: 'task' });
     }
     if (comment.subject.includes('#')) {
