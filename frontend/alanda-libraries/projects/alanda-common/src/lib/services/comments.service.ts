@@ -44,7 +44,8 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
       });
       return newComment;
     }),
-    switchMap((comment: AlandaComment) => this.commentApiService.getCommentsforPid(comment.procInstId))
+    switchMap((comment: AlandaComment) => this.commentApiService.getCommentsforPid(comment.procInstId)),
+    share()
   );
 
   comments$ = merge(this.commentResponse$, this.commentPostResponse$).pipe(
@@ -55,10 +56,10 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     })
   );
 
-  tagObjectMap$ = this.commentResponse$.pipe(
-    map((commentResponse: AlandaCommentResponse) => {
+  tagObjectMap$ = this.comments$.pipe(
+    map((comments: AlandaComment[]) => {
       const tagMap = {};
-      commentResponse.comments.forEach((comment: AlandaComment) => {
+      comments.forEach((comment: AlandaComment) => {
         comment.tagList.forEach((tag: AlandaCommentTag) => {
           tagMap[tag.name] = { name: tag.name, type: tag.type };
         });
@@ -101,9 +102,11 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
 
   /**
    * Process a comment to extend the AlandaComment object by commentFulltext and tagList
-   * @param comment
+   * @param oldComment
    */
-  processComment(comment: AlandaComment): AlandaComment {
+  processComment(oldComment: AlandaComment): AlandaComment {
+    const comment: AlandaComment = Object.assign({}, oldComment);
+
     comment.createDate = new Date(comment.createDate);
     comment.textDate = this.datePipe.transform(comment.createDate, 'dd.LL.yyyy HH:mm');
 
@@ -128,7 +131,7 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
       comment.text.match(/#\w+/g).forEach((value: string) => {
         comment.tagList.push({ name: value.substr(1), type: 'user' });
       });
-      comment.text = comment.text.replace(/#\w+/g, '');
+      comment.text = comment.text.replace(/#\w+/g, '').trim();
     }
 
     comment.tagList.forEach(tag => {

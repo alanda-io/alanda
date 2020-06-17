@@ -10,7 +10,9 @@
         <span class="fa fa-comments"> {{comment.replies.length}} Replies</span>
       </a>
     </div>
-    {{comment.text}}
+    <div class="body">
+      {{ comment.text }}
+    </div>
     <div *ngIf="comment.tagList && comment.tagList.length">
       <ul class="tag-list" *ngFor="let tag of comment.tagList">
         <li class="tag-item">
