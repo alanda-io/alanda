@@ -112,14 +112,23 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     commentFulltext = this.extendFulltextComment(comment.textDate, commentFulltext);
 
     comment.tagList = [];
+    // Add task name to tag list
     if (comment.taskName !== '' && comment.taskName !== null) {
       comment.tagList.push({ name: comment.taskName, type: 'task' });
     }
-    if (comment.subject.includes('#')) {
+    // Extract hashtags out of subject
+    if (comment.subject?.includes('#')) {
       comment.subject.match(/#\w+/g).forEach((value: string) => {
-        comment.tagList.push({ name: value, type: 'user' });
+        comment.tagList.push({ name: value.substr(1), type: 'user' });
       });
       comment.subject = comment.subject.replace(/#\w+/g, '');
+    }
+    // Extract hashtags out of text body
+    if (comment.text?.includes('#')) {
+      comment.text.match(/#\w+/g).forEach((value: string) => {
+        comment.tagList.push({ name: value.substr(1), type: 'user' });
+      });
+      comment.text = comment.text.replace(/#\w+/g, '');
     }
 
     comment.tagList.forEach(tag => {
