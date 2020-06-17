@@ -1,7 +1,7 @@
 <p-panel class="comments" [toggleable]="true" *ngIf="comments$ | async as comments">
   <p-header>
     Comments
-    <p-button label="{{comments.length}}" styleClass="ui-button-rounded"></p-button>
+    <alanda-badge label="{{comments.length}}"></alanda-badge>
   </p-header>
 
   <div class="p-grid">
