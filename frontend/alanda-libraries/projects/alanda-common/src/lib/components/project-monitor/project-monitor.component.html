@@ -33,6 +33,7 @@
                   [style]="{'min-height':'500px', width:'100%'}"
                   [resizableColumns]="true"
                   [value]="projectsData.results"
+                  [scrollable]="true"
                   [columns]="selectedLayout.columnDefs"
                   [paginator]="true"
                   [rows]="serverOptions.pageSize"
@@ -40,7 +41,6 @@
                   [totalRecords]="projectsData.total"
                   (onLazyLoad)="loadProjectsLazy($event)"
                   [tableStyle]="{'table-layout':'100%'}"
-                  [autoLayout]="true"
                   [loading]="loading"
                   [responsive]="true">
                   <ng-template pTemplate="caption">
