@@ -6,6 +6,9 @@ import { AlandaCommentApiService } from '../../../api/commentApi.service';
 import { RxState } from '@rx-angular/state';
 import { AlandaCommentsService, AlandaCommentState } from '../../../services/comments.service';
 
+/**
+ * Display component for a comment and a comment reply
+ */
 @Component({
   selector: 'alanda-comment',
   templateUrl: './comment.component.html',
@@ -33,6 +36,9 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState> {
     return this.commentsService.tagClass(tag);
   }
 
+  /**
+   * Autofocus the textarea if it is visible
+   */
   autofocus(): void {
     const area = this.textArea;
     setTimeout(function() { area.nativeElement.focus() });

@@ -18,6 +18,9 @@ export interface AlandaCommentState {
   commentText: string;
 }
 
+/**
+ * Provides a state of comments and handles filter and tag processing
+ */
 @Injectable({ providedIn: 'root' })
 export class AlandaCommentsService extends RxState<AlandaCommentState> {
   commentResponse$ = this.taskFormService.select('task').pipe(
@@ -96,6 +99,10 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     this.connect('tagObjectMap', this.tagObjectMap$);
   }
 
+  /**
+   * Process a comment to extend the AlandaComment object by commentFulltext and tagList
+   * @param comment
+   */
   processComment(comment: AlandaComment): AlandaComment {
     comment.createDate = new Date(comment.createDate);
     comment.textDate = this.datePipe.transform(comment.createDate, 'dd.LL.yyyy HH:mm');
@@ -140,6 +147,11 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     return fulltext.trim();
   }
 
+  /**
+   * Fulltext search for comment
+   * @param comments
+   * @param searchText
+   */
   filterCommentsBySearchText(comments: AlandaComment[], searchText: string): Array<AlandaComment> {
     if (searchText.length > 0) {
       return comments.filter((comment: AlandaComment) => {
@@ -149,6 +161,11 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     return comments;
   }
 
+  /**
+   * Filter comments by active tag filters
+   * @param comments
+   * @param activeTagFilters
+   */
   filterCommentsByTags(comments: AlandaComment[], activeTagFilters: {string: boolean }): Array<AlandaComment> {
     const filteredComments = comments.filter((comment: AlandaComment) => {
       return comment.tagList.findIndex((tag: AlandaCommentTag) => {
@@ -158,6 +175,10 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     return filteredComments.length > 0 ? filteredComments : comments;
   }
 
+  /**
+   * Provides style class for tag if active or not
+   * @param tag
+   */
   tagClass(tag: AlandaCommentTag): string {
     if (this.get().activeTagFilters[tag.name]) {
       return 'ui-button-success';
@@ -165,12 +186,22 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     return 'ui-button-info';
   }
 
+  /**
+   * Toggles given tag state in active filter map
+   * @param tag
+   */
   toggleTagFilter(tag: AlandaCommentTag): void {
     this.set('activeTagFilters', oldState => {
-      return { [tag.name]: !oldState.activeTagFilters[tag.name] };
+      return Object.assign({},
+        oldState.activeTagFilters,
+        { [tag.name]: !oldState.activeTagFilters[tag.name] }
+      );
     });
   }
 
+  /**
+   * Removes all active filters
+   */
   clearAllTagFilters(): void {
     this.set({ activeTagFilters: {} });
   }

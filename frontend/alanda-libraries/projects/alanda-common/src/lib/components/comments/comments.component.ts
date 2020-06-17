@@ -6,6 +6,9 @@ import { AlandaCommentState, AlandaCommentsService } from '../../services/commen
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+/**
+ * Wrapper component for comments that provides access to filters and creating new comments.
+ */
 @Component({
   selector: 'alanda-comments',
   templateUrl: './comments.component.html',
@@ -29,9 +32,9 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentState> {
 
   hasActiveFilters$ = this.commentsService.select('activeTagFilters').pipe(
     map(filters => {
-      return Object.values(filters).forEach(value => {
+      return Object.values(filters).findIndex((value: boolean) => {
         return value;
-      });
+      }) > -1;
     })
   );
 
