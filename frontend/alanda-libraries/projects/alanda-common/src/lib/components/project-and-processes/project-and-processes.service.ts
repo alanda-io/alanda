@@ -23,6 +23,7 @@ export interface TreeNodeData {
   providedIn: 'root'
 })
 export class ProjectAndProcessesService {
+
   constructor() { }
 
   mapProjectToTreeNode(project: AlandaProject, relatedProject: AlandaProject): TreeNode {
@@ -42,7 +43,6 @@ export class ProjectAndProcessesService {
     return {
       data,
       children: data.type !== 'parent' ? project.processes.map(process => this.mapProcessToTreeNode(process, project)) : null,
-      expanded: data.type === 'project'
     };
   }
 
@@ -66,7 +66,6 @@ export class ProjectAndProcessesService {
     return {
       data,
       children: process.tasks ? process.tasks.map(task => this.mapTaskToTreeNode(task, project)) : null,
-      expanded: true
     };
   }
 

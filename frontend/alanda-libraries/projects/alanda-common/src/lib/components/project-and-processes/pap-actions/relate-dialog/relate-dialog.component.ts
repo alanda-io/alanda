@@ -40,8 +40,8 @@ export class RelateDialogComponent implements OnInit {
     if (this.config.data.types) {
       this.serverOptions.filterOptions['project.pmcProjectType.idName.raw'] = this.config.data.types;
     }
-    if (this.config.data.projectId) {
-      this.serverOptions.filterOptions['project.childrenIds'] = this.config.data.projectId;
+    if (this.config.data.guid) {
+      this.serverOptions.filterOptions['project.childrenIds'] = this.config.data.guid;
     }
     for (const key in event.filters) {
       if (event.filters[key]) {

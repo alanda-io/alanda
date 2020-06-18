@@ -2,7 +2,7 @@
   <p-header>
     <span class="ui-panel-title title">Projects & Processes</span>
   </p-header>
-  <p-treeTable [autoLayout]="true"  [loading]="loading" [value]="treeStructure">
+  <p-treeTable [autoLayout]="true"  [loading]="loading" [value]="treeStructure" [lazy]="true" (onNodeExpand)="onNodeExpand($event)">
     <ng-template pTemplate="header">
         <tr>
             <th>Process / Task</th>
@@ -24,8 +24,8 @@
         </td>
         <td>{{rowData.refObject}}</td>
         <td>{{rowData.assignee}}</td>
-        <td>{{rowData.start}}</td>
-        <td>{{rowData.end}}</td>
+        <td>{{rowData.start | date: dateFormat}}</td>
+        <td>{{rowData.end | date: dateFormat}}</td>
         <td>{{rowData.comment}}</td>
         <td>
           <alanda-pap-actions [data]="rowData" (changeEvent)="loadProjectAndProcesses()"></alanda-pap-actions>

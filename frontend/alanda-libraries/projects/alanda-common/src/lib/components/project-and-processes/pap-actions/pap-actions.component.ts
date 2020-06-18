@@ -92,7 +92,7 @@ export class PapActionsComponent implements OnInit, OnDestroy {
   }
 
   private unrelateMe() {
-    this.ref = this.openDynamicDialogModal('Select parent project(s) to unrelate me from', { projectId: this.data.value.projectId });
+    this.ref = this.openDynamicDialogModal('Select parent project(s) to unrelate me from', { guid: this.data.value.guid });
     this.ref.onClose.subscribe((project: AlandaProject) => {
       if (project) {
         this.projectService.updateProjectRelations(this.data.value.projectId, null, null, null, project.projectId).subscribe(res => {
