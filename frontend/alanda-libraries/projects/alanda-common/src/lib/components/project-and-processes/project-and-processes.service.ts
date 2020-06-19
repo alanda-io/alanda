@@ -76,7 +76,7 @@ export class ProjectAndProcessesService {
       start: task.created,
       end: null,
       comment: task.comment,
-      routerLink: `/forms/${task.formKey}/${task.task_id}`,
+      routerLink: `/forms/ ${encodeURIComponent(task.formKey)}/${task.task_id}`,
       type: task.actinst_type,
       id: task.task_id,
       value: task,
