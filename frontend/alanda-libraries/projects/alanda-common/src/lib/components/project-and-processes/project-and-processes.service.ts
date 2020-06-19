@@ -41,8 +41,7 @@ export class ProjectAndProcessesService {
     };
     return {
       data,
-      children: data.type !== 'parent' ? project.processes.map(process => this.mapProcessToTreeNode(process, project)) : null,
-      expanded: data.type === 'project'
+      children: data.type !== 'parent' ? project.processes.map(process => this.mapProcessToTreeNode(process, project)) : null
     };
   }
 
@@ -66,7 +65,6 @@ export class ProjectAndProcessesService {
     return {
       data,
       children: process.tasks ? process.tasks.map(task => this.mapTaskToTreeNode(task, project)) : null,
-      expanded: true
     };
   }
 
