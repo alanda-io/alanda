@@ -1,13 +1,13 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { FormGroup, FormBuilder, AbstractControl } from "@angular/forms";
-import { AlandaPropertyApiService } from "../../../api/propertyApi.service";
-import { AlandaProject } from "../../../api/models/project";
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
+import { AlandaPropertyApiService } from '../../../api/propertyApi.service';
+import { AlandaProject } from '../../../api/models/project';
 
-const SELECTOR = "alanda-prop-checkbox";
+const SELECTOR = 'alanda-prop-checkbox';
 
 @Component({
   selector: SELECTOR,
-  templateUrl: "./prop-checkbox.component.html",
+  templateUrl: './prop-checkbox.component.html',
   styleUrls: [],
 })
 export class AlandaPropCheckboxComponent implements OnInit {
@@ -15,7 +15,7 @@ export class AlandaPropCheckboxComponent implements OnInit {
   @Input() project: AlandaProject;
   @Input() label: string;
   @Input() existingValue: boolean;
-  type: string = "BOOLEAN";
+  type = 'BOOLEAN';
 
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
@@ -62,6 +62,6 @@ export class AlandaPropCheckboxComponent implements OnInit {
   }
 
   get checked(): AbstractControl {
-    return this.checkboxForm.get("checked");
+    return this.checkboxForm.get('checked');
   }
 }

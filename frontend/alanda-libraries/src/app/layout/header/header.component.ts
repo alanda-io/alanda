@@ -4,7 +4,7 @@ import { AlandaUserApiService } from 'projects/alanda-common/src/public-api';
 import { MenuItem } from 'primeng/api/menuitem';
 
 @Component({
-  selector: 'app-header',
+  selector: 'alanda-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   animations: [
@@ -30,36 +30,33 @@ export class HeaderComponent implements OnInit {
 
   constructor(public userService: AlandaUserApiService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.userService.getCurrentUser().subscribe();
     this.items = [
-      { label: 'Home', routerLink: [''], icon: 'fa fa-home', routerLinkActiveOptions: {} },
-      { label: 'Tasks', routerLink: ['/tasks/list'], icon: 'fa fa-briefcase', routerLinkActiveOptions: {} },
+      { label: 'Home', routerLink: ['/'], icon: 'fa fa-home', routerLinkActiveOptions: { exact: true } },
+      { label: 'Tasks', routerLink: ['/tasks/list'], icon: 'fa fa-briefcase' },
       {
         label: 'Create',
         icon: 'fa fa-plus',
-        routerLinkActiveOptions: {},
         items: [
-          { label: 'Project', routerLink: ['/create/project'], icon: 'fa fa-list-alt', routerLinkActiveOptions: {} }
+          { label: 'Project', routerLink: ['/create/project'], icon: 'fa fa-list-alt' }
         ]
       },
       {
         label: 'Monitor',
         icon: 'fa fa-eye',
-        routerLinkActiveOptions: {},
         items: [
-          { label: 'Projects', routerLink: ['/monitor/projects'], icon: 'fa fa-list-alt', routerLinkActiveOptions: {} }
+          { label: 'Projects', routerLink: ['/monitor/projects'], icon: 'fa fa-list-alt' }
         ]
       },
       {
         label: 'Administration',
         icon: 'pi pi-cog',
-        routerLinkActiveOptions: {},
         items: [
-          { label: 'Users', routerLink: ['/admin/users'], icon: 'fa fa-list-alt', routerLinkActiveOptions: {} },
-          { label: 'Groups', routerLink: ['/admin/groups'], icon: 'fa fa-list-alt', routerLinkActiveOptions: {} },
-          { label: 'Roles', routerLink: ['/admin/roles'], icon: 'fa fa-list-alt', routerLinkActiveOptions: {} },
-          { label: 'Permissions', routerLink: ['/admin/permissions'], icon: 'fa fa-list-alt', routerLinkActiveOptions: {} }
+          { label: 'Users', routerLink: ['/admin/users'], icon: 'fa fa-list-alt' },
+          { label: 'Groups', routerLink: ['/admin/groups'], icon: 'fa fa-list-alt' },
+          { label: 'Roles', routerLink: ['/admin/roles'], icon: 'fa fa-list-alt' },
+          { label: 'Permissions', routerLink: ['/admin/permissions'], icon: 'fa fa-list-alt' }
         ]
       },
     ];
@@ -76,7 +73,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  releaseRunAs() {
+  releaseRunAs(): void {
     this.userService.releaseRunAs().subscribe();
   }
 }

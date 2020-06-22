@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap, tap, map, distinctUntilChanged } from 'rxjs/operators';
 import { AlandaProjectApiService } from '../../../api/projectApi.service';
@@ -16,7 +16,7 @@ export interface ProjectControllerState extends BaseState {
   styleUrls: [],
   providers: [RxState]
 })
-export class AlandaProjectsControllerComponent implements OnInit, OnDestroy {
+export class AlandaProjectsControllerComponent {
   activeTab = 0;
   paramSub: Subscription;
 
@@ -53,7 +53,6 @@ export class AlandaProjectsControllerComponent implements OnInit, OnDestroy {
 
   forwardByType$ = this.state.select('project').pipe(
     tap((project: AlandaProject) => {
-      console.log(project.projectTypeIdName.toLowerCase());
       this.router.navigate([project.projectTypeIdName.toLowerCase()], { relativeTo: this.route });
     })
   );
@@ -65,16 +64,6 @@ export class AlandaProjectsControllerComponent implements OnInit, OnDestroy {
     this.state.connect('project', this.fetchProjectByProjectId$);
     this.state.connect('pid', this.getPidFromProject$);
     this.state.hold(this.forwardByType$);
-  }
-
-
-
-  ngOnInit() {
-
-  }
-
-  ngOnDestroy() {
-    console.log('ProjectsController destroy');
   }
 }
 

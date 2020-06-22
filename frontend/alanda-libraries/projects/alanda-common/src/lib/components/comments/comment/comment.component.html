@@ -5,28 +5,34 @@
   </div>
   <div class="p-col comment-box bubble-effect">
     <div class="header">
-      <i style="margin-right: 10px">{{comment.createDate | date:'dd.MM.yy HH:mm'}}</i>
-      <a href="Javascript:void()" (click)="doReply=!doReply"><span *ngIf="comment.replies.length > 0" class="fa fa-comments"> {{comment.replies.length}} Replies</span></a>
+      <i class="header-date">{{comment.createDate | date:'dd.MM.yyyy HH:mm'}}</i>
+      <a *ngIf="comment.replies.length" (click)="doReply=!doReply">
+        <span class="fa fa-comments"> {{comment.replies.length}} Replies</span>
+      </a>
     </div>
-    {{comment.text}}
-    <ul *ngFor="let tag of comment.tagList">
-      <li>
-        <p-button label="{{tag.name}}" icon="pi pi-tag" iconPos="left" type="button" [styleClass]="tagClass(tag)"></p-button>
-      </li>
-    </ul>
+    <div class="body">
+      {{ comment.text }}
+    </div>
+    <div *ngIf="comment.tagList && comment.tagList.length">
+      <ul class="tag-list" *ngFor="let tag of comment.tagList">
+        <li class="tag-item">
+          <p-button class="item" label="{{tag.name}}" icon="pi pi-tag" iconPos="left" type="button" [styleClass]="tagClass(tag)" (onClick)="toggleTagFilter(tag)"></p-button>
+        </li>
+      </ul>
+    </div>
     <div *ngIf="type === 'comment'">
-      <p-button label="Reply" style="float: right" (click)="doReply=!doReply; autofocus()" icon="fa fa-reply" iconPos="left" type="button"></p-button>
+      <p-button label="Reply" class="button-right" (click)="doReply=!doReply; autofocus()" icon="fa fa-reply" iconPos="left" type="button"></p-button>
     </div>
   </div>
 </div>
 <div class="p-grid comment" [hidden]="type !== 'comment'">
   <div class="p-offset-1 p-col-11" [hidden]="!doReply">
-    <form (ngSubmit)="onSubmitReply(replyForm)" #replyForm="ngForm">
-      <textarea id="replyTextarea" name="replyText" #replyContent (keyup)="autogrow()" [(ngModel)]="comment.replyText" pInputTextarea maxLength="1000" [rows]="1" placeholder="Write a reply..." required></textarea>
-      <p-button type="submit" style="float:right" icon="fa fa-paper-plane" iconPos="left" label="Post Reply" [disabled]="!replyForm.valid"></p-button>
+    <form class="comment-reply-form" [formGroup]="commentReplyForm" (ngSubmit)="onSubmitReply()">
+      <textarea pInputTextarea class="comment-reply" #replyContent autoResize="autoResize" [rows]="4" formControlName="replyText" maxLength="4000" placeholder="Write a reply..."></textarea>
+      <p-button type="submit" class="button-right" icon="fa fa-paper-plane" iconPos="left" label="Post Reply" [disabled]="!commentReplyForm.valid"></p-button>
     </form>
-    </div>
-  <div class="p-offset-1 p-col-11" *ngIf="doReply">
-      <alanda-comment *ngFor="let reply of comment.replies" [type]="reply" [comment]="reply"></alanda-comment>
+  </div>
+  <div class="p-offset-1 p-col-11">
+      <alanda-comment *ngFor="let reply of comment.replies" [type]="'reply'" [comment]="reply"></alanda-comment>
   </div>
 </div>

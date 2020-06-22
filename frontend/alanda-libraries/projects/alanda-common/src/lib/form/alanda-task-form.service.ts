@@ -29,9 +29,8 @@ export interface AlandaTaskFormState {
   //  rootFormData: { [controlName: string]: any }
 }
 
-@Injectable()
-export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
-  implements OnDestroy {
+@Injectable({ providedIn: 'root' })
+export class AlandaTaskFormService extends RxState<AlandaTaskFormState> implements OnDestroy {
   state$ = this.select();
 
   rootForm = this.fb.group({});
@@ -91,7 +90,6 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     if (this.rootForm.valid) {
       return this.taskService.complete(this.get().task.task_id).pipe(
         catchError((error) => {
-          console.log('in catchError', error);
           this.messageService.add({
             severity: 'error',
             summary: 'Task completion failed',
@@ -118,12 +116,10 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
           }
         }),
         tap((val) => {
-          console.log('in tap, val');
           this.router.navigate(val).catch(() => {});
         })
       );
     } else {
-      console.log('errors', this.rootForm.errors);
       return of(this.rootForm.errors);
     }
   }

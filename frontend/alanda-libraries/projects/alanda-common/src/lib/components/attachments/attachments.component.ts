@@ -1,12 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { ExtendedTreeNode } from "../../models/tree-node";
-import { SimpleDocument } from "../../api/models/simpleDocument";
-import { AlandaDocumentApiService } from "../../api/documentApi.service";
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ExtendedTreeNode } from '../../models/tree-node';
+import { SimpleDocument } from '../../api/models/simpleDocument';
+import { AlandaDocumentApiService } from '../../api/documentApi.service';
 
 @Component({
-  selector: "alanda-attachments",
-  templateUrl: "./attachments.component.html",
-  styleUrls: ["./attachments.component.scss"],
+  selector: 'alanda-attachments',
+  templateUrl: './attachments.component.html',
+  styleUrls: ['./attachments.component.scss'],
 })
 export class AlandaAttachmentsComponent implements OnInit {
   @Input() mappings: string;
@@ -29,12 +29,12 @@ export class AlandaAttachmentsComponent implements OnInit {
 
   ngOnInit() {
     if (!this.mappings) {
-      this.mappings = "AcquiDoc,SI,SA";
+      this.mappings = 'AcquiDoc,SI,SA';
     }
     this.fileCount = 0;
     this.data.mappings = this.mappings;
     if (this.project) {
-      this.data.refObjectType = "project";
+      this.data.refObjectType = 'project';
       this.data.guid = this.project.guid;
       this.data.idName = this.project.projectId;
     } else if (this.task) {
@@ -42,7 +42,7 @@ export class AlandaAttachmentsComponent implements OnInit {
       this.data.idName = this.task.object_name;
       this.data.guid = this.task.object_id;
     } else if (this.pid) {
-      this.data.refObjectType = "process";
+      this.data.refObjectType = 'process';
       this.data.guid = this.pid;
     }
 
@@ -77,10 +77,10 @@ export class AlandaAttachmentsComponent implements OnInit {
 
   setupTreeNode(node: ExtendedTreeNode) {
     node.expanded = false;
-    node.collapsedIcon = "fa fa-folder";
-    node.expandedIcon = "fa fa-folder-open";
+    node.collapsedIcon = 'fa fa-folder';
+    node.expandedIcon = 'fa fa-folder-open';
     node.name = node.label;
-    node.label = node.name + " (" + node.files + ")";
+    node.label = node.name + ' (' + node.files + ')';
     for (const child of node.children) {
       this.setupTreeNode(child);
     }
@@ -108,7 +108,7 @@ export class AlandaAttachmentsComponent implements OnInit {
         this.currentFiles = res;
         this.data.selectedNode.files = res.length;
         this.data.selectedNode.label =
-          this.data.selectedNode.name + " (" + res.length + ")";
+          this.data.selectedNode.name + ' (' + res.length + ')';
         this.fileCount = this.checkFileCount(this.treeNode);
       });
   }

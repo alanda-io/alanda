@@ -29,6 +29,7 @@
     "@rx-angular/state": "~1.1.1",
     "bpmn-js": "6.5.1",
     "font-awesome": "4.7.0",
+    "normalize.css": "^8.0.1",
     "primeflex": "1.0.0",
     "primeicons": "2.0.0",
     "primeng": "9.0.5",

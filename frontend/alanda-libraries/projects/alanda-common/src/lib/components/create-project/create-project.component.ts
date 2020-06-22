@@ -16,8 +16,8 @@ import { mergeMap, tap } from 'rxjs/operators';
 export class AlandaCreateProjectComponent implements OnInit {
   showDialog = true;
   projectTypes: AlandaProjectType[] = [];
-  selectedProjectType: AlandaProjectType;
   allowedTagList: any[];
+  selectedProjectType: AlandaProjectType = {};
   project: AlandaProject = {};
   formGroup: FormGroup;
   isLoading = false;
@@ -27,7 +27,7 @@ export class AlandaCreateProjectComponent implements OnInit {
     private readonly router: Router, private readonly activatedRoute: ActivatedRoute) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     const parentProjectGuid = this.activatedRoute.snapshot.paramMap.get('projectGuid');
     if (parentProjectGuid) {
       this.projectService.getProjectByGuid(Number(parentProjectGuid)).pipe(
@@ -41,7 +41,7 @@ export class AlandaCreateProjectComponent implements OnInit {
     }
   }
 
-  onProjectTypeSelected() {
+  onProjectTypeSelected(): void {
     this.showDialog = false;
     this.project.pmcProjectType = this.selectedProjectType;
     this.allowedTagList = this.selectedProjectType.allowedTagList.map(tag => { return { value: tag } });
@@ -49,7 +49,7 @@ export class AlandaCreateProjectComponent implements OnInit {
   }
 
 
-  private initFormGroup() {
+  private initFormGroup(): void {
     this.formGroup = new FormGroup({
       tag: new FormControl(null, { validators: [Validators.required] }),
       prio: new FormControl(null, { validators: [Validators.required] }),
@@ -60,7 +60,7 @@ export class AlandaCreateProjectComponent implements OnInit {
   }
 
 
-  public onSubmit() {
+  public onSubmit(): void {
     if (this.formGroup.valid) {
       this.project.dueDate = this.formGroup.get('projectDueDate').value;
       this.project.title = this.formGroup.get('projectTitle').value;

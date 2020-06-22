@@ -1,91 +1,78 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AlandaComment } from '../../../api/models/comment';
 import { AlandaCommentTag } from '../../../api/models/commentTag';
 import { AlandaCommentApiService } from '../../../api/commentApi.service';
+import { RxState } from '@rx-angular/state';
+import { AlandaCommentsService, AlandaCommentState } from '../../../services/comments.service';
 
-
+/**
+ * Display component for a comment and a comment reply
+ */
 @Component({
   selector: 'alanda-comment',
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss']
 })
-export class AlandaCommentComponent {
+export class AlandaCommentComponent extends RxState<AlandaCommentState> {
   @Input() comment: AlandaComment;
   @Input() type: string;
-  @Input() tagFilters;
   @ViewChild('replyContent') textArea: ElementRef;
-  filterEnabled: boolean;
-  doReply: boolean;
+  doReply = false;
   loadingInProgress: boolean;
 
-  constructor(private readonly pmcCommentService: AlandaCommentApiService) {}
+  commentReplyForm = this.fb.group({
+    replyText: ['', Validators.required]
+  });
+
+  constructor(
+    private readonly commentApiService: AlandaCommentApiService,
+    private readonly commentsService: AlandaCommentsService,
+    private readonly fb: FormBuilder) {
+    super();
+  }
 
   tagClass(tag: AlandaCommentTag): string {
-    /* if(!this.filterEnabled || this.tagFilters.indexOf(tag.name) !== -1){
-      //TODO: remove? improve
-      if(tag.name === '#escalation'){
-        return 'ui-button-danger';
-      }
-      if(tag.name.startsWith('#')){
-        return 'ui-button-warning';
-      }
-      return 'ui-button-success';
-    }
-    return 'ui-button-info'; */
-    if (this.tagFilters.includes((tag.name))) {
-      return 'ui-button-success';
-    }
-    return 'ui-button-info';
+    return this.commentsService.tagClass(tag);
   }
 
-  autogrow() {
-    const textArea = document.getElementById('replyTextarea');
-    if (this.comment.replyText && this.comment.replyText.length === 0) {
-      textArea.style.height = textArea.style.minHeight;
-    } else {
-      textArea.style.height = textArea.scrollHeight + 'px';
-    }
+  toggleTagFilter(tag: AlandaCommentTag): void {
+    this.commentsService.toggleTagFilter(tag);
   }
 
-  autofocus() {
+  /**
+   * Autofocus the textarea if it is visible
+   */
+  autofocus(): void {
     const area = this.textArea;
     setTimeout(function() { area.nativeElement.focus() });
   }
 
-  onSubmitReply(form: NgForm) {
+  onSubmitReply(): void {
+    if (!this.commentReplyForm.valid) {
+      this.commentReplyForm.markAsDirty();
+      return;
+    }
+
     this.loadingInProgress = true;
-    this.pmcCommentService.postComment({
-      text: this.comment.replyText,
+    this.commentApiService.postComment({
+      text: this.commentReplyForm.get('replyText').value,
       taskId: this.comment.taskId,
       procInstId: this.comment.procInstId,
       replyTo: this.comment.guid
     }).subscribe(
       res => {
-        this.refresh();
-        form.reset();
+        this.refreshComment();
+        this.commentReplyForm.reset();
         this.loadingInProgress = false;
       }
     );
   }
 
-  /* toggleFilter(name: string) {
-    let filterIndex = this.tagFilters.indexOf(name);
-    if(filterIndex !== -1){
-      this.tagFilters.splice(filterIndex,1);
-      if(this.tagFilters.length === 0){
-        this.filterEnabled = false;
-      }
-    }
-    else {
-      this.tagFilters.push(name);
-      this.filterEnabled = true;
-     }
-  } */
-
-  refresh() {
-    this.pmcCommentService.getCommentsforPid(this.comment.procInstId).subscribe(res => {
+  refreshComment(): void {
+    this.commentApiService.getCommentsforPid(this.comment.procInstId).subscribe(res => {
       this.comment = res.comments.filter(comment => comment.guid === this.comment.guid)[0];
+      this.comment = this.commentsService.processComment(this.comment);
     });
   }
 }

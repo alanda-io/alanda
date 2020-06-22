@@ -51,7 +51,7 @@
     </div>
     <div class="p-grid">
     <div class="col-1 p-lg-offset-11">
-        <button pButton type="button" label="Cancel" class="ui-button-info" routerLink="" style="margin-right: .25em"></button>
+        <button pButton type="button" label="Cancel" class="ui-button-info" routerLink="" style="margin-right: 10px;"></button>
         <button pButton type="submit" class="ui-button-success" label="Create"></button>
       </div>
     </div>
@@ -60,9 +60,8 @@
 
 <p-dialog
           [visible]="showDialog"
-          [dismissableMask]="true"
-          [closable]="true"
-          width=300
+          [dismissableMask]="false"
+          [closable]="false"
           [contentStyle]="{'overflow':'visible'}">
   <p-header>
     Create Project
