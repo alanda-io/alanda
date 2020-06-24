@@ -69,6 +69,10 @@ export class TaskServiceNg extends ExceptionHandlingService{
     return this.http.put(this.endpointUrl + `/${taskId}/variables/${varName}`, data);
   }
 
+  getVariable(taskId: string, varName: string): Observable<any> {
+    return this.http.get<any>(this.endpointUrl + `/${taskId}/variables/${varName}`);
+  }
+
   snoozeTask(taskId: string, days: number): Observable<any> {
     return this.http.put(this.endpointUrl + `/${taskId}/snooze`, days);
   }
