@@ -1,0 +1,51 @@
+<p>
+  permissions-demo works!
+</p>
+
+
+<form (ngSubmit)="onSubmit()" [formGroup]="demoForm">
+  <fieldset class="set-a" permissions="ms:write:MS_NAME">
+    <div class="inputField">
+                  <span class="ui-float-label">
+                    <input id="input-guid" type="text" pInputText formControlName="guid">
+                    <label for="input-guid">GUID</label>
+                  </span>
+    </div>
+    <div class="inputField">
+                  <span class="ui-float-label">
+                    <input id="input-projectName" type="text" pInputText formControlName="projectName">
+                    <label for="input-guid">projectName</label>
+                  </span>
+    </div>
+  </fieldset>
+  <fieldset class="set-b">
+    <div class="inputField">
+                  <span class="ui-float-label">
+                    <input id="input-title" type="text" pInputText formControlName="title">
+                    <label for="input-title">title</label>
+                  </span>
+    </div>
+    <div class="inputField" permissions="ms:write:MS_NAME">
+                  <span class="ui-float-label">
+                    <input id="input-status" type="text" pInputText formControlName="status">
+                    <label for="input-status">status</label>
+                  </span>
+    </div>
+    <div class="inputField">
+                  <span class="ui-float-label">
+                    <input permissions="mts:write:MS_NAME" id="input-phases" type="text" pInputText formControlName="phases">
+                    <label for="input-phases">phases</label>
+                  </span>
+    </div>
+    <div class="inputField">
+                  <span class="ui-float-label">
+                    <input id="input-running" type="text" pInputText formControlName="running">
+                    <label for="input-running">running</label>
+                  </span>
+    </div>
+  </fieldset>
+
+  <button permissions="ms:read:??????">
+    Save
+  </button>
+</form>

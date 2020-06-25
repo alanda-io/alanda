@@ -1,0 +1,59 @@
+<p-table class="attachment-list" #dataTable [value]="currentFiles" [columns]="fileColumns"  [scrollable]="true" scrollHeight="320px" autoLayout="true" dataKey="guid">
+  <!-- 'let-columns' allows access to the ng-template context columns property-->
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="{{col.prio}}">
+        <strong>{{ col.header }}</strong>
+        <p-sortIcon *ngIf="col.sort" [field]="col.field"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-file let-columns="columns">
+    <!-- <tr [pSelectableRow]="file"> -->
+    <tr>
+      <td *ngFor="let col of columns" [ngSwitch]="col.field" class="{{col.prio}}">
+        <span *ngSwitchCase="'lastModified'">{{ file.lastModified | date:'d MMMM y' }}</span>
+        <span *ngSwitchCase="'size'">{{ file.size }} KB</span>
+        <span *ngSwitchCase="'action'">
+          <a [href]="download(file.guid)"><span class="pi pi-download" style="font-size: 1.5em"></span></a>
+
+          <span *ngIf="previewAllowed(file.name)">
+<!--             <a href="Javascript:void(0)" (click)="setPreview(file); op.toggle($event)">
+              <span class="pi pi-image" style="font-size: 1.5em"></span>
+            </a> -->
+              <ng-template [ngIf]="!file.name.endsWith('.pdf')" [ngIfElse]="pdfpreview">
+                <p-lightbox class="lightbox" type="content">
+                  <a href="#">
+                    <span class="pi pi-image" style="font-size: 1.5em"></span>
+                  </a>
+                  <img [src]="download(file.guid)" alt="file.name" style="margin:auto; height: 100%; width: 100%"/>
+                </p-lightbox>
+              </ng-template>
+              <ng-template #pdfpreview>
+                  <p-lightbox class="lightbox" type="content">
+                      <a href="#">
+                        <span class="pi pi-image" style="font-size: 1.5em"></span>
+                      </a>
+                      <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(download(file.guid))" style="width:1000px; min-height: 400px"></iframe>
+                    </p-lightbox>
+              </ng-template>
+          </span>
+          <a (click)="deleteFile(file)" href="JavaScript:void(0)"><span class="pi pi-trash" style="font-size: 1.5em"></span></a>
+        </span>
+        <span *ngSwitchDefault>{{ file[col.field] }}</span>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+
+<!-- <p-overlayPanel #op *ngIf="previewContent !== undefined">
+    <span *ngIf="!previewContent.pdf">
+      <img [src]="download(previewContent.id)" alt="image" width="100%"/>
+    </span>
+    <span *ngIf="previewContent.pdf">
+      <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(download(previewContent.id))"></iframe>
+    </span>
+</p-overlayPanel> -->
+
+

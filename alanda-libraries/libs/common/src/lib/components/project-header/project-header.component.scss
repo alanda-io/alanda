@@ -1,0 +1,15 @@
+textarea {
+  width: 100%;
+}
+
+::ng-deep .ui-dropdown-label {
+  font-size: 12px !important;
+}
+
+.spacer {
+  margin-top: 10px;
+}
+
+.spacer div[class^='p-col-'] {
+  min-height: 50px;
+}

@@ -1,0 +1,42 @@
+<p-fieldset [toggleable]="true">
+  <p-header>Project Properties</p-header>
+  <div class="p-grid">
+    <div class="p-col-12 p-md-6 p-lg-9">
+      <p-card [style]="{ height: '100%' }">
+        <div class="p-col-3">
+          <alanda-milestone-select
+            [project]="project"
+            displayName="Vacation Start"
+            msName="VACATION_START"
+          ></alanda-milestone-select>
+          <alanda-milestone-select
+            [project]="project"
+            displayName="Vacation End"
+            msName="VACATION_END"
+          ></alanda-milestone-select>
+        </div>
+      </p-card>
+    </div>
+    <div class="p-col-12 p-md-6 p-lg-3">
+      <p-card [style]="{ height: '100%' }">
+        <alanda-role-select
+          [rootFormGroup]="rootForm"
+          formName="selectApprover"
+          type="user"
+          displayName="Vacation Approver"
+          [project]="project"
+          [onlyInherited]="false"
+          roleName="vacation-approver"
+        ></alanda-role-select>
+        <alanda-role-select
+          [rootFormGroup]="rootForm"
+          formName="selectSubstitute"
+          type="group"
+          displayName="Substitute"
+          [project]="project"
+          roleName="vacation-requestor"
+        ></alanda-role-select>
+      </p-card>
+    </div>
+  </div>
+</p-fieldset>

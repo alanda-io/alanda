@@ -18,5 +18,19 @@
       }
     }
   },
-  "projects": {}
+  "projects": {
+    "ui-demo": {
+      "tags": []
+    },
+    "ui-demo-e2e": {
+      "tags": [],
+      "implicitDependencies": ["ui-demo"]
+    },
+    "common": {
+      "tags": []
+    },
+    "config": {
+      "tags": []
+    }
+  }
 }

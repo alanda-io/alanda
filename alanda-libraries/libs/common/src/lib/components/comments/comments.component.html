@@ -1,0 +1,38 @@
+<p-panel class="comments" [toggleable]="true" *ngIf="comments$ | async as comments">
+  <p-header>
+    Comments
+    <alanda-badge label="{{comments.length}}"></alanda-badge>
+  </p-header>
+
+  <div class="p-grid">
+    <div class="p-lg-10 p-sm-12">
+      <form [formGroup]="commentForm" (ngSubmit)="commentFormSubmit$.next(commentForm)">
+        <textarea pInputTextarea id="textarea" class="comment-textarea" [rows]="4" formControlName="comment" autoResize="autoResize" maxLength="4000" placeholder="Write a comment..."></textarea>
+        <div class="form-buttons">
+          <p-button type="submit" icon="fa fa-paper-plane" iconPos="left" label="Post Comment" [disabled]="!commentForm.valid"></p-button>
+        </div>
+      </form>
+      <p-scrollPanel [style]="{height: '500px'}" *ngIf="comments.length > 0; else elseBlock">
+        <alanda-comment class="comment" [comment]="comment" [type]="'comment'" *ngFor="let comment of comments"></alanda-comment>
+      </p-scrollPanel>
+      <ng-template #elseBlock>
+        <div class="comments-no-entry">
+          Sorry there are not comments!
+        </div>
+      </ng-template>
+    </div>
+    <div class="p-col">
+      <form [formGroup]="commentFilterForm">
+        <input formControlName="searchText" pInputText placeholder="Search comments">
+      </form>
+        <div *ngFor="let tag of tags$ | async" class="tag-wrapper">
+          <p-button label="{{tag.name}}" icon="pi pi-tag" iconPos="left" type="button" (onClick)="toggleTagFilter(tag)" [styleClass]="tagClass(tag)"></p-button>
+        </div>
+      <div class="tag-wrapper">
+        <p-button label="Clear Tag Filters" icon="pi pi-times-circle" iconPos="left" type="button" (onClick)="clearAllTagFilters()" *ngIf="hasActiveFilters$ | async" styleClass="ui-button-danger"></p-button>
+      </div>
+    </div>
+  </div>
+</p-panel>
+
+

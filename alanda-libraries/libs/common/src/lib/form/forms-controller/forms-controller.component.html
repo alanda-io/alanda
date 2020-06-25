@@ -1,0 +1,23 @@
+<ng-container *ngIf="state$ | async as s">
+  <p-tabView [activeIndex]="activeTab" styleClass="form-root-tabs">
+    <p-tabPanel header="Project Overview" leftIcon="fa fa-file-text">
+      <ng-template pTemplate="content">
+        <router-outlet></router-outlet>
+      </ng-template>
+    </p-tabPanel>
+    <p-tabPanel header="PIO" leftIcon="fa fa-eye">
+      <ng-template pTemplate="content">
+        <alanda-pio-component
+          [pid]="s.task.process_instance_id"
+        ></alanda-pio-component>
+      </ng-template>
+    </p-tabPanel>
+    <p-tabPanel header="History Log" leftIcon="fa fa-history">
+      <ng-template pTemplate="content">
+        <alanda-history-grid-component
+          [projectGuid]="s.project.guid"
+        ></alanda-history-grid-component>
+      </ng-template>
+    </p-tabPanel>
+  </p-tabView>
+</ng-container>

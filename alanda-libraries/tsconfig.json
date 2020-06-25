@@ -15,7 +15,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@alanda-libraries/common": ["libs/common/src/index.ts"],
+      "@alanda-libraries/config": ["libs/config/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

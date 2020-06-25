@@ -1,0 +1,107 @@
+<p-panel [toggleable]="false" *ngIf="project">
+    <p-header>
+        <div>
+            <span *ngIf="task != null"><b>{{task.task_name}}</b> / </span>
+            <a [routerLink]="'/projectdetails/' + project.projectId">{{project.projectId}}</a>
+            <span *ngIf="project.refObjectIdName"> / {{project.refObjectIdName}} </span> / {{project.status}}
+            <span *ngIf="snoozedTask">
+                &nbsp;(Task Snoozed) z<sup>z<sup>z</sup></sup>
+            </span>
+            <span style="float: right">
+                <span *ngIf="task != null">
+                    <span *ngFor="let candidateGroup of task.candidateGroups | filter: '!Administrators'">
+                        <b>Responsible:</b> {{candidateGroup}} |
+                    </span>
+                    <span *ngIf="task.assignee === null" id="assignedTo">
+                        currently unassigned
+                    </span>
+                    <span *ngIf="task.assignee != null" id="assignedTo">
+                        <b>Assigned to:</b> {{task.assignee}}
+                    </span>
+                    <a (click)="openDelegationForm()"><i class="pi pi-user-plus"></i></a>
+                </span>
+                <b>created by:</b> {{project.ownerName}} <b>at:</b> {{project.createDate}}
+            </span>
+        </div>
+    </p-header>
+    <p-header></p-header>
+    <form [formGroup]="projectHeaderForm">
+        <div class="p-grid spacer">
+            <div class="p-col-12 p-md-6 p-lg-4">
+                <div class="p-grid">
+                    <div class="p-col-4">
+                        <strong>Type (Sub Type):</strong>
+                    </div>
+                    <div class="p-col-8" >
+                        <span *ngIf="project.subType != null">{{project.subtype}}</span>
+                        <span *ngIf="project.subType === null">{{project.pmcProjectType.name}}</span>
+                    </div>
+                    <div class="p-col-4">
+                        <strong>Prio:</strong>
+                    </div>
+                    <div class="p-col-8">
+                        <p-dropdown formControlName="priority" [options]="priorities" optionLabel="label"></p-dropdown>
+                    </div>
+                    <div class="p-col-4">
+                        <strong>Tag(s):</strong>
+                    </div>
+                    <div class="p-col-8">
+                        <p-autoComplete
+                            formControlName="tag"
+                            [multiple]="true"
+                            [forceSelection]="true"
+                            [dropdown]="true"
+                            [suggestions]="allowedTagList"
+                            (completeMethod)="searchTag($event)">
+                        </p-autoComplete>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-col-12 p-md-6 p-lg-4">
+                <div class="p-grid">
+                    <div class="p-col-4" *ngIf="task != null">
+                        <strong>Task Due Date:</strong>
+                    </div>
+                    <div class="p-col-8" *ngIf="task != null">
+                        <p-calendar formControlName="taskDueDate" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+                    </div>
+                    <div class="p-col-4">
+                        <strong>Project Due Date:</strong>
+                    </div>
+                    <div class="p-col-8">
+                        <p-calendar formControlName="dueDate" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+                    </div>
+                    <div class="p-col-4">
+                    <strong>Project Title:</strong>
+                    </div>
+                    <div class="p-col-8">
+                        <input pInputText formControlName="title" type="text" value="{{project.title}}">
+                    </div>
+                </div>
+            </div>
+            <div class="p-col-12 p-md-12 p-lg-4">
+                <textarea pInputTextarea maxLength="2000" formControlName="details" placeholder="Project Details" [rows]="6">{{project.comment}}</textarea>
+            </div>
+        </div>
+    </form>
+    <ng-template properties-host></ng-template>
+</p-panel>
+
+<p-dialog
+  [visible]="showDelegateDialog"
+  [modal]="true"
+  [dismissableMask]="true"
+  [closeOnEscape]="true"
+  [closable]="true"
+  width=300
+  [contentStyle]="{'overflow':'visible'}">
+    <p-header>
+        Delegate task for
+    </p-header>
+    <p-dropdown #dd [options]="candidateUsers" optionLabel="displayName" [style]="{'width':'100%'}" placeholder = "Select a user" [filter]="true" ></p-dropdown>
+    <p-footer>
+        <p-button (onClick)="showDelegateDialog = false" styleClass="ui-button-raised ui-button-info" label="Cancel"></p-button>
+        <p-button (onClick)="delegateTask(dd.value)" styleClass="ui-button-raised ui-button-success" [disabled]="!dd.value" label="Delegate"></p-button>
+    </p-footer>
+</p-dialog>

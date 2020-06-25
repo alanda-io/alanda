@@ -1,0 +1,168 @@
+<p-panel>
+  <p-header>User Management</p-header>
+  <div class="p-grid ui-fluid">
+
+    <!-- User Table-->
+
+    <div class="p-col-4">
+      <p-table #table [value]="users" [columns]="userColumns" dataKey="guid" [paginator]="true" [rows]="15"
+        (onLazyLoad)="onLoadUsers($event)" [lazy]="true" [totalRecords]="totalRecords" [loading]="loading"
+        [autoLayout]="true" selectionMode="single" [style]="{'font-size': '12px'}" scrollHeight="320px"
+        (onRowSelect)="onUserSelected($event)" (onRowUnselect)="onUserUnselected()" [responsive]="true">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+              <strong>{{col.header}}</strong>
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+          </tr>
+          <tr>
+            <th *ngFor="let col of columns">
+              <input pInputText type="text" (input)="table.filter($event.target.value, col.field, col.filterMatchMode)">
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user let-columns="columns">
+          <tr [pSelectableRow]="user">
+            <td *ngFor="let col of columns">
+              {{user[col.field]}}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!-- Info Tabs -->
+    <div class="p-col-12 p-md-8">
+      <p-tabView (onChange)="onTabChange($event)">
+        <p-tabPanel header="General">
+          <div class="p-grid">
+            <div class="p-col-4">
+              <form [formGroup]="userForm" (ngSubmit)="onFormSubmit()">
+
+                <div class="input-field">
+                  <span class="ui-float-label">
+                    <input id="input-login" type="text" pInputText formControlName="loginName">
+                    <label for="input-login">Login</label>
+                  </span>
+                  <span *ngIf="userForm.dirty && !userForm.get('loginName').valid" style="font-size: 10px; color: red">Please enter a login</span>
+                </div>
+
+                <div class="input-field">
+                  <span class="ui-float-label">
+                    <input id="input-firstname" type="text" pInputText formControlName="firstName">
+                    <label for="input-firstname">First Name</label>
+                  </span>
+                  <span *ngIf="userForm.dirty && !userForm.get('firstName').valid" style="font-size: 10px; color: red">Please enter a first name</span>
+                </div>
+
+                <div class="input-field">
+                  <span class="ui-float-label">
+                    <input id="input-surname" type="text" pInputText formControlName="surname">
+                    <label for="input-surname">Surname</label>
+                  </span>
+                  <span *ngIf="userForm.dirty && !userForm.get('surname').valid" style="font-size: 10px; color: red">Please enter a surname</span>
+                </div>
+
+                <div class="input-field">
+                  <span class="ui-float-label">
+                    <input id="input-email" type="email" pInputText formControlName="email">
+                    <label for="input-email">E-Mail</label>
+                  </span>
+                  <span *ngIf="userForm.dirty && !userForm.get('email').valid" style="font-size: 10px; color: red">Please enter an email</span>
+                </div>
+
+                <div class="input-field">
+                  <span class="ui-float-label">
+                    <input id="input-mobile" style="height: 100%" type="tel" pInputText formControlName="mobile">
+                    <label for="input-mobile">Mobile</label>
+                  </span>
+                </div>
+                <div class="input-field">
+                  <p id="locked" [hidden]="locked">Not locked</p>
+                  <p id="locked" [hidden]="!locked">Locked</p>
+                  <p-inputSwitch formControlName="locked"></p-inputSwitch>
+                </div>
+
+                  <div class="p-grid">
+                    <div class="p-col-12 p-md-6">
+                      <button pButton type="submit" [label]="selectedUser ? 'Update User' : 'Create User'"></button>
+                    </div>
+                    <div class="p-col-12 p-md-6" [hidden]="!selectedUser">
+                      <button pButton type="button" label="Run as user" (click)="runAsUser()"></button>
+                    </div>
+                  </div>
+              </form>
+            </div>
+            <div class="p-col-12 p-md-8" *ngIf="selectedUser">
+              <p-panel class="info-panel" header="Roles" *ngIf="assignedRoles.length > 0">
+                <p-scrollPanel [style]="{height:'150px'}">
+                  <div *ngFor="let role of assignedRoles">
+                    {{role.name}}
+                  </div>
+                </p-scrollPanel>
+              </p-panel>
+              <p-panel class="info-panel" header="Effective Permissions" *ngIf="grantedPermissions.length > 0">
+                <p-scrollPanel [style]="{height:'150px'}">
+                  <div *ngFor="let perm of grantedPermissions">
+                    {{perm.key}}
+                  </div>
+                </p-scrollPanel>
+              </p-panel>
+              <p-panel class="info-panel" header="User Groups" *ngIf="assignedGroups.length > 0">
+                <p-scrollPanel [style]="{height:'150px'}">
+                  <div *ngFor="let group of assignedGroups">
+                    {{group.groupName}}
+                  </div>
+                </p-scrollPanel>
+              </p-panel>
+              </div>
+          </div>
+        </p-tabPanel>
+
+        <p-tabPanel header="Groups" *ngIf="selectedUser">
+            <p-pickList [source]="assignedGroups" [target]="availableGroups" sourceHeader="Assigned Groups"
+                        targetHeader="Available Groups" [style]="{height:'100%'}" [responsive]="true" filterBy="groupName"
+                        [showSourceControls]="false" [showTargetControls]="false">
+              <ng-template let-group pTemplate="item">
+                {{group.groupName}} ({{group.longName}})
+              </ng-template>
+            </p-pickList>
+            <div class="p-col-12">
+              <p-button label="Update Groups" (click)="onUpdateGroups()"></p-button>
+            </div>
+        </p-tabPanel>
+
+        <p-tabPanel header="Roles" *ngIf="selectedUser">
+            <p-pickList [source]="assignedRoles" [target]="availableRoles" sourceHeader="Assigned Roles"
+                        targetHeader="Available Roles" [responsive]="true" filterBy="name"
+                        [showSourceControls]="false" [showTargetControls]="false" (onMoveToTarget)="moveRole($event)">
+              <ng-template let-role pTemplate="item">
+                {{role.name}} <span class="source" *ngIf="role.source">({{role.source}})</span>
+              </ng-template>
+            </p-pickList>
+            <div class="p-col-12">
+              <p-button label="Update Roles" (click)="onUpdateRoles()"></p-button>
+            </div>
+        </p-tabPanel>
+
+        <p-tabPanel header="Permissions" *ngIf="selectedUser">
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <p-pickList [source]="grantedPermissions" [target]="availablePermissions" sourceHeader="Granted Permissions"
+                    targetHeader="Available Permissions" [responsive]="true" filterBy="name"
+                    [showSourceControls]="false" [showTargetControls]="false" (onMoveToTarget)="movePermission($event)">
+                    <ng-template let-p pTemplate="item">
+                      {{p.key}} <span class="source" *ngIf="p.source">({{p.source}})</span>
+                    </ng-template>
+                  </p-pickList>
+                </div>
+                <div class="p-col-12">
+                  <p-button label="Update Permissions" (click)="onUpdatePermissions()"></p-button>
+                </div>
+              </div>
+          </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</p-panel>
