@@ -126,50 +126,6 @@
         }
       }
     },
-    "config": {
-      "projectType": "library",
-      "root": "libs/config",
-      "sourceRoot": "libs/config/src",
-      "prefix": "alanda-libraries",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/config/tsconfig.lib.json",
-            "project": "libs/config/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/config/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/config/tsconfig.lib.json",
-              "libs/config/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/config/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/config/jest.config.js",
-            "tsConfig": "libs/config/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "libs/config/src/test-setup.ts"
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
     "common": {
       "projectType": "library",
       "root": "libs/common",
