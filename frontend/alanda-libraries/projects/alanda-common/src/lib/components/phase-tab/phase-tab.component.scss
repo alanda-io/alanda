@@ -1,0 +1,81 @@
+@import '../../../styles/variables';
+
+$header-item-spacer: 4px;
+
+.phase-tab {
+  .phase-tab-header {
+    border-bottom: 1px solid #c8c8c8;
+    margin-top: 5px;
+    position: relative;
+
+    .header-item {
+      background: #f4f4f4;
+      border: 1px solid #c8c8c8;
+      border-bottom: 0;
+      border-radius: 3px 3px 0 0;
+      color: $font-color;
+      cursor: pointer;
+      display: inline-block;
+      font-weight: 600;
+      margin: 0 $header-item-spacer/2;
+      padding: 5px 10px;
+      text-align: center;
+      vertical-align: bottom;
+
+      .edit-state {
+        color: $primary-blue;
+        margin: 0 5px;
+      }
+
+      .active-state {
+        background: darken(#f4f4f4, 20%);
+        border-radius: 3px;
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 200;
+        padding: 3px;
+        text-transform: uppercase;
+      }
+
+      &:hover {
+        background: darken(#f4f4f4, 10%);
+      }
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &.active {
+        background: $primary-blue;
+        color: $white;
+
+        .edit-state {
+          color: $white;
+        }
+      }
+    }
+  }
+
+  .phase-tab-content {
+    padding: 10px;
+  }
+
+  .edit-state {
+    color: $primary-blue;
+    margin: 0 5px;
+  }
+
+  .active-state {
+    background: darken(#f4f4f4, 20%);
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 200;
+    padding: 3px;
+    text-transform: uppercase;
+  }
+}

@@ -90,6 +90,7 @@ import { AlandaVarRoleUserSelectComponent } from './form/components/var-role-use
 import { AlandaVarDisplayComponent } from './form/components/var-display/var-display.component';
 import { AlandaPropCheckboxComponent } from './form/components/prop-checkbox/prop-checkbox.component';
 import { AlandaBadgeComponent } from './components/badge/badge.component';
+import { AlandaPhaseTabComponent } from './components/phase-tab/phase-tab.component';
 
 @NgModule({
   imports: [
@@ -170,6 +171,7 @@ import { AlandaBadgeComponent } from './components/badge/badge.component';
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
     AlandaBadgeComponent,
+    AlandaPhaseTabComponent
   ],
   exports: [
     PermissionModule,
@@ -208,6 +210,7 @@ import { AlandaBadgeComponent } from './components/badge/badge.component';
     AlandaPropCheckboxComponent,
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
+    AlandaPhaseTabComponent
   ],
   entryComponents: [
     RelateDialogComponent,

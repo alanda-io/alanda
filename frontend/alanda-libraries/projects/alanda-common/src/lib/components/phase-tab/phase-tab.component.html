@@ -1,0 +1,32 @@
+<div class="phase-tab">
+  <div class="phase-tab-header">
+    <div *ngFor="let item of items; let i = index" [ngClass]="{'header-item': true, 'active': i === activeItemIndex}" (click)="selectTab(i, $event)">
+      <span class="header-text">{{ item.header }}</span>
+      <div class="header-state" *ngIf="item.state">
+        <p-menu #menu [popup]="true" [model]="menuItems" appendTo="body"></p-menu>
+        <span class="fa fa-cog edit-state" (click)="menu.toggle($event)"></span> <span class="active-state">{{ item.state }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-tab-content">
+    {{ items[activeItemIndex].content }}
+  </div>
+</div>
+
+
+<p-tabView class="phase-tab">
+  <p-tabPanel *ngFor="let item of items; let i = index" [selected]="i == 0">
+    <ng-template pTemplate="header">
+      <span class="header-text">{{ item.header }}</span>
+      <div class="header-state" *ngIf="item.state">
+        <p-menu #menu [popup]="true" [model]="menuItems" appendTo="body"></p-menu>
+        <span class="fa fa-cog edit-state" (click)="menu.toggle($event)"></span> <span class="active-state">{{ item.state }}</span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="content">
+      {{ item.content }}
+    </ng-template>
+  </p-tabPanel>
+</p-tabView>
+
