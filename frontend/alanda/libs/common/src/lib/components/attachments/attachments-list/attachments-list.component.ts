@@ -6,7 +6,7 @@ import { AlandaDocumentApiService } from '../../../api/documentApi.service';
 @Component({
   selector: 'attachments-list',
   templateUrl: './attachments-list.component.html',
-  styleUrls: ['./attachments-list.component.scss']
+  styleUrls: ['./attachments-list.component.scss'],
 })
 export class AttachmentsListComponent implements OnInit {
   @Input() currentFiles: SimpleDocument[];
@@ -16,19 +16,24 @@ export class AttachmentsListComponent implements OnInit {
   selectionValue: SimpleDocument;
   fileColumns: any[];
   previewExtensions = ['jpg', 'jpeg', 'gif', 'png', 'pdf'];
-  previewContent: {id: string; pdf: boolean};
+  previewContent: { id: string; pdf: boolean };
 
   constructor(
     private readonly documentService: AlandaDocumentApiService,
-    public sanitizer: DomSanitizer
+    public sanitizer: DomSanitizer,
   ) {}
 
   ngOnInit() {
     this.fileColumns = [
       { field: 'name', header: 'Name', sort: true },
-      { field: 'lastModified', header: 'Last Modified', prio: 'ui-p-5', sort: true },
+      {
+        field: 'lastModified',
+        header: 'Last Modified',
+        prio: 'ui-p-5',
+        sort: true,
+      },
       { field: 'size', header: 'Size', sort: true },
-      { field: 'action', header: 'Action', sort: false }
+      { field: 'action', header: 'Action', sort: false },
     ];
   }
 
@@ -41,7 +46,14 @@ export class AttachmentsListComponent implements OnInit {
   }
 
   download(fileId: number): string {
-    return this.documentService.getDownloadUrl(this.data.refObjectType, this.data.guid, this.data.selectedNode.id, fileId, true, this.data.selectedNode.mapping);
+    return this.documentService.getDownloadUrl(
+      this.data.refObjectType,
+      this.data.guid,
+      this.data.selectedNode.id,
+      fileId,
+      true,
+      this.data.selectedNode.mapping,
+    );
   }
 
   previewAllowed(fileName: string): boolean {
@@ -50,11 +62,17 @@ export class AttachmentsListComponent implements OnInit {
   }
 
   deleteFile(file: SimpleDocument) {
-    this.documentService.deleteFile(this.data.refObjectType, this.data.guid, this.data.selectedNode.id, +file.guid, this.data.selectedNode.mapping).subscribe(
-      (res) => {
+    this.documentService
+      .deleteFile(
+        this.data.refObjectType,
+        this.data.guid,
+        this.data.selectedNode.id,
+        +file.guid,
+        this.data.selectedNode.mapping,
+      )
+      .subscribe((res) => {
         this.currentFiles.splice(this.currentFiles.indexOf(file), 1);
         this.onDeleteFile.emit();
-      }
-    );
+      });
   }
 }

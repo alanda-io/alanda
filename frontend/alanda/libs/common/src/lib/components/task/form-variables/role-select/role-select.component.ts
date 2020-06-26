@@ -27,10 +27,10 @@ export class AlandaSelectRoleComponent implements OnInit {
   @Input() type: string; // 'user' or 'group', determines if suggestions should be of type group or user
   @Input() displayName: string;
   @Input() roleName: string;
-  @Input() onlyInherited?: boolean = false; // if type === user and if set to true, only include users who have the role assigned through a group
-  @Input() inherited?: boolean = false; // this will replace onlyinherited above when it's done and its gona be much better zapperlott
+  @Input() onlyInherited = false; // if type === user and if set to true, only include users who have the role assigned through a group
+  @Input() inherited = false; // this will replace onlyinherited above when it's done and its gona be much better zapperlott
   @Input() groupFilter?: string[]; // if type === user, additional filtering for groups is possible
-  @Input() grouping?: boolean = false; // if type === user, group users by their groups in dropdown
+  @Input() grouping = false; // if type === user, group users by their groups in dropdown
   // TODO: @Input() parent?: SelectRoleComponent;
   @Input() formName: string;
 
@@ -39,7 +39,7 @@ export class AlandaSelectRoleComponent implements OnInit {
     if (rootFormGroup) {
       rootFormGroup.addControl(
         `${SELECTOR}-${this.roleName}`,
-        this.roleSelectFormGroup
+        this.roleSelectFormGroup,
       );
     }
   }
@@ -57,7 +57,7 @@ export class AlandaSelectRoleComponent implements OnInit {
     private readonly userService: AlandaUserApiService,
     private readonly propService: AlandaPropertyApiService,
     private readonly groupService: AlandaGroupApiService,
-    private readonly roleService: AlandaRoleApiService
+    private readonly roleService: AlandaRoleApiService,
   ) {}
 
   ngOnInit() {
@@ -69,7 +69,7 @@ export class AlandaSelectRoleComponent implements OnInit {
       if (!this.onlyInherited) {
         if (this.grouping) {
           console.warn(
-            'grouping = true is not allowed when onlyInherited is set to true'
+            'grouping = true is not allowed when onlyInherited is set to true',
           );
         } else {
           this.options = [];
@@ -79,7 +79,7 @@ export class AlandaSelectRoleComponent implements OnInit {
               mergeMap((role) => {
                 this.role = role;
                 return this.userService.getUsersForRole(role.guid);
-              })
+              }),
             )
             .subscribe((users) => this.addUsersToOptions(users));
         }
@@ -92,12 +92,12 @@ export class AlandaSelectRoleComponent implements OnInit {
       }
       if (this.groupFilter) {
         console.warn(
-          'groupFilter input has no effect when type is set to group'
+          'groupFilter input has no effect when type is set to group',
         );
       }
       if (this.onlyInherited) {
         console.warn(
-          'onlyInherited input has no effect when type is set to group'
+          'onlyInherited input has no effect when type is set to group',
         );
       }
       this.optionsGrouped = [];
@@ -123,7 +123,7 @@ export class AlandaSelectRoleComponent implements OnInit {
             mappedUsers.push(
               ...users.map((user) => {
                 return { label: user.displayName, value: user.guid };
-              })
+              }),
             );
             this.optionsGrouped.push({
               label: group.longName,
@@ -159,7 +159,7 @@ export class AlandaSelectRoleComponent implements OnInit {
           if (this.grouping) {
             this.optionsGrouped.forEach((group) => {
               const filteredGroup = group.items.filter(
-                (item) => item.value === user.guid
+                (item) => item.value === user.guid,
               );
               if (filteredGroup.length > 0) {
                 const item = filteredGroup[0];
@@ -177,8 +177,8 @@ export class AlandaSelectRoleComponent implements OnInit {
         .get(null, 'group', this.project.guid, 'role_grp_' + this.roleName)
         .pipe(
           concatMap((res) =>
-            this.groupService.getGroupByGuid(Number(res.value))
-          )
+            this.groupService.getGroupByGuid(Number(res.value)),
+          ),
         )
         .subscribe((group) => {
           if (group) {
@@ -201,7 +201,7 @@ export class AlandaSelectRoleComponent implements OnInit {
           'user',
           this.project.guid,
           'role_' + this.roleName,
-          selected.value
+          selected.value,
         )
         .subscribe();
     } else if (this.type === 'group') {
@@ -212,7 +212,7 @@ export class AlandaSelectRoleComponent implements OnInit {
           'group',
           this.project.guid,
           'role_grp_' + this.roleName,
-          selected.value
+          selected.value,
         )
         .subscribe();
     }

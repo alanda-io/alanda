@@ -5,7 +5,7 @@ export interface SimpleDocument {
   path?: string;
   mediaType?: string;
   lastModified?: string;
-  size?: Number;
+  size?: number;
   folder?: boolean;
   versionString?: string;
   label?: string[];

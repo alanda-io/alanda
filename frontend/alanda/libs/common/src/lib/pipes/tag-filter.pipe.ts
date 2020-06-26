@@ -2,10 +2,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { AlandaComment } from '../api/models/comment';
 
 @Pipe({
-  name: 'tagFilter'
+  name: 'tagFilter',
 })
 export class TagFilterPipe implements PipeTransform {
-  transform(comments: AlandaComment[], allowedTags: string[], filterEnabled: boolean): AlandaComment[] {
+  transform(
+    comments: AlandaComment[],
+    allowedTags: string[],
+    filterEnabled: boolean,
+  ): AlandaComment[] {
     if (!filterEnabled) {
       return comments;
     }

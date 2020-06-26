@@ -42,7 +42,8 @@ export class AlandaMonitorAPIService {
         name: 'Prio',
         field: 'project.priority',
         width: '40',
-        template: '{\'ng-prio\': true, \'ng-prio-low\': project.priority == 0, \'ng-prio-medium\': project.priority == 1, \'ng-prio-high\': project.priority == 2}',
+        template:
+          "{'ng-prio': true, 'ng-prio-low': project.priority == 0, 'ng-prio-medium': project.priority == 1, 'ng-prio-high': project.priority == 2}",
       },
       { displayName: 'Tag', name: 'Tag', field: 'project.tag' },
       {
@@ -90,7 +91,8 @@ export class AlandaMonitorAPIService {
         name: 'Priority',
         field: 'project.priority',
         width: 70,
-        template: '{\'ng-prio\': project != null, \'ng-prio-low\': project != null && project.priority == 0, \'ng-prio-medium\': project != null && project.priority == 1, \'ng-prio-high\': project != null && project.priority == 2}',
+        template:
+          "{'ng-prio': project != null, 'ng-prio-low': project != null && project.priority == 0, 'ng-prio-medium': project != null && project.priority == 1, 'ng-prio-high': project != null && project.priority == 2}",
       },
       {
         displayName: 'Project Tag',
@@ -129,7 +131,8 @@ export class AlandaMonitorAPIService {
         name: 'Priority',
         field: 'project.priority',
         width: 70,
-        template: '{\'ng-prio\': project != null, \'ng-prio-low\': project != null && project.priority == 0, \'ng-prio-medium\': project != null && project.priority == 1, \'ng-prio-high\': project != null && project.priority == 2}',
+        template:
+          "{'ng-prio': project != null, 'ng-prio-low': project != null && project.priority == 0, 'ng-prio-medium': project != null && project.priority == 1, 'ng-prio-high': project != null && project.priority == 2}",
       },
       {
         displayName: 'Project Tag',
@@ -176,13 +179,17 @@ export class AlandaMonitorAPIService {
 
   public getTaskListLayouts(user: AlandaUser): any {
     let layouts: any[] = Object.keys(this.taskLayouts).map(
-      (key) => this.taskLayouts[key]
+      (key) => this.taskLayouts[key],
     );
     layouts = layouts.filter((layout) => {
       if (Authorizations.hasRole('Admin', user)) {
         return layout;
       } else {
-        return Authorizations.hasPermission(user, 'task:layout:' + layout.name, null);
+        return Authorizations.hasPermission(
+          user,
+          'task:layout:' + layout.name,
+          null,
+        );
       }
     });
     layouts.push(this.taskLayouts.default);

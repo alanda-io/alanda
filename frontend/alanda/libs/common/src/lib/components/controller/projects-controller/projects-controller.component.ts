@@ -14,7 +14,7 @@ export interface ProjectControllerState extends BaseState {
 @Component({
   templateUrl: './projects-controller.component.html',
   styleUrls: [],
-  providers: [RxState]
+  providers: [RxState],
 })
 export class AlandaProjectsControllerComponent {
   activeTab = 0;
@@ -35,35 +35,39 @@ export class AlandaProjectsControllerComponent {
   // );
 
   routerParams$ = this.route.params.pipe(
-    map(p => p.projectId),
+    map((p) => p.projectId),
     distinctUntilChanged(),
   );
 
   fetchProjectByProjectId$ = this.routerParams$.pipe(
     switchMap((projectId) => {
       return this.projectService.getProjectByProjectId(projectId);
-    })
+    }),
   );
 
   getPidFromProject$ = this.state.select('project').pipe(
     map((project: AlandaProject) => {
-      return project.processes.find(proc => (proc.relation === 'MAIN')).processInstanceId;
-    })
+      return project.processes.find((proc) => proc.relation === 'MAIN')
+        .processInstanceId;
+    }),
   );
 
   forwardByType$ = this.state.select('project').pipe(
     tap((project: AlandaProject) => {
-      this.router.navigate([project.projectTypeIdName.toLowerCase()], { relativeTo: this.route });
-    })
+      this.router.navigate([project.projectTypeIdName.toLowerCase()], {
+        relativeTo: this.route,
+      });
+    }),
   );
 
-  constructor(private readonly route: ActivatedRoute,
+  constructor(
+    private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly projectService: AlandaProjectApiService,
-    public state: RxState<ProjectControllerState>) {
+    public state: RxState<ProjectControllerState>,
+  ) {
     this.state.connect('project', this.fetchProjectByProjectId$);
     this.state.connect('pid', this.getPidFromProject$);
     this.state.hold(this.forwardByType$);
   }
 }
-

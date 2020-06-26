@@ -17,7 +17,7 @@ import {
   APP_CONFIG,
   AlandaCommonModule,
   AlandaProjectPropertiesService,
-  PermissionModule
+  PermissionModule,
 } from '@alanda/common';
 import { ALANDA_CONFIG } from './app.settings';
 import { ProjectPropertiesService } from './core/services/projectproperties.service';

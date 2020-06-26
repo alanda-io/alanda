@@ -8,8 +8,7 @@ import { MessageService, LazyLoadEvent } from 'primeng/api';
 @Component({
   selector: 'alanda-permission-management',
   templateUrl: './permission-management.component.html',
-  styleUrls: ['./permission-management.component.scss']
-
+  styleUrls: ['./permission-management.component.scss'],
 })
 export class AlandaPermissionManagementComponent implements OnInit {
   permissions: AlandaPermission[];
@@ -26,7 +25,11 @@ export class AlandaPermissionManagementComponent implements OnInit {
 
   @ViewChild('table') turboTable: Table;
 
-  constructor(private readonly permissionService: AlandaPermissionApiService, private readonly fb: FormBuilder, private readonly messageService: MessageService) {}
+  constructor(
+    private readonly permissionService: AlandaPermissionApiService,
+    private readonly fb: FormBuilder,
+    private readonly messageService: MessageService,
+  ) {}
 
   ngOnInit() {
     this.initPermissionForm();
@@ -34,15 +37,14 @@ export class AlandaPermissionManagementComponent implements OnInit {
 
   private initPermissionForm() {
     this.permissionForm = this.fb.group({
-      key: ['', Validators.required]
+      key: ['', Validators.required],
     });
   }
 
   onLoadPermissions(event: LazyLoadEvent) {
-    this.permissionService.getPermissions().subscribe(res => {
+    this.permissionService.getPermissions().subscribe((res) => {
       this.permissions = res;
-    }
-    );
+    });
   }
 
   onFormSubmit() {
@@ -80,18 +82,38 @@ export class AlandaPermissionManagementComponent implements OnInit {
 
   private createPermission(permission: AlandaPermission) {
     this.permissionService.save(permission).subscribe(
-      res => {
-        this.messageService.add({ severity: 'success', summary: 'Create permission', detail: 'Permission has been created' });
+      (res) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Create permission',
+          detail: 'Permission has been created',
+        });
         this.turboTable.reset();
       },
-      error => this.messageService.add({ severity: 'error', summary: 'Create permission', detail: error.message }));
+      (error) =>
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Create permission',
+          detail: error.message,
+        }),
+    );
   }
 
   private updatePermission(permission: AlandaPermission) {
     this.permissionService.update(permission).subscribe(
-      res => {
-        this.messageService.add({ severity: 'success', summary: 'Update permission', detail: 'Permission has been updated' });
+      (res) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Update permission',
+          detail: 'Permission has been updated',
+        });
       },
-      error => this.messageService.add({ severity: 'error', summary: 'Update permission', detail: error.message }));
+      (error) =>
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Update permission',
+          detail: error.message,
+        }),
+    );
   }
 }

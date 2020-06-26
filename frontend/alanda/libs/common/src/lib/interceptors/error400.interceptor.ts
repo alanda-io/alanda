@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+} from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -7,16 +12,19 @@ import { catchError } from 'rxjs/operators';
 export class Error400Interceptor implements HttpInterceptor {
   constructor() {}
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler,
+  ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
-      catchError(error => {
+      catchError((error) => {
         if (error.status === 401) {
           console.log('error', error);
           location.reload(true);
         }
         const err = error.message || error.statusText;
         return throwError(err);
-      })
+      }),
     );
   }
 }

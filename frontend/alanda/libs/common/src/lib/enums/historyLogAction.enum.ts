@@ -4,5 +4,5 @@ export enum HistoryLogAction {
   EDIT = 'EDIT',
   CANCEL = 'CANCEL',
   START = 'START',
-  LOG = 'LOG'
+  LOG = 'LOG',
 }

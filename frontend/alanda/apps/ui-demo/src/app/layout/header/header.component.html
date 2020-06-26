@@ -2,9 +2,11 @@
 <div [@autoHide]="autoHide ? 'open' : 'closed'" class="header-container">
   <p-menubar [model]="items">
     <div class="sub-menu" *ngIf="userService.user$ | async as user">
-      <span>{{user.firstName}} {{user.surname}}</span>
-      <span *ngIf="user.runAs"> ( logged in as {{user.runAs}} <i class="pi pi-user-minus" (click)="releaseRunAs()"></i>)</span>
+      <span>{{ user.firstName }} {{ user.surname }}</span>
+      <span *ngIf="user.runAs">
+        ( logged in as {{ user.runAs }}
+        <i class="pi pi-user-minus" (click)="releaseRunAs()"></i>)</span
+      >
     </div>
-
   </p-menubar>
 </div>

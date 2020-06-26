@@ -1,37 +1,53 @@
 <p-panel [toggleable]="true" [collapsed]="true" (onAfterToggle)="togglePanel()">
   <p-header>
     <span class="ui-panel-title">
-    Attachments
-        <p-button label="{{fileCount}}" styleClass="ui-button-rounded"></p-button>
+      Attachments
+      <p-button
+        label="{{ fileCount }}"
+        styleClass="ui-button-rounded"
+      ></p-button>
     </span>
   </p-header>
-  <div class = "p-grid">
+  <div class="p-grid">
     <div class="p-col-3">
-        <attachments-tree [treeNode] = "treeNode" (nodeChangedEvent)="onSelectedNodeChange($event)"></attachments-tree>
+      <attachments-tree
+        [treeNode]="treeNode"
+        (nodeChangedEvent)="onSelectedNodeChange($event)"
+      ></attachments-tree>
     </div>
     <div class="p-col">
-    <a [href]="downloadAllUrl">
-      <p-button class="download-all" type="button" icon="fa fa-download" label="Download all" [disabled]="fileCount === 0"></p-button>
-    </a>
+      <a [href]="downloadAllUrl">
+        <p-button
+          class="download-all"
+          type="button"
+          icon="fa fa-download"
+          label="Download all"
+          [disabled]="fileCount === 0"
+        ></p-button>
+      </a>
       <div class="p-grid">
         <div class="p-col-12 p-nogutter">
-            <attachments-list [data]="data" [currentFiles]="currentFiles" (onDeleteFile)="onDeleteFile()"></attachments-list>
+          <attachments-list
+            [data]="data"
+            [currentFiles]="currentFiles"
+            (onDeleteFile)="onDeleteFile()"
+          ></attachments-list>
         </div>
         <div class="p-col-12 p-md-12 p-nogutter">
-
-          <p-fileUpload #fileUploader
+          <p-fileUpload
+            #fileUploader
             name="file"
-            url="{{uploaderUrl}}"
+            url="{{ uploaderUrl }}"
             multiple="multiple"
             (onUpload)="onUpload($event)"
             chooseLabel="Choose Files"
             auto="true"
-            uploadLabel="Upload">
+            uploadLabel="Upload"
+          >
             <ng-template pTemplate="content">
               <div>Drag files here to upload</div>
             </ng-template>
           </p-fileUpload>
-
         </div>
       </div>
     </div>

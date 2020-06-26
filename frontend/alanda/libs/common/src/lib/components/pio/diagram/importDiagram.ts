@@ -6,14 +6,14 @@ import { Observable } from 'rxjs';
  * into the passed BpmnJS instance.
  */
 export const importDiagram = (bpmnJS) => <Object>(source: Observable<string>) =>
-  new Observable<string>(observer => {
+  new Observable<string>((observer) => {
     const subscription = source.subscribe({
       next(res: any) {
         // canceling the subscription as we are interested
         // in the first diagram to display only
         subscription.unsubscribe();
 
-        bpmnJS.importXML(res.bpmn20Xml, function(err, warnings) {
+        bpmnJS.importXML(res.bpmn20Xml, function (err, warnings) {
           if (err) {
             observer.error(err);
           } else {
@@ -29,6 +29,6 @@ export const importDiagram = (bpmnJS) => <Object>(source: Observable<string>) =>
       },
       complete() {
         observer.complete();
-      }
+      },
     });
   });

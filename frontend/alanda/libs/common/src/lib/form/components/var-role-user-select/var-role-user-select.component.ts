@@ -1,9 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  AbstractControl,
-} from '@angular/forms';
+import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
 import { AlandaTaskApiService } from '../../../api/taskApi.service';
 import { AlandaUserApiService } from '../../../api/userApi.service';
 import { AlandaUser } from '../../../api/models/user';
@@ -29,7 +25,7 @@ export class AlandaVarRoleUserSelectComponent implements OnInit {
     if (rootFormGroup != null) {
       rootFormGroup.addControl(
         `${SELECTOR}-${this.variableName}`,
-        this.selectForm
+        this.selectForm,
       );
     }
   }
@@ -41,7 +37,7 @@ export class AlandaVarRoleUserSelectComponent implements OnInit {
   constructor(
     private readonly taskService: AlandaTaskApiService,
     private readonly userService: AlandaUserApiService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
   ) {
     this.items = [];
   }
@@ -56,9 +52,9 @@ export class AlandaVarRoleUserSelectComponent implements OnInit {
         concatMap((ret) => {
           return this.taskService.getVariable(
             this.task.task_id,
-            this.variableName
+            this.variableName,
           );
-        })
+        }),
       )
       .subscribe((resp) => {
         const user = this.items.find((item) => {

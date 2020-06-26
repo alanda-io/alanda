@@ -12,7 +12,7 @@ export class AlandaPermissionApiService extends AlandaExceptionHandlingService {
 
   constructor(
     private readonly http: HttpClient,
-    @Inject(APP_CONFIG) config: AppSettings
+    @Inject(APP_CONFIG) config: AppSettings,
   ) {
     super();
     this.endpointUrl = config.API_ENDPOINT + '/permission';

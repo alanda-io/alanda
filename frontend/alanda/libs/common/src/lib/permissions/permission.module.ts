@@ -3,11 +3,9 @@ import { CommonModule } from '@angular/common';
 import { PermissionsDirective } from './permissions.directive';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   declarations: [PermissionsDirective],
-  exports: [PermissionsDirective]
+  exports: [PermissionsDirective],
 })
 // forRoot for UserService
-export class PermissionModule { }
+export class PermissionModule {}

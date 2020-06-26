@@ -1,31 +1,54 @@
 <p-panel class="permission-management">
   <p-header>Permission Management</p-header>
   <div class="p-grid ui-fluid">
-
     <!-- Group Table-->
 
     <div class="p-col-12 p-md-4">
-      <p-table #table [value]="permissions" [columns]="permissionColumns" dataKey="guid" [paginator]="true" [rows]="15"
-               [totalRecords]="totalRecords" [lazy]="true" [loading]="loading" (onRowUnselect)="onPermissionUnselected()"
-               [autoLayout]="true" selectionMode="single" scrollHeight="320px" (onRowSelect)="onPermissionSelected($event)"
-               [style]="{'font-size': '12px'}" (onLazyLoad)="onLoadPermissions($event)">
+      <p-table
+        #table
+        [value]="permissions"
+        [columns]="permissionColumns"
+        dataKey="guid"
+        [paginator]="true"
+        [rows]="15"
+        [totalRecords]="totalRecords"
+        [lazy]="true"
+        [loading]="loading"
+        (onRowUnselect)="onPermissionUnselected()"
+        [autoLayout]="true"
+        selectionMode="single"
+        scrollHeight="320px"
+        (onRowSelect)="onPermissionSelected($event)"
+        [style]="{ 'font-size': '12px' }"
+        (onLazyLoad)="onLoadPermissions($event)"
+      >
         <ng-template pTemplate="header" let-columns>
           <tr>
             <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-              <strong>{{col.header}}</strong>
+              <strong>{{ col.header }}</strong>
               <p-sortIcon [field]="col.field"></p-sortIcon>
             </th>
           </tr>
           <tr>
             <th *ngFor="let col of columns">
-              <input pInputText type="text" (input)="table.filter($event.target.value, col.field, col.filterMatchMode)">
+              <input
+                pInputText
+                type="text"
+                (input)="
+                  table.filter(
+                    $event.target.value,
+                    col.field,
+                    col.filterMatchMode
+                  )
+                "
+              />
             </th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-permission let-columns="columns">
           <tr [pSelectableRow]="permission">
             <td *ngFor="let col of columns">
-              {{permission[col.field]}}
+              {{ permission[col.field] }}
             </td>
           </tr>
         </ng-template>
@@ -40,21 +63,38 @@
           <div class="p-grid">
             <div class="p-col-4">
               <form (ngSubmit)="onFormSubmit()" [formGroup]="permissionForm">
-
                 <div class="input-field">
                   <span class="ui-float-label">
-                    <input id="input-guid" type="text" pInputText formControlName="key">
+                    <input
+                      id="input-guid"
+                      type="text"
+                      pInputText
+                      formControlName="key"
+                    />
                     <label for="input-guid">Permission key</label>
                   </span>
-                  <span class="valid-error" *ngIf="permissionForm.dirty && !permissionForm.get('key').valid">Please enter a permission key</span>
+                  <span
+                    class="valid-error"
+                    *ngIf="
+                      permissionForm.dirty && !permissionForm.get('key').valid
+                    "
+                    >Please enter a permission key</span
+                  >
                 </div>
 
                 <div class="p-grid">
                   <div class="p-col-12 p-md-6">
-                    <button pButton type="submit" [label]="selectedPermission ? 'Update Permission' : 'Create Permission'"></button>
+                    <button
+                      pButton
+                      type="submit"
+                      [label]="
+                        selectedPermission
+                          ? 'Update Permission'
+                          : 'Create Permission'
+                      "
+                    ></button>
                   </div>
                 </div>
-
               </form>
             </div>
           </div>

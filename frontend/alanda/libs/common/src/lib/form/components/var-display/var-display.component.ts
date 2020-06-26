@@ -14,9 +14,7 @@ export class AlandaVarDisplayComponent implements OnInit {
 
   value: any;
 
-  constructor(
-    private readonly taskService: AlandaTaskApiService,
-  ) {}
+  constructor(private readonly taskService: AlandaTaskApiService) {}
 
   ngOnInit(): void {
     if (this.type === '') {

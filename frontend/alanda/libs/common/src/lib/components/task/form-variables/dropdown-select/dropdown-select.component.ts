@@ -26,19 +26,28 @@ export class AlandaDropdownSelectComponent implements OnInit {
     user: new FormControl(null),
   });
 
-  constructor(private readonly userService: AlandaUserApiService, private readonly propertyService: AlandaPropertyApiService) {}
+  constructor(
+    private readonly userService: AlandaUserApiService,
+    private readonly propertyService: AlandaPropertyApiService,
+  ) {}
 
   ngOnInit() {
     const serverOptions: ServerOptions = {
       pageNumber: 1,
       pageSize: 999999,
       filterOptions: {},
-      sortOptions: {}
+      sortOptions: {},
     };
     if (!this.groupId) {
-      this.userService.getUsers(serverOptions).subscribe(res => { this.users = res.results; this.load() });
+      this.userService.getUsers(serverOptions).subscribe((res) => {
+        this.users = res.results;
+        this.load();
+      });
     } else {
-      this.userService.getUsersByGroupId(this.groupId).subscribe(res => { this.users = res; this.load() });
+      this.userService.getUsersByGroupId(this.groupId).subscribe((res) => {
+        this.users = res;
+        this.load();
+      });
     }
     this.initFormGroup();
   }
@@ -50,17 +59,25 @@ export class AlandaDropdownSelectComponent implements OnInit {
   }
 
   save() {
-    this.propertyService.setString(null, null, this.project.guid, this.key, this.userForm.get('user').value.displayName).subscribe();
+    this.propertyService
+      .setString(
+        null,
+        null,
+        this.project.guid,
+        this.key,
+        this.userForm.get('user').value.displayName,
+      )
+      .subscribe();
   }
 
   load() {
-    this.propertyService.get(null, null, this.project.guid, this.key).subscribe(
-      res => {
+    this.propertyService
+      .get(null, null, this.project.guid, this.key)
+      .subscribe((res) => {
         if (res.value) {
-          const user = this.users.filter(u => u.displayName === res.value)[0];
+          const user = this.users.filter((u) => u.displayName === res.value)[0];
           this.userForm.get('user').setValue(user);
         }
-      }
-    );
+      });
   }
 }

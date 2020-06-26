@@ -36,7 +36,7 @@ const routes: Routes = [
         component: AlandaFormsControllerComponent,
         loadChildren: () =>
           import('./features/vacation/vacation.module').then(
-            (m) => m.VacationModule
+            (m) => m.VacationModule,
           ),
       },
     ],
@@ -49,7 +49,7 @@ const routes: Routes = [
         path: 'vacation',
         loadChildren: () =>
           import('./features/vacation/vacation.module').then(
-            (m) => m.VacationModule
+            (m) => m.VacationModule,
           ),
       },
     ],

@@ -4,7 +4,10 @@ import { AlandaComment } from '../../../api/models/comment';
 import { AlandaCommentTag } from '../../../api/models/commentTag';
 import { AlandaCommentApiService } from '../../../api/commentApi.service';
 import { RxState } from '@rx-angular/state';
-import { AlandaCommentsService, AlandaCommentState } from '../../../services/comments.service';
+import {
+  AlandaCommentsService,
+  AlandaCommentState,
+} from '../../../services/comments.service';
 
 /**
  * Display component for a comment and a comment reply
@@ -12,7 +15,7 @@ import { AlandaCommentsService, AlandaCommentState } from '../../../services/com
 @Component({
   selector: 'alanda-comment',
   templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss']
+  styleUrls: ['./comment.component.scss'],
 })
 export class AlandaCommentComponent extends RxState<AlandaCommentState> {
   @Input() comment: AlandaComment;
@@ -22,13 +25,14 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState> {
   loadingInProgress: boolean;
 
   commentReplyForm = this.fb.group({
-    replyText: ['', Validators.required]
+    replyText: ['', Validators.required],
   });
 
   constructor(
     private readonly commentApiService: AlandaCommentApiService,
     private readonly commentsService: AlandaCommentsService,
-    private readonly fb: FormBuilder) {
+    private readonly fb: FormBuilder,
+  ) {
     super();
   }
 
@@ -45,7 +49,9 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState> {
    */
   autofocus(): void {
     const area = this.textArea;
-    setTimeout(function() { area.nativeElement.focus() });
+    setTimeout(function () {
+      area.nativeElement.focus();
+    });
   }
 
   onSubmitReply(): void {
@@ -55,24 +61,28 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState> {
     }
 
     this.loadingInProgress = true;
-    this.commentApiService.postComment({
-      text: this.commentReplyForm.get('replyText').value,
-      taskId: this.comment.taskId,
-      procInstId: this.comment.procInstId,
-      replyTo: this.comment.guid
-    }).subscribe(
-      res => {
+    this.commentApiService
+      .postComment({
+        text: this.commentReplyForm.get('replyText').value,
+        taskId: this.comment.taskId,
+        procInstId: this.comment.procInstId,
+        replyTo: this.comment.guid,
+      })
+      .subscribe((res) => {
         this.refreshComment();
         this.commentReplyForm.reset();
         this.loadingInProgress = false;
-      }
-    );
+      });
   }
 
   refreshComment(): void {
-    this.commentApiService.getCommentsforPid(this.comment.procInstId).subscribe(res => {
-      this.comment = res.comments.filter(comment => comment.guid === this.comment.guid)[0];
-      this.comment = this.commentsService.processComment(this.comment);
-    });
+    this.commentApiService
+      .getCommentsforPid(this.comment.procInstId)
+      .subscribe((res) => {
+        this.comment = res.comments.filter(
+          (comment) => comment.guid === this.comment.guid,
+        )[0];
+        this.comment = this.commentsService.processComment(this.comment);
+      });
   }
 }

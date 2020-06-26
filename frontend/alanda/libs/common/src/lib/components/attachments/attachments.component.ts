@@ -55,7 +55,7 @@ export class AlandaAttachmentsComponent implements OnInit {
         this.data.refObjectType,
         this.data.guid,
         true,
-        this.data.mappings
+        this.data.mappings,
       )
       .subscribe((res) => {
         res.name = this.data.idName;
@@ -102,7 +102,7 @@ export class AlandaAttachmentsComponent implements OnInit {
         this.data.guid,
         this.data.selectedNode.id,
         null,
-        this.data.selectedNode.mapping
+        this.data.selectedNode.mapping,
       )
       .subscribe((res) => {
         this.currentFiles = res;
@@ -118,13 +118,13 @@ export class AlandaAttachmentsComponent implements OnInit {
       this.data.refObjectType,
       this.data.guid,
       this.data.selectedNode.id,
-      this.data.selectedNode.mapping
+      this.data.selectedNode.mapping,
     );
     this.uploaderUrl = this.documentService.getFolderUrl(
       this.data.refObjectType,
       this.data.guid,
       this.data.selectedNode.id,
-      this.data.selectedNode.mapping
+      this.data.selectedNode.mapping,
     );
   }
 

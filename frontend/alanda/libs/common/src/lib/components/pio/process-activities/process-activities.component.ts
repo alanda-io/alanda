@@ -6,7 +6,6 @@ import { APP_CONFIG, AppSettings } from '../../../models/appSettings';
 @Component({
   selector: 'process-activities-component',
   templateUrl: './process-activities.component.html',
-  styleUrls: [],
 })
 export class ProcessActivitiesComponent implements OnInit {
   @Input() pid: string;
@@ -22,10 +21,13 @@ export class ProcessActivitiesComponent implements OnInit {
     { name: 'Start', field: 'start', width: 100 },
     { name: 'Due', field: 'due', width: 100 },
     { name: 'End', field: 'end', width: 100 },
-    { name: 'Assignee', field: 'assignee' }
+    { name: 'Assignee', field: 'assignee' },
   ];
 
-  constructor(@Inject(APP_CONFIG) private readonly config: AppSettings, private readonly http: HttpClient) {
+  constructor(
+    @Inject(APP_CONFIG) private readonly config: AppSettings,
+    private readonly http: HttpClient,
+  ) {
     this.endpointUrl = config.API_ENDPOINT + '/finder/pio/activities';
   }
 
@@ -37,10 +39,8 @@ export class ProcessActivitiesComponent implements OnInit {
     let params = new HttpParams();
     params = params.append('pid', this.pid);
     params = params.append('extendedView', String(this.extendedView));
-    this.http.get(`${this.endpointUrl}`, { params: params }).subscribe(
-      (res: any) => {
-        this.jsonResult = res;
-      }
-    );
+    this.http.get(`${this.endpointUrl}`, { params }).subscribe((res: any) => {
+      this.jsonResult = res;
+    });
   }
 }

@@ -30,7 +30,8 @@ export interface AlandaTaskFormState {
 }
 
 @Injectable({ providedIn: 'root' })
-export class AlandaTaskFormService extends RxState<AlandaTaskFormState> implements OnDestroy {
+export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
+  implements OnDestroy {
   state$ = this.select();
 
   rootForm = this.fb.group({});
@@ -41,7 +42,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState> implemen
     filter((event: RouterEvent): boolean => event instanceof NavigationEnd),
     map(() => this.router.routerState.snapshot.root),
     // @TODO if we get away from global task managing delete this line and move code
-    map((snapshot) => this.collectParams(snapshot))
+    map((snapshot) => this.collectParams(snapshot)),
     // tap((sn) => console.log("sn", sn))
   );
 
@@ -58,7 +59,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState> implemen
           .pipe(map((project) => ({ task, project })));
       }
       return of({ task });
-    })
+    }),
   );
 
   constructor(
@@ -66,7 +67,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState> implemen
     private readonly fb: FormBuilder,
     private readonly taskService: AlandaTaskApiService,
     private readonly projectService: AlandaProjectApiService,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
   ) {
     super();
     this.connect(this.fetchTaskById$);
@@ -106,7 +107,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState> implemen
             detail: `The task ${
               this.get().task.task_name
             } has been successfully completed!`,
-          })
+          }),
         ),
         switchMap((val) => {
           if (alternate != null) {
@@ -117,7 +118,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState> implemen
         }),
         tap((val) => {
           this.router.navigate(val).catch(() => {});
-        })
+        }),
       );
     } else {
       return of(this.rootForm.errors);

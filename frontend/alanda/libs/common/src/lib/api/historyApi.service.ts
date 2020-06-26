@@ -9,7 +9,10 @@ import { AlandaExceptionHandlingService } from '../services/exceptionHandling.se
 export class AlandaHistoryApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;
 
-  constructor(private readonly http: HttpClient, @Inject(APP_CONFIG) config: AppSettings) {
+  constructor(
+    private readonly http: HttpClient,
+    @Inject(APP_CONFIG) config: AppSettings,
+  ) {
     super();
     this.endpointUrl = config.API_ENDPOINT + '/history';
   }
@@ -22,7 +25,11 @@ export class AlandaHistoryApiService extends AlandaExceptionHandlingService {
         searchDto[key] = encodeURIComponent(filterOptions[key]);
       }
     }
-    return this.http.post<any[]>(`${this.endpointUrl}/search/${pageNumber}/${pageSize}`, searchDto)
+    return this.http
+      .post<any[]>(
+        `${this.endpointUrl}/search/${pageNumber}/${pageSize}`,
+        searchDto,
+      )
       .pipe(catchError(this.handleError('search', [])));
   }
 }

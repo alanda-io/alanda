@@ -28,7 +28,7 @@ export class AlandaPropSelectComponent implements OnInit {
     if (rootFormGroup) {
       rootFormGroup.addControl(
         `${SELECTOR}-${this.propertyName}`,
-        this.selectForm
+        this.selectForm,
       );
     }
   }
@@ -39,7 +39,7 @@ export class AlandaPropSelectComponent implements OnInit {
 
   constructor(
     private readonly propertyService: AlandaPropertyApiService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
   ) {}
 
   ngOnInit() {
@@ -61,7 +61,7 @@ export class AlandaPropSelectComponent implements OnInit {
         this.project.guid,
         this.propertyName,
         this.selected.value,
-        this.type
+        this.type,
       )
       .subscribe();
   }

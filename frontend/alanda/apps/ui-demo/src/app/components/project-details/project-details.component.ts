@@ -4,7 +4,7 @@ import { RxState } from '@rx-angular/state';
 import { ProjectControllerState } from '@alanda/common';
 
 @Component({
-  selector: 'project-details-component',
+  selector: 'alanda-project-details-component',
   templateUrl: './project-details.component.html',
   styleUrls: [],
 })

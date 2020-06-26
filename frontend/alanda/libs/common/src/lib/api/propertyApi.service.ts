@@ -12,7 +12,7 @@ export class AlandaPropertyApiService extends AlandaExceptionHandlingService {
 
   constructor(
     private readonly http: HttpClient,
-    @Inject(APP_CONFIG) config: AppSettings
+    @Inject(APP_CONFIG) config: AppSettings,
   ) {
     super();
     this.endpointUrl = config.API_ENDPOINT + '/pmc-property';
@@ -23,7 +23,7 @@ export class AlandaPropertyApiService extends AlandaExceptionHandlingService {
     entityType,
     projectGuid,
     key,
-    value
+    value,
   ): Observable<AlandaProperty> {
     return this.set(entityId, entityType, projectGuid, key, value, 'DATE');
   }
@@ -33,7 +33,7 @@ export class AlandaPropertyApiService extends AlandaExceptionHandlingService {
     entityType,
     projectGuid,
     key,
-    value
+    value,
   ): Observable<AlandaProperty> {
     return this.set(entityId, entityType, projectGuid, key, value, 'STRING');
   }
@@ -64,15 +64,15 @@ export class AlandaPropertyApiService extends AlandaExceptionHandlingService {
     projectGuid,
     key,
     value,
-    valueType
+    valueType,
   ): Observable<AlandaProperty> {
     const obj = {
-      entityId: entityId,
-      entityType: entityType,
+      entityId,
+      entityType,
       pmcProjectGuid: projectGuid,
-      key: key,
-      value: value,
-      valueType: valueType,
+      key,
+      value,
+      valueType,
     };
     return this.http
       .post<AlandaProperty>(`${this.endpointUrl}/set`, obj)
@@ -91,14 +91,14 @@ export class AlandaPropertyApiService extends AlandaExceptionHandlingService {
       params = params.set('pmc-project-guid', projectGuid);
     }
     return this.http
-      .get<AlandaProperty>(`${this.endpointUrl}/get`, { params: params })
+      .get<AlandaProperty>(`${this.endpointUrl}/get`, { params })
       .pipe(catchError(this.handleError<AlandaProperty>('getProperty')));
   }
 
   getPropertyWithPrefix(
     projectGuid: number,
     prefix: string,
-    delimiter?: string
+    delimiter?: string,
   ): Observable<AlandaProperty[]> {
     let params = new HttpParams();
     if (delimiter) {
@@ -107,10 +107,10 @@ export class AlandaPropertyApiService extends AlandaExceptionHandlingService {
     return this.http
       .get<AlandaProperty[]>(
         `${this.endpointUrl}/get-with-prefix/${projectGuid}/${prefix}`,
-        { params: params }
-    )
+        { params },
+      )
       .pipe(
-        catchError(this.handleError<AlandaProperty[]>('getPropertyWithPrefix'))
+        catchError(this.handleError<AlandaProperty[]>('getPropertyWithPrefix')),
       );
   }
 
@@ -132,7 +132,7 @@ export class AlandaPropertyApiService extends AlandaExceptionHandlingService {
       params = params.set('pmc-project-guid', pmcProjectGuid);
     }
     return this.http
-      .delete<void>(`${this.endpointUrl}/delete`, { params: params })
+      .delete<void>(`${this.endpointUrl}/delete`, { params })
       .pipe(catchError(this.handleError<void>('deleteProperty')));
   }
 }

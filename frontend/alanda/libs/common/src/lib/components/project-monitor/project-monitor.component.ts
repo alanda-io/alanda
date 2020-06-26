@@ -8,7 +8,7 @@ import { AlandaProjectApiService } from '../../api/projectApi.service';
 @Component({
   selector: 'alanda-project-monitor',
   templateUrl: './project-monitor.component.html',
-  styleUrls: ['./project-monitor.component.scss']
+  styleUrls: ['./project-monitor.component.scss'],
 })
 export class AlandaProjectMonitorComponent implements OnInit {
   @Input() defaultLayout: string;
@@ -23,8 +23,11 @@ export class AlandaProjectMonitorComponent implements OnInit {
 
   @ViewChild('tt') turboTable: Table;
 
-  constructor(private readonly projectService: AlandaProjectApiService, private readonly monitorApiService: AlandaMonitorAPIService,
-    public messageService: MessageService) {
+  constructor(
+    private readonly projectService: AlandaProjectApiService,
+    private readonly monitorApiService: AlandaMonitorAPIService,
+    public messageService: MessageService,
+  ) {
     this.serverOptions = {
       pageNumber: 1,
       pageSize: 15,
@@ -33,10 +36,18 @@ export class AlandaProjectMonitorComponent implements OnInit {
     };
 
     this.menuItems = [
-      { label: 'Download CSV', icon: 'pi pi-fw pi-download', command: (onclick) => this.turboTable.exportCSV() },
-      { label: 'Reset all filters', icon: 'pi pi-fw pi-times', command: (onclick) => this.turboTable.reset() },
+      {
+        label: 'Download CSV',
+        icon: 'pi pi-fw pi-download',
+        command: (onclick) => this.turboTable.exportCSV(),
+      },
+      {
+        label: 'Reset all filters',
+        icon: 'pi pi-fw pi-times',
+        command: (onclick) => this.turboTable.reset(),
+      },
     ];
-  };
+  }
 
   ngOnInit() {
     const data = this.monitorApiService.getProjectMonitorLayouts();
@@ -45,17 +56,17 @@ export class AlandaProjectMonitorComponent implements OnInit {
     }
     this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
 
-    this.selectedLayout = this.layouts.filter(layout => layout.name === 'all')[0];
+    this.selectedLayout = this.layouts.filter(
+      (layout) => layout.name === 'all',
+    )[0];
   }
 
   loadProjects(serverOptions: ServerOptions) {
     this.loading = true;
-    this.projectService.loadProjects(serverOptions).subscribe(
-      res => {
-        this.projectsData = res;
-        this.loading = false;
-      }
-    );
+    this.projectService.loadProjects(serverOptions).subscribe((res) => {
+      this.projectsData = res;
+      this.loading = false;
+    });
   }
 
   loadProjectsLazy(event: LazyLoadEvent) {
@@ -64,18 +75,21 @@ export class AlandaProjectMonitorComponent implements OnInit {
     if (event.sortField) {
       sortOptions = {};
       const dir = event.sortOrder === 1 ? 'asc' : 'desc';
-      sortOptions[event.sortField] = { dir: dir, prio: 0 };
+      sortOptions[event.sortField] = { dir, prio: 0 };
     }
     this.serverOptions.sortOptions = sortOptions;
     this.serverOptions.filterOptions = {};
     for (const key of Object.keys(this.selectedLayout.filterOptions)) {
-      this.serverOptions.filterOptions[key] = this.selectedLayout.filterOptions[key];
+      this.serverOptions.filterOptions[key] = this.selectedLayout.filterOptions[
+        key
+      ];
     }
     for (const key in event.filters) {
       this.serverOptions.filterOptions[key] = event.filters[key].value;
     }
 
-    this.serverOptions.pageNumber = event.first / this.serverOptions.pageSize + 1;
+    this.serverOptions.pageNumber =
+      event.first / this.serverOptions.pageSize + 1;
     this.loadProjects(this.serverOptions);
   }
 
@@ -83,7 +97,9 @@ export class AlandaProjectMonitorComponent implements OnInit {
     this.serverOptions.pageNumber = 1;
     this.serverOptions.filterOptions = {};
     for (const key of Object.keys(this.selectedLayout.filterOptions)) {
-      this.serverOptions.filterOptions[key] = this.selectedLayout.filterOptions[key];
+      this.serverOptions.filterOptions[key] = this.selectedLayout.filterOptions[
+        key
+      ];
     }
     this.loadProjects(this.serverOptions);
   }
@@ -91,7 +107,9 @@ export class AlandaProjectMonitorComponent implements OnInit {
   public getCondition(obj, condition) {
     if (condition === undefined) return '';
     const props = Object.keys(obj).reduce((acc, next) => `${acc} , ${next}`);
-    const evalCon = new Function(` return function ({${props}})  { return ${condition}} `);
+    const evalCon = new Function(
+      ` return function ({${props}})  { return ${condition}} `,
+    );
     return evalCon()(obj);
   }
 

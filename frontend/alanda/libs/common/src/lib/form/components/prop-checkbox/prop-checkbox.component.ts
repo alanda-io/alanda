@@ -22,7 +22,7 @@ export class AlandaPropCheckboxComponent implements OnInit {
     if (rootFormGroup) {
       rootFormGroup.addControl(
         `${SELECTOR}-${this.propertyName}`,
-        this.checkboxForm
+        this.checkboxForm,
       );
     }
   }
@@ -33,7 +33,7 @@ export class AlandaPropCheckboxComponent implements OnInit {
 
   constructor(
     private readonly propertyService: AlandaPropertyApiService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +56,7 @@ export class AlandaPropCheckboxComponent implements OnInit {
         this.project.guid,
         this.propertyName,
         this.checked.value,
-        this.type
+        this.type,
       )
       .subscribe();
   }

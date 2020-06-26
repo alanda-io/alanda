@@ -4,9 +4,7 @@ import { MessageService } from 'primeng/api';
 @NgModule({
   imports: [],
   declarations: [],
-  providers: [
-    MessageService
-  ],
+  providers: [MessageService],
 })
 export class CoreModule {
   constructor() {}

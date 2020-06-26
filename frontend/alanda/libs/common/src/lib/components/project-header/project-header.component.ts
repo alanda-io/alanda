@@ -74,7 +74,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     private readonly messageService: MessageService,
     private readonly fb: FormBuilder,
     private readonly projectService: AlandaProjectApiService,
-    private readonly propertyService: AlandaPropertyApiService
+    private readonly propertyService: AlandaPropertyApiService,
   ) {}
 
   ngOnInit(): void {
@@ -83,7 +83,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
       .pipe(
         debounceTime(1200),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        switchMap((changes) => this.updateProject(changes))
+        switchMap((changes) => this.updateProject(changes)),
       )
       .subscribe((project) => {
         this.messageService.add({
@@ -131,7 +131,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
               detail: error.message,
             });
             return of();
-          }
+          },
         );
     } else {
       return of(changes).pipe(
@@ -145,7 +145,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
             details: change.details,
           };
         }),
-        switchMap((project) => this.projectService.updateProject(project))
+        switchMap((project) => this.projectService.updateProject(project)),
       );
     }
   }
@@ -163,12 +163,12 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
       return;
     }
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-      this.propertiesService.getPropsForType(this.project.projectTypeIdName)
+      this.propertiesService.getPropsForType(this.project.projectTypeIdName),
     );
     const viewContainerRef = this.propertiesHost.viewContainerRef;
     viewContainerRef.clear();
     const componentRef = viewContainerRef.createComponent(componentFactory);
-    (<any>componentRef.instance).project = this.project;
+    (componentRef.instance as any).project = this.project;
   }
 
   private initFormGroup(): void {
@@ -182,7 +182,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     if (this.task) {
       this.projectHeaderForm.patchValue(
         { taskDueDate: new Date(this.task.due) },
-        { emitEvent: false }
+        { emitEvent: false },
       );
       this.taskDueDate = new Date(this.task.due);
     }
@@ -214,7 +214,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
             severity: 'error',
             summary: 'Delegate Task',
             detail: error.message,
-          })
+          }),
       );
     }
   }

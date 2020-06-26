@@ -12,7 +12,7 @@ import { AlandaUserApiService } from '../../../api/userApi.service';
 @Component({
   selector: 'alanda-role-management',
   templateUrl: './role-management.component.html',
-  styleUrls: ['./role-management.component.scss']
+  styleUrls: ['./role-management.component.scss'],
 })
 export class AlandaRoleManagementComponent implements OnInit {
   roles: AlandaRole[];
@@ -32,11 +32,13 @@ export class AlandaRoleManagementComponent implements OnInit {
 
   @ViewChild('table') turboTable: Table;
 
-  constructor(private readonly roleService: AlandaRoleApiService,
+  constructor(
+    private readonly roleService: AlandaRoleApiService,
     private readonly permissionService: AlandaPermissionApiService,
     private readonly messageService: MessageService,
     private readonly pmcUserService: AlandaUserApiService,
-    private readonly fb: FormBuilder) {}
+    private readonly fb: FormBuilder,
+  ) {}
 
   ngOnInit() {
     this.initRoleForm();
@@ -44,12 +46,12 @@ export class AlandaRoleManagementComponent implements OnInit {
 
   private initRoleForm() {
     this.roleForm = this.fb.group({
-      name: ['', Validators.required]
+      name: ['', Validators.required],
     });
   }
 
   onLoadRoles(event: LazyLoadEvent) {
-    this.roleService.getRoles().subscribe(res => {
+    this.roleService.getRoles().subscribe((res) => {
       this.roles = res;
       this.totalRecords = this.roles.length;
     });
@@ -66,7 +68,7 @@ export class AlandaRoleManagementComponent implements OnInit {
       this.updateRole(this.selectedRole);
     } else {
       this.createRole({
-        idName: this.roleName
+        idName: this.roleName,
       });
     }
   }
@@ -77,27 +79,49 @@ export class AlandaRoleManagementComponent implements OnInit {
 
   private loadUsers() {
     this.usersWithRole = [];
-    this.pmcUserService.getUsersForRole(this.selectedRole.guid).subscribe(users => {
-      this.usersWithRole.push(...users);
-    });
+    this.pmcUserService
+      .getUsersForRole(this.selectedRole.guid)
+      .subscribe((users) => {
+        this.usersWithRole.push(...users);
+      });
   }
 
   private updateRole(pmcRole: AlandaRole) {
     this.roleService.update(pmcRole).subscribe(
-      res => {
-        this.messageService.add({ severity: 'success', summary: 'Update Role', detail: 'Role has been updated' });
+      (res) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Update Role',
+          detail: 'Role has been updated',
+        });
         this.turboTable.reset();
       },
-      error => this.messageService.add({ severity: 'error', summary: 'Update Role', detail: error.message }));
+      (error) =>
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Update Role',
+          detail: error.message,
+        }),
+    );
   }
 
   private createRole(pmcRole: AlandaRole) {
     this.roleService.save(pmcRole).subscribe(
-      res => {
-        this.messageService.add({ severity: 'success', summary: 'Create Role', detail: 'Role has been created' });
+      (res) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Create Role',
+          detail: 'Role has been created',
+        });
         this.turboTable.reset();
       },
-      error => this.messageService.add({ severity: 'error', summary: 'Create Role', detail: error.message }));
+      (error) =>
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Create Role',
+          detail: error.message,
+        }),
+    );
   }
 
   onRoleSelect(event) {
@@ -118,24 +142,34 @@ export class AlandaRoleManagementComponent implements OnInit {
 
   private loadPermissions() {
     this.grantedPermissions = [...this.selectedRole.permissions];
-    this.permissionService.getPermissions()
-      .subscribe(result => {
-        this.availablePermissions = result.filter(all => {
-          return this.grantedPermissions.filter(assigned => {
+    this.permissionService.getPermissions().subscribe((result) => {
+      this.availablePermissions = result.filter((all) => {
+        return (
+          this.grantedPermissions.filter((assigned) => {
             return assigned.guid === all.guid;
-          }).length === 0;
-        });
+          }).length === 0
+        );
       });
+    });
   }
 
   updatePermissions() {
     this.selectedRole.permissions = [...this.grantedPermissions];
     this.roleService.update(this.selectedRole).subscribe(
-      res => {
-        this.messageService.add({ severity: 'success', summary: 'Update permissions', detail: 'Permissions have been updated' });
+      (res) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Update permissions',
+          detail: 'Permissions have been updated',
+        });
         this.turboTable.reset();
       },
-      error => this.messageService.add({ severity: 'error', summary: 'Update permissions', detail: error.message })
+      (error) =>
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Update permissions',
+          detail: error.message,
+        }),
     );
   }
 }

@@ -6,10 +6,10 @@ import { AlandaProcess } from '../api/models/process';
 import { AlandaTask } from '../api/models/task';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProjectAndProcessesService {
-  constructor() { }
+  constructor() {}
 
   mapProjectToTreeNode(project: AlandaProject): TreeNode {
     return {
@@ -20,8 +20,10 @@ export class ProjectAndProcessesService {
         start: project.createDate,
         comment: project.comment,
       },
-      children: project.processes.map(process => this.mapProcessToTreeNode(process)),
-      expanded: true
+      children: project.processes.map((process) =>
+        this.mapProcessToTreeNode(process),
+      ),
+      expanded: true,
     };
   }
 
@@ -34,8 +36,8 @@ export class ProjectAndProcessesService {
         end: process.endTime,
         comment: process.resultComment,
       },
-      children: process.tasks.map(task => this.mapTaskToTreeNode(task)),
-      expanded: true
+      children: process.tasks.map((task) => this.mapTaskToTreeNode(task)),
+      expanded: true,
     };
   }
 
@@ -46,7 +48,7 @@ export class ProjectAndProcessesService {
         refObject: task.process_definition_key,
         assignee: task.assignee,
         comment: task.comment,
-        routerLink: `/forms/${task.formKey}/${task.task_id}`
+        routerLink: `/forms/${task.formKey}/${task.task_id}`,
       },
     };
   }

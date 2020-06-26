@@ -1,17 +1,14 @@
 import { Component, AfterViewInit } from '@angular/core';
-import {
-  AlandaTaskFormService,
-  BaseFormComponent,
-} from '@alanda/common';
+import { AlandaTaskFormService, BaseFormComponent } from '@alanda/common';
 import { SelectItem } from 'primeng/api';
 
 @Component({
-  selector: 'modify-vacation-request',
+  selector: 'alanda-modify-vacation-request',
   templateUrl: './modify-vacation-request.component.html',
   styleUrls: ['./modify-vacation-request.component.scss'],
 })
 export class ModifyVacationRequestComponent
-implements BaseFormComponent, AfterViewInit {
+  implements BaseFormComponent, AfterViewInit {
   state$ = this.taskFormService.state$;
   rootForm = this.taskFormService.rootForm;
   items: SelectItem[];

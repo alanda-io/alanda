@@ -18,7 +18,7 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
 
   constructor(
     private readonly http: HttpClient,
-    @Inject(APP_CONFIG) config: AppSettings
+    @Inject(APP_CONFIG) config: AppSettings,
   ) {
     super();
     this.endpoint = config.API_ENDPOINT + '/project';
@@ -27,11 +27,11 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
 
   public getProjectByGuid(
     guid: number,
-    tree: boolean = false
+    tree: boolean = false,
   ): Observable<AlandaProject> {
     const params = new HttpParams().set('tree', '' + tree);
     return this.http
-      .get<AlandaProject>(`${this.endpoint}/guid/${guid}`, { params: params })
+      .get<AlandaProject>(`${this.endpoint}/guid/${guid}`, { params })
       .pipe(catchError(this.handleError<AlandaProject>('getProjectByGuid')));
   }
 
@@ -39,22 +39,22 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
     return this.http
       .get<AlandaProject>(`${this.endpoint}/${id}`)
       .pipe(
-        catchError(this.handleError<AlandaProject>('getProjectByProjectId'))
+        catchError(this.handleError<AlandaProject>('getProjectByProjectId')),
       );
   }
 
   public loadProjects(
-    serverOptions: ServerOptions
+    serverOptions: ServerOptions,
   ): Observable<AlandaListResult<AlandaProject>> {
     return this.http
       .post<AlandaListResult<AlandaProject>>(
         `${this.endpoint}/projectsel`,
-        serverOptions
-    )
+        serverOptions,
+      )
       .pipe(
         catchError(
-          this.handleError<AlandaListResult<AlandaProject>>('loadProjects')
-        )
+          this.handleError<AlandaListResult<AlandaProject>>('loadProjects'),
+        ),
       );
   }
 
@@ -68,12 +68,12 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
     return this.http
       .get<AlandaProcess>(`${this.endpoint}/project/${projectGuid}/mainprocess`)
       .pipe(
-        catchError(this.handleError<AlandaProcess>('getProjectMainProcess'))
+        catchError(this.handleError<AlandaProcess>('getProjectMainProcess')),
       );
   }
 
   public searchCreateAbleProjectType(
-    searchTerm?: string
+    searchTerm?: string,
   ): Observable<AlandaProjectType[]> {
     let params = new HttpParams();
     if (searchTerm) {
@@ -83,8 +83,8 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
     }
     return this.http
       .get<AlandaProjectType[]>(`${this.endpoint}/createabletype`, {
-      params: params,
-    })
+        params,
+      })
       .pipe(catchError(this.handleError('searchCreateableProjectType', [])));
   }
 
@@ -104,35 +104,38 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
     return this.http
       .get<AlandaProject>(`${this.endpoint}/guid/${guid}?tree=true`)
       .pipe(
-        catchError(this.handleError<AlandaProject>('getProjectTreeByGuid'))
+        catchError(this.handleError<AlandaProject>('getProjectTreeByGuid')),
       );
   }
 
   public getProcessesAndTasksForProject(
-    guid: number
+    guid: number,
   ): Observable<Map<string, any>> {
     return this.http
       .get<Map<string, any>>(
-        `${this.endpoint}/project/${guid}/processes-and-tasks`
-    )
+        `${this.endpoint}/project/${guid}/processes-and-tasks`,
+      )
       .pipe(
         catchError(
-          this.handleError<Map<string, any>>('getProcessesAndTasksForProject')
-        )
+          this.handleError<Map<string, any>>('getProcessesAndTasksForProject'),
+        ),
       );
   }
 
   public autocompleteRefObjects(
     searchTerm: string,
-    objectType: string
+    objectType: string,
   ): Observable<AlandaRefObject[]> {
     const type = objectType.toLowerCase();
     return this.http.get<AlandaRefObject[]>(
-      `${this.refObjectEndpoint}/${type}?search=${searchTerm}`
+      `${this.refObjectEndpoint}/${type}?search=${searchTerm}`,
     );
   }
 
-  public stopProject(projectGuid: number, reason?: string): Observable<AlandaProject> {
+  public stopProject(
+    projectGuid: number,
+    reason?: string,
+  ): Observable<AlandaProject> {
     let url = `${this.endpoint}/project/${projectGuid}/stop`;
     if (reason) {
       url += `?reason=${reason}`;
@@ -141,15 +144,24 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
   }
 
   public getChildTypes(idName: string): Observable<AlandaProjectType[]> {
-    return this.http.get<AlandaProjectType[]>(`${this.endpoint}/type/${idName}/child-types`);
+    return this.http.get<AlandaProjectType[]>(
+      `${this.endpoint}/type/${idName}/child-types`,
+    );
   }
 
   public getParentTypes(idName: string): Observable<AlandaProjectType[]> {
-    return this.http.get<AlandaProjectType[]>(`${this.endpoint}/type/${idName}/parent-types`);
+    return this.http.get<AlandaProjectType[]>(
+      `${this.endpoint}/type/${idName}/parent-types`,
+    );
   }
 
-  public updateProjectRelations(projectId: string, additionalChildren: string, removeChildren: string,
-    additionalParents: string, removeParents: string): Observable<AlandaProject> {
+  public updateProjectRelations(
+    projectId: string,
+    additionalChildren: string,
+    removeChildren: string,
+    additionalParents: string,
+    removeParents: string,
+  ): Observable<AlandaProject> {
     let queryString = '';
     if (additionalChildren) {
       queryString += 'additional-children=' + additionalChildren + '&';
@@ -166,28 +178,58 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
     if (queryString.length > 1) {
       queryString = '?' + queryString.substring(0, queryString.length - 1);
     }
-    return this.http.put<AlandaProject>(`${this.endpoint}/${projectId}/update-relations${queryString}`, {});
+    return this.http.put<AlandaProject>(
+      `${this.endpoint}/${projectId}/update-relations${queryString}`,
+      {},
+    );
   }
 
-  public saveProjectProcess(projectGuid: number, process: AlandaProcess): Observable<AlandaProcess> {
-    return this.http.post<AlandaProcess>(`${this.endpoint}/project/${projectGuid}/process`, process);
+  public saveProjectProcess(
+    projectGuid: number,
+    process: AlandaProcess,
+  ): Observable<AlandaProcess> {
+    return this.http.post<AlandaProcess>(
+      `${this.endpoint}/project/${projectGuid}/process`,
+      process,
+    );
   }
 
-  public startProjectProcess(projectGuid: number, processGuid: number): Observable<AlandaProcess> {
-    return this.http.get<AlandaProcess>(`${this.endpoint}/project/${projectGuid}/process/${processGuid}/start`);
+  public startProjectProcess(
+    projectGuid: number,
+    processGuid: number,
+  ): Observable<AlandaProcess> {
+    return this.http.get<AlandaProcess>(
+      `${this.endpoint}/project/${projectGuid}/process/${processGuid}/start`,
+    );
   }
 
-  public stopProjectProcess(projectGuid: number, processGuid: number, reason): Observable<AlandaProcess> {
+  public stopProjectProcess(
+    projectGuid: number,
+    processGuid: number,
+    reason,
+  ): Observable<AlandaProcess> {
     if (reason) {
-      return this.http.get<AlandaProcess>(`${this.endpoint}/project/${projectGuid}/process/${processGuid}/stop?reason=${reason}`);
+      return this.http.get<AlandaProcess>(
+        `${this.endpoint}/project/${projectGuid}/process/${processGuid}/stop?reason=${reason}`,
+      );
     }
-    return this.http.get<AlandaProcess>(`${this.endpoint}/project/${projectGuid}/process/${processGuid}/stop`);
+    return this.http.get<AlandaProcess>(
+      `${this.endpoint}/project/${projectGuid}/process/${processGuid}/stop`,
+    );
   }
 
-  public removeProjectProcess(projectGuid: number, processGuid: number, reason): Observable<any> {
+  public removeProjectProcess(
+    projectGuid: number,
+    processGuid: number,
+    reason,
+  ): Observable<any> {
     if (reason) {
-      return this.http.delete<any>(`${this.endpoint}/project/${projectGuid}/process/${processGuid}?reason=${reason}`);
+      return this.http.delete<any>(
+        `${this.endpoint}/project/${projectGuid}/process/${processGuid}?reason=${reason}`,
+      );
     }
-    return this.http.delete<any>(`${this.endpoint}/project/${projectGuid}/process/${processGuid}`);
+    return this.http.delete<any>(
+      `${this.endpoint}/project/${projectGuid}/process/${processGuid}`,
+    );
   }
 }

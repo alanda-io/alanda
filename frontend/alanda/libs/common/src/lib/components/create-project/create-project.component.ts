@@ -12,7 +12,6 @@ import { mergeMap, tap } from 'rxjs/operators';
   templateUrl: './create-project.component.html',
   styleUrls: ['./create-project.component.scss'],
 })
-
 export class AlandaCreateProjectComponent implements OnInit {
   showDialog = true;
   projectTypes: AlandaProjectType[] = [];
@@ -22,20 +21,27 @@ export class AlandaCreateProjectComponent implements OnInit {
   formGroup: FormGroup;
   isLoading = false;
 
-  constructor(public readonly projectService: AlandaProjectApiService,
+  constructor(
+    public readonly projectService: AlandaProjectApiService,
     private readonly messageService: MessageService,
-    private readonly router: Router, private readonly activatedRoute: ActivatedRoute) {
-  }
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+  ) {}
 
   ngOnInit(): void {
-    const parentProjectGuid = this.activatedRoute.snapshot.paramMap.get('projectGuid');
+    const parentProjectGuid = this.activatedRoute.snapshot.paramMap.get(
+      'projectGuid',
+    );
     if (parentProjectGuid) {
-      this.projectService.getProjectByGuid(Number(parentProjectGuid)).pipe(
-        tap(project => this.project.parents = [project]),
-        mergeMap(_ => this.projectService.searchCreateAbleProjectType())
-      ).subscribe(types => this.projectTypes = types);
+      this.projectService
+        .getProjectByGuid(Number(parentProjectGuid))
+        .pipe(
+          tap((project) => (this.project.parents = [project])),
+          mergeMap((_) => this.projectService.searchCreateAbleProjectType()),
+        )
+        .subscribe((types) => (this.projectTypes = types));
     } else {
-      this.projectService.searchCreateAbleProjectType().subscribe(types => {
+      this.projectService.searchCreateAbleProjectType().subscribe((types) => {
         this.projectTypes = types;
       });
     }
@@ -44,38 +50,54 @@ export class AlandaCreateProjectComponent implements OnInit {
   onProjectTypeSelected(): void {
     this.showDialog = false;
     this.project.pmcProjectType = this.selectedProjectType;
-    this.allowedTagList = this.selectedProjectType.allowedTagList.map(tag => { return { value: tag } });
+    this.allowedTagList = this.selectedProjectType.allowedTagList.map((tag) => {
+      return { value: tag };
+    });
     this.initFormGroup();
   }
-
 
   private initFormGroup(): void {
     this.formGroup = new FormGroup({
       tag: new FormControl(null, { validators: [Validators.required] }),
       prio: new FormControl(null, { validators: [Validators.required] }),
       projectDueDate: new FormControl(),
-      projectTitle: new FormControl(null, { validators: [Validators.required] }),
-      projectDetails: new FormControl(null, { validators: [Validators.required] }),
+      projectTitle: new FormControl(null, {
+        validators: [Validators.required],
+      }),
+      projectDetails: new FormControl(null, {
+        validators: [Validators.required],
+      }),
     });
   }
-
 
   public onSubmit(): void {
     if (this.formGroup.valid) {
       this.project.dueDate = this.formGroup.get('projectDueDate').value;
       this.project.title = this.formGroup.get('projectTitle').value;
-      this.project.priority = (this.formGroup.get('prio').value).value;
+      this.project.priority = this.formGroup.get('prio').value.value;
       this.project.properties = [];
       this.project.comment = this.formGroup.get('projectDetails').value;
-      this.project.tag = [(this.formGroup.get('tag').value).value];
+      this.project.tag = [this.formGroup.get('tag').value.value];
       this.isLoading = true;
       this.projectService.createProject(this.project).subscribe(
-        project => {
+        (project) => {
           this.isLoading = false;
-          this.messageService.add({ severity: 'success', summary: 'Create Project', detail: 'Project has been created' });
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Create Project',
+            detail: 'Project has been created',
+          });
           this.router.navigate([`projectdetails/${project.projectId}`]);
         },
-        error => { this.isLoading = false; this.messageService.add({ severity: 'error', summary: 'Create Project', detail: error.message }) });
+        (error) => {
+          this.isLoading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Create Project',
+            detail: error.message,
+          });
+        },
+      );
     }
   }
 }

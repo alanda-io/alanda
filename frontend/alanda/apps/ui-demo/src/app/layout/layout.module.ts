@@ -6,15 +6,8 @@ import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [HeaderComponent],
-  imports: [
-    MenubarModule,
-    ToastModule,
-    CommonModule
-  ],
-  exports: [
-    HeaderComponent
-  ],
+  imports: [MenubarModule, ToastModule, CommonModule],
+  exports: [HeaderComponent],
   providers: [],
 })
-export class LayoutModule {
-}
+export class LayoutModule {}

@@ -25,7 +25,9 @@ export class AlandaDateSelectComponent implements OnInit {
     date: new FormControl(null, Validators.required),
   });
 
-  constructor(private readonly messageService: MessageService, private readonly propertyService: AlandaPropertyApiService,
+  constructor(
+    private readonly messageService: MessageService,
+    private readonly propertyService: AlandaPropertyApiService,
   ) {}
 
   ngOnInit() {
@@ -35,18 +37,28 @@ export class AlandaDateSelectComponent implements OnInit {
   save() {
     // TODO: use better variable name, maybe improve
     const d = new Date(this.dateForm.get('date').value);
-    const utcDate = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    this.propertyService.setString(null, null, this.project.guid, this.key, utcDate.toISOString().substring(0, 10)).subscribe();
+    const utcDate = new Date(
+      Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()),
+    );
+    this.propertyService
+      .setString(
+        null,
+        null,
+        this.project.guid,
+        this.key,
+        utcDate.toISOString().substring(0, 10),
+      )
+      .subscribe();
   }
 
   load() {
-    this.propertyService.get(null, null, this.project.guid, this.key).subscribe(
-      res => {
+    this.propertyService
+      .get(null, null, this.project.guid, this.key)
+      .subscribe((res) => {
         if (res.value) {
           const date = new Date(res.value);
           this.dateForm.get('date').setValue(date);
         }
-      }
-    );
+      });
   }
 }

@@ -8,11 +8,10 @@ export enum AccessLevels {
   write = 'write',
   start = 'start',
   cancel = 'cancel',
-  create = 'create'
+  create = 'create',
 }
 
 export const WILDCARD_TOKEN = '*';
 export const PART_DIVIDER_TOKEN = ':';
 export const SUBPART_DIVIDER_TOKEN = ',';
 export const PERMISSION_PLACEHOLDER = '#{permissions}';
-

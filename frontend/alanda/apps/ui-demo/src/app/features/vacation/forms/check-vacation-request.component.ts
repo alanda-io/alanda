@@ -4,12 +4,12 @@ import { BaseFormComponent } from '@alanda/common';
 import { AlandaTaskFormService } from '@alanda/common';
 
 @Component({
-  selector: 'check-vacation-request',
+  selector: 'alanda-check-vacation-request',
   templateUrl: './check-vacation-request.component.html',
   styleUrls: [],
 })
 export class CheckVacationRequestComponent
-implements BaseFormComponent, AfterViewInit {
+  implements BaseFormComponent, AfterViewInit {
   state$ = this.taskFormService.state$;
   rootForm = this.taskFormService.rootForm;
   items: SelectItem[];

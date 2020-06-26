@@ -22,25 +22,48 @@ export class AlandaSelectMilestoneComponent implements OnInit {
 
   milestoneForm = this.fb.group({
     fc: [null],
-    act: [null]
+    act: [null],
   });
 
-  constructor(private readonly milestoneService: AlandaMilestoneApiService, private readonly fb: FormBuilder) {}
+  constructor(
+    private readonly milestoneService: AlandaMilestoneApiService,
+    private readonly fb: FormBuilder,
+  ) {}
 
   ngOnInit() {
-    this.milestoneService.getByProjectAndMsIdName(this.project.projectId, this.msName).subscribe(ms => {
-      if (ms?.fc) {
-        this.milestoneForm.get('fc').setValue(ms.fc);
-      }
-      if (ms?.act) {
-        this.milestoneForm.get('act').setValue(ms.act);
-      }
-    });
+    this.milestoneService
+      .getByProjectAndMsIdName(this.project.projectId, this.msName)
+      .subscribe((ms) => {
+        if (ms?.fc) {
+          this.milestoneForm.get('fc').setValue(ms.fc);
+        }
+        if (ms?.act) {
+          this.milestoneForm.get('act').setValue(ms.act);
+        }
+      });
   }
 
   onChange() {
-    const fc = this.milestoneForm.get('fc').value ? convertUTCDate(new Date(this.milestoneForm.get('fc').value)).toISOString().substring(0, 10) : null;
-    const act = this.milestoneForm.get('act').value ? convertUTCDate(new Date(this.milestoneForm.get('act').value)).toISOString().substring(0, 10) : null;
-    this.milestoneService.updateByProjectAndMsIdName(this.project.projectId, this.msName, fc, act, null, false, false).subscribe();
+    const fc = this.milestoneForm.get('fc').value
+      ? convertUTCDate(new Date(this.milestoneForm.get('fc').value))
+          .toISOString()
+          .substring(0, 10)
+      : null;
+    const act = this.milestoneForm.get('act').value
+      ? convertUTCDate(new Date(this.milestoneForm.get('act').value))
+          .toISOString()
+          .substring(0, 10)
+      : null;
+    this.milestoneService
+      .updateByProjectAndMsIdName(
+        this.project.projectId,
+        this.msName,
+        fc,
+        act,
+        null,
+        false,
+        false,
+      )
+      .subscribe();
   }
 }

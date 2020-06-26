@@ -27,7 +27,7 @@ export class AlandaSelectMilestoneNewComponent implements OnInit {
 
   constructor(
     private readonly milestoneService: AlandaMilestoneApiService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
   ) {}
 
   ngOnInit() {
@@ -46,13 +46,13 @@ export class AlandaSelectMilestoneNewComponent implements OnInit {
   onChange() {
     const fc = this.milestoneForm.get('fc').value
       ? convertUTCDate(new Date(this.milestoneForm.get('fc').value))
-        .toISOString()
-        .substring(0, 10)
+          .toISOString()
+          .substring(0, 10)
       : null;
     const act = this.milestoneForm.get('act').value
       ? convertUTCDate(new Date(this.milestoneForm.get('act').value))
-        .toISOString()
-        .substring(0, 10)
+          .toISOString()
+          .substring(0, 10)
       : null;
     this.milestoneService
       .updateByProjectAndMsIdName(
@@ -62,7 +62,7 @@ export class AlandaSelectMilestoneNewComponent implements OnInit {
         act,
         null,
         false,
-        false
+        false,
       )
       .subscribe();
   }

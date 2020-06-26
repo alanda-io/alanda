@@ -25,7 +25,7 @@ export class AlandaSimpleSelectComponent implements OnInit {
     if (rootFormGroup) {
       rootFormGroup.addControl(
         `alanda-simple-select-${this.variableName}`,
-        this.selectForm
+        this.selectForm,
       );
     }
   }
@@ -36,7 +36,7 @@ export class AlandaSimpleSelectComponent implements OnInit {
 
   constructor(
     private readonly taskService: AlandaTaskApiService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
   ) {}
 
   ngOnInit() {

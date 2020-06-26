@@ -4,12 +4,12 @@ import { BaseFormComponent } from '@alanda/common';
 import { AlandaTaskFormService } from '@alanda/common';
 
 @Component({
-  selector: 'perform-handover-activities',
+  selector: 'alanda-perform-handover-activities',
   templateUrl: './perform-handover-activities.component.html',
   styleUrls: [],
 })
 export class PerformHandoverActivitiesComponent
-implements BaseFormComponent, AfterViewInit {
+  implements BaseFormComponent, AfterViewInit {
   state$ = this.taskFormService.state$;
   rootForm = this.taskFormService.rootForm;
   items: SelectItem[];

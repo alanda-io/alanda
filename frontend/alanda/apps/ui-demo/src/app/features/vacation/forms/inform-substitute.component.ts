@@ -5,12 +5,12 @@ import { AlandaTaskFormService } from '@alanda/common';
 import { Observable, of } from 'rxjs';
 
 @Component({
-  selector: 'inform-substitute',
+  selector: 'alanda-inform-substitute',
   templateUrl: './inform-substitute.component.html',
   styleUrls: [],
 })
 export class InformSubstituteComponent
-implements BaseFormComponent, AfterViewInit {
+  implements BaseFormComponent, AfterViewInit {
   state$ = this.taskFormService.state$;
   rootForm = this.taskFormService.rootForm;
   items: SelectItem[];

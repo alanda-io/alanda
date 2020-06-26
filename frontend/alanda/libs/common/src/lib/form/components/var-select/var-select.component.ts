@@ -27,7 +27,7 @@ export class AlandaVarSelectComponent implements OnInit {
     if (rootFormGroup) {
       rootFormGroup.addControl(
         `${SELECTOR}-${this.variableName}`,
-        this.selectForm
+        this.selectForm,
       );
     }
   }
@@ -38,7 +38,7 @@ export class AlandaVarSelectComponent implements OnInit {
 
   constructor(
     private readonly taskService: AlandaTaskApiService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
   ) {}
 
   ngOnInit() {

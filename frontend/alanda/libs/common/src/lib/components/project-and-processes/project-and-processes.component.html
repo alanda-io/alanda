@@ -1,34 +1,47 @@
-<p-panel #tt [toggleable]="true" (onAfterToggle)="loadProjectAndProcesses(tt.collapsed)">
+<p-panel
+  #tt
+  [toggleable]="true"
+  (onAfterToggle)="loadProjectAndProcesses(tt.collapsed)"
+>
   <p-header>
     <span class="ui-panel-title title">Projects & Processes</span>
   </p-header>
-  <p-treeTable [autoLayout]="true"  [loading]="loading" [value]="treeStructure">
+  <p-treeTable [autoLayout]="true" [loading]="loading" [value]="treeStructure">
     <ng-template pTemplate="header">
-        <tr>
-            <th>Process / Task</th>
-            <th>Ref. Object</th>
-            <th>Assignment</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Comments</th>
-            <th>Action</th>
-        </tr>
+      <tr>
+        <th>Process / Task</th>
+        <th>Ref. Object</th>
+        <th>Assignment</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Comments</th>
+        <th>Action</th>
+      </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
       <tr *ngIf="rowData.type !== 'new-process'">
-        <td [ngStyle]="{'font-weight':rowData.type === 'project' ? '700' : '400' }">
+        <td
+          [ngStyle]="{
+            'font-weight': rowData.type === 'project' ? '700' : '400'
+          }"
+        >
           <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
           <span [ngClass]="getIconClass(rowData.type)"></span>
-          <a *ngIf="rowData.routerLink" [routerLink]="rowData.routerLink"> {{rowData.label}}</a>
-          <span *ngIf="!rowData.routerLink"> {{rowData.label}}</span>
+          <a *ngIf="rowData.routerLink" [routerLink]="rowData.routerLink">
+            {{ rowData.label }}</a
+          >
+          <span *ngIf="!rowData.routerLink"> {{ rowData.label }}</span>
         </td>
-        <td>{{rowData.refObject}}</td>
-        <td>{{rowData.assignee}}</td>
-        <td>{{rowData.start}}</td>
-        <td>{{rowData.end}}</td>
-        <td>{{rowData.comment}}</td>
+        <td>{{ rowData.refObject }}</td>
+        <td>{{ rowData.assignee }}</td>
+        <td>{{ rowData.start }}</td>
+        <td>{{ rowData.end }}</td>
+        <td>{{ rowData.comment }}</td>
         <td>
-          <alanda-pap-actions [data]="rowData" (changeEvent)="loadProjectAndProcesses()"></alanda-pap-actions>
+          <alanda-pap-actions
+            [data]="rowData"
+            (changeEvent)="loadProjectAndProcesses()"
+          ></alanda-pap-actions>
         </td>
       </tr>
       <!-- <tr *ngIf="rowData.type === 'new-process'">

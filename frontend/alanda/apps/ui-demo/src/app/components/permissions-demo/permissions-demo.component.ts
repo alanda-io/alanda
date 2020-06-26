@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
-  selector: 'app-permissions-demo',
+  selector: 'alanda-permissions-demo',
   templateUrl: './permissions-demo.component.html',
-  styles: [`
-    .disabled,
-    [disabled] {
-      border: 1px solid red;
-    }
-  `]
+  styles: [
+    `
+      .disabled,
+      [disabled] {
+        border: 1px solid red;
+      }
+    `,
+  ],
 })
 export class PermissionsDemoComponent implements OnInit {
   demoForm = this.fb.group({
@@ -18,17 +20,12 @@ export class PermissionsDemoComponent implements OnInit {
     title: [],
     status: [],
     phases: [],
-    running: []
+    running: [],
   });
 
-  constructor(private readonly fb: FormBuilder) {
-  }
+  constructor(private readonly fb: FormBuilder) {}
 
-  ngOnInit() {
+  ngOnInit() {}
 
-  }
-
-  onSubmit() {
-
-  }
+  onSubmit() {}
 }

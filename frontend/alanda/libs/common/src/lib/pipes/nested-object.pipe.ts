@@ -10,7 +10,7 @@ export class MonitorValuesPipe implements PipeTransform {
       if (a[v] === null) {
         return '';
       }
-      return (a = a[v], a);
+      return (a = a[v]), a;
     }, obj);
     return ref;
   }

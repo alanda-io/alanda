@@ -1,4 +1,15 @@
-import { Component, OnInit, AfterContentInit, OnDestroy, OnChanges, Input, ViewChild, ElementRef, Inject, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterContentInit,
+  OnDestroy,
+  OnChanges,
+  Input,
+  ViewChild,
+  ElementRef,
+  Inject,
+  SimpleChanges,
+} from '@angular/core';
 import { AlandaTask } from '../../../api/models/task';
 // import * as BpmnJS from 'bpmn-js/dist/bpmn-navigated-viewer.production.min.js';
 import * as BpmnJS from 'bpmn-js/dist/bpmn-navigated-viewer.development.js';
@@ -13,7 +24,8 @@ import { throwError } from 'rxjs';
   templateUrl: './diagram.component.html',
   styleUrls: [],
 })
-export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, OnChanges {
+export class DiagramComponent
+  implements OnInit, AfterContentInit, OnDestroy, OnChanges {
   @Input() pid: string;
   @Input() task: AlandaTask;
 
@@ -22,16 +34,20 @@ export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, On
   private readonly bpmnJS: BpmnJS;
   activities: any[] = [];
 
-  constructor(@Inject(APP_CONFIG) private readonly config: AppSettings, private readonly http: HttpClient) {
+  constructor(
+    @Inject(APP_CONFIG) private readonly config: AppSettings,
+    private readonly http: HttpClient,
+  ) {
     this.endpointUrl = config.API_ENDPOINT + '/pmc-process';
     this.bpmnJS = new BpmnJS({
-      keyboard: { bindTo: document }
+      keyboard: { bindTo: document },
     });
-  };
+  }
 
   loadActivities(canvas) {
-    this.http.get(`${this.endpointUrl}/${this.pid}/activities`).subscribe(
-      (res: any) => {
+    this.http
+      .get(`${this.endpointUrl}/${this.pid}/activities`)
+      .subscribe((res: any) => {
         const overlays = this.bpmnJS.get('overlays');
         if (res.childActivityInstances instanceof Array) {
           for (const act of res.childActivityInstances) {
@@ -46,8 +62,7 @@ export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, On
         for (const key in this.activities) {
           this.addTokenOverlay(canvas, overlays, key, this.activities[key]);
         }
-      }
-    );
+      });
   }
 
   addTokenOverlay(canvas, overlays, activityId, count) {
@@ -56,12 +71,12 @@ export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, On
       type: 'badge',
       position: {
         bottom: -1,
-        left: -5
+        left: -5,
       },
       show: {
         minZoom: 0.2,
-        maxZoom: 1.8
-      }
+        maxZoom: 1.8,
+      },
     });
     canvas.addMarker(activityId, 'highlight');
   }
@@ -87,9 +102,7 @@ export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, On
     }
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.pid) {
@@ -106,10 +119,12 @@ export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, On
   }
 
   loadDiagram() {
-    this.http.get(`${this.endpointUrl}/${this.pid}/definition/xml`)
+    this.http
+      .get(`${this.endpointUrl}/${this.pid}/definition/xml`)
       .pipe(
-        catchError(err => throwError(err)),
-        importDiagram(this.bpmnJS))
+        catchError((err) => throwError(err)),
+        importDiagram(this.bpmnJS),
+      )
       .subscribe(
         (warnings) => {
           const canvas = this.bpmnJS.get('canvas');
@@ -118,8 +133,7 @@ export class DiagramComponent implements OnInit, AfterContentInit, OnDestroy, On
           this.loadActivities(canvas);
           // }, 1000);
         },
-        (error) => {
-
-        });
+        (error) => {},
+      );
   }
 }

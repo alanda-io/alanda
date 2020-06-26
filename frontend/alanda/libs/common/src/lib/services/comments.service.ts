@@ -12,8 +12,8 @@ import { combineLatest, merge } from 'rxjs';
 
 export interface AlandaCommentState {
   comments: AlandaComment[];
-  tagObjectMap: {[tagName: string]: AlandaCommentTag};
-  activeTagFilters: {[tagName: string]: boolean};
+  tagObjectMap: { [tagName: string]: AlandaCommentTag };
+  activeTagFilters: { [tagName: string]: boolean };
   searchText: string;
   commentText: string;
 }
@@ -24,19 +24,23 @@ export interface AlandaCommentState {
 @Injectable({ providedIn: 'root' })
 export class AlandaCommentsService extends RxState<AlandaCommentState> {
   commentResponse$ = this.taskFormService.select('task').pipe(
-    switchMap((task: AlandaTask) => this.commentApiService.getCommentsforPid(task.process_instance_id)),
-    share()
+    switchMap((task: AlandaTask) =>
+      this.commentApiService.getCommentsforPid(task.process_instance_id),
+    ),
+    share(),
   );
 
   commentPostResponse$ = this.select('commentText').pipe(
-    switchMap((commentText: string) => this.commentApiService.postComment({
-      subject: ' ',
-      text: commentText,
-      taskId: this.taskFormService.get().task.task_id,
-      procInstId: this.taskFormService.get().task.process_instance_id,
-    })),
+    switchMap((commentText: string) =>
+      this.commentApiService.postComment({
+        subject: ' ',
+        text: commentText,
+        taskId: this.taskFormService.get().task.task_id,
+        procInstId: this.taskFormService.get().task.process_instance_id,
+      }),
+    ),
     map((newComment: AlandaComment) => {
-      this.set('comments', oldState => {
+      this.set('comments', (oldState) => {
         const comments = oldState.comments;
         const comment: AlandaComment = Object.assign({}, newComment);
         comments.unshift(this.processComment(comment));
@@ -44,8 +48,10 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
       });
       return newComment;
     }),
-    switchMap((comment: AlandaComment) => this.commentApiService.getCommentsforPid(comment.procInstId)),
-    share()
+    switchMap((comment: AlandaComment) =>
+      this.commentApiService.getCommentsforPid(comment.procInstId),
+    ),
+    share(),
   );
 
   comments$ = merge(this.commentResponse$, this.commentPostResponse$).pipe(
@@ -53,7 +59,7 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
       return commentResponse.comments.map((comment: AlandaComment) => {
         return this.processComment(comment);
       });
-    })
+    }),
   );
 
   tagObjectMap$ = this.comments$.pipe(
@@ -65,34 +71,44 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
         });
       });
       return tagMap;
-    })
+    }),
   );
 
   activeTagFilters$ = this.select('tagObjectMap').pipe(
-    map(tags => {
+    map((tags) => {
       const activeFilters = {};
       Object.keys(tags).forEach((key: string) => {
         activeFilters[key] = false;
       });
       return activeFilters;
-    })
+    }),
   );
 
-  filteredComments$ = combineLatest(
-    [this.select('comments'),
-      this.select('searchText'),
-      this.select('activeTagFilters')]
-  ).pipe(
-    map(([comments, searchText, activeTagFilters]: [AlandaComment[], string, {string: boolean}]) => {
-      const filteredComments = this.filterCommentsBySearchText(comments, searchText);
-      return this.filterCommentsByTags(filteredComments, activeTagFilters);
-    }),
+  filteredComments$ = combineLatest([
+    this.select('comments'),
+    this.select('searchText'),
+    this.select('activeTagFilters'),
+  ]).pipe(
+    map(
+      ([comments, searchText, activeTagFilters]: [
+        AlandaComment[],
+        string,
+        { string: boolean },
+      ]) => {
+        const filteredComments = this.filterCommentsBySearchText(
+          comments,
+          searchText,
+        );
+        return this.filterCommentsByTags(filteredComments, activeTagFilters);
+      },
+    ),
   );
 
   constructor(
     private readonly commentApiService: AlandaCommentApiService,
     private readonly datePipe: DatePipe,
-    private readonly taskFormService: AlandaTaskFormService) {
+    private readonly taskFormService: AlandaTaskFormService,
+  ) {
     super();
     this.set({ comments: [], activeTagFilters: {}, searchText: '' });
     this.connect('activeTagFilters', this.activeTagFilters$);
@@ -109,11 +125,20 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
     const comment: AlandaComment = Object.assign({}, oldComment);
 
     comment.createDate = new Date(comment.createDate);
-    comment.textDate = this.datePipe.transform(comment.createDate, 'dd.LL.yyyy HH:mm');
+    comment.textDate = this.datePipe.transform(
+      comment.createDate,
+      'dd.LL.yyyy HH:mm',
+    );
 
     let commentFulltext = this.extendFulltextComment(comment.text);
-    commentFulltext = this.extendFulltextComment(comment.authorName, commentFulltext);
-    commentFulltext = this.extendFulltextComment(comment.textDate, commentFulltext);
+    commentFulltext = this.extendFulltextComment(
+      comment.authorName,
+      commentFulltext,
+    );
+    commentFulltext = this.extendFulltextComment(
+      comment.textDate,
+      commentFulltext,
+    );
 
     comment.tagList = [];
     // Add task name to tag list
@@ -135,17 +160,26 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
       comment.text = comment.text.replace(/#\w+/g, '').trim();
     }
 
-    comment.tagList.forEach(tag => {
+    comment.tagList.forEach((tag) => {
       commentFulltext += ` ${tag.name}`;
     });
 
     comment.replies = comment.replies.map((reply: AlandaComment) => {
       reply.createDate = new Date(reply.createDate);
-      reply.textDate = this.datePipe.transform(reply.createDate, 'dd.LL.yyyy HH:mm');
+      reply.textDate = this.datePipe.transform(
+        reply.createDate,
+        'dd.LL.yyyy HH:mm',
+      );
 
       commentFulltext = this.extendFulltextComment(reply.text, commentFulltext);
-      commentFulltext = this.extendFulltextComment(reply.authorName, commentFulltext);
-      commentFulltext = this.extendFulltextComment(reply.textDate, commentFulltext);
+      commentFulltext = this.extendFulltextComment(
+        reply.authorName,
+        commentFulltext,
+      );
+      commentFulltext = this.extendFulltextComment(
+        reply.textDate,
+        commentFulltext,
+      );
       return reply;
     });
 
@@ -165,7 +199,10 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
    * @param comments
    * @param searchText
    */
-  filterCommentsBySearchText(comments: AlandaComment[], searchText: string): AlandaComment[] {
+  filterCommentsBySearchText(
+    comments: AlandaComment[],
+    searchText: string,
+  ): AlandaComment[] {
     if (searchText.length > 0) {
       return comments.filter((comment: AlandaComment) => {
         return comment.fulltext.trim().toLowerCase().includes(searchText);
@@ -179,11 +216,16 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
    * @param comments
    * @param activeTagFilters
    */
-  filterCommentsByTags(comments: AlandaComment[], activeTagFilters: {string: boolean }): AlandaComment[] {
+  filterCommentsByTags(
+    comments: AlandaComment[],
+    activeTagFilters: { string: boolean },
+  ): AlandaComment[] {
     const filteredComments = comments.filter((comment: AlandaComment) => {
-      return comment.tagList.findIndex((tag: AlandaCommentTag) => {
-        return activeTagFilters[tag.name];
-      }) > -1;
+      return (
+        comment.tagList.findIndex((tag: AlandaCommentTag) => {
+          return activeTagFilters[tag.name];
+        }) > -1
+      );
     });
     return filteredComments.length > 0 ? filteredComments : comments;
   }
@@ -204,11 +246,10 @@ export class AlandaCommentsService extends RxState<AlandaCommentState> {
    * @param tag
    */
   toggleTagFilter(tag: AlandaCommentTag): void {
-    this.set('activeTagFilters', oldState => {
-      return Object.assign({},
-        oldState.activeTagFilters,
-        { [tag.name]: !oldState.activeTagFilters[tag.name] }
-      );
+    this.set('activeTagFilters', (oldState) => {
+      return Object.assign({}, oldState.activeTagFilters, {
+        [tag.name]: !oldState.activeTagFilters[tag.name],
+      });
     });
   }
 

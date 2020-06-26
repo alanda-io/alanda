@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'filter'
+  name: 'filter',
 })
 export class FilterPipe implements PipeTransform {
   transform(items: any[], searchText: string, key?: string): any[] {
@@ -15,19 +15,21 @@ export class FilterPipe implements PipeTransform {
     if (searchText.startsWith('!')) {
       searchText = searchText.substring(1);
       if (key) {
-        return items.filter(it => {
-          return items.filter(item => !item[key].toLowerCase().includes(searchText));
+        return items.filter((it) => {
+          return items.filter(
+            (item) => !item[key].toLowerCase().includes(searchText),
+          );
         });
       } else {
-        return items.filter(it => {
+        return items.filter((it) => {
           return it.toLowerCase() !== searchText;
         });
       }
     } else {
       if (key) {
-        return items.filter(it => it[key].toLowerCase().includes(searchText));
+        return items.filter((it) => it[key].toLowerCase().includes(searchText));
       } else {
-        return items.filter(it => {
+        return items.filter((it) => {
           return it.toLowerCase().includes(searchText);
         });
       }

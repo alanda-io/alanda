@@ -1,21 +1,34 @@
 <div [formGroup]="milestoneForm">
-    <div class="p-grid">
-        <div class="p-col-12">
-            <b>{{displayName}}</b>
-        </div>
+  <div class="p-grid">
+    <div class="p-col-12">
+      <b>{{ displayName }}</b>
+    </div>
 
-        <!-- FC -->
-        <div class="p-col-3">
-            <span class="ms-title">FC</span>
-        </div>
-        <div class="p-col-9">
-            <p-calendar inputId="fc" formControlName="fc" placeholder="Select" (onSelect)="onChange()" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
-        </div>
-        <div class="p-col-3">
-            <span class="ms-title">ACT</span>
-        </div>
-        <div class="p-col-9">
-            <p-calendar formControlName="act" placeholder="Select" (onSelect)="onChange()" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
-        </div>
+    <!-- FC -->
+    <div class="p-col-3">
+      <span class="ms-title">FC</span>
+    </div>
+    <div class="p-col-9">
+      <p-calendar
+        inputId="fc"
+        formControlName="fc"
+        placeholder="Select"
+        (onSelect)="onChange()"
+        [showIcon]="true"
+        dateFormat="yy-mm-dd"
+      ></p-calendar>
+    </div>
+    <div class="p-col-3">
+      <span class="ms-title">ACT</span>
+    </div>
+    <div class="p-col-9">
+      <p-calendar
+        formControlName="act"
+        placeholder="Select"
+        (onSelect)="onChange()"
+        [showIcon]="true"
+        dateFormat="yy-mm-dd"
+      ></p-calendar>
     </div>
   </div>
+</div>

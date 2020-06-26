@@ -24,4 +24,3 @@ export interface AlandaProcess {
   processDefinitionId?: string;
   activeOrSuspended?: boolean;
 }
-

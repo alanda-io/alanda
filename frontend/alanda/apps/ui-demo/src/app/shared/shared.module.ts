@@ -26,7 +26,7 @@ import { PanelModule } from 'primeng/panel';
     ReactiveFormsModule,
     PanelModule,
   ],
-  declarations: []
+  declarations: [],
 })
 export class SharedModule {
   constructor() {}

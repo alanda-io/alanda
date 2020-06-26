@@ -4,7 +4,10 @@ import { AlandaUserApiService } from '../api/userApi.service';
 import { AlandaUser } from '../api/models/user';
 import { combineLatest } from 'rxjs';
 import { Authorizations } from './utils/permission-checks';
-import { ElementManager, getManagersByElementRef } from './utils/element-manager';
+import {
+  ElementManager,
+  getManagersByElementRef,
+} from './utils/element-manager';
 import { filter, tap } from 'rxjs/operators';
 import { NgControlStatus } from '@angular/forms';
 
@@ -21,42 +24,46 @@ import { NgControlStatus } from '@angular/forms';
  */
 @Directive({
   // tslint:disable-next-line:directive-selector
-  selector: '[permissions]'
+  selector: '[permissions]',
 })
 export class PermissionsDirective extends RxState<{
   user: AlandaUser;
   permissionString: string;
 }> {
-  hostElementManagers: ElementManager[] = getManagersByElementRef(this.hostElement);
+  hostElementManagers: ElementManager[] = getManagersByElementRef(
+    this.hostElement,
+  );
 
   @Input('permissions')
   set rights(permissionString: string) {
     this.set({
-      permissionString
+      permissionString,
     });
   }
 
   constructor(
     public hostElement: ElementRef,
-    private readonly userService: AlandaUserApiService
+    private readonly userService: AlandaUserApiService,
   ) {
     super();
     this.connect('user', this.userService.user$);
 
     this.hold(
-      combineLatest([
-        this.select('user'),
-        this.select('permissionString')
-      ]),
+      combineLatest([this.select('user'), this.select('permissionString')]),
       ([user, permissionString]) => {
-        const tokens: string[][] = Authorizations.resolveTokens(permissionString);
+        const tokens: string[][] = Authorizations.resolveTokens(
+          permissionString,
+        );
         const accessLevel = tokens[1];
 
         if (user === null) {
           this.forbidAll(permissionString);
         }
 
-        const permissionsGranted = Authorizations.hasPermission(user, permissionString);
+        const permissionsGranted = Authorizations.hasPermission(
+          user,
+          permissionString,
+        );
 
         this.hostElementManagers.forEach((manager) => {
           if (permissionsGranted) {
@@ -65,7 +72,8 @@ export class PermissionsDirective extends RxState<{
             manager.applyForbiddenBehavior(accessLevel);
           }
         });
-      });
+      },
+    );
   }
 
   forbidAll(accessLevel): void {

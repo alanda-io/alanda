@@ -8,7 +8,9 @@ export interface ElementManager {
   applyGrantedBehavior(accessLevel: string[]): void;
 }
 
-export function getManagersByElementRef(elementRef: ElementRef): ElementManager[] {
+export function getManagersByElementRef(
+  elementRef: ElementRef,
+): ElementManager[] {
   const managers = [];
   const nativeElement = elementRef.nativeElement;
   const tagName = nativeElement.tagName;
@@ -27,8 +29,7 @@ export function getManagersByElementRef(elementRef: ElementRef): ElementManager[
 class AttributeManager implements ElementManager {
   disabledAttribute = 'disabled';
 
-  constructor(public element: HTMLElement) {
-  }
+  constructor(public element: HTMLElement) {}
 
   applyGrantedBehavior(accessLevel: string[]): void {
     this.element.removeAttribute(this.disabledAttribute);
@@ -42,8 +43,7 @@ class AttributeManager implements ElementManager {
 class ClassManager implements ElementManager {
   disabledClass = 'disabled';
 
-  constructor(public element: HTMLElement) {
-  }
+  constructor(public element: HTMLElement) {}
 
   applyGrantedBehavior(accessLevel: string[]): void {
     this.element.classList.remove(this.disabledClass);

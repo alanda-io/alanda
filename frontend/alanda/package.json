@@ -9,7 +9,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "nx workspace-lint && ng lint && npm run stylelint",
+    "lint": "nx workspace-lint && ng lint",
     "stylelint": "stylelint \"./apps/**/*.scss\" \"./libs/**/*.scss\"",
     "e2e": "ng e2e",
     "affected:apps": "nx affected:apps",

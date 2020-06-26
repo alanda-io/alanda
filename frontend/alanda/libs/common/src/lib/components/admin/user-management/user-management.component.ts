@@ -16,7 +16,7 @@ import { AlandaGroupApiService } from '../../../api/groupApi.service';
 @Component({
   selector: 'alanda-user-management',
   templateUrl: './user-management.component.html',
-  styleUrls: ['./user-management.component.scss']
+  styleUrls: ['./user-management.component.scss'],
 })
 export class AlandaUserManagementComponent implements OnInit {
   users: AlandaUser[] = [];
@@ -33,19 +33,20 @@ export class AlandaUserManagementComponent implements OnInit {
   userColumns = [
     { field: 'loginName', header: 'Login' },
     { field: 'firstName', header: 'First Name' },
-    { field: 'surname', header: 'Surname' }
+    { field: 'surname', header: 'Surname' },
   ];
 
   @ViewChild('table') turboTable: Table;
   userForm: FormGroup;
 
-  constructor(private readonly userService: AlandaUserApiService,
+  constructor(
+    private readonly userService: AlandaUserApiService,
     private readonly groupService: AlandaGroupApiService,
     private readonly roleService: AlandaRoleApiService,
     private readonly permissionService: AlandaPermissionApiService,
     private readonly messageService: MessageService,
-    private readonly fb: FormBuilder) {
-  }
+    private readonly fb: FormBuilder,
+  ) {}
 
   ngOnInit() {
     this.initUserForm();
@@ -85,7 +86,7 @@ export class AlandaUserManagementComponent implements OnInit {
         locked: this.locked,
         sso: true,
         groups: [],
-        roles: []
+        roles: [],
       });
     }
   }
@@ -121,31 +122,35 @@ export class AlandaUserManagementComponent implements OnInit {
   onLoadUsers(event: LazyLoadEvent) {
     this.loading = true;
     const serverOptions: ServerOptions = {
-      pageNumber: (event.first / event.rows) + 1,
+      pageNumber: event.first / event.rows + 1,
       pageSize: event.rows,
       filterOptions: {},
-      sortOptions: {}
+      sortOptions: {},
     };
     if (event.sortField) {
       const sortOptions = {};
       const dir = event.sortOrder === 1 ? 'asc' : 'desc';
-      sortOptions[event.sortField] = { dir: dir, prio: 0 };
+      sortOptions[event.sortField] = { dir, prio: 0 };
       serverOptions.sortOptions = sortOptions;
     }
     for (const filter in event.filters) {
       serverOptions.filterOptions[filter] = event.filters[filter].value;
     }
-    this.userService.getUsers(serverOptions)
-      .subscribe(
-        result => {
-          this.loading = false;
-          this.users = result.results;
-          this.totalRecords = result.total;
-        },
-        error => {
-          this.loading = false;
-          this.messageService.add({ severity: 'error', summary: 'Get Users', detail: error.message });
+    this.userService.getUsers(serverOptions).subscribe(
+      (result) => {
+        this.loading = false;
+        this.users = result.results;
+        this.totalRecords = result.total;
+      },
+      (error) => {
+        this.loading = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Get Users',
+          detail: error.message,
         });
+      },
+    );
   }
 
   onUserSelected(event: any) {
@@ -163,35 +168,55 @@ export class AlandaUserManagementComponent implements OnInit {
 
   private createUser(user: AlandaUser) {
     this.userService.save(user).subscribe(
-      res => {
-        this.messageService.add({ severity: 'success', summary: 'Create New User', detail: 'User has been created' });
+      (res) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Create New User',
+          detail: 'User has been created',
+        });
         this.turboTable.reset();
       },
-      error => this.messageService.add({ severity: 'error', summary: 'Create User', detail: error.message }));
+      (error) =>
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Create User',
+          detail: error.message,
+        }),
+    );
   }
 
   private updateUser(user: AlandaUser) {
     const stringGroups: string[] = new Array<string>();
-    this.assignedGroups.forEach(item => {
+    this.assignedGroups.forEach((item) => {
       stringGroups.push(item.groupName);
     });
     user.groups = stringGroups;
     this.userService.updateUser(user).subscribe(
-      res => {
-        this.messageService.add({ severity: 'success', summary: 'Update User', detail: 'User has been updated' });
+      (res) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Update User',
+          detail: 'User has been updated',
+        });
       },
-      error => this.messageService.add({ severity: 'error', summary: 'Update User', detail: error.message }));
+      (error) =>
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Update User',
+          detail: error.message,
+        }),
+    );
   }
-
 
   private loadGroups() {
     const serverOptions: ServerOptions = {
       pageNumber: 1,
       pageSize: 999999,
       filterOptions: {},
-      sortOptions: {}
+      sortOptions: {},
     };
-    this.userService.getGroupsForUser(this.selectedUser.loginName)
+    this.userService
+      .getGroupsForUser(this.selectedUser.loginName)
       .pipe(
         mergeMap((groups: AlandaGroup[]) => {
           this.assignedGroups = groups;
@@ -199,91 +224,160 @@ export class AlandaUserManagementComponent implements OnInit {
         }),
       )
       .subscribe(
-        result => {
-          this.availableGroups = result.results.filter(all => {
-            return this.assignedGroups.filter(assigned => {
-              return assigned.guid === all.guid;
-            }).length === 0;
+        (result) => {
+          this.availableGroups = result.results.filter((all) => {
+            return (
+              this.assignedGroups.filter((assigned) => {
+                return assigned.guid === all.guid;
+              }).length === 0
+            );
           });
         },
-        error => this.messageService.add({ severity: 'error', summary: 'Get Groups For User', detail: error.message }));
+        (error) =>
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Get Groups For User',
+            detail: error.message,
+          }),
+      );
   }
 
   private loadRoles() {
-    this.userService.getEffectiveRolesForUser(this.selectedUser.guid)
+    this.userService
+      .getEffectiveRolesForUser(this.selectedUser.guid)
       .pipe(
-        mergeMap(roles => {
+        mergeMap((roles) => {
           this.assignedRoles = roles;
           return this.roleService.getRoles();
-        })
+        }),
       )
       .subscribe(
-        result => {
-          this.availableRoles = result.filter(all => {
-            return this.assignedRoles.filter(assigned => {
-              return assigned.guid === all.guid;
-            }).length === 0;
+        (result) => {
+          this.availableRoles = result.filter((all) => {
+            return (
+              this.assignedRoles.filter((assigned) => {
+                return assigned.guid === all.guid;
+              }).length === 0
+            );
           });
         },
-        error => this.messageService.add({ severity: 'error', summary: 'Load Roles', detail: error.message }));
+        (error) =>
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Load Roles',
+            detail: error.message,
+          }),
+      );
   }
 
-  private loadPermissions(): void{
-    this.userService.getEffectivePermissionsForUser(this.selectedUser.guid)
+  private loadPermissions(): void {
+    this.userService
+      .getEffectivePermissionsForUser(this.selectedUser.guid)
       .pipe(
         mergeMap((permissions: AlandaPermission[]) => {
           this.grantedPermissions = permissions;
           return this.permissionService.getPermissions();
-        })
+        }),
       )
       .subscribe(
-        result => {
-          this.availablePermissions = result.filter(all => {
-            return this.grantedPermissions.filter(assigned => {
-              return assigned.guid === all.guid;
-            }).length === 0;
+        (result) => {
+          this.availablePermissions = result.filter((all) => {
+            return (
+              this.grantedPermissions.filter((assigned) => {
+                return assigned.guid === all.guid;
+              }).length === 0
+            );
           });
         },
-        error => this.messageService.add({ severity: 'error', summary: 'Load Permissions', detail: error.message }));
+        (error) =>
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Load Permissions',
+            detail: error.message,
+          }),
+      );
   }
 
   runAsUser() {
     this.userService.runAsUser(this.selectedUser.loginName).subscribe(
-      user => this.messageService.add({ severity: 'success', summary: 'Run As User', detail: `Run as ${user.loginName}` }),
-      error => this.messageService.add({ severity: 'error', summary: 'Run As User', detail: error.message })
+      (user) =>
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Run As User',
+          detail: `Run as ${user.loginName}`,
+        }),
+      (error) =>
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Run As User',
+          detail: error.message,
+        }),
     );
   }
 
-
   onUpdateGroups() {
     const stringGroups: string[] = new Array<string>();
-    this.assignedGroups.forEach(item => {
+    this.assignedGroups.forEach((item) => {
       stringGroups.push(item.groupName);
     });
     this.selectedUser.groups = stringGroups;
 
     this.userService.updateUser(this.selectedUser).subscribe(
-      result => this.messageService.add({ severity: 'success', summary: 'Update Groups', detail: 'Groups have been updated' }),
-      error => this.messageService.add({ severity: 'error', summary: 'Update Groups', detail: error.message })
+      (result) =>
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Update Groups',
+          detail: 'Groups have been updated',
+        }),
+      (error) =>
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Update Groups',
+          detail: error.message,
+        }),
     );
   }
 
   onUpdateRoles() {
-    this.userService.updateRolesForUser(this.selectedUser.guid, this.assignedRoles).subscribe(
-      result => this.messageService.add({ severity: 'success', summary: 'Update Roles', detail: 'Roles have been updated' }),
-      error => this.messageService.add({ severity: 'error', summary: 'Update Roles', detail: error.message })
-    );
+    this.userService
+      .updateRolesForUser(this.selectedUser.guid, this.assignedRoles)
+      .subscribe(
+        (result) =>
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Update Roles',
+            detail: 'Roles have been updated',
+          }),
+        (error) =>
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Update Roles',
+            detail: error.message,
+          }),
+      );
   }
 
   onUpdatePermissions() {
-    this.userService.updatePermissionsForUser(this.selectedUser.guid, this.grantedPermissions).subscribe(
-      result => this.messageService.add({ severity: 'success', summary: 'Update Permissions', detail: 'Permissions have been updated' }),
-      error => this.messageService.add({ severity: 'error', summary: 'Update Permissions', detail: error.message })
-    );
+    this.userService
+      .updatePermissionsForUser(this.selectedUser.guid, this.grantedPermissions)
+      .subscribe(
+        (result) =>
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Update Permissions',
+            detail: 'Permissions have been updated',
+          }),
+        (error) =>
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Update Permissions',
+            detail: error.message,
+          }),
+      );
   }
 
   moveRole(event) {
-    event.items.forEach(item => {
+    event.items.forEach((item) => {
       if (item.source) {
         this.assignedRoles.push(item);
         this.availableRoles.splice(this.availableRoles.indexOf(item), 1);
@@ -292,10 +386,13 @@ export class AlandaUserManagementComponent implements OnInit {
   }
 
   movePermission(event) {
-    event.items.forEach(item => {
+    event.items.forEach((item) => {
       if (item.source) {
         this.grantedPermissions.push(item);
-        this.availablePermissions.splice(this.availablePermissions.indexOf(item), 1);
+        this.availablePermissions.splice(
+          this.availablePermissions.indexOf(item),
+          1,
+        );
       }
     });
   }

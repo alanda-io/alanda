@@ -31,7 +31,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
 
   constructor(
     private readonly projectService: AlandaProjectApiService,
-    private readonly projectAndProcessesService: ProjectAndProcessesService
+    private readonly projectAndProcessesService: ProjectAndProcessesService,
   ) {}
 
   ngOnInit() {}
@@ -55,7 +55,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
 
   onSubprocessSelected(
     rowData: TreeNodeData,
-    selection: { processName: string; processDefinitionKey: string }
+    selection: { processName: string; processDefinitionKey: string },
   ) {
     const process: AlandaProcess = {};
     process.status = ProjectState.NEW;
@@ -88,13 +88,13 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
                 map((project) => {
                   return this.projectAndProcessesService.mapProjectToTreeNode(
                     project,
-                    this.project
+                    this.project,
                   );
-                })
+                }),
               );
             }),
             toArray(),
-            map((mappedProjects) => this.updateTreeStructure(mappedProjects))
+            map((mappedProjects) => this.updateTreeStructure(mappedProjects)),
           )
           .subscribe((treeNodes) => {
             this.treeStructure = treeNodes;
@@ -104,21 +104,21 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
   }
 
   private getProjectWithProcessesAndTasks(
-    project: AlandaProject
+    project: AlandaProject,
   ): Observable<AlandaProject> {
     return this.projectService
       .getProcessesAndTasksForProject(project.guid)
       .pipe(
         map((result: any) => {
           project.processes = result.active;
-          this.allowedProcesses[
-            project.guid
-          ] = result.allowed.default.map((p) => ({
-            label: p.processName,
-            processKey: p.processDefinitionKey,
-          }));
+          this.allowedProcesses[project.guid] = result.allowed.default.map(
+            (p) => ({
+              label: p.processName,
+              processKey: p.processDefinitionKey,
+            }),
+          );
           return project;
-        })
+        }),
       );
   }
 
@@ -130,7 +130,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
       .mapNewProcessToTreeNode(filteredNode, null)); */
 
     const currentProject = projects.filter(
-      (node) => node.data.type === 'project'
+      (node) => node.data.type === 'project',
     );
     /* .map(filteredNode => this.projectAndProcessesService
       .mapNewProcessToTreeNode(filteredNode, null)); */

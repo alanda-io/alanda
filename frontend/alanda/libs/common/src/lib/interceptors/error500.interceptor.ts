@@ -4,13 +4,16 @@ import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest
+  HttpRequest,
 } from '@angular/common/http';
 import { EMPTY, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 export class Error500Interceptor implements HttpInterceptor {
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler,
+  ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((errorResp: HttpErrorResponse) => {
         if (errorResp.status === 500) {
@@ -19,7 +22,7 @@ export class Error500Interceptor implements HttpInterceptor {
           return EMPTY;
         }
         return throwError(errorResp);
-      })
+      }),
     );
   }
 }

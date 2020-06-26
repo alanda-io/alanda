@@ -2,25 +2,24 @@ import {
   PART_DIVIDER_TOKEN,
   PERMISSION_PLACEHOLDER,
   SUBPART_DIVIDER_TOKEN,
-  WILDCARD_TOKEN
+  WILDCARD_TOKEN,
 } from '../interfaces-and-types';
 import { AlandaUser } from '../../api/models/user';
 
-
 export class Authorizations {
   /**
-  * @description
-  * receives a sub part of a permission string
-  * in the format provided by the [apache shiro](https://shiro.apache.org/permissions.html) standard,
-  * and returns the contained tokens as string array.
-  *
-  * @example
-  * const subTokens = resolveSubParts('write,read,delete'); // ['write','read','delete']
-  *
-  * @param permissionStringSubPart: string - the string to parse
-  *
-  * @returns tokens { string[] }  - string array of tokens
-  */
+   * @description
+   * receives a sub part of a permission string
+   * in the format provided by the [apache shiro](https://shiro.apache.org/permissions.html) standard,
+   * and returns the contained tokens as string array.
+   *
+   * @example
+   * const subTokens = resolveSubParts('write,read,delete'); // ['write','read','delete']
+   *
+   * @param permissionStringSubPart: string - the string to parse
+   *
+   * @returns tokens { string[] }  - string array of tokens
+   */
   private static resolveSubParts(permissionStringSubPart: string): string[] {
     const tokensOfSubParts: string[] = [];
     const tokens = permissionStringSubPart.split(SUBPART_DIVIDER_TOKEN);
@@ -88,19 +87,31 @@ export class Authorizations {
    *
    * @returns isGranted {boolean} - true if rights are granted, false if not
    */
-  static hasPermission(currentUser: AlandaUser, permissionString: string, accessLevel?: string): boolean {
+  static hasPermission(
+    currentUser: AlandaUser,
+    permissionString: string,
+    accessLevel?: string,
+  ): boolean {
     // If the user has no valid permission strings no access is granted
-    if (!currentUser?.stringPermissions || !Array.isArray(currentUser.stringPermissions)) {
+    if (
+      !currentUser?.stringPermissions ||
+      !Array.isArray(currentUser.stringPermissions)
+    ) {
       return false;
     }
     const permissions = currentUser.stringPermissions;
     let requestedPermission;
     if (accessLevel) {
-      requestedPermission = permissionString.replace(PERMISSION_PLACEHOLDER, accessLevel);
+      requestedPermission = permissionString.replace(
+        PERMISSION_PLACEHOLDER,
+        accessLevel,
+      );
     } else {
       requestedPermission = permissionString;
     }
-    return permissions.some(permission => Authorizations.implies(requestedPermission, permission));
+    return permissions.some((permission) =>
+      Authorizations.implies(requestedPermission, permission),
+    );
   }
 
   /**
@@ -118,14 +129,19 @@ export class Authorizations {
    */
   static implies(requestedPerm: string, userPerm: string): boolean {
     let isImplied = true;
-    const requestedParts: string[][] = Authorizations.resolveTokens(requestedPerm);
+    const requestedParts: string[][] = Authorizations.resolveTokens(
+      requestedPerm,
+    );
     const userParts: string[][] = Authorizations.resolveTokens(userPerm);
 
     for (let i = 0; i < requestedParts.length; i++) {
       const userPart: string[] = userParts[i];
       if (i < requestedParts.length) {
         const requestedPart: string[] = requestedParts[i];
-        if (!Authorizations.containsWildCardToken(userPart) && !Authorizations.containsAll(userPart, requestedPart)) {
+        if (
+          !Authorizations.containsWildCardToken(userPart) &&
+          !Authorizations.containsAll(userPart, requestedPart)
+        ) {
           isImplied = false;
           break;
         }
@@ -153,7 +169,9 @@ export class Authorizations {
    *
    * @returns containsWildCardToken{ boolean } - true if the given string contains a wild card token, false if not
    */
-  private static containsWildCardToken(permissionStringPart: string[]): boolean {
+  private static containsWildCardToken(
+    permissionStringPart: string[],
+  ): boolean {
     return permissionStringPart.includes(WILDCARD_TOKEN);
   }
 
@@ -171,7 +189,10 @@ export class Authorizations {
    *
    * @return true if all tokens are contained, false if not
    */
-  private static containsAll(userPermissionTokens: string[], requestedPermissionTokens: string[]): boolean {
+  private static containsAll(
+    userPermissionTokens: string[],
+    requestedPermissionTokens: string[],
+  ): boolean {
     let contains = true;
     for (let i = 0; i < requestedPermissionTokens.length; i++) {
       if (!userPermissionTokens.includes(requestedPermissionTokens[i])) {
