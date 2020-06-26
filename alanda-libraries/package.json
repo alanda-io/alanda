@@ -26,7 +26,8 @@
     "update": "ng update @nrwl/workspace",
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "publish-common": "cd dist/libs/common && npm login --registry=https://repo.alanda.io/repository/alanda/ && npm publish"
   },
   "private": true,
   "dependencies": {
