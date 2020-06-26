@@ -1,5 +1,5 @@
 {
-  "npmScope": "alanda-libraries",
+  "npmScope": "alanda",
   "implicitDependencies": {
     "angular.json": "*",
     "package.json": {

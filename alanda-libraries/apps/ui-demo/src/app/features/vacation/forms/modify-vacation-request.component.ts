@@ -2,7 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import {
   AlandaTaskFormService,
   BaseFormComponent,
-} from '@alanda-libraries/common';
+} from '@alanda/common';
 import { SelectItem } from 'primeng/api';
 
 @Component({

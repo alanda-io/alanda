@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { state, style, transition, animate, trigger } from '@angular/animations';
-import { AlandaUserApiService } from '@alanda-libraries/common';
+import { AlandaUserApiService } from '@alanda/common';
 import { MenuItem } from 'primeng/api/menuitem';
 
 @Component({
@@ -24,7 +24,7 @@ import { MenuItem } from 'primeng/api/menuitem';
 export class HeaderComponent implements OnInit {
   items: MenuItem[];
   value: Date;
-  title = 'alanda-libraries';
+  title = 'alanda-ui-demo';
   private scrollPos = 0;
   autoHide = true;
 

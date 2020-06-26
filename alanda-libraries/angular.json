@@ -10,7 +10,7 @@
       },
       "root": "apps/ui-demo",
       "sourceRoot": "apps/ui-demo/src",
-      "prefix": "alanda-libraries",
+      "prefix": "alanda",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -130,7 +130,7 @@
       "projectType": "library",
       "root": "libs/common",
       "sourceRoot": "libs/common/src",
-      "prefix": "alanda-libraries",
+      "prefix": "alanda",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",

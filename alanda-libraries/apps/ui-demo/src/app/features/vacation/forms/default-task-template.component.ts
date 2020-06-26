@@ -2,7 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import {
   BaseFormComponent,
   AlandaTaskFormService
-} from '@alanda-libraries/common';
+} from '@alanda/common';
 
 @Component({
   selector: 'default-task',

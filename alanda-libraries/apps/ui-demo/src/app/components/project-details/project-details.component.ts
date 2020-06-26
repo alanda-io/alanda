@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { AlandaProject } from '@alanda-libraries/common';
+import { AlandaProject } from '@alanda/common';
 import { RxState } from '@rx-angular/state';
-import { ProjectControllerState } from '@alanda-libraries/common';
+import { ProjectControllerState } from '@alanda/common';
 
 @Component({
   selector: 'project-details-component',

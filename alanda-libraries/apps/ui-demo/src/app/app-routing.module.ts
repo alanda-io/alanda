@@ -10,8 +10,8 @@ import {
   AlandaPermissionManagementComponent,
   AlandaUserManagementComponent,
   AlandaProjectsControllerComponent,
-} from '@alanda-libraries/common';
-import { AlandaFormsControllerComponent } from '@alanda-libraries/common';
+} from '@alanda/common';
+import { AlandaFormsControllerComponent } from '@alanda/common';
 import { PermissionsDemoComponent } from './components/permissions-demo/permissions-demo.component';
 
 const routes: Routes = [

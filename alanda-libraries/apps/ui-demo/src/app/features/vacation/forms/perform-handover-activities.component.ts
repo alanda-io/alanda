@@ -1,7 +1,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { SelectItem } from 'primeng/api';
-import { BaseFormComponent } from '@alanda-libraries/common';
-import { AlandaTaskFormService } from '@alanda-libraries/common';
+import { BaseFormComponent } from '@alanda/common';
+import { AlandaTaskFormService } from '@alanda/common';
 
 @Component({
   selector: 'perform-handover-activities',

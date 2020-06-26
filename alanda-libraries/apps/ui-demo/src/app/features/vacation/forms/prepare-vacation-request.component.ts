@@ -3,7 +3,7 @@ import { SelectItem } from 'primeng/api';
 import {
   AlandaTaskFormService,
   BaseFormComponent,
-} from '@alanda-libraries/common';
+} from '@alanda/common';
 import { Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 

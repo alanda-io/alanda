@@ -18,7 +18,7 @@ import {
   AlandaCommonModule,
   AlandaProjectPropertiesService,
   PermissionModule
-} from '@alanda-libraries/common';
+} from '@alanda/common';
 import { ALANDA_CONFIG } from './app.settings';
 import { ProjectPropertiesService } from './core/services/projectproperties.service';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';

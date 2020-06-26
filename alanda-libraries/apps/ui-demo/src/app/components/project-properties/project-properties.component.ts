@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AlandaProject } from '@alanda-libraries/common';
-import { AlandaTaskFormService } from '@alanda-libraries/common';
+import { AlandaProject } from '@alanda/common';
+import { AlandaTaskFormService } from '@alanda/common';
 
 @Component({
   templateUrl: './project-properties.component.html',

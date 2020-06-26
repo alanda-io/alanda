@@ -3,7 +3,7 @@ import { CardModule } from 'primeng/card';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { AlandaCommonModule } from '@alanda-libraries/common';
+import { AlandaCommonModule } from '@alanda/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PanelModule } from 'primeng/panel';
 
