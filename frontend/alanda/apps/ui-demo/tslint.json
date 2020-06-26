@@ -1,7 +1,7 @@
 {
   "extends": "../../tslint.json",
   "rules": {
-    "directive-selector": [true, "attribute", "alandaLibraries", "camelCase"],
+    "directive-selector": [true, "attribute", "alanda", "camelCase"],
     "component-selector": [true, "element", "alanda", "kebab-case"]
   },
   "linterOptions": {
