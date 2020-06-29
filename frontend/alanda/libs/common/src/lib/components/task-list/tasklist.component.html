@@ -1,0 +1,175 @@
+<div class="p-grid">
+  <div class="p-col">
+    <p-panel>
+      <p-header>
+        <span class="ui-panel-title">Tasks</span>
+      </p-header>
+      <div class="p-grid p-justify-between">
+        <div class="p-col">
+          <span [hidden]="validLayouts.length <= 1"
+            >Layout
+            <p-dropdown
+              [options]="validLayouts"
+              [(ngModel)]="selectedLayout"
+              [style]="{ width: '200px' }"
+              optionLabel="displayName"
+              (onChange)="onChangeLayout()"
+            >
+            </p-dropdown>
+          </span>
+        </div>
+        <div class="p-col-align-center table-action-buttons">
+          <p-menu
+            #menu
+            [popup]="true"
+            [model]="menuItems"
+            appendTo="body"
+          ></p-menu>
+          <p-button
+            type="button"
+            class="menu-action-button action-button"
+            icon="fa fa-fw fa-list"
+            (click)="menu.toggle($event)"
+          ></p-button>
+          <button
+            (click)="toggleGroupTasks(true)"
+            pButton
+            type="button"
+            label="My Group Tasks"
+            class="ui-button-rounded badge action-button"
+            [ngClass]="{ 'ui-button-secondary': !groupTasks }"
+          ></button>
+          <button
+            (click)="toggleGroupTasks(false)"
+            pButton
+            type="button"
+            label="My Tasks"
+            class="ui-button-rounded badge action-button"
+            [ngClass]="{ 'ui-button-secondary': groupTasks }"
+          ></button>
+        </div>
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col">
+          <p-table
+            #tt
+            [class]="'tasklist-table'"
+            [value]="tasksData.results"
+            [columns]="selectedLayout.columnDefs"
+            [paginator]="true"
+            [rows]="15"
+            [lazy]="true"
+            [totalRecords]="tasksData.total"
+            (onLazyLoad)="loadTasksLazy($event)"
+            [autoLayout]="true"
+            [loading]="loading"
+            [resizableColumns]="true"
+            [responsive]="true"
+            [tableStyle]="{ 'table-layout': '100%' }"
+          >
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th
+                  *ngFor="let col of columns"
+                  [pSortableColumn]="col.field"
+                  pResizableColumn
+                  [style.width]="col.width + 'px'"
+                  [ngClass]="'ng-ui-table'"
+                >
+                  <span>{{ col.displayName }}<p-sortIcon></p-sortIcon></span>
+                </th>
+              </tr>
+              <tr>
+                <th *ngFor="let col of columns">
+                  <input
+                    pInputText
+                    type="text"
+                    class="header-col-filter"
+                    (input)="
+                      tt.filter($event.target.value, col.field, 'contains')
+                    "
+                    [value]="
+                      tt.filters[col.field] ? tt.filters[col.field].value : ''
+                    "
+                  />
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-task let-columns="columns">
+              <tr [pSelectableRow]="task" class="ng-center-cell">
+                <td
+                  *ngFor="let col of columns"
+                  [ngClass]="getCondition(task, col.template)"
+                  [ngClass]="{ 'action-cell': col.name === 'Action' }"
+                >
+                  <ng-container *ngIf="col.name === 'Action'">
+                    <p-splitButton
+                      [showTransitionOptions]="'0ms'"
+                      [hideTransitionOptions]="'0ms'"
+                      label="{{ task.claimLabel }}"
+                      (onClick)="claimAction(task)"
+                      (onDropdownClick)="openDelegationForm(task)"
+                      class="table-action-button"
+                    >
+                    </p-splitButton>
+                  </ng-container>
+                  <ng-template
+                    [ngIf]="col.name === 'Task Name'"
+                    [ngIfElse]="default"
+                  >
+                    <a
+                      [routerLink]="
+                        '/forms/' + task.task.formKey + '/' + task.task.task_id
+                      "
+                      >{{ task | nestedObject: col.field }}</a
+                    >
+                  </ng-template>
+                  <ng-template #default>
+                    {{ task | nestedObject: col.field }}
+                  </ng-template>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="paginatorright">
+              <span *ngIf="tasksData.total">Total: {{ tasksData.total }}</span>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </p-panel>
+  </div>
+</div>
+<p-dialog
+  [visible]="showDelegateDialog"
+  [modal]="true"
+  [dismissableMask]="true"
+  [closeOnEscape]="true"
+  [closable]="true"
+  width="300"
+  [contentStyle]="{ overflow: 'visible' }"
+>
+  <p-header>
+    Delegate task for
+  </p-header>
+  <p-dropdown
+    #dd
+    [options]="candidateUsers"
+    optionLabel="displayName"
+    placeholder="Select a user"
+    [filter]="true"
+  ></p-dropdown>
+  <p-footer>
+    <p-button
+      (onClick)="hideDelegateDialog()"
+      styleClass="ui-button-raised ui-button-info"
+      label="Cancel"
+    ></p-button>
+    <p-button
+      (onClick)="delegateTask(dd.value)"
+      styleClass="ui-button-raised ui-button-success"
+      [disabled]="!dd.value"
+      label="Delegate"
+    ></p-button>
+  </p-footer>
+</p-dialog>
