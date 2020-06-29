@@ -86,6 +86,8 @@
         </div>
     </form>
     <ng-template properties-host></ng-template>
+
+    <alanda-phase-tab [items]="items" [project]="project"></alanda-phase-tab>
 </p-panel>
 
 <p-dialog
@@ -105,5 +107,3 @@
         <p-button (onClick)="delegateTask(dd.value)" styleClass="ui-button-raised ui-button-success" [disabled]="!dd.value" label="Delegate"></p-button>
     </p-footer>
 </p-dialog>
-
-<alanda-phase-tab [items]="items"></alanda-phase-tab>

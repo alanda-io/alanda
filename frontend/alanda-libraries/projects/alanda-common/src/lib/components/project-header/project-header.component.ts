@@ -26,7 +26,6 @@ import {
 import { Observable, of } from 'rxjs';
 import { AlandaProjectPropertiesService } from '../../services/project-properties.service';
 import { AlandaPropertyApiService } from '../../api/propertyApi.service';
-import { AlandaBadgeComponent } from '../badge/badge.component';
 import { AlandaPhaseTabItem } from '../phase-tab/phase-tab.component';
 
 @Component({
@@ -69,9 +68,11 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   });
 
   items: AlandaPhaseTabItem[] = [
-    { header: 'test', content: 'ABCDE', state: null },
-    { header: 'RALF', content: 'tester ohne grenzen', state: 'not set' },
-    { header: 'component test', component: 'AlandaBadgeComponent', state: 'active' }
+    { header: 'Overview', state: null },
+    { header: 'Sharing', state: 'not set' },
+    { header: 'Acquisition', state: 'active' },
+    { header: 'Civil Works', state: 'active' },
+    { header: 'Integration', state: 'active' }
   ];
 
   constructor(

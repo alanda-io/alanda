@@ -10,11 +10,11 @@
   </div>
 
   <div class="phase-tab-content">
-    {{ items[activeItemIndex].content }}
+    <!-- Something can be placed here -->
   </div>
 </div>
 
-
+<!--
 <p-tabView class="phase-tab">
   <p-tabPanel *ngFor="let item of items; let i = index" [selected]="i == 0">
     <ng-template pTemplate="header">
@@ -25,8 +25,8 @@
       </div>
     </ng-template>
     <ng-template pTemplate="content">
-      {{ item.content }}
+      <ng-template properties-host></ng-template>
     </ng-template>
   </p-tabPanel>
 </p-tabView>
-
+-->
