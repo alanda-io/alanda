@@ -1,0 +1,57 @@
+<p-panel>
+  <p-header>
+    Process Activities
+  </p-header>
+  <div class="p-grid">
+    <!-- <div class="p-col-align-center switchTaskButtons">
+        <button (click)="toggleGroupTasks(true)" pButton type="button" label="My Group Tasks" class="ui-button-rounded badge" [ngClass]="{'ui-button-secondary': !groupTasks}"></button>
+        <button (click)="toggleGroupTasks(false)" pButton type="button" label="My Tasks" class="ui-button-rounded badge" [ngClass]="{'ui-button-secondary': groupTasks}"></button>
+      </div> -->
+  </div>
+  <p-table
+    #tt
+    [value]="jsonResult"
+    [paginator]="true"
+    [columns]="columnDefs"
+    [rows]="10"
+    [autoLayout]="true"
+    [loading]="loading"
+    [resizableColumns]="true"
+    [responsive]="true"
+    [tableStyle]="{ 'table-layout': '100%' }"
+    selectionMode="single"
+    [(selection)]="selectedActivity"
+  >
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th
+          *ngFor="let col of columns"
+          [pSortableColumn]="col.field"
+          pResizableColumn
+          [style.width]="col.width + 'px'"
+        >
+          <span style="white-space: nowrap;"
+            >{{ col.name }}<p-sortIcon></p-sortIcon
+          ></span>
+        </th>
+      </tr>
+      <tr>
+        <th *ngFor="let col of columns">
+          <input
+            pInputText
+            type="text"
+            (input)="tt.filter($event.target.value, col.field, 'contains')"
+            [value]="tt.filters[col.field] ? tt.filters[col.field].value : ''"
+            style="width: 100%;"
+            inputStyle="width: 100%"
+          />
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr [pSelectableRow]="rowData">
+        <td *ngFor="let col of columns">{{ rowData[col.field] }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
