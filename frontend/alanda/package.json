@@ -42,7 +42,6 @@
     "@angular/router": "^9.1.0",
     "@nrwl/angular": "^9.4.5",
     "@rx-angular/state": "^1.2.2",
-    "@rx-angular/template": "^1.0.0-alpha.0",
     "bpmn-js": "6.5.1",
     "font-awesome": "^4.7.0",
     "primeflex": "1.0.0",
