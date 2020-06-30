@@ -242,9 +242,9 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
     return this.http.get<AlandaSimplePhase>(`${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}`);
   }
 
-  public setPhaseEnabled(projectGuid: number, phaseDefIdName: number, enabled: boolean): Observable<AlandaSimplePhase> {
+  public setPhaseEnabled(projectGuid: number, phaseDefIdName: string, enabled: boolean): Observable<AlandaSimplePhase> {
     return this.http.post<AlandaSimplePhase>(`${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}`, {
-      enabled: enabled
+      enabled
     });
   }
 }

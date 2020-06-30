@@ -22,19 +22,21 @@ $header-item-spacer: 4px;
       text-align: center;
       vertical-align: bottom;
 
-      .edit-state {
-        color: $primary-blue;
-        margin: 0 5px;
-      }
+      .header-state {
+        .edit-state {
+          color: $primary-blue;
+          margin: 0 5px;
+        }
 
-      .active-state {
-        background: darken(#f4f4f4, 20%);
-        border-radius: 3px;
-        display: inline-block;
-        font-size: 12px;
-        font-weight: 200;
-        padding: 3px;
-        text-transform: uppercase;
+        .status {
+          background: darken(#f4f4f4, 20%);
+          border-radius: 3px;
+          display: inline-block;
+          font-size: 12px;
+          font-weight: 200;
+          padding: 3px;
+          text-transform: uppercase;
+        }
       }
 
       &:hover {
@@ -53,8 +55,10 @@ $header-item-spacer: 4px;
         background: $primary-blue;
         color: $white;
 
-        .edit-state {
-          color: $white;
+        .header-state {
+          .edit-state {
+            color: $white;
+          }
         }
       }
     }
@@ -62,20 +66,5 @@ $header-item-spacer: 4px;
 
   .phase-tab-content {
     padding: 10px;
-  }
-
-  .edit-state {
-    color: $primary-blue;
-    margin: 0 5px;
-  }
-
-  .active-state {
-    background: darken(#f4f4f4, 20%);
-    border-radius: 3px;
-    display: inline-block;
-    font-size: 12px;
-    font-weight: 200;
-    padding: 3px;
-    text-transform: uppercase;
   }
 }

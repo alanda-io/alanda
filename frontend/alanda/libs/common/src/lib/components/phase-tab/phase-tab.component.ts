@@ -2,18 +2,13 @@ import { Component, Input } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { AlandaSimplePhase } from '../../api/models/simplePhase';
 import { AlandaProject } from '../../api/models/project';
+import { AlandaProjectApiService } from '../../api/projectApi.service';
+import { switchMap } from 'rxjs/operators';
+import { RxState } from '@rx-angular/state';
 
-export interface AlandaPhaseTabItem {
-  header: string;
-  content?: string;
-  component?: string;
-  simplePhase?: AlandaSimplePhase;
-  state?: string;
-  data?: any;
-}
-
-export interface PhaseComponent {
-  data: any;
+export interface AlandaPhaseTabState {
+  simplePhases: AlandaSimplePhase[];
+  project: AlandaProject
 }
 
 @Component({
@@ -21,29 +16,52 @@ export interface PhaseComponent {
   templateUrl: './phase-tab.component.html',
   styleUrls: ['./phase-tab.component.scss']
 })
-export class AlandaPhaseTabComponent {
-  @Input() items: AlandaPhaseTabItem[];
-  @Input() activeItemIndex = 0;
-  @Input() project: AlandaProject;
+export class AlandaPhaseTabComponent extends RxState<AlandaPhaseTabState> {
+  @Input()
+  set project(project: AlandaProject) {
+    this.set({ project });
+  }
+
+  activeItemIndex = 0;
 
   menuItems: MenuItem[] = [
     {
       label: 'Enabled',
-      command: (event) => this.setStatus(event),
+      command: (event) => this.togglePhaseEnabled(true),
     },
     {
       label: 'Disabled',
-      command: (event) => this.setStatus(event)
+      command: (event) => this.togglePhaseEnabled(false)
     }
   ];
 
-  selectTab(index, event): void {
-    console.log(event, index);
+  simplePhases$ = this.select('project').pipe(
+    switchMap((project: AlandaProject) => {
+      return this.projectApiService.getPhasesForProject(project.guid)
+    })
+  )
+
+  constructor(
+    private readonly projectApiService: AlandaProjectApiService
+  ) {
+    super();
+    this.connect('simplePhases', this.simplePhases$);
+  }
+
+  setActiveItemIndex(index): void {
     this.activeItemIndex = index;
   }
 
-  setStatus(event): void {
-    this.items[this.activeItemIndex].simplePhase.enabled = !this.items[this.activeItemIndex].simplePhase.enabled;
-    console.log(event, this.activeItemIndex);
+  togglePhaseEnabled(enabled: boolean): void {
+    const projectGuid = this.get().project.guid;
+    const phaseDefidName = this.get().simplePhases[this.activeItemIndex].pmcProjectPhaseDefinition.idName;
+
+    this.projectApiService.setPhaseEnabled(projectGuid, phaseDefidName, enabled).subscribe(response => {
+      this.set('simplePhases', oldState => {
+        const phases = [...oldState.simplePhases]
+        phases[this.activeItemIndex].enabled = enabled;
+        return phases;
+      });
+    })
   }
 }
