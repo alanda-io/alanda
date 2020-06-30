@@ -6,80 +6,60 @@ import { AlandaTask } from '../../api/models/task';
 import { ProjectState } from '../../enums/projectState.enum';
 
 export interface TreeNodeData {
-  label: string;
-  refObject: string;
-  assignee: string;
-  start: any;
-  end: any;
-  comment: string;
-  routerLink: string;
-  type: string;
-  id: any;
-  value: any;
-  relatedProject: AlandaProject;
+  label?: string;
+  refObject?: string;
+  assignee?: string;
+  start?: Date;
+  end?: Date;
+  type?: string;
+  comment?: string;
+  routerLink?: string;
+  relatedProject?: AlandaProject;
+  value?: any;
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProjectAndProcessesService {
-  constructor() {}
 
-  mapProjectToTreeNode(
-    project: AlandaProject,
-    relatedProject: AlandaProject,
-  ): TreeNode {
+  constructor() { }
+
+  mapProjectToTreeNode(project: AlandaProject, relatedProject: AlandaProject): TreeNode {
     const data: TreeNodeData = {
       label: `${project.projectId} (${project.pmcProjectType.name} / ${project.title})`,
       refObject: project.refObjectIdName,
       assignee: project.ownerName,
-      start: project.createDate,
-      end: null,
+      start: new Date(project.createDate),
       comment: project.comment,
       routerLink: `/projectdetails/${project.projectId}`,
       type: this.getProjectRelation(project, relatedProject),
-      id: project.guid,
       value: project,
       relatedProject,
     };
     return {
       data,
-      children:
-        data.type !== 'parent'
-          ? project.processes.map((process) =>
-              this.mapProcessToTreeNode(process, project),
-            )
-          : null,
-      expanded: data.type === 'project',
+      children: data.type !== 'parent' ? project.processes.map(process => this.mapProcessToTreeNode(process, project)) : null,
     };
   }
 
-  mapProcessToTreeNode(
-    process: AlandaProcess,
-    project: AlandaProject,
-  ): TreeNode {
+  mapProcessToTreeNode(process: AlandaProcess, project: AlandaProject): TreeNode {
     if (process.status === ProjectState.NEW) {
       return this.mapNewProcessToTreeNode(process, project);
     }
     const data: TreeNodeData = {
       label: process.label,
       refObject: process.processKey,
-      assignee: null,
       start: process.startTime,
       end: process.endTime,
       comment: process.resultComment,
-      routerLink: null,
       type: 'process',
-      id: process.guid,
       value: process,
-      relatedProject: project,
+      relatedProject: project
     };
     return {
       data,
-      children: process.tasks
-        ? process.tasks.map((task) => this.mapTaskToTreeNode(task, project))
-        : null,
-      expanded: true,
+      children: process.tasks ? process.tasks.map(task => this.mapTaskToTreeNode(task, project)) : null,
     };
   }
 
@@ -88,64 +68,30 @@ export class ProjectAndProcessesService {
       label: task.task_name,
       refObject: task.process_definition_key,
       assignee: task.assignee,
-      start: task.created,
-      end: null,
+      start: new Date(task.created),
       comment: task.comment,
       routerLink: `/forms/${task.formKey}/${task.task_id}`,
-      type: task.actinst_type,
-      id: task.task_id,
+      type: task.actinst_type === 'task' ? 'task' : 'activity',
       value: task,
-      relatedProject: project,
+      relatedProject: project
     };
     return {
-      data,
+      data
     };
   }
 
-  mapNewProcessToTreeNode(
-    process: AlandaProcess,
-    project: AlandaProject,
-  ): TreeNode {
+  mapNewProcessToTreeNode(process: AlandaProcess, project: AlandaProject): TreeNode {
     const data: TreeNodeData = {
-      label: null,
-      refObject: null,
-      assignee: null,
-      start: null,
-      end: null,
-      comment: null,
-      routerLink: null,
       type: 'new-process',
-      id: null,
       value: process,
-      relatedProject: project,
+      relatedProject: project
     };
     return {
-      data,
+      data
     };
   }
 
-  /* mapNewProcessToTreeNode(projectNode: TreeNode, processes: AlandaProcess): TreeNode {
-    const data: TreeNodeData = {
-      label: null,
-      refObject: null,
-      assignee: null,
-      start: null,
-      end: null,
-      comment: null,
-      routerLink: null,
-      type: 'new-process',
-      id: null,
-      value: processes,
-      relatedProject: projectNode.data.value
-    };
-    projectNode.children ? projectNode.children.push({data}) : projectNode.children = [{data}];
-    return projectNode;
-  } */
-
-  private getProjectRelation(
-    project: AlandaProject,
-    relatedProject: AlandaProject,
-  ): string {
+  private getProjectRelation(project: AlandaProject, relatedProject: AlandaProject): string {
     if (project.childrenIds?.includes(relatedProject.guid)) {
       return 'parent';
     }
@@ -154,4 +100,5 @@ export class ProjectAndProcessesService {
     }
     return 'project';
   }
+
 }
