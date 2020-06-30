@@ -27,6 +27,7 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
+    "build-common": "nx build common --prod",
     "publish-common": "cd dist/libs/common && npm login --registry=https://repo.alanda.io/repository/alanda/ && npm publish"
   },
   "private": true,
@@ -42,7 +43,6 @@
     "@angular/router": "^9.1.0",
     "@nrwl/angular": "^9.4.5",
     "@rx-angular/state": "^1.2.2",
-    "@rx-angular/template": "^1.0.0-alpha.0",
     "bpmn-js": "6.5.1",
     "font-awesome": "^4.7.0",
     "primeflex": "1.0.0",
