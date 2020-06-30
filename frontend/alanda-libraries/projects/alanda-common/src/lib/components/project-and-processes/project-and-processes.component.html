@@ -15,36 +15,45 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-      <tr *ngIf="rowData.type !== 'new-process'">
-        <td [ngStyle]="{'font-weight':rowData.type === 'project' ? '700' : '400' }">
-          <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-          <span [ngClass]="getIconClass(rowData.type)"></span>
-          <a *ngIf="rowData.routerLink" [routerLink]="rowData.routerLink"> {{rowData.label}}</a>
-          <span *ngIf="!rowData.routerLink"> {{rowData.label}}</span>
-        </td>
-        <td>{{rowData.refObject}}</td>
-        <td>{{rowData.assignee}}</td>
-        <td>{{rowData.start | date: dateFormat}}</td>
-        <td>{{rowData.end | date: dateFormat}}</td>
-        <td>{{rowData.comment}}</td>
-        <td>
-          <alanda-pap-actions [data]="rowData" (changeEvent)="loadProjectAndProcesses()"></alanda-pap-actions>
-        </td>
-      </tr>
-      <!-- <tr *ngIf="rowData.type === 'new-process'">
-        <td>
-          <p-dropdown #selectSubprocess [style]="{'width':'100%'}" [options]="allowedProcesses[rowData.relatedProject.guid]"
-          (onChange)="onSubprocessSelected(rowData, selectSubprocess.value)" [(ngModel)]="rowData.value" placeholder="Select Process"
-          optionLabel="label"></p-dropdown>
-        </td>
-        <td>
-          <p-dropdown [style]="{'width':'100%'}" [disabled]="true" [options]="" placeholder="Reference Object" optionLabel=""></p-dropdown>
-        </td>
-        <td colspan="4">
-          <input [style]="{'width':'100%'}" type="text" placeholder="Details" [disabled]="true" pInputText />
-        </td>
-        <td><alanda-pap-actions [data]="rowData" (changeEvent)="loadProjectAndProcesses()"></alanda-pap-actions></td>
-      </tr> -->
+      <ng-container
+        [ngTemplateOutlet]="rowData.type !== 'new-process' ? defaultNode : newProcessNode"
+        [ngTemplateOutletContext]="{rowData:rowData, rowNode:rowNode}">
+        <ng-template #defaultNode>
+          <tr>
+            <td [ngStyle]="{'font-weight':rowData.type === 'project' ? '700' : '400' }">
+              <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+              <span [ngClass]="getIconClass(rowData.type)"></span>
+              <a *ngIf="rowData.routerLink" [routerLink]="rowData.routerLink"> {{rowData.label}}</a>
+              <span *ngIf="!rowData.routerLink"> {{rowData.label}}</span>
+            </td>
+            <td>{{rowData.refObject}}</td>
+            <td>{{rowData.assignee}}</td>
+            <td>{{rowData.start | date: dateFormat}}</td>
+            <td>{{rowData.end | date: dateFormat}}</td>
+            <td>{{rowData.comment}}</td>
+            <td>
+              <alanda-pap-actions [data]="rowData" (changeEvent)="loadProjectAndProcesses()"></alanda-pap-actions>
+            </td>
+          </tr>
+        </ng-template>
+      </ng-container>
     </ng-template>
   </p-treeTable>
 </p-panel>
+
+<ng-template #newProcessNode let-rowData="rowData" let-rowNode="rowNode">
+  <tr>
+    <td>
+      <p-dropdown [style]="{'width':'100%'}" [options]="allowedProcesses[rowData.relatedProject.guid]"
+      (onChange)="onSubprocessSelected(rowData, rowNode)" [(ngModel)]="rowData.value" placeholder="Select Process"
+      optionLabel="label"></p-dropdown>
+    </td>
+    <td>
+      <p-dropdown [style]="{'width':'100%'}" [disabled]="true" [options]="" placeholder="Reference Object" optionLabel=""></p-dropdown>
+    </td>
+    <td colspan="4">
+      <input *ngIf="rowData.value?.guid" [style]="{'width':'100%'}" type="text" placeholder="Details" [disabled]="true" pInputText />
+    </td>
+    <td><alanda-pap-actions [data]="rowData" (changeEvent)="loadProjectAndProcesses()"></alanda-pap-actions></td>
+  </tr>
+</ng-template>

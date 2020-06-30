@@ -19,9 +19,9 @@
   </ng-container>
 
   <ng-container *ngSwitchCase="'new-process'">
-    <span *ngIf="data.label" class="fa fa-play fa-lg play-action-icon"></span>
-    <span *ngIf="data.label" class="fa fa-times fa-lg remove-action-icon"></span>
-    <span *ngIf="data.label">NEW</span>
+    <span *ngIf="data.value?.guid" class="fa fa-play fa-lg play-action-icon"></span>
+    <span *ngIf="data.value?.guid" class="fa fa-times fa-lg remove-action-icon"></span>
+    <span *ngIf="data.value?.guid">NEW</span>
   </ng-container>
 </ng-container>
 
@@ -30,7 +30,7 @@
     <p-header>
       Cancel {{this.data.value.projectId}}
     </p-header>
-    <p>Are you sure to cancel project {{data.value?.projectId}}? All progress will be lost !</p>
+    <p>Are you sure to cancel project <b>{{data.value?.projectId}}</b>? All progress will be lost !</p>
     <input type="text" id="cancelReason" #cancelProjectReason pInputText placeholder="Reason for canceling the project"/>
     <p-footer>
       <button pButton label="Cancel" class="ui-button-secondary" (click)="displayCancelDialog = false"></button>
@@ -44,7 +44,7 @@
     <p-header>
       Cancel Process
     </p-header>
-    Are you sure to cancel {{data.value?.processName}}? All progress will be lost !
+    Are you sure to cancel <b>{{data.value?.label}}</b>? All progress will be lost !
     <input type="text" id="cancelReason" #cancelProcessReason pInputText placeholder="Reason for canceling the process"/>
     <p-footer>
       <button pButton type="button" label="Cancel" class="ui-button-secondary" (click)="displayCancelDialog = false"></button>

@@ -1,5 +1,6 @@
-<p-table #dt [value]="projects" [paginator]="true" [rows]="15" [lazy]="true" (onLazyLoad)="loadProjectsLazy($event)"
-[loading]="loading" [responsive]="true" selectionMode="single" [(selection)]="selectedProject" [rows]="15" [totalRecords]="projects.length">
+<p-table #dt [value]="projects" [rows]="rows" [lazy]="true" (onLazyLoad)="loadProjectsLazy($event)"
+[loading]="loading" [responsive]="true" selectionMode="single" [paginator]="true" [(selection)]="selectedProject"
+[totalRecords]="total">
   <ng-template pTemplate="header">
       <tr>
           <th pSortableColumn="project.projectId">

@@ -15,10 +15,12 @@ export class RelateDialogComponent implements OnInit {
   projectTypes: AlandaProjectType[] = [];
   loading = true;
   selectedProject: AlandaProject;
+  total: number;
+  rows = 15;
 
   serverOptions: ServerOptions = {
     pageNumber: 1,
-    pageSize: 15,
+    pageSize: this.rows,
     filterOptions: {},
     sortOptions: {}
   };
@@ -57,6 +59,7 @@ export class RelateDialogComponent implements OnInit {
     this.projectService.loadProjects(serverOptions).subscribe(
       res => {
         this.projects = [];
+        this.total = res.total;
         res.results.forEach(value => this.projects.push(value.project));
         this.loading = false;
       },

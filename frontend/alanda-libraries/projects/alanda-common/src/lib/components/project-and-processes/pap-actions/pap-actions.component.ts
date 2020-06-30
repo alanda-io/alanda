@@ -33,7 +33,7 @@ export class PapActionsComponent implements OnInit, OnDestroy {
       {
         label: 'Create subproject',
         icon: 'fa fa-angle-right',
-        command: (onclick) => this.router.navigate(['create/project', this.data.id])
+        command: (onclick) => this.router.navigate(['create/project', this.data.value.guid])
       },
       {
         label: 'Relate subproject',
@@ -60,11 +60,11 @@ export class PapActionsComponent implements OnInit, OnDestroy {
 
   onCancelClick(reason: string) {
     if (this.cancelType === 'project') {
-      this.projectService.stopProject(this.data.id, reason).subscribe(res => {
+      this.projectService.stopProject(this.data.value.guid, reason).subscribe(res => {
         this.changeEvent.emit();
       });
     } else {
-      this.projectService.stopProjectProcess(this.data.value.projectGuid, this.data.id, reason).subscribe(res => {
+      this.projectService.stopProjectProcess(this.data.value.projectGuid, this.data.value.guid, reason).subscribe(res => {
         this.changeEvent.emit();
       });
     }
