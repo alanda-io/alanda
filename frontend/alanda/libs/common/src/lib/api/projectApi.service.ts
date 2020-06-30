@@ -234,17 +234,33 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
     );
   }
 
-  public getPhasesForProject(projectGuid: number): Observable<AlandaSimplePhase[]> {
-    return this.http.get<AlandaSimplePhase[]>(`${this.endpoint}/project/${projectGuid}/phase`);
+  public getPhasesForProject(
+    projectGuid: number,
+  ): Observable<AlandaSimplePhase[]> {
+    return this.http.get<AlandaSimplePhase[]>(
+      `${this.endpoint}/project/${projectGuid}/phase`,
+    );
   }
 
-  public getPhase(projectGuid: number, phaseDefIdName: number): Observable<AlandaSimplePhase> {
-    return this.http.get<AlandaSimplePhase>(`${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}`);
+  public getPhase(
+    projectGuid: number,
+    phaseDefIdName: number,
+  ): Observable<AlandaSimplePhase> {
+    return this.http.get<AlandaSimplePhase>(
+      `${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}`,
+    );
   }
 
-  public setPhaseEnabled(projectGuid: number, phaseDefIdName: string, enabled: boolean): Observable<AlandaSimplePhase> {
-    return this.http.post<AlandaSimplePhase>(`${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}`, {
-      enabled
-    });
+  public setPhaseEnabled(
+    projectGuid: number,
+    phaseDefIdName: string,
+    enabled: boolean,
+  ): Observable<AlandaSimplePhase> {
+    return this.http.post<AlandaSimplePhase>(
+      `${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}`,
+      {
+        enabled,
+      },
+    );
   }
 }

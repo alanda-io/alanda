@@ -171,7 +171,7 @@ import { AlandaPhaseTabComponent } from './components/phase-tab/phase-tab.compon
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
     AlandaBadgeComponent,
-    AlandaPhaseTabComponent
+    AlandaPhaseTabComponent,
   ],
   exports: [
     PermissionModule,
@@ -210,7 +210,7 @@ import { AlandaPhaseTabComponent } from './components/phase-tab/phase-tab.compon
     AlandaPropCheckboxComponent,
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
-    AlandaPhaseTabComponent
+    AlandaPhaseTabComponent,
   ],
   entryComponents: [
     RelateDialogComponent,
