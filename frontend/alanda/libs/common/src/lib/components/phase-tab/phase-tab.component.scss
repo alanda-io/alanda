@@ -9,6 +9,7 @@ $header-item-spacer: 4px;
     position: relative;
 
     .header-item {
+      position: relative;
       background: #f4f4f4;
       border: 1px solid #c8c8c8;
       border-bottom: 0;
@@ -16,13 +17,24 @@ $header-item-spacer: 4px;
       color: $font-color;
       cursor: pointer;
       display: inline-block;
-      font-weight: 600;
       margin: 0 $header-item-spacer/2;
-      padding: 5px 10px;
+      padding: 10px 15px;
+      min-width: 120px;
+      height: 70px;
       text-align: center;
       vertical-align: bottom;
 
+      .header-text {
+        font-weight: 600;
+        line-height: 1.8;
+      }
+
       .header-state {
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        width: 100%;
+
         .edit-state {
           color: $primary-blue;
           margin: 0 5px;

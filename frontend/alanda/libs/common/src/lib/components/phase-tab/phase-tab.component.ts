@@ -22,16 +22,16 @@ export class AlandaPhaseTabComponent extends RxState<AlandaPhaseTabState> {
     this.set({ project });
   }
 
-  activeItemIndex = 0;
+  activePhaseIndex = 0;
 
   menuItems: MenuItem[] = [
     {
       label: 'Enabled',
-      command: (event) => this.togglePhaseEnabled(true),
+      command: () => this.togglePhaseEnabled(true),
     },
     {
       label: 'Disabled',
-      command: (event) => this.togglePhaseEnabled(false)
+      command: () => this.togglePhaseEnabled(false)
     }
   ];
 
@@ -48,19 +48,40 @@ export class AlandaPhaseTabComponent extends RxState<AlandaPhaseTabState> {
     this.connect('simplePhases', this.simplePhases$);
   }
 
-  setActiveItemIndex(index): void {
-    this.activeItemIndex = index;
+  setActivePhaseIndex(index): void {
+    this.activePhaseIndex = index;
+  }
+
+  getPhaseStatusText(phase: AlandaSimplePhase): string {
+    if (phase.active) {
+      return 'active';
+    } else if (phase.endDate) {
+      return 'completed'
+    } else if (phase.frozen && phase.enabled === null) {
+      return 'error'
+    } else if (phase.frozen && phase.enabled) {
+      return 'starting'
+    } else if (phase.frozen && !phase.enabled) {
+      return 'not required';
+    } else if (phase.enabled === null) {
+      return 'not set';
+    } else if (!phase.enabled) {
+      return 'not required';
+    } else if (phase.enabled) {
+      return 'required';
+    }
+    return 'not set';
   }
 
   togglePhaseEnabled(enabled: boolean): void {
     const projectGuid = this.get().project.guid;
-    const phaseDefidName = this.get().simplePhases[this.activeItemIndex].pmcProjectPhaseDefinition.idName;
+    const phaseDefidName = this.get().simplePhases[this.activePhaseIndex].pmcProjectPhaseDefinition.idName;
 
     this.projectApiService.setPhaseEnabled(projectGuid, phaseDefidName, enabled).subscribe(response => {
-      this.set('simplePhases', oldState => {
-        const phases = [...oldState.simplePhases]
-        phases[this.activeItemIndex].enabled = enabled;
-        return phases;
+      const newSimplePhases = this.get().simplePhases;
+      newSimplePhases[this.activePhaseIndex].enabled = enabled;
+      this.set({
+        simplePhases: newSimplePhases
       });
     })
   }

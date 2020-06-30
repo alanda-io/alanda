@@ -1,10 +1,10 @@
 <div class="phase-tab">
   <div class="phase-tab-header">
-    <div *ngFor="let phase of simplePhases$ | async as phases; let i = index" [ngClass]="{'header-item': true, 'active': i === activeItemIndex}" (click)="setActiveItemIndex(i)">
-      <span class="header-text">{{ phase.pmcProjectPhaseDefinition.displayName }}</span>
+    <div *ngFor="let phase of simplePhases$ | async as phases; let i = index" [ngClass]="{'header-item': true, 'active': i === activePhaseIndex}" (click)="setActivePhaseIndex(i)">
+      <div class="header-text">{{ phase.pmcProjectPhaseDefinition.displayName }}</div>
       <div class="header-state" *ngIf="phase.active">
         <p-menu #menu [popup]="true" [model]="menuItems" appendTo="body"></p-menu>
-        <span class="fa fa-cog edit-state" (click)="menu.toggle($event)"></span> <span class="status">{{ phase.enabled }}</span>
+        <span class="fa fa-cog edit-state" (click)="menu.toggle($event)"></span> <span class="status">{{ getPhaseStatusText(phase) }}</span>
       </div>
     </div>
   </div>
