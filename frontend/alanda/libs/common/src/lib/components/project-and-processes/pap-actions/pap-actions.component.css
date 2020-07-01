@@ -2,6 +2,7 @@
   color: #c22;
   cursor: pointer;
   margin-right: 10px;
+  font-size: 20px;
 }
 
 .remove-action-icon {
@@ -11,20 +12,24 @@
   margin-right: 10px;
   padding: 5px;
   border-radius: 2px;
+  font-size: 12px;
 }
 
 .option-action-icon {
   color: rgb(17, 111, 191);
   cursor: pointer;
   margin-right: 10px;
+  font-size: 20px;
 }
+
 .play-action-icon {
   color: white;
-  background-color: rgb(137, 173, 77);
+  background-color: rgb(137, 173, 77);;
   cursor: pointer;
   margin-right: 10px;
   padding: 5px;
   border-radius: 2px;
+  font-size: 12px;
 }
 
 #cancelReason {

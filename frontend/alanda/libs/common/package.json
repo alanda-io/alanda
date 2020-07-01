@@ -9,7 +9,7 @@
     "primeicons": "2.0.0",
     "primeflex": "1.0.0",
     "bpmn-js": "6.5.1",
-    "@rx-angular/state": "~1.1.1"
+    "@rx-angular/state": "^1.2.2"
   },
   "publishConfig": {
     "registry": "https://repo.alanda.io/repository/alanda/"
