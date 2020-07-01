@@ -24,6 +24,37 @@ export class AlandaPhaseTabComponent extends RxState<AlandaPhaseTabState> {
 
   activePhaseIndex = 0;
 
+  phaseStatusMap = {
+    active: {
+      text: 'active',
+      styleClass: 'active'
+    },
+    completed: {
+      text: 'completed',
+      styleClass: 'completed'
+    },
+    error: {
+      text: 'error',
+      styleClass: 'error'
+    },
+    starting: {
+      text: 'starting',
+      styleClass: 'starting'
+    },
+    required: {
+      text: 'required',
+      styleClass: 'required'
+    },
+    notRequired: {
+      text: 'not required',
+      styleClass: 'not-required'
+    },
+    notSet: {
+      text: 'not set',
+      styleClass: 'not-set'
+    }
+  }
+
   menuItems: MenuItem[] = [
     {
       label: 'Enabled',
@@ -50,25 +81,25 @@ export class AlandaPhaseTabComponent extends RxState<AlandaPhaseTabState> {
     this.activePhaseIndex = index;
   }
 
-  getPhaseStatusText(phase: AlandaSimplePhase): string {
+  getPhaseStatus(phase: AlandaSimplePhase): object {
     if (phase.active) {
-      return 'active';
+      return this.phaseStatusMap.active;
     } else if (phase.endDate) {
-      return 'completed';
+      return this.phaseStatusMap.completed;
     } else if (phase.frozen && phase.enabled === null) {
-      return 'error';
+      return this.phaseStatusMap.error;
     } else if (phase.frozen && phase.enabled) {
-      return 'starting';
+      return this.phaseStatusMap.starting;
     } else if (phase.frozen && !phase.enabled) {
-      return 'not required';
+      return this.phaseStatusMap.notRequired;
     } else if (phase.enabled === null) {
-      return 'not set';
+      return this.phaseStatusMap.notSet;
     } else if (!phase.enabled) {
-      return 'not required';
+      return this.phaseStatusMap.notRequired;
     } else if (phase.enabled) {
-      return 'required';
+      return this.phaseStatusMap.required;
     }
-    return 'not set';
+    return this.phaseStatusMap.notSet;
   }
 
   togglePhaseEnabled(enabled: boolean): void {

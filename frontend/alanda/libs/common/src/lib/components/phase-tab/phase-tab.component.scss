@@ -48,11 +48,44 @@ $header-item-spacer: 4px;
           font-weight: 200;
           padding: 3px;
           text-transform: uppercase;
+
+          &.active {
+            background: #0a9c4d;
+            color: $white;
+          }
+
+          &.completed {
+            background: $primary-green;
+            color: $white;
+          }
+
+          &.error {
+            background: $primary-red;
+            color: $white;
+          }
+
+          &.starting {
+            background: #0E6E40;
+            color: $white;
+          }
+
+          &.required {
+            background: #ff4545;
+            color: $white;
+          }
+
+          &.not-required {
+            background: #ffd0d0;
+          }
+
+          &.not-set {
+            background: #ccc;
+          }
         }
       }
 
       &:hover {
-        background: darken(#f4f4f4, 10%);
+        background: lighten(#f4f4f4, 5%);
       }
 
       &:first-child {
@@ -64,14 +97,7 @@ $header-item-spacer: 4px;
       }
 
       &.active {
-        background: $primary-blue;
-        color: $white;
-
-        .header-state {
-          .edit-state {
-            color: $white;
-          }
-        }
+        background: $white;
       }
     }
   }

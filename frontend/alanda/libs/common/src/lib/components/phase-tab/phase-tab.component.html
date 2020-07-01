@@ -15,8 +15,8 @@
           [model]="menuItems"
           appendTo="body"
         ></p-menu>
-        <span class="fa fa-cog edit-state" (click)="menu.toggle($event)"></span>
-        <span class="status">{{ getPhaseStatusText(phase) }}</span>
+        <span class="fa fa-cog edit-state" *ngIf="phase.enabled === null" (click)="menu.toggle($event)"></span>
+        <span [ngClass]="['status', getPhaseStatus(phase).styleClass]">{{ getPhaseStatus(phase).text }}</span>
       </div>
     </div>
   </div>
