@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { AlandaSimplePhase } from '../../api/models/simplePhase';
 import { AlandaProject } from '../../api/models/project';
@@ -21,36 +21,36 @@ export class AlandaPhaseTabComponent extends RxState<AlandaPhaseTabState> {
   set project(project: AlandaProject) {
     this.set({ project });
   }
-
-  activePhaseIndex = 0;
+  @Input() activePhaseIndex = 0;
+  @Output() activePhaseIndexChange = new EventEmitter<number>();
 
   phaseStatusMap = {
     active: {
-      text: 'active',
+      label: 'active',
       styleClass: 'active'
     },
     completed: {
-      text: 'completed',
+      label: 'completed',
       styleClass: 'completed'
     },
     error: {
-      text: 'error',
+      label: 'error',
       styleClass: 'error'
     },
     starting: {
-      text: 'starting',
+      label: 'starting',
       styleClass: 'starting'
     },
     required: {
-      text: 'required',
+      label: 'required',
       styleClass: 'required'
     },
     notRequired: {
-      text: 'not required',
+      label: 'not required',
       styleClass: 'not-required'
     },
     notSet: {
-      text: 'not set',
+      label: 'not set',
       styleClass: 'not-set'
     }
   }
@@ -77,8 +77,13 @@ export class AlandaPhaseTabComponent extends RxState<AlandaPhaseTabState> {
     this.connect('simplePhases', this.simplePhases$);
   }
 
-  setActivePhaseIndex(index): void {
+  setActivePhaseIndex(index: number): void {
+    if (this.activePhaseIndex === index) {
+      return;
+    }
+
     this.activePhaseIndex = index;
+    this.activePhaseIndexChange.emit(this.activePhaseIndex);
   }
 
   getPhaseStatus(phase: AlandaSimplePhase): object {
