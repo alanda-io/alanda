@@ -27,6 +27,7 @@ $header-item-spacer: 4px;
       .header-text {
         font-weight: 600;
         line-height: 1.8;
+        user-select: none;
       }
 
       .header-state {
@@ -46,8 +47,10 @@ $header-item-spacer: 4px;
           display: inline-block;
           font-size: 12px;
           font-weight: 200;
-          padding: 3px;
+          line-height: 1;
+          padding: 5px;
           text-transform: uppercase;
+          user-select: none;
 
           &.active {
             background: #0a9c4d;
