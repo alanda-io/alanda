@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AlandaComment } from '../../../api/models/comment';
 import { AlandaCommentTag } from '../../../api/models/commentTag';
@@ -8,6 +8,7 @@ import {
   AlandaCommentsService,
   AlandaCommentState,
 } from '../../../services/comments.service';
+import { APP_CONFIG, AppSettings } from '../../../models/appSettings';
 
 /**
  * Display component for a comment and a comment reply
@@ -17,7 +18,7 @@ import {
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss'],
 })
-export class AlandaCommentComponent extends RxState<AlandaCommentState> {
+export class AlandaCommentComponent extends RxState<AlandaCommentState> implements OnInit {
   @Input() comment: AlandaComment;
   @Input() type: string;
   @ViewChild('replyContent') textArea: ElementRef;
@@ -28,12 +29,24 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState> {
     replyText: ['', Validators.required],
   });
 
+  avatarBasePath: string;
+  avatarExtension: string;
+  defaultAvatarPath = 'assets/default-avatar.png';
+  avatarPath = this.defaultAvatarPath;
+
   constructor(
     private readonly commentApiService: AlandaCommentApiService,
     private readonly commentsService: AlandaCommentsService,
     private readonly fb: FormBuilder,
+    @Inject(APP_CONFIG) config: AppSettings,
   ) {
     super();
+    this.avatarBasePath = config.AVATAR_BASE_PATH;
+    this.avatarExtension = config.AVATAR_EXT;
+  }
+
+  ngOnInit() {
+    this.avatarPath = `${this.avatarBasePath}/${this.comment.createUser}.${this.avatarExtension}`
   }
 
   tagClass(tag: AlandaCommentTag): string {
@@ -84,5 +97,9 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState> {
         )[0];
         this.comment = this.commentsService.processComment(this.comment);
       });
+  }
+
+  fallbackImage(event): void {
+    event.target.src = this.defaultAvatarPath;
   }
 }
