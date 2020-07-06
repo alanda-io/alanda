@@ -26,7 +26,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
 
   constructor(
     private readonly projectService: AlandaProjectApiService,
-    private readonly papService: ProjectAndProcessesService
+    private readonly papService: ProjectAndProcessesService,
   ) {}
 
   ngOnInit() {}
@@ -50,7 +50,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
 
   onSubprocessSelected(rowData: any, rowNode: any) {
     const selectedProcess: AlandaProcess = rowData;
-    if(selectedProcess) {
+    if (selectedProcess) {
       console.log(selectedProcess.guid);
       /* this.projectService
       .saveProjectProcess(rowData.relatedProject.guid, selectedProcess)
@@ -74,7 +74,6 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
           this.loadNode(rowNode.parent);
         });*/
     }
-
   }
 
   loadProjectAndProcesses(collapsed?: boolean) {
@@ -82,12 +81,20 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.projectService.getProjectByGuid(this.project.guid, true).pipe(
-      switchMap(project => from(this.flattenProjects(project))),
-      map(flattenProject => this.papService.mapProjectToTreeNode(flattenProject, this.project)),
-      toArray(),
-      finalize(() => this.loading = false)
-    ).subscribe(treeNodes => this.treeStructure = this.updateTreeStructure(treeNodes));
+    this.projectService
+      .getProjectByGuid(this.project.guid, true)
+      .pipe(
+        switchMap((project) => from(this.flattenProjects(project))),
+        map((flattenProject) =>
+          this.papService.mapProjectToTreeNode(flattenProject, this.project),
+        ),
+        toArray(),
+        finalize(() => (this.loading = false)),
+      )
+      .subscribe(
+        (treeNodes) =>
+          (this.treeStructure = this.updateTreeStructure(treeNodes)),
+      );
   }
 
   onNodeExpand(event) {
@@ -97,7 +104,9 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
     }
   }
 
-  private getProjectWithProcessesAndTasks(project: AlandaProject): Observable<AlandaProject> {
+  private getProjectWithProcessesAndTasks(
+    project: AlandaProject,
+  ): Observable<AlandaProject> {
     return this.projectService
       .getProcessesAndTasksForProject(project.guid)
       .pipe(
@@ -105,16 +114,21 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
           this.allowedProcesses[project.guid] = result.allowed.default;
           project.processes = result.active;
           return project;
-        })
+        }),
       );
   }
 
   private updateTreeStructure(projects: TreeNode[]): TreeNode[] {
     const updatedTreeStructure: TreeNode[] = [];
-    const parents: TreeNode[] = projects.filter((node) => node.data.type === 'parent');
-    const children: TreeNode[] = projects.filter((node) => node.data.type === 'child');
-    const currentProject: TreeNode[] = projects
-      .filter(node => node.data.type === 'project');
+    const parents: TreeNode[] = projects.filter(
+      (node) => node.data.type === 'parent',
+    );
+    const children: TreeNode[] = projects.filter(
+      (node) => node.data.type === 'child',
+    );
+    const currentProject: TreeNode[] = projects.filter(
+      (node) => node.data.type === 'project',
+    );
 
     if (parents.length) {
       updatedTreeStructure.push({
@@ -159,16 +173,21 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
 
   private loadNode(node) {
     this.loading = true;
-    this.getProjectWithProcessesAndTasks(node.data.value).pipe(
-      exhaustMap((project) => from(project.processes)),
-      map(process => this.papService.mapProcessToTreeNode(process, node.data.value)),
-      toArray(),
-      finalize(() => this.loading = false),
-    ).subscribe(processTreeNodes => {
-      processTreeNodes.push(this.papService.mapNewProcessToTreeNode(null, node.data.value));
-      node.children = processTreeNodes;
-      this.treeStructure = [...this.treeStructure];
-    })
+    this.getProjectWithProcessesAndTasks(node.data.value)
+      .pipe(
+        exhaustMap((project) => from(project.processes)),
+        map((process) =>
+          this.papService.mapProcessToTreeNode(process, node.data.value),
+        ),
+        toArray(),
+        finalize(() => (this.loading = false)),
+      )
+      .subscribe((processTreeNodes) => {
+        processTreeNodes.push(
+          this.papService.mapNewProcessToTreeNode(null, node.data.value),
+        );
+        node.children = processTreeNodes;
+        this.treeStructure = [...this.treeStructure];
+      });
   }
-
 }

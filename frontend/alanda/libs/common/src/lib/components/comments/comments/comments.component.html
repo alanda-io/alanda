@@ -1,7 +1,7 @@
 <p-panel
   class="comments"
   [toggleable]="true"
-  *ngIf="comments$ | async as comments"
+  *ngIf="cp.filteredComments$ | push as comments"
 >
   <p-header>
     Comments
@@ -11,8 +11,8 @@
   <div class="p-grid">
     <div class="p-lg-10 p-sm-12">
       <form
-        [formGroup]="commentForm"
-        (ngSubmit)="commentFormSubmit$.next(commentForm)"
+        [formGroup]="cp.commentForm"
+        (ngSubmit)="cp.commentFormSubmit$.next()"
       >
         <textarea
           pInputTextarea
@@ -30,7 +30,7 @@
             icon="fa fa-paper-plane"
             iconPos="left"
             label="Post Comment"
-            [disabled]="!commentForm.valid"
+            [disabled]="!cp.commentForm.valid"
           ></p-button>
         </div>
       </form>
@@ -42,7 +42,8 @@
           class="comment"
           [comment]="comment"
           [type]="'comment'"
-          *ngFor="let comment of comments"
+          (submitReply)="cp.submitReply$.next($event)"
+          *ngFor="let comment of comments; trackBy: cp.trackByCommentId"
         ></alanda-comment>
       </p-scrollPanel>
       <ng-template #elseBlock>
@@ -52,21 +53,24 @@
       </ng-template>
     </div>
     <div class="p-col">
-      <form [formGroup]="commentFilterForm">
+      <form [formGroup]="cp.commentFilterForm">
         <input
           formControlName="searchText"
           pInputText
           placeholder="Search comments"
         />
       </form>
-      <div *ngFor="let tag of tags$ | async" class="tag-wrapper">
+      <div
+        *ngFor="let tag of cp.tags$ | push; trackBy: cp.trackByTagId"
+        class="tag-wrapper"
+      >
         <p-button
           label="{{ tag.name }}"
           icon="pi pi-tag"
           iconPos="left"
           type="button"
-          (onClick)="toggleTagFilter(tag)"
-          [styleClass]="tagClass(tag)"
+          (onClick)="cp.toggleTagFilter(tag)"
+          [styleClass]="cp.tagClass$ | push"
         ></p-button>
       </div>
       <div class="tag-wrapper">
@@ -75,8 +79,8 @@
           icon="pi pi-times-circle"
           iconPos="left"
           type="button"
-          (onClick)="clearAllTagFilters()"
-          *ngIf="hasActiveFilters$ | async"
+          (onClick)="cp.clearAllTagFilters()"
+          *ngIf="cp.hasActiveFilters$ | push"
           styleClass="ui-button-danger"
         ></p-button>
       </div>
