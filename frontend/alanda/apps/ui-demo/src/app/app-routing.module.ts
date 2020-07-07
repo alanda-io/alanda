@@ -13,10 +13,11 @@ import {
 } from '@alanda/common';
 import { AlandaFormsControllerComponent } from '@alanda/common';
 import { PermissionsDemoComponent } from './components/permissions-demo/permissions-demo.component';
+import { UserMnagementContainerComponent } from './features/usermgmt/user-mnagement-container/user-mnagement-container.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'admin/users', component: AlandaUserManagementComponent },
+  { path: 'admin/users', component: UserMnagementContainerComponent },
   { path: 'admin/groups', component: AlandaGroupManagementComponent },
   { path: 'admin/roles', component: AlandaRoleManagementComponent },
   { path: 'admin/permissions', component: AlandaPermissionManagementComponent },

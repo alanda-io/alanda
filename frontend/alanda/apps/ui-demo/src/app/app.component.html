@@ -1,4 +1,4 @@
-<alanda-header></alanda-header>
+<alanda-header [user]="user$" (releaseRunAsClick)="releaseRunAsClick$.next($event)"></alanda-header>
 <div class="container">
   <router-outlet></router-outlet>
 </div>
