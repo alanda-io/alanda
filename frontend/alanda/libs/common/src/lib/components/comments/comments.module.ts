@@ -8,6 +8,8 @@ import { TemplateModule } from '@rx-angular/template';
 import { BadgeModule } from '../badge/badge.module';
 import { AlandaCommentsComponent } from './comments/comments.component';
 import { AlandaCommentComponent } from './comment/comment.component';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
 
 const DECLARATIONS = [AlandaCommentsComponent, AlandaCommentComponent];
 @NgModule({
@@ -20,6 +22,8 @@ const DECLARATIONS = [AlandaCommentsComponent, AlandaCommentComponent];
     BadgeModule,
     PanelModule,
     ScrollPanelModule,
+    InputTextareaModule,
+    InputTextModule
   ],
   exports: DECLARATIONS,
 })
