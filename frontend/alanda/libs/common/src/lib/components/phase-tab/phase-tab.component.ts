@@ -27,33 +27,33 @@ export class AlandaPhaseTabComponent extends RxState<AlandaPhaseTabState> {
   phaseStatusMap = {
     active: {
       label: 'active',
-      styleClass: 'active'
+      styleClass: 'active',
     },
     completed: {
       label: 'completed',
-      styleClass: 'completed'
+      styleClass: 'completed',
     },
     error: {
       label: 'error',
-      styleClass: 'error'
+      styleClass: 'error',
     },
     starting: {
       label: 'starting',
-      styleClass: 'starting'
+      styleClass: 'starting',
     },
     required: {
       label: 'required',
-      styleClass: 'required'
+      styleClass: 'required',
     },
     notRequired: {
       label: 'not required',
-      styleClass: 'not-required'
+      styleClass: 'not-required',
     },
     notSet: {
       label: 'not set',
-      styleClass: 'not-set'
-    }
-  }
+      styleClass: 'not-set',
+    },
+  };
 
   menuItems: MenuItem[] = [
     {

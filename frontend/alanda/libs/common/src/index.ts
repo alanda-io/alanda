@@ -68,7 +68,8 @@ export * from './lib/components/admin/permission-management/permission-managemen
 export * from './lib/components/comments/comments.component';
 export * from './lib/components/comments/comment/comment.component';
 export * from './lib/components/badge/badge.component';
-export * from './lib/components/phase-tab/phase-tab.component';
+export { AlandaPhaseTabComponent } from './lib/components/phase-tab/phase-tab.component';
+export { PhaseTabModule } from './lib/components/phase-tab/phase-tab.module';
 
 export * from './lib/components/controller/directives/project.properties.directive';
 export * from './lib/components/controller/projects-controller/projects-controller.component';
