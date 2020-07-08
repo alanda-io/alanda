@@ -19,13 +19,15 @@ export interface TreeNodeData {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProjectAndProcessesService {
+  constructor() {}
 
-  constructor() { }
-
-  mapProjectToTreeNode(project: AlandaProject, relatedProject: AlandaProject): TreeNode {
+  mapProjectToTreeNode(
+    project: AlandaProject,
+    relatedProject: AlandaProject,
+  ): TreeNode {
     const data: TreeNodeData = {
       label: `${project.projectId} (${project.pmcProjectType.name} / ${project.title})`,
       refObject: project.refObjectIdName,
@@ -39,11 +41,19 @@ export class ProjectAndProcessesService {
     };
     return {
       data,
-      children: data.type !== 'parent' ? project.processes.map(process => this.mapProcessToTreeNode(process, project)) : null,
+      children:
+        data.type !== 'parent'
+          ? project.processes.map((process) =>
+              this.mapProcessToTreeNode(process, project),
+            )
+          : null,
     };
   }
 
-  mapProcessToTreeNode(process: AlandaProcess, project: AlandaProject): TreeNode {
+  mapProcessToTreeNode(
+    process: AlandaProcess,
+    project: AlandaProject,
+  ): TreeNode {
     if (process.status === ProjectState.NEW) {
       return this.mapNewProcessToTreeNode(process, project);
     }
@@ -55,11 +65,13 @@ export class ProjectAndProcessesService {
       comment: process.resultComment,
       type: 'process',
       value: process,
-      relatedProject: project
+      relatedProject: project,
     };
     return {
       data,
-      children: process.tasks ? process.tasks.map(task => this.mapTaskToTreeNode(task, project)) : null,
+      children: process.tasks
+        ? process.tasks.map((task) => this.mapTaskToTreeNode(task, project))
+        : null,
     };
   }
 
@@ -73,25 +85,31 @@ export class ProjectAndProcessesService {
       routerLink: `/forms/${task.formKey}/${task.task_id}`,
       type: task.actinst_type === 'task' ? 'task' : 'activity',
       value: task,
-      relatedProject: project
+      relatedProject: project,
     };
     return {
-      data
+      data,
     };
   }
 
-  mapNewProcessToTreeNode(process: AlandaProcess, project: AlandaProject): TreeNode {
+  mapNewProcessToTreeNode(
+    process: AlandaProcess,
+    project: AlandaProject,
+  ): TreeNode {
     const data: TreeNodeData = {
       type: 'new-process',
       value: process,
-      relatedProject: project
+      relatedProject: project,
     };
     return {
-      data
+      data,
     };
   }
 
-  private getProjectRelation(project: AlandaProject, relatedProject: AlandaProject): string {
+  private getProjectRelation(
+    project: AlandaProject,
+    relatedProject: AlandaProject,
+  ): string {
     if (project.childrenIds?.includes(relatedProject.guid)) {
       return 'parent';
     }
@@ -100,5 +118,4 @@ export class ProjectAndProcessesService {
     }
     return 'project';
   }
-
 }

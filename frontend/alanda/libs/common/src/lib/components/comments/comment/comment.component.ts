@@ -1,4 +1,11 @@
-import { Component, Input, ViewChild, ElementRef, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewChild,
+  ElementRef,
+  Inject,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AlandaComment } from '../../../api/models/comment';
 import { AlandaCommentTag } from '../../../api/models/commentTag';
@@ -18,7 +25,8 @@ import { APP_CONFIG, AppSettings } from '../../../models/appSettings';
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss'],
 })
-export class AlandaCommentComponent extends RxState<AlandaCommentState> implements OnInit {
+export class AlandaCommentComponent extends RxState<AlandaCommentState>
+  implements OnInit {
   @Input() comment: AlandaComment;
   @Input() type: string;
   @ViewChild('replyContent') textArea: ElementRef;
@@ -46,7 +54,7 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState> implemen
   }
 
   ngOnInit() {
-    this.avatarPath = `${this.avatarBasePath}/${this.comment.createUser}.${this.avatarExtension}`
+    this.avatarPath = `${this.avatarBasePath}/${this.comment.createUser}.${this.avatarExtension}`;
   }
 
   tagClass(tag: AlandaCommentTag): string {
