@@ -10,8 +10,7 @@ import {
 import { FormBuilder, Validators } from '@angular/forms';
 import { AlandaComment } from '../../../api/models/comment';
 import { AlandaCommentTag } from '../../../api/models/commentTag';
-import { distinctUntilSomeChanged, RxState, selectSlice } from '@rx-angular/state';
-
+import { RxState } from '@rx-angular/state';
 import { APP_CONFIG, AppSettings } from '../../../models/appSettings';
 import { tagClass } from '../utils';
 import { Subject } from 'rxjs';
@@ -35,13 +34,13 @@ interface AlandaCommentState {
 export class AlandaCommentComponent extends RxState<AlandaCommentState>
   implements OnInit {
   toggleFilterClick$ = new Subject<AlandaCommentTag>();
-  submitReply$ = new Subject<AlandaCommentTag>();
+  commentReplyFormSubmit$ = new Subject<Event>();
 
   commentReplyForm = this.fb.group({
     replyText: ['', Validators.required],
   });
 
-  formStateAfterSubmit$ = this.submitReply$.pipe(
+  formStateAfterSubmit$ = this.commentReplyFormSubmit$.pipe(
     switchMapTo(this.commentReplyForm.statusChanges)
   );
 

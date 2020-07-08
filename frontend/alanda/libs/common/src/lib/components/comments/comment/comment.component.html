@@ -50,7 +50,7 @@
       <form
         class="comment-reply-form"
         [formGroup]="commentReplyForm"
-        (ngSubmit)="submitReply$.next()"
+        (ngSubmit)="commentReplyFormSubmit$.next($event)"
       >
         <textarea
           pInputTextarea

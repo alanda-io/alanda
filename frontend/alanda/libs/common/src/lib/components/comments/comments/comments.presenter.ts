@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { RxState } from '@rx-angular/state';
-
-import { filter, map, share, startWith, switchMap, switchMapTo, tap } from 'rxjs/operators';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { combineLatest, Subject } from 'rxjs';
 import { AlandaComment, AlandaCommentTag } from '@alanda/common';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import {
   tagClass,
   toggleTagFilter,
@@ -19,7 +18,6 @@ interface AlandaCommentPresenterState {
   tagObjectMap: { [tagName: string]: AlandaCommentTag };
   activeTagFilters: { [tagName: string]: boolean };
   searchText: string;
-  commentText: string;
   tag: AlandaCommentTag
 }
 
@@ -41,12 +39,10 @@ export class AlandaCommentsPresenter extends RxState<
   submitReply$ = new Subject<AlandaReplyPostBody>();
 
   commentFormSubmit$ = new Subject<Event>();
-  formStateAfterSubmit$ = this.commentFormSubmit$.pipe(
-    switchMapTo(this.commentForm.statusChanges)
-  );
-
-  commentText$ = this.formStateAfterSubmit$.pipe(
-    filter((v) => v === 'VALID'),
+  submitComment$ = this.commentFormSubmit$.pipe(
+    filter(() => {
+      return this.commentForm.valid
+    }),
     map(() => this.commentForm.get('comment').value)
   );
 
@@ -104,7 +100,6 @@ export class AlandaCommentsPresenter extends RxState<
     this.connect('activeTagFilters', this.activeTagFilters$);
     this.connect('tagObjectMap', this.tagObjectMap$);
     this.connect('searchText', this.searchText$.pipe(map(toLowerCase)));
-    this.connect('commentText', this.commentText$);
   }
 
   tags$ = this.select('tagObjectMap').pipe(

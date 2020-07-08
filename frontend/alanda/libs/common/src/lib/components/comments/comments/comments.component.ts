@@ -17,7 +17,7 @@ export class AlandaCommentsComponent {
     readonly cp: AlandaCommentsPresenter,
   ) {
     this.cp.connect('comments', ca.select('comments'));
-    this.ca.connectSaveReply(this.cp.submitReply$);
-    this.ca.connectSaveTrigger(this.cp.commentText$);
+    this.ca.connectPostReply(this.cp.submitReply$);
+    this.ca.connectPostComment(this.cp.submitComment$);
   }
 }

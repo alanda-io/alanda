@@ -28,17 +28,18 @@ export class AlandaCommentsAdapter extends RxState<AlandaCommentAdapterState> {
     map((result: AlandaCommentResponse) => result.comments)
   );
 
-  connectSaveReply(comment$: Observable<AlandaReplyPostBody>): void {
+  connectPostReply(comment$: Observable<AlandaReplyPostBody>): void {
     this.hold(comment$, (comment) =>
       this.commentApiService.postComment(comment),
     );
   }
 
-  connectSaveTrigger(commentText$: Observable<string>): void {
+  connectPostComment(commentText$: Observable<string>): void {;
     this.connect(
       'comments',
       commentText$.pipe(
         withLatestFrom(this.task$),
+        tap(console.log),
         switchMap(([commentText, task]) =>
           this.commentApiService.postComment({
             subject: ' ',
@@ -141,6 +142,7 @@ export class AlandaCommentsAdapter extends RxState<AlandaCommentAdapterState> {
     comment.fulltext = commentFulltext;
     return comment;
   }
+
   extendFulltextComment(text: string, fulltext: string = ''): string {
     if (text !== null && text.length > 0) {
       fulltext += ` ${toLowerCase(text)}`;
