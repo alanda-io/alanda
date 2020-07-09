@@ -28,7 +28,7 @@
         <td>{{rowData.end | date: dateFormat}}</td>
         <td>{{rowData.comment}}</td>
         <td>
-          <alanda-pap-actions [data]="rowData" (changeEvent)="loadProjectAndProcesses(); onChange.emit()"></alanda-pap-actions>
+          <alanda-pap-actions [data]="rowData" (changeEvent)="loadProjectAndProcesses(); changed.emit()"></alanda-pap-actions>
         </td>
       </tr>
       <!-- <tr *ngIf="rowData.type === 'new-process'">
