@@ -4,8 +4,10 @@
   *ngIf="cp.filteredComments$ | push as comments"
 >
   <p-header>
-    Comments
-    <alanda-badge label="{{ comments.length }}"></alanda-badge>
+    <span class="ui-panel-title">
+      Comments
+      <alanda-badge label="{{ comments.length }}"></alanda-badge>
+    </span>
   </p-header>
 
   <div class="p-grid">
