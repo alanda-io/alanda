@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { TreeNode, MenuItem } from 'primeng/api';
 import {map, toArray, concatMap, switchMap, finalize, exhaustMap} from 'rxjs/operators';
 import { from, Observable } from 'rxjs';
@@ -22,6 +22,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
   @Input() project: Project;
   @Input() task: PmcTask;
   @Input() dateFormat = 'yyyy-MM-dd';
+  @Output() onChange: EventEmitter<void> = new EventEmitter();
 
   optionItems: MenuItem[];
   treeStructure: TreeNode[] = [];
