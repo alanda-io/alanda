@@ -15,3 +15,4 @@ node_modules
 /backend/alanda-development/src/test/resources/docker-oracle/mount_data/XE/
 /backend/alanda-development/src/test/resources/docker-oracle/mount_data/dbconfig/XE/
 /backend/alanda-development/src/test/resources/docker-oracle/image/oracle-xe-11.2.0-1.0.x86_64.rpm.zip
+/backend/alanda-development/src/test/resources/docker-camunda/mount_docs/
