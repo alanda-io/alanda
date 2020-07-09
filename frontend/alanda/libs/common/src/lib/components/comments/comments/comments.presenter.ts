@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { RxState } from '@rx-angular/state';
+import { RxState, toDictionary, toggle, patch } from '@rx-angular/state';
 import { filter, map } from 'rxjs/operators';
-import { combineLatest, Subject } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { AlandaComment, AlandaCommentTag } from '@alanda/common';
 import { FormBuilder, Validators } from '@angular/forms';
 import {
-  tagClass,
-  toggleTagFilter,
+  Dictionary,
   toLowerCase,
   trackByCommentId,
   trackByTagId,
@@ -18,7 +17,7 @@ interface AlandaCommentPresenterState {
   tagObjectMap: { [tagName: string]: AlandaCommentTag };
   activeTagFilters: { [tagName: string]: boolean };
   searchText: string;
-  tag: AlandaCommentTag
+  tag: AlandaCommentTag;
 }
 
 /**
@@ -36,31 +35,34 @@ export class AlandaCommentsPresenter extends RxState<
     searchText: [''],
   });
 
-  submitReply$ = new Subject<AlandaReplyPostBody>();
+  replyPostBody$ = new Subject<AlandaReplyPostBody>();
 
   commentFormSubmit$ = new Subject<Event>();
-  submitComment$ = this.commentFormSubmit$.pipe(
+
+  commentText$ = this.commentFormSubmit$.pipe(
     filter(() => {
-      return this.commentForm.valid
+      return this.commentForm.valid;
     }),
-    map(() => this.commentForm.get('comment').value)
+    map(() => {
+      const value = this.commentForm.get('comment').value;
+      this.commentForm.reset();
+      return value;
+    }),
   );
 
   searchText$ = this.commentFilterForm.get('searchText').valueChanges;
 
-  tagObjectMap$ = this.select('comments').pipe(
+  tagObjectMap$: Observable<Dictionary<AlandaCommentTag>> = this.select(
+    'comments',
+  ).pipe(
     map((comments: AlandaComment[]) => {
-      const tagMap = {};
-      comments.forEach((comment: AlandaComment) => {
-        comment.tagList.forEach((tag: AlandaCommentTag) => {
-          tagMap[tag.name] = { name: tag.name, type: tag.type };
-        });
-      });
-      return tagMap;
+      return comments.reduce((tagMap, comment: AlandaComment) => {
+        return patch(tagMap, toDictionary(comment.tagList, 'name'));
+      }, {} as Dictionary<AlandaCommentTag>);
     }),
   );
 
-  activeTagFilters$ = this.select('tagObjectMap').pipe(
+  activeTagFiltersFromTagObject$ = this.select('tagObjectMap').pipe(
     map((tags) => {
       const activeFilters = {};
       Object.keys(tags).forEach((key: string) => {
@@ -69,6 +71,7 @@ export class AlandaCommentsPresenter extends RxState<
       return activeFilters;
     }),
   );
+  activeTagFilters$ = this.select('activeTagFilters');
 
   filteredComments$ = combineLatest([
     this.select('comments'),
@@ -96,8 +99,8 @@ export class AlandaCommentsPresenter extends RxState<
 
   constructor(private readonly fb: FormBuilder) {
     super();
-    this.set({searchText: '' });
-    this.connect('activeTagFilters', this.activeTagFilters$);
+    this.set({ searchText: '' });
+    this.connect('activeTagFilters', this.activeTagFiltersFromTagObject$);
     this.connect('tagObjectMap', this.tagObjectMap$);
     this.connect('searchText', this.searchText$.pipe(map(toLowerCase)));
   }
@@ -117,19 +120,11 @@ export class AlandaCommentsPresenter extends RxState<
   );
 
   /**
-   * Provides style class for tag if active or not
-   */
-  tagClass$ = this.select(
-    filter(state => (state.activeTagFilters != null && state.tag != null)),
-    map(state => tagClass(state.activeTagFilters, state.tag))
-  );
-
-  /**
    * Toggles given tag state in active filter map
    */
   toggleTagFilter = (tag: AlandaCommentTag) =>
     this.set('activeTagFilters', (oldState) =>
-      toggleTagFilter(oldState.activeTagFilters, tag),
+      toggle(oldState.activeTagFilters, tag.name),
     );
 
   /**

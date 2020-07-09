@@ -4,7 +4,7 @@ import { RxState } from '@rx-angular/state';
 import { AlandaTask } from '../../../api/models/task';
 import { AlandaCommentResponse } from '../../../api/models/commentResponse';
 import { AlandaCommentApiService } from '../../../api/commentApi.service';
-import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AlandaTaskFormService } from '../../../form/alanda-task-form.service';
 import { DatePipe } from '@angular/common';
@@ -21,28 +21,41 @@ export interface AlandaCommentAdapterState {
 @Injectable()
 export class AlandaCommentsAdapter extends RxState<AlandaCommentAdapterState> {
   task$ = this.taskFormService.select('task');
+
   commentResponse$ = this.task$.pipe(
     switchMap((task: AlandaTask) =>
       this.commentApiService.getCommentsforPid(task.process_instance_id),
     ),
-    map((result: AlandaCommentResponse) => result.comments)
+    map((result: AlandaCommentResponse) => result.comments),
   );
 
-  connectPostReply(comment$: Observable<AlandaReplyPostBody>): void {
-    this.hold(comment$, (comment) =>
-      this.commentApiService.postComment(comment),
+  connectPostReply(replyPostBody$: Observable<AlandaReplyPostBody>): void {
+    this.connect(
+      'comments',
+      replyPostBody$.pipe(
+        switchMap((replyPostBody) =>
+          this.commentApiService.postComment(replyPostBody),
+        ),
+      ),
+      (oldState, newReply: AlandaComment) => {
+        return oldState.comments.map((comment) => {
+          if (comment.guid === newReply.replyTo) {
+            comment.replies = [newReply, ...comment.replies];
+          }
+          return comment;
+        });
+      },
     );
   }
 
-  connectPostComment(commentText$: Observable<string>): void {;
+  connectPostComment(commentText$: Observable<string>): void {
     this.connect(
       'comments',
       commentText$.pipe(
         withLatestFrom(this.task$),
-        tap(console.log),
         switchMap(([commentText, task]) =>
           this.commentApiService.postComment({
-            subject: ' ',
+            subject: ' ', // Bad API
             text: commentText,
             taskId: task.task_id,
             procInstId: task.process_instance_id,
@@ -62,15 +75,11 @@ export class AlandaCommentsAdapter extends RxState<AlandaCommentAdapterState> {
   ) {
     super();
     this.set({ comments: [] });
-    this.connect(
-      'comments',
-      this.commentResponse$,
-      (s, comments) => {
-        return comments.map((comment: AlandaComment) => {
-          return this.processComment(comment);
-        });
-      },
-    );
+    this.connect('comments', this.commentResponse$, (s, comments) => {
+      return comments.map((comment: AlandaComment) => {
+        return this.processComment(comment);
+      });
+    });
   }
 
   /**

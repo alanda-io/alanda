@@ -44,7 +44,9 @@
           class="comment"
           [comment]="comment"
           [type]="'comment'"
-          (submitReply)="cp.submitReply$.next($event)"
+          (submitReply)="cp.replyPostBody$.next($event)"
+          (toggleFilterClick)="cp.toggleTagFilter($event)"
+          [activeTagFilters]="cp.activeTagFilters$"
           *ngFor="let comment of comments; trackBy: cp.trackByCommentId"
         ></alanda-comment>
       </p-scrollPanel>
@@ -66,14 +68,12 @@
         *ngFor="let tag of cp.tags$ | push; trackBy: cp.trackByTagId"
         class="tag-wrapper"
       >
-        <p-button
-          label="{{ tag.name }}"
-          icon="pi pi-tag"
-          iconPos="left"
-          type="button"
-          (onClick)="cp.toggleTagFilter(tag)"
-          [styleClass]="cp.tagClass$ | push"
-        ></p-button>
+        <alanda-comment-tag
+          [isActive]="(cp.activeTagFilters$ | push)[tag.name]"
+          [tag]="tag"
+          (toggleFilterClick)="cp.toggleTagFilter(tag)"
+        >
+        </alanda-comment-tag>
       </div>
       <div class="tag-wrapper">
         <p-button

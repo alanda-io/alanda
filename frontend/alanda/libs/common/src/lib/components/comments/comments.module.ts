@@ -10,8 +10,13 @@ import { AlandaCommentsComponent } from './comments/comments.component';
 import { AlandaCommentComponent } from './comment/comment.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
+import { AlandaCommentTagComponent } from './comment-tag/comment-tag.component';
 
-const DECLARATIONS = [AlandaCommentsComponent, AlandaCommentComponent];
+const DECLARATIONS = [
+  AlandaCommentsComponent,
+  AlandaCommentComponent,
+  AlandaCommentTagComponent,
+];
 @NgModule({
   declarations: DECLARATIONS,
   imports: [
@@ -23,7 +28,7 @@ const DECLARATIONS = [AlandaCommentsComponent, AlandaCommentComponent];
     PanelModule,
     ScrollPanelModule,
     InputTextareaModule,
-    InputTextModule
+    InputTextModule,
   ],
   exports: DECLARATIONS,
 })

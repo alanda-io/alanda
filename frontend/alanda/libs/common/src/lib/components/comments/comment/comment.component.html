@@ -21,15 +21,12 @@
       <div *ngIf="s.comment.tagList && s.comment.tagList.length">
         <ul class="tag-list" *ngFor="let tag of s.comment.tagList">
           <li class="tag-item">
-            <p-button
-              class="item"
-              label="{{ tag.name }}"
-              icon="pi pi-tag"
-              iconPos="left"
-              type="button"
-              [styleClass]="tagClass$ | push"
-              (onClick)="toggleFilterClick$.next(tag)"
-            ></p-button>
+            <alanda-comment-tag
+              [isActive]="s.activeTagFilters[tag.name]"
+              [tag]="tag"
+              (toggleFilterClick)="toggleFilterClick$.next($event)"
+            >
+            </alanda-comment-tag>
           </li>
         </ul>
       </div>

@@ -130,6 +130,7 @@ import { BadgeModule } from './components/badge/badge.module';
     MessageModule,
     DynamicDialogModule,
     CommentsModule,
+    BadgeModule,
   ],
   declarations: [
     AlandaUserManagementComponent,

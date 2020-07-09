@@ -12,15 +12,14 @@ import { AlandaComment } from '../../../api/models/comment';
 import { AlandaCommentTag } from '../../../api/models/commentTag';
 import { RxState } from '@rx-angular/state';
 import { APP_CONFIG, AppSettings } from '../../../models/appSettings';
-import { tagClass } from '../utils';
-import { Subject } from 'rxjs';
-import { filter, map, switchMapTo } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs/operators';
 
 interface AlandaCommentState {
   comment: AlandaComment;
   type: string;
   activeTagFilters: { [name: string]: boolean };
-  tag: AlandaCommentTag
+  tag: AlandaCommentTag;
 }
 
 /**
@@ -40,8 +39,20 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState>
     replyText: ['', Validators.required],
   });
 
-  formStateAfterSubmit$ = this.commentReplyFormSubmit$.pipe(
-    switchMapTo(this.commentReplyForm.statusChanges)
+  submitReply$ = this.commentReplyFormSubmit$.pipe(
+    withLatestFrom(
+      this.select('comment'),
+      this.commentReplyForm.get('replyText').valueChanges,
+    ),
+    map(([_, comment, value]) => {
+      this.commentReplyForm.reset();
+      return {
+        text: value,
+        taskId: comment.taskId,
+        procInstId: comment.procInstId,
+        replyTo: comment.guid,
+      };
+    }),
   );
 
   state$ = this.select();
@@ -57,25 +68,16 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState>
   }
 
   @Input()
-  set activeTagFilters(activeTagFilters: { [name: string]: boolean }) {
-    this.set({ activeTagFilters });
+  set activeTagFilters(
+    activeTagFilters: Observable<{ [name: string]: boolean }>,
+  ) {
+    this.connect('activeTagFilters', activeTagFilters);
   }
 
   @Output()
   toggleFilterClick = this.toggleFilterClick$;
   @Output()
-  submitReply = this.formStateAfterSubmit$.pipe(
-    filter((v) => v === 'VALID'),
-    map(() => {
-      const comment = this.comment;
-      return {
-        text: this.commentReplyForm.get('replyText').value,
-        taskId: comment.taskId,
-        procInstId: comment.procInstId,
-        replyTo: comment.guid,
-      };
-    }),
-  );
+  submitReply = this.submitReply$;
 
   @ViewChild('replyContent') textArea: ElementRef;
   doReply = false;
@@ -84,10 +86,6 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState>
   avatarExtension: string;
   defaultAvatarPath = 'assets/default-avatar.png';
   avatarPath = this.defaultAvatarPath;
-  tagClass$ = this.select(
-    filter(state => (state.activeTagFilters != null && state.tag != null)),
-    map(state => tagClass(state.activeTagFilters, state.tag))
-  );
 
   constructor(
     private readonly fb: FormBuilder,
@@ -96,14 +94,12 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState>
     super();
     this.avatarBasePath = config.AVATAR_BASE_PATH;
     this.avatarExtension = config.AVATAR_EXT;
-    this.hold(
-      this.formStateAfterSubmit$.pipe(filter((v) => v !== 'VALID')),
-      () => this.commentReplyForm.markAsDirty(),
-    );
   }
 
   ngOnInit() {
-    this.avatarPath = `${this.avatarBasePath}/${this.get().comment.createUser}.${this.avatarExtension}`;
+    this.avatarPath = `${this.avatarBasePath}/${
+      this.get().comment.createUser
+    }.${this.avatarExtension}`;
   }
 
   autofocus(): void {
