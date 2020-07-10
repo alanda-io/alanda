@@ -20,16 +20,20 @@ export interface AlandaCommentAdapterState {
 @Injectable()
 export class AlandaCommentsAdapter extends RxState<AlandaCommentAdapterState> {
   connectFetchComments(processInstanceId$: Observable<string>): void {
-    this.connect('comments', processInstanceId$.pipe(
-      switchMap((processInstanceId: string) =>
-        this.commentApiService.getCommentsforPid(processInstanceId)
+    this.connect(
+      'comments',
+      processInstanceId$.pipe(
+        switchMap((processInstanceId: string) =>
+          this.commentApiService.getCommentsforPid(processInstanceId),
+        ),
+        map((response: AlandaCommentResponse) => response.comments),
       ),
-      map((response: AlandaCommentResponse) => response.comments),
-    ), (s, comments: AlandaComment[]) => {
-      return comments.map((comment: AlandaComment) => {
-        return this.processComment(comment);
-      });
-    });
+      (s, comments: AlandaComment[]) => {
+        return comments.map((comment: AlandaComment) => {
+          return this.processComment(comment);
+        });
+      },
+    );
   }
 
   connectPostReply(replyPostBody$: Observable<AlandaReplyPostBody>): void {
@@ -51,7 +55,9 @@ export class AlandaCommentsAdapter extends RxState<AlandaCommentAdapterState> {
     );
   }
 
-  connectPostComment(commentPostBody$: Observable<AlandaCommentPostBody>): void {
+  connectPostComment(
+    commentPostBody$: Observable<AlandaCommentPostBody>,
+  ): void {
     this.connect(
       'comments',
       commentPostBody$.pipe(
@@ -67,7 +73,7 @@ export class AlandaCommentsAdapter extends RxState<AlandaCommentAdapterState> {
 
   constructor(
     private readonly datePipe: DatePipe,
-    private readonly commentApiService: AlandaCommentApiService
+    private readonly commentApiService: AlandaCommentApiService,
   ) {
     super();
     this.set({ comments: [] });

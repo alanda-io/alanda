@@ -21,7 +21,7 @@ interface AlandaCommentsState {
   styleUrls: ['./comments.component.scss'],
   providers: [AlandaCommentsAdapter, AlandaCommentsPresenter],
 })
-export class AlandaCommentsComponent extends RxState<AlandaCommentsState>{
+export class AlandaCommentsComponent extends RxState<AlandaCommentsState> {
   @Input()
   set task(task: AlandaTask) {
     this.set({ task });
@@ -34,12 +34,12 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentsState>{
 
   processInstanceId$ = combineLatest([
     this.select('project'),
-    this.select('task')
+    this.select('task'),
   ]).pipe(
     map(([project, task]) => {
-      return task ? task.process_instance_id : project.projectId
-    })
-  )
+      return task ? task.process_instance_id : project.projectId;
+    }),
+  );
 
   commentPostBody$ = this.cp.commentText$.pipe(
     withLatestFrom(this.processInstanceId$),
@@ -49,10 +49,10 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentsState>{
         subject: ' ', // Bad API
         text: commentText,
         taskId,
-        procInstId: processInstanceId
-      }
-    })
-  )
+        procInstId: processInstanceId,
+      };
+    }),
+  );
 
   constructor(
     private readonly ca: AlandaCommentsAdapter,
