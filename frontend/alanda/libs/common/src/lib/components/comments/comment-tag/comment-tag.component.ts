@@ -23,7 +23,7 @@ export class AlandaCommentTagComponent extends RxState<
     distinctUntilSomeChanged(['active', 'tag']),
     map((oldState) => ({
       tag: oldState.tag,
-      class: oldState.active ? 'ui-button-danger' : 'ui-button-info',
+      class: oldState.active ? 'ui-button-success' : 'ui-button-info',
     })),
   );
 
