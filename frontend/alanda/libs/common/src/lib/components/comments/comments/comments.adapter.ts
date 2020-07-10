@@ -20,14 +20,12 @@ export interface AlandaCommentAdapterState {
 @Injectable()
 export class AlandaCommentsAdapter extends RxState<AlandaCommentAdapterState> {
   connectFetchComments(processInstanceId$: Observable<string>): void {
-    const commentResponse$ = processInstanceId$.pipe(
+    this.connect('comments', processInstanceId$.pipe(
       switchMap((processInstanceId: string) =>
         this.commentApiService.getCommentsforPid(processInstanceId)
       ),
       map((response: AlandaCommentResponse) => response.comments),
-    )
-
-    this.connect('comments', commentResponse$, (s, comments: AlandaComment[]) => {
+    ), (s, comments: AlandaComment[]) => {
       return comments.map((comment: AlandaComment) => {
         return this.processComment(comment);
       });
