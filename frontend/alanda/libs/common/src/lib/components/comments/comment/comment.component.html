@@ -1,7 +1,8 @@
 <ng-container *rxLet="state$; let s">
   <div class="p-grid comment">
     <div class="p-col-12 p-lg-1 p-md-1">
-      <img class="avatar" [src]="avatarPath" (error)="fallbackImage($event)" />
+      <img class="avatar" [src]="avatarPath" (error)="fallbackImage($event)"
+           draggable="false" />
       <div class="author">{{ s.comment.authorName }}</div>
     </div>
     <div class="p-col comment-box bubble-effect">
