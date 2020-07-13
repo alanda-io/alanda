@@ -37,9 +37,15 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentsState> {
     this.select('project'),
     this.select('task'),
   ]).pipe(
-    map(([project, task]) =>
-      task ? task.process_instance_id : project.projectId,
-    ),
+    map(([project, task]) => {
+      if (task) {
+        return task.process_instance_id;
+      }
+
+      return project.processes.find(process =>
+        process.relation === 'MAIN'
+      ).processInstanceId;
+    }),
   );
 
   commentPostBody$: Observable<AlandaCommentPostBody> = combineLatest([
