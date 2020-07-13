@@ -39,7 +39,7 @@ export class AlandaCommentsPresenter extends RxState<
 
   commentFormSubmit$ = new Subject<Event>();
 
-  commentText$ = this.commentFormSubmit$.pipe(
+  commentText$: Observable<string> = this.commentFormSubmit$.pipe(
     filter(() => {
       return this.commentForm.valid;
     }),
@@ -50,7 +50,8 @@ export class AlandaCommentsPresenter extends RxState<
     }),
   );
 
-  searchText$ = this.commentFilterForm.get('searchText').valueChanges;
+  searchText$: Observable<string> = this.commentFilterForm.get('searchText')
+    .valueChanges;
 
   tagObjectMap$: Observable<Dictionary<AlandaCommentTag>> = this.select(
     'comments',
@@ -71,6 +72,7 @@ export class AlandaCommentsPresenter extends RxState<
       return activeFilters;
     }),
   );
+
   activeTagFilters$ = this.select('activeTagFilters');
 
   filteredComments$ = combineLatest([

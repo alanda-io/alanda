@@ -10,15 +10,14 @@ describe('AlandaCommentTagComponent', () => {
   const testTag = {
     name: 'test',
     type: 'test',
-    status: true
+    status: true,
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AlandaCommentTagComponent ],
-      imports: [ ButtonModule, TemplateModule ]
-    })
-    .compileComponents();
+      declarations: [AlandaCommentTagComponent],
+      imports: [ButtonModule, TemplateModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

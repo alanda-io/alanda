@@ -4,8 +4,9 @@ import { AlandaCommentsPresenter } from './comments.presenter';
 import { AlandaProject } from '../../../api/models/project';
 import { AlandaTask } from '../../../api/models/task';
 import { RxState } from '@rx-angular/state';
-import { combineLatest } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AlandaCommentPostBody } from '../../../api/models/commenPostBody';
 
 interface AlandaCommentsState {
   task: AlandaTask;
@@ -36,19 +37,21 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentsState> {
     this.select('project'),
     this.select('task'),
   ]).pipe(
-    map(([project, task]) => {
-      return task ? task.process_instance_id : project.projectId;
-    }),
+    map(([project, task]) =>
+      task ? task.process_instance_id : project.projectId,
+    ),
   );
 
-  commentPostBody$ = this.cp.commentText$.pipe(
-    withLatestFrom(this.processInstanceId$),
-    map(([commentText, processInstanceId]) => {
-      const taskId = this.get().task ? this.get().task.task_id : null;
+  commentPostBody$: Observable<AlandaCommentPostBody> = combineLatest([
+    this.cp.commentText$,
+    this.processInstanceId$,
+    this.select('task'),
+  ]).pipe(
+    map(([commentText, processInstanceId, task]) => {
       return {
         subject: ' ', // Bad API
         text: commentText,
-        taskId,
+        taskId: task ? task.task_id : null,
         procInstId: processInstanceId,
       };
     }),
@@ -59,6 +62,7 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentsState> {
     readonly cp: AlandaCommentsPresenter,
   ) {
     super();
+    this.set({ task: null });
     this.cp.connect('comments', ca.select('comments'));
     this.ca.connectFetchComments(this.processInstanceId$);
     this.ca.connectPostComment(this.commentPostBody$);

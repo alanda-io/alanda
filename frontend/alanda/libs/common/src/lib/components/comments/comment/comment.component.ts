@@ -14,6 +14,7 @@ import { RxState } from '@rx-angular/state';
 import { APP_CONFIG, AppSettings } from '../../../models/appSettings';
 import { Observable, Subject } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
+import { AlandaReplyPostBody } from '../../../api/models/replyPostBody';
 
 interface AlandaCommentState {
   comment: AlandaComment;
@@ -39,7 +40,9 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState>
     replyText: ['', Validators.required],
   });
 
-  submitReply$ = this.commentReplyFormSubmit$.pipe(
+  submitReply$: Observable<
+    AlandaReplyPostBody
+  > = this.commentReplyFormSubmit$.pipe(
     withLatestFrom(
       this.select('comment'),
       this.commentReplyForm.get('replyText').valueChanges,
