@@ -7,6 +7,7 @@ import { RxState } from '@rx-angular/state';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AlandaCommentPostBody } from '../../../api/models/commenPostBody';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 interface AlandaCommentsState {
   task: AlandaTask;
@@ -32,6 +33,19 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentsState> {
   set project(project: AlandaProject) {
     this.set({ project });
   }
+
+  @Input()
+  set rootFormGroup(rootFormGroup: FormGroup) {
+    if (rootFormGroup) {
+      rootFormGroup.addControl('alanda-task-has-comment',
+        this.taskHasCommentForm,
+      );
+    }
+  }
+
+  taskHasCommentForm = this.fb.group({
+    hasComment: [null, Validators.required],
+  });
 
   processInstanceId$ = combineLatest([
     this.select('project'),
@@ -66,10 +80,20 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentsState> {
   constructor(
     private readonly ca: AlandaCommentsAdapter,
     readonly cp: AlandaCommentsPresenter,
+    private readonly fb: FormBuilder,
   ) {
     super();
     this.set({ task: null });
-    this.cp.connect('comments', ca.select('comments'));
+    this.cp.connect(
+      'comments',
+      ca.select('comments'),
+      (oldState, comment ) => {
+        this.taskHasCommentForm.setValue({
+          hasComment: comment.length ? true : null
+        });
+
+        return comment;
+    });
     this.ca.connectFetchComments(this.processInstanceId$);
     this.ca.connectPostComment(this.commentPostBody$);
     this.ca.connectPostReply(this.cp.replyPostBody$);
