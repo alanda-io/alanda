@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
-import { AlandaCommentTag } from '@alanda/common';
+import { AlandaCommentTag } from '../../../api/models/commentTag';
 import { distinctUntilSomeChanged, RxState } from '@rx-angular/state';
 import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
