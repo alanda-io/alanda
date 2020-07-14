@@ -1,0 +1,13 @@
+@import 'variables';
+@import '~primeng/resources/primeng.css';
+@import '~primeflex/primeflex.css';
+@import '~primeicons/primeicons.css';
+@import '~font-awesome/css/font-awesome.css';
+
+a {
+  cursor: pointer;
+
+  &.disabled {
+    cursor: default;
+  }
+}

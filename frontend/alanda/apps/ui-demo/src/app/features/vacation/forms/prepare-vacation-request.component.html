@@ -1,0 +1,55 @@
+<ng-container *ngIf="state$ | async as taskFormState">
+  <form [formGroup]="rootForm" (submit)="submit()">
+    <alanda-project-header
+      [task]="taskFormState.task"
+      [project]="taskFormState.project"
+    ></alanda-project-header>
+    <alanda-comments></alanda-comments>
+    <alanda-attachments
+      [task]="taskFormState.task"
+      [project]="taskFormState.project"
+      [mappings]="'VA'"
+    ></alanda-attachments>
+    <div class="p-grid">
+      <div class="p-col-2">
+        <alanda-var-select
+          [rootFormGroup]="rootForm"
+          [task]="taskFormState.task"
+          [items]="items"
+          variableName="handoverRequired"
+          label="Require handover?"
+        ></alanda-var-select>
+      </div>
+      <div class="p-col-2">
+        <alanda-prop-select
+          [rootFormGroup]="rootForm"
+          [project]="taskFormState.project"
+          [items]="items"
+          type="BOOLEAN"
+          propertyName="propertyRequired"
+          label="Require property?"
+        ></alanda-prop-select>
+      </div>
+      <div class="p-col-6">
+        <alanda-prop-checkbox
+          [project]="taskFormState.project"
+          propertyName="propertyChecked"
+          label="Checked property?"
+        ></alanda-prop-checkbox>
+      </div>
+      <div class="p-col-2">
+        <p-card [style]="{ height: '100%' }">
+          <button
+            pButton
+            type="button"
+            (click)="submit()"
+            icon="fa fa-check"
+            iconPos="left"
+            class="ui-button-success"
+            label="Complete Task"
+          ></button>
+        </p-card>
+      </div>
+    </div>
+  </form>
+</ng-container>

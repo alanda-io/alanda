@@ -23,15 +23,22 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import io.alanda.base.dao.DocumentDao;
+import io.alanda.base.document.DocumentMappingResolver;
 import io.alanda.base.dto.DirectoryInfoDto;
 import io.alanda.base.dto.DocuFolderDto;
 import io.alanda.base.dto.DocuQueryDto;
 import io.alanda.base.dto.DocumentSimpleDto;
+import io.alanda.base.dto.PmcProjectDto;
 import io.alanda.base.entity.Document;
 import io.alanda.base.service.ConfigService;
 import io.alanda.base.service.DocuService;
 import io.alanda.base.service.DocumentService;
 import io.alanda.base.service.FileService;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Instance;
 
 @Stateless
 @Named("documentService")
@@ -52,6 +59,28 @@ public class DocumentServiceImpl implements DocumentService {
 
   @Inject
   private DocumentDao documentDao;
+  
+  @Inject 
+  private Instance<DocumentMappingResolver> documentMappingResolvers;
+
+  private Map<String, DocumentMappingResolver> docMappingResolverMap;
+  
+  @PostConstruct
+  private void initClass() {
+    docMappingResolverMap = new HashMap<>();
+    for (DocumentMappingResolver res : documentMappingResolvers) {
+      String[] mappingNames = res.getMappingNames();
+      if (mappingNames == null || mappingNames.length == 0) {
+        throw new IllegalStateException(
+            "DocumentMappingResolver (class="
+                + res.getClass().getName()
+                + ") without mappingNames found");
+      }
+      for (String m : mappingNames) {
+        docMappingResolverMap.put(m, res);
+      }
+    }
+  }
 
   @Override
   public void getAll(DocuQueryDto query, OutputStream output) throws IOException {
@@ -237,5 +266,17 @@ public class DocumentServiceImpl implements DocumentService {
     }
     return dirInfo;
   }
+
+    @Override
+    public List<DocuQueryDto> resolveMappingByProject(PmcProjectDto p, String mapping) {
+        DocumentMappingResolver res = docMappingResolverMap.get(mapping);
+        if (res != null) {
+          return res.getForProject(p, mapping);
+        } else {
+          DocuQueryDto dc = DocuQueryDto.forPmcProject(p, true).withMappingName(mapping);
+          dc.docuConfig = docuService.getDocuConfig(dc);
+          return Collections.singletonList(dc);
+        }        
+    }
 
 }

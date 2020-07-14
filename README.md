@@ -169,3 +169,15 @@ The admin user alanda is created automatically without password.
 Now you can login.
 
 If you managed so far on your own, congratulation and enjoy !
+
+## Increasing the amount of inotify watchers
+
+If you are running Debian, RedHat, or another similar Linux distribution, run the following in a terminal:
+```
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+```
+If you are running ArchLinux, run the following command instead:
+```
+echo fs.inotify.max_user_watches=524288 | sudo tee /etc/sysctl.d/40-max-user-watches.conf && sudo sysctl --system
+```
+Then paste it in your terminal and press on enter to run it.
