@@ -65,9 +65,14 @@ export * from './lib/components/admin/role-management/role-management.component'
 export * from './lib/components/admin/user-management/user-management.component';
 export * from './lib/components/admin/group-management/group-management.component';
 export * from './lib/components/admin/permission-management/permission-management.component';
-export * from './lib/components/comments/comments.component';
-export * from './lib/components/comments/comment/comment.component';
-export * from './lib/components/badge/badge.component';
+
+export { AlandaCommentsComponent } from './lib/components/comments/comments/comments.component';
+export { AlandaCommentComponent } from './lib/components/comments/comment/comment.component';
+export { CommentsModule } from './lib/components/comments/comments.module';
+
+export { AlandaBadgeComponent } from './lib/components/badge/badge.component';
+export { BadgeModule } from './lib/components/badge/badge.module';
+
 export { AlandaPhaseTabComponent } from './lib/components/phase-tab/phase-tab.component';
 export { PhaseTabModule } from './lib/components/phase-tab/phase-tab.module';
 
@@ -78,7 +83,6 @@ export * from './lib/components/attachments/attachments-tree/attachments-tree.co
 export * from './lib/components/project-header/project-header.component';
 export * from './lib/components/create-project/create-project.component';
 export * from './lib/components/attachments/attachments.component';
-export * from './lib/components/comments/comments.component';
 export * from './lib/components/history/history-grid.component';
 export * from './lib/components/history/history-grid.component';
 export * from './lib/components/controller/directives/project.properties.directive';

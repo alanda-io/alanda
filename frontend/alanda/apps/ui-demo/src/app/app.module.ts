@@ -18,6 +18,7 @@ import {
   AlandaCommonModule,
   AlandaProjectPropertiesService,
   PermissionModule,
+  CommentsModule,
 } from '@alanda/common';
 import { ALANDA_CONFIG } from './app.settings';
 import { ProjectPropertiesService } from './core/services/projectproperties.service';
@@ -53,6 +54,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     FieldsetModule,
     ButtonModule,
     PermissionModule,
+    CommentsModule,
     AlandaCommonModule.forRoot(CURRENT_CONFIG),
   ],
   providers: [

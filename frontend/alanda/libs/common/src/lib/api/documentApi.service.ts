@@ -173,9 +173,13 @@ export class AlandaDocumentApiService extends AlandaExceptionHandlingService {
     fileMask: string,
     mappings?: string,
   ): Observable<SimpleDocument[]> {
-    const params = new HttpParams()
-      .set('file-mask', fileMask)
-      .set('mappings', mappings);
+    let params = new HttpParams();
+    if (fileMask != null) {
+      params = params.set('file-mask', fileMask);
+    }
+    if (mappings != null) {
+      params = params.set('mappings', mappings);
+    }
     return this.http
       .get<any>(
         `${this.documentEndpointUrl}/refObject/${objectType}/${objectId}/guid/${folderId}`,

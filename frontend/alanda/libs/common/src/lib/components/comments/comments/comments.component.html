@@ -1,18 +1,20 @@
 <p-panel
   class="comments"
   [toggleable]="true"
-  *ngIf="comments$ | async as comments"
+  *ngIf="cp.filteredComments$ | push as comments"
 >
   <p-header>
-    Comments
-    <alanda-badge label="{{ comments.length }}"></alanda-badge>
+    <span class="ui-panel-title">
+      Comments
+      <alanda-badge label="{{ comments.length }}"></alanda-badge>
+    </span>
   </p-header>
 
   <div class="p-grid">
     <div class="p-lg-10 p-sm-12">
       <form
-        [formGroup]="commentForm"
-        (ngSubmit)="commentFormSubmit$.next(commentForm)"
+        [formGroup]="cp.commentForm"
+        (ngSubmit)="cp.commentFormSubmit$.next()"
       >
         <textarea
           pInputTextarea
@@ -30,7 +32,7 @@
             icon="fa fa-paper-plane"
             iconPos="left"
             label="Post Comment"
-            [disabled]="!commentForm.valid"
+            [disabled]="!cp.commentForm.valid"
           ></p-button>
         </div>
       </form>
@@ -42,7 +44,10 @@
           class="comment"
           [comment]="comment"
           [type]="'comment'"
-          *ngFor="let comment of comments"
+          (submitReply)="cp.replyPostBody$.next($event)"
+          (toggleFilterClick)="cp.toggleTagFilter($event)"
+          [activeTagFilters]="cp.activeTagFilters$"
+          *ngFor="let comment of comments; trackBy: cp.trackByCommentId"
         ></alanda-comment>
       </p-scrollPanel>
       <ng-template #elseBlock>
@@ -52,22 +57,23 @@
       </ng-template>
     </div>
     <div class="p-col">
-      <form [formGroup]="commentFilterForm">
+      <form [formGroup]="cp.commentFilterForm">
         <input
           formControlName="searchText"
           pInputText
           placeholder="Search comments"
         />
       </form>
-      <div *ngFor="let tag of tags$ | async" class="tag-wrapper">
-        <p-button
-          label="{{ tag.name }}"
-          icon="pi pi-tag"
-          iconPos="left"
-          type="button"
-          (onClick)="toggleTagFilter(tag)"
-          [styleClass]="tagClass(tag)"
-        ></p-button>
+      <div
+        *ngFor="let tag of cp.tags$ | push; trackBy: cp.trackByTagId"
+        class="tag-wrapper"
+      >
+        <alanda-comment-tag
+          [isActive]="(cp.activeTagFilters$ | push)[tag.name]"
+          [tag]="tag"
+          (toggleFilterClick)="cp.toggleTagFilter(tag)"
+        >
+        </alanda-comment-tag>
       </div>
       <div class="tag-wrapper">
         <p-button
@@ -75,8 +81,8 @@
           icon="pi pi-times-circle"
           iconPos="left"
           type="button"
-          (onClick)="clearAllTagFilters()"
-          *ngIf="hasActiveFilters$ | async"
+          (onClick)="cp.clearAllTagFilters()"
+          *ngIf="cp.hasActiveFilters$ | push"
           styleClass="ui-button-danger"
         ></p-button>
       </div>

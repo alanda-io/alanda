@@ -34,8 +34,6 @@ import { MonitorValuesPipe } from './pipes/nested-object.pipe';
 import { AlandaTasklistComponent } from './components/task-list/tasklist.component';
 import { FilterPipe } from './pipes/filter.pipe';
 import { TagFilterPipe } from './pipes/tag-filter.pipe';
-import { AlandaCommentsComponent } from './components/comments/comments.component';
-import { AlandaCommentComponent } from './components/comments/comment/comment.component';
 import { AlandaProjectHeaderComponent } from './components/project-header/project-header.component';
 import { ProjectPropertiesDirective } from './components/controller/directives/project.properties.directive';
 import { AlandaPioComponent } from './components/pio/pio.component';
@@ -89,7 +87,8 @@ import { PermissionModule } from './permissions/permission.module';
 import { AlandaVarRoleUserSelectComponent } from './form/components/var-role-user-select/var-role-user-select.component';
 import { AlandaVarDisplayComponent } from './form/components/var-display/var-display.component';
 import { AlandaPropCheckboxComponent } from './form/components/prop-checkbox/prop-checkbox.component';
-import { AlandaBadgeComponent } from './components/badge/badge.component';
+import { CommentsModule } from './components/comments/comments.module';
+import { BadgeModule } from './components/badge/badge.module';
 import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
 
 @NgModule({
@@ -131,6 +130,8 @@ import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
     TreeTableModule,
     MessageModule,
     DynamicDialogModule,
+    CommentsModule,
+    BadgeModule,
     PhaseTabModule,
   ],
   declarations: [
@@ -146,8 +147,6 @@ import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
     AlandaGroupManagementComponent,
     AlandaRoleManagementComponent,
     AlandaPermissionManagementComponent,
-    AlandaCommentsComponent,
-    AlandaCommentComponent,
     AlandaProjectHeaderComponent,
     ProjectPropertiesDirective,
     AlandaFormsControllerComponent,
@@ -171,10 +170,10 @@ import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
     AlandaProjectAndProcessesComponent,
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
-    AlandaBadgeComponent,
   ],
   exports: [
     PermissionModule,
+    BadgeModule,
     AlandaProjectMonitorComponent,
     AlandaAttachmentsComponent,
     AttachmentsListComponent,
@@ -187,8 +186,6 @@ import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
     AlandaRoleManagementComponent,
     AlandaGroupManagementComponent,
     AlandaPermissionManagementComponent,
-    AlandaCommentsComponent,
-    AlandaCommentComponent,
     AlandaProjectHeaderComponent,
     ProjectPropertiesDirective,
     AlandaPioComponent,

@@ -16,6 +16,7 @@ services:
       - ./docker-camunda/mount_logs:/camunda/standalone/log
       - ./docker-camunda/mount_config/configuration:/camunda/standalone/configuration
       - ./docker-camunda/mount_templates/templates:/camunda/standalone/templates
+      - ./docker-camunda/mount_docs:/camunda/standalone/documents
     ports:
       - 8080:8080
       - 9990:9990

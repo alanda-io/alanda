@@ -7,9 +7,10 @@ import { VacationRoutingModule } from './vacation-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { InformSubstituteComponent } from './forms/inform-substitute.component';
 import { PerformHandoverActivitiesComponent } from './forms/perform-handover-activities.component';
+import { CommentsModule } from '@alanda/common';
 
 @NgModule({
-  imports: [VacationRoutingModule, SharedModule],
+  imports: [VacationRoutingModule, SharedModule, CommentsModule],
   declarations: [
     PrepareVacationRequestComponent,
     CheckVacationRequestComponent,

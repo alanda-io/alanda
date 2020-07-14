@@ -32,7 +32,6 @@ export class PrepareVacationRequestComponent
   ngAfterViewInit(): void {
     this.roleSelector.setValidators([Validators.required]);
     this.roleSelector.updateValueAndValidity();
-    console.log('rootForm', this.rootForm);
     // this.formManagerService.addValidators();
   }
 
