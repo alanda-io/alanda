@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 const appConfig = {
   AVATAR_BASE_PATH: 'test/foo',
   AVATAR_EXT: 'png',
-}
+};
 
 describe('AlandaCommentComponent', () => {
   let component: AlandaCommentComponent;
@@ -19,17 +19,19 @@ describe('AlandaCommentComponent', () => {
     guid: 1,
     replies: [],
     text: 'test comment',
-    fulltext: 'Test comment'
+    fulltext: 'Test comment',
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AlandaCommentComponent, AlandaCommentTagComponent],
       imports: [ButtonModule, TemplateModule, ReactiveFormsModule, FormsModule],
-      providers: [{
-        provide: APP_CONFIG,
-        useValue: appConfig
-      }]
+      providers: [
+        {
+          provide: APP_CONFIG,
+          useValue: appConfig,
+        },
+      ],
     }).compileComponents();
   }));
 
