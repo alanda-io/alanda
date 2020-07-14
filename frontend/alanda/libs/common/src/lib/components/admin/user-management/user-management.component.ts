@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output } from '@angular/core';
 import { AlandaGroup } from '../../../api/models/group';
 import { AlandaPermission } from '../../../api/models/permission';
 import { AlandaRole } from '../../../api/models/role';
@@ -12,6 +12,7 @@ import { ServerOptions } from '../../../models/serverOptions';
 import { mergeMap } from 'rxjs/operators';
 import { AlandaUserApiService } from '../../../api/userApi.service';
 import { AlandaGroupApiService } from '../../../api/groupApi.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'alanda-user-management',
@@ -298,21 +299,25 @@ export class AlandaUserManagementComponent implements OnInit {
       );
   }
 
+  @Output()
+  runAsUserClick = new Subject<string>()
+
   runAsUser() {
-    this.userService.runAsUser(this.selectedUser.loginName).subscribe(
-      (user) =>
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Run As User',
-          detail: `Run as ${user.loginName}`,
-        }),
-      (error) =>
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Run As User',
-          detail: error.message,
-        }),
-    );
+    this.runAsUserClick.next(this.selectedUser.loginName);
+    // this.userService.runAsUser(this.selectedUser.loginName).subscribe(
+    //   (user) =>
+    //     this.messageService.add({
+    //       severity: 'success',
+    //       summary: 'Run As User',
+    //       detail: `Run as ${user.loginName}`,
+    //     }),
+    //   (error) =>
+    //     this.messageService.add({
+    //       severity: 'error',
+    //       summary: 'Run As User',
+    //       detail: error.message,
+    //     }),
+    // );
   }
 
   onUpdateGroups() {
