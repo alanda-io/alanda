@@ -62,7 +62,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     priority: null,
     dueDate: null,
     title: null,
-    details: null,
+    comment: null,
     taskDueDate: null,
   });
 
@@ -142,7 +142,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
             tag: change.tag,
             dueDate: convertUTCDate(new Date(change.dueDate)),
             title: change.title,
-            details: change.details,
+            comment: change.comment,
           };
         }),
         switchMap((project) => this.projectService.updateProject(project)),

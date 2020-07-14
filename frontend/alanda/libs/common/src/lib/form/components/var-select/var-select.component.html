@@ -9,10 +9,17 @@
   <ng-container
     *ngIf="selected.invalid && (selected.dirty || selected.touched)"
   >
-    <p-message
-      *ngIf="selected.errors.required"
-      severity="error"
-      text="Field is required"
-    ></p-message>
+    <div *ngFor="let error of selected.errors | keyvalue">
+      <p-message
+        *ngIf="error.key === 'required'"
+        severity="error"
+        text="Field is required"
+      ></p-message>
+      <p-message
+        *ngIf="error.key !== 'required'"
+        severity="error"
+        text=error.value.text
+      ></p-message>
+    </div>
   </ng-container>
 </div>
