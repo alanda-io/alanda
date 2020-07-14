@@ -18,7 +18,6 @@ const DECLARATIONS = [
   AlandaCommentTagComponent,
 ];
 @NgModule({
-  declarations: DECLARATIONS,
   imports: [
     CommonModule,
     TemplateModule,
@@ -30,6 +29,7 @@ const DECLARATIONS = [
     InputTextareaModule,
     InputTextModule,
   ],
+  declarations: DECLARATIONS,
   exports: DECLARATIONS,
 })
 export class CommentsModule {}

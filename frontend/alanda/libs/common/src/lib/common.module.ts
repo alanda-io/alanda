@@ -129,7 +129,6 @@ import { BadgeModule } from './components/badge/badge.module';
     TreeTableModule,
     MessageModule,
     DynamicDialogModule,
-    CommentsModule,
     BadgeModule,
   ],
   declarations: [
@@ -172,6 +171,7 @@ import { BadgeModule } from './components/badge/badge.module';
   exports: [
     PermissionModule,
     BadgeModule,
+    CommentsModule,
     AlandaProjectMonitorComponent,
     AlandaAttachmentsComponent,
     AttachmentsListComponent,
