@@ -19,7 +19,6 @@ A framework for developing processes the easy way.
 
 To install docker and the Oracle Database, follow the instructions given in this [Oracle blog Post](https://blogs.oracle.com/oraclemagazine/deliver-oracle-database-18c-express-edition-in-containers)
 
-
 To ensure installing docker and oracle database is done correctly create, first the `docker network`,
 which is listed under **Local Deployment**. Afterwards use this `docker run` command instead of using the
 `docker run` commands given in the link:
@@ -187,7 +186,7 @@ Go to Settings/Preferences dialog (⌘,) -> Code Style -> Editor -> choose JavaS
 [![Webstorm_settings](https://user-images.githubusercontent.com/2495032/57608810-f5f6fb80-756d-11e9-8403-e33f17c04212.png)]()
 
 # License 
-Except where otherwise specified, source code in this repository is  licensed under
+Except where otherwise specified, source code in this repository is licensed under
 the CDDL license.
 See LICENSE.txt for details.
 Refert to ATTRIBUTIONS.txt for the license of external components distributed with this projet.  
