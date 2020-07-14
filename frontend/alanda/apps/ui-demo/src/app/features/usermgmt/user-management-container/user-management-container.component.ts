@@ -4,13 +4,13 @@ import { UserAdapter } from '../../../core/services/user.adapter';
 import { RxState } from '@rx-angular/state';
 
 @Component({
-  selector: 'alanda-user-mnagement-container',
+  selector: 'user-management-container',
   template: `
   <alanda-user-management (runAsUserClick)="runAsUserClick$.next($event)"></alanda-user-management>
   `,
-  styleUrls: ['./user-mnagement-container.component.css']
+  styleUrls: ['./user-management-container.component.css']
 })
-export class UserMnagementContainerComponent extends RxState<any> {
+export class UserManagementContainerComponent extends RxState<any> {
 
   runAsUserClick$ = new Subject<string>();
 

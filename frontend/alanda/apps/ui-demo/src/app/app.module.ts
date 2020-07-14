@@ -32,7 +32,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { PermissionsDemoComponent } from './components/permissions-demo/permissions-demo.component';
 import { TemplateModule } from '@rx-angular/template';
-import { UserMnagementContainerComponent } from './features/usermgmt/user-mnagement-container/user-mnagement-container.component';
+import { UserManagementContainerComponent } from './features/usermgmt/user-management-container/user-management-container.component';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 
@@ -42,7 +42,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     ProjectDetailsComponent,
     ProjectPropertiesComponent,
     PermissionsDemoComponent,
-    UserMnagementContainerComponent,
+    UserManagementContainerComponent,
   ],
   imports: [
     BrowserModule,

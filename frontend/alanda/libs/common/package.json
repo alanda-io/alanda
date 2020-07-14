@@ -1,6 +1,6 @@
 {
   "name": "@alanda/common",
-  "version": "9.1.1",
+  "version": "9.1.2",
   "peerDependencies": {
     "@angular/common": "^9.1.0",
     "@angular/core": "^9.1.0",
@@ -9,7 +9,8 @@
     "primeicons": "2.0.0",
     "primeflex": "1.0.0",
     "bpmn-js": "6.5.1",
-    "@rx-angular/state": "^1.2.2"
+    "@rx-angular/state": "^1.3.0",
+    "@rx-angular/template": "1.0.0-alpha.0"
   },
   "publishConfig": {
     "registry": "https://repo.alanda.io/repository/alanda/"

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserMnagementContainerComponent } from './user-mnagement-container.component';
+import { UserMnagementContainerComponent } from './user-management-container.component';
 
 describe('UserMnagementContainerComponent', () => {
   let component: UserMnagementContainerComponent;

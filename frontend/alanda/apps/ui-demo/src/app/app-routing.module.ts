@@ -8,16 +8,15 @@ import {
   AlandaGroupManagementComponent,
   AlandaRoleManagementComponent,
   AlandaPermissionManagementComponent,
-  AlandaUserManagementComponent,
   AlandaProjectsControllerComponent,
 } from '@alanda/common';
 import { AlandaFormsControllerComponent } from '@alanda/common';
 import { PermissionsDemoComponent } from './components/permissions-demo/permissions-demo.component';
-import { UserMnagementContainerComponent } from './features/usermgmt/user-mnagement-container/user-mnagement-container.component';
+import { UserManagementContainerComponent } from './features/usermgmt/user-management-container/user-management-container.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'admin/users', component: UserMnagementContainerComponent },
+  { path: 'admin/users', component: UserManagementContainerComponent },
   { path: 'admin/groups', component: AlandaGroupManagementComponent },
   { path: 'admin/roles', component: AlandaRoleManagementComponent },
   { path: 'admin/permissions', component: AlandaPermissionManagementComponent },
