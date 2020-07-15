@@ -300,7 +300,7 @@ export class AlandaUserManagementComponent implements OnInit {
   }
 
   @Output()
-  runAsUserClick = new Subject<string>()
+  runAsUserClick = new Subject<string>();
 
   runAsUser() {
     this.runAsUserClick.next(this.selectedUser.loginName);

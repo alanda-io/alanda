@@ -6,20 +6,19 @@ import { RxState } from '@rx-angular/state';
 @Component({
   selector: 'user-management-container',
   template: `
-  <alanda-user-management (runAsUserClick)="runAsUserClick$.next($event)"></alanda-user-management>
+    <alanda-user-management
+      (runAsUserClick)="runAsUserClick$.next($event)"
+    ></alanda-user-management>
   `,
-  styleUrls: ['./user-management-container.component.css']
+  styleUrls: ['./user-management-container.component.css'],
 })
 export class UserManagementContainerComponent extends RxState<any> {
-
   runAsUserClick$ = new Subject<string>();
 
   constructor(private userAdapter: UserAdapter) {
     super();
-    this.userAdapter.connectRunAs(this.runAsUserClick$)
-   }
-
-  ngOnInit(): void {
+    this.userAdapter.connectRunAs(this.runAsUserClick$);
   }
 
+  ngOnInit(): void {}
 }

@@ -1,12 +1,16 @@
 <p-toast></p-toast>
 <ng-container *rxLet="user$; let user">
   <div [@autoHide]="autoHide ? 'open' : 'closed'" class="header-container">
-      <p-menubar [model]="items">
+    <p-menubar [model]="items">
       <div class="sub-menu">
         <span>{{ user.firstName }} {{ user.surname }}</span>
         <span *ngIf="user.runAs">
           ( logged in as {{ user.runAs }}
-          <i class="pi pi-user-minus" (click)="releaseRunAsClick.next($event)"></i>)</span
+          <i
+            class="pi pi-user-minus"
+            (click)="releaseRunAsClick.next($event)"
+          ></i
+          >)</span
         >
       </div>
     </p-menubar>

@@ -110,24 +110,22 @@ export class AlandaUserApiService extends AlandaExceptionHandlingService {
   }
 
   getCurrentUser(): Observable<AlandaUser> {
-    return this.http.get<AlandaUser>(`${this.endpointUrl}/current`).pipe(
-      catchError(this.handleError<AlandaUser>('getCurrentUser')),
-    );
+    return this.http
+      .get<AlandaUser>(`${this.endpointUrl}/current`)
+      .pipe(catchError(this.handleError<AlandaUser>('getCurrentUser')));
   }
 
   runAsUser(userName: string): Observable<AlandaUser> {
-    console.log('asdsad',  userName);
+    console.log('asdsad', userName);
     return this.http
       .post<AlandaUser>(`${this.endpointUrl}/runas/${userName}`, {})
-      .pipe(
-        catchError(this.handleError<AlandaUser>('runAsUser'))
-      );
+      .pipe(catchError(this.handleError<AlandaUser>('runAsUser')));
   }
 
   releaseRunAs(): Observable<AlandaUser> {
-    return this.http.post<AlandaUser>(`${this.endpointUrl}/release`, {}).pipe(
-      catchError(this.handleError<AlandaUser>('releaseRunAs'))
-    );
+    return this.http
+      .post<AlandaUser>(`${this.endpointUrl}/release`, {})
+      .pipe(catchError(this.handleError<AlandaUser>('releaseRunAs')));
   }
 
   getUsersByGroupId(groupId: number): Observable<AlandaUser[]> {

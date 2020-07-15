@@ -3,8 +3,9 @@ import { AlandaCommentComponent } from './comment.component';
 import { AlandaCommentTagComponent } from '../comment-tag/comment-tag.component';
 import { ButtonModule } from 'primeng/button';
 import { TemplateModule } from '@rx-angular/template';
-import { AlandaComment, APP_CONFIG } from '@alanda/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AlandaComment } from '../../../api/models/comment';
+import { APP_CONFIG } from '../../../..';
 
 const appConfig = {
   AVATAR_BASE_PATH: 'test/foo',
