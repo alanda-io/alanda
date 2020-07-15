@@ -20,6 +20,39 @@ import { Subject } from 'rxjs';
   styleUrls: ['./user-management.component.scss'],
 })
 export class AlandaUserManagementComponent implements OnInit {
+
+  constructor(
+    private readonly userService: AlandaUserApiService,
+    private readonly groupService: AlandaGroupApiService,
+    private readonly roleService: AlandaRoleApiService,
+    private readonly permissionService: AlandaPermissionApiService,
+    private readonly messageService: MessageService,
+    private readonly fb: FormBuilder,
+  ) {}
+
+  get login(): string {
+    return this.userForm.get('loginName').value;
+  }
+
+  get firstName(): string {
+    return this.userForm.get('firstName').value;
+  }
+
+  get lastName(): string {
+    return this.userForm.get('surname').value;
+  }
+
+  get email(): string {
+    return this.userForm.get('email').value;
+  }
+
+  get mobile(): string {
+    return this.userForm.get('mobile').value;
+  }
+
+  get locked(): boolean {
+    return this.userForm.get('locked').value;
+  }
   users: AlandaUser[] = [];
   selectedUser: AlandaUser;
   loading = true;
@@ -40,14 +73,8 @@ export class AlandaUserManagementComponent implements OnInit {
   @ViewChild('table') turboTable: Table;
   userForm: FormGroup;
 
-  constructor(
-    private readonly userService: AlandaUserApiService,
-    private readonly groupService: AlandaGroupApiService,
-    private readonly roleService: AlandaRoleApiService,
-    private readonly permissionService: AlandaPermissionApiService,
-    private readonly messageService: MessageService,
-    private readonly fb: FormBuilder,
-  ) {}
+  @Output()
+  runAsUserClick = new Subject<string>();
 
   ngOnInit() {
     this.initUserForm();
@@ -90,30 +117,6 @@ export class AlandaUserManagementComponent implements OnInit {
         roles: [],
       });
     }
-  }
-
-  get login(): string {
-    return this.userForm.get('loginName').value;
-  }
-
-  get firstName(): string {
-    return this.userForm.get('firstName').value;
-  }
-
-  get lastName(): string {
-    return this.userForm.get('surname').value;
-  }
-
-  get email(): string {
-    return this.userForm.get('email').value;
-  }
-
-  get mobile(): string {
-    return this.userForm.get('mobile').value;
-  }
-
-  get locked(): boolean {
-    return this.userForm.get('locked').value;
   }
 
   private fillUserForm(user: AlandaUser) {
@@ -298,9 +301,6 @@ export class AlandaUserManagementComponent implements OnInit {
           }),
       );
   }
-
-  @Output()
-  runAsUserClick = new Subject<string>();
 
   runAsUser() {
     this.runAsUserClick.next(this.selectedUser.loginName);

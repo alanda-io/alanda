@@ -116,7 +116,6 @@ export class AlandaUserApiService extends AlandaExceptionHandlingService {
   }
 
   runAsUser(userName: string): Observable<AlandaUser> {
-    console.log('asdsad', userName);
     return this.http
       .post<AlandaUser>(`${this.endpointUrl}/runas/${userName}`, {})
       .pipe(catchError(this.handleError<AlandaUser>('runAsUser')));

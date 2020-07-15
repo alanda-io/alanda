@@ -43,7 +43,7 @@ export class AlandaMonitorAPIService {
         field: 'project.priority',
         width: '40',
         template:
-          "{'ng-prio': true, 'ng-prio-low': project.priority == 0, 'ng-prio-medium': project.priority == 1, 'ng-prio-high': project.priority == 2}",
+          '{\'ng-prio\': true, \'ng-prio-low\': project.priority == 0, \'ng-prio-medium\': project.priority == 1, \'ng-prio-high\': project.priority == 2}',
       },
       { displayName: 'Tag', name: 'Tag', field: 'project.tag' },
       {
@@ -92,7 +92,7 @@ export class AlandaMonitorAPIService {
         field: 'project.priority',
         width: 70,
         template:
-          "{'ng-prio': project != null, 'ng-prio-low': project != null && project.priority == 0, 'ng-prio-medium': project != null && project.priority == 1, 'ng-prio-high': project != null && project.priority == 2}",
+          '{\'ng-prio\': project != null, \'ng-prio-low\': project != null && project.priority == 0, \'ng-prio-medium\': project != null && project.priority == 1, \'ng-prio-high\': project != null && project.priority == 2}',
       },
       {
         displayName: 'Project Tag',
@@ -132,7 +132,7 @@ export class AlandaMonitorAPIService {
         field: 'project.priority',
         width: 70,
         template:
-          "{'ng-prio': project != null, 'ng-prio-low': project != null && project.priority == 0, 'ng-prio-medium': project != null && project.priority == 1, 'ng-prio-high': project != null && project.priority == 2}",
+          '{\'ng-prio\': project != null, \'ng-prio-low\': project != null && project.priority == 0, \'ng-prio-medium\': project != null && project.priority == 1, \'ng-prio-high\': project != null && project.priority == 2}',
       },
       {
         displayName: 'Project Tag',
