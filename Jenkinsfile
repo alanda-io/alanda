@@ -1,5 +1,7 @@
 pipeline {
-    agent Linux
+    agent {
+        label 'linux'
+    }
 
     tools {nodejs "node"}
 
