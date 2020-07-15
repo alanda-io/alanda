@@ -51,14 +51,12 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
   onSubprocessSelected(rowData: any, rowNode: any) {
     const selectedProcess: AlandaProcess = rowData;
     if (selectedProcess) {
-      console.log(selectedProcess.guid);
       /* this.projectService
       .saveProjectProcess(rowData.relatedProject.guid, selectedProcess)
       .subscribe(() => {
         this.loadNode(rowNode.parent);
       }); */
     } else {
-      console.log(selectedProcess);
       /* const process: AlandaProcess = {};
       process.status = ProjectState.NEW;
       process.relation = ProcessRelation.CHILD;

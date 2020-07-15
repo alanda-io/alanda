@@ -33,7 +33,8 @@ import { AlandaUser } from '@alanda/common';
     ]),
   ],
 })
-export class HeaderComponent extends RxState<{ user: AlandaUser }> implements OnInit {
+export class HeaderComponent extends RxState<{ user: AlandaUser }>
+  implements OnInit {
   items: MenuItem[];
   value: Date;
   title = 'alanda-ui-demo';

@@ -42,8 +42,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     filter((event: RouterEvent): boolean => event instanceof NavigationEnd),
     map(() => this.router.routerState.snapshot.root),
     // @TODO if we get away from global task managing delete this line and move code
-    map((snapshot) => this.collectParams(snapshot)),
-    // tap((sn) => console.log("sn", sn))
+    map((snapshot) => this.collectParams(snapshot))
   );
 
   urlTaskId$ = this.routerParams$.pipe(map((p) => p.taskId));

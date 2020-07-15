@@ -20,7 +20,6 @@ import { Subject } from 'rxjs';
   styleUrls: ['./user-management.component.scss'],
 })
 export class AlandaUserManagementComponent implements OnInit {
-
   constructor(
     private readonly userService: AlandaUserApiService,
     private readonly groupService: AlandaGroupApiService,

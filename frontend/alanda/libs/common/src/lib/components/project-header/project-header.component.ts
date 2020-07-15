@@ -104,7 +104,6 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   }
 
   private updateProject(changes: any): Observable<AlandaProject> {
-    console.log(changes);
     if (
       changes.taskDueDate &&
       changes.taskDueDate.toString() !== this.taskDueDate.toString()
