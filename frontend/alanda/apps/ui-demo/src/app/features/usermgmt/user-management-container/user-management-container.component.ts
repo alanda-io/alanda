@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
 import { UserAdapter } from '../../../core/services/user.adapter';
 import { RxState } from '@rx-angular/state';
 
 @Component({
-  selector: 'user-management-container',
+  selector: 'alanda-user-management-container',
   template: `
     <alanda-user-management
       (runAsUserClick)="runAsUserClick$.next($event)"
@@ -19,6 +19,4 @@ export class UserManagementContainerComponent extends RxState<any> {
     super();
     this.userAdapter.connectRunAs(this.runAsUserClick$);
   }
-
-  ngOnInit(): void {}
 }

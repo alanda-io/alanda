@@ -17,11 +17,9 @@ export class ActionService extends RxState<any> {
 
   constructor() {
     super();
-    console.log(this.actionsSubject);
   }
 
   dispatch(action: Action): void {
-    console.log(action, this.actionsSubject);
     this.actionsSubject.next(action);
   }
 
