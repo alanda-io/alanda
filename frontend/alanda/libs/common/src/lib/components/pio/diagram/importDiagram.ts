@@ -24,6 +24,7 @@ export const importDiagram = (bpmnJS) => <Object>(source: Observable<string>) =>
         });
       },
       error(e) {
+        console.log('ERROR');
         observer.error(e);
       },
       complete() {
