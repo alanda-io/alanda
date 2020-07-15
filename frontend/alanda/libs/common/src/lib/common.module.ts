@@ -130,7 +130,6 @@ import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
     TreeTableModule,
     MessageModule,
     DynamicDialogModule,
-    CommentsModule,
     BadgeModule,
     PhaseTabModule,
   ],
@@ -174,6 +173,7 @@ import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
   exports: [
     PermissionModule,
     BadgeModule,
+    CommentsModule,
     AlandaProjectMonitorComponent,
     AlandaAttachmentsComponent,
     AttachmentsListComponent,

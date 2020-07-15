@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { RxState, toDictionary, toggle, patch } from '@rx-angular/state';
 import { filter, map } from 'rxjs/operators';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { AlandaComment, AlandaCommentTag } from '@alanda/common';
 import { FormBuilder, Validators } from '@angular/forms';
 import {
   Dictionary,
@@ -11,6 +10,8 @@ import {
   trackByTagId,
 } from '../utils';
 import { AlandaReplyPostBody } from '../../../api/models/replyPostBody';
+import { AlandaComment } from '../../../api/models/comment';
+import { AlandaCommentTag } from '../../../api/models/commentTag';
 
 interface AlandaCommentPresenterState {
   comments: AlandaComment[];

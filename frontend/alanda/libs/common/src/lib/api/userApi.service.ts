@@ -112,29 +112,21 @@ export class AlandaUserApiService extends AlandaExceptionHandlingService {
   getCurrentUser(): Observable<AlandaUser> {
     return this.http.get<AlandaUser>(`${this.endpointUrl}/current`).pipe(
       catchError(this.handleError<AlandaUser>('getCurrentUser')),
-      tap((user) => {
-        this.user$.next(user);
-      }),
     );
   }
 
   runAsUser(userName: string): Observable<AlandaUser> {
+    console.log('asdsad',  userName);
     return this.http
       .post<AlandaUser>(`${this.endpointUrl}/runas/${userName}`, {})
       .pipe(
-        catchError(this.handleError<AlandaUser>('runAsUser')),
-        tap((user) => {
-          this.user$.next(user);
-        }),
+        catchError(this.handleError<AlandaUser>('runAsUser'))
       );
   }
 
   releaseRunAs(): Observable<AlandaUser> {
     return this.http.post<AlandaUser>(`${this.endpointUrl}/release`, {}).pipe(
-      catchError(this.handleError<AlandaUser>('releaseRunAs')),
-      tap((user) => {
-        this.user$.next(user);
-      }),
+      catchError(this.handleError<AlandaUser>('releaseRunAs'))
     );
   }
 

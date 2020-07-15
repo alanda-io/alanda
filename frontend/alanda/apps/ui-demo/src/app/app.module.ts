@@ -31,6 +31,8 @@ import { ButtonModule } from 'primeng/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { PermissionsDemoComponent } from './components/permissions-demo/permissions-demo.component';
+import { TemplateModule } from '@rx-angular/template';
+import { UserManagementContainerComponent } from './features/usermgmt/user-management-container/user-management-container.component';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 
@@ -40,6 +42,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     ProjectDetailsComponent,
     ProjectPropertiesComponent,
     PermissionsDemoComponent,
+    UserManagementContainerComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +59,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     PermissionModule,
     CommentsModule,
     AlandaCommonModule.forRoot(CURRENT_CONFIG),
+    TemplateModule,
   ],
   providers: [
     { provide: APP_CONFIG, useValue: CURRENT_CONFIG },

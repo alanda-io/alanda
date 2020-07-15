@@ -3,10 +3,11 @@ import { HeaderComponent } from './header/header.component';
 import { MenubarModule } from 'primeng/menubar';
 import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
+import { TemplateModule } from '@rx-angular/template';
 
 @NgModule({
   declarations: [HeaderComponent],
-  imports: [MenubarModule, ToastModule, CommonModule],
+  imports: [MenubarModule, ToastModule, CommonModule, TemplateModule],
   exports: [HeaderComponent],
   providers: [],
 })

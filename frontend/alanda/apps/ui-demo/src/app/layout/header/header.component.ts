@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Input, Output } from '@angular/core';
 import {
   state,
   style,
@@ -6,8 +6,10 @@ import {
   animate,
   trigger,
 } from '@angular/animations';
-import { AlandaUserApiService } from '@alanda/common';
 import { MenuItem } from 'primeng/api/menuitem';
+import { RxState } from '@rx-angular/state';
+import { Observable, isObservable, Subject } from 'rxjs';
+import { AlandaUser } from '@alanda/common';
 
 @Component({
   selector: 'alanda-header',
@@ -31,17 +33,30 @@ import { MenuItem } from 'primeng/api/menuitem';
     ]),
   ],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent extends RxState<{user: AlandaUser}> {
   items: MenuItem[];
   value: Date;
   title = 'alanda-ui-demo';
   private scrollPos = 0;
   autoHide = true;
 
-  constructor(public userService: AlandaUserApiService) {}
+  user$ = this.select('user');
+
+  @Input()
+  set user(user:  | Observable<AlandaUser>) {
+    isObservable(user) ? this.connect('user', user) : this.set({user})
+  };
+
+  @Output()
+  releaseRunAsClick = new Subject<void>();
+
+
+  constructor() {
+super();
+              }
 
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe();
+    // this.userService.getCurrentUser().subscribe();
     this.items = [
       {
         label: 'Home',
@@ -112,7 +127,4 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  releaseRunAs(): void {
-    this.userService.releaseRunAs().subscribe();
-  }
 }
