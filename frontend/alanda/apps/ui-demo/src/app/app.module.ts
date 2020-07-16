@@ -16,7 +16,6 @@ import {
   AppSettings,
   APP_CONFIG,
   AlandaCommonModule,
-  AlandaProjectPropertiesService,
   PermissionModule,
   CommentsModule,
 } from '@alanda/common';
