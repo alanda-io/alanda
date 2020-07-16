@@ -33,6 +33,8 @@ export class PrepareVacationRequestComponent
     this.roleSelector.setValidators([Validators.required]);
     this.roleSelector.updateValueAndValidity();
     // this.formManagerService.addValidators();
+    console.log('role-selector', this.roleSelector);
+    console.log('form', this.rootForm);
   }
 
   get roleSelector(): AbstractControl {

@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AlandaHistoryApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;
 

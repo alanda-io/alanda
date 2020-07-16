@@ -1,6 +1,6 @@
 import { Injectable, Type } from '@angular/core';
 import { Component } from '@angular/compiler/src/core';
-import { ProjectPropertiesComponent } from '../../components/project-properties/project-properties.component';
+import { ProjectPropertiesComponent } from '../../features/vacation/components/project-properties/project-properties.component';
 
 @Injectable()
 export class ProjectPropertiesService {
@@ -8,7 +8,7 @@ export class ProjectPropertiesService {
 
   constructor() {
     this.propertyComponents = new Map<string, Type<any>>();
-    this.propertyComponents.set('VACATION', ProjectPropertiesComponent);
+    // this.propertyComponents.set('VACATION', ProjectPropertiesComponent);
   }
 
   getPropsForType(key: string): Type<Component> {

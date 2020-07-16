@@ -12,7 +12,9 @@ import { AlandaExceptionHandlingService } from '../services/exceptionHandling.se
 import { AlandaRefObject } from './models/refObject';
 import { AlandaSimplePhase } from './models/simplePhase';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AlandaProjectApiService extends AlandaExceptionHandlingService {
   private readonly endpoint: string;
   private readonly refObjectEndpoint: string;

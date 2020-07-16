@@ -21,9 +21,7 @@ import {
   CommentsModule,
 } from '@alanda/common';
 import { ALANDA_CONFIG } from './app.settings';
-import { ProjectPropertiesService } from './core/services/projectproperties.service';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
-import { ProjectPropertiesComponent } from './components/project-properties/project-properties.component';
 import { SharedModule } from './shared/shared.module';
 import { CardModule } from 'primeng/card';
 import { FieldsetModule } from 'primeng/fieldset';
@@ -40,7 +38,6 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
   declarations: [
     AppComponent,
     ProjectDetailsComponent,
-    ProjectPropertiesComponent,
     PermissionsDemoComponent,
     UserManagementContainerComponent,
   ],
@@ -63,10 +60,6 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
   ],
   providers: [
     { provide: APP_CONFIG, useValue: CURRENT_CONFIG },
-    {
-      provide: AlandaProjectPropertiesService,
-      useClass: ProjectPropertiesService,
-    },
     MessageService,
   ],
   bootstrap: [AppComponent],

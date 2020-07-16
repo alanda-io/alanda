@@ -8,7 +8,9 @@ import { AlandaUser } from './models/user';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 import { ServerOptions } from '../models/serverOptions';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AlandaTaskApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;
 

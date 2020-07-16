@@ -11,7 +11,9 @@ import { AlandaPermission } from './models/permission';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 import { ServerOptions } from '../models/serverOptions';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AlandaUserApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;
   public user$: BehaviorSubject<AlandaUser> = new BehaviorSubject(null);

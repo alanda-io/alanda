@@ -9,7 +9,9 @@ import { AlandaReplyPostBody } from './models/replyPostBody';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 import { AlandaComment } from './models/comment';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AlandaCommentApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;
 

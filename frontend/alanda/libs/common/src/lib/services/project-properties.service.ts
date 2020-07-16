@@ -12,4 +12,9 @@ export class AlandaProjectPropertiesService {
   getPropsForType(key: string): Type<Component> {
     return this.propertyComponents.get(key);
   }
+
+  addPropsForType(key: string, propertyComponent: Type<any>): void {
+    console.log('registereing new component');
+    this.propertyComponents.set(key, propertyComponent);
+  }
 }
