@@ -12,4 +12,5 @@ export interface AlandaSimplePhase {
   startDate?: Date;
   updateDate: Date;
   updateUser: number;
+  idName: string
 }
