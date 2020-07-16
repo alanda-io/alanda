@@ -20,7 +20,7 @@ import io.alanda.base.entity.PmcBlog;
  */
 public class PmcBlogDaoImpl extends AbstractCrudDao<PmcBlog> implements PmcBlogDao {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcBlogDaoImpl.class);
 
   /**
    * 
@@ -39,7 +39,7 @@ public class PmcBlogDaoImpl extends AbstractCrudDao<PmcBlog> implements PmcBlogD
 
   @Override
   public List<PmcBlog> getPostsByStatus(String status, int first, int count) {
-    logger.info("status: " + status);
+    log.debug("Retrieving {} posts by status \"{}\", starting at {}...", count, status, first);
     List<PmcBlog> blogList;
     try {
       blogList = em
@@ -48,19 +48,18 @@ public class PmcBlogDaoImpl extends AbstractCrudDao<PmcBlog> implements PmcBlogD
         .setFirstResult(first)
         .setMaxResults(count)
         .getResultList();
-      logger.info("blogList: " + blogList.toString());
+      log.trace("...found {} posts: {}", blogList.size(), blogList);
       return blogList;
     } catch (NoResultException e) {
-      logger.info("NoResultException: " + e);
+      log.warn("Found no posts by status \"{}\", starting at {}", status, first);
       return null;
     }
-
   }
 
   @Override
   public PmcBlog getPostByBlogId(Long blog_id, String status) {
-    PmcBlog pmcBlog = new PmcBlog();
-    pmcBlog = (PmcBlog) em
+    log.debug("Retrieving post by id {} and status {}", blog_id, status);
+    PmcBlog pmcBlog = (PmcBlog) em
       .createQuery("select p from PmcBlog p where p.blog_id = :blog_id and p.status = :status")
       .setParameter("blog_id", blog_id)
       .setParameter("status", status)
@@ -70,11 +69,9 @@ public class PmcBlogDaoImpl extends AbstractCrudDao<PmcBlog> implements PmcBlogD
 
   @Override
   public boolean atWork(Long oldBlogId) {
-    System.out.println("Dao: oldBlogId: ");
-    System.out.println(oldBlogId);
-    Long i;
+    log.debug("Retrieving count of posts with old id: {}", oldBlogId);
     //i = (int) em
-    i = (Long) em
+    Long i = (Long) em
       .createQuery("select count(b) from PmcBlog b where b.predecessor_id = :oldBlogId")
       .setParameter("oldBlogId", oldBlogId)
       .getSingleResult();
@@ -82,13 +79,9 @@ public class PmcBlogDaoImpl extends AbstractCrudDao<PmcBlog> implements PmcBlogD
     //      .createQuery("select count(b) from PmcBlog b where b.predecessor_id = :oldBlogId")
     //      .setParameter("oldBlogId", oldBlogId)
     //      .getSingleResult());
-    logger.info("Long i: " + i.toString());
-    if (i > 0) {
-      return false;
-    } else if (i == 0) {
-      return true;
-    }
-    return false;
+    log.trace("...found {} posts with old id {}", i, oldBlogId);
+
+    return i == 0;
   }
 
 }

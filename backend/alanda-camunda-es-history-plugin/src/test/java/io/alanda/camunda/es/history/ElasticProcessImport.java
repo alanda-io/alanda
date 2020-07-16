@@ -125,15 +125,15 @@ public class ElasticProcessImport {
       sc = new Scanner(System.in);
     }
 
-    log.info("Commands are: " + actionMap.keySet());
+    log.info("Commands are: {}", actionMap.keySet());
     while (sc.hasNextLine()) {
       String cmd = sc.next();
       String[] cmdArgs = sc.nextLine().trim().split(" ");
       Consumer<String[]> c = actionMap.get(cmd);
       if (c == null) {
-        log.info("Unknown command " + cmd + ", commands are: " + actionMap.keySet());
+        log.info("Unknown command {}, commands are: {}", cmd, actionMap.keySet());
       } else {
-        log.info("Calling function " + cmd);
+        log.info("Calling function {}", cmd);
         c.accept(cmdArgs);
       }
     }
@@ -175,19 +175,19 @@ public class ElasticProcessImport {
   }
 
   private static void setDb(String[] args) {
-    log.info("started setDb " + Arrays.toString(args));
+    log.info("started setDb {}", (Object) args);
     String db = args[0];
     if ( !dbConfigMap.containsKey(db)) {
-      log.warn("Db Config " + db + " not found, configs are: " + dbConfigMap.keySet());
+      log.warn("Db Config {} not found, configs are: {}", db, dbConfigMap.keySet());
       return;
     }
     currentMode = db;
-    log.info("Using  config: " + currentMode);
+    log.info("Using  config: {}", currentMode);
 
   }
 
   private static void readProc(String[] args) {
-    log.info("started readProc " + Arrays.toString(args));
+    log.info("started readProc {}", (Object) args);
     String id = args[0];
     try (Connection con = getConnection()) {
       HistoricProcessInstanceEventEntity proc = readProcInst(con, id);
@@ -200,14 +200,13 @@ public class ElasticProcessImport {
       log.info("{},\n{},\n{}", aiList, tiList, viList);
     } catch (SQLException ex) {
       log.warn("Error in readProc", ex);
-      ex.printStackTrace();
     }
 
   }
 
   private static void impProc(String[] args) {
     DbConfig config = dbConfigMap.get(currentMode);
-    log.info("started impProc " + Arrays.toString(args));
+    log.info("started impProc {}", (Object) args);
     String id = args[0];
 
     try (Connection con = getConnection()) {
@@ -224,12 +223,12 @@ public class ElasticProcessImport {
 
   private static void impMultiProc(String[] args) {
     DbConfig config = dbConfigMap.get(currentMode);
-    log.info("started impMultiProc " + Arrays.toString(args));
+    log.info("started impMultiProc {}", (Object) args);
 
     try (Connection con = getConnection()) {
       RestHighLevelClient client = getClient();
       for (String id : args) {
-        log.info("Importing Process: " + id);
+        log.info("Importing Process: {}", id);
         impOneProcess(config, id, con, client);
       }
       client.close();
@@ -245,7 +244,7 @@ public class ElasticProcessImport {
    */
   private static void impProcDef(String[] args) {
     DbConfig config = dbConfigMap.get(currentMode);
-    log.info("started impProcDef " + Arrays.toString(args));
+    log.info("started impProcDef {}", (Object) args);
     String procDefKey = args[0];
     if (procDefKey.trim().length() == 0) {
       log.warn("Usage: impProcDef <PROC_DEF_KEY>");
@@ -260,7 +259,7 @@ public class ElasticProcessImport {
       int i = 0;
       log.info("importing {} results for Process {} to ES", count, procDefKey);
       for (String id : inDb) {
-        log.info("Importing Process: " + id);
+        log.info("Importing Process: {}", id);
         impOneProcess(config, id, con, client);
         log.info("{}/{}", ++i, count);
       }
@@ -274,7 +273,7 @@ public class ElasticProcessImport {
 
   private static void impSaved(String[] args) {
     DbConfig config = dbConfigMap.get(currentMode);
-    log.info("started impMultiProc " + Arrays.toString(args));
+    log.info("started impMultiProc {}", (Object) args);
     int count = toUpdate.size();
     int i = 0;
     log.info("importing previous {} results to ES: {}", count, toUpdate);
@@ -301,14 +300,14 @@ public class ElasticProcessImport {
 
     try (Connection con = getConnection()) {
       RestHighLevelClient client = getClient();
-      log.info("started cmpMultiProcDef " + Arrays.toString(args));
+      log.info("started cmpMultiProcDef {}", (Object) args);
       for (String procDefKey : args) {
 
         log.info("Query db for {}", procDefKey);
         Set<String> inDb = listProcInstForProcDefDb(con, procDefKey);
         log.info("Query es for {}", procDefKey);
         Set<String> inEs = listProcInstForProcDefElastic(config, client, procDefKey);
-        log.info("Db: " + inDb.size() + ", Es: " + inEs.size());
+        log.info("Db: {}, Es: {}", inDb.size(), inEs.size());
         Set<String> onlyDb = new HashSet<>(inDb);
         onlyDb.removeAll(inEs);
         Set<String> onlyEs = new HashSet<>(inEs);
@@ -326,7 +325,7 @@ public class ElasticProcessImport {
 
   private static void cmpProcDef(String[] args) {
     DbConfig config = dbConfigMap.get(currentMode);
-    log.info("started cmpProcDef " + Arrays.toString(args));
+    log.info("started cmpProcDef {}", (Object) args);
     String procDefKey = args[0];
 
     try (Connection con = getConnection()) {
@@ -335,7 +334,7 @@ public class ElasticProcessImport {
       Set<String> inDb = listProcInstForProcDefDb(con, procDefKey);
       log.info("Query es");
       Set<String> inEs = listProcInstForProcDefElastic(config, client, procDefKey);
-      log.info("Db: " + inDb.size() + ", Es: " + inEs.size());
+      log.info("Db: {}, Es: {}", inDb.size(), inEs.size());
       Set<String> onlyDb = new HashSet<>(inDb);
       onlyDb.removeAll(inEs);
       Set<String> onlyEs = new HashSet<>(inEs);
@@ -402,7 +401,7 @@ public class ElasticProcessImport {
     }
     RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost(config.elasticHost, config.elasticPort, "http")));
 
-    log.info("Successfully connected to " + config.elasticHost + ":" + config.elasticPort);
+    log.info("Successfully connected to {}:{}", config.elasticHost, config.elasticPort);
     return client;
   }
 

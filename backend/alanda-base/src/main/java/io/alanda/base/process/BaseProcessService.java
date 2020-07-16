@@ -38,7 +38,7 @@ import io.alanda.base.util.cache.UserCache;
 
 public abstract class BaseProcessService {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(BaseProcessService.class);
 
   private static final PeriodFormatter periodFormatter = ISOPeriodFormat.standard();
 
@@ -74,16 +74,22 @@ public abstract class BaseProcessService {
   protected ConfigService configService;
 
   public void setProjectState(DelegateExecution execution, String status) {
+    log.info("Setting status {} for project {}", status, pmcProjectData);
+
     PmcProjectDto pmcProjectDto = pmcProjectService.getProjectByGuid(pmcProjectData.getPmcProjectGuid());
     pmcProjectDto.setStatus(status);
     pmcProjectService.updateProject(pmcProjectDto);
   }
 
   public void activatePhase(DelegateExecution execution, String phaseIdName) {
+    log.info("Activating phase {} for project {}", phaseIdName, pmcProjectData);
+
     pmcProjectService.activatePhase(pmcProjectData.getPmcProject().getProjectId(), phaseIdName);
   }
 
   public void deactivatePhase(DelegateExecution execution, String phaseIdName) {
+    log.info("Deactivating phase {} for project {}", phaseIdName, pmcProjectData);
+
     pmcProjectService.deactivatePhase(pmcProjectData.getPmcProject().getProjectId(), phaseIdName);
   }
 
@@ -93,24 +99,25 @@ public abstract class BaseProcessService {
    * @param execution
    */
   public void mainProcessCompleted(DelegateExecution execution) {
+    log.info("Completing main process for project {}", pmcProjectData);
 
     Long pmcProjectGuid = pmcProjectData.getPmcProjectGuid();
     if (pmcProjectGuid == null)
       throw new RuntimeException("No pmcProjectGuid set!");
-    logger.info("mainProcessCompleted: " + pmcProjectGuid);
     pmcProjectService.projectFinished(pmcProjectGuid);
   }
 
   public void subProcessFinished(DelegateExecution execution) {
+    log.info("Completing sub process for project {}", pmcProjectData);
+
     saveProcessResult(execution);
   }
 
   public void subProcessStartedListener(DelegateExecution execution) {
-    String exIdToUse = execution.getId();
-    logger
-      .info("EXEC: " + execution.getId() + "/" + execution.getParentId() + "/" + execution.getProcessInstanceId() + " using: " + exIdToUse);
+    log.info("Sub process with id {}, instance id {} (parent id: {}) started", execution.getId(), execution.getProcessInstanceId(), execution.getParentId());
+
     Map<String, Object> varMap = execution.getVariables();
-    logger.info("subProcessStartedListener - variables: " + varMap);
+    log.debug("...sub process {} has variables {}", execution.getId(), varMap);
 
     PmcProject p = pmcProjectData.getPmcProject();
 
@@ -140,11 +147,10 @@ public abstract class BaseProcessService {
   }
 
   public void saveProcessResult(DelegateExecution execution) {
-    String exIdToUse = execution.getId();
-    logger
-      .info("EXEC: " + execution.getId() + "/" + execution.getParentId() + "/" + execution.getProcessInstanceId() + " using: " + exIdToUse);
+    log.info("Saving process with id {}, instance id {} (parent id: {}) started", execution.getId(), execution.getProcessInstanceId(), execution.getParentId());
+
     Map<String, Object> varMap = execution.getVariables();
-    logger.info("save process result - variables: " + varMap);
+    log.debug("...saving process {} with variables variables {}", execution.getId(), varMap);
 
     LongValue projectProcessGuid = execution.getVariableLocalTyped(ProcessVariables.PMC_PROJECT_PROCESS_GUID);
 
@@ -199,7 +205,7 @@ public abstract class BaseProcessService {
     try {
       iterator = pmcProjectData.getVariable(processPrefix + "Iteration");
     } catch (Exception ex) {
-      logger.warn("Could not determine dsIteration - setting to 1 instead.");
+      log.warn("Could not determine dsIteration - setting to 1 instead.");
       iterator = 1;
     }
 
@@ -254,8 +260,9 @@ public abstract class BaseProcessService {
   }
 
   public void processEndedListener(DelegateExecution execution) {
-    PmcProject pmcProj = pmcProjectData.getPmcProject();
-    logger.info("ending " + pmcProj.getHumanReadableId() + "  process!");
+    log.info("Process with id {}, instance id {} (parent id: {}) ended for project {}", execution.getId(),
+            execution.getProcessInstanceId(), execution.getParentId(), pmcProjectData.getPmcProject());
+
     pmcProjectService.projectFinished(pmcProjectData.getPmcProjectGuid());
   }
 

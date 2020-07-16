@@ -48,7 +48,7 @@ public class UserRestServiceImpl implements UserRestService {
 
   public static final String SECURITY_PACKAGE = "NTLM";
 
-  private final Logger logger = LoggerFactory.getLogger(UserRestServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(UserRestServiceImpl.class);
 
   @Context
   private HttpServletRequest request;
@@ -110,7 +110,7 @@ public class UserRestServiceImpl implements UserRestService {
     String currentUser = UserContext.getUser().getLoginName();
     PmcUserDto runAsUser = userCache.get(loginName);
     SecurityUtils.getSubject().runAs(runAsUser.getPrincipals());
-    logger.info("User " + currentUser + " successfully switched to run as user: " + loginName);
+    log.info("User {} successfully switched to run as user: {}", currentUser, loginName);
     runAsUser.setRunAs(currentUser);
     return runAsUser;
   }
@@ -124,7 +124,7 @@ public class UserRestServiceImpl implements UserRestService {
       String loginName = extractLoginName(o);
       PmcUserDto original = userCache.get(loginName);
       SecurityUtils.getSubject().releaseRunAs();
-      logger.info("User " + runAsUser + " switched back to logged in user: " + loginName);
+      log.info("User {} switched back to logged in user: {}", runAsUser, loginName);
       return original;
     } else {
       return UserContext.getUser();
@@ -184,7 +184,7 @@ public class UserRestServiceImpl implements UserRestService {
       text = text.toLowerCase();
       text = "%" + text + "%";
     }
-    logger.info("Search: " + text + ", groupName: " + groupName + ", groupId: " + groupId);
+    log.info("Search: {}, groupName: {}, groupId: {}", text, groupName, groupId);
     List<PmcUserDto> listDto = this.pmcUserService.getUsersByGroup(groupId, text, isContactRequired);
     return listDto;
   }
@@ -267,7 +267,7 @@ public class UserRestServiceImpl implements UserRestService {
       }
     }
 
-    logger.info("User: " + pmcUserDto.getLoginName());
+    log.info("User: {}", pmcUserDto.getLoginName());
     PmcUserDto returnPmcUserDto = pmcUserService.updateRepoUser(pmcUserDto);
     userCache.invalidate(pmcUserDto.getLoginName());
 
@@ -292,7 +292,7 @@ public class UserRestServiceImpl implements UserRestService {
   public PagedResultDto<PmcUserDto> getPagedResult(PagedSearchOptions serverOptions) {
     if ( !UserContext.getUser().isAdmin())
       throw new javax.ws.rs.ForbiddenException("Access denied");
-    logger.info("called getUserRepo");
+    log.info("called getUserRepo");
     Integer pageNumber = serverOptions.getPageNumber();
     if (pageNumber == null)
       pageNumber = 1;

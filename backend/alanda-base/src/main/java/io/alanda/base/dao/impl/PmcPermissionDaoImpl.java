@@ -11,12 +11,15 @@ import javax.persistence.NoResultException;
 import io.alanda.base.dao.AbstractCrudDao;
 import io.alanda.base.dao.PmcPermissionDao;
 import io.alanda.base.entity.PmcPermission;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author developer
  */
 public class PmcPermissionDaoImpl extends AbstractCrudDao<PmcPermission> implements PmcPermissionDao {
+  private static final Logger log = LoggerFactory.getLogger(PmcPermissionDaoImpl.class);
   
   public PmcPermissionDaoImpl() {
     super(PmcPermission.class);
@@ -28,10 +31,12 @@ public class PmcPermissionDaoImpl extends AbstractCrudDao<PmcPermission> impleme
 
   @Override
   public PmcPermission getPermissionByKey(String key) {
+    log.debug("Retrieving permission by key {}", key);
+
     try {
       return em.createNamedQuery("PmcPermission.getPermissionByKey", PmcPermission.class).setParameter("key", key).getSingleResult();
     } catch (NoResultException e) {
-      logger.info("getByPermissionKEy: No permission found for " + key);
+      log.trace("...no permission found for key {}", key);
       return null;
     }
   }

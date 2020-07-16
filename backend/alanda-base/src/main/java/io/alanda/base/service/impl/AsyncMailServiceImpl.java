@@ -11,6 +11,8 @@ import javax.enterprise.event.TransactionPhase;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import io.alanda.base.dto.EmailDto;
@@ -25,6 +27,7 @@ import io.alanda.base.service.ConfigService;
 @Alternative
 @Priority(20)
 public class AsyncMailServiceImpl extends AbstractLocalMailService {
+  private static final Logger log = LoggerFactory.getLogger(AsyncMailServiceImpl.class);
 
   @Inject
   private Event<EmailDto> event;
@@ -41,13 +44,13 @@ public class AsyncMailServiceImpl extends AbstractLocalMailService {
 
   @Override
   public void sendEmail(EmailDto email) {
+    log.info("Firing email event: {}", email);
     event.fire(email);
   }
 
   @SuppressWarnings("unused") // this methods is only called when an event is fired
   private void onMailJob(@Observes(during = TransactionPhase.AFTER_SUCCESS) EmailDto email) {
+    log.info("Sending email after successful transaction: {}", email);
     this.smtpSend(email);
   }
-
-
 }

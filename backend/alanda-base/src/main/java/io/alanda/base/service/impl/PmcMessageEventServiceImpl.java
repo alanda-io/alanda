@@ -4,8 +4,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
@@ -13,10 +11,12 @@ import org.camunda.bpm.engine.runtime.EventSubscription;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import io.alanda.base.service.PmcMessageEventService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PmcMessageEventServiceImpl implements PmcMessageEventService {
 
-  protected Log logger = LogFactory.getLog(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcMessageEventServiceImpl.class);
 
   @Inject
   private RuntimeService runtimeService;
@@ -48,7 +48,7 @@ public class PmcMessageEventServiceImpl implements PmcMessageEventService {
         throw new IllegalStateException("Found " + evSubList.size() + " subscriptions");
       } else if (evSubList.size() == 1) {
         runtimeService.messageEventReceived(messageName, evSubList.get(0).getExecutionId());
-        logger.info("message to " + processDefinitionKey + " successfully sent");
+        log.info("message to {} successfully sent", processDefinitionKey);
       }
     }
   }

@@ -21,7 +21,7 @@ import io.alanda.base.listener.OnChangeListener;
 
 public class FileMonitor {
 
-  private final static Logger logger = LoggerFactory.getLogger(FileMonitor.class);
+  private final static Logger log = LoggerFactory.getLogger(FileMonitor.class);
 
   private final Path fileToMonitor;
 
@@ -34,13 +34,7 @@ public class FileMonitor {
   }
 
   public void start() {
-    new Thread(new Runnable() {
-
-      @Override
-      public void run() {
-        FileMonitor.this.run();
-      }
-    }).start();
+    new Thread(this::run).start();
   }
 
   public void close() throws IOException {
@@ -52,6 +46,8 @@ public class FileMonitor {
   }
 
   private void run() {
+    log.info("Starting to monitor file {}", fileToMonitor);
+
     try (WatchService watchService = FileSystems.getDefault().newWatchService()) {
       this.watchService = watchService;
 
@@ -68,7 +64,6 @@ public class FileMonitor {
             Path modifiedPath = ((WatchEvent<Path>) event).context();
             try {
               if (Files.exists(folder.resolve(modifiedPath)) && Files.isSameFile(folder.resolve(modifiedPath), fileToMonitor)) {
-                logger.info(fileToMonitor.getFileName() + " modified, notifying listeners..");
                 notifyOnChangedListener();
               }
             } catch (NoSuchFileException ex) {
@@ -79,14 +74,16 @@ public class FileMonitor {
         take.reset();
       }
     } catch (IOException | InterruptedException e) {
-      e.printStackTrace(); // Todo restart?
+      log.error("Error while monitoring file {}", fileToMonitor, e); // Todo restart?
     }
   }
 
   private void notifyOnChangedListener() {
+    log.info("File {} modified, notifying {} listeners...", fileToMonitor, listenerList.size());
+
     for (OnChangeListener listener : listenerList) {
+      log.trace("File {} modified, notifying listener {}", fileToMonitor, listener);
       listener.onChange();
     }
   }
-
 }

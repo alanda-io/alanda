@@ -71,8 +71,6 @@ public class PmcUserDto implements AuthenticationInfo, AuthorizationInfo, Clonea
     try {
       return (PmcUserDto) super.clone();
     } catch (CloneNotSupportedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
       throw new RuntimeException(e);
     }
   }

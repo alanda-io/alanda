@@ -12,12 +12,15 @@ import javax.persistence.EntityManager;
 import io.alanda.base.dao.AbstractCrudDao;
 import io.alanda.base.dao.PmcProjectCardDao;
 import io.alanda.base.entity.PmcProjectCard;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author developer
  */
 public class PmcProjectCardDaoImpl extends AbstractCrudDao<PmcProjectCard> implements PmcProjectCardDao {
+  private static final Logger log = LoggerFactory.getLogger(PmcProjectCardDaoImpl.class);
 
   public PmcProjectCardDaoImpl() {
   }
@@ -38,6 +41,8 @@ public class PmcProjectCardDaoImpl extends AbstractCrudDao<PmcProjectCard> imple
 
   @Override
   public List<PmcProjectCard> getByProjectandList(Long projectGuid, Long cardListGuid) {
+    log.debug("Retrieving project cards by projectGuid {} and cardGuid {}", projectGuid, cardListGuid);
+
     return em
       .createQuery(
         "select pc from PmcProjectCard pc where pc.project.guid = :projectGuid AND " + "pc.cardList.guid = :cardListGuid",
@@ -49,6 +54,8 @@ public class PmcProjectCardDaoImpl extends AbstractCrudDao<PmcProjectCard> imple
   
   @Override
   public List<PmcProjectCard> getByProjectIdandListName(String projectId, String cardListName) {
+    log.debug("Retrieving project cards by projectId {} and card name {}", projectId, cardListName);
+
     return em
       .createQuery(
         "select pc from PmcProjectCard pc where pc.project.projectId = :projectId AND " + "pc.cardList.idName = :cardListName order by pc.card.guid asc",

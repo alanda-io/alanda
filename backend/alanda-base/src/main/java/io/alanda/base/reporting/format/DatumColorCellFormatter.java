@@ -20,7 +20,7 @@ import io.alanda.base.reporting.Report;
 
 public class DatumColorCellFormatter implements ReportCellFormatter {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(DatumColorCellFormatter.class);
 
   public final String MS_TARGET_DATE_FORMAT = "yyyy-MM-dd";
 
@@ -93,7 +93,7 @@ public class DatumColorCellFormatter implements ReportCellFormatter {
       try {
         d = formatter.parse((String) data);
       } catch (ParseException e) {
-        logger.warn("not good: " + e);
+        log.warn("not good: {}", e);
       }
       report.getContext().getContext().put(getName() + ".date", d);
       return d;

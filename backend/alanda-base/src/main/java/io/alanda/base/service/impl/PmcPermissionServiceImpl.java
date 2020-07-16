@@ -25,7 +25,7 @@ import io.alanda.base.service.PmcPermissionService;
 @Stateless
 public class PmcPermissionServiceImpl implements PmcPermissionService {
 
-  private Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcPermissionServiceImpl.class);
 
   @Inject
   private PmcPermissionDao pmcPermissionDao;

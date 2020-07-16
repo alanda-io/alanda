@@ -25,7 +25,7 @@ public enum JdbcPmcUserGateway implements PmcUserGateway {
 
   INSTANCE;
 
-  private final Logger logger = LoggerFactory.getLogger(JdbcPmcUserGateway.class);
+  private static final Logger log = LoggerFactory.getLogger(JdbcPmcUserGateway.class);
 
   private static final String COL_GUID = "guid";
 
@@ -75,11 +75,11 @@ public enum JdbcPmcUserGateway implements PmcUserGateway {
           }
         }
       } catch (SQLException e) {
-        logger.error("Error while executing SQL-Statement: {}", singleUserQuery, e);
+        log.error("Error while executing SQL-Statement: {}", singleUserQuery, e);
         SQLHelper.rollback(con);
       }
     } catch (SQLException e1) {
-      logger.error("Error creating JDBC Connection", e1);
+      log.error("Error creating JDBC Connection", e1);
     }
     return null;
   }
@@ -118,11 +118,11 @@ public enum JdbcPmcUserGateway implements PmcUserGateway {
           users.add(mapUserFromResult(result));
         }
       } catch (SQLException e) {
-        logger.error("Error while executing SQL-Statement: {}", criteriaQuery.toString(), e);
+        log.error("Error while executing SQL-Statement: {}", criteriaQuery.toString(), e);
         SQLHelper.rollback(con);
       }
     } catch (SQLException e1) {
-      logger.error("Error creating JDBC Connection", e1);
+      log.error("Error creating JDBC Connection", e1);
     }
 
     //TODO
@@ -159,11 +159,11 @@ public enum JdbcPmcUserGateway implements PmcUserGateway {
           count += mapCountFromResult(result);
         }
       } catch (SQLException e) {
-        logger.error("Error while executing SQL-Statement: {}", criteriaQuery.toString(), e);
+        log.error("Error while executing SQL-Statement: {}", criteriaQuery.toString(), e);
         SQLHelper.rollback(con);
       }
     } catch (SQLException e1) {
-      logger.error("Error creating JDBC Connection", e1);
+      log.error("Error creating JDBC Connection", e1);
     }
 
     return count;
@@ -228,7 +228,7 @@ public enum JdbcPmcUserGateway implements PmcUserGateway {
         }
       }
     } catch (SQLException e) {
-      logger.error("Error while executing SQL-Statement: {}", sql, e);
+      log.error("Error while executing SQL-Statement: {}", sql, e);
       throw new RuntimeException(e.getMessage());
     }
     return null;

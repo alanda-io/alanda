@@ -27,7 +27,7 @@ import io.alanda.base.util.DozerMapper;
 @Stateless
 public class PmcPropertyServiceImpl implements PmcPropertyService {
 
-  protected static final Logger logger = LoggerFactory.getLogger(PmcPropertyServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcPropertyServiceImpl.class);
 
   @Inject
   private PmcPropertyDao pmcPropertyDao;
@@ -214,7 +214,7 @@ public class PmcPropertyServiceImpl implements PmcPropertyService {
       pmcProperty.setValue(valueString);
       pmcProperty.setValueType(valueType.toString());
 
-      logger.info("updateing pmcProperty: " + pmcProperty);
+      log.info("updateing pmcProperty: {}", pmcProperty);
     }
     pmcPropertyDao.getEntityManager().flush();
 

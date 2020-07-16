@@ -14,7 +14,7 @@ import io.alanda.base.util.MailUtil;
 
 public abstract class AbstractLocalMailService implements MailService, OnChangeListener {
 
-  private static final Logger logger = LoggerFactory.getLogger(AbstractLocalMailService.class);
+  private static final Logger log = LoggerFactory.getLogger(AbstractLocalMailService.class);
 
   @Inject
   private ConfigService configService;
@@ -23,11 +23,11 @@ public abstract class AbstractLocalMailService implements MailService, OnChangeL
   private MailUtil mailUtil;
 
   public void smtpSend(EmailDto email) {
-    logger.info("About to send message: " + email);
+    log.info("About to send message: {}", email);
     if (mailUtil != null) {
       mailUtil.sendMimeMailFile(email, true);
     } else {
-      logger.info("Send mail was called but no mail will be sent! Mail server not configured!");
+      log.warn("Send mail was called but no mail will be sent! Mail server not configured!");
     }
   }
 
@@ -51,19 +51,9 @@ public abstract class AbstractLocalMailService implements MailService, OnChangeL
       mailUtil.setMailSender(mailSender);
       mailUtil.setTestRecipient(configService.getProperty("mail.testRecipient"));
 
-      logger.info(
-        "Configured Mail Server to " +
-          mailSender.getHost() +
-          ":" +
-          mailSender.getPort() +
-          ", User:" +
-          mailSender.getUsername() +
-          ", sender:" +
-          mailUtil.getDefaultFromAddress() +
-          ", testRecipient:" +
-          mailUtil.getTestRecipient());
+      log.info("Configured Mail Server to {}:{}, User:{}, sender:{}, testRecipient:{}", mailSender.getHost(), mailSender.getPort(), mailSender.getUsername(), mailUtil.getDefaultFromAddress(), mailUtil.getTestRecipient());
     } else {
-      logger.info("No mail sender configured for pmc. No mails will be sent using the PMC backend!");
+      log.info("No mail sender configured for pmc. No mails will be sent using the PMC backend!");
     }
   }
 

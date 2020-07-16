@@ -19,7 +19,7 @@ import io.alanda.rest.PmcPropertyRestService;
 
 public class PmcPropertyRestServiceImpl implements PmcPropertyRestService {
 
-  protected static final Logger logger = LoggerFactory.getLogger(PmcPropertyRestServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcPropertyRestServiceImpl.class);
 
   @Inject
   private PmcPropertyService pmcPropertyService;

@@ -168,7 +168,7 @@ public class AlandaDatabaseMigration {
       System.out.println("Set DbConfig to 'local'.");
     } else if (dbConfigMap.keySet().size() > 0) {
       actualDbConfig = dbConfigMap.get(dbConfigMap.keySet().iterator().next());
-      System.out.println(String.format("Set DbConfig to '%s'.", actualDbConfig.label));
+      System.out.printf("Set DbConfig to '%s'.%n", actualDbConfig.label);
     } else {
       System.out.println("No DbConfig found!");
     }

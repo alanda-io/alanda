@@ -9,8 +9,6 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.util.ByteArrayDataSource;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -26,7 +24,7 @@ import io.alanda.base.dto.EmailDto;
  */
 public class MailUtil {
 
-  private static final Logger logger = LoggerFactory.getLogger(MailUtil.class);
+  private static final Logger log = LoggerFactory.getLogger(MailUtil.class);
 
   /**
    * The mail sender.
@@ -43,10 +41,6 @@ public class MailUtil {
    */
   private String testRecipient;
 
-  /**
-   * The log.
-   */
-  private Log log = LogFactory.getLog(this.getClass());
 
   /**
    * Instantiates a new mail util
@@ -74,6 +68,7 @@ public class MailUtil {
   }
 
   public void sendMimeMailFile(final EmailDto dto, boolean background) {
+    log.info("Sending email... {}", dto);
 
     Runnable r = new Runnable() {
 
@@ -104,12 +99,12 @@ public class MailUtil {
 
           String senderEmailAddress = StringUtils.isNotEmpty(from) ? from : defaultFromAddress;
           helper.setFrom(senderEmailAddress);
-          logger.info("Mail sent from :" + senderEmailAddress);
+          log.debug("Mail sent from: {}", senderEmailAddress);
 
           String[] toFiltered = Arrays.stream(to).filter(s -> StringUtils.isNotBlank(s)).toArray(String[]::new);
 
           if (StringUtils.isNotBlank(testRecipient)) {
-            logger.info("mail.testRecipient Found: about to send email to " + testRecipient);
+            log.info("mail.testRecipient Found: about to send email to {}", testRecipient);
             helper.setTo(testRecipient.split(";"));
             String skippedTo = "<p>Skipped recipients: " + StringUtils.join(toFiltered, " ") + "</p>\n";
 
@@ -141,24 +136,11 @@ public class MailUtil {
           }
           mailSender.send(message);
           String realRecipient = !StringUtils.isBlank(testRecipient) ? testRecipient : StringUtils.join(toFiltered, " ");
-          log.info("Mail sent to " + realRecipient);
+          log.info("Mail sent to {}", realRecipient);
           return message;
 
-        } catch (SendFailedException e) {
-          log.warn("Error sending mail", e);
-        } catch (MessagingException e) {
-          //			e.printStackTrace();
-          log.error("Error sending mail", e);
-          //		} catch (UnsupportedEncodingException e) {
-          //		    log.error("Error constructing mail", e);
-          //			e.printStackTrace();
-        } catch (RuntimeException ex) {
-          log.error("Error sending mail", ex);
-          //			ex.printStackTrace();
         } catch (Exception e) {
           log.error("Error sending mail", e);
-          //
-          //			e.printStackTrace();
         }
         return null;
       }

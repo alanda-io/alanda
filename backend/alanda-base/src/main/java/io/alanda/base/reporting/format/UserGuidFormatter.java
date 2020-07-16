@@ -17,7 +17,7 @@ import io.alanda.base.util.cache.UserCache;
  */
 public class UserGuidFormatter implements ReportCellFormatter {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(UserGuidFormatter.class);
 
   @Inject
   private UserCache userCache;
@@ -45,7 +45,7 @@ public class UserGuidFormatter implements ReportCellFormatter {
       if (user != null) {
         return user.getFirstName() + " " + user.getSurname();
       } else {
-        logger.warn("no user found for guid=" + guid);
+        log.warn("no user found for guid={}", guid);
       }
     }
     return data;

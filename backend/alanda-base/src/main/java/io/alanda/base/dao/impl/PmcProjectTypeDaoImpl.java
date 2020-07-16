@@ -15,7 +15,7 @@ public class PmcProjectTypeDaoImpl
   extends AbstractCrudDao<PmcProjectType> 
   implements PmcProjectTypeDao {
 
-  private final Logger logger = LoggerFactory.getLogger(PmcProjectTypeDaoImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcProjectTypeDaoImpl.class);
   
   
   public PmcProjectTypeDaoImpl() {
@@ -33,6 +33,8 @@ public class PmcProjectTypeDaoImpl
 
   @Override
   public PmcProjectType getByIdName(String idName) {
+    log.debug("Retrieving project type by idName {}", idName);
+
     return em
       .createQuery("select p FROM PmcProjectType p where p.idName = :idName", PmcProjectType.class)
       .setParameter("idName", idName)
@@ -41,6 +43,8 @@ public class PmcProjectTypeDaoImpl
   
   @Override
   public List<PmcProjectType> searchByName(String searchTerm) {
+    log.debug("Retrieving project types by searching for {}", searchTerm);
+
     return em
       .createQuery("Select p FROM PmcProjectType p where LOWER(p.name) like LOWER(:searchTerm)", PmcProjectType.class)
       .setParameter("searchTerm", searchTerm + "%")
@@ -51,7 +55,7 @@ public class PmcProjectTypeDaoImpl
   public List<PmcProjectType> searchByNameAndParentType(
     String searchTerm,
     Long projectParentGuid) {
-    logger.info("starting searchByNameAndParentType with searchTerm: " + searchTerm + " and projectParentGuid: " + projectParentGuid);
+    log.debug("Retrieving project types of parent with gid {}, searching for {}", projectParentGuid, searchTerm);
     return em
       .createQuery("SELECT child FROM PmcProjectType child, PmcProjectType parent WHERE " +
         "child MEMBER OF parent.allowedChildTypes AND parent.guid = :projectParentGuid AND " +
@@ -64,6 +68,8 @@ public class PmcProjectTypeDaoImpl
   
   @Override
   public List<PmcProjectType> getChildTypes(String idName) {
+    log.debug("Retrieving children of project type with idName {}", idName);
+
     return em
         .createQuery("SELECT child FROM PmcProjectType child, PmcProjectType parent WHERE " +
           "child MEMBER OF parent.allowedChildTypes AND parent.idName = :idName", 
@@ -74,6 +80,8 @@ public class PmcProjectTypeDaoImpl
   
   @Override
   public List<PmcProjectType> getParentTypes(String idName) {
+    log.debug("Retrieving parents of project type with idName {}", idName);
+
     return em
         .createQuery("SELECT parent FROM PmcProjectType child, PmcProjectType parent WHERE " +
           "child MEMBER OF parent.allowedChildTypes AND child.idName = :idName", 
