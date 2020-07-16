@@ -10,6 +10,7 @@ import { AlandaProcess } from './models/process';
 import { AlandaProjectType } from './models/projectType';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 import { AlandaRefObject } from './models/refObject';
+import { AlandaSimplePhase } from './models/simplePhase';
 
 @Injectable()
 export class AlandaProjectApiService extends AlandaExceptionHandlingService {
@@ -230,6 +231,36 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
     }
     return this.http.delete<any>(
       `${this.endpoint}/project/${projectGuid}/process/${processGuid}`,
+    );
+  }
+
+  public getPhasesForProject(
+    projectGuid: number,
+  ): Observable<AlandaSimplePhase[]> {
+    return this.http.get<AlandaSimplePhase[]>(
+      `${this.endpoint}/project/${projectGuid}/phase`,
+    );
+  }
+
+  public getPhase(
+    projectGuid: number,
+    phaseDefIdName: number,
+  ): Observable<AlandaSimplePhase> {
+    return this.http.get<AlandaSimplePhase>(
+      `${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}`,
+    );
+  }
+
+  public setPhaseEnabled(
+    projectGuid: number,
+    phaseDefIdName: string,
+    enabled: boolean,
+  ): Observable<AlandaSimplePhase> {
+    return this.http.post<AlandaSimplePhase>(
+      `${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}`,
+      {
+        enabled,
+      },
     );
   }
 }

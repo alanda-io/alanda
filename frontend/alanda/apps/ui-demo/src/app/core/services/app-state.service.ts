@@ -7,13 +7,12 @@ import { AlandaUser } from '@alanda/common';
 // }
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root',
 })
-export class AppStateService extends RxState<{[prop: string]: any}>{
+export class AppStateService extends RxState<{ [prop: string]: any }> {
   state$ = this.select();
 
   constructor() {
     super();
   }
-
 }

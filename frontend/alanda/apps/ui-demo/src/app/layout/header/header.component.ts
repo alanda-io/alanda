@@ -33,7 +33,8 @@ import { AlandaUser } from '@alanda/common';
     ]),
   ],
 })
-export class HeaderComponent extends RxState<{user: AlandaUser}> {
+export class HeaderComponent extends RxState<{ user: AlandaUser }>
+  implements OnInit {
   items: MenuItem[];
   value: Date;
   title = 'alanda-ui-demo';
@@ -43,17 +44,16 @@ export class HeaderComponent extends RxState<{user: AlandaUser}> {
   user$ = this.select('user');
 
   @Input()
-  set user(user:  | Observable<AlandaUser>) {
-    isObservable(user) ? this.connect('user', user) : this.set({user})
-  };
+  set user(user: Observable<AlandaUser>) {
+    isObservable(user) ? this.connect('user', user) : this.set({ user });
+  }
 
   @Output()
   releaseRunAsClick = new Subject<void>();
 
-
   constructor() {
-super();
-              }
+    super();
+  }
 
   ngOnInit(): void {
     // this.userService.getCurrentUser().subscribe();
@@ -126,5 +126,4 @@ super();
       this.autoHide = true;
     }
   }
-
 }

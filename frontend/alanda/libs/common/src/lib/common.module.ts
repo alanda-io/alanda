@@ -89,6 +89,7 @@ import { AlandaVarDisplayComponent } from './form/components/var-display/var-dis
 import { AlandaPropCheckboxComponent } from './form/components/prop-checkbox/prop-checkbox.component';
 import { CommentsModule } from './components/comments/comments.module';
 import { BadgeModule } from './components/badge/badge.module';
+import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
 
 @NgModule({
   imports: [
@@ -130,6 +131,7 @@ import { BadgeModule } from './components/badge/badge.module';
     MessageModule,
     DynamicDialogModule,
     BadgeModule,
+    PhaseTabModule,
   ],
   declarations: [
     AlandaUserManagementComponent,
@@ -205,6 +207,7 @@ import { BadgeModule } from './components/badge/badge.module';
     AlandaPropCheckboxComponent,
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
+    PhaseTabModule,
   ],
   entryComponents: [
     RelateDialogComponent,

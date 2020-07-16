@@ -37,7 +37,8 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentsState> {
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {
-      rootFormGroup.addControl('alanda-task-has-comment',
+      rootFormGroup.addControl(
+        'alanda-task-has-comment',
         this.taskHasCommentForm,
       );
     }
@@ -56,9 +57,8 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentsState> {
         return task.process_instance_id;
       }
 
-      return project.processes.find(process =>
-        process.relation === 'MAIN'
-      ).processInstanceId;
+      return project.processes.find((process) => process.relation === 'MAIN')
+        .processInstanceId;
     }),
   );
 
@@ -84,15 +84,12 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentsState> {
   ) {
     super();
     this.set({ task: null });
-    this.cp.connect(
-      'comments',
-      ca.select('comments'),
-      (oldState, comment ) => {
-        this.taskHasCommentForm.setValue({
-          hasComment: comment.length ? true : null
-        });
+    this.cp.connect('comments', ca.select('comments'), (oldState, comment) => {
+      this.taskHasCommentForm.setValue({
+        hasComment: comment.length ? true : null,
+      });
 
-        return comment;
+      return comment;
     });
     this.ca.connectFetchComments(this.processInstanceId$);
     this.ca.connectPostComment(this.commentPostBody$);

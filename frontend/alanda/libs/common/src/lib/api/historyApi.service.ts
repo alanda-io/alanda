@@ -19,7 +19,6 @@ export class AlandaHistoryApiService extends AlandaExceptionHandlingService {
 
   search(filterOptions, pageNumber, pageSize): Observable<any[]> {
     const searchDto = {};
-    console.log('filterOpts', filterOptions);
     for (const key of Object.keys(filterOptions)) {
       if (filterOptions[key] !== '') {
         searchDto[key] = encodeURIComponent(filterOptions[key]);
