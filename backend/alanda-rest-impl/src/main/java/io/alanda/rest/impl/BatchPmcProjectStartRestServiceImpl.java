@@ -28,7 +28,7 @@ import io.alanda.rest.BatchPmcProjectStartRestService;
 
 public class BatchPmcProjectStartRestServiceImpl implements BatchPmcProjectStartRestService {
 
-  private static final Logger logger = LoggerFactory.getLogger(BatchPmcProjectStartRestServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(BatchPmcProjectStartRestServiceImpl.class);
 
   @Inject
   private PmcBatchCreationService batchCreationService;

@@ -28,7 +28,7 @@ public class DueDateCalculatorUtil {
 
   private static final PeriodFormatter periodFormatter = ISOPeriodFormat.standard();
 
-  private final static Logger logger = LoggerFactory.getLogger(DueDateCalculatorUtil.class);
+  private final static Logger log = LoggerFactory.getLogger(DueDateCalculatorUtil.class);
 
   /**
    * @param hour
@@ -99,7 +99,7 @@ public class DueDateCalculatorUtil {
       try {
         return new DueDateCalculatorData(id, repName, periodFormatter.parsePeriod(offsetPattern), field, relationMode);
       } catch (Exception ex) {
-        logger.warn("Timer " + timerId + ": invalid date/time Offset: " + offsetPattern, ex);
+        log.warn("Timer {}: invalid date/time Offset: {}", timerId, offsetPattern, ex);
         return null;
       }
     }
@@ -124,7 +124,7 @@ public class DueDateCalculatorUtil {
           Integer.parseInt(minute),
           field);
       } catch (NumberFormatException ex) {
-        logger.warn("could not parse timer " + timerId);
+        log.warn("could not parse timer {}", timerId);
         throw new IllegalArgumentException("could not parse timer " + timerId);
       }
     }

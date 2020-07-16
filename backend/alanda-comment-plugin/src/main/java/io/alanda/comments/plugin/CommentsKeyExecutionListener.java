@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 @Named
 public class CommentsKeyExecutionListener implements ExecutionListener {
 
-  public static final Logger logger = LoggerFactory.getLogger(CommentsKeyExecutionListener.class);
+  private static final Logger log = LoggerFactory.getLogger(CommentsKeyExecutionListener.class);
 
   public static final String COMMENT_KEY_VAR = "commentKey";
 

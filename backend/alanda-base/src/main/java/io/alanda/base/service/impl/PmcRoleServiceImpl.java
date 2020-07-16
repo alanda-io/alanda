@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
 @Stateless
 public class PmcRoleServiceImpl implements PmcRoleService {
 
-  private Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcRoleServiceImpl.class);
 
   @Inject private PmcProjectDao pmcProjectDao;
 
@@ -80,8 +80,7 @@ public class PmcRoleServiceImpl implements PmcRoleService {
   private void initPmcRoleService() {
     startListenerMap = new HashMap<>();
     for (PmcProjectListener listener : pmcProjectListener) {
-      logger.info(
-          "Found PmcProjectStartListener with idName " + listener.getListenerIdName() + ".");
+      log.info("Found PmcProjectStartListener with idName {}.", listener.getListenerIdName());
       startListenerMap.put(listener.getListenerIdName(), listener);
     }
   }
@@ -249,7 +248,7 @@ public class PmcRoleServiceImpl implements PmcRoleService {
   @Override
   public PmcRoleDto getRole(String roleName) {
     PmcRole pmcRole = pmcRoleDao.getRoleByName(roleName);
-    logger.info("pmcRoleByName: " + pmcRole.toString());
+    log.info("pmcRoleByName: {}", pmcRole);
     return mapRoleToDto(pmcRole);
   }
 
@@ -319,7 +318,7 @@ public class PmcRoleServiceImpl implements PmcRoleService {
 
   @Override
   public PmcFuRoleInstanceDto getFuRoleForProject(String idName, String projectIdName) {
-    logger.info("get FuRole=" + idName + " from " + projectIdName);
+    log.info("get FuRole={} from {}", idName, projectIdName);
     PmcFuRoleInstanceDto result = new PmcFuRoleInstanceDto();
 
     PmcProject p = pmcProjectDao.getByProjectId(projectIdName);
@@ -364,7 +363,7 @@ public class PmcRoleServiceImpl implements PmcRoleService {
 
   @Override
   public void removeFuRoleForProject(String idName, String projectIdName, boolean onlyUser) {
-    logger.info("removing FuRole=" + idName + " from " + projectIdName + " (onlyUser=" + onlyUser);
+    log.info("removing FuRole={} from {} (onlyUser={}", idName, projectIdName, onlyUser);
     PmcFuRoleInstanceDto fuRole = this.getFuRoleForProject(idName, projectIdName);
     PmcProject p = pmcProjectDao.getByProjectId(projectIdName);
 
@@ -400,7 +399,7 @@ public class PmcRoleServiceImpl implements PmcRoleService {
     if (pt.getListeners() != null) {
       for (String idName : pt.getListeners()) {
         if (startListenerMap.containsKey(idName)) listener.add(startListenerMap.get(idName));
-        else logger.warn("No project listener with id '" + idName + "' found!");
+        else log.warn("No project listener with id '{}' found!", idName);
       }
     }
     return listener;

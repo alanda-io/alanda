@@ -27,7 +27,7 @@ import io.alanda.base.service.PmcMetricService;
 @Named("PmcMetricService")
 public class PmcMetricServiceImpl implements PmcMetricService {
 
-  private final Logger logger = LoggerFactory.getLogger(PmcMetricServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcMetricServiceImpl.class);
 
   @Inject
   private PmcMetricEntityDao pmcMetricEntityDao;

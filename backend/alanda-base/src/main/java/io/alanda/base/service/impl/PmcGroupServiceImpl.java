@@ -40,7 +40,7 @@ import io.alanda.base.util.cache.UserCache;
 @ConcurrencyManagement(ConcurrencyManagementType.BEAN)
 public class PmcGroupServiceImpl implements PmcGroupService {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcGroupServiceImpl.class);
 
   @Inject
   private DozerMapper dozerMapper;
@@ -84,7 +84,7 @@ public class PmcGroupServiceImpl implements PmcGroupService {
   @Override
   public void saveGroup(PmcGroupDto pmcGroupDto) {
     PmcGroup pmcGroup = dozerMapper.map(pmcGroupDto, PmcGroup.class);
-    logger.info("Saving Group: " + pmcGroup);
+    log.info("Saving Group: {}", pmcGroup);
     pmcGroupRepo.save(pmcGroup);
   }
 

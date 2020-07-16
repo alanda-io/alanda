@@ -3,6 +3,9 @@
  */
 package io.alanda.base.batch;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +14,7 @@ import java.util.Map;
  * @author jlo
  */
 public class ExcelProjectConfig implements Serializable {
+  private static final Logger log = LoggerFactory.getLogger(ExcelProjectConfig.class);
 
   /**
    * 
@@ -48,7 +52,7 @@ public class ExcelProjectConfig implements Serializable {
   private Map<String, ExcelRoleConfig> roleMap = new HashMap<>();
 
   public void add(int columnIndex, String val) {
-    System.out.println("#" + columnIndex + ": " + val);
+    log.trace("Adding column #{} with value: {}", columnIndex, val);
     if (val.startsWith(PREFIX)) {
       addProject(columnIndex, val.substring(PREFIX.length()));
     } else if (val.startsWith(PREFIX_RESULT)) {

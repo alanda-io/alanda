@@ -17,8 +17,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.camunda.bpm.engine.impl.history.event.HistoricActivityInstanceEventEntity;
 import org.camunda.bpm.engine.impl.history.event.HistoricProcessInstanceEventEntity;
@@ -37,10 +35,12 @@ import io.alanda.camunda.es.history.entity.ElasticSearchProcessInstanceHistoryEn
 import io.alanda.camunda.es.history.entity.ElasticSearchVariable;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ElasticSearchDefaultIndexStrategy extends ElasticSearchIndexStrategy {
 
-  protected static final Logger LOGGER = Logger.getLogger(ElasticSearchDefaultIndexStrategy.class.getName());
+  private static final Logger log = LoggerFactory.getLogger(ElasticSearchDefaultIndexStrategy.class);
 
   protected static final String ES_INDEX_UPDATE_SCRIPT = "if (isActivityInstanceEvent) { if (ctx._source.containsKey(\"activities\")) { ctx._source.activities += value } else { ctx._source.activities = value } };" +
     "if (isVariableUpdateEvent) { if (ctx._source.containsKey(\"variables\")) { ctx._source.variables += value } else { ctx._source.variables = value } };";
@@ -88,29 +88,18 @@ public class ElasticSearchDefaultIndexStrategy extends ElasticSearchIndexStrateg
       UpdateRequest updateRequest = prepareUpdateRequest(historyEvent);
       if (updateRequest == null)
         return;
-      if (LOGGER.isLoggable(Level.FINE)) {
-        LOGGER.fine(updateRequest.toString());
-      }
+      log.trace("Update request: {}", updateRequest);
       //System.out.println("---------XXXXX\n\n" + updateRequest.toString());
 
       UpdateResponse updateResponse;
 
       updateResponse = esClient.update(updateRequest, RequestOptions.DEFAULT);
 
-      if (LOGGER.isLoggable(Level.FINE)) {
-        LOGGER
-          .fine(
-            "[" +
-              updateResponse.getIndex() +
-              "][" +
-              updateResponse.getType() +
-              "][update] process instance with id '" +
-              updateResponse.getId() +
-              "'");
-        LOGGER.log(Level.FINE, "Source: " + updateResponse.getGetResult().sourceAsString());
-      }
+      log.trace("[{}][{}][update] process instance with id '{}'", updateResponse.getIndex(), updateResponse.getType(), updateResponse.getId());
+
+      log.trace("Source: {}", updateResponse.getGetResult().sourceAsString());
     } catch (IOException e) {
-      LOGGER.log(Level.SEVERE, e.getMessage(), e);
+      log.error("Exception while executing request", e);
     }
   }
 
@@ -150,7 +139,7 @@ public class ElasticSearchDefaultIndexStrategy extends ElasticSearchIndexStrateg
       //      LOGGER.warning("Unknown event detected: '" + historyEvent + "'");
     }
 
-    if (LOGGER.isLoggable(Level.FINE)) {
+    if (log.isTraceEnabled()) {
       updateRequest.fetchSource(true);
     }
 

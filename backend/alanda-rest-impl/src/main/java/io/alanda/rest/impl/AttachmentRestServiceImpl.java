@@ -41,7 +41,7 @@ import io.alanda.rest.AttachmentRestService;
 
 public class AttachmentRestServiceImpl implements AttachmentRestService {
 
-  private static final Logger logger = LoggerFactory.getLogger(AttachmentRestServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(AttachmentRestServiceImpl.class);
 
   @Inject
   private DocumentService documentService;
@@ -186,7 +186,7 @@ public class AttachmentRestServiceImpl implements AttachmentRestService {
         inputStream.close();
         DocumentSimpleDto fi = new DocumentSimpleDto(fileName, mt.getType() + "/" + mt.getSubtype(), (long) bytes.length);
         DocumentSimpleDto doc = documentService.store(q, bytes, fi);
-        logger.info("Upload von " + doc.getName() + ", auf: " + doc.getPath());
+        log.info("Upload von {}, auf: {}", doc.getName(), doc.getPath());
         uploadPaths.add(doc);
       }
     } else {
@@ -335,7 +335,7 @@ public class AttachmentRestServiceImpl implements AttachmentRestService {
     List<TreeConfigDto> retVal = new ArrayList<>();
     Long projectTypeId = null;
     if (projectId != null) {
-      logger.warn("ProjectId not supported!!!");
+      log.warn("ProjectId not supported!!!");
     }
     DirectoryInfoDto did = this.documentService
       .getTree(

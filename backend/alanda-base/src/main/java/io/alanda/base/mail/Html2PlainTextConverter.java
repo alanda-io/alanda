@@ -65,7 +65,7 @@ public class Html2PlainTextConverter {
       else if (StringUtil.in(name, "h1", "h2", "h3", "h4", "h5"))
         append("\n\n");
       else if (name.equals("a"))
-        append(String.format(" <%s>", node.absUrl("href")));
+        append(" <" + node.absUrl("href") + ">");
     }
 
     // appends text to the string builder with a simple word wrap method

@@ -51,7 +51,7 @@ import io.alanda.rest.util.HistoricProcessInstanceDto;
  */
 public class PmcProcessRestServiceImpl implements PmcProcessRestService {
 
-  private final Logger logger = LoggerFactory.getLogger(PmcProcessRestServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcProcessRestServiceImpl.class);
 
   @Inject
   private RuntimeService runtimeService;
@@ -82,7 +82,7 @@ public class PmcProcessRestServiceImpl implements PmcProcessRestService {
    */
   @Override
   public List<ProcessDto> processesForPackage(final String processPackageKey) {
-    logger.info("ProcessPackageKey: " + processPackageKey);
+    log.info("ProcessPackageKey: {}", processPackageKey);
 
     List<ProcessDto> retVal = new ArrayList<ProcessDto>();
     List<ProcessInstance> piList = this.runtimeService
@@ -91,13 +91,13 @@ public class PmcProcessRestServiceImpl implements PmcProcessRestService {
       .list();
     //
     if (piList != null) {
-      logger.info(piList.toString());
+      log.info(piList.toString());
     } else {
-      logger.info("query did not return processInstances for processPackageKey " + processPackageKey);
+      log.info("query did not return processInstances for processPackageKey {}", processPackageKey);
     }
 
     for (ProcessInstance pi : piList) {
-      logger.info("found process instance " + pi);
+      log.info("found process instance {}", pi);
       ProcessDto dto = new ProcessDto();
       ProcessDefinition processDefinition = repositoryService.getProcessDefinition(pi.getProcessDefinitionId());
       dto.setBusinessKey(pi.getBusinessKey());
@@ -145,7 +145,7 @@ public class PmcProcessRestServiceImpl implements PmcProcessRestService {
    */
   @Override
   public List<ProcessDto> processesForPackage(Long pmcProjectGuid) {
-    logger.info("PmcProjectGuid: " + pmcProjectGuid);
+    log.info("PmcProjectGuid: {}", pmcProjectGuid);
 
     List<ProcessDto> retVal = new ArrayList<ProcessDto>();
     List<ProcessInstance> piList = this.runtimeService
@@ -154,13 +154,13 @@ public class PmcProcessRestServiceImpl implements PmcProcessRestService {
       .list();
     //
     if (piList != null) {
-      logger.info(piList.toString());
+      log.info(piList.toString());
     } else {
-      logger.info("query did not return processInstances for pmcProjectGuid " + pmcProjectGuid);
+      log.info("query did not return processInstances for pmcProjectGuid {}", pmcProjectGuid);
     }
 
     for (ProcessInstance pi : piList) {
-      logger.info("found process instance " + pi);
+      log.info("found process instance {}", pi);
       ProcessDto dto = new ProcessDto();
       ProcessDefinition processDefinition = repositoryService.getProcessDefinition(pi.getProcessDefinitionId());
       dto.setBusinessKey(pi.getBusinessKey());
@@ -202,7 +202,7 @@ public class PmcProcessRestServiceImpl implements PmcProcessRestService {
 
   @Override
   public ProcessDto processForProjectProcess(Long pmcProjectProcessId) {
-    logger.info("getting processInfo for PmcProjectProcess " + pmcProjectProcessId);
+    log.info("getting processInfo for PmcProjectProcess {}", pmcProjectProcessId);
 
     List<ProcessInstance> piList = this.runtimeService
       .createProcessInstanceQuery()
@@ -210,16 +210,16 @@ public class PmcProcessRestServiceImpl implements PmcProcessRestService {
       .list();
 
     if (piList == null || piList.size() == 0) {
-      logger.warn("no process found");
+      log.warn("no process found");
       return null;
     }
 
     if (piList.size() > 1) {
-      logger.warn("multiple processes found");
+      log.warn("multiple processes found");
     }
 
     for (ProcessInstance pi : piList) {
-      logger.info("found: " + pi);
+      log.info("found: {}", pi);
     }
 
     ProcessInstance pi = piList.get(0);

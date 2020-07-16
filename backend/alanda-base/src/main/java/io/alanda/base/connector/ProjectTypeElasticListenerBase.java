@@ -19,7 +19,7 @@ import io.alanda.base.util.DozerMapper;
  */
 public abstract class ProjectTypeElasticListenerBase implements ProjectTypeElasticListener {
 
-  private static final Logger logger = LoggerFactory.getLogger(ProjectTypeElasticListenerBase.class);
+  private static final Logger log = LoggerFactory.getLogger(ProjectTypeElasticListenerBase.class);
 
   @Inject
   private DozerMapper dozerMapper;
@@ -29,20 +29,23 @@ public abstract class ProjectTypeElasticListenerBase implements ProjectTypeElast
 
   @Override
   public Map<String, Object> getAdditionalInfo(PmcProject project) {
+    log.debug("Getting additional info for project {}", project);
     Map<String, Object> additionalInfo = new HashMap<>();
     int i = 0;
     while (project.firstParent() != null) {
       i++ ;
       if (i >= 5) {
-        logger.warn("project " + project.getProjectId() + " has parents level >= " + i);
+        log.warn("project {} has parents level >= {}", project.getProjectId(), i);
       }
       if (i >= 10) {
-        logger.warn("project " + project.getProjectId() + " has parents level >= " + i + ", maxDepth reached..");
+        log.warn("project {} has parents level >= {}, maxDepth reached..", project.getProjectId(), i);
         break;
       }
       project = project.firstParent();
     }
     additionalInfo.put("rootparent", dozerMapper.map(project, PmcProjectCompactDto.class));
+
+    log.trace("...additional info for project {}: ", additionalInfo);
     return additionalInfo;
   }
 

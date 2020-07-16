@@ -31,8 +31,7 @@ public class PmcMetricEntity extends AbstractEntity implements Serializable {
     TASK
   }
 
-  @Transient
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcMetricEntity.class);
 
   @Column(name = "ENTITY_ID")
   String entityId;

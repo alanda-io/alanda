@@ -57,7 +57,7 @@ import io.alanda.base.service.ReportService;
 @Named("elasticReportService")
 public class ElasticReportServiceImpl implements ReportService {
 
-  protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(ElasticReportServiceImpl.class);
 
   @Resource(lookup = "java:jboss/datasources/ProcessEngine")
   private DataSource ds;
@@ -86,7 +86,7 @@ public class ElasticReportServiceImpl implements ReportService {
     this.postProcessorsByName = new HashMap<>();
     for (SearchHitPostProcessor postProcessor : postProcessors) {
       this.postProcessorsByName.put(postProcessor.getName(), postProcessor);
-      logger.info("Registered PostProcessor: " + postProcessor.getName() + "(" + postProcessor.getClass().getName() + ")");
+      log.info("Registered PostProcessor: {}({})", postProcessor.getName(), postProcessor.getClass().getName());
     }
   }
 
@@ -190,7 +190,7 @@ public class ElasticReportServiceImpl implements ReportService {
       sheet.createAutoFilter();
     } else {
       List<Map<String, Object>> data = queryDB(configuration.getQuery());
-      logger.info(data.size() + " rows found.");
+      log.info("{} rows found.", data.size());
       if ( !data.isEmpty()) {
         List<FieldHeader> headers = extractHeaders(data);
         new DbReport(report, sheetConfig, headers, data);
@@ -206,7 +206,7 @@ public class ElasticReportServiceImpl implements ReportService {
 
   @Override
   public void sendReport(String reportName) {
-    logger.info("Sending Report (or saving to disk)" + reportName + "!");
+    log.info("Sending Report (or saving to disk){}!", reportName);
     PmcReportConfigDto report = pmcReportConfigService.getReportConfigByName(reportName);
     DateFormat df = new SimpleDateFormat(FILE_DATE_FORMAT);
     String dateString = df.format(new Date());
@@ -225,19 +225,19 @@ public class ElasticReportServiceImpl implements ReportService {
     } else if (report.getRecipients().contains("/")) {
       File file = new File(configService.getProperty(ConfigService.DOCUMENT_ROOT_DIR) + report.getRecipients());
       try {
-        logger.info("~Write Tracker xls to " + report.getRecipients());
+        log.info("~Write Tracker xls to {}", report.getRecipients());
         OutputStream os = new FileOutputStream(file);
         os.write(reportFile);
         os.close();
       } catch (Exception e) {
-        e.printStackTrace();
+        log.error("Could not write excel report", e);
       }
     }
   }
 
   @Override
   public void sendReports() {
-    logger.info("Sending Report emails!");
+    log.info("Sending Report emails!");
     List<PmcReportConfigDto> reports = pmcReportConfigService.getReportBySendtime("auto");
     for (PmcReportConfigDto report : reports) {
       sendReport(report.getReportName());
@@ -253,7 +253,7 @@ public class ElasticReportServiceImpl implements ReportService {
       while (it.hasNext()) {
         MailService ms = it.next();
         String name = ms.getClass().getName();
-        logger.info("Found emailService: " + name);
+        log.info("Found emailService: {}", name);
         //dont used default impl if ambiguous
         if (name.startsWith("com.bpmasters.pmc.base.service.impl.MailServiceImpl")) {
           continue;
@@ -266,7 +266,7 @@ public class ElasticReportServiceImpl implements ReportService {
       usedInstance = emailServiceInstance.get();
 
     }
-    logger.info("Using emailService: " + usedInstance.getClass().getName());
+    log.info("Using emailService: {}", usedInstance.getClass().getName());
     return usedInstance;
   }
 
@@ -315,7 +315,7 @@ public class ElasticReportServiceImpl implements ReportService {
       } else if (value == null) {
         clazz = String.class;
       } else {
-        logger.info("Unknown type - key: " + key + ", value: " + value + ", class: " + clazz);
+        log.info("Unknown type - key: {}, value: {}, class: {}", key, value, clazz);
         continue;
       }
       retVal.add(new FieldHeader(key, clazz));

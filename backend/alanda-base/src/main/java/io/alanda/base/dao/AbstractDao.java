@@ -10,31 +10,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class AbstractDao<T> implements Dao<T> {
+  private static final Logger log = LoggerFactory.getLogger(AbstractDao.class);
 
   protected abstract Class<T> getEntityClass();
 
   protected abstract EntityManager getEntityManager();
 
-  protected final Logger logger = LoggerFactory.getLogger(AbstractDao.class);
-
   @Override
   public Collection<T> getAll() {
+    log.debug("Retrieving all entities for {}...", getEntityClass());
+
     TypedQuery<T> query = getEntityManager().createQuery(
       String.format("SELECT c from %s AS c", getEntityClass().getSimpleName()),
       getEntityClass());
     List<T> resultList = query.getResultList();
-    logger.info("{} {} found.", resultList.size(), getEntityClass().getSimpleName());
+    log.trace("...found {} entities for {} found.", resultList.size(), getEntityClass());
     return resultList;
   }
 
   @Override
   public T getById(Long id) {
+    log.debug("Retrieving entity of type {} for id {}", getEntityClass(), id);
     return getEntityManager().find(getEntityClass(), id);
   }
 
   @Override
   public T getReference(Long id) {
-    T reference = this.getEntityManager().getReference(getEntityClass(), id);
-    return reference;
+    log.debug("Retrieving reference of type {} for id {}", getEntityClass(), id);
+    return this.getEntityManager().getReference(getEntityClass(), id);
   }
 }

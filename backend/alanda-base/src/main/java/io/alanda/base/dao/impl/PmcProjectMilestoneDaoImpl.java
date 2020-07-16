@@ -8,8 +8,11 @@ import javax.persistence.EntityManager;
 import io.alanda.base.dao.AbstractCrudDao;
 import io.alanda.base.dao.PmcProjectMilestoneDao;
 import io.alanda.base.entity.PmcProjectMilestone;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PmcProjectMilestoneDaoImpl extends AbstractCrudDao<PmcProjectMilestone> implements PmcProjectMilestoneDao {
+  private static final Logger log = LoggerFactory.getLogger(PmcProjectMilestoneDaoImpl.class);
 
   public PmcProjectMilestoneDaoImpl() {
     super();
@@ -31,6 +34,8 @@ public class PmcProjectMilestoneDaoImpl extends AbstractCrudDao<PmcProjectMilest
 
   @Override
   public List<PmcProjectMilestone> getMilestonesPerProject(Long pmcProjectGuid) {
+    log.debug("Retrieving milestones for project with id {}", pmcProjectGuid);
+
     List<PmcProjectMilestone> projectMilestones;
     projectMilestones = em
       .createQuery("select pm from PmcProjectMilestone pm where pm.project.guid = :pmcProjectGuid", PmcProjectMilestone.class)
@@ -41,6 +46,8 @@ public class PmcProjectMilestoneDaoImpl extends AbstractCrudDao<PmcProjectMilest
 
   @Override
   public PmcProjectMilestone getByProjectAndIdName(String projectIdName, String msIdName) {
+    log.debug("Retrieving milestone with idName {} for project with idName {}", msIdName, projectIdName);
+
     List<PmcProjectMilestone> projectMilestones = em
       .createQuery(
         "select pm from PmcProjectMilestone pm where " + "pm.project.projectId = :projectId AND " + "pm.milestone.idName = :msIdName",
@@ -59,6 +66,8 @@ public class PmcProjectMilestoneDaoImpl extends AbstractCrudDao<PmcProjectMilest
 
   @Override
   public PmcProjectMilestone getByProjectAndIdName(Long pmcProjectGuid, String msIdName) {
+    log.debug("Retrieving milestone with idName {} for project with guid {}", msIdName, pmcProjectGuid);
+
     List<PmcProjectMilestone> projectMilestones = em
       .createQuery(
         "select pm from PmcProjectMilestone pm where " + "pm.project.guid = :pmcProjectGuid AND " + "pm.milestone.idName = :msIdName",
@@ -77,6 +86,8 @@ public class PmcProjectMilestoneDaoImpl extends AbstractCrudDao<PmcProjectMilest
 
   @Override
   public List<PmcProjectMilestone> getModifiedMilestones(Date modifiedSince) {
+    log.debug("Retrieving all milestones modified since {}", modifiedSince);
+
     List<PmcProjectMilestone> projectMilestones;
     projectMilestones = em
       .createQuery("select pm from PmcProjectMilestone pm where pm.updateDate >= :modifiedSince", PmcProjectMilestone.class)
@@ -87,6 +98,8 @@ public class PmcProjectMilestoneDaoImpl extends AbstractCrudDao<PmcProjectMilest
 
   @Override
   public PmcProjectMilestone getMilestoneByIdNameAndAct(String idName, Date act) {
+    log.debug("Retrieving milestone by id name {} and actual date at {}", idName, act);
+
     List<PmcProjectMilestone> projectMilestones = em
       .createQuery("select pm from PmcProjectMilestone pm where pm.milestone.idName = :idName and pm.act = :act", PmcProjectMilestone.class)
       .setParameter("idName", idName)

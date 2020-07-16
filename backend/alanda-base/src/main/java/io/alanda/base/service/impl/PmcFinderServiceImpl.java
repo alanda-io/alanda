@@ -33,7 +33,7 @@ import io.alanda.base.service.PmcUserService;
 @Stateless
 public class PmcFinderServiceImpl implements PmcFinderService {
 
-  protected static final Logger logger = LoggerFactory.getLogger(PmcFinderServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcFinderServiceImpl.class);
 
   @Inject
   private RuntimeService runtimeService;
