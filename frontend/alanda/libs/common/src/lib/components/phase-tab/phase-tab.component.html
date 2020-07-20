@@ -17,6 +17,7 @@
         ></p-menu>
         <span
           class="fa fa-cog edit-state"
+          *ngIf="!phase.frozen"
           (click)="menu.toggle($event)"
         ></span>
         <span [ngClass]="['status', getPhaseStatus(phase).styleClass]">{{
