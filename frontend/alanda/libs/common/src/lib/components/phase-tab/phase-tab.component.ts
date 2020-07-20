@@ -3,7 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { AlandaSimplePhase } from '../../api/models/simplePhase';
 import { AlandaProject } from '../../api/models/project';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { RxState } from '@rx-angular/state';
 
 export interface AlandaPhaseTabState {
@@ -15,14 +15,30 @@ export interface AlandaPhaseTabState {
   selector: 'alanda-phase-tab',
   templateUrl: './phase-tab.component.html',
   styleUrls: ['./phase-tab.component.scss'],
+  providers: [RxState],
 })
-export class AlandaPhaseTabComponent extends RxState<AlandaPhaseTabState> {
+export class AlandaPhaseTabComponent {
   @Input()
   set project(project: AlandaProject) {
-    this.set({ project });
+    this.state.set({ project });
   }
   @Input() activePhaseIndex = 0;
   @Output() activePhaseIndexChange = new EventEmitter<number>();
+
+  overviewTab: AlandaSimplePhase = {
+    active: false,
+    enabled: false,
+    pmcProjectPhaseDefinition: {
+      allowedProcesses: null,
+      displayName: 'Overview',
+      guid: null,
+      idName: null
+    },
+    guid: null,
+    idName: null,
+    updateUser: null,
+    updateDate: null
+  }
 
   phaseStatusMap = {
     active: {
@@ -66,15 +82,22 @@ export class AlandaPhaseTabComponent extends RxState<AlandaPhaseTabState> {
     },
   ];
 
-  simplePhases$ = this.select('project').pipe(
-    switchMap((project: AlandaProject) => {
-      return this.projectApiService.getPhasesForProject(project.guid);
-    }),
+  state$ = this.state.select();
+
+  simplePhases$ = this.state.select('project').pipe(
+    switchMap((project: AlandaProject) =>
+      this.projectApiService.getPhasesForProject(project.guid)
+    ),
+    map(simplePhases => {
+      return [this.overviewTab, ...simplePhases]
+    })
   );
 
-  constructor(private readonly projectApiService: AlandaProjectApiService) {
-    super();
-    this.connect('simplePhases', this.simplePhases$);
+  constructor(
+    private state: RxState<AlandaPhaseTabState>,
+    private readonly projectApiService: AlandaProjectApiService
+  ) {
+    this.state.connect('simplePhases', this.simplePhases$);
   }
 
   setActivePhaseIndex(index: number): void {
@@ -108,16 +131,16 @@ export class AlandaPhaseTabComponent extends RxState<AlandaPhaseTabState> {
   }
 
   togglePhaseEnabled(enabled: boolean): void {
-    const projectGuid = this.get().project.guid;
-    const phaseDefidName = this.get().simplePhases[this.activePhaseIndex]
+    const projectGuid = this.state.get().project.guid;
+    const phaseDefidName = this.state.get().simplePhases[this.activePhaseIndex]
       .pmcProjectPhaseDefinition.idName;
 
     this.projectApiService
       .setPhaseEnabled(projectGuid, phaseDefidName, enabled)
       .subscribe((response) => {
-        const newSimplePhases = this.get().simplePhases;
+        const newSimplePhases = this.state.get().simplePhases;
         newSimplePhases[this.activePhaseIndex].enabled = enabled;
-        this.set({
+        this.state.set({
           simplePhases: newSimplePhases,
         });
       });

@@ -1,7 +1,7 @@
-<div class="phase-tab">
+<div class="phase-tab" *rxLet="state$; let state">
   <div class="phase-tab-header">
     <div
-      *ngFor="let phase of simplePhases$ | async as phases; let i = index"
+      *ngFor="let phase of state.simplePhases; let i = index"
       [ngClass]="{ 'header-item': true, active: i === activePhaseIndex }"
       (click)="setActivePhaseIndex(i)"
     >

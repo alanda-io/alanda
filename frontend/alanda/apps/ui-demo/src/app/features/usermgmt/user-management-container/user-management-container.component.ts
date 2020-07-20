@@ -10,7 +10,6 @@ import { RxState } from '@rx-angular/state';
       (runAsUserClick)="runAsUserClick$.next($event)"
     ></alanda-user-management>
   `,
-  styleUrls: ['./user-management-container.component.css'],
 })
 export class UserManagementContainerComponent extends RxState<any> {
   runAsUserClick$ = new Subject<string>();
