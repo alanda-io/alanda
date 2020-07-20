@@ -42,7 +42,7 @@ $header-item-spacer: 4px;
         }
 
         .status {
-          background: darken(#f4f4f4, 20%);
+          background: #f5f5f5;
           border-radius: 3px;
           display: inline-block;
           font-size: 12px;
@@ -51,6 +51,7 @@ $header-item-spacer: 4px;
           padding: 5px;
           text-transform: uppercase;
           user-select: none;
+          color: #777;
 
           &.active {
             background: #0a9c4d;
@@ -73,16 +74,15 @@ $header-item-spacer: 4px;
           }
 
           &.required {
-            background: #ff4545;
-            color: $white;
+            background: #dfefef;
           }
 
           &.not-required {
-            background: #ffd0d0;
+            background: #efdfef;
           }
 
           &.not-set {
-            background: #ccc;
+            background: #efefef;
           }
         }
       }

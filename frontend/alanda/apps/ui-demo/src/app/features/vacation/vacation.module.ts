@@ -9,6 +9,7 @@ import { InformSubstituteComponent } from './forms/inform-substitute.component';
 import { PerformHandoverActivitiesComponent } from './forms/perform-handover-activities.component';
 import { CommentsModule, AlandaProjectPropertiesService } from '@alanda/common';
 import { ProjectPropertiesComponent } from './components/project-properties/project-properties.component';
+import { ProjectPhasesComponent } from './components/project-phases/project-phases.component';
 
 @NgModule({
   imports: [VacationRoutingModule, SharedModule, CommentsModule],
@@ -20,6 +21,7 @@ import { ProjectPropertiesComponent } from './components/project-properties/proj
     PerformHandoverActivitiesComponent,
     DefaultTaskComponent,
     ProjectPropertiesComponent,
+    ProjectPhasesComponent,
   ],
   exports: [],
   providers: []
@@ -28,6 +30,7 @@ export class VacationModule {
 
   constructor(private propertiesService: AlandaProjectPropertiesService) {
     this.propertiesService.addPropsForType('VACATION', ProjectPropertiesComponent);
+    this.propertiesService.addPropsForType('VACATION', ProjectPhasesComponent);
   }
 
 }
