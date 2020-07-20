@@ -109,7 +109,7 @@ export class AlandaPhaseTabComponent {
     this.activePhaseIndexChange.emit(this.activePhaseIndex);
   }
 
-  getPhaseStatus(phase: AlandaSimplePhase): object {
+  getPhaseStatus(phase: AlandaSimplePhase): {label: string, styleClass: string} {
     if (phase.active) {
       return this.phaseStatusMap.active;
     } else if (phase.endDate) {

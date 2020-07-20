@@ -8,7 +8,7 @@
       <div class="header-text">
         {{ phase.pmcProjectPhaseDefinition.displayName }}
       </div>
-      <div class="header-state" *ngIf="phase.active">
+      <div class="header-state" *ngIf="phase.guid">
         <p-menu
           #menu
           [popup]="true"
@@ -17,7 +17,6 @@
         ></p-menu>
         <span
           class="fa fa-cog edit-state"
-          *ngIf="phase.enabled === null"
           (click)="menu.toggle($event)"
         ></span>
         <span [ngClass]="['status', getPhaseStatus(phase).styleClass]">{{
