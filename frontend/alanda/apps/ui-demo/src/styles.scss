@@ -16,11 +16,6 @@ body {
   background: $container-background;
 }
 
-.ui-widget,
-.ui-widget .ui-widget {
-  font-size: 12px;
-}
-
 .form-root-tabs {
   .ui-tabview-panels {
     background: transparent !important;
