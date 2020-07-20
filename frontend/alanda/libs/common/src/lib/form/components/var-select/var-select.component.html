@@ -13,12 +13,17 @@
       <p-message
         *ngIf="error.key === 'required'"
         severity="error"
-        text="Field is required"
+        text="Field is required."
       ></p-message>
       <p-message
-        *ngIf="error.key !== 'required'"
+        *ngIf="error.key !== 'required' && error.value.text !== undefined"
         severity="error"
-        text="error.value.text"
+        text="{{error.value.text}}"
+      ></p-message>
+      <p-message
+        *ngIf="error.key !== 'required' && error.value.text === undefined"
+        severity="error"
+        text="The selected option is invalid."
       ></p-message>
     </div>
   </ng-container>
