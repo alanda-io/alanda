@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { AlandaCommonModule } from '@alanda/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PanelModule } from 'primeng/panel';
+import { MessageModule } from 'primeng/message';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { PanelModule } from 'primeng/panel';
     ButtonModule,
     PanelModule,
     AlandaCommonModule,
+    MessageModule,
     ReactiveFormsModule,
   ],
   exports: [
@@ -22,6 +24,7 @@ import { PanelModule } from 'primeng/panel';
     CardModule,
     FieldsetModule,
     ButtonModule,
+    MessageModule,
     AlandaCommonModule,
     ReactiveFormsModule,
     PanelModule,

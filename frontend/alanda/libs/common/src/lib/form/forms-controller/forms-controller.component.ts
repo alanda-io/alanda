@@ -9,6 +9,7 @@ import { AlandaTaskFormService } from '../alanda-task-form.service';
 })
 export class AlandaFormsControllerComponent implements AfterViewInit {
   state$ = this.taskFormService.state$;
+  rootForm = this.taskFormService.rootForm;
   activeTab = 0;
 
   constructor(private readonly taskFormService: AlandaTaskFormService) {}

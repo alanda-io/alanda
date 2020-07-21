@@ -67,6 +67,7 @@ export * from './lib/components/admin/group-management/group-management.componen
 export * from './lib/components/admin/permission-management/permission-management.component';
 
 export * from './lib/validators/subProcessValidator';
+export * from './lib/validators/commentRequiredValidator';
 
 export { AlandaCommentsComponent } from './lib/components/comments/comments/comments.component';
 export { AlandaCommentComponent } from './lib/components/comments/comment/comment.component';

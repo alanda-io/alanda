@@ -90,6 +90,7 @@ import { AlandaPropCheckboxComponent } from './form/components/prop-checkbox/pro
 import { CommentsModule } from './components/comments/comments.module';
 import { BadgeModule } from './components/badge/badge.module';
 import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
+import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-checkbox.component';
 
 @NgModule({
   imports: [
@@ -169,6 +170,7 @@ import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
     AlandaProjectAndProcessesComponent,
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
+    AlandaVarCheckboxComponent,
   ],
   exports: [
     PermissionModule,
@@ -208,6 +210,7 @@ import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
     PhaseTabModule,
+    AlandaVarCheckboxComponent,
   ],
   entryComponents: [
     RelateDialogComponent,
