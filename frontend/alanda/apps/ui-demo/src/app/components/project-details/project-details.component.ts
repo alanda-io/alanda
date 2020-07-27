@@ -11,7 +11,6 @@ import { ProjectControllerState } from '@alanda/common';
 export class ProjectDetailsComponent {
   project: AlandaProject;
   pid: string;
-
   constructor(public state: RxState<ProjectControllerState>) {
     this.project = this.state.get().project;
     this.pid = this.state.get().pid;

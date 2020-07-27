@@ -1,0 +1,32 @@
+::ng-deep .pap-input.ui-dropdown , .ui-inputtext{
+  border: 0;
+}
+
+:host ::ng-deep .pap-panel .ui-panel-content{
+  padding: 0;
+  border: 0;
+}
+
+.col-process-input {
+  padding-top: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.col-process-dropdown{
+  padding: 0px 0px 0px 50px !important;
+}
+
+.col-action {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.content-row {
+  height: 35px !important;
+}
+
+.reason-input {
+  width: 100%;
+}
+

@@ -10,6 +10,7 @@ import { AlandaProcess } from './models/process';
 import { AlandaProjectType } from './models/projectType';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 import { AlandaRefObject } from './models/refObject';
+import { AlandaProcessesAndTasks } from './models/processesAndTasks';
 import { AlandaSimplePhase } from './models/simplePhase';
 
 @Injectable({
@@ -113,14 +114,14 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
 
   public getProcessesAndTasksForProject(
     guid: number,
-  ): Observable<Map<string, any>> {
+  ): Observable<AlandaProcessesAndTasks> {
     return this.http
-      .get<Map<string, any>>(
+      .get<AlandaProcessesAndTasks>(
         `${this.endpoint}/project/${guid}/processes-and-tasks`,
       )
       .pipe(
         catchError(
-          this.handleError<Map<string, any>>('getProcessesAndTasksForProject'),
+          this.handleError<AlandaProcessesAndTasks>('getProcessesAndTasksForProject'),
         ),
       );
   }

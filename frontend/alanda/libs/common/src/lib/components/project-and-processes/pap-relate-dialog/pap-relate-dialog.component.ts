@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog/';
-import { AlandaProject } from '../../../../api/models/project';
-import { ServerOptions } from '../../../../models/serverOptions';
-import { AlandaProjectType } from '../../../../api/models/projectType';
+import { AlandaProject } from '../../../api/models/project';
+import { AlandaProjectType } from '../../../api/models/projectType';
+import { ServerOptions } from '../../../models/serverOptions';
+import { AlandaProjectApiService } from '../../../api/projectApi.service';
 import { LazyLoadEvent } from 'primeng/api/public_api';
-import { AlandaProjectApiService } from '../../../../api/projectApi.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
-  selector: 'alanda-relate-dialog',
-  templateUrl: './relate-dialog.component.html',
+  selector: 'alanda-pap-relate-dialog',
+  templateUrl: './pap-relate-dialog.component.html',
 })
-export class RelateDialogComponent implements OnInit {
+export class PapRelateDialogComponent implements OnInit {
   projects: AlandaProject[] = [];
   projectTypes: AlandaProjectType[] = [];
   loading = true;
@@ -27,7 +28,7 @@ export class RelateDialogComponent implements OnInit {
 
   constructor(
     private readonly projectService: AlandaProjectApiService,
-    public ref: DynamicDialogRef,
+    public dynamicDialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
   ) {}
 
@@ -42,7 +43,7 @@ export class RelateDialogComponent implements OnInit {
       sortOptions[event.sortField] = { dir, prio: 0 };
     }
     this.serverOptions.sortOptions = sortOptions;
-    this.serverOptions.filterOptions = {};
+    Object.assign(this.serverOptions.filterOptions, this.config.data.filterOptions || {});
     if (this.config.data.types) {
       this.serverOptions.filterOptions[
         'project.pmcProjectType.idName.raw'
@@ -65,14 +66,13 @@ export class RelateDialogComponent implements OnInit {
 
   private loadProjects(serverOptions: ServerOptions) {
     this.loading = true;
-    this.projectService.loadProjects(serverOptions).subscribe(
-      (res) => {
+    this.projectService.loadProjects(serverOptions).pipe(
+      finalize(() => this.loading = false)
+    ).subscribe(response => {
         this.projects = [];
-        this.total = res.total;
-        res.results.forEach((value) => this.projects.push(value.project));
-        this.loading = false;
-      },
-      (error) => (this.loading = false),
+        this.total = response.total;
+        response.results.forEach((value) => this.projects.push(value.project));
+      }
     );
   }
 }

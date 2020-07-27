@@ -41,7 +41,6 @@ import { DiagramComponent } from './components/pio/diagram/diagram.component';
 import { ProcessActivitiesComponent } from './components/pio/process-activities/process-activities.component';
 import { AlandaHistoryGridComponent } from './components/history/history-grid.component';
 import { AlandaCreateProjectComponent } from './components/create-project/create-project.component';
-import { AlandaProjectAndProcessesComponent } from './components/project-and-processes/project-and-processes.component';
 import { AppSettings, APP_CONFIG } from './models/appSettings';
 import { AlandaSimpleSelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
 import { AlandaSelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
@@ -82,15 +81,23 @@ import { AlandaVarSelectComponent } from './form/components/var-select/var-selec
 import { AlandaPropSelectComponent } from './form/components/prop-select/prop-select.component';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { PapActionsComponent } from './components/project-and-processes/pap-actions/pap-actions.component';
-import { RelateDialogComponent } from './components/project-and-processes/pap-actions/relate-dialog/relate-dialog.component';
 import { PermissionModule } from './permissions/permission.module';
 import { AlandaVarRoleUserSelectComponent } from './form/components/var-role-user-select/var-role-user-select.component';
 import { AlandaVarDisplayComponent } from './form/components/var-display/var-display.component';
 import { AlandaPropCheckboxComponent } from './form/components/prop-checkbox/prop-checkbox.component';
 import { CommentsModule } from './components/comments/comments.module';
 import { BadgeModule } from './components/badge/badge.module';
+import { TooltipModule } from 'primeng/tooltip';
+import { ProcessConfigDirective } from './components/controller/directives/process.config.directive';
+import { AlandaProcessConfigModalService } from './services/process-config-modal.service';
+import { PapRelateDialogComponent } from './components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
+import { PapActionSymbolComponent } from './components/project-and-processes/pap-actions/pap-action-symbol/pap-action-symbol.component';
+import { PapConfigDialogComponent } from './components/project-and-processes/pap-config-dialog/pap-config-dialog.component';
+import { PapSubprocessPropertyInputComponent } from './components/project-and-processes/pap-config-dialog/pap-subprocess-property-input/pap-subprocess-property-input.component';
+import { AlandaProjectAndProcessesComponent } from './components/project-and-processes/project-and-processes.component';
 import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
 import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-checkbox.component';
+import { AlandaProjectAndProcessesService } from './components/project-and-processes/project-and-processes.service';
 
 @NgModule({
   imports: [
@@ -132,6 +139,7 @@ import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-c
     MessageModule,
     DynamicDialogModule,
     BadgeModule,
+    TooltipModule,
     PhaseTabModule,
   ],
   declarations: [
@@ -161,15 +169,19 @@ import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-c
     AlandaDropdownSelectComponent,
     AlandaSelectMilestoneComponent,
     AlandaProjectsControllerComponent,
-    AlandaProjectAndProcessesComponent,
     PapActionsComponent,
-    RelateDialogComponent,
     AlandaVarSelectComponent,
     AlandaPropSelectComponent,
     AlandaPropCheckboxComponent,
-    AlandaProjectAndProcessesComponent,
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
+    PapRelateDialogComponent,
+    AlandaProjectAndProcessesComponent,
+    PapActionsComponent,
+    PapActionSymbolComponent,
+    PapConfigDialogComponent,
+    PapSubprocessPropertyInputComponent,
+    ProcessConfigDirective,
     AlandaVarCheckboxComponent,
   ],
   exports: [
@@ -203,19 +215,21 @@ import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-c
     AlandaProjectsControllerComponent,
     AlandaProjectAndProcessesComponent,
     PapActionsComponent,
-    RelateDialogComponent,
+    PapRelateDialogComponent,
     AlandaVarSelectComponent,
     AlandaPropSelectComponent,
     AlandaPropCheckboxComponent,
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
+    ProcessConfigDirective,
     PhaseTabModule,
     AlandaVarCheckboxComponent,
   ],
   entryComponents: [
-    RelateDialogComponent,
+    PapRelateDialogComponent,
     AlandaVarSelectComponent,
     AlandaPropSelectComponent,
+    PapConfigDialogComponent
   ],
 })
 export class AlandaCommonModule {
@@ -238,6 +252,8 @@ export class AlandaCommonModule {
         AlandaExceptionHandlingService,
         AlandaMonitorAPIService,
         AlandaProjectPropertiesService,
+        AlandaProcessConfigModalService,
+        AlandaProjectAndProcessesService,
         Error500Interceptor,
         {
           provide: APP_CONFIG,

@@ -1,0 +1,17 @@
+<div *ngIf="property.display" class="p-grid">
+  <div class="p-col-12">
+    <span *ngIf="property.description">{{ property.description }}</span>
+  </div>
+  <div class="p-col-4">
+    <label>{{property.displayName}}:</label>
+  </div>
+  <div class="p-col-6">
+    <p-dropdown
+      [options]="property.values"
+      (onChange)="saveProperty(property)"
+      [(ngModel)]="property.value"
+      optionLabel="displayName"
+      appendTo="body">
+    </p-dropdown>
+  </div>
+</div>
