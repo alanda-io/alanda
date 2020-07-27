@@ -98,4 +98,4 @@ export * from './lib/form/forms-controller/forms-controller.component';
 export * from './lib/components/project-and-processes/project-and-processes.component';
 export * from './lib/models/alandaTaskFormPanel';
 export * from './lib/components/project-and-processes/pap-actions/pap-actions.component';
-export * from './lib/components/project-and-processes/pap-actions/relate-dialog/relate-dialog.component';
+export * from './lib/components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';

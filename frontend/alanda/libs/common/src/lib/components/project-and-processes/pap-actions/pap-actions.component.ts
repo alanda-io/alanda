@@ -1,205 +1,99 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  OnDestroy,
-  EventEmitter,
-  Output,
-} from '@angular/core';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { MenuItem } from 'primeng/api';
-import { TreeNodeData } from '../project-and-processes.service';
-import { RelateDialogComponent } from './relate-dialog/relate-dialog.component';
-import { AlandaProjectApiService } from '../../../api/projectApi.service';
-import { AlandaProject } from '../../../api/models/project';
-import { Router } from '@angular/router';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MenuItem } from 'primeng/api/menuitem';
+
+type Actions = 'CANCEL-PROJECT' | 'CANCEL-PROCESS' | 'START-SUBPROCESS' | 'REMOVE-SUBPROCESS' |
+               'CONFIGURE-SUBPROCESS' | 'CREATE-SUBPROJECT' | 'RELATE-SUBPROJECT' | 'RELATE-ME-TO' |
+               'UNRELATE-ME' | 'MOVE-ME-TO' | 'RELATE-PROJECTS'
+
+export interface PapConfigValues {
+  readOnly?: boolean;
+  display?: boolean;
+}
+
+export type PapActionConfig = {
+  [action in Actions]?: PapConfigValues;
+}
 
 @Component({
   selector: 'alanda-pap-actions',
   templateUrl: './pap-actions.component.html',
   styleUrls: ['./pap-actions.component.css'],
-  providers: [DialogService],
 })
-export class PapActionsComponent implements OnInit, OnDestroy {
-  @Input() data: TreeNodeData;
+export class PapActionsComponent implements OnInit {
 
-  optionItems: MenuItem[];
+  @Input() config: PapActionConfig = {};
+  @Input() disabled: boolean;
+  @Input() status: string;
 
-  ref: DynamicDialogRef;
+  @Output() createSubproject: EventEmitter<void> = new EventEmitter();
+  @Output() relateSubproject: EventEmitter<void> = new EventEmitter();
+  @Output() relateMeTo: EventEmitter<void> = new EventEmitter();
+  @Output() unrelateMe: EventEmitter<void> = new EventEmitter();
+  @Output() moveMeTo: EventEmitter<void> = new EventEmitter();
+  @Output() cancelProject: EventEmitter<void> = new EventEmitter();
+  @Output() cancelProcess: EventEmitter<void> = new EventEmitter();
+  @Output() removeSubprocess: EventEmitter<void> = new EventEmitter();
+  @Output() startSubprocess: EventEmitter<void> = new EventEmitter();
+  @Output() configureProcess: EventEmitter<void> = new EventEmitter();
 
-  displayCancelDialog: boolean;
+  optionItems: MenuItem[] = [];
+  projectTypeConfig: any = {};
 
-  cancelType: string;
-
-  @Output() changeEvent: EventEmitter<void> = new EventEmitter<void>();
-
-  constructor(
-    private readonly dialogService: DialogService,
-    private readonly projectService: AlandaProjectApiService,
-    private readonly router: Router,
-  ) {}
+  constructor() {}
 
   ngOnInit() {
     this.optionItems = [
       {
         label: 'Create subproject',
         icon: 'fa fa-angle-right',
-        command: (onclick) =>
-          this.router.navigate(['create/project', this.data.value.guid]),
+        visible : this.config['CREATE-SUBPROJECT'] ? this.config['CREATE-SUBPROJECT'].display : false,
+        command: (onclick) => this.createSubproject.emit(),
       },
       {
         label: 'Relate subproject',
         icon: 'fa fa-angle-right',
-        command: (onclick) => this.relateSubproject(),
+        visible : this.config['RELATE-SUBPROJECT'] ? this.config['RELATE-SUBPROJECT'].display : false,
+        command: (onclick) => this.relateSubproject.emit(),
       },
       {
         label: 'Relate me to',
         icon: 'fa fa-angle-right',
-        command: (onclick) => this.relateMeTo(),
+        visible : this.config['RELATE-ME-TO'] ? this.config['RELATE-ME-TO'].display : false,
+        command: (onclick) => this.relateMeTo.emit(),
       },
       {
         label: 'Unrelate me',
         icon: 'fa fa-angle-right',
-        command: (onclick) => this.unrelateMe(),
+        visible : this.config['UNRELATE-ME'] ? this.config['UNRELATE-ME'].display : false,
+        command: (onclick) => this.unrelateMe.emit(),
       },
       {
         label: 'Move me to',
         icon: 'fa fa-angle-right',
-        command: (onclick) => this.moveMeTo(),
-      },
-    ];
-  }
-
-  onCancelClick(reason: string) {
-    if (this.cancelType === 'project') {
-      this.projectService
-        .stopProject(this.data.value.guid, reason)
-        .subscribe((res) => {
-          this.changeEvent.emit();
-        });
-    } else {
-      this.projectService
-        .stopProjectProcess(
-          this.data.value.projectGuid,
-          this.data.value.guid,
-          reason,
-        )
-        .subscribe((res) => {
-          this.changeEvent.emit();
-        });
-    }
-  }
-
-  private openDynamicDialogModal(header: string, data: any): DynamicDialogRef {
-    return this.dialogService.open(RelateDialogComponent, {
-      data,
-      header,
-      width: '70%',
-    });
-  }
-
-  private relateMeTo() {
-    this.projectService
-      .getParentTypes(this.data.value.projectTypeIdName)
-      .subscribe((types) => {
-        this.ref = this.openDynamicDialogModal(
-          'Select projects new parent project(s)',
-          { types: types.map((type) => type.idName) },
-        );
-        this.ref.onClose.subscribe((project: AlandaProject) => {
-          if (project) {
-            this.projectService
-              .updateProjectRelations(
-                this.data.value.projectId,
-                null,
-                null,
-                project.projectId,
-                null,
-              )
-              .subscribe((res) => {
-                this.changeEvent.emit();
-              });
-          }
-        });
-      });
-  }
-
-  private unrelateMe() {
-    this.ref = this.openDynamicDialogModal(
-      'Select parent project(s) to unrelate me from',
-      { guid: this.data.value.guid },
-    );
-    this.ref.onClose.subscribe((project: AlandaProject) => {
-      if (project) {
-        this.projectService
-          .updateProjectRelations(
-            this.data.value.projectId,
-            null,
-            null,
-            null,
-            project.projectId,
-          )
-          .subscribe((res) => {
-            this.changeEvent.emit();
-          });
+        visible : this.config['MOVE-ME-TO'] ? this.config['MOVE-ME-TO'].display : false,
+        command: (onclick) => this.moveMeTo.emit(),
       }
-    });
-  }
+    ];
 
-  private relateSubproject() {
-    this.projectService
-      .getChildTypes(this.data.value.projectTypeIdName)
-      .subscribe((types) => {
-        this.ref = this.openDynamicDialogModal(
-          'Select project(s) to add as subproject',
-          { types: types.map((type) => type.idName) },
-        );
-        this.ref.onClose.subscribe((project: AlandaProject) => {
-          if (project) {
-            this.projectService
-              .updateProjectRelations(
-                this.data.value.projectId,
-                project.projectId,
-                null,
-                null,
-                null,
-              )
-              .subscribe((res) => {
-                this.changeEvent.emit();
-              });
-          }
-        });
-      });
-  }
+    /* if (this.data.process) {
+      this.projectTypeConfig = JSON.parse(this.rowNode.parent.data.project.pmcProjectType.configuration);
+      if (!this.projectTypeConfig) {
+        return;
+      } */
 
-  private moveMeTo() {
-    this.projectService
-      .getParentTypes(this.data.value.projectTypeIdName)
-      .subscribe((types) => {
-        this.ref = this.openDynamicDialogModal('Select new parent project(s)', {
-          types: types.map((type) => type.idName),
-        });
-        this.ref.onClose.subscribe((project: AlandaProject) => {
-          if (project) {
-            this.projectService
-              .updateProjectRelations(
-                this.data.value.projectId,
-                null,
-                null,
-                project.projectId,
-                '*',
-              )
-              .subscribe((res) => {
-                this.changeEvent.emit();
-              });
-          }
-        });
-      });
-  }
-
-  ngOnDestroy() {
-    if (this.ref) {
-      this.ref.close();
-    }
+      // When to show the button logic
+      /* if ((!this.projectTypeConfig.subprocessProperties[this.data.process['processKeyWithoutPhase']] &&
+          !this.projectTypeConfig.subprocessPropertiesTemplate[this.data.process['processKeyWithoutPhase']]) ||
+          !(this.data.process.status === 'ACTIVE' || this.data.process.status === 'NEW')
+      ) {
+        this.showSubprocessConfigButton = false;
+      }
+      if (this.projectTypeConfig.subprocessPropertiesConfig[this.data.process['processKeyWithoutPhase']].showButton) {
+        return this.projectTypeConfig.subprocessPropertiesConfig[this.data.process['processKeyWithoutPhase']].showButton;
+      }
+      return this.projectTypeConfig.subprocessProperties[this.data.process['processKeyWithoutPhase']] &&
+      this.projectTypeConfig.subprocessProperties[this.data.process['processKeyWithoutPhase']].length > 0 ||
+      this.projectTypeConfig.subprocessPropertiesTemplate[this.data.process['processKeyWithoutPhase']]; */
+    //}
   }
 }
