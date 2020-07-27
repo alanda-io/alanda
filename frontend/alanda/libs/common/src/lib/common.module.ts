@@ -97,6 +97,7 @@ import { PapSubprocessPropertyInputComponent } from './components/project-and-pr
 import { AlandaProjectAndProcessesComponent } from './components/project-and-processes/project-and-processes.component';
 import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
 import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-checkbox.component';
+import { AlandaProjectAndProcessesService } from './components/project-and-processes/project-and-processes.service';
 
 @NgModule({
   imports: [
@@ -252,6 +253,7 @@ export class AlandaCommonModule {
         AlandaMonitorAPIService,
         AlandaProjectPropertiesService,
         AlandaProcessConfigModalService,
+        AlandaProjectAndProcessesService,
         Error500Interceptor,
         {
           provide: APP_CONFIG,

@@ -48,10 +48,8 @@ export interface TreeNodeData {
   status?: string;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
-export class XxxService {
+@Injectable()
+export class AlandaProjectAndProcessesService {
 
   constructor(private readonly projectService: AlandaProjectApiService) { }
 

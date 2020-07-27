@@ -4,7 +4,7 @@ import { map, switchMap, toArray, finalize, exhaustMap, tap } from 'rxjs/operato
 import { Observable, from, Subject } from 'rxjs';
 import { AlandaProject } from '../../api/models/project';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
-import { XxxService, TreeNodeData, TreeNodeDataType, MappedAllowedProcesses } from './project-and-processes.service';
+import { AlandaProjectAndProcessesService, TreeNodeData, TreeNodeDataType, MappedAllowedProcesses } from './project-and-processes.service';
 import { Router } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ProjectState } from '../../enums/projectState.enum';
@@ -16,7 +16,7 @@ import { PapRelateDialogComponent } from './pap-relate-dialog/pap-relate-dialog.
   selector: 'alanda-project-and-processes',
   templateUrl: './project-and-processes.component.html',
   styleUrls: ['./project-and-processes.component.css'],
-  providers: [DialogService]
+  providers: [DialogService, AlandaProjectAndProcessesService]
 })
 export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
 
@@ -48,13 +48,13 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly projectService: AlandaProjectApiService,
-    private readonly xxxService: XxxService,
+    private readonly papService: AlandaProjectAndProcessesService,
     private readonly router: Router,
     private readonly dialogService: DialogService
   ) {
     this.subprocessSelect$.pipe(
       tap(() => this.loading = true),
-      exhaustMap(data => this.xxxService.startSubprocess(data).pipe(
+      exhaustMap(data => this.papService.startSubprocess(data).pipe(
         finalize(() => this.loading = false),
         tap(() => this.loadNode(data.parent))
       )),
@@ -71,8 +71,8 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     }
     this.loading = true;
     this.projectService.getProjectByGuid(this.project.guid, true).pipe(
-      tap(project => project.pmcProjectType.configuration = '{"startSubprocessVariable":"acquicheck","startSubprocessMessageName":"acquicheck-requested","guiHiddenRoles":"akqui,baugu,transgu,baukoo,h3aacqui","subprocessProperties":[{"processDefinitionKey":"vacation-request","propertiesTemplate":"nsa/views/pmc.process.properties.h3aacqui.html","properties":[{"propertyName":"contract_type","typ":"dropdown","displayName":"Contract Type","defaultValue":"","values":[{"value":"normal","displayName":"Normal"},{"value":"frame_contract","displayName":"Frame Contract"}]}]},{"processDefinitionKey":"plan-and-perform-pb","properties":[{"propertyName":"skip_tx_radio","typ":"dropdown","displayName":"Skip TX/Radio inputs","defaultValue":"","values":[{"value":"yes","displayName":"Yes"},{"value":"no","displayName":"No"}]}]},{"processDefinitionKey":"create-ap","properties":[{"propertyName":"skip_tx_radio","typ":"dropdown","displayName":"Skip TX/Radio inputs","defaultValue":"","values":[{"value":"yes","displayName":"Yes"},{"value":"no","displayName":"No"}]}]},{"processDefinitionKey":"legal-check-contract","propertiesTemplate":"nsa/views/pmc.process.properties.h3aacqui.html","properties":[]},{"processDefinitionKey":"manage-site-owner","propertiesTemplate":"nsa/views/pmc.process.properties.h3aacqui.html","properties":[]},{"processDefinitionKey":"auth-check-a-plan-app","propertiesTemplate":"nsa/views/pmc.process.properties.h3aacqui.html","properties":[]},{"processDefinitionKey":"create-sar","propertiesTemplate":"nsa/views/pmc.process.properties.h3aacqui.html","properties":[]},{"processDefinitionKey":"create-bp","propertiesTemplate":"nsa/views/pmc.process.properties.bp.html","properties":[{"description":"Before starting the BP creation process please define who needs to provide information for BP creation. Note that everyone who provides input needs to approve the BP.","propertyName":"bpConfig_requiredApprovalFromAcquisition","typ":"dropdown","displayName":"Acquisition","defaultValue":"true","values":[{"value":"true","displayName":"Yes"},{"value":"false","displayName":"No"}]},{"propertyName":"bpConfig_requiredApprovalFromConstruction","typ":"dropdown","displayName":"Construction","defaultValue":"true","values":[{"value":"true","displayName":"Yes"},{"value":"false","displayName":"No"}]},{"propertyName":"bpConfig_requiredApprovalFromRadio","typ":"dropdown","displayName":"Radio","defaultValue":"true","values":[{"value":"true","displayName":"Yes"},{"value":"false","displayName":"No"}]},{"propertyName":"bpConfig_requiredApprovalFromTransmission","typ":"dropdown","displayName":"Transmission","defaultValue":"true","values":[{"value":"true","displayName":"Yes"},{"value":"false","displayName":"No"}]},{"propertyName":"bpConfig_requiredApprovalFromSharing","typ":"dropdown","displayName":"Sharing","defaultValue":"true","values":[{"value":"true","displayName":"Yes"},{"value":"false","displayName":"No"}]},{"description":"If the BANF for BP should be created and goods receipted automatically please select yes for Automatic BANF.","propertyName":"bpConfig_automaticBanf","typ":"dropdown","displayName":"Automatically create BANF","defaultValue":"false","values":[{"value":"true","displayName":"Yes"},{"value":"false","displayName":"No"}]}]}],"processDefsToHideAfterCompletion":["check-phase-partner","bp-assign-partner"],"processDefsToHide":["start-site-checks","tx-aggregation-planning-recon","tx-aggregation-delivery-recon","bbu-ne-assignment-check-recon"],"processDefsToHideButShowTasks":["acquisition-phase"],"obligatoryDueDate":true}'),
-      map(project => this.xxxService.mapProjectsToTreeNode(project)),
+      //tap(project => project.pmcProjectType.configuration = '{"startSubprocessVariable":"acquicheck","startSubprocessMessageName":"acquicheck-requested","guiHiddenRoles":"akqui,baugu,transgu,baukoo,h3aacqui","subprocessProperties":[{"processDefinitionKey":"vacation-request","propertiesTemplate":"nsa/views/pmc.process.properties.h3aacqui.html","properties":[{"propertyName":"contract_type","typ":"dropdown","displayName":"Contract Type","defaultValue":"","values":[{"value":"normal","displayName":"Normal"},{"value":"frame_contract","displayName":"Frame Contract"}]}]},{"processDefinitionKey":"plan-and-perform-pb","properties":[{"propertyName":"skip_tx_radio","typ":"dropdown","displayName":"Skip TX/Radio inputs","defaultValue":"","values":[{"value":"yes","displayName":"Yes"},{"value":"no","displayName":"No"}]}]},{"processDefinitionKey":"create-ap","properties":[{"propertyName":"skip_tx_radio","typ":"dropdown","displayName":"Skip TX/Radio inputs","defaultValue":"","values":[{"value":"yes","displayName":"Yes"},{"value":"no","displayName":"No"}]}]},{"processDefinitionKey":"legal-check-contract","propertiesTemplate":"nsa/views/pmc.process.properties.h3aacqui.html","properties":[]},{"processDefinitionKey":"manage-site-owner","propertiesTemplate":"nsa/views/pmc.process.properties.h3aacqui.html","properties":[]},{"processDefinitionKey":"auth-check-a-plan-app","propertiesTemplate":"nsa/views/pmc.process.properties.h3aacqui.html","properties":[]},{"processDefinitionKey":"create-sar","propertiesTemplate":"nsa/views/pmc.process.properties.h3aacqui.html","properties":[]},{"processDefinitionKey":"create-bp","propertiesTemplate":"nsa/views/pmc.process.properties.bp.html","properties":[{"description":"Before starting the BP creation process please define who needs to provide information for BP creation. Note that everyone who provides input needs to approve the BP.","propertyName":"bpConfig_requiredApprovalFromAcquisition","typ":"dropdown","displayName":"Acquisition","defaultValue":"true","values":[{"value":"true","displayName":"Yes"},{"value":"false","displayName":"No"}]},{"propertyName":"bpConfig_requiredApprovalFromConstruction","typ":"dropdown","displayName":"Construction","defaultValue":"true","values":[{"value":"true","displayName":"Yes"},{"value":"false","displayName":"No"}]},{"propertyName":"bpConfig_requiredApprovalFromRadio","typ":"dropdown","displayName":"Radio","defaultValue":"true","values":[{"value":"true","displayName":"Yes"},{"value":"false","displayName":"No"}]},{"propertyName":"bpConfig_requiredApprovalFromTransmission","typ":"dropdown","displayName":"Transmission","defaultValue":"true","values":[{"value":"true","displayName":"Yes"},{"value":"false","displayName":"No"}]},{"propertyName":"bpConfig_requiredApprovalFromSharing","typ":"dropdown","displayName":"Sharing","defaultValue":"true","values":[{"value":"true","displayName":"Yes"},{"value":"false","displayName":"No"}]},{"description":"If the BANF for BP should be created and goods receipted automatically please select yes for Automatic BANF.","propertyName":"bpConfig_automaticBanf","typ":"dropdown","displayName":"Automatically create BANF","defaultValue":"false","values":[{"value":"true","displayName":"Yes"},{"value":"false","displayName":"No"}]}]}],"processDefsToHideAfterCompletion":["check-phase-partner","bp-assign-partner"],"processDefsToHide":["start-site-checks","tx-aggregation-planning-recon","tx-aggregation-delivery-recon","bbu-ne-assignment-check-recon"],"processDefsToHideButShowTasks":["acquisition-phase"],"obligatoryDueDate":true}'),
+      map(project => this.papService.mapProjectsToTreeNode(project)),
       finalize(() => this.loading = false)
     ).subscribe(result => {
       this.loadActionConfig(result);
@@ -89,7 +89,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     return this.projectService
       .getProcessesAndTasksForProject(project.guid).pipe(
         map(result => {
-          const mapped = this.xxxService.getProcessesAndTasksForProject(result);
+          const mapped = this.papService.getProcessesAndTasksForProject(result);
           project.processes = result.active;
           this.allowedProcesses[project.guid] = mapped.allowed;
           return project;
@@ -104,14 +104,14 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
       this.getProjectWithProcessesAndTasks(data.project)
       .pipe(
         switchMap(project => from(project.processes)),
-        map(process => this.xxxService.mapProcessToTreeNode(process)),
+        map(process => this.papService.mapProcessToTreeNode(process)),
         toArray(),
         map(processes => processes.sort((a, b) => (a.data.process.status > b.data.process.status) ? 1 : -1)),
         finalize(() => this.loading = false)
       )
       .subscribe(nodes => {
         node.children = nodes;
-        node.children.push(this.xxxService.getStartProcessDropdownAsTreeNode());
+        node.children.push(this.papService.getStartProcessDropdownAsTreeNode());
         this.loadActionConfig(nodes);
         this.data = [...this.data];
       });
