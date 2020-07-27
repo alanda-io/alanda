@@ -15,6 +15,7 @@ export interface AlandaTask {
   task_id?: string;
   task_type?: string;
   task_name?: string;
+  task_def_key: string;
   object_name?: string;
   object_id?: number;
   assignee_id?: string;

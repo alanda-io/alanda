@@ -9,10 +9,11 @@ import { AlandaExceptionHandlingService } from '../services/exceptionHandling.se
 import { ServerOptions } from '../models/serverOptions';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AlandaTaskApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;
+  private readonly processEndpointUrl: string;
 
   constructor(
     private readonly http: HttpClient,
@@ -20,6 +21,7 @@ export class AlandaTaskApiService extends AlandaExceptionHandlingService {
   ) {
     super();
     this.endpointUrl = config.API_ENDPOINT + '/pmc-task';
+    this.processEndpointUrl = config.API_ENDPOINT + '/pmc-process';
   }
 
   getTask(taskId: string): Observable<AlandaTask> {
@@ -103,5 +105,14 @@ export class AlandaTaskApiService extends AlandaExceptionHandlingService {
     return this.http.get<AlandaTask[]>(this.endpointUrl + '/search', {
       params: qParams,
     });
+  }
+
+  getProcessVariable(processInstanceId, variableName): Observable<any> {
+    return this.http
+      .get(
+        `${this.processEndpointUrl}/${processInstanceId}/variables/${variableName}`,
+        {},
+      )
+      .pipe(catchError(this.handleError('getProcessVariable', null)));
   }
 }
