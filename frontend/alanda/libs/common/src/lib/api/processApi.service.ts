@@ -6,7 +6,9 @@ import { catchError } from 'rxjs/operators';
 import { AlandaProcess } from './models/process';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AlandaProcessApiService extends AlandaExceptionHandlingService {
   endpointUrl: string;
 

@@ -7,7 +7,9 @@ import { SimpleDocument } from './models/simpleDocument';
 import { catchError } from 'rxjs/operators';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AlandaDocumentApiService extends AlandaExceptionHandlingService {
   private readonly documentEndpointUrl: string;
 

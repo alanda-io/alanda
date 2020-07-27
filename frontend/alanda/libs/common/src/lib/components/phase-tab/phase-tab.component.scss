@@ -1,0 +1,111 @@
+@import '../../../styles/variables';
+
+$header-item-spacer: 4px;
+
+.phase-tab {
+  .phase-tab-header {
+    border-bottom: 1px solid #c8c8c8;
+    margin-top: 5px;
+    position: relative;
+
+    .header-item {
+      position: relative;
+      background: #f4f4f4;
+      border: 1px solid #c8c8c8;
+      border-bottom: 0;
+      border-radius: 3px 3px 0 0;
+      color: $font-color;
+      cursor: pointer;
+      display: inline-block;
+      margin: 0 $header-item-spacer/2;
+      padding: 10px 15px;
+      min-width: 120px;
+      height: 70px;
+      text-align: center;
+      vertical-align: bottom;
+
+      .header-text {
+        font-weight: 600;
+        line-height: 1.8;
+        user-select: none;
+      }
+
+      .header-state {
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        width: 100%;
+
+        .edit-state {
+          color: $primary-blue;
+          margin: 0 5px;
+        }
+
+        .status {
+          background: #f5f5f5;
+          border-radius: 3px;
+          display: inline-block;
+          font-size: 12px;
+          font-weight: 200;
+          line-height: 1;
+          padding: 5px;
+          text-transform: uppercase;
+          user-select: none;
+          color: #777;
+
+          &.active {
+            background: #0a9c4d;
+            color: $white;
+          }
+
+          &.completed {
+            background: $primary-green;
+            color: $white;
+          }
+
+          &.error {
+            background: $primary-red;
+            color: $white;
+          }
+
+          &.starting {
+            background: #0e6e40;
+            color: $white;
+          }
+
+          &.required {
+            background: #dfefef;
+          }
+
+          &.not-required {
+            background: #efdfef;
+          }
+
+          &.not-set {
+            background: #efefef;
+          }
+        }
+      }
+
+      &:hover {
+        background: lighten(#f4f4f4, 5%);
+      }
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &.active {
+        background: $white;
+      }
+    }
+  }
+
+  .phase-tab-content {
+    padding: 10px;
+  }
+}

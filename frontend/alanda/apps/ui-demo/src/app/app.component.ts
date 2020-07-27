@@ -10,11 +10,12 @@ import { tap } from 'rxjs/operators';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-
   user$ = this.userAdapter.currentUser$;
-  releaseRunAsClick$ = new Subject<void>()
+  releaseRunAsClick$ = new Subject<void>();
 
   constructor(private userAdapter: UserAdapter) {
-    this.userAdapter.connectReleaseRunAs(this.releaseRunAsClick$.asObservable())
+    this.userAdapter.connectReleaseRunAs(
+      this.releaseRunAsClick$.asObservable(),
+    );
   }
 }

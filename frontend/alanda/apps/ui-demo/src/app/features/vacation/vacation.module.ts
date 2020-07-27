@@ -7,7 +7,9 @@ import { VacationRoutingModule } from './vacation-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { InformSubstituteComponent } from './forms/inform-substitute.component';
 import { PerformHandoverActivitiesComponent } from './forms/perform-handover-activities.component';
-import { CommentsModule } from '@alanda/common';
+import { CommentsModule, AlandaProjectPropertiesService } from '@alanda/common';
+import { ProjectPropertiesComponent } from './components/project-properties/project-properties.component';
+import { ProjectPhasesComponent } from './components/project-phases/project-phases.component';
 
 @NgModule({
   imports: [VacationRoutingModule, SharedModule, CommentsModule],
@@ -18,10 +20,17 @@ import { CommentsModule } from '@alanda/common';
     InformSubstituteComponent,
     PerformHandoverActivitiesComponent,
     DefaultTaskComponent,
+    ProjectPropertiesComponent,
+    ProjectPhasesComponent,
   ],
   exports: [],
-  providers: [],
+  providers: []
 })
 export class VacationModule {
-  constructor() {}
+
+  constructor(private propertiesService: AlandaProjectPropertiesService) {
+    this.propertiesService.addPropsForType('VACATION', ProjectPropertiesComponent);
+    this.propertiesService.addPropsForType('VACATION', ProjectPhasesComponent);
+  }
+
 }

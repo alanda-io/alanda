@@ -1,0 +1,34 @@
+<div class="phase-tab" *rxLet="state$; let state">
+  <div class="phase-tab-header">
+    <div
+      *ngFor="let phase of state.simplePhases; let i = index"
+      [ngClass]="{ 'header-item': true, active: i === activePhaseIndex }"
+      (click)="setActivePhaseIndex(i)"
+    >
+      <div class="header-text">
+        {{ phase.pmcProjectPhaseDefinition.displayName }}
+      </div>
+      <div class="header-state" *ngIf="phase.guid">
+        <p-menu
+          #menu
+          [popup]="true"
+          [model]="menuItems"
+          appendTo="body"
+        ></p-menu>
+        <span
+          class="fa fa-cog edit-state"
+          *ngIf="!phase.frozen"
+          (click)="menu.toggle($event)"
+        ></span>
+        <span [ngClass]="['status', getPhaseStatus(phase).styleClass]">{{
+          getPhaseStatus(phase).label
+        }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-tab-content">
+    <!-- Something can be placed here -->
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -42,7 +42,6 @@ export class AlandaHistoryGridComponent implements OnInit {
 
   ngOnInit() {
     if (this.route.snapshot.params.projectId) {
-      console.log('history - project');
       this.serverOptions.filterOptions['pmcProjectGuid'] = this.projectGuid;
     } else if (this.route.snapshot.params['banfId']) {
       this.serverOptions.filterOptions[
@@ -58,7 +57,6 @@ export class AlandaHistoryGridComponent implements OnInit {
 
   loadEntries() {
     this.loadingInProgress = true;
-    console.log('filterOptions', this.serverOptions.filterOptions);
     this.historyService
       .search(
         this.serverOptions.filterOptions,

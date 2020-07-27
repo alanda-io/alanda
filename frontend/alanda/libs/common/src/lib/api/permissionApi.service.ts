@@ -6,7 +6,9 @@ import { AlandaPermission } from './models/permission';
 import { catchError } from 'rxjs/operators';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AlandaPermissionApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;
 

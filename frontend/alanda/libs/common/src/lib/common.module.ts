@@ -95,6 +95,9 @@ import { PapActionSymbolComponent } from './components/project-and-processes/pap
 import { PapConfigDialogComponent } from './components/project-and-processes/pap-config-dialog/pap-config-dialog.component';
 import { PapSubprocessPropertyInputComponent } from './components/project-and-processes/pap-config-dialog/pap-subprocess-property-input/pap-subprocess-property-input.component';
 import { AlandaProjectAndProcessesComponent } from './components/project-and-processes/project-and-processes.component';
+import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
+import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-checkbox.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -135,7 +138,8 @@ import { AlandaProjectAndProcessesComponent } from './components/project-and-pro
     MessageModule,
     DynamicDialogModule,
     BadgeModule,
-    TooltipModule
+    TooltipModule,
+    PhaseTabModule,
   ],
   declarations: [
     AlandaUserManagementComponent,
@@ -176,7 +180,8 @@ import { AlandaProjectAndProcessesComponent } from './components/project-and-pro
     PapActionSymbolComponent,
     PapConfigDialogComponent,
     PapSubprocessPropertyInputComponent,
-    ProcessConfigDirective
+    ProcessConfigDirective,
+    AlandaVarCheckboxComponent,
   ],
   exports: [
     PermissionModule,
@@ -215,7 +220,9 @@ import { AlandaProjectAndProcessesComponent } from './components/project-and-pro
     AlandaPropCheckboxComponent,
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
-    ProcessConfigDirective
+    ProcessConfigDirective,
+    PhaseTabModule,
+    AlandaVarCheckboxComponent,
   ],
   entryComponents: [
     PapRelateDialogComponent,

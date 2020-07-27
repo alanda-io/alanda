@@ -12,4 +12,8 @@ export class AlandaProjectPropertiesService {
   getPropsForType(key: string): Type<Component> {
     return this.propertyComponents.get(key);
   }
+
+  addPropsForType(key: string, propertyComponent: Type<any>): void {
+    this.propertyComponents.set(key, propertyComponent);
+  }
 }

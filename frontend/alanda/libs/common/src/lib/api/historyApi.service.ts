@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AlandaHistoryApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;
 
@@ -19,7 +21,6 @@ export class AlandaHistoryApiService extends AlandaExceptionHandlingService {
 
   search(filterOptions, pageNumber, pageSize): Observable<any[]> {
     const searchDto = {};
-    console.log('filterOpts', filterOptions);
     for (const key of Object.keys(filterOptions)) {
       if (filterOptions[key] !== '') {
         searchDto[key] = encodeURIComponent(filterOptions[key]);
