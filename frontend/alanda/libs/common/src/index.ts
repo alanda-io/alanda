@@ -14,6 +14,7 @@ export * from './lib/api/processApi.service';
 export * from './lib/api/propertyApi.service';
 export * from './lib/api/milestoneApi.service';
 export * from './lib/api/commentApi.service';
+export * from './lib/api/processMessageApi.service';
 
 export * from './lib/permissions';
 
@@ -28,6 +29,8 @@ export * from './lib/form/components/prop-select/prop-select.component';
 export * from './lib/form/components/prop-checkbox/prop-checkbox.component';
 export * from './lib/form/components/var-role-user-select/var-role-user-select.component';
 export * from './lib/form/components/var-display/var-display.component';
+export * from './lib/form/components/var-datepicker/var-datepicker.component';
+export * from './lib/form/components/var-checkbox/var-checkbox.component';
 
 export * from './lib/interceptors/basic-auth.interceptor';
 export * from './lib/interceptors/error400.interceptor';
