@@ -1,15 +1,18 @@
 <div [formGroup]="milestoneForm">
   <div class="p-grid">
     <div class="p-col-12">
-      <strong>{{ displayName }}</strong>
+      <strong>{{ displayName }}
+        <span *ngIf="!showACT && showFC"> - FC</span>
+        <span *ngIf="!showFC && showACT"> - ACT</span>
+      </strong>
     </div>
     <div class="p-col-12">
       <!-- FC -->
       <div class="p-grid" *ngIf="showFC">
-        <div class="p-col-2">
+        <div class="p-col-2" *ngIf="showACT">
           <strong class="ms-title">FC</strong>
         </div>
-        <div class="p-col-10">
+        <div [ngClass]="[showACT ? 'p-col-10' : 'p-col-12']">
           <p-calendar
             inputId="fc"
             formControlName="fc"
@@ -22,10 +25,10 @@
       </div>
 
       <div class="p-grid" *ngIf="showACT">
-        <div class="p-col-2">
+        <div class="p-col-2" *ngIf="showFC">
           <strong class="ms-title">ACT</strong>
         </div>
-        <div class="p-col-10">
+        <div [ngClass]="[showFC ? 'p-col-10' : 'p-col-12']">
           <p-calendar
             formControlName="act"
             placeholder="Select ACT"
