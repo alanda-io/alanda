@@ -1,34 +1,40 @@
 <div [formGroup]="milestoneForm">
   <div class="p-grid">
     <div class="p-col-12">
-      <b>{{ displayName }}</b>
+      <strong>{{ displayName }}</strong>
     </div>
+    <div class="p-col-12">
+      <!-- FC -->
+      <div class="p-grid" *ngIf="showFC">
+        <div class="p-col-2">
+          <strong class="ms-title">FC</strong>
+        </div>
+        <div class="p-col-10">
+          <p-calendar
+            inputId="fc"
+            formControlName="fc"
+            placeholder="Select FC"
+            (onSelect)="onChange()"
+            [showIcon]="true"
+            dateFormat="yy-mm-dd"
+          ></p-calendar>
+        </div>
+      </div>
 
-    <!-- FC -->
-    <div class="p-col-3">
-      <span class="ms-title">FC</span>
-    </div>
-    <div class="p-col-9">
-      <p-calendar
-        inputId="fc"
-        formControlName="fc"
-        placeholder="Select"
-        (onSelect)="onChange()"
-        [showIcon]="true"
-        dateFormat="yy-mm-dd"
-      ></p-calendar>
-    </div>
-    <div class="p-col-3">
-      <span class="ms-title">ACT</span>
-    </div>
-    <div class="p-col-9">
-      <p-calendar
-        formControlName="act"
-        placeholder="Select"
-        (onSelect)="onChange()"
-        [showIcon]="true"
-        dateFormat="yy-mm-dd"
-      ></p-calendar>
+      <div class="p-grid" *ngIf="showACT">
+        <div class="p-col-2">
+          <strong class="ms-title">ACT</strong>
+        </div>
+        <div class="p-col-10">
+          <p-calendar
+            formControlName="act"
+            placeholder="Select ACT"
+            (onSelect)="onChange()"
+            [showIcon]="true"
+            dateFormat="yy-mm-dd"
+          ></p-calendar>
+        </div>
+      </div>
     </div>
   </div>
 </div>
