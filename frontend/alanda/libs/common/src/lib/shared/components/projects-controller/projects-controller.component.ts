@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap, tap, map, distinctUntilChanged } from 'rxjs/operators';
-import { AlandaProjectApiService } from '../../../shared/api/projectApi.service';
-import { AlandaProject } from '../../../shared/api/models/project';
+import { AlandaProjectApiService } from '../../api/projectApi.service';
+import { AlandaProject } from '../../api/models/project';
 import { Subscription } from 'rxjs';
 import { RxState } from '@rx-angular/state';
 import { BaseState } from '../../../form/base-state';
