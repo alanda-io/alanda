@@ -17,10 +17,10 @@ import {
 
 import { of, Observable, EMPTY } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
-import { AlandaTask } from '../api/models/task';
-import { AlandaProject } from '../api/models/project';
-import { AlandaProjectApiService } from '../api/projectApi.service';
-import { AlandaTaskApiService } from '../api/taskApi.service';
+import { AlandaTask } from '../shared/api/models/task';
+import { AlandaProject } from '../shared/api/models/project';
+import { AlandaProjectApiService } from '../shared/api/projectApi.service';
+import { AlandaTaskApiService } from '../shared/api/taskApi.service';
 import { MessageService } from 'primeng/api';
 
 export interface AlandaTaskFormState {

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { TreeNode } from 'primeng/api/treenode';
 
-import { AlandaProject } from '../api/models/project';
-import { AlandaProcess } from '../api/models/process';
-import { AlandaTask } from '../api/models/task';
+import { AlandaProject } from '../shared/api/models/project';
+import { AlandaProcess } from '../shared/api/models/process';
+import { AlandaTask } from '../shared/api/models/task';
 
 @Injectable({
   providedIn: 'root',

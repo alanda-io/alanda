@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
-import { AlandaTaskApiService } from '../../../api/taskApi.service';
-import { AlandaUserApiService } from '../../../api/userApi.service';
-import { AlandaUser } from '../../../api/models/user';
+import { AlandaTaskApiService } from '../../../shared/api/taskApi.service';
+import { AlandaUserApiService } from '../../../shared/api/userApi.service';
+import { AlandaUser } from '../../../shared/api/models/user';
 import { tap, concatMap } from 'rxjs/operators';
 
 const SELECTOR = 'alanda-var-role-user-select';

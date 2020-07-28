@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
-import { AlandaProject } from '../../../api/models/project';
-import { AlandaTaskApiService } from '../../../api/taskApi.service';
+import { AlandaProject } from '../../../shared/api/models/project';
+import { AlandaTaskApiService } from '../../../shared/api/taskApi.service';
 
 const SELECTOR = 'alanda-var-checkbox';
 

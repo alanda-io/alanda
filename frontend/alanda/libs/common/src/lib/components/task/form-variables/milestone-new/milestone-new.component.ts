@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AlandaProject } from '../../../../api/models/project';
+import { AlandaProject } from '../../../../shared/api/models/project';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { AlandaMilestoneApiService } from '../../../../api/milestoneApi.service';
+import { AlandaMilestoneApiService } from '../../../../shared/api/milestoneApi.service';
 import { convertUTCDate } from '../../../../utils/helper-functions';
 
 @Component({

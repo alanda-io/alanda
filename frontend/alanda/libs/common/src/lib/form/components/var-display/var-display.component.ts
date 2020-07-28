@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AlandaTaskApiService } from '../../../api/taskApi.service';
+import { AlandaTaskApiService } from '../../../shared/api/taskApi.service';
 
 @Component({
   selector: 'alanda-var-display',

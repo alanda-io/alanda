@@ -27,47 +27,46 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CalendarModule } from 'primeng/calendar';
 import { MessageModule } from 'primeng/message';
-import { AttachmentsListComponent } from './components/attachments/attachments-list/attachments-list.component';
-import { AttachmentsTreeComponent } from './components/attachments/attachments-tree/attachments-tree.component';
-import { AlandaProjectMonitorComponent } from './components/project-monitor/project-monitor.component';
+import { AttachmentsListComponent } from './shared/components/attachments/attachments-list/attachments-list.component';
+import { AttachmentsTreeComponent } from './shared/components/attachments/attachments-tree/attachments-tree.component';
+import { AlandaProjectMonitorComponent } from './features/project-monitor/project-monitor.component';
 import { MonitorValuesPipe } from './pipes/nested-object.pipe';
-import { AlandaTasklistComponent } from './components/task-list/tasklist.component';
+import { AlandaTasklistComponent } from './features/task-list/tasklist.component';
 import { FilterPipe } from './pipes/filter.pipe';
-import { TagFilterPipe } from './pipes/tag-filter.pipe';
-import { AlandaProjectHeaderComponent } from './components/project-header/project-header.component';
+import { AlandaProjectHeaderComponent } from './features/project-header/project-header.component';
 import { ProjectPropertiesDirective } from './components/controller/directives/project.properties.directive';
-import { AlandaPioComponent } from './components/pio/pio.component';
-import { DiagramComponent } from './components/pio/diagram/diagram.component';
-import { ProcessActivitiesComponent } from './components/pio/process-activities/process-activities.component';
-import { AlandaHistoryGridComponent } from './components/history/history-grid.component';
-import { AlandaCreateProjectComponent } from './components/create-project/create-project.component';
-import { AlandaProjectAndProcessesComponent } from './components/project-and-processes/project-and-processes.component';
-import { AppSettings, APP_CONFIG } from './models/appSettings';
+import { AlandaPioComponent } from './features/pio/pio.component';
+import { DiagramComponent } from './features/pio/diagram/diagram.component';
+import { ProcessActivitiesComponent } from './features/pio/process-activities/process-activities.component';
+import { AlandaHistoryGridComponent } from './features/history/history-grid.component';
+import { AlandaCreateProjectComponent } from './features/create-project/create-project.component';
+import { AlandaProjectAndProcessesComponent } from './features/project-and-processes/project-and-processes.component';
+import { AppSettings, APP_CONFIG } from './shared/models/appSettings';
 import { AlandaSimpleSelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
 import { AlandaSelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
 import { AlandaDateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
 import { AlandaDropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
 import { AccordionModule } from 'primeng/accordion';
 import { AlandaSelectMilestoneComponent } from './components/task/form-variables/milestone-select/milestone-select.component';
-import { AlandaUserManagementComponent } from './components/admin/user-management/user-management.component';
-import { AlandaGroupManagementComponent } from './components/admin/group-management/group-management.component';
-import { AlandaRoleManagementComponent } from './components/admin/role-management/role-management.component';
-import { AlandaPermissionManagementComponent } from './components/admin/permission-management/permission-management.component';
-import { AlandaUserApiService } from './api/userApi.service';
-import { AlandaTaskApiService } from './api/taskApi.service';
-import { AlandaCommentApiService } from './api/commentApi.service';
-import { AlandaDocumentApiService } from './api/documentApi.service';
-import { AlandaGroupApiService } from './api/groupApi.service';
-import { AlandaHistoryApiService } from './api/historyApi.service';
-import { AlandaMilestoneApiService } from './api/milestoneApi.service';
-import { AlandaPermissionApiService } from './api/permissionApi.service';
-import { AlandaProcessApiService } from './api/processApi.service';
-import { AlandaProjectApiService } from './api/projectApi.service';
-import { AlandaPropertyApiService } from './api/propertyApi.service';
-import { AlandaRoleApiService } from './api/roleApi.service';
+import { AlandaUserManagementComponent } from './features/admin/user-management/user-management.component';
+import { AlandaGroupManagementComponent } from './features/admin/group-management/group-management.component';
+import { AlandaRoleManagementComponent } from './features/admin/role-management/role-management.component';
+import { AlandaPermissionManagementComponent } from './features/admin/permission-management/permission-management.component';
+import { AlandaUserApiService } from './shared/api/userApi.service';
+import { AlandaTaskApiService } from './shared/api/taskApi.service';
+import { AlandaCommentApiService } from './shared/api/commentApi.service';
+import { AlandaDocumentApiService } from './shared/api/documentApi.service';
+import { AlandaGroupApiService } from './shared/api/groupApi.service';
+import { AlandaHistoryApiService } from './shared/api/historyApi.service';
+import { AlandaMilestoneApiService } from './shared/api/milestoneApi.service';
+import { AlandaPermissionApiService } from './shared/api/permissionApi.service';
+import { AlandaProcessApiService } from './shared/api/processApi.service';
+import { AlandaProjectApiService } from './shared/api/projectApi.service';
+import { AlandaPropertyApiService } from './shared/api/propertyApi.service';
+import { AlandaRoleApiService } from './shared/api/roleApi.service';
 import { AlandaExceptionHandlingService } from './services/exceptionHandling.service';
 import { AlandaMonitorAPIService } from './services/monitorApi.service';
-import { AlandaAttachmentsComponent } from './components/attachments/attachments.component';
+import { AlandaAttachmentsComponent } from './shared/components/attachments/attachments.component';
 import { AlandaProjectsControllerComponent } from './components/controller/projects-controller/projects-controller.component';
 import { AlandaProjectPropertiesService } from './services/project-properties.service';
 import { TreeTableModule } from 'primeng/treetable';
@@ -81,15 +80,15 @@ import { AlandaFormsControllerComponent } from './form/forms-controller/forms-co
 import { AlandaVarSelectComponent } from './form/components/var-select/var-select.component';
 import { AlandaPropSelectComponent } from './form/components/prop-select/prop-select.component';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
-import { PapActionsComponent } from './components/project-and-processes/pap-actions/pap-actions.component';
-import { RelateDialogComponent } from './components/project-and-processes/pap-actions/relate-dialog/relate-dialog.component';
-import { PermissionModule } from './permissions/permission.module';
+import { PapActionsComponent } from './features/project-and-processes/pap-actions/pap-actions.component';
+import { RelateDialogComponent } from './features/project-and-processes/pap-actions/relate-dialog/relate-dialog.component';
+import { PermissionModule } from './shared/permissions/permission.module';
 import { AlandaVarRoleUserSelectComponent } from './form/components/var-role-user-select/var-role-user-select.component';
 import { AlandaVarDisplayComponent } from './form/components/var-display/var-display.component';
 import { AlandaPropCheckboxComponent } from './form/components/prop-checkbox/prop-checkbox.component';
-import { CommentsModule } from './components/comments/comments.module';
-import { BadgeModule } from './components/badge/badge.module';
-import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
+import { CommentsModule } from './shared/components/comments/comments.module';
+import { BadgeModule } from './shared/components/badge/badge.module';
+import { PhaseTabModule } from './shared/components/phase-tab/phase-tab.module';
 import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-checkbox.component';
 
 @NgModule({
@@ -143,7 +142,6 @@ import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-c
     MonitorValuesPipe,
     AlandaTasklistComponent,
     FilterPipe,
-    TagFilterPipe,
     AlandaGroupManagementComponent,
     AlandaRoleManagementComponent,
     AlandaPermissionManagementComponent,
@@ -183,7 +181,6 @@ import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-c
     MonitorValuesPipe,
     AlandaTasklistComponent,
     FilterPipe,
-    TagFilterPipe,
     AlandaUserManagementComponent,
     AlandaRoleManagementComponent,
     AlandaGroupManagementComponent,

@@ -6,8 +6,8 @@ import {
   Validators,
   AbstractControl,
 } from '@angular/forms';
-import { AlandaPropertyApiService } from '../../../api/propertyApi.service';
-import { AlandaProject } from '../../../api/models/project';
+import { AlandaPropertyApiService } from '../../../shared/api/propertyApi.service';
+import { AlandaProject } from '../../../shared/api/models/project';
 
 const SELECTOR = 'alanda-prop-select';
 
