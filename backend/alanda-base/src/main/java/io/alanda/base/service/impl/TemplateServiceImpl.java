@@ -35,7 +35,7 @@ public class TemplateServiceImpl implements TemplateService {
 
   private static final String VELOCITY_TEMPLATE_LOCATION_KEY = "file.resource.loader.path";
 
-  private final Logger logger = LoggerFactory.getLogger(TemplateServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(TemplateServiceImpl.class);
 
   /**
    * Location where the template folder should be located. (e.g. Home directory of JBoss or Test Resources)
@@ -127,7 +127,7 @@ public class TemplateServiceImpl implements TemplateService {
       p.put(VELOCITY_TEMPLATE_LOCATION_KEY, getTemplateLocation(p));
       return p;
     } catch (IOException e) {
-      logger.warn("Could not load Velocity Properties from resource location {}. Using defaults.", VELOCITY_PROPERTIES_LOCATION);
+      log.warn("Could not load Velocity Properties from resource location {}. Using defaults.", VELOCITY_PROPERTIES_LOCATION);
     }
     return null;
   }

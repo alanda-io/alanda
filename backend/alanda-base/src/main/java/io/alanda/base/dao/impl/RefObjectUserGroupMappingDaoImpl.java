@@ -10,12 +10,15 @@ import javax.persistence.EntityManager;
 import io.alanda.base.dao.AbstractCrudDao;
 import io.alanda.base.dao.RefObjectUserGroupMappingDao;
 import io.alanda.base.entity.RefObjectUserGroupMapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
  * @author jlo
  */
 public class RefObjectUserGroupMappingDaoImpl extends AbstractCrudDao<RefObjectUserGroupMapping> implements RefObjectUserGroupMappingDao {
+  private static final Logger log = LoggerFactory.getLogger(RefObjectUserGroupMappingDaoImpl.class);
 
   /**
    * 
@@ -41,6 +44,7 @@ public class RefObjectUserGroupMappingDaoImpl extends AbstractCrudDao<RefObjectU
   }
 
   public RefObjectUserGroupMapping getUser(String refObjectType, Long refObjectId, String roleName) {
+    log.debug("Retrieving user group mapping for refObject {}@{} and role {}", refObjectType, refObjectId, roleName);
     
     List<RefObjectUserGroupMapping> result = 
         em

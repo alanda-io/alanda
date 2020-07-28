@@ -24,8 +24,7 @@ public class PmcProjectPhaseDefinition extends AbstractEntity implements Seriali
 
   private static final long serialVersionUID = -912125347206603549L;
 
-  @Transient
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcProjectPhaseDefinition.class);
 
   @Column(name = "IDNAME", unique = true)
   private String idName;

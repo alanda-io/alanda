@@ -26,7 +26,7 @@ import io.alanda.base.util.cache.UserCache;
 @Named("pmcCommentService")
 public class PmcCommentServiceImpl implements PmcCommentService {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcCommentServiceImpl.class);
 
   @Inject
   private PmcCommentDao pmcCommentDao;
@@ -39,6 +39,8 @@ public class PmcCommentServiceImpl implements PmcCommentService {
 
   @Override
   public List<PmcCommentDto> getAllForProcessInstanceId(String processInstanceId) {
+    log.info("Retrieving comments for process with instance id {}", processInstanceId);
+
     List<PmcCommentDto> retVal = dozerMapper
       .mapCollection(pmcCommentDao.getAllForProcessInstanceId(processInstanceId), PmcCommentDto.class);
     retVal = parseComments(retVal);
@@ -47,8 +49,7 @@ public class PmcCommentServiceImpl implements PmcCommentService {
 
   @Override
   public PmcCommentDto insert(PmcCommentDto pmcCommentDto) {
-    logger.info(pmcCommentDto.getSubject());
-    logger.info(pmcCommentDto.getText());
+    log.info("Creating new comment: {}", pmcCommentDto);
     pmcCommentDto.setCreateDate(new Date());
     pmcCommentDto.setUpdateDate(new Date());
     pmcCommentDto.setCreateUser(UserContext.getUser().getGuid());
@@ -60,6 +61,8 @@ public class PmcCommentServiceImpl implements PmcCommentService {
 
   @Override
   public List<PmcCommentDto> getAllForProcessInstanceIdAndRefObjectId(String processInstanceId, long refObjectId) {
+    log.info("Retrieving all comments for process with instance id {} and ref object {}", processInstanceId, refObjectId);
+
     List<PmcCommentDto> retVal = dozerMapper
       .mapCollection(pmcCommentDao.getAllForProcessInstanceIdAndRefObjectId(processInstanceId, refObjectId), PmcCommentDto.class);
     retVal = parseComments(retVal);
@@ -86,7 +89,7 @@ public class PmcCommentServiceImpl implements PmcCommentService {
       } else {
         PmcCommentDto parent = map.get(c.getReplyTo());
         if (parent == null) {
-          logger.warn("Parent not found for comment: " + c.getGuid());
+          log.warn("Parent not found for comment: {}", c.getGuid());
           continue;
         }
 

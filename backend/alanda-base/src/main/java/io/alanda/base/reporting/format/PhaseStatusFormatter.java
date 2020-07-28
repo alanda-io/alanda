@@ -16,7 +16,7 @@ import io.alanda.base.reporting.Report;
 
 public class PhaseStatusFormatter implements ReportCellFormatter {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PhaseStatusFormatter.class);
 
   @Override
   public void init() {

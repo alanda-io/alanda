@@ -16,7 +16,7 @@ public class PmcProjectPhaseDaoImpl
   extends AbstractCrudDao<PmcProjectPhase> 
   implements PmcProjectPhaseDao {
 
-  private final Logger logger = LoggerFactory.getLogger(PmcProjectPhaseDaoImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcProjectPhaseDaoImpl.class);
   
   public PmcProjectPhaseDaoImpl() {
     super();
@@ -35,6 +35,7 @@ public class PmcProjectPhaseDaoImpl
   public PmcProjectPhase getByProjectIdAndPhaseDefIdName(
       String projectId, 
       String phaseDefIdName) {
+    log.debug("Retrieving project phase with name {} for project with projectId {}", phaseDefIdName, projectId);
     
     List<PmcProjectPhase> result = em
         .createQuery("select phase FROM PmcProjectPhase phase WHERE " +
@@ -54,6 +55,7 @@ public class PmcProjectPhaseDaoImpl
   public PmcProjectPhase getByProjectIdAndPhaseDefIdName(
       Long projectGuid,
       String phaseDefIdName) {
+    log.debug("Retrieving project phase with name {} for project with guid {}", phaseDefIdName, projectGuid);
 
     List<PmcProjectPhase> result = em
         .createQuery("select phase FROM PmcProjectPhase phase WHERE " +
@@ -71,6 +73,8 @@ public class PmcProjectPhaseDaoImpl
   
   @Override
   public Collection<PmcProjectPhase> getForProject(String projectId) {
+    log.debug("Retrieving project phases for project with projectId {}", projectId);
+
     return em
         .createQuery("select phase FROM PmcProjectPhase phase WHERE " +
           "phase.pmcProject.projectId = :projectId", PmcProjectPhase.class)
@@ -80,6 +84,8 @@ public class PmcProjectPhaseDaoImpl
   
   @Override
   public Collection<PmcProjectPhase> getForProject(Long projectGuid) {
+    log.debug("Retrieving project phases for project with guid {}", projectGuid);
+
     return em
         .createQuery("select phase FROM PmcProjectPhase phase WHERE " +
           "phase.pmcProject.guid = :projectGuid", PmcProjectPhase.class)

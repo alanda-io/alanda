@@ -33,7 +33,7 @@ import io.alanda.rest.ProjectRestService;
 
 public class ProjectRestServiceImpl implements ProjectRestService {
 
-  protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(ProjectRestServiceImpl.class);
 
   @Inject
   private PmcProjectService pmcProjectService;

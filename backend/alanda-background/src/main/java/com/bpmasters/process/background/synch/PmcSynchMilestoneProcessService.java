@@ -33,7 +33,7 @@ import io.alanda.base.util.timer.PmcDueDateCalculator;
 @Named("pmcSynchMilestoneProcessService")
 public class PmcSynchMilestoneProcessService {
 
-  private static final Logger logger = LoggerFactory.getLogger(PmcSynchMilestoneProcessService.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcSynchMilestoneProcessService.class);
 
   @Inject
   private ManagementService managementService;
@@ -67,7 +67,7 @@ public class PmcSynchMilestoneProcessService {
 
   public void synchWaitingExecutions() throws Exception {
     boolean complete = false;
-    logger.info("Starting , status: " + data.getCursor() + "/" + data.getWaitingExecutions().size());
+    log.info("Starting , status: {}/{}", data.getCursor(), data.getWaitingExecutions().size());
 
     //WaitingExecutionDto current=null;
     for (int i = 0; i < 500; i++ ) {
@@ -85,6 +85,7 @@ public class PmcSynchMilestoneProcessService {
   }
 
   public void synchMilestone(WaitingExecutionDto we) {
+    log.info("Syncing milestone {}", we);
 
     //read pmcProjectGuid
     if (we.getPmcProjectGuid() == null) {
@@ -93,16 +94,16 @@ public class PmcSynchMilestoneProcessService {
         if (e != null) {
           we.setPmcProjectGuid((Long) runtimeService.getVariable(we.getExecutionId(), ProcessVariables.PMC_PROJECT_GUID));
         } else {
-          logger.warn("Error while fetching variables - the following execution (id) does not exist: " + we.getExecutionId());
+          log.warn("Error while fetching variables - the following execution (id) does not exist: {}", we.getExecutionId());
         }
       } catch (Exception e) {
-        logger.info("Error reading vars for WE: " + we.getExecutionId() + ", message: " + e.getMessage(), e);
+        log.warn("Error reading vars for WE: {}, message: {}", we.getExecutionId(), e.getMessage(), e);
 
       }
     }
 
     if (we.getPmcProjectGuid() == null || we.getExecutionId() == null) {
-      logger.info("Required variables pmcProjectGuid: " + we.getPmcProjectGuid() + ", executionId: " + we.getExecutionId() + " missing.");
+      log.warn("Required variables pmcProjectGuid: {}, executionId: {} missing.", we.getPmcProjectGuid(), we.getExecutionId());
     }
     DueDateCalculatorData ddcd = we.getDueDateCalculatorData();
     if (ddcd == null) {
@@ -117,14 +118,15 @@ public class PmcSynchMilestoneProcessService {
 
   private void sendMessage(String messageName, String executionId) {
     try {
+      log.info("sending message '{}' to execution '{}'", messageName, executionId);
       runtimeService.messageEventReceived(messageName, executionId);
-      logger.info("sending message '{}' to execution '{}'", messageName, executionId);
     } catch (Exception e) {
-      logger.error("message " + messageName + " could not be delivered to execution " + executionId + " because of: " + e.getMessage(), e);
+      log.error("message {} could not be delivered to execution {} because of", messageName, executionId, e);
     }
   }
 
   public void fetchWaitingExecutions() throws Exception {
+    log.info("Fetching waiting executions");
 
     if (data.getPerformFullSync()) {
       data.setWaitingExecutions(synchService.getAllMilestoneMessageEvents());
@@ -144,6 +146,7 @@ public class PmcSynchMilestoneProcessService {
   }
 
   public void prepareMessageSynch() throws Exception {
+    log.info("Preparing message sync");
 
     data.setCurrentSyncDate(new Date());
     data.setPerformFullSync(isFirstExecution());
@@ -152,6 +155,7 @@ public class PmcSynchMilestoneProcessService {
   }
 
   public void prepareNextMessageSynch() throws Exception {
+    log.info("Preparing next message sync");
 
     if (data.getPerformFullSync()) {
       String endDate = DueDateCalculatorUtil.getNextDateForTime(0, 30, 0);
@@ -177,12 +181,13 @@ public class PmcSynchMilestoneProcessService {
   }
 
   public void prepareTimerSynch() {
+    log.info("Preparing timer sync");
     List<Integer> firstResultList = fillFirstResultList();
     businessProcess.setVariable("timerFirstResultList", firstResultList);
-
   }
 
   public void performTimerSynch() throws Exception {
+    log.info("Performing timer sync");
 
     int firstSyncResult = (int) businessProcess.getVariable("firstSyncResult");
 
@@ -224,11 +229,13 @@ public class PmcSynchMilestoneProcessService {
   }
 
   private List<Integer> fillFirstResultList() {
+    log.debug("Filling first result list...");
     long timerCount = queryTimerCount();
     List<Integer> firstResultList = new ArrayList<>();
     for (int i = 0; i < timerCount; i += timerMaxTimerSyncResults) {
       firstResultList.add(i);
     }
+    log.debug("...first result list has {} items", firstResultList.size());
     return firstResultList;
   }
 

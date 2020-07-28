@@ -14,7 +14,7 @@ import io.alanda.rest.PmcMetricRestService;
 
 public class PmcMetricRestServiceImpl implements PmcMetricRestService {
 
-  protected static final Logger logger = LoggerFactory.getLogger(PmcMetricRestServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcMetricRestServiceImpl.class);
 
   @Inject
   private PmcMetricService pmcMetricService;

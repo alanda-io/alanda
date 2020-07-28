@@ -26,7 +26,7 @@ public enum JdbcPmcGroupGateway implements PmcGroupGateway {
 
   INSTANCE;
 
-  private final Logger logger = LoggerFactory.getLogger(JdbcPmcGroupGateway.class);
+  private static final Logger log = LoggerFactory.getLogger(JdbcPmcGroupGateway.class);
 
   private static final String COL_GUID = "guid";
 
@@ -56,11 +56,11 @@ public enum JdbcPmcGroupGateway implements PmcGroupGateway {
           return mapGroupFromResult(result);
         }
       } catch (SQLException e) {
-        logger.error("Error while executing SQL-Statement: {}", singleGroupQuery, e);
+        log.error("Error while executing SQL-Statement: {}", singleGroupQuery, e);
         SQLHelper.rollback(con);
       }
     } catch (SQLException e1) {
-      logger.error("Error creating JDBC Connection", e1);
+      log.error("Error creating JDBC Connection", e1);
     }
     return null;
   }
@@ -86,10 +86,10 @@ public enum JdbcPmcGroupGateway implements PmcGroupGateway {
           groups.add(mapGroupFromResult(result));
         }
       } catch (SQLException e) {
-        logger.error("Error while executing SQL-Statement: {}", criteriaBuilder.toString(), e);
+        log.error("Error while executing SQL-Statement: {}", criteriaBuilder.toString(), e);
       }
     } catch (SQLException e1) {
-      logger.error("Error creating JDBC Connection", e1);
+      log.error("Error creating JDBC Connection", e1);
     }
     return groups;
   }
@@ -162,10 +162,10 @@ public enum JdbcPmcGroupGateway implements PmcGroupGateway {
           count += mapCountFromResult(result);
         }
       } catch (SQLException e) {
-        logger.error("Error while executing SQL-Statement: {}", criteriaBuilder.toString(), e);
+        log.error("Error while executing SQL-Statement: {}", criteriaBuilder.toString(), e);
       }
     } catch (SQLException e1) {
-      logger.error("Error creating JDBC Connection", e1);
+      log.error("Error creating JDBC Connection", e1);
     }
     return count;
   }

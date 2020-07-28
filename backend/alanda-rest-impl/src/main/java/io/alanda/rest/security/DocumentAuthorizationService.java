@@ -23,7 +23,7 @@ import io.alanda.base.security.PmcShiroAuthorizationService;
 @ApplicationScoped
 public class DocumentAuthorizationService {
 
-  protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(DocumentAuthorizationService.class);
 
   @Inject
   private PmcShiroAuthorizationService pmcShiroAuthorizationService;
@@ -56,17 +56,7 @@ public class DocumentAuthorizationService {
   public void checkPermissionForFolder(String perm, String refObjectType, PmcProjectDto project, String subFolder) {
     String authKey = getAuthKeyForFolder(perm, refObjectType, project, subFolder);
     if ( !pmcShiroAuthorizationService.checkPermission(authKey)) {
-      logger.info(
-        "AccessDenied: Type: " +
-          perm +
-          ", refObjectType: " +
-          refObjectType +
-          ",project: " +
-          (project != null ? project.getProjectId() : "[null]") +
-          ",  folder: " +
-          subFolder +
-          ", auth: " +
-          authKey);
+      log.info("AccessDenied: Type: {}, refObjectType: {},project: {},  folder: {}, auth: {}", perm, refObjectType, project != null ? project.getProjectId() : "[null]", subFolder, authKey);
       throw new ForbiddenException("You are not allowed to " + perm + "in this folder!");
     }
   }

@@ -11,8 +11,11 @@ import io.alanda.base.dao.AbstractCrudDao;
 import io.alanda.base.dao.PmcProjectDao;
 import io.alanda.base.dto.RefObject;
 import io.alanda.base.entity.PmcProject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PmcProjectDaoImpl extends AbstractCrudDao<PmcProject> implements PmcProjectDao {
+  private static final Logger log = LoggerFactory.getLogger(PmcProjectDaoImpl.class);
 
   public PmcProjectDaoImpl() {
     super();
@@ -29,6 +32,8 @@ public class PmcProjectDaoImpl extends AbstractCrudDao<PmcProject> implements Pm
 
   @Override
   public PmcProject getByProjectId(String projectId) {
+    log.debug("Retrieving project by id {}", projectId);
+
     return em
       .createQuery("select p FROM PmcProject p where p.projectId = :projectId", PmcProject.class)
       .setParameter("projectId", projectId)
@@ -37,6 +42,8 @@ public class PmcProjectDaoImpl extends AbstractCrudDao<PmcProject> implements Pm
 
   @Override
   public List<PmcProject> getByCustomerProjectId(Long customerProjectId) {
+    log.debug("Retrieving customer projects by id {}", customerProjectId);
+
     return em
       .createQuery("select p FROM PmcProject p where p.customerProjectId = :customerProjectId", PmcProject.class)
       .setParameter("customerProjectId", customerProjectId)
@@ -45,19 +52,25 @@ public class PmcProjectDaoImpl extends AbstractCrudDao<PmcProject> implements Pm
 
   @Override
   public List<PmcProject> getAllActiveWithCustomerProject() {
+    log.debug("Retrieving all active projects having customer projects");
+
     return em
-      .createQuery("select p FROM PmcProject p where p.customerProjectId is not null and p.status=com.bpmasters.pmc.base.type.PmcProjectState.ACTIVE", PmcProject.class)   
+      .createQuery("select p FROM PmcProject p where p.customerProjectId is not null and p.status=io.alanda.base.type.PmcProjectState.ACTIVE", PmcProject.class)
       .getResultList();
   }
 
   @Override
   public List<PmcProject> getProjectsByProjectTypeAndTags(Collection<String> types, Collection<String> tags) {
+    log.debug("Retrieving all projects of types {}, having tags {}", types, tags);
+
     List<PmcProject> typeFiltered = getProjectsByProjectType(types);
     return filterProjectsByTag(typeFiltered, tags);
   }
 
   @Override
   public List<PmcProject> getProjectsByProjectType(Collection<String> types) {
+    log.debug("Retrieving projects by types {}", types);
+
     return em
       .createQuery("SELECT p FROM PmcProject p WHERE p.pmcProjectType.idName IN :types", PmcProject.class)
       .setParameter("types", types)
@@ -66,6 +79,7 @@ public class PmcProjectDaoImpl extends AbstractCrudDao<PmcProject> implements Pm
 
   @Override
   public List<PmcProject> getProjectsByProjectTags(Collection<String> tags) {
+    log.debug("Retrieving projects by tags {}", tags);
 
     // ToDo: make JPA query if possible
 
@@ -92,6 +106,8 @@ public class PmcProjectDaoImpl extends AbstractCrudDao<PmcProject> implements Pm
 
   @Override
   public List<PmcProject> getChildProjects(PmcProject parent) {
+    log.debug("Retrieving all child projects of project {}", parent);
+
     return em
       .createQuery("SELECT p FROM PmcProject p WHERE :parent MEMBER OF p.parents", PmcProject.class)
       .setParameter("parent", parent)
@@ -100,6 +116,8 @@ public class PmcProjectDaoImpl extends AbstractCrudDao<PmcProject> implements Pm
   
   @Override
   public List<PmcProject> getParentProjects(PmcProject child) {
+    log.debug("Retrieving all parent projects of child {}", child);
+
     return em
       .createQuery("SELECT p FROM PmcProject p WHERE :child MEMBER OF p.children", PmcProject.class)
       .setParameter("child", child)
@@ -108,6 +126,8 @@ public class PmcProjectDaoImpl extends AbstractCrudDao<PmcProject> implements Pm
 
   @Override
   public List<PmcProject> getByTypeAndRefObject(String typeIdName, RefObject refObject) {
+    log.debug("Retrieving projects by type {} and refObject {}", typeIdName, refObject);
+
     return em
       .createQuery("SELECT p FROM PmcProject p WHERE " +
           "p.pmcProjectType.idName = :typeIdName AND " +
@@ -121,6 +141,8 @@ public class PmcProjectDaoImpl extends AbstractCrudDao<PmcProject> implements Pm
   
   @Override
   public List<PmcProject> getAllWithProjectType(String projectTypeIdName) {
+    log.debug("Retrieving projects by type {}", projectTypeIdName);
+
     return em
         .createQuery("SELECT p FROM PmcProject p WHERE p.pmcProjectType.idName = :projectTypeIdName", PmcProject.class)
         .setParameter("projectTypeIdName", projectTypeIdName)
@@ -129,6 +151,8 @@ public class PmcProjectDaoImpl extends AbstractCrudDao<PmcProject> implements Pm
 
   @Override
   public List<PmcProject> getByTypeAndRefObjectId(String refObjectType, long refObjectId, Long projType) {
+    log.debug("Retrieving projects by typeId {} with refObject {}@{}", projType, refObjectType, refObjectId);
+
     String query =  "SELECT p FROM PmcProject p WHERE " +
             "p.refObjectType = :refObjectType AND " +
             "p.refObjectId = :refObjectId";

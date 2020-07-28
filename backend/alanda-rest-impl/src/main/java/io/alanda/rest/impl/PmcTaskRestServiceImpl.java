@@ -41,7 +41,7 @@ import io.alanda.rest.PmcTaskRestService;
 
 public class PmcTaskRestServiceImpl implements PmcTaskRestService {
 
-  private final Logger logger = LoggerFactory.getLogger(PmcTaskRestServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcTaskRestServiceImpl.class);
 
   @Inject
   private TaskService taskService;
@@ -72,11 +72,11 @@ public class PmcTaskRestServiceImpl implements PmcTaskRestService {
     }
     PmcUserDto user = UserContext.getUser();
     String userId = user.getGuid().toString();
-    logger.info("Completing task: " + taskId + " for User: " + user.getLoginName());
+    log.info("Completing task: {} for User: {}", taskId, user.getLoginName());
     taskService.setAssignee(taskId, userId);
     taskService.complete(taskId);
     elasticService.refreshTaskIndex();
-    logger.info("Completed task: " + taskId + " for User: " + user.getLoginName());
+    log.info("Completed task: {} for User: {}", taskId, user.getLoginName());
   }
 
   @Override
@@ -117,44 +117,19 @@ public class PmcTaskRestServiceImpl implements PmcTaskRestService {
         taskGroupIdSet.add(idLink.getGroupId());
       }
     }
-    logger.info(
-      "AccessCheck for task #" +
-        task.getId() +
-        " (" +
-        task.getName() +
-        ") assignee: " +
-        task.getAssignee() +
-        ", candidateGroups: " +
-        taskGroupIdSet +
-        ", user: " +
-        user.getLoginName() +
-        ", groups: " +
-        user.getGroups());
+    log.info("AccessCheck for task #{} ({}) assignee: {}, candidateGroups: {}, user: {}, groups: {}", task.getId(), task.getName(), task.getAssignee(), taskGroupIdSet, user.getLoginName(), user.getGroups());
 
     if (user.getGuid().toString().equals(task.getAssignee())) {
-      logger.info("User ist Assignee");
+      log.info("User ist Assignee");
       return true;
     }
     for (String group : user.getGroups()) {
       if (taskGroupIdSet.contains(group)) {
-        logger.info("Task ist Group: " + group + " zugeordnet.");
+        log.info("Task ist Group: {} zugeordnet.", group);
         return true;
       }
     }
-    logger.info(
-      "AccessCheck for task #" +
-        task.getId() +
-        " (" +
-        task.getName() +
-        ") assignee: " +
-        task.getAssignee() +
-        ", candidateGroups: " +
-        taskGroupIdSet +
-        ", user: " +
-        user.getLoginName() +
-        ", groups: " +
-        user.getGroups() +
-        ". Access Denied");
+    log.info("AccessCheck for task #{} ({}) assignee: {}, candidateGroups: {}, user: {}, groups: {}. Access Denied", task.getId(), task.getName(), task.getAssignee(), taskGroupIdSet, user.getLoginName(), user.getGroups());
     return false;
   }
 
@@ -254,8 +229,7 @@ public class PmcTaskRestServiceImpl implements PmcTaskRestService {
   @Override
   public void putVariable(String taskId, String variableName, VariableValueDto variable) {
     if (variable != null) {
-      logger.info(
-        "task " + taskId + ": setting variable \"" + variableName + "\" to \"" + variable.getValue() + " (" + variable.getType() + ")\"");
+      log.info("task {}: setting variable \"{}\" to \"{} ({})\"", taskId, variableName, variable.getValue(), variable.getType());
     }
     Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
     if ( !checkTaskAccess(task)) {
@@ -280,17 +254,17 @@ public class PmcTaskRestServiceImpl implements PmcTaskRestService {
   @Override
   public Response snoozeTask(String taskId, int days) {
 
-    logger.info("Snoozing task (id=" + taskId + ") for " + days + " days");
+    log.info("Snoozing task (id={}) for {} days", taskId, days);
     Calendar calendar = Calendar.getInstance();
     calendar.add(Calendar.DATE, days);
     Date followUpDate = calendar.getTime();
-    logger.info("followUpdate " + followUpDate);
+    log.info("followUpdate {}", followUpDate);
 
     try {
       pmcTaskService.updateFollowUpDateOfTask(taskId, followUpDate);
-      logger.info("Set followUpDate of Task " + taskId + "to " + followUpDate);
+      log.info("Set followUpDate of Task {}to {}", taskId, followUpDate);
     } catch (ParseException e) {
-      logger.warn("Error setting followUpDate of task: " + taskId + " to :" + followUpDate + ", reason: " + e.getMessage(), e);
+      log.warn("Error setting followUpDate of task: {} to :{}, reason: {}", taskId, followUpDate, e.getMessage(), e);
     }
     return Response.ok().build();
   }
@@ -307,7 +281,7 @@ public class PmcTaskRestServiceImpl implements PmcTaskRestService {
     try {
       pmcTaskService.updateDueDateOfTask(taskId, dueDate);
     } catch (ParseException e) {
-      logger.warn("Error setting dueDate of task: " + taskId + " to :" + dueDate + ", reason: " + e.getMessage(), e);
+      log.warn("Error setting dueDate of task: {} to :{}, reason: {}", taskId, dueDate, e.getMessage(), e);
     }
     return Response.ok().build();
   }

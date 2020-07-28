@@ -16,7 +16,7 @@ import io.alanda.base.util.DozerMapper;
 @Stateless
 public class PmcDepartmentServiceImpl implements PmcDepartmentService {
 
-  protected static final Logger logger = LoggerFactory.getLogger(PmcDepartmentServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcDepartmentServiceImpl.class);
 
   @Inject
   private PmcDepartmentDao pmcDepartmentDao;

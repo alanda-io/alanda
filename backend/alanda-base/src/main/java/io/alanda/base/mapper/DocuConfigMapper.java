@@ -12,7 +12,7 @@ import io.alanda.base.entity.DocuConfig;
 @Named
 public class DocuConfigMapper extends AbstractManualMapper<DocuConfig, DocuConfigDto> implements CustomConverter {
 
-  private final Logger logger = LoggerFactory.getLogger(DocuConfigMapper.class);
+  private static final Logger log = LoggerFactory.getLogger(DocuConfigMapper.class);
 
   
   private DocuFolderMapper docuFolderMapper=new DocuFolderMapper();
@@ -57,18 +57,18 @@ public class DocuConfigMapper extends AbstractManualMapper<DocuConfig, DocuConfi
         try {
           dto.setWriteAccess(parseString(entity.getWriteAccess()));
         } catch (Exception ex) {
-          logger.warn("DoCuConfig #" + entity.getId() + " -- invalid writeAccess definition: " + entity.getWriteAccess());
+          log.warn("DoCuConfig #{} -- invalid writeAccess definition: {}", entity.getId(), entity.getWriteAccess());
         }
       }
       if (entity.getReadAccess() != null) {
         try {
           dto.setReadAccess(parseString(entity.getReadAccess()));
         } catch (Exception ex) {
-          logger.warn("DoCuConfig #" + entity.getId() + " -- invalid readAccess definition: " + entity.getWriteAccess());
+          log.warn("DoCuConfig #{} -- invalid readAccess definition: {}", entity.getId(), entity.getWriteAccess());
         }
       }
     } else {
-      logger.info("NULLEntity");
+      log.info("NULLEntity");
     }
     return dto;
   }

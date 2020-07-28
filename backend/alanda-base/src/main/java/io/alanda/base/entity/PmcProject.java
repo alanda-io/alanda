@@ -35,8 +35,7 @@ public class PmcProject extends AbstractAuditEntity implements Serializable {
 
   private static final long serialVersionUID = -912125347206603549L;
 
-  @Transient
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcProject.class);
 
   @Column(name = "PROJECTID", unique = true)
   String projectId;

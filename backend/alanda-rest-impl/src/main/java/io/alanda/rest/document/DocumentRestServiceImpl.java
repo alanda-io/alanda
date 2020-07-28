@@ -10,8 +10,6 @@ import java.util.Map;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RuntimeService;
 
@@ -21,13 +19,15 @@ import io.alanda.base.dto.PmcProjectDto;
 import io.alanda.base.dto.RefObject;
 import io.alanda.base.service.PmcProjectService;
 import io.alanda.base.type.ProcessVariables;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author jlo
  */
 public class DocumentRestServiceImpl implements DocumentRestService {
 
-  protected static Log logger = LogFactory.getLog(DocumentRestServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(DocumentRestServiceImpl.class);
 
   @Inject
   private PmcProjectService projectService;
@@ -45,7 +45,7 @@ public class DocumentRestServiceImpl implements DocumentRestService {
    */
   @Override
   public RefObjectDocumentRestResource getRefObjectResource(String refObjectType, String stringObjectId) {
-    logger.info("refObjectType=" + refObjectType + ", refObjectId=" + stringObjectId);
+    log.info("refObjectType={}, refObjectId={}", refObjectType, stringObjectId);
     if ("project".equals(refObjectType)) {
       Long refObjectId = Long.parseLong(stringObjectId);
       PmcProjectDto project = projectService.getProjectByGuid(refObjectId);

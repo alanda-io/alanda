@@ -29,7 +29,7 @@ public class DozerMapper {
   @Dozer
   private Mapper mapper;
 
-  private static final Logger logger = LoggerFactory.getLogger(DozerMapper.class);
+  private static final Logger log = LoggerFactory.getLogger(DozerMapper.class);
 
   public <D, S> List<D> mapCollection(Collection<S> sourceCollection, Class<D> targetClass) {
 

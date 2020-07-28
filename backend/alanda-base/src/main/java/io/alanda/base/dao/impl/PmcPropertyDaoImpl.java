@@ -17,7 +17,7 @@ import io.alanda.base.entity.PmcProperty;
 
 public class PmcPropertyDaoImpl extends AbstractCrudDao<PmcProperty> implements PmcPropertyDao {
 
-  protected static final Logger logger = LoggerFactory.getLogger(PmcPropertyDaoImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcPropertyDaoImpl.class);
 
   public PmcPropertyDaoImpl() {
     super();
@@ -34,15 +34,8 @@ public class PmcPropertyDaoImpl extends AbstractCrudDao<PmcProperty> implements 
 
   @Override
   public PmcProperty getProperty(String key, Long entityId, String entityType, Long pmcProjectGuid) {
-    if (logger.isDebugEnabled()) {
-    logger
-        .debug(
-          "looking for property with key {}, entityId {}, entityType {}, pmcProjectGuid {}",
-          key,
-          entityId,
-          entityType,
-          pmcProjectGuid);
-    }
+    log.debug("Retrieving property {} for project with guid {} and entity {}@{}", key, pmcProjectGuid, entityType, entityId);
+
     PmcProperty result = null;
     try {
 
@@ -63,22 +56,9 @@ public class PmcPropertyDaoImpl extends AbstractCrudDao<PmcProperty> implements 
         tQuery = tQuery.setParameter("pmcProjectGuid", pmcProjectGuid);
       result = tQuery.getSingleResult();
     } catch (NoResultException nre) {
-      if (logger.isDebugEnabled()) {
-        logger.debug(
-        "No PmcProperty found for key {}, entityId {}, entityType {} and pmcProjectGuid {}",
-        key,
-        entityId,
-        entityType,
-        pmcProjectGuid);
-      }
+      log.debug("...found no property {} for project with guid {} and entity {}@{}", key, pmcProjectGuid, entityType, entityId);
     } catch (Exception e) {
-      logger.warn(
-        "An error occured while loading PmcProperty with key {}, entityId {}, entityType {} and pmcProjectGuid {}",
-        key,
-        entityId,
-        entityType,
-        pmcProjectGuid,
-        e);
+      log.warn("An error occured while retrieving property {} for project with guid {} and entity {}@{}", key, pmcProjectGuid, entityType, entityId);
       throw e;
     }
     return result;
@@ -87,11 +67,15 @@ public class PmcPropertyDaoImpl extends AbstractCrudDao<PmcProperty> implements 
 
   @Override
   public int deleteProperty(String key, Long entityId, String entityType, Long pmcProjectGuid) {
+    log.debug("Deleting property {} for project with guid {} and entity {}@{}", key, pmcProjectGuid, entityType, entityId);
+
     return deleteProperty(key, false, entityId, entityType, pmcProjectGuid);
   }
 
   @Override
   public int deletePropertyLike(String keyLike, Long entityId, String entityType, Long pmcProjectGuid) {
+    log.debug("Deleting properties like {} for project with guid {} and entity {}@{}", keyLike, pmcProjectGuid, entityType, entityId);
+
     return deleteProperty(keyLike, true, entityId, entityType, pmcProjectGuid);
   }
 
@@ -118,13 +102,7 @@ public class PmcPropertyDaoImpl extends AbstractCrudDao<PmcProperty> implements 
             tQuery = tQuery.setParameter("pmcProjectGuid", pmcProjectGuid);
           result = tQuery.executeUpdate();
         } catch (Exception e) {
-          logger.warn(
-            "An error occurred while deleting PmcProperty with key {}, entityId {}, entityType {} and pmcProjectGuid {}",
-            key,
-            entityId,
-            entityType,
-            pmcProjectGuid,
-            e);
+          log.warn("An error occurred while deleting properties like {} for project with guid {} and entity {}@{}", key, pmcProjectGuid, entityType, entityId);
           throw e;
         }
       }
@@ -139,14 +117,8 @@ public class PmcPropertyDaoImpl extends AbstractCrudDao<PmcProperty> implements 
 
   @Override
   public List<PmcProperty> getPropertiesLike(String keyLike, Long entityId, String entityType, Long pmcProjectGuid) {
-    if (logger.isDebugEnabled()) {
-      logger.debug(
-      "looking for properties with keyLike {}, entityId {}, entityType {}, pmcProjectGuid {}",
-      keyLike,
-      entityId,
-      entityType,
-      pmcProjectGuid);
-    }
+    log.debug("Retrieving properties like {} for project with guid {} and entity {}@{}", keyLike, pmcProjectGuid, entityType, entityId);
+
     List<PmcProperty> result = null;
     try {
 
@@ -167,13 +139,7 @@ public class PmcPropertyDaoImpl extends AbstractCrudDao<PmcProperty> implements 
         tQuery = tQuery.setParameter("pmcProjectGuid", pmcProjectGuid);
       result = tQuery.getResultList();
     } catch (Exception e) {
-      logger.warn(
-        "An error occured while loading PmcProperty with keyLike {}, entityId {}, entityType {} and pmcProjectGuid {}",
-        keyLike,
-        entityId,
-        entityType,
-        pmcProjectGuid,
-        e);
+      log.warn("An error occured while retrieving properties like {} for project with guid {} and entity {}@{}", keyLike, pmcProjectGuid, entityType, entityId);
       throw e;
     }
     return result;
@@ -181,16 +147,8 @@ public class PmcPropertyDaoImpl extends AbstractCrudDao<PmcProperty> implements 
 
   @Override
   public List<PmcProperty> getPropertiesLikeWithValue(String keyLike, String value, String valueType, Long entityId, String entityType, Long pmcProjectGuid) {
-    if (logger.isDebugEnabled()) {
-      logger.debug(
-      "looking for properties with keyLike {}, value {}, valueType {}, entityId {}, entityType {}, pmcProjectGuid {}",
-      keyLike,
-      value,
-      valueType,
-      entityId,
-      entityType,
-      pmcProjectGuid);
-    }
+    log.debug("Retrieving properties like {} with value ({}) {} for project with guid {} and entity {}@{}", keyLike, valueType, value, pmcProjectGuid, entityType, entityId);
+
     List<PmcProperty> result;
     try {
 
@@ -215,7 +173,7 @@ public class PmcPropertyDaoImpl extends AbstractCrudDao<PmcProperty> implements 
         tQuery = tQuery.setParameter("pmcProjectGuid", pmcProjectGuid);
       result = tQuery.getResultList();
     } catch (Exception e) {
-      logger.warn(
+      log.warn(
         "An error occured while loading PmcProperty with keyLike {}, value {}, valueType {}, entityId {}, entityType {} and pmcProjectGuid {}",
         keyLike,
         value,
@@ -231,6 +189,8 @@ public class PmcPropertyDaoImpl extends AbstractCrudDao<PmcProperty> implements 
 
   @Override
   public List<PmcProperty> getPropertiesForProject(Long pmcProjectGuid) {
+    log.debug("Retrieving properties for project with guid {}", pmcProjectGuid);
+
     return em
       .createQuery("select p FROM PmcProperty p where p.pmcProject.guid = :pmcProjectGuid", PmcProperty.class)
       .setParameter("pmcProjectGuid", pmcProjectGuid)

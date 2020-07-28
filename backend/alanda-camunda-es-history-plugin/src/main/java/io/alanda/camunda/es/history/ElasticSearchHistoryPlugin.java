@@ -15,8 +15,6 @@ package io.alanda.camunda.es.history;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.camunda.bpm.engine.impl.cfg.AbstractProcessEnginePlugin;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
@@ -30,10 +28,12 @@ import io.alanda.camunda.es.history.index.ElasticSearchIndexStrategy;
 import io.alanda.camunda.es.history.session.ElasticSearchSessionFactory;
 import io.alanda.camunda.es.history.util.ClassUtil;
 import io.alanda.camunda.es.history.util.ElasticSearchHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ElasticSearchHistoryPlugin extends AbstractProcessEnginePlugin {
 
-  protected static final Logger LOGGER = Logger.getLogger(ElasticSearchHistoryPlugin.class.getName());
+  private static final Logger log = LoggerFactory.getLogger(ElasticSearchHistoryPlugin.class);
 
   public static final String ES_DEFAULT_HISTORY_EVENT_HANDLER = ElasticSearchTransactionAwareHistoryEventHandler.class.getName();
 
@@ -104,7 +104,7 @@ public class ElasticSearchHistoryPlugin extends AbstractProcessEnginePlugin {
       ElasticSearchHelper
         .checkTypeAndMapping(elasticSearchClient.get(), historyPluginConfiguration.getIndex(), historyPluginConfiguration.getType());
     } catch (IOException e) {
-      LOGGER.log(Level.SEVERE, "Error connection to ElasticSearch: " + e.getMessage(), e);
+      log.warn("Error connection to ElasticSearch: {}", e.getMessage(), e);
 
     }
 

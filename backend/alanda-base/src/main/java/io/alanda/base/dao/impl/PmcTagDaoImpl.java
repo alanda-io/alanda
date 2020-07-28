@@ -14,7 +14,7 @@ import io.alanda.base.entity.PmcTag;
 
 public class PmcTagDaoImpl extends AbstractCrudDao<PmcTag> implements PmcTagDao {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcTagDaoImpl.class);
 
   public PmcTagDaoImpl() {
     // TODO Auto-generated constructor stub
@@ -30,10 +30,12 @@ public class PmcTagDaoImpl extends AbstractCrudDao<PmcTag> implements PmcTagDao 
 
   @Override
   public PmcTag getByText(String text) {
+    log.debug("Retrieving tag having text {}", text);
+
     try {
       return em.createQuery("select p FROM PmcTag p where p.text = :text", PmcTag.class).setParameter("text", text).getSingleResult();
     } catch (NoResultException e) {
-      logger.info("NoResultException lautet so: " + e);
+      log.info("NoResultException lautet so: {}", e);
       //      PmcTag pmcTag = new PmcTag();
       //      pmcTag.setText(text);
       //      return this.create(pmcTag);
@@ -45,6 +47,8 @@ public class PmcTagDaoImpl extends AbstractCrudDao<PmcTag> implements PmcTagDao 
 
   @Override
   public List<PmcTag> getTagList(String query) {
+    log.debug("Retrieving tags matching {}", query);
+
     if (query == null)
       query = "";
 

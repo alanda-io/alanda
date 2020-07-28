@@ -49,7 +49,7 @@ import io.alanda.base.util.UserContext;
 @ApplicationScoped
 public class PmcBatchCreationServiceImpl implements PmcBatchCreationService {
 
-  private static final Logger logger = LoggerFactory.getLogger(PmcBatchCreationServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcBatchCreationServiceImpl.class);
 
   @Inject
   private Instance<PmcProjectBatchCreateDelegate> batchCreateDelegate;
@@ -75,6 +75,8 @@ public class PmcBatchCreationServiceImpl implements PmcBatchCreationService {
 
   @Override
   public String startBatchProjects(String projectTypeName, InputStream inputStream) {
+    log.info("Starting batch creation for project type {}", projectTypeName);
+
     PmcProjectTypeDto projectType = this.projectService.getProjectType(projectTypeName);
     try {
       return parseExcel(projectType, inputStream);
@@ -84,6 +86,7 @@ public class PmcBatchCreationServiceImpl implements PmcBatchCreationService {
   }
 
   private String parseExcel(PmcProjectTypeDto projectType, InputStream input) throws Exception {
+    log.info("Parsing excel for project type {}...", projectType);
 
     Workbook wb = WorkbookFactory.create(input);
 
@@ -96,7 +99,7 @@ public class PmcBatchCreationServiceImpl implements PmcBatchCreationService {
     Row configRow = sheet.getRow(1);
 
     ExcelProjectConfig cfg = parseConfig(configRow);
-    logger.info("Parsed Excel File, config: " + cfg);
+    log.info("...parsed Excel File, config: {}", cfg);
     final String successMessage = "Check OK, starting process...";
 
     List<BatchProjectDto> batchProjects = new ArrayList<>();
@@ -230,10 +233,10 @@ public class PmcBatchCreationServiceImpl implements PmcBatchCreationService {
           c.setCellValue(successMessage);
 
         } catch (RuntimeException e) {
-          logger.error(e.getMessage());
+          log.error(e.getMessage());
           throw new RuntimeException(e);
         } catch (Exception e) {
-          logger.error(e.getMessage(), e);
+          log.error(e.getMessage(), e);
           Cell c = r.getCell(cfg.getResultMessage());
           if (c == null)
             c = r.createCell(cfg.getResultMessage());
@@ -241,7 +244,7 @@ public class PmcBatchCreationServiceImpl implements PmcBatchCreationService {
         }
       }
     }
-    logger.info("Parsed Data: " + batchProjects);
+    log.info("Parsed Data: {}", batchProjects);
     Map<String, Object> vars = new HashMap<>();
     vars.put(BatchVariables.PROJECT_TYPE, projectType.getIdName());
     vars.put(BatchVariables.PROJECT_CONFIG, cfg);

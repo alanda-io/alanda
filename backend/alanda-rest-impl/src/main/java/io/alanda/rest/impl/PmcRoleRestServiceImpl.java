@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 /** @author developer */
 public class PmcRoleRestServiceImpl implements PmcRoleRestService {
 
-  private final Logger logger = LoggerFactory.getLogger(PmcRoleRestServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcRoleRestServiceImpl.class);
 
   @Inject private PmcRoleService pmcRoleService;
 

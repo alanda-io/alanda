@@ -19,8 +19,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import io.alanda.base.dao.DocumentDao;
 import io.alanda.base.dto.DirectoryInfoDto;
@@ -32,6 +30,8 @@ import io.alanda.base.service.ConfigService;
 import io.alanda.base.service.DocuService;
 import io.alanda.base.service.DocumentService;
 import io.alanda.base.service.FileService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Stateless
 @Named("documentService")
@@ -39,7 +39,7 @@ import io.alanda.base.service.FileService;
 @Priority(0)
 public class DocumentServiceImpl implements DocumentService {
 
-  protected static Log logger = LogFactory.getLog(DocumentServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(DocumentServiceImpl.class);
 
   @Inject
   private FileService fileService;
@@ -55,6 +55,8 @@ public class DocumentServiceImpl implements DocumentService {
 
   @Override
   public void getAll(DocuQueryDto query, OutputStream output) throws IOException {
+    log.info("Writing all documents matching \"{}\" as ZIP file to output stream", query);
+
     DirectoryInfoDto di = docuService.getDirectoryInfo(query);
     //    String zipFileName = buildZipFileName(di.getFolderPath());
 
@@ -107,7 +109,7 @@ public class DocumentServiceImpl implements DocumentService {
       doc = documentDao.update(doc);
     }
     fileInfo.setGuid(String.valueOf(doc.getGuid()));
-    logger.info("Attemping to write to: " + fullPath);
+    log.info("Attemping to write to: {}", fullPath);
     fileService.writeFile(convertToFileSystemPath(fullPath), input);
     return fileInfo;
   }
@@ -140,7 +142,7 @@ public class DocumentServiceImpl implements DocumentService {
     if ( !keepArchive) {
       documentDao.delete(doc);
       boolean deleted = f.delete();
-      logger.info("Deleted ZipFile " + f.getName() + ", success=" + deleted + ", extracted: " + fileNames);
+      log.info("Deleted ZipFile {}, success={}, extracted: {}", f.getName(), deleted, fileNames);
     }
     return fileNames;
   }
@@ -167,7 +169,7 @@ public class DocumentServiceImpl implements DocumentService {
   public void delete(String documentId) throws IOException {
     Document doc = documentDao.getById(Long.valueOf(documentId));
     String fsPath = convertToFileSystemPath(doc.getPath() + "/" + doc.getFileName());
-    logger.info("Deleting file: " + fsPath);
+    log.info("Deleting document: {}", fsPath);
     fileService.deleteFile(fsPath);
     documentDao.delete(doc);
   }
@@ -177,7 +179,7 @@ public class DocumentServiceImpl implements DocumentService {
     Document doc = documentDao.getById(Long.valueOf(documentId));
     String fsDir = convertToFileSystemPath(doc.getPath());
     fileService.moveFile(fsDir + "/" + doc.getFileName(), fsDir + "/" + newDocumentName);
-
+    log.info("Renaming document from {} to {}", doc.getFileName(), newDocumentName);
     doc.setFileName(newDocumentName);
     documentDao.update(doc);
   }
@@ -193,7 +195,6 @@ public class DocumentServiceImpl implements DocumentService {
 
   @Override
   public DocumentSimpleDto store(DocuQueryDto query, byte[] input, DocumentSimpleDto fileInfo) throws IOException {
-
     DirectoryInfoDto di = docuService.getDirectoryInfo(query);
     return storeInt(di, input, fileInfo);
   }
@@ -219,10 +220,10 @@ public class DocumentServiceImpl implements DocumentService {
 
   @Override
   public DirectoryInfoDto getTree(DocuQueryDto query) {
-    logger.info("getTree() query : " + query);
+    log.info("Getting document tree for query : {}", query);
     DirectoryInfoDto dirInfo = docuService.getDirectoryInfo(query);
     DocuFolderDto folder = dirInfo.getConfig().getSourceFolder();
-    logger.info("FS Root Folder: " + convertToFileSystemPath(folder.getPath()));
+    log.trace("FS Root Folder: {}", convertToFileSystemPath(folder.getPath()));
     if (query.fileCount) {
       for (DocuFolderDto currFolder : flatten(folder)) {
         String folderPath = currFolder.getPath();
