@@ -47,7 +47,7 @@ public class NegotiateWaffleRealm extends AuthorizingRealm {
   /**
    * This class's private logger.
    */
-  private static final Logger LOGGER = LoggerFactory.getLogger(NegotiateWaffleRealm.class);
+  private static final Logger log = LoggerFactory.getLogger(NegotiateWaffleRealm.class);
 
   /** The windows auth provider. */
   private final IWindowsAuthProvider windowsAuthProvider;
@@ -85,8 +85,8 @@ public class NegotiateWaffleRealm extends AuthorizingRealm {
       }
       String loginName = fqn.substring(fqn.indexOf("\\") + 1, fqn.length());
       user = userCache.get(loginName);
-      if (LOGGER.isDebugEnabled()) {
-        LOGGER.debug("User for Authorization: " + user.getLoginName());
+      if (log.isDebugEnabled()) {
+        log.debug("User for Authorization: {}", user.getLoginName());
       }
       return (AuthorizationInfo) user;
     }
@@ -115,19 +115,19 @@ public class NegotiateWaffleRealm extends AuthorizingRealm {
     try {
       securityContext = this.windowsAuthProvider.acceptSecurityToken(token.getConnectionId(), inToken, token.getSecurityPackage());
     } catch (final Exception e) {
-      LOGGER.warn("error logging in user: {}", e.getMessage());
-      LOGGER.warn("user: credentials - {}", token.getCredentials());
-      LOGGER.warn("user: subject - {}", token.getSubject());
-      LOGGER.warn("user: principal - {}", token.getPrincipal());
+      log.warn("error logging in user: {}", e.getMessage());
+      log.warn("user: credentials - {}", token.getCredentials());
+      log.warn("user: subject - {}", token.getSubject());
+      log.warn("user: principal - {}", token.getPrincipal());
       throw new AuthenticationException(e);
     }
 
     final byte[] continueTokenBytes = securityContext.getToken();
     token.setOut(continueTokenBytes);
     if (continueTokenBytes != null) {
-      LOGGER.debug("continue token bytes: {}", continueTokenBytes.length);
+      log.debug("continue token bytes: {}", continueTokenBytes.length);
     } else {
-      LOGGER.debug("no continue token bytes");
+      log.debug("no continue token bytes");
     }
 
     if (securityContext.isContinue() || token.isNtlmPost()) {
@@ -137,7 +137,7 @@ public class NegotiateWaffleRealm extends AuthorizingRealm {
     final IWindowsIdentity windowsIdentity = securityContext.getIdentity();
     securityContext.dispose();
 
-    LOGGER.info("logged in user: {} ({})", windowsIdentity.getFqn(), windowsIdentity.getSidString());
+    log.info("logged in user: {} ({})", windowsIdentity.getFqn(), windowsIdentity.getSidString());
 
     String fqn = windowsIdentity.getFqn();
     String loginName = fqn.substring(fqn.indexOf("\\") + 1, fqn.length());

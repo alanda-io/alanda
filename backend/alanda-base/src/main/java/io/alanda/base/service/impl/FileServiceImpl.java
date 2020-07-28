@@ -22,7 +22,7 @@ import io.alanda.base.service.FileService;
 
 public class FileServiceImpl implements FileService {
 
-  private final Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(FileServiceImpl.class);
 
   @Override
   public File[] listDirectories(File directory) {
@@ -40,12 +40,12 @@ public class FileServiceImpl implements FileService {
 
   @Override
   public void copyDirectory(File srcDir, File destDir) throws IOException {
-    logger.debug("try to copy:: " + srcDir.getPath() + " --> " + destDir.getPath());
+    log.debug("try to copy:: {} --> {}", srcDir.getPath(), destDir.getPath());
 
     String destDirTotalPath = FilenameUtils.concat(destDir.getPath(), srcDir.getName());
     FileUtils.copyDirectory(srcDir, new File(destDirTotalPath));
 
-    logger.debug("successfully copied");
+    log.debug("successfully copied");
   }
 
   @Override
@@ -93,7 +93,7 @@ public class FileServiceImpl implements FileService {
       path = matchedFiles[0].getAbsolutePath();
     }
     FileUtils.moveFile(new File(path), new File(path + "." + processInstanceId));
-    logger.debug(path + " was renamed");
+    log.debug("{} was renamed", path);
   }
 
   @Override
@@ -114,7 +114,7 @@ public class FileServiceImpl implements FileService {
       fop.write(content);
       fop.flush();
     } catch (IOException ex) {
-      logger.warn("Error writing file to path: " + path + " : " + ex.getMessage());
+      log.warn("Error writing file to path: {} : {}", path, ex.getMessage());
     } finally {
       IOUtils.closeQuietly(fop);
     }
@@ -131,12 +131,12 @@ public class FileServiceImpl implements FileService {
     File file = new File(path);
 
     if (!file.exists()) {
-      logger.warn(String.format("delete file: no file found for path %s", path));
+      log.warn("delete file: no file found for path {}", path);
       return;
     }
     if (file.isFile()) {
       boolean success = file.delete();
-      logger.info("Deleting file: " + file.getCanonicalPath() + ", success=" + success);
+      log.info("Deleting file: {}, success={}", file.getCanonicalPath(), success);
     } else {
       throw new IllegalArgumentException("Can't delete file " + path + ": It's a folder");
     }

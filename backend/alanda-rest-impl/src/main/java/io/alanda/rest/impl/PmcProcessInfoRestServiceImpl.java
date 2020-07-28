@@ -27,7 +27,7 @@ import io.alanda.rest.ProcessInfoBaseRestService;
 
 public class PmcProcessInfoRestServiceImpl implements ProcessInfoBaseRestService {
   
-  private final Logger logger = LoggerFactory.getLogger(PmcProcessInfoRestServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcProcessInfoRestServiceImpl.class);
   
   @Inject
   private RuntimeService runtimeService;
@@ -40,8 +40,8 @@ public class PmcProcessInfoRestServiceImpl implements ProcessInfoBaseRestService
 
   @Override
   public List<ProcessDto> processData(String processInstanceId, final String processPackageKey) {
-    logger.info(processInstanceId);
-    logger.info(processPackageKey);
+    log.info(processInstanceId);
+    log.info(processPackageKey);
 
     List<ProcessDto> retVal = new ArrayList<>();
     List<ProcessInstance> piList = this.runtimeService
@@ -50,13 +50,13 @@ public class PmcProcessInfoRestServiceImpl implements ProcessInfoBaseRestService
       .list();
     //
     if (piList != null) {
-      logger.info(piList.toString());
+      log.info(piList.toString());
     } else {
-      logger.info("query did not return processInstances for processPackageKey " + processPackageKey);
+      log.info("query did not return processInstances for processPackageKey {}", processPackageKey);
     }
 
     for (ProcessInstance pi : piList) {
-      System.err.println("found process instances " + pi);
+      log.debug("Found process instance: {}", pi);
       ProcessDto dto = new ProcessDto();
       ProcessDefinition processDefinition = repositoryService.getProcessDefinition(pi.getProcessDefinitionId());
       dto.setBusinessKey(pi.getBusinessKey());
@@ -82,7 +82,7 @@ public class PmcProcessInfoRestServiceImpl implements ProcessInfoBaseRestService
       }
     });
 
-    logger.info("retVal size " + retVal.size());
+    log.info("retVal size {}", retVal.size());
     return retVal;
   }
 

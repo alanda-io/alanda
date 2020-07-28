@@ -25,7 +25,7 @@ public class PmcProjectHistoryRestResourceImpl extends AbstractProjectRestResour
     PmcProjectHistoryRestResource {
 
   @SuppressWarnings("unused")
-  private static final Logger logger = LoggerFactory.getLogger(PmcProjectHistoryRestResourceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcProjectHistoryRestResourceImpl.class);
 
   public PmcProjectHistoryRestResourceImpl(PmcProjectRestResourceImpl projectRestResource) {
     super(projectRestResource);

@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 @Provider
 public class PmcExceptionMapper implements ExceptionMapper<Throwable> {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcExceptionMapper.class);
 
   @Override
   public Response toResponse(Throwable e) {
@@ -37,13 +37,13 @@ public class PmcExceptionMapper implements ExceptionMapper<Throwable> {
     exception.setMessage(e.getMessage());
     if (e instanceof ForbiddenException) {
       exception.setStatus(Response.Status.FORBIDDEN.getStatusCode());
-      logger.warn(e.getMessage());
+      log.warn(e.getMessage());
     } else {
       exception.setStatus(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
       StringWriter errorStackTrace = new StringWriter();
       e.printStackTrace(new PrintWriter(errorStackTrace));
       exception.setStackTrace(errorStackTrace.toString());
-      logger.error(exception.getStackTrace());
+      log.error(exception.getStackTrace());
     }
     return Response.status(exception.getStatus()).entity(exception).type(MediaType.APPLICATION_JSON).build();
   }

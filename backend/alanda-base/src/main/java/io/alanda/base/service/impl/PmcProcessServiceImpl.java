@@ -69,7 +69,7 @@ import com.google.common.cache.LoadingCache;
 @Named("pmcProcessService")
 public class PmcProcessServiceImpl implements PmcProcessService {
 
-  Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcProcessServiceImpl.class);
 
   private final String ES_QUERY_PROCESS_TEMPLATE = "es_query_process.template";
 
@@ -123,7 +123,7 @@ public class PmcProcessServiceImpl implements PmcProcessService {
             .latestVersion()
             .singleResult();
           if (pd == null) {
-            logger.warn("no procDef found for key: " + processKey);
+            log.warn("no procDef found for key: {}", processKey);
             return new ProcessDefinitionDto(processKey, processKey);
           }
           return new ProcessDefinitionDto(pd.getName(), pd.getKey());
@@ -186,7 +186,7 @@ public class PmcProcessServiceImpl implements PmcProcessService {
   @Override
   public PmcProjectProcessDto startProjectProcess(Long processGuid, Map<String, Object> processVars) {
 
-    logger.info("starting project process with guid " + processGuid);
+    log.info("starting project process with guid {}", processGuid);
 
     PmcProjectProcess process = getByGuid(processGuid);
     PmcProjectProcess mainProcess = pmcProjectProcessDao.getMainProcessByProject(process.getPmcProject().getGuid());
@@ -261,7 +261,7 @@ public class PmcProcessServiceImpl implements PmcProcessService {
     process = pmcProjectProcessDao.getById(process.getGuid());
     pmcProjectProcessDao.getEntityManager().flush();
     pmcProjectProcessDao.getEntityManager().detach(process);
-    logger.info(" now reload Process: " + process.getGuid());
+    log.info(" now reload Process: {}", process.getGuid());
     process = getByGuid(process.getGuid());
     if ( !validProcessInstanceId(process.getProcessInstanceId())) {
 
@@ -277,7 +277,7 @@ public class PmcProcessServiceImpl implements PmcProcessService {
       }
 
       ProcessInstance pi = piList.get(0);
-      logger.info("found process instance id: " + pi.getProcessInstanceId());
+      log.info("found process instance id: {}", pi.getProcessInstanceId());
       process.setProcessInstanceId(pi.getProcessInstanceId());
       process.setLabel(repositoryService.getProcessDefinition(pi.getProcessDefinitionId()).getName());
     }
@@ -302,14 +302,8 @@ public class PmcProcessServiceImpl implements PmcProcessService {
 
   @Override
   public void setProcessData(Long pmcProjectProcessGuid, String processInstanceId, String label) {
-    logger
-      .info(
-        "setProcessData: pmcProjectProcessGuid: " +
-          pmcProjectProcessGuid +
-          ", processInstanceId: " +
-          processInstanceId +
-          ", label: " +
-          label);
+      log
+              .info("setProcessData: pmcProjectProcessGuid: {}, processInstanceId: {}, label: {}", pmcProjectProcessGuid, processInstanceId, label);
     PmcProjectProcess pp = this.pmcProjectProcessDao.getById(pmcProjectProcessGuid);
     if ( !validProcessInstanceId(pp.getProcessInstanceId())) {
       pp.setProcessInstanceId(processInstanceId);
@@ -333,7 +327,7 @@ public class PmcProcessServiceImpl implements PmcProcessService {
 
     PmcProjectProcess process = getByGuid(processGuid);
     if ( !(process.getStatus().equals(ProcessState.ACTIVE) || process.getStatus().equals(ProcessState.SUSPENDED))) {
-      logger.warn("Process " + process.getGuid() + " can not be stopped because it is not ACTIVE OR SUSPENDED!");
+      log.warn("Process {} can not be stopped because it is not ACTIVE OR SUSPENDED!", process.getGuid());
       return dozerMapper.map(process, PmcProjectProcessDto.class);
     }
 
@@ -357,7 +351,7 @@ public class PmcProcessServiceImpl implements PmcProcessService {
         try {
           pmcProjectProcessGuid = (Long) runtimeService.getVariableLocal(ex.getId(), ProcessVariables.PMC_PROJECT_PROCESS_GUID);
         } catch (Exception e) {
-          logger.info("Execution " + ex.getId() + " macht Problem: " + e.getMessage(), e);
+          log.info("Execution {} macht Problem: {}", ex.getId(), e.getMessage(), e);
         }
         if (pmcProjectProcessGuid != null && pmcProjectProcessGuid.equals(process.getGuid())) {
           foundParentActivity = true;
@@ -367,7 +361,7 @@ public class PmcProcessServiceImpl implements PmcProcessService {
           if (ai == null) {
             throw new IllegalStateException("no activity found for execution " + ex.getId());
           }
-          logger.info("Found activity to kill: " + ai.getActivityId() + "-" + ai.getActivityName());
+          log.info("Found activity to kill: {}-{}", ai.getActivityId(), ai.getActivityName());
           runtimeService.createProcessInstanceModification(mainProcess.getProcessInstanceId()).cancelActivityInstance(ai.getId()).execute();
           break;
         }
@@ -545,7 +539,7 @@ public class PmcProcessServiceImpl implements PmcProcessService {
       }
     }
     tu.stop();
-    logger.info("Duration: " + tu.toString());
+    log.info("Duration: {}", tu);
     return result;
   }
 
@@ -575,7 +569,7 @@ public class PmcProcessServiceImpl implements PmcProcessService {
       process.setLabel(getProcessDefinition(processDefinitionKey).getProcessName());
       return;
     } else {
-      logger.info("process: " + process + " misses processDefinitionKey.");
+      log.info("process: {} misses processDefinitionKey.", process);
       //      process.setLabel("-");
       //      return;
     }
@@ -592,7 +586,7 @@ public class PmcProcessServiceImpl implements PmcProcessService {
     if (processDefinitionId != null)
       process.setLabel(repositoryService.getProcessDefinition(processDefinitionId).getName());
     else
-      logger.warn("can not determine label for process " + process.getProcessInstanceId());
+      log.warn("can not determine label for process {}", process.getProcessInstanceId());
   }
 
   private void addProcessInfoFromElastic(Long pmcProjectGuid, List<PmcProjectProcessDto> activeProcesses) {
@@ -692,7 +686,7 @@ public class PmcProcessServiceImpl implements PmcProcessService {
   @Override
   public void mainProcessEnded(DelegateExecution execution) {
 
-    logger.info("Main process end handling started...");
+    log.info("Main process end handling started...");
 
     LongValue pmcProjectGuid = execution.getVariableTyped(ProcessVariables.PMC_PROJECT_GUID);
     PmcProject p = pmcProjectDao.getById(pmcProjectGuid.getValue());
@@ -711,7 +705,7 @@ public class PmcProcessServiceImpl implements PmcProcessService {
   @Override
   public void mainProcessCanceled(DelegateExecution execution) {
 
-    logger.info("Main process end handling started...");
+    log.info("Main process end handling started...");
 
     LongValue pmcProjectGuid = execution.getVariableTyped(ProcessVariables.PMC_PROJECT_GUID);
     PmcProject p = pmcProjectDao.getById(pmcProjectGuid.getValue());
@@ -743,7 +737,7 @@ public class PmcProcessServiceImpl implements PmcProcessService {
       String workDetails,
       Map<String, Object> processVars) {
     PmcProjectDto pmcProjectDto = pmcProjectService.getProjectByGuid(pmcProjectGuid);
-    logger.info("starting process " + processKey + " in project " + pmcProjectDto.toShortString());
+    log.info("starting process {} in project {}", processKey, pmcProjectDto.toShortString());
     PmcProjectProcessDto pPPD = new PmcProjectProcessDto();
     pPPD.setRelation(ProcessRelation.CHILD.toString());
     pPPD.setWorkDetails(workDetails);
@@ -764,7 +758,7 @@ public class PmcProcessServiceImpl implements PmcProcessService {
   }
 
   private void throwWebAppException(String logMessage, String responseMessage) {
-    logger.error(logMessage);
+    log.error(logMessage);
     throw new WebApplicationException(
       Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(responseMessage).type(MediaType.TEXT_PLAIN).build());
   }

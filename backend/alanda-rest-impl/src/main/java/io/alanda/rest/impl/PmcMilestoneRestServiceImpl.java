@@ -26,7 +26,7 @@ import io.alanda.rest.PmcMilestoneRestService;
 
 public class PmcMilestoneRestServiceImpl implements PmcMilestoneRestService {
 
-  protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcMilestoneRestServiceImpl.class);
 
   @Inject
   private PmcProjectService pmcProjectService;
@@ -50,7 +50,7 @@ public class PmcMilestoneRestServiceImpl implements PmcMilestoneRestService {
 
   @Override
   public MilestoneDto getMileByGuid(Long milestoneGuid) {
-    logger.info("milestoneGuid: " + milestoneGuid);
+    log.info("milestoneGuid: {}", milestoneGuid);
     return pmcProjectService.getMileById(milestoneGuid);
   }
 
@@ -86,23 +86,23 @@ public class PmcMilestoneRestServiceImpl implements PmcMilestoneRestService {
 
   @Override
   public Long createProjectMilestone(String reason, PmcProjectMilestoneDto projectMilestoneDto) {
-    logger.info("projectMilestoneDto: " + projectMilestoneDto);
+    log.info("projectMilestoneDto: {}", projectMilestoneDto);
     Long projectGuid = projectMilestoneDto.getProject().getGuid();
     String milestoneIdName = projectMilestoneDto.getMilestone().getIdName();
     Date fc = projectMilestoneDto.getFc();
     Date act = projectMilestoneDto.getAct();
     Date baseline = projectMilestoneDto.getFc();
-    logger.info("reason: " + reason);
+    log.info("reason: {}", reason);
     return pmcProjectService.createProjectMilestone(projectGuid, milestoneIdName, fc, act, baseline, reason);
   }
 
   @Override
   public Response updateProjectMilestone(Long projectMilestoneGuid, String reason, PmcProjectMilestoneDto projectMilestoneDto) {
-    logger.info("projectMilestoneGuid: " + projectMilestoneGuid);
-    logger.info("projectMilestoneDto: " + projectMilestoneDto);
+    log.info("projectMilestoneGuid: {}", projectMilestoneGuid);
+    log.info("projectMilestoneDto: {}", projectMilestoneDto);
     Date fc = projectMilestoneDto.getFc();
     Date act = projectMilestoneDto.getAct();
-    logger.info("reason: " + reason);
+    log.info("reason: {}", reason);
     pmcProjectService.updateProjectMilestone(projectMilestoneGuid, fc, false, act, false, reason);
     return Response.ok().build();
   }

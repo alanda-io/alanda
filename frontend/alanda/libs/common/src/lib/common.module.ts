@@ -98,6 +98,8 @@ import { AlandaProjectAndProcessesComponent } from './components/project-and-pro
 import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
 import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-checkbox.component';
 import { AlandaProjectAndProcessesService } from './components/project-and-processes/project-and-processes.service';
+import { AlandaProcessMessageApiService } from './api/processMessageApi.service';
+import { AlandaVarDatepickerComponent } from './form/components/var-datepicker/var-datepicker.component';
 
 @NgModule({
   imports: [
@@ -183,6 +185,7 @@ import { AlandaProjectAndProcessesService } from './components/project-and-proce
     PapSubprocessPropertyInputComponent,
     ProcessConfigDirective,
     AlandaVarCheckboxComponent,
+    AlandaVarDatepickerComponent,
   ],
   exports: [
     PermissionModule,
@@ -224,12 +227,13 @@ import { AlandaProjectAndProcessesService } from './components/project-and-proce
     ProcessConfigDirective,
     PhaseTabModule,
     AlandaVarCheckboxComponent,
+    AlandaVarDatepickerComponent,
   ],
   entryComponents: [
     PapRelateDialogComponent,
     AlandaVarSelectComponent,
     AlandaPropSelectComponent,
-    PapConfigDialogComponent
+    PapConfigDialogComponent,
   ],
 })
 export class AlandaCommonModule {
@@ -244,6 +248,7 @@ export class AlandaCommonModule {
         AlandaGroupApiService,
         AlandaHistoryApiService,
         AlandaMilestoneApiService,
+        AlandaProcessMessageApiService,
         AlandaPermissionApiService,
         AlandaProcessApiService,
         AlandaProjectApiService,

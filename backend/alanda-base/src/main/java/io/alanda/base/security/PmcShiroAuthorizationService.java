@@ -30,7 +30,7 @@ import io.alanda.base.service.PmcPropertyService;
 @ApplicationScoped
 public class PmcShiroAuthorizationService {
 
-  protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcShiroAuthorizationService.class);
 
   //TODO: replace with Cache
   private final HashMap<Long, String> projectKeys = new HashMap<>();
@@ -179,6 +179,8 @@ public class PmcShiroAuthorizationService {
   }
 
   public String addOrUpdateBaseAuthKeyForProject(PmcProjectDto project) {
+    log.debug("Setting auth key for project {}", project);
+
     String key = "#{permissions}:" + project.getPmcProjectType().getIdName();
     if ((project.getActivePhases() == null) || (project.getActivePhases().length == 0)) {
       key += ":none";
@@ -202,11 +204,12 @@ public class PmcShiroAuthorizationService {
       key += ":none";
     }
     projectKeys.put(project.getGuid(), key);
-    logger.info("AuthKey for Project #" + project.getProjectId() + "(" + project.getGuid() + "): " + key);
+    log.info("...auth key for project {} (guid: {}) set to: {}", project.getProjectId(), project.getGuid(), key);
     return key;
   }
 
   public void invalidateAuthKey(Long projectGuid) {
+    log.info("Invalidating auth key for project with guid {}", projectGuid);
     projectKeys.remove(projectGuid);
   }
 

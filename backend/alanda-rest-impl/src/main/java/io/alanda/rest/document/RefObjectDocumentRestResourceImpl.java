@@ -8,8 +8,6 @@ import javax.inject.Inject;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.core.Context;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jboss.resteasy.spi.HttpRequest;
 
 import io.alanda.base.dto.DirectoryInfoDto;
@@ -18,13 +16,15 @@ import io.alanda.base.dto.DocuQueryDto;
 import io.alanda.base.service.DocumentService;
 
 import io.alanda.rest.security.DocumentAuthorizationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author jlo
  */
 public class RefObjectDocumentRestResourceImpl implements RefObjectDocumentRestResource {
 
-  protected static Log logger = LogFactory.getLog(RefObjectDocumentRestResourceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(RefObjectDocumentRestResourceImpl.class);
 
   @Context
   HttpRequest request;
@@ -42,7 +42,7 @@ public class RefObjectDocumentRestResourceImpl implements RefObjectDocumentRestR
    */
   @Override
   public DocuFolderDto getTree(boolean fileCount, String mappings) {
-    logger.info("query=" + query);
+    log.info("query={}", query);
     query.fileCount = fileCount;
     DirectoryInfoDto dir = documentService.getTree(query);
     DocuFolderDto ret = dir.getConfig().getSourceFolder();

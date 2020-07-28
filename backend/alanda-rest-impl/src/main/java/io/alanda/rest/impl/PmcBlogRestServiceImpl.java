@@ -19,16 +19,16 @@ import io.alanda.rest.PmcBlogRestService;
 
 public class PmcBlogRestServiceImpl implements PmcBlogRestService {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcBlogRestServiceImpl.class);
 
   @Inject
   private PmcBlogService pmcBlogService;
 
   @Override
   public List<PmcBlogDto> getPosts(String status, int first, int count) {
-    logger.info("status in RestServiceImpl: " + status);
-    logger.info("first in RestServiceImpl: " + first);
-    logger.info("count in RestServiceImpl: " + count);
+    log.info("status in RestServiceImpl: {}", status);
+    log.info("first in RestServiceImpl: {}", first);
+    log.info("count in RestServiceImpl: {}", count);
     List<PmcBlogDto> pmcBlogDtos = pmcBlogService.getBlogList(status, first, count);
     for (PmcBlogDto blog : pmcBlogDtos) {
       blog.setContent(null);
@@ -64,8 +64,8 @@ public class PmcBlogRestServiceImpl implements PmcBlogRestService {
 
   @Override
   public PmcBlogDto updateBlogPost(PmcBlogDto pmcBlogDto) {
-    logger.info("  *  *  *  *  *  *  *  *  *  *  *  *  * ");
-    logger.info(pmcBlogDto.getAuthorFirstName());
+    log.info("  *  *  *  *  *  *  *  *  *  *  *  *  * ");
+    log.info(pmcBlogDto.getAuthorFirstName());
     pmcBlogService.updateBlog(pmcBlogDto);
     return pmcBlogDto;
   }
@@ -84,20 +84,20 @@ public class PmcBlogRestServiceImpl implements PmcBlogRestService {
 
   @Override
   public Response modifyPublishedBLogPost(Long pmcBlogPostId) {
-    logger.info("pmcBlogPostId: " + pmcBlogPostId.toString());
+    log.info("pmcBlogPostId: {}", pmcBlogPostId);
     ProcessInstance pi;
-    logger.info("* * * * * * PmcBlogRestServiceImpl.modifyPublishedBlogPost * * * * *");
+    log.info("* * * * * * PmcBlogRestServiceImpl.modifyPublishedBlogPost * * * * *");
     pi = pmcBlogService.modifyPublishedBlogPost(pmcBlogPostId);
     if (pi != null) {
-      logger.info("* * * *  in if:  ");
-      logger.info("pi pi pi pi: " + pi.toString());
+      log.info("* * * *  in if:  ");
+      log.info("pi pi pi pi: {}", pi);
       ProcessDto processDto = new ProcessDto();
       processDto.setProcessInstanceId(pi.getProcessInstanceId());
       return new ResponseBuilderImpl().entity(processDto).status(Status.CREATED).build();
     } else {
-      logger.info("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+      log.info("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
       //      logger.debug(pi.toString());
-      logger.info("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
+      log.info("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
       return new ResponseBuilderImpl().status(304).build();
     }
   }

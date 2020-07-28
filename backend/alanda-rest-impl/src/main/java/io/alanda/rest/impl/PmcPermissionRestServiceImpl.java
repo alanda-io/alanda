@@ -22,7 +22,7 @@ import io.alanda.rest.PmcPermissionRestService;
  */
 public class PmcPermissionRestServiceImpl implements PmcPermissionRestService {
 
-  private Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcPermissionRestServiceImpl.class);
 
   @Inject
   private PmcPermissionService pmcPermissionService;

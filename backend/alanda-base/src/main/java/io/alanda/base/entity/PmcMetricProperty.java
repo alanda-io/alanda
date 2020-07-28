@@ -32,8 +32,7 @@ public class PmcMetricProperty extends AbstractEntity implements Serializable {
     LOCAL_DATE_TIME
   }
 
-  @Transient
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcMetricProperty.class);
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "REF_ENTITY")

@@ -30,7 +30,7 @@ import io.alanda.base.service.DocumentService;
  */
 public class DocumentRestResourceImpl implements DocumentRestResource {
 
-  private static final Logger logger = LoggerFactory.getLogger(DocumentRestResourceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(DocumentRestResourceImpl.class);
 
   @Inject
   private DocumentService documentService;
@@ -44,7 +44,7 @@ public class DocumentRestResourceImpl implements DocumentRestResource {
    */
   @Override
   public Response download(boolean inline) throws IOException {
-    logger.info("Download called.: " + query + ", guid: " + documentGuid);
+    log.info("Download called.: {}, guid: {}", query, documentGuid);
     if (documentGuid == null) {
       throw new InvalidRequestException(Status.BAD_REQUEST, "query parameter documentGuid was not provided");
     }
@@ -79,7 +79,7 @@ public class DocumentRestResourceImpl implements DocumentRestResource {
 
   @Override
   public Response downloadFromHistory(String versionString, boolean inline) throws IOException {
-    logger.info("DownloadFromHistory called.: " + query + ", guid: " + documentGuid + ", version: " + versionString + ".");
+    log.info("DownloadFromHistory called.: {}, guid: {}, version: {}.", query, documentGuid, versionString);
     if (documentGuid == null) {
       throw new InvalidRequestException(Status.BAD_REQUEST, "query parameter documentGuid was not provided");
     }

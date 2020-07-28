@@ -56,7 +56,7 @@ import io.alanda.base.util.cache.UserCache;
 @ConcurrencyManagement(ConcurrencyManagementType.BEAN)
 public class PmcUserServiceImpl implements PmcUserService {
 
-  private final Logger logger = LoggerFactory.getLogger(PmcUserServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcUserServiceImpl.class);
 
   @Inject
   private PmcUserDao pmcUserDao;
@@ -233,7 +233,7 @@ public class PmcUserServiceImpl implements PmcUserService {
     PmcUser pmcUser = dozerMapper.map(pmcUserDto, PmcUser.class);
     pmcUser.setGroupList(gList);
 
-    logger.info(pmcUser.getGroupList().toString());
+    log.info(pmcUser.getGroupList().toString());
 
     pmcUser = pmcUserRepo.save(pmcUser);
     pmcUserDao.getEntityManager().flush();
@@ -275,20 +275,20 @@ public class PmcUserServiceImpl implements PmcUserService {
     pmcUser.setPmcDepartment(pmcUserDto.getPmcDepartment());
 
     if (pmcUser.isLocked() != pmcUserDto.isLocked()) {
-      PmcHistoryLog log = new PmcHistoryLog();
-      log.setRefObjectId(UserContext.getUser().getGuid());
-      log.setRefObjectType("PMC_USER");
-      log.setType("User");
-      log.setAction(PmcHistoryLog.Action.EDIT);
-      log.setFieldName("locked");
-      log.setOldValue(String.valueOf(pmcUser.isLocked()));
-      log.setNewValue(String.valueOf(pmcUserDto.isLocked()));
-      log.setUserGuid(pmcUserDto.getGuid());
-      log.setModDate(new Date());
-      log.setRefObjectIdName(pmcUserDto.getLoginName());
-      log.setFieldRef("user.locked");
-      log.setLogDate(new Date());
-      pmcHistoryDao.save(log);
+      PmcHistoryLog historyLog = new PmcHistoryLog();
+      historyLog.setRefObjectId(UserContext.getUser().getGuid());
+      historyLog.setRefObjectType("PMC_USER");
+      historyLog.setType("User");
+      historyLog.setAction(PmcHistoryLog.Action.EDIT);
+      historyLog.setFieldName("locked");
+      historyLog.setOldValue(String.valueOf(pmcUser.isLocked()));
+      historyLog.setNewValue(String.valueOf(pmcUserDto.isLocked()));
+      historyLog.setUserGuid(pmcUserDto.getGuid());
+      historyLog.setModDate(new Date());
+      historyLog.setRefObjectIdName(pmcUserDto.getLoginName());
+      historyLog.setFieldRef("user.locked");
+      historyLog.setLogDate(new Date());
+      pmcHistoryDao.save(historyLog);
     }
     pmcUser.setLocked(pmcUserDto.isLocked());
 
@@ -321,14 +321,14 @@ public class PmcUserServiceImpl implements PmcUserService {
     PmcUserDto returnPmcUserDto = null;
     try {
       returnPmcUserDto = dozerMapper.map(pmcUserRepo.save(pmcUser), PmcUserDto.class);
-      logger.info("PmcUserServiceImpl.updateRepoUserV2");
-      logger.info(returnPmcUserDto.getEmail());
-      logger.info(returnPmcUserDto.getLoginName());
-      logger.info(returnPmcUserDto.getFirstName());
+      log.info("PmcUserServiceImpl.updateRepoUserV2");
+      log.info(returnPmcUserDto.getEmail());
+      log.info(returnPmcUserDto.getLoginName());
+      log.info(returnPmcUserDto.getFirstName());
     } catch (Exception e) {
-      System.out.println("Exception: " + e);
+      log.error("Error while updating user {}", pmcUser, e);
     } finally {
-      logger.info("finally: " + returnPmcUserDto.getGuid());
+      log.info("finally: {}", returnPmcUserDto.getGuid());
     }
     return returnPmcUserDto;
   }
@@ -381,7 +381,7 @@ public class PmcUserServiceImpl implements PmcUserService {
     try {
       return passwordService.checkPassword(password, credentials);
     } catch (Exception e) {
-      logger.warn("Error Validting password", e);
+      log.warn("Error Validting password", e);
       return false;
     }
 
@@ -462,7 +462,7 @@ public class PmcUserServiceImpl implements PmcUserService {
         .setParameter("credentials", hash)
         .executeUpdate();
     } catch (Exception e) {
-      logger.warn("Error Setting password", e);
+      log.warn("Error Setting password", e);
       throw new IllegalArgumentException("Server Error.");
     }
 
@@ -549,7 +549,7 @@ public class PmcUserServiceImpl implements PmcUserService {
       user = pmcUserDao.create(user);
       return dozerMapper.map(user, PmcUserDto.class);
     } else {
-      logger.error("Could not create group account! Group already exists!");
+      log.error("Could not create group account! Group already exists!");
       return null;
     }
   }

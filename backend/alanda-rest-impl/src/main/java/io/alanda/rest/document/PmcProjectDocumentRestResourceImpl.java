@@ -12,8 +12,6 @@ import javax.inject.Inject;
 import javax.ws.rs.core.Context;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jboss.resteasy.spi.HttpRequest;
 
 import io.alanda.base.dto.DirectoryInfoDto;
@@ -23,13 +21,15 @@ import io.alanda.base.dto.PmcProjectDto;
 import io.alanda.base.service.DocumentService;
 
 import io.alanda.rest.security.DocumentAuthorizationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author developer
  */
 public class PmcProjectDocumentRestResourceImpl implements RefObjectDocumentRestResource {
 
-  protected static Log logger = LogFactory.getLog(PmcProjectDocumentRestResourceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcProjectDocumentRestResourceImpl.class);
 
   @Context
   HttpRequest request;
@@ -71,7 +71,7 @@ public class PmcProjectDocumentRestResourceImpl implements RefObjectDocumentRest
     } else {
       DocuQueryDto qProject = DocuQueryDto.forPmcProject(project, true).withMappingName(project.getPmcProjectType().getIdName());
       qProject.fileCount = fileCount;
-      logger.info("qProject=" + qProject);
+      log.info("qProject={}", qProject);
       DirectoryInfoDto dirPr = documentService.getTree(qProject);
       dirPr.getConfig().getSourceFolder().setName(project.getProjectId());
 
@@ -84,7 +84,7 @@ public class PmcProjectDocumentRestResourceImpl implements RefObjectDocumentRest
       DocuQueryDto qRefObject = DocuQueryDto
         .forRefObject(project.getRefObjectIdName(), project.getRefObjectType(), project.getRefObjectId(), fileCount);
 
-      logger.info("qRefObject=" + qRefObject);
+      log.info("qRefObject={}", qRefObject);
       DirectoryInfoDto dirRo = documentService.getTree(qRefObject);
       dirRo.getConfig().getSourceFolder().setName(project.getRefObjectIdName());
 
@@ -182,7 +182,7 @@ public class PmcProjectDocumentRestResourceImpl implements RefObjectDocumentRest
 
         query = DocuQueryDto.forRefObject(project.getRefObjectIdName(), project.getRefObjectType(), project.getRefObjectId(), false);
       }
-      logger.info("using Query=" + query);
+      log.info("using Query={}", query);
     }
 
     return CDI.current().select(FolderRestResourceImpl.class).get().with(query.withTargetFolderName(folderName));

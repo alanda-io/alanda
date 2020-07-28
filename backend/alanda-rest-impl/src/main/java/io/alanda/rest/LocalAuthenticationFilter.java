@@ -32,7 +32,7 @@ import io.alanda.base.service.PmcUserService;
 public class LocalAuthenticationFilter implements Filter {
 
   /** Logger */
-  private final Logger logger = LoggerFactory.getLogger(LocalAuthenticationFilter.class);
+  private static final Logger log = LoggerFactory.getLogger(LocalAuthenticationFilter.class);
 
   private String realm = "Test";
 
@@ -61,7 +61,7 @@ public class LocalAuthenticationFilter implements Filter {
         if (basic.equalsIgnoreCase("Basic")) {
           try {
             String credentials = new String(Base64.decodeBase64(st.nextToken()), "UTF-8");
-            logger.debug("Credentials: " + credentials);
+            log.debug("Credentials: {}", credentials);
             int p = credentials.indexOf(":");
             if (p != -1) {
               final String username = credentials.substring(0, p).trim();

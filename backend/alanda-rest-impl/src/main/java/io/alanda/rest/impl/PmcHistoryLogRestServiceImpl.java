@@ -16,7 +16,7 @@ import io.alanda.rest.PmcHistoryLogRestService;
 
 public class PmcHistoryLogRestServiceImpl implements PmcHistoryLogRestService {
 
-  protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcHistoryLogRestServiceImpl.class);
 
   @Inject
   private PmcHistoryService pmcHistoryService;

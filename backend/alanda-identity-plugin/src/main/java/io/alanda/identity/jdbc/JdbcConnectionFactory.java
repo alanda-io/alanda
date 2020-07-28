@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  */
 public class JdbcConnectionFactory {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(JdbcConnectionFactory.class);
+  private static final Logger log = LoggerFactory.getLogger(JdbcConnectionFactory.class);
 
   private static final String OSIRIS_DS_JNDI = "java:jboss/datasources/ProcessEngine";
 
@@ -45,7 +45,7 @@ public class JdbcConnectionFactory {
       return (DataSource) new InitialContext().lookup(OSIRIS_DS_JNDI);
     } catch (NamingException e) {
       String msg = "Unrecovarable state! Failed to lookup Osiris datasource: " + OSIRIS_DS_JNDI;
-      LOGGER.error(msg, e);
+      log.error(msg, e);
       throw new RuntimeException(msg, e);
     }
   }

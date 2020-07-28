@@ -112,7 +112,7 @@ public class ElasticServiceImpl implements ElasticService {
   @Any
   Event<ElasticBulkUpdate> bulkUpdateEvent;
 
-  private final Logger logger = LoggerFactory.getLogger(ElasticServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(ElasticServiceImpl.class);
 
   @Inject
   private ConfigService configService;
@@ -163,10 +163,12 @@ public class ElasticServiceImpl implements ElasticService {
   @PreDestroy
   private void closeELasticConnection() {
     if (this.client != null) {
+      log.info("Closing ElasticSearch client");
+
       try {
         client.close();
       } catch (IOException e) {
-        logger.warn("Error closing Elasticsearch Client: " + e, e);
+        log.warn("Error closing ElasticSearch client", e);
       }
     }
   }
@@ -175,13 +177,13 @@ public class ElasticServiceImpl implements ElasticService {
   private void initElasticClient() {
     active = configService.getBooleanProperty(ConfigService.ELASTIC_ACTIVE);
     if ( !active) {
-      logger.info("Elastic Service NOT active!!!!.");
+      log.warn("Not initializing ElasticSearch Service - property is NOT active!!!");
       return;
     }
 
     try {
-      logger.info("~host: " + configService.getProperty(ConfigService.ELASTIC_HOST));
-      logger.info("~port: " + configService.getProperty(ConfigService.ELASTIC_PORT));
+      log.debug("ElasticSearch client host: {}", configService.getProperty(ConfigService.ELASTIC_HOST));
+      log.debug("ElasticSearch client port: {}", configService.getProperty(ConfigService.ELASTIC_PORT));
       client = new RestHighLevelClient(
         RestClient
           .builder(
@@ -190,23 +192,23 @@ public class ElasticServiceImpl implements ElasticService {
               Integer.parseInt(configService.getProperty(ConfigService.ELASTIC_PORT)),
               "http")));
     } catch (Exception uhe) {
-      logger.error("Could not connect to Elastic search!", uhe);
+      log.error("Could not connect to Elastic search! Continuing initialization anyways...", uhe);
     }
     this.objectMapper = new ObjectMapper();
     this.indexName = configService.getProperty(ConfigService.ELASTIC_INDEX);
     this.taskIndexName = configService.getProperty(ConfigService.ELASTIC_TASK_INDEX);
     this.refObjectLoaders = new HashMap<>();
     for (PmcRefObjectConnector connector : refObjectConnectors) {
-      logger.info("Connector found! " + connector.getClass());
+      log.debug("Connector found! {}", connector.getClass());
       if (connector.getRefObjectType() != null) {
-        logger.info("Connector for ObjectType: " + connector.getRefObjectType());
+        log.debug("Connector for ObjectType: {}", connector.getRefObjectType());
         refObjectLoaders.put(connector.getRefObjectType(), connector);
       }
     }
 
     this.elasticListeners = new HashMap<>();
     for (ProjectTypeElasticListener listener : projectTypeElasticListeners) {
-      logger.info("Found elastic listener " + listener.getName());
+      log.debug("Found elastic listener {}", listener.getName());
       elasticListeners.put(listener.getName(), listener);
     }
   }
@@ -215,6 +217,9 @@ public class ElasticServiceImpl implements ElasticService {
   public void synchData(Integer ttlInMinutes) {
     if ( !active)
       return;
+
+    log.info("Synchronizing data (ttl: {}m)", ttlInMinutes);
+
     QueryBuilder q = null;
     QueryBuilder exProj = existsQuery("project.guid");
     if (ttlInMinutes != null) {
@@ -242,7 +247,7 @@ public class ElasticServiceImpl implements ElasticService {
           .size(300)
           .fetchSource(false));
     String sRequest = null;
-    if (logger.isDebugEnabled()) {
+    if (log.isDebugEnabled()) {
       sRequest = request.toString();
     }
     SearchResponse res;
@@ -253,18 +258,7 @@ public class ElasticServiceImpl implements ElasticService {
       throw new RuntimeException(e);
     }
 
-    if (logger.isDebugEnabled()) {
-      logger
-        .info(
-          "synchData, ttlInMinutes: " +
-            ttlInMinutes +
-            " -> Found " +
-            res.getHits().getTotalHits() +
-            " entries for sync, query was: " +
-            q.toString() +
-            ", full: " +
-            sRequest);
-    }
+    log.debug("synchData, ttlInMinutes: {} -> Found {} entries for sync, query was: {}, full: {}", ttlInMinutes, res.getHits().getTotalHits(), q, sRequest);
 
     for (SearchHit sh : res.getHits().getHits()) {
       DocumentField shfLastSyncTime = sh.getFields().get("lastSyncTime");
@@ -273,18 +267,18 @@ public class ElasticServiceImpl implements ElasticService {
         Object o = shfLastSyncTime.getValue();
         if (o instanceof Date) {
           lastSyncTime = (Date) o;
-          logger.info("~Date: " + o);
+          log.debug("~Date: {}", o);
         } else if (o instanceof String) {
           try {
             lastSyncTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse((String) o);
-            logger.info("~lastSyncTime: " + lastSyncTime);
+            log.debug("~lastSyncTime: {}", lastSyncTime);
           } catch (ParseException e) {
             throw new RuntimeException("Cannot parse Date from String " + o + " " + e);
           }
-          logger.info("~String-Date: " + o);
+          log.debug("~String-Date: {}", o);
         } else {
           lastSyncTime = new Date((Long) o);
-          logger.info("~Long-Date: " + o);
+          log.debug("~Long-Date: {}", o);
         }
 
       }
@@ -296,15 +290,15 @@ public class ElasticServiceImpl implements ElasticService {
         pmcProjectGuid = (Long) oGuid;
       }
       String id = sh.getId();
-      if (logger.isDebugEnabled()) {
-        logger.debug("Found: id: " + id + ", guid: " + pmcProjectGuid + ", sync: " + lastSyncTime);
+      if (log.isDebugEnabled()) {
+        log.debug("Found: id: {}, guid: {}, sync: {}", id, pmcProjectGuid, lastSyncTime);
       }
       try {
         updateEntry(id, pmcProjectGuid);
       } catch (RuntimeException ex) {
-        logger.warn("Error doing sync for Process " + id + ", pmcProjectGuid: " + pmcProjectGuid);
+        log.warn("Error doing sync for Process {}, pmcProjectGuid: {}", id, pmcProjectGuid);
         if (tsr.getRollbackOnly()) {
-          logger.warn("ROLLBACKONLY IS SET.. better quit now than later!!");
+          log.warn("ROLLBACKONLY IS SET.. better quit now than later!!");
           return;
         }
       }
@@ -335,9 +329,11 @@ public class ElasticServiceImpl implements ElasticService {
   }
 
   private void updateEntry(String processInstanceId, PmcProjectDto project, boolean syncTasks) {
+    log.info("Updating entry (syncing tasks: {}) for process instance with id {} and project {}", syncTasks, processInstanceId, processInstanceId);
+
     try {
       if (project == null) {
-        logger.info("Deleting stale project for process: " + processInstanceId);
+        log.info("Deleting stale project for process: {}", processInstanceId);
         client.delete(new DeleteRequest(indexName).type("process").id(processInstanceId), RequestOptions.DEFAULT);
         return;
       }
@@ -398,8 +394,8 @@ public class ElasticServiceImpl implements ElasticService {
       byte[] json = objectMapper.writeValueAsBytes(entry);
 
       UpdateRequest updateReq = new UpdateRequest(indexName, "process", processInstanceId).doc(json, XContentType.JSON).docAsUpsert(true);
-      if (logger.isDebugEnabled()) {
-        logger.debug("Updated project and refObject for process " + processInstanceId);
+      if (log.isDebugEnabled()) {
+        log.debug("Updated project and refObject for process {}", processInstanceId);
       }
       addToSessionUR(processInstanceId, updateReq);
 
@@ -424,7 +420,7 @@ public class ElasticServiceImpl implements ElasticService {
         }
       }
     } catch (Exception e) {
-      logger.warn("Error indexing data for " + project.getRefObjectType() + " #" + project.getRefObjectId() + " :" + e.getMessage(), e);
+      log.warn("Error indexing data for {} #{} :{}", project.getRefObjectType(), project.getRefObjectId(), e.getMessage(), e);
       throw new RuntimeException(e);
     }
 
@@ -438,6 +434,8 @@ public class ElasticServiceImpl implements ElasticService {
 
   @Override
   public void updateTask(PmcTaskDto task) {
+    log.info("Updating task {}", task);
+
     try {
       PmcProjectDto project = null;
       Object refObject = null;
@@ -448,7 +446,7 @@ public class ElasticServiceImpl implements ElasticService {
       if (task.getTaskType() != null && task.getObjectId() != null) {
         PmcRefObjectConnector connector = refObjectLoaders.get(task.getTaskType());
         if (connector == null || task.getObjectId() == null) {
-          logger.warn("No connector found for " + task.getTaskType() + ", id: " + task.getObjectId() + ", name: " + task.getObjectName());
+          log.warn("No connector found for {}, id: {}, name: {}", task.getTaskType(), task.getObjectId(), task.getObjectName());
         } else {
           refObject = connector.getRefObjectById(task.getObjectId());
         }
@@ -471,17 +469,19 @@ public class ElasticServiceImpl implements ElasticService {
         addToSessionUR(task.getProcessInstanceId(), updateReq);
       }
     } catch (Exception e) {
-      logger.warn("Error indexing data for " + task.getTaskId() + " :" + e.getMessage(), e);
+      log.warn("Error indexing data for {} :{}", task.getTaskId(), e.getMessage(), e);
     }
 
   }
 
   @Override
   public void collectUpdates(@Observes(during = TransactionPhase.BEFORE_COMPLETION) ElasticUpdate event) {
+    log.info("Collecting updates for event {}", event);
+
     try {
       @SuppressWarnings("unchecked")
       List<UpdateRequest> transactionUpdateList = (List<UpdateRequest>) this.tsr.getResource(KEY);
-      logger.info("BeforeCompletion, elasticUpdateList: " + transactionUpdateList.size());
+      log.info("BeforeCompletion, elasticUpdateList: {}", transactionUpdateList.size());
       ElasticBulkUpdate ebu = new ElasticBulkUpdate();
       ebu.setBulkRequest(new BulkRequest());
       for (UpdateRequest ur : transactionUpdateList) {
@@ -489,21 +489,21 @@ public class ElasticServiceImpl implements ElasticService {
       }
       this.bulkUpdateEvent.fire(ebu);
     } catch (Exception ex) {
-      logger.info("Error in sessionEventAT " + ex.getMessage(), ex);
+      log.info("Error in sessionEventAT {}", ex.getMessage(), ex);
     }
   }
 
   @Override
   public void performUpdates(@Observes(during = TransactionPhase.AFTER_SUCCESS) ElasticBulkUpdate event) {
     try {
-      logger.info("AfterSuccess, elasticBulkUpdate: " + event.getIds().size());
+      log.info("Performing updates for event AfterSuccess {}, elasticBulkUpdate: {}", event, event.getIds().size());
       BulkResponse br = client.bulk(event.getBulkRequest(), RequestOptions.DEFAULT);
       if (br.hasFailures()) {
-        logger.info("Result: " + br.getItems().length + " responses, hasFailure: " + br.hasFailures() + " - " + br.buildFailureMessage());
+        log.info("Result: {} responses, hasFailure: {} - {}", br.getItems().length, br.hasFailures(), br.buildFailureMessage());
       }
-      logger.info("AfterSuccess, performed bulk update");
+      log.info("AfterSuccess, performed bulk update");
     } catch (Exception ex) {
-      logger.info("Error in sessionEventAT " + ex.getMessage(), ex);
+      log.info("Error in sessionEventAT {}", ex.getMessage(), ex);
     }
   }
 
@@ -541,6 +541,8 @@ public class ElasticServiceImpl implements ElasticService {
   public void addProcess(String processInstanceId, PmcProjectProcessDto process, PmcProjectDto project, boolean updateRelated) {
     if ( !active)
       return;
+
+    log.info("Adding process instance with id {} to project {} (updating related: {}", processInstanceId, process, updateRelated);
     updateEntry(processInstanceId, project, false);
     if (updateRelated) {
       if (project.getParentIds() != null) {
@@ -555,6 +557,9 @@ public class ElasticServiceImpl implements ElasticService {
   public void updateProcessInfo(String processInstanceId, PmcProjectProcessDto process) {
     if ( !active)
       return;
+
+    log.info("Updating process info of process {} for task with instance id {}", process, processInstanceId);
+
     try {
       Map<String, Object> entry = new HashMap<>();
       entry.put("process", process);
@@ -563,7 +568,7 @@ public class ElasticServiceImpl implements ElasticService {
 
       client.update(new UpdateRequest(indexName, "process", processInstanceId).doc(json, XContentType.JSON), RequestOptions.DEFAULT);
     } catch (Exception e) {
-      logger.error("Error updating process info in index!", e);
+      log.error("Error updating process info in index!", e);
     }
   }
 
@@ -571,6 +576,8 @@ public class ElasticServiceImpl implements ElasticService {
   public void updateRefObject(String processInstanceId, String refObjectType, Long refObjectId) {
     if ( !active)
       return;
+
+    log.info("Updating ref object {}/{} for process with instance id {}", refObjectType, refObjectId, processInstanceId);
     try {
       PmcRefObjectConnector connector = refObjectLoaders.get(refObjectType);
       Object refObject = connector.getRefObjectById(refObjectId);
@@ -579,12 +586,14 @@ public class ElasticServiceImpl implements ElasticService {
       byte[] json = objectMapper.writeValueAsBytes(entry);
       client.update(new UpdateRequest(indexName, "process", processInstanceId).doc(json, XContentType.JSON), RequestOptions.DEFAULT);
     } catch (Exception e) {
-      logger.error("Error updating RefObject in index!", e);
+      log.error("Error updating RefObject in index!", e);
     }
   }
 
   @Override
   public SearchHit[] findProcessesForProject(String projectId) {
+    log.debug("Retrieving processes for project with id {}", projectId);
+
     QueryBuilder queryB = matchQuery("project.projectId", projectId);
     SearchResponse resp;
     try {
@@ -598,6 +607,8 @@ public class ElasticServiceImpl implements ElasticService {
 
   @Override
   public SearchHit[] findByProjectType(String projectType) {
+    log.debug("Retrieving hits by project type {}", projectType);
+
     QueryBuilder queryB = matchQuery("project.pmcProjectType.idName", projectType);
     SearchResponse resp;
     try {
@@ -648,6 +659,9 @@ public class ElasticServiceImpl implements ElasticService {
       int from,
       int size,
       boolean fetchSource) {
+    log.trace("Retrieving hits from index {} with type {}, using query {} and params {} for fields {} - searching {} elements, starting from {}",
+            indexName, type, query, params, fields, size, from);
+
     SearchSourceBuilder ssb= new SearchSourceBuilder();
     if (fields != null && fields.length == 0) {
       ssb.storedFields(Arrays.asList(fields));
@@ -666,7 +680,7 @@ public class ElasticServiceImpl implements ElasticService {
     SearchTemplateResponse str;
     try {
       BytesReference br= XContentHelper.toXContent(request, XContentType.JSON, true);
-      logger.debug("Request: " + XContentHelper.convertToJson(br, false, XContentType.JSON));
+      log.debug("Request: {}", XContentHelper.convertToJson(br, false, XContentType.JSON));
       str = client.searchTemplate(request, LARGE_RESPONSE_OPTIONS);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -730,6 +744,10 @@ public class ElasticServiceImpl implements ElasticService {
     if ( !active) {
       return SearchHits.empty();
     }
+
+    log.trace("Retrieving entries from index {} with filter {}, sorting with {}, looking for {} items, " +
+                    "starting at {} - sourceIncludes: {}, sourceExcludes: {}",
+            indexName, filterParams, sortParams, size, from, sourceIncludes, sourceExcludes);
 
     BoolQueryBuilder builder = boolQuery();
     if (filterParams != null && !filterParams.isEmpty()) {
@@ -806,7 +824,7 @@ public class ElasticServiceImpl implements ElasticService {
     if (sourceIncludes != null || sourceExcludes != null) {
       searchSourcB.fetchSource(sourceIncludes, sourceExcludes);
     }
-    logger.info(searchSourcB.toString());
+    log.info(searchSourcB.toString());
     SearchResponse resp;
     try {
       resp = client.search(new SearchRequest(indexName).types(type).source(searchSourcB), RequestOptions.DEFAULT);
@@ -837,6 +855,8 @@ public class ElasticServiceImpl implements ElasticService {
 
   @Override
   public SearchHit[] findSubProcessesForProject(Integer projectGuid) {
+    log.info("Retrieving sub processes for project with guid {}", projectGuid);
+
     QueryBuilder boolQueryB = boolQuery()
       .must(matchQuery("variables.varName", "pmcProjectGuid"))
       .must(matchQuery("variables.textValue", projectGuid));
@@ -856,8 +876,11 @@ public class ElasticServiceImpl implements ElasticService {
 
   @Override
   public void refreshTaskIndex() {
+    log.info("Refreshing task index...");
+
     try {
       client.indices().refresh(new RefreshRequest(taskIndexName), RequestOptions.DEFAULT);
+      log.info("...done refreshing task index");
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -866,8 +889,11 @@ public class ElasticServiceImpl implements ElasticService {
 
   @Override
   public void refreshProcessIndex() {
+    log.info("Refreshing process index...");
+
     try {
       client.indices().refresh(new RefreshRequest(indexName), RequestOptions.DEFAULT);
+      log.info("...done refreshing process index");
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -875,6 +901,8 @@ public class ElasticServiceImpl implements ElasticService {
 
   @Override
   public void deleteTask(String id) {
+    log.info("Deleting task with id {}", id);
+
     try {
       client.delete(new DeleteRequest(taskIndexName, "task", id), RequestOptions.DEFAULT);
     } catch (IOException e) {
@@ -885,6 +913,8 @@ public class ElasticServiceImpl implements ElasticService {
 
   @Override
   public Map<String, String> getProcessVariablesForProcess(String pid) {
+    log.info("Retrieving process variables of process with id {}", pid);
+
     QueryBuilder queryB = matchQuery("processInstanceId", pid);
     SearchResponse resp;
     try {
@@ -899,7 +929,7 @@ public class ElasticServiceImpl implements ElasticService {
     if (hits == null || hits.length == 0) {
       return null;
     } else if (hits.length > 1) {
-      logger.warn("found multiple entries in " + indexName + " and type process for pid=" + pid);
+      log.warn("found multiple entries in {} and type process for pid={}", indexName, pid);
     }
     Map<String, String> variables = new HashMap<>();
     @SuppressWarnings("unchecked")

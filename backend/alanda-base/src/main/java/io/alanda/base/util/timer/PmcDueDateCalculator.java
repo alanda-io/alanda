@@ -28,7 +28,7 @@ import io.alanda.base.type.ProcessVariables;
 @Stateless
 public class PmcDueDateCalculator {
 
-  private final static Logger logger = LoggerFactory.getLogger(PmcDueDateCalculator.class);
+  private final static Logger log = LoggerFactory.getLogger(PmcDueDateCalculator.class);
 
   public static final String DATE_IN_FAR_FUTURE = "2100-01-01T00:00:00";
 
@@ -86,14 +86,14 @@ public class PmcDueDateCalculator {
   }
 
   public Date calcDueDate(String timerDefinition, Long pmcProjectGuid) {
-    logger.info("activityId: " + timerDefinition);
+    log.info("activityId: {}", timerDefinition);
 
     DueDateCalculatorData data = DueDateCalculatorUtil.parseMilestoneTimerId(timerDefinition);
     Date dueDate = null;
     if (data != null) {
       dueDate = calcDueDate(data, pmcProjectGuid);
     } else {
-      logger.info("Could not parse acticvityId: " + timerDefinition);
+      log.info("Could not parse acticvityId: {}", timerDefinition);
     }
     return dueDate;
   }
@@ -110,7 +110,7 @@ public class PmcDueDateCalculator {
     }
 
     Date dueDate = null;
-    logger.debug("Config: " + data.toString());
+    log.debug("Config: {}", data);
     Date msDate = null;
     for (Long pId : projectCandidates) {
       if (data.getField().equals("FC")) {
@@ -125,10 +125,10 @@ public class PmcDueDateCalculator {
 
     if (msDate != null) {
       dueDate = data.calcDueDate(msDate);
-      logger.info("pmcProjectGuid: " + pmcProjectGuid + ", msName: " + data.getMsName() + " ->" + dueDate);
+      log.info("pmcProjectGuid: {}, msName: {} ->{}", pmcProjectGuid, data.getMsName(), dueDate);
     } else {
-      if (logger.isDebugEnabled()) {
-        logger.debug("No MsDate found for: project:" + pmcProjectGuid + ", msName:" + data.getMsName());
+      if (log.isDebugEnabled()) {
+        log.debug("No MsDate found for: project:{}, msName:{}", pmcProjectGuid, data.getMsName());
       }
     }
     return dueDate;

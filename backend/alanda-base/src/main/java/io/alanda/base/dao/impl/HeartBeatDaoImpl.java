@@ -11,11 +11,14 @@ import javax.persistence.EntityManager;
 import io.alanda.base.dao.AbstractCrudDao;
 import io.alanda.base.dao.HeartBeatDao;
 import io.alanda.base.entity.PmcHeartBeat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author developer
  */
 public class HeartBeatDaoImpl extends AbstractCrudDao<PmcHeartBeat> implements HeartBeatDao {
+  private static final Logger log = LoggerFactory.getLogger(HeartBeatDaoImpl.class);
 
   public HeartBeatDaoImpl() {
     super();
@@ -32,6 +35,8 @@ public class HeartBeatDaoImpl extends AbstractCrudDao<PmcHeartBeat> implements H
 
   @Override
   public Optional<PmcHeartBeat> getHeartBeatByProcessKey(String name) {
+    log.debug("Retrieving heart beat for process key {}", name);
+
     return em
       .createQuery("select h FROM PmcHeartBeat h where h.name = :name", PmcHeartBeat.class)
       .setParameter("name", name)

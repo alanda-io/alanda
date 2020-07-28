@@ -43,7 +43,7 @@ import io.alanda.base.util.UserContext;
 @Stateless // (name = "pmcBlogService")
 public class PmcBlogServiceImpl implements PmcBlogService, PmcRefObjectConnector {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcBlogServiceImpl.class);
 
   @Inject
   private DozerMapper dozerMapper;
@@ -83,7 +83,7 @@ public class PmcBlogServiceImpl implements PmcBlogService, PmcRefObjectConnector
    */
   @Override
   public List<PmcBlogDto> getBlogList(String status, int first, int count) {
-    logger.info("status in BlogServiceImpl: " + status);
+    log.info("status in BlogServiceImpl: {}", status);
     return dozerMapper.mapCollection(pmcBlogDao.getPostsByStatus(status, first, count), PmcBlogDto.class);
   }
 
@@ -95,7 +95,7 @@ public class PmcBlogServiceImpl implements PmcBlogService, PmcRefObjectConnector
     blog.setTags(new ArrayList<PmcTag>());
     if (tags != null) {
       for (PmcTagDto tagDto : tags) {
-        logger.info("tagDto " + tagDto.getText());
+        log.info("tagDto {}", tagDto.getText());
         PmcTag pmcTag = pmcTagDao.getByText(tagDto.getText());
         if (pmcTag == null) {
           pmcTag = new PmcTag();
@@ -121,7 +121,7 @@ public class PmcBlogServiceImpl implements PmcBlogService, PmcRefObjectConnector
     pmcBlog.setTags(new ArrayList<PmcTag>());
     if (tags != null) {
       for (PmcTagDto tagDto : tags) {
-        logger.info("tagDto " + tagDto.getText());
+        log.info("tagDto {}", tagDto.getText());
         PmcTag pmcTag = pmcTagDao.getByText(tagDto.getText());
         if (pmcTag == null) {
           pmcTag = new PmcTag();
@@ -138,9 +138,9 @@ public class PmcBlogServiceImpl implements PmcBlogService, PmcRefObjectConnector
 
   @Override
   public PmcBlogDto getBlogByBlogIdAndStatus(Long guid, String status) {
-    logger.info("status in PmcBlogSericeImpl.getBlogByIdAndStatus: ");
-    logger.info(guid.toString());
-    logger.info(status);
+    log.info("status in PmcBlogSericeImpl.getBlogByIdAndStatus: ");
+    log.info(guid.toString());
+    log.info(status);
     return dozerMapper.map(pmcBlogDao.getPostByBlogId(guid, status), PmcBlogDto.class);
   }
 
@@ -156,12 +156,10 @@ public class PmcBlogServiceImpl implements PmcBlogService, PmcRefObjectConnector
 
   @Override
   public void deleteBlog(Long guid) {
-    logger.info("we are in pmcBlogService.deleteBlog");
+    log.info("Deleting blog with id {}...", guid);
     PmcBlog pmcBlog = pmcBlogDao.getById(guid);
-    System.out.println(guid);
-    logger.info(guid.toString());
     pmcBlogDao.delete(pmcBlog);
-    logger.info("Blogpost deleted " + guid);
+    log.info("...Blogpost deleted {}", guid);
   }
 
   @Override
@@ -169,8 +167,8 @@ public class PmcBlogServiceImpl implements PmcBlogService, PmcRefObjectConnector
     // aktuellen User laden
     Long userid = UserContext.getUser().getGuid();
     PmcUserDto user = pmcUserService.getUserByUserId(userid);
-    logger.info("* * * * * * * * * * * * * * * * * * * * * * *  * * * * * * * * * * * * * * * * * * * * *");
-    logger.info(" * * *  PmcBlogServiceImpl.startBlogPost:   * * ");
+    log.info("* * * * * * * * * * * * * * * * * * * * * * *  * * * * * * * * * * * * * * * * * * * * *");
+    log.info(" * * *  PmcBlogServiceImpl.startBlogPost:   * * ");
     PmcBlog blog = new PmcBlog();
     blog.setStatus("unpublished");
     blog.setAuthorFirstName(user.getFirstName());
@@ -182,8 +180,8 @@ public class PmcBlogServiceImpl implements PmcBlogService, PmcRefObjectConnector
     varMap.put(ProcessVariables.REFOBJECTID, blog.getGuid());
     varMap.put(ProcessVariables.REFOBJECTTYPE, "BLOG");
     varMap.put(ProcessVariables.COMMENT_KEY, "commentKey-" + blog.getBlog_id());
-    logger.info(" *  *  *  *  *        varMap:         *  *  *  *  *  *  ");
-    logger.info(varMap.toString());
+    log.info(" *  *  *  *  *        varMap:         *  *  *  *  *  *  ");
+    log.info(varMap.toString());
     ProcessInstance pi = runtimeService.startProcessInstanceByKey("blog-post-approval", "Blogpost-" + blog.getGuid(), varMap);
     return pi;
 
@@ -191,17 +189,16 @@ public class PmcBlogServiceImpl implements PmcBlogService, PmcRefObjectConnector
 
   @Override
   public ProcessInstance modifyPublishedBlogPost(Long pmcBlogPostId) {
-    logger.info("Id im Service: " + pmcBlogPostId.toString());
+    log.info("Id im Service: {}", pmcBlogPostId);
     PmcBlog oldBlog = pmcBlogDao.getById(pmcBlogPostId);
-    logger.info("BlogServiceImpl: ");
-    logger.info(oldBlog.getGuid().toString());
+    log.info("BlogServiceImpl: ");
+    log.info(oldBlog.getGuid().toString());
     //logger.info(pmcBlogDao.atWork(oldBlog.getGuid()));
     if (pmcBlogDao.atWork(oldBlog.getGuid()) == true) {
-      System.out.println("now we are in if condition");
       PmcBlog newBlog = new PmcBlog();
       newBlog.setTitle(oldBlog.getTitle());
-      logger.info("newBlog.getTitle(): ");
-      logger.info(newBlog.getTitle());
+      log.info("newBlog.getTitle(): ");
+      log.info(newBlog.getTitle());
       //logger.info(newBlog.getGuid().toString());
 
       newBlog.setContent(oldBlog.getContent());
@@ -270,28 +267,28 @@ public class PmcBlogServiceImpl implements PmcBlogService, PmcRefObjectConnector
 
   @Override
   public void publish(Long refObjectId) {
-    logger.info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+    log.info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
     PmcBlog pmcBlog = pmcBlogDao.getById(refObjectId);
-    logger.debug(pmcBlog.getTitle());
-    logger.debug(pmcBlog.getGuid().toString());
-    logger.info("pmcBlog.getBlog_id()");
-    logger.info(pmcBlog.getBlog_id().toString());
-    logger.info(refObjectId.toString());
+    log.debug(pmcBlog.getTitle());
+    log.debug(pmcBlog.getGuid().toString());
+    log.info("pmcBlog.getBlog_id()");
+    log.info(pmcBlog.getBlog_id().toString());
+    log.info(refObjectId.toString());
     if (refObjectId.longValue() != pmcBlog.getBlog_id().longValue()) {
-      logger.info("in if !!!!!!!");
+      log.info("in if !!!!!!!");
       String status = "published";
       PmcBlog oldBlog = pmcBlogDao.getPostByBlogId(pmcBlog.getBlog_id(), status);
       //      System.out.println(oldBlog);
-      logger.info(oldBlog.getBlog_id().toString());
+      log.info(oldBlog.getBlog_id().toString());
       //      System.out.println(oldBlog.getBlog_id());
       //      System.out.println(oldBlog.getTitle());
       oldBlog.setStatus("unpublished");
       pmcBlogDao.update(oldBlog);
     }
-    logger.info("**********************************************************************************************************");
+    log.info("**********************************************************************************************************");
     pmcBlog.setStatus("published");
     pmcBlogDao.update(pmcBlog);
-    logger.info("HIP HIP");
+    log.info("HIP HIP");
   }
 
   @Override
