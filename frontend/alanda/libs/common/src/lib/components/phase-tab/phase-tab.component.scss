@@ -6,10 +6,8 @@ $header-item-spacer: 4px;
   .phase-tab-header {
     border-bottom: 1px solid #c8c8c8;
     margin-top: 5px;
-    position: relative;
 
     .header-item {
-      position: relative;
       background: #f4f4f4;
       border: 1px solid #c8c8c8;
       border-bottom: 0;
@@ -19,7 +17,7 @@ $header-item-spacer: 4px;
       display: inline-block;
       margin: 0 $header-item-spacer/2;
       padding: 10px 15px;
-      min-width: 120px;
+      min-width: 130px;
       height: 70px;
       text-align: center;
       vertical-align: bottom;
@@ -31,7 +29,6 @@ $header-item-spacer: 4px;
       }
 
       .header-state {
-        position: absolute;
         bottom: 10px;
         left: 0;
         width: 100%;
