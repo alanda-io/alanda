@@ -17,6 +17,7 @@ import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+import javax.enterprise.event.TransactionPhase;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.time.FastDateFormat;
@@ -399,7 +400,7 @@ public class PmcTaskServiceImpl implements PmcTaskService {
   }
 
   @Override
-  public void taskEvent(@Observes BusinessProcessEvent businessProcessEvent) {
+  public void taskEvent(@Observes(during = TransactionPhase.AFTER_SUCCESS) BusinessProcessEvent businessProcessEvent) {
     // Only observe task Events
     if (businessProcessEvent.getTask() == null) {
       return;
