@@ -243,10 +243,12 @@
             (onMoveToTarget)="moveRole($event)"
           >
             <ng-template let-role pTemplate="item">
-              {{ role.name }}
-              <span class="source" *ngIf="role.source"
-                >({{ role.source }})</span
-              >
+              <span class="key">
+                {{ role.name }}
+              </span>
+              <span class="source" *ngIf="role.source">
+                ({{ role.source}})
+              </span>
             </ng-template>
           </p-pickList>
           <div class="p-col-12">
@@ -269,8 +271,12 @@
                 (onMoveToTarget)="movePermission($event)"
               >
                 <ng-template let-p pTemplate="item">
-                  {{ p.key }}
-                  <span class="source" *ngIf="p.source">({{ p.source }})</span>
+                  <span class="key">
+                    {{ p.key }}
+                  </span>
+                  <span class="source" *ngIf="p.source">
+                    ({{ p.source}})
+                  </span>
                 </ng-template>
               </p-pickList>
             </div>

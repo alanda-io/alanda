@@ -12,8 +12,17 @@
   font-size: 12px;
 }
 
+.key {
+  display: inline-block;
+  overflow-wrap: break-word;
+  max-width: 300px;
+}
+
 .source {
+  display: inline-block;
   float: right;
+  overflow-wrap: break-word;
+  max-width: 250px;
 }
 
 .ui-panel {
