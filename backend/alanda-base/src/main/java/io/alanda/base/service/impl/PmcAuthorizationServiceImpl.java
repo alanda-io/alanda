@@ -23,7 +23,7 @@ import io.alanda.base.service.PmcAuthorizationService;
 @ApplicationScoped
 public class PmcAuthorizationServiceImpl implements PmcAuthorizationService {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcAuthorizationServiceImpl.class);
   
   @Inject
   private PmcProjectTypeDao pmcProjectTypeDao;
@@ -36,10 +36,14 @@ public class PmcAuthorizationServiceImpl implements PmcAuthorizationService {
   @PostConstruct
   private void initPmcProjectService() {
     listenerMap = new HashMap<>();
+    log.debug("Initializing authorization service...");
+
     for (PmcProjectAuthorizationListener listener : pmcProjectAuthorizationListener) {
-      logger.info("Found PmcProjectAuthorizationListener with idName " + listener.getListenerIdName() + ".");
+      log.debug("...adding authorization listener {}", listener.getListenerIdName());
       listenerMap.put(listener.getListenerIdName(), listener);
     }
+
+    log.info("...initialized authorization listener service with {} listener: {}", listenerMap.size(), listenerMap);
   }
 
   @Override

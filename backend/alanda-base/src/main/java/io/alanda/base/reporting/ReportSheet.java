@@ -37,7 +37,7 @@ import com.google.common.base.Strings;
  */
 public class ReportSheet {
 
-  private final Logger logger = LoggerFactory.getLogger(ReportSheet.class);
+  private static final Logger log = LoggerFactory.getLogger(ReportSheet.class);
 
   private final String MS_SOURCE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
@@ -233,7 +233,7 @@ public class ReportSheet {
     if (!Strings.isNullOrEmpty(columnDef.getFormatter())) {
       ReportCellFormatter formatter = pmcReportConfigService.getCellFormatters().get(columnDef.getFormatter());
       if (formatter == null) {
-        throw new IllegalArgumentException(String.format("No ReportCellFormatter named '%s' found.", columnDef.getFormatter()));
+        throw new IllegalArgumentException("No ReportCellFormatter named '" + columnDef.getFormatter() + "' found.");
       }
       tmp = formatter.formatCell(tmp, record, report);
       XSSFCellStyle fStyle = formatter.getStyle(report, cell);
@@ -287,8 +287,7 @@ public class ReportSheet {
         sheet.autoSizeColumn(col.getStartIndex(), true);
       }
       curr = System.currentTimeMillis() - curr;
-      logger.info(
-        curr + "ms for Column of Report " + this.configuration.getSheetName() + ", field: " + col.getTitle() + ", " + col.getFormatter());
+      log.info("{}ms for Column of Report {}, field: {}, {}", curr, this.configuration.getSheetName(), col.getTitle(), col.getFormatter());
     }
   }
 

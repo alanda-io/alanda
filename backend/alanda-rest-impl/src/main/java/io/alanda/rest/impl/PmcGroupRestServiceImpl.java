@@ -24,7 +24,7 @@ import io.alanda.rest.util.RepoHelpers;
 
 public class PmcGroupRestServiceImpl implements PmcGroupRestService {
 
-  private final Logger logger = LoggerFactory.getLogger(PmcGroupRestServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcGroupRestServiceImpl.class);
 
   @Inject
   private PmcGroupService pmcGroupService;
@@ -40,7 +40,7 @@ public class PmcGroupRestServiceImpl implements PmcGroupRestService {
   public PagedResultDto<PmcGroupDto> getAllGroups(Map<String, Object> serverOptions) {
     if ( !UserContext.getUser().isAdmin())
       throw new javax.ws.rs.ForbiddenException("Access denied");
-    logger.info("called getGroupRepo");
+    log.info("called getGroupRepo");
     Integer pageNumber = (Integer) serverOptions.get("pageNumber");
     if (pageNumber == null)
       pageNumber = 1;

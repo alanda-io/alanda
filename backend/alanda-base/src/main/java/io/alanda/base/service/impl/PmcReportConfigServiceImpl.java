@@ -37,7 +37,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Stateless
 public class PmcReportConfigServiceImpl implements PmcReportConfigService {
 
-  private final org.slf4j.Logger logger = LoggerFactory.getLogger(PmcReportConfigServiceImpl.class);
+  private static final org.slf4j.Logger log = LoggerFactory.getLogger(PmcReportConfigServiceImpl.class);
 
     
   @Inject
@@ -86,11 +86,11 @@ public class PmcReportConfigServiceImpl implements PmcReportConfigService {
         List<ReportSheetDto> sheets = objectMapper.readValue(config.getConfig(), new TypeReference<List<ReportSheetDto>>() {});
         configDto.setSheets(sheets);
       } catch (IOException ex) {
-          logger.warn("Could not unmarshal configuration object for report " + name, ex);
+        log.warn("Could not unmarshal configuration object for report {}", name, ex);
       }
       return configDto;
     } catch (RuntimeException ex) {
-      logger.info("Error parsing reportConfig: " + name + ": " + ex.getMessage());
+      log.info("Error parsing reportConfig: {}: {}", name, ex.getMessage());
       throw ex;
     }
 
@@ -105,7 +105,7 @@ public class PmcReportConfigServiceImpl implements PmcReportConfigService {
       configDto.setSheets(sheets);
       configDto.setVersion(1l);
     } catch (IOException ex) {
-        logger.warn("Could not unmarshal configuration object for report ", ex);
+      log.warn("Could not unmarshal configuration object for report ", ex);
     }
 
     return configDto;
@@ -123,7 +123,7 @@ public class PmcReportConfigServiceImpl implements PmcReportConfigService {
       try {
           config.setConfig(objectMapper.writeValueAsString(configuration.getSheets()));
       } catch (JsonProcessingException ex) {
-          logger.warn("Could not marshall configuration for report " + configuration.getReportName(), ex);
+          log.warn("Could not marshall configuration for report {}", configuration.getReportName(), ex);
       }
       pmcReportConfigDao.create(config);
   }

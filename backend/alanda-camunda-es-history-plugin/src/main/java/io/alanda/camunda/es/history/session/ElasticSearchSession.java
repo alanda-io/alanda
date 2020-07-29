@@ -14,14 +14,14 @@ package io.alanda.camunda.es.history.session;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.camunda.bpm.engine.impl.history.event.HistoryEvent;
 import org.camunda.bpm.engine.impl.interceptor.Session;
 import org.elasticsearch.common.StopWatch;
 
 import io.alanda.camunda.es.history.index.ElasticSearchIndexStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Daniel Meyer
@@ -29,7 +29,7 @@ import io.alanda.camunda.es.history.index.ElasticSearchIndexStrategy;
  */
 public class ElasticSearchSession implements Session {
 
-  Logger logger = Logger.getLogger(ElasticSearchSession.class.getName());
+  private static final Logger log = LoggerFactory.getLogger(ElasticSearchSession.class);
 
   protected ElasticSearchIndexStrategy indexingStrategy;
 
@@ -53,11 +53,11 @@ public class ElasticSearchSession implements Session {
   public void flush() {
     swFlush.start();
     if (swAdd.totalTime().getMillis() > 200L)
-      logger.log(Level.INFO, "Start Flush, time for Add: {0}", swAdd.shortSummary());
+      log.info("Start Flush, time for Add: {0}", swAdd.shortSummary());
     indexingStrategy.executeRequest(historyEvents);
     swFlush.stop();
     if (swFlush.totalTime().getMillis() > 200L)
-      logger.log(Level.INFO, "Finished Flush, time for Flush: {0}", swFlush.shortSummary());
+      log.info("Finished Flush, time for Flush: {0}", swFlush.shortSummary());
   }
 
   @Override

@@ -27,7 +27,7 @@ import io.alanda.base.util.cache.UserCache;
 public class ThreadLocalFilter implements Filter {
 
   /** Logger */
-  private final Logger logger = LoggerFactory.getLogger(ThreadLocalFilter.class);
+  private static final Logger log = LoggerFactory.getLogger(ThreadLocalFilter.class);
 
   @Inject
   private UserCache userCache;
@@ -45,13 +45,13 @@ public class ThreadLocalFilter implements Filter {
 
     PmcUserDto user = extractUser(request);
     try {
-      logger.info("setting user[{}]", user != null ? user.getLoginName() : "NULL");
+      log.info("setting user[{}]", user != null ? user.getLoginName() : "NULL");
       UserContext.setUser(user);
       filterChain.doFilter(servletRequest, servletResponse);
     } finally {
       UserContext.remove();
       io.alanda.base.util.UserContext.remove();
-      logger.info("removing user[{}]", user != null ? user.getLoginName() : "NULL");
+      log.info("removing user[{}]", user != null ? user.getLoginName() : "NULL");
     }
 
   }

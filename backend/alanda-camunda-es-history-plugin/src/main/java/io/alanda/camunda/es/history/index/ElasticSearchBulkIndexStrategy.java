@@ -15,7 +15,6 @@ package io.alanda.camunda.es.history.index;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.camunda.bpm.engine.impl.history.event.HistoryEvent;
 import org.elasticsearch.action.bulk.BulkItemResponse;
@@ -23,8 +22,11 @@ import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.RequestOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ElasticSearchBulkIndexStrategy extends ElasticSearchDefaultIndexStrategy {
+  private static final Logger log = LoggerFactory.getLogger(ElasticSearchBulkIndexStrategy.class);
 
   @Override
   public void executeRequest(List<HistoryEvent> historyEvents) {
@@ -40,26 +42,16 @@ public class ElasticSearchBulkIndexStrategy extends ElasticSearchDefaultIndexStr
       bulkResponse = esClient.bulk(bulkRequest, RequestOptions.DEFAULT);
 
       if (bulkResponse.hasFailures()) {
-        LOGGER.severe("Error while executing bulk request: " + bulkResponse.buildFailureMessage());
+        log.warn("Error while executing bulk request: {}", bulkResponse.buildFailureMessage());
       }
 
-      if (LOGGER.isLoggable(Level.FINEST)) {
+      if (log.isTraceEnabled()) {
         for (BulkItemResponse bulkItemResponse : bulkResponse) {
-          LOGGER
-            .finest(
-              "[" +
-                bulkItemResponse.getIndex() +
-                "][" +
-                bulkItemResponse.getType() +
-                "][" +
-                bulkItemResponse.getOpType() +
-                "] process instance with id '" +
-                bulkItemResponse.getId() +
-                "'");
+          log.trace("[{}][{}][{}] process instance with id '{}'", bulkItemResponse.getIndex(), bulkItemResponse.getType(), bulkItemResponse.getOpType(), bulkItemResponse.getId());
         }
       }
     } catch (IOException e) {
-      LOGGER.log(Level.SEVERE, e.getMessage(), e);
+      log.error("Error while executing request", e);
     }
   }
 

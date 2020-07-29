@@ -35,7 +35,7 @@ import io.alanda.rest.security.PmcPrincipal;
 public class AuthenticationFilter implements Filter {
 
   /** Logger */
-  private final Logger logger = LoggerFactory.getLogger(AuthenticationFilter.class);
+  private static final Logger log = LoggerFactory.getLogger(AuthenticationFilter.class);
 
   private String realm = "PMC";
 
@@ -71,7 +71,7 @@ public class AuthenticationFilter implements Filter {
         if (basic.equalsIgnoreCase("Basic")) {
           try {
             String credentials = new String(Base64.decodeBase64(st.nextToken()), "UTF-8");
-            logger.debug("Credentials: " + credentials);
+            log.debug("Credentials: {}", credentials);
             int p = credentials.indexOf(":");
             if (p != -1) {
               final String username = credentials.substring(0, p).trim();
@@ -130,13 +130,13 @@ public class AuthenticationFilter implements Filter {
 
     // user already authenticated
 
-    logger.info("previously authenticated user: {}", principal.getName());
+    log.info("previously authenticated user: {}", principal.getName());
     chain.doFilter(new PmcHttpServletRequestWrapper(request, principal), response);
     return true;
   }
 
   private PmcUserDto validateUser(String username, String password) {
-    logger.info("called info validate user for " + username);
+    log.info("called info validate user for {}", username);
     PmcUserDto user = null;
     String fqn = username;
     String loginName = fqn.substring(fqn.indexOf("\\") + 1, fqn.length());

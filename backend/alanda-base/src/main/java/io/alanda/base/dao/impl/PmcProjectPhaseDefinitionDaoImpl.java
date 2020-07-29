@@ -13,7 +13,7 @@ public class PmcProjectPhaseDefinitionDaoImpl
   extends AbstractCrudDao<PmcProjectPhaseDefinition> 
   implements PmcProjectPhaseDefinitionDao {
 
-  private final Logger logger = LoggerFactory.getLogger(PmcProjectPhaseDefinitionDaoImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcProjectPhaseDefinitionDaoImpl.class);
   
   public PmcProjectPhaseDefinitionDaoImpl() {
     super();

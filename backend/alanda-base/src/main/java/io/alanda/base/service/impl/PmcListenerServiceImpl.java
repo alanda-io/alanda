@@ -21,7 +21,7 @@ import io.alanda.base.service.PmcListenerService;
 @Singleton
 public class PmcListenerServiceImpl implements PmcListenerService {
 
-  protected static final Logger logger = LoggerFactory.getLogger(PmcListenerServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcListenerServiceImpl.class);
 
   @Inject
   private PmcProjectDao pmcProjectDao;
@@ -34,10 +34,14 @@ public class PmcListenerServiceImpl implements PmcListenerService {
   @PostConstruct
   private void initPmcListenerService() {
     startListenerMap = new HashMap<>();
+    log.debug("Initializing listener service...");
+
     for (PmcProjectListener listener : pmcListener) {
-      logger.info("init PmcListenerService: adding PmcListener with idName " + listener.getListenerIdName());
+      log.debug("...adding listener {}", listener.getListenerIdName());
       startListenerMap.put(listener.getListenerIdName(), listener);
     }
+
+    log.info("...initialized listener service, registered {} listeners: {}", startListenerMap.size(), startListenerMap);
   }
 
   @Override

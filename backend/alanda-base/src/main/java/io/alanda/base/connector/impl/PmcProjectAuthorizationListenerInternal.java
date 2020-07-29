@@ -23,7 +23,7 @@ import io.alanda.base.service.PmcUserService;
 
 public class PmcProjectAuthorizationListenerInternal implements PmcProjectAuthorizationListener {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcProjectAuthorizationListenerInternal.class);
 
   @Inject
   private PmcRoleService pmcRoleService;
@@ -41,6 +41,8 @@ public class PmcProjectAuthorizationListenerInternal implements PmcProjectAuthor
 
   @Override
   public Set<String> getReadRightGroups(PmcProjectDto project, Map<String, InternalContactDto> projectRoles) {
+    log.debug("Get groups with read rights for project {}", project);
+
     Set<String> readRoles = new HashSet<>();
 
     // static roles defined in pmcProjectType

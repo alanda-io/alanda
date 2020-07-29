@@ -26,7 +26,7 @@ public class ConfigServiceImpl implements ConfigService {
 
   private static final String STANDALONE_CONFIGURATION_FOLDER = "/standalone/configuration";
 
-  private final Logger logger = LoggerFactory.getLogger(ConfigServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(ConfigServiceImpl.class);
 
   @Inject
   @JBossHome
@@ -42,16 +42,21 @@ public class ConfigServiceImpl implements ConfigService {
 
   @Override
   public void addOnChangeListener(OnChangeListener listener) {
+    log.info("Registering onChange config listener: {}", listener);
+
     listenerList.add(listener);
   }
 
   @Override
-  public synchronized String getProperty(String property) {
+  public synchronized String getProperty(String propertyKey) {
     if (configuration == null) {
       loadConfiguration();
       startFileMonitoring();
     }
-    return configuration.getProperty(property, null);
+    final String value = configuration.getProperty(propertyKey, null);
+    log.debug("Got config property: {} -> {}", propertyKey, value);
+
+    return value;
   }
 
   @Override
@@ -62,12 +67,13 @@ public class ConfigServiceImpl implements ConfigService {
   private synchronized void loadConfiguration() {
     try {
       configuration = new Properties();
-      configuration.load(Files.newInputStream(getConfigurationPath()));
+      final Path configurationPath = getConfigurationPath();
+      log.info("Loading configuration from {}", configurationPath);
+
+      configuration.load(Files.newInputStream(configurationPath));
     } catch (IOException e) {
       configuration = null;
-      String msg = "Could not load Alanda Configuration File.";
-      logger.error(msg, e);
-      throw new IllegalStateException(msg, e);
+      throw new IllegalStateException("Could not load Alanda Configuration File", e);
     }
   }
 
@@ -86,11 +92,14 @@ public class ConfigServiceImpl implements ConfigService {
   }
 
   private void startFileMonitoring() {
+    log.info("Starting monitoring of config file {}", configuration);
+
     FileMonitor monitor = new FileMonitor(configurationFile);
     monitor.addOnChangedListener(new OnChangeListener() {
 
       @Override
       public void onChange() {
+        log.info("Change detected, reloading config file {}", configurationFile);
         loadConfiguration();
         notifyListeners();
       }
@@ -99,8 +108,11 @@ public class ConfigServiceImpl implements ConfigService {
   }
 
   private void notifyListeners() {
+    log.info("Notifying {} listeners for change...", listenerList.size());
     for (OnChangeListener listener : listenerList) {
+      log.trace("Notifiying listener {}", listener);
       listener.onChange();
     }
+    log.debug("...notified {} listeners for change...", listenerList.size());
   }
 }

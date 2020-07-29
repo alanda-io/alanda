@@ -16,11 +16,11 @@ import io.alanda.identity.PmcIdentityProviderFactory;
  */
 public class PmcIdentityProviderPlugin extends PmcConfiguration implements ProcessEnginePlugin {
 
-  private final Logger logger = LoggerFactory.getLogger(PmcIdentityProviderPlugin.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcIdentityProviderPlugin.class);
 
   @Override
   public void preInit(ProcessEngineConfigurationImpl processEngineConfiguration) {
-    logger.info("PLUGIN {} activated on process engine {}", getClass().getSimpleName(), processEngineConfiguration.getProcessEngineName());
+    log.info("PLUGIN {} activated on process engine {}", getClass().getSimpleName(), processEngineConfiguration.getProcessEngineName());
     PmcIdentityProviderFactory osirisIdentityProviderFactory = new PmcIdentityProviderFactory();
     osirisIdentityProviderFactory.setPmcConfiguration(this);
     processEngineConfiguration.setIdentityProviderSessionFactory(osirisIdentityProviderFactory);

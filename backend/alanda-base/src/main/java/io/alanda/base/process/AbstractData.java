@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 
 public class AbstractData {
 
-  private final Logger logger = LoggerFactory.getLogger(AbstractData.class);
+  private static final Logger log = LoggerFactory.getLogger(AbstractData.class);
 
   protected AbstractProcessVariableAdapter accessor;
 
@@ -94,7 +94,7 @@ public class AbstractData {
       try {
         return Long.valueOf(variable.toString());
       } catch (NumberFormatException e) {
-        logger.error("variable '{}' can't be cast to Long", name);
+        log.error("variable '{}' can't be cast to Long", name);
       }
     }
     return null;
@@ -114,7 +114,7 @@ public class AbstractData {
       }
     } catch (IOException e) {
       String errorMessage = "Error mapping " + type.getName() + " from JSON serialized String";
-      logger.error(errorMessage, e);
+      log.error(errorMessage, e);
       throw new RuntimeException(errorMessage, e);
     }
   }
@@ -128,7 +128,7 @@ public class AbstractData {
       return new ObjectMapper().writeValueAsBytes(list);
     } catch (IOException e) {
       String msg = "Error mapping JSON serialized String to Object";
-      logger.error(msg, e);
+      log.error(msg, e);
       throw new RuntimeException(msg, e);
     }
   }
@@ -147,7 +147,7 @@ public class AbstractData {
       }
     } catch (IOException e) {
       String errorMessage = "Error mapping " + type.getName() + " from JSON serialized String";
-      logger.error(errorMessage, e);
+      log.error(errorMessage, e);
       throw new RuntimeException(errorMessage, e);
     }
   }
@@ -161,7 +161,7 @@ public class AbstractData {
       return new ObjectMapper().writeValueAsBytes(object);
     } catch (IOException e) {
       String msg = "Error mapping JSON serialized String to Object";
-      logger.error(msg, e);
+      log.error(msg, e);
       throw new RuntimeException(msg, e);
     }
   }
@@ -175,7 +175,7 @@ public class AbstractData {
       return new ObjectMapper().writeValueAsString(object);
     } catch (IOException e) {
       String msg = "Error serializing object as JSON.";
-      logger.error(msg, e);
+      log.error(msg, e);
       throw new RuntimeException(msg, e);
     }
   }
@@ -194,7 +194,7 @@ public class AbstractData {
       }
     } catch (IOException e) {
       String errorMessage = "Error mapping " + type.getName() + " from JSON serialized String";
-      logger.error(errorMessage, e);
+      log.error(errorMessage, e);
       throw new RuntimeException(errorMessage, e);
     }
   }
