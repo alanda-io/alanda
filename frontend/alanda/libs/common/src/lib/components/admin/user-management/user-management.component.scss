@@ -13,16 +13,13 @@
 }
 
 .key {
-  display: inline-block;
-  overflow-wrap: break-word;
-  max-width: 300px;
+  text-align: left;
+  vertical-align: middle;
 }
 
 .source {
-  display: inline-block;
-  float: right;
-  overflow-wrap: break-word;
-  max-width: 250px;
+  text-align: right;
+  vertical-align: middle;
 }
 
 .ui-panel {
