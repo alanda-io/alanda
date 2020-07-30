@@ -1,4 +1,11 @@
-import { Component, HostListener, Input, Output } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   state,
   style,
@@ -12,6 +19,7 @@ import { map } from 'rxjs/operators';
 import { AlandaMenuItem } from '../../api/models/menuItem';
 import { AlandaUser } from '../../api/models/user';
 import { Authorizations } from '../../permissions/utils/permission-checks'
+import { APP_CONFIG, AppSettings } from '../../..';
 
 interface AlandaHeaderState {
   user: AlandaUser,
@@ -41,7 +49,7 @@ interface AlandaHeaderState {
     ]),
   ],
 })
-export class AlandaHeaderComponent {
+export class AlandaHeaderComponent implements OnInit {
   @Input()
   set user(user: Observable<AlandaUser>) {
     if (isObservable(user)) {
@@ -54,6 +62,7 @@ export class AlandaHeaderComponent {
   set items(items: AlandaMenuItem[]) {
     this.rxState.set({ items });
   }
+  @Input() logoPath?: string;
 
   @Output()
   releaseRunAsClick = new Subject<void>();
@@ -61,6 +70,11 @@ export class AlandaHeaderComponent {
   value: Date;
   autoHide = true;
   private scrollPos = 0;
+
+  avatarBasePath: string;
+  avatarExtension: string;
+  defaultAvatarPath = 'assets/default-avatar.png';
+  avatarPath = this.defaultAvatarPath;
 
   user$ = this.rxState.select('user');
 
@@ -74,8 +88,18 @@ export class AlandaHeaderComponent {
   );
 
   constructor(
-    public rxState: RxState<AlandaHeaderState>
-  ) {}
+    public rxState: RxState<AlandaHeaderState>,
+    @Inject(APP_CONFIG) config: AppSettings,
+  ) {
+    this.avatarBasePath = config.AVATAR_BASE_PATH;
+    this.avatarExtension = config.AVATAR_EXT;
+  }
+
+  ngOnInit() {
+    this.avatarPath = `${this.avatarBasePath}/${
+      this.rxState.get().user.guid
+    }.${this.avatarExtension}`;
+  }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -85,6 +109,12 @@ export class AlandaHeaderComponent {
     } else {
       this.scrollPos = window.pageYOffset;
       this.autoHide = true;
+    }
+  }
+
+  fallbackImage(event): void {
+    if (event.target.src !== this.defaultAvatarPath) {
+      event.target.src = this.defaultAvatarPath;
     }
   }
 }

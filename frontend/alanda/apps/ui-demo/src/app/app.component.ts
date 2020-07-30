@@ -69,6 +69,8 @@ export class AppComponent {
     },
   ];
 
+  logoPath = '/assets/default-logo.png'
+
   constructor(private userAdapter: UserAdapter) {
     this.userAdapter.connectReleaseRunAs(
       this.releaseRunAsClick$.asObservable(),

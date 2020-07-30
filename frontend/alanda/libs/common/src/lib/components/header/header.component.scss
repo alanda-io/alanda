@@ -1,7 +1,39 @@
 .header-container {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+
+  .logo {
+    float: left;
+    min-width: 45px;
+    width: auto;
+    max-width: 125px;
+    height: 45px;
+    overflow: hidden;
+    margin: 0 10px;
+
+    > img {
+      display: inline-block;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      max-height: 100%;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
 
   .sub-menu {
-    padding: 0 25px;
+    margin: 0 10px;
+
+    .user-avatar {
+      padding: 0;
+      width: 35px;
+      height: 35px;
+
+      > img {
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
 }
