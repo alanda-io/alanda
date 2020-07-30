@@ -54,7 +54,6 @@ export class AlandaHeaderComponent {
   set items(items: AlandaMenuItem[]) {
     this.rxState.set({ items });
   }
-  @Input() title = 'Alanda';
 
   @Output()
   releaseRunAsClick = new Subject<void>();

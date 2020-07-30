@@ -1,20 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AlandaHeaderComponent } from './header.component';
 
-import { HeaderComponent } from './header.component';
-
-describe('HeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+describe('AlandaHeaderComponent', () => {
+  let component: AlandaHeaderComponent;
+  let fixture: ComponentFixture<AlandaHeaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ]
+      declarations: [ AlandaHeaderComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderComponent);
+    fixture = TestBed.createComponent(AlandaHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
