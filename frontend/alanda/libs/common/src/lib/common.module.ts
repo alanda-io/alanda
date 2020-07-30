@@ -100,6 +100,7 @@ import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-c
 import { AlandaProjectAndProcessesService } from './components/project-and-processes/project-and-processes.service';
 import { AlandaProcessMessageApiService } from './api/processMessageApi.service';
 import { AlandaVarDatepickerComponent } from './form/components/var-datepicker/var-datepicker.component';
+import { AlandaHeaderModule } from './components/header/header.module';
 
 @NgModule({
   imports: [
@@ -228,6 +229,7 @@ import { AlandaVarDatepickerComponent } from './form/components/var-datepicker/v
     PhaseTabModule,
     AlandaVarCheckboxComponent,
     AlandaVarDatepickerComponent,
+    AlandaHeaderModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,

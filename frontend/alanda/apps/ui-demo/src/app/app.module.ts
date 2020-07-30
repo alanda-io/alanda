@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
  */
 
 import { AppRoutingModule } from './app-routing.module';
-import { LayoutModule } from './layout/layout.module';
 import { CoreModule } from './core/core.module';
 import { ViewsModule } from './views/views.module';
 import {
@@ -44,7 +43,6 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    LayoutModule,
     CoreModule,
     ViewsModule,
     SharedModule,
@@ -65,6 +63,4 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 })
 export class AppModule {
   constructor() {}
-
-  ngDoBootstrap() {}
 }
