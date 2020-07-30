@@ -1,8 +1,8 @@
 <p-toast></p-toast>
-<ng-container *rxLet="user$; let user">
+<ng-container *rxLet="items$; let items">
   <div [@autoHide]="autoHide ? 'open' : 'closed'" class="header-container">
     <p-menubar [model]="items">
-      <div class="sub-menu">
+      <div class="sub-menu" *rxLet="user$; let user">
         <span>{{ user.firstName }} {{ user.surname }}</span>
         <span *ngIf="user.runAs">
           ( logged in as {{ user.runAs }}

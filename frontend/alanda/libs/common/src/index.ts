@@ -54,6 +54,7 @@ export * from './lib/api/models/refObject';
 export * from './lib/api/models/comment';
 export * from './lib/api/models/commentTag';
 export * from './lib/api/models/department';
+export * from './lib/api/models/menuItem';
 
 export * from './lib/pipes/nested-object.pipe';
 export * from './lib/pipes/filter.pipe';
@@ -108,3 +109,5 @@ export * from './lib/components/project-and-processes/project-and-processes.comp
 export * from './lib/models/alandaTaskFormPanel';
 export * from './lib/components/project-and-processes/pap-actions/pap-actions.component';
 export * from './lib/components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
+export { AlandaHeaderComponent} from './lib/components/header/header.component';
+export { AlandaHeaderModule} from './lib/components/header/header.module';
