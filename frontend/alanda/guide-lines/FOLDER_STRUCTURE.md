@@ -1,12 +1,12 @@
 # Guidelines
 
-see [Styleguide - symbols and file names](https://angular.io/guide/styleguide#symbols-and-file-names)
+see [Styleguide - Symbols and File names](https://angular.io/guide/styleguide#symbols-and-file-names)
 
 ## Why?
-
-Naming files and directives "can" be as simple as is sounds.
-Just choose a name, which represents the content inside, and you are good to go.
-Consistency throughout a project or even a team(!) helps when looking for a specific piece of code and provides a seamless pattern matching for any automated tasks.
+Consistency throughout a project or even a team(!) helps 
+- when looking for a specific piece of code 
+- provides a seamless pattern matching for any automated tasks
+- easy localisation of errors
 This speeds up development and helps to orientate in the codebase.
 
 ##### Filenames - Do's & Dont's
@@ -83,13 +83,13 @@ any-component/
 ├── any-component.component.scss  
 ├── any-component.component.html  
 ├── any-component.component.ts  
-├── any-component.component.spec.ts
-├── any-component.presenter.ts
-├── any-component.validators.ts  
-├── any-component.[subjcet-name].model.ts
-├── [subjcet-name].model.ts
-├── any-component.utils.ts
-└── index.ts
+├── any-component.component.spec.ts  
+├── any-component.presenter.ts  
+├── any-component.validators.ts   
+├── any-component.[subjcet-name].model.ts  
+├── [subjcet-name].model.ts  
+├── any-component.utils.ts  
+└── index.ts  
 
 A Display component only relies on input and outputs. It contains the logic to display the passed data.
 
