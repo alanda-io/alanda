@@ -21,6 +21,7 @@ export * from './lib/permissions';
 export * from './lib/services/exceptionHandling.service';
 export * from './lib/services/project-properties.service';
 export * from './lib/services/monitorApi.service';
+export { AlandaTitleService } from './lib/services/title.service';
 export * from './lib/form/alanda-task-form.service';
 export * from './lib/form/base-form.component.interface';
 export * from './lib/form/base-state';

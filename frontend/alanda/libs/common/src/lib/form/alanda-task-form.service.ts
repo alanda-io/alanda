@@ -22,6 +22,7 @@ import { AlandaProject } from '../api/models/project';
 import { AlandaProjectApiService } from '../api/projectApi.service';
 import { AlandaTaskApiService } from '../api/taskApi.service';
 import { MessageService } from 'primeng/api';
+import { AlandaTitleService } from '../services/title.service';
 
 export interface AlandaTaskFormState {
   task?: AlandaTask;
@@ -54,6 +55,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     }),
     concatMap((task: AlandaTask) => {
       if (task.pmcProjectGuid) {
+        this.titleService.setTaskTitle(task);
         return this.projectService
           .getProjectByGuid(task.pmcProjectGuid)
           .pipe(map((project) => ({ task, project })));
@@ -68,6 +70,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     private readonly taskService: AlandaTaskApiService,
     private readonly projectService: AlandaProjectApiService,
     private readonly messageService: MessageService,
+    private readonly titleService: AlandaTitleService
   ) {
     super();
     this.connect(this.fetchTaskById$);
