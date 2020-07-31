@@ -19,7 +19,7 @@ import { map } from 'rxjs/operators';
 import { AlandaMenuItem } from '../../api/models/menuItem';
 import { AlandaUser } from '../../api/models/user';
 import { Authorizations } from '../../permissions/utils/permission-checks'
-import { APP_CONFIG, AppSettings } from '../../..';
+import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 
 interface AlandaHeaderState {
   user: AlandaUser,
