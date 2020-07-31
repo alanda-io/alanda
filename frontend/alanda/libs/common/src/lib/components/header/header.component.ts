@@ -15,15 +15,15 @@ import {
 } from '@angular/animations';
 import { RxState } from '@rx-angular/state';
 import { Observable, isObservable, Subject, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { AlandaMenuItem } from '../../api/models/menuItem';
 import { AlandaUser } from '../../api/models/user';
-import { Authorizations } from '../../permissions/utils/permission-checks'
+import { Authorizations } from '../../permissions/utils/permission-checks';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 
 interface AlandaHeaderState {
-  user: AlandaUser,
-  items: AlandaMenuItem[],
+  user: AlandaUser;
+  items: AlandaMenuItem[];
 }
 
 @Component({
@@ -78,13 +78,17 @@ export class AlandaHeaderComponent implements OnInit {
 
   user$ = this.rxState.select('user');
 
-  items$ = combineLatest([
-    this.user$,
-    this.rxState.select('items'),
-  ]).pipe(
+  items$ = combineLatest([this.user$, this.rxState.select('items')]).pipe(
     map(([user, items]) =>
-      items.filter(item => Authorizations.filterMenuItems(item, user))
-    )
+      items.filter((item) => Authorizations.filterMenuItems(item, user)),
+    ),
+  );
+
+  avatar$ = this.user$.pipe(
+    map(
+      (user) => `${this.avatarBasePath}/${user.guid}.${this.avatarExtension}`,
+    ),
+    startWith(this.defaultAvatarPath),
   );
 
   constructor(
@@ -95,11 +99,7 @@ export class AlandaHeaderComponent implements OnInit {
     this.avatarExtension = config.AVATAR_EXT;
   }
 
-  ngOnInit() {
-    this.avatarPath = `${this.avatarBasePath}/${
-      this.rxState.get().user.guid
-    }.${this.avatarExtension}`;
-  }
+  ngOnInit() {}
 
   @HostListener('window:scroll', [])
   onWindowScroll() {

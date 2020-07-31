@@ -2,21 +2,25 @@
 <ng-container *rxLet="items$; let items">
   <div [@autoHide]="autoHide ? 'open' : 'closed'" class="header-container">
     <div class="logo" *ngIf="logoPath">
-      <img [src]="logoPath" alt="" draggable="false">
+      <img [src]="logoPath" alt="" draggable="false" />
     </div>
     <p-menubar [model]="items">
       <div class="p-grid sub-menu" *rxLet="user$; let user">
         <div class="p-col-fixed user-avatar">
-          <img [src]="avatarPath"
-               (error)="fallbackImage($event)"
-               draggable="false">
+          <img
+            [src]="avatar$ | async"
+            (error)="fallbackImage($event)"
+            draggable="false"
+          />
         </div>
         <div class="p-col">
           <div>{{ user.firstName }} {{ user.surname }}</div>
           <div *ngIf="user.runAs">
             (logged in as {{ user.runAs }}
-            <i class="pi pi-user-minus"
-               (click)="releaseRunAsClick.next($event)"></i>
+            <i
+              class="pi pi-user-minus"
+              (click)="releaseRunAsClick.next($event)"
+            ></i>
             )
           </div>
         </div>

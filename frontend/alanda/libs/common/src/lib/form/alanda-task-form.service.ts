@@ -26,6 +26,7 @@ import { MessageService } from 'primeng/api';
 export interface AlandaTaskFormState {
   task?: AlandaTask;
   project?: AlandaProject;
+  loading?: number;
   //  rootFormData: { [controlName: string]: any }
 }
 
@@ -42,7 +43,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     filter((event: RouterEvent): boolean => event instanceof NavigationEnd),
     map(() => this.router.routerState.snapshot.root),
     // @TODO if we get away from global task managing delete this line and move code
-    map((snapshot) => this.collectParams(snapshot))
+    map((snapshot) => this.collectParams(snapshot)),
   );
 
   urlTaskId$ = this.routerParams$.pipe(map((p) => p.taskId));
@@ -122,5 +123,17 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     } else {
       return of(this.rootForm.errors);
     }
+  }
+
+  connectLoadingState(o$: Observable<boolean>): void {
+    this.connect('loading', o$, (oldState, isLoading) => {
+      return isLoading ? oldState.loading++ : oldState.loading--;
+    });
+  }
+
+  setLoading(isLoading: boolean): void {
+    this.set('loading', (oldState) => {
+      return isLoading ? oldState.loading++ : oldState.loading--;
+    });
   }
 }
