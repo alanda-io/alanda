@@ -7,11 +7,12 @@ import java.util.List;
 public class CheckListDto {
     private Long id;
 
-    private CheckListTemplateDto checkListTemplate;
+    private String name;
 
     private String userTask;
 
-    private List<CheckListItemDefinitionDto> itemDefinitions;
+    private List<CheckListItemDto> checkListItems;
+
 
     public Long getId() {
         return id;
@@ -21,12 +22,12 @@ public class CheckListDto {
         this.id = id;
     }
 
-    public CheckListTemplateDto getCheckListTemplate() {
-        return checkListTemplate;
+    public String getName() {
+        return name;
     }
 
-    public void setCheckListTemplate(CheckListTemplateDto checkListTemplate) {
-        this.checkListTemplate = checkListTemplate;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUserTask() {
@@ -37,11 +38,11 @@ public class CheckListDto {
         this.userTask = userTask;
     }
 
-    public List<CheckListItemDefinitionDto> getItemDefinitions() {
-        return itemDefinitions;
+    public List<CheckListItemDto> getCheckListItems() {
+        return checkListItems;
     }
 
-    public void setItemDefinitions(List<CheckListItemDefinitionDto> itemDefinitions) {
-        this.itemDefinitions = itemDefinitions;
+    public void setCheckListItems(List<CheckListItemDto> checkListItems) {
+        this.checkListItems = checkListItems;
     }
 }

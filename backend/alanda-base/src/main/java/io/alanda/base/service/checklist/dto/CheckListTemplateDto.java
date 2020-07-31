@@ -7,7 +7,7 @@ import java.util.List;
 public class CheckListTemplateDto {
     private Long id;
     private String name;
-    private CheckListItemBackend taskBackend;
+    private CheckListItemBackend itemBackend;
     private List<String> userTasks;
     private List<CheckListItemDefinitionDto> itemDefinitions;
 
@@ -27,12 +27,12 @@ public class CheckListTemplateDto {
         this.name = name;
     }
 
-    public CheckListItemBackend getTaskBackend() {
-        return taskBackend;
+    public CheckListItemBackend getItemBackend() {
+        return itemBackend;
     }
 
-    public void setTaskBackend(CheckListItemBackend taskBackend) {
-        this.taskBackend = taskBackend;
+    public void setItemBackend(CheckListItemBackend itemBackend) {
+        this.itemBackend = itemBackend;
     }
 
     public List<String> getUserTasks() {

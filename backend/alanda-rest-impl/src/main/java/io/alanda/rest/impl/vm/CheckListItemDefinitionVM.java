@@ -1,6 +1,8 @@
 package io.alanda.rest.impl.vm;
 
 public class CheckListItemDefinitionVM {
+    private Boolean custom;
+
     private String key;
 
     private String displayText;
@@ -8,6 +10,14 @@ public class CheckListItemDefinitionVM {
     private Boolean required;
 
     private Long sortOrder;
+
+    public Boolean getCustom() {
+        return custom;
+    }
+
+    public void setCustom(Boolean custom) {
+        this.custom = custom;
+    }
 
     public String getKey() {
         return key;

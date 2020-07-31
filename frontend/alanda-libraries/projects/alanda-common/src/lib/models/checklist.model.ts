@@ -1,16 +1,12 @@
 export type CheckListItemDefinition = {
+  custom: boolean,
   key: string,
   displayText: string,
   required: boolean,
-  sortOrder: number
 };
 
 export type CheckListItem = {
-  customDefinition: boolean,
-  key: string,
-  displayText: string,
-  required: boolean,
-  sortOrder: number,
+  definition: CheckListItemDefinition,
   status: boolean
 };
 

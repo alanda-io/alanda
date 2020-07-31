@@ -90,7 +90,7 @@ public class CheckListService {
     }
 
     private TaskListItemService<Object> getItemBackend(CheckListTemplateDto templateDto) {
-        return itemBackendServices.get(templateDto.getTaskBackend());
+        return itemBackendServices.get(templateDto.getItemBackend());
     }
 
     private TaskListItemService<Object> getItemBackend(CheckListItemDefinitionDto itemDefinitionDto) {

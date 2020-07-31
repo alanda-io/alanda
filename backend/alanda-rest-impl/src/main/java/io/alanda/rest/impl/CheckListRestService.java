@@ -85,7 +85,7 @@ public class CheckListRestService {
         final Optional<CheckListDto> checkList = checkListService.getCheckList(checkListId);
         checkList.ifPresent(cl -> {
             final CheckListItemDefinitionDto definitionDto = null;
-            cl.getItemDefinitions().add(definitionDto);
+            //cl.getCheckListItems().add(definitionDto);
         });
 
         return Response.ok().build();
@@ -96,9 +96,9 @@ public class CheckListRestService {
     public Response deleteCheckListItemFromChecklist(Long checkListId, String itemKey) {
         final Optional<CheckListDto> checkList = checkListService.getCheckList(checkListId);
         checkList.map(cl -> {
-            cl.setItemDefinitions(cl.getItemDefinitions().stream()
+            /*cl.setItemDefinitions(cl.getItemDefinitions().stream()
                     .filter(def -> !def.getKey().equals("itemKey"))
-                    .collect(Collectors.toList()));
+                    .collect(Collectors.toList()));*/
 
             return checkListService.saveCheckList(cl.getId(), cl);
         });
