@@ -7,9 +7,8 @@ describe('AlandaHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AlandaHeaderComponent ]
-    })
-    .compileComponents();
+      declarations: [AlandaHeaderComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

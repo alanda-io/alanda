@@ -70,7 +70,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     private readonly taskService: AlandaTaskApiService,
     private readonly projectService: AlandaProjectApiService,
     private readonly messageService: MessageService,
-    private readonly titleService: AlandaTitleService
+    private readonly titleService: AlandaTitleService,
   ) {
     super();
     this.connect(this.fetchTaskById$);

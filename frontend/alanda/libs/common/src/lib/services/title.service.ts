@@ -7,7 +7,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { APP_CONFIG, AppSettings } from '../models/appSettings';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AlandaTitleService {
   titlePrefix: string;
@@ -26,7 +26,9 @@ export class AlandaTitleService {
   }
 
   setTitle(newTitle?: string) {
-    newTitle = newTitle ? `${this.titlePrefix} - ${newTitle}` : this.titlePrefix;
+    newTitle = newTitle
+      ? `${this.titlePrefix} - ${newTitle}`
+      : this.titlePrefix;
     this.titleService.setTitle(newTitle);
   }
 
@@ -39,23 +41,25 @@ export class AlandaTitleService {
   }
 
   setRouterTitle() {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      map(() => {
-        let child = this.activatedRoute.firstChild;
-        while (child.firstChild) {
-          child = child.firstChild;
-        }
-        if (child.snapshot.data['title']) {
-          return child.snapshot.data['title'];
-        }
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        map(() => {
+          let child = this.activatedRoute.firstChild;
+          while (child.firstChild) {
+            child = child.firstChild;
+          }
+          if (child.snapshot.data['title']) {
+            return child.snapshot.data['title'];
+          }
 
-        return '';
-      })
-    ).subscribe((routerTitle: string) => {
-      if(routerTitle) {
-        this.setTitle(routerTitle);
-      }
-    });
+          return '';
+        }),
+      )
+      .subscribe((routerTitle: string) => {
+        if (routerTitle) {
+          this.setTitle(routerTitle);
+        }
+      });
   }
 }

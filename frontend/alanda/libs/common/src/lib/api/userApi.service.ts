@@ -12,7 +12,7 @@ import { AlandaExceptionHandlingService } from '../services/exceptionHandling.se
 import { ServerOptions } from '../models/serverOptions';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AlandaUserApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;

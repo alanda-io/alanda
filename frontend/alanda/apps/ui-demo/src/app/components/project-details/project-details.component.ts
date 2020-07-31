@@ -12,7 +12,10 @@ import { AlandaTitleService } from '@alanda/common';
 export class ProjectDetailsComponent {
   project: AlandaProject;
   pid: string;
-  constructor(public state: RxState<ProjectControllerState>, private titleService: AlandaTitleService) {
+  constructor(
+    public state: RxState<ProjectControllerState>,
+    private titleService: AlandaTitleService,
+  ) {
     this.project = this.state.get().project;
     this.pid = this.state.get().pid;
     this.titleService.setProjectTitle(this.project);

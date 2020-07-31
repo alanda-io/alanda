@@ -1,4 +1,11 @@
-import { Component, OnInit, ComponentFactoryResolver, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ComponentFactoryResolver,
+  ViewChild,
+  AfterViewInit,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog/';
 import { AlandaProcess } from '../../../api/models/process';
 import { ProcessConfigDirective } from '../../controller/directives/process.config.directive';
@@ -27,7 +34,7 @@ export interface SubprocessPropertyValue {
   displayName?: string;
   propertyName?: string;
   typ?: string;
-  values?: {value: string; displayName: string}[];
+  values?: { value: string; displayName: string }[];
   display?: boolean;
   projectScope?: boolean;
   hideIfAlreadySet?: boolean;
@@ -39,7 +46,6 @@ export interface SubprocessPropertyValue {
   templateUrl: './pap-config-dialog.component.html',
 })
 export class PapConfigDialogComponent implements OnInit, AfterViewInit {
-
   process: AlandaProcess;
   projectGuid: number;
   configuration: ProjectTypeProcessConfig;
@@ -52,7 +58,8 @@ export class PapConfigDialogComponent implements OnInit, AfterViewInit {
     public dynamicDialogConfig: DynamicDialogConfig,
     private readonly componentFactoryResolver: ComponentFactoryResolver,
     private readonly cdRef: ChangeDetectorRef,
-    private readonly templateService: AlandaProcessConfigModalService) {}
+    private readonly templateService: AlandaProcessConfigModalService,
+  ) {}
 
   ngOnInit() {
     this.process = this.dynamicDialogConfig.data.process;
@@ -60,7 +67,7 @@ export class PapConfigDialogComponent implements OnInit, AfterViewInit {
     this.projectGuid = this.dynamicDialogConfig.data.projectGuid;
     console.log(this.configuration);
 
-    this.configuration.subprocessProperties.forEach(prop => {
+    this.configuration.subprocessProperties.forEach((prop) => {
       if (prop.processDefinitionKey === this.process.processKey) {
         this.properties = prop.properties;
         this.template = prop.propertiesTemplate;
@@ -87,5 +94,4 @@ export class PapConfigDialogComponent implements OnInit, AfterViewInit {
     const componentRef = viewContainerRef.createComponent(componentFactory);
     // (componentRef.instance as any).project = this.project;
   }
-
 }

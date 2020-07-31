@@ -14,7 +14,7 @@ import { AlandaProcessesAndTasks } from './models/processesAndTasks';
 import { AlandaSimplePhase } from './models/simplePhase';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AlandaProjectApiService extends AlandaExceptionHandlingService {
   private readonly endpoint: string;
@@ -121,7 +121,9 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
       )
       .pipe(
         catchError(
-          this.handleError<AlandaProcessesAndTasks>('getProcessesAndTasksForProject'),
+          this.handleError<AlandaProcessesAndTasks>(
+            'getProcessesAndTasksForProject',
+          ),
         ),
       );
   }

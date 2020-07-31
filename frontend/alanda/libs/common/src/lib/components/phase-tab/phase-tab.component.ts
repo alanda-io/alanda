@@ -32,13 +32,13 @@ export class AlandaPhaseTabComponent {
       allowedProcesses: null,
       displayName: 'Overview',
       guid: null,
-      idName: null
+      idName: null,
     },
     guid: null,
     idName: null,
     updateUser: null,
-    updateDate: null
-  }
+    updateDate: null,
+  };
 
   phaseStatusMap = {
     active: {
@@ -86,16 +86,16 @@ export class AlandaPhaseTabComponent {
 
   simplePhases$ = this.state.select('project').pipe(
     switchMap((project: AlandaProject) =>
-      this.projectApiService.getPhasesForProject(project.guid)
+      this.projectApiService.getPhasesForProject(project.guid),
     ),
-    map(simplePhases => {
-      return [this.overviewTab, ...simplePhases]
-    })
+    map((simplePhases) => {
+      return [this.overviewTab, ...simplePhases];
+    }),
   );
 
   constructor(
     private state: RxState<AlandaPhaseTabState>,
-    private readonly projectApiService: AlandaProjectApiService
+    private readonly projectApiService: AlandaProjectApiService,
   ) {
     this.state.connect('simplePhases', this.simplePhases$);
   }
@@ -109,7 +109,9 @@ export class AlandaPhaseTabComponent {
     this.activePhaseIndexChange.emit(this.activePhaseIndex);
   }
 
-  getPhaseStatus(phase: AlandaSimplePhase): {label: string, styleClass: string} {
+  getPhaseStatus(
+    phase: AlandaSimplePhase,
+  ): { label: string; styleClass: string } {
     if (phase.active) {
       return this.phaseStatusMap.active;
     } else if (phase.endDate) {

@@ -24,13 +24,14 @@ import { ProjectPhasesComponent } from './components/project-phases/project-phas
     ProjectPhasesComponent,
   ],
   exports: [],
-  providers: []
+  providers: [],
 })
 export class VacationModule {
-
   constructor(private propertiesService: AlandaProjectPropertiesService) {
-    this.propertiesService.addPropsForType('VACATION', ProjectPropertiesComponent);
+    this.propertiesService.addPropsForType(
+      'VACATION',
+      ProjectPropertiesComponent,
+    );
     this.propertiesService.addPropsForType('VACATION', ProjectPhasesComponent);
   }
-
 }

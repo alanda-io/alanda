@@ -16,7 +16,6 @@ export function subProcessValidator(
   checkForStartedProcesses: string[] = [],
   checkForActivePhaseProcesses: boolean = false,
 ): AsyncValidatorFn {
-
   interface ActiveProcess {
     guid: number;
     processInstanceId: string;
@@ -56,7 +55,11 @@ export function subProcessValidator(
               proc.relation === 'CHILD' &&
               (proc.status === 'ACTIVE' || proc.status === 'SUSPENDED')
             ) {
-              return { stillActiveProcesses: { text: 'At least one sub process is still active!' } };
+              return {
+                stillActiveProcesses: {
+                  text: 'At least one sub process is still active!',
+                },
+              };
             }
           }
         }
@@ -78,7 +81,12 @@ export function subProcessValidator(
             }
           }
           if (!valid) {
-            return { noActiveProcess: { text: 'No sub processes are running in this phase. You can\'t wait further.'} };
+            return {
+              noActiveProcess: {
+                text:
+                  "No sub processes are running in this phase. You can't wait further.",
+              },
+            };
           }
         }
 
@@ -94,7 +102,14 @@ export function subProcessValidator(
             }
           }
           if (!started) {
-            return { processNotStarted: { text: 'Can\'t continue until process with key ' + processToStart + ' has been started!' } };
+            return {
+              processNotStarted: {
+                text:
+                  "Can't continue until process with key " +
+                  processToStart +
+                  ' has been started!',
+              },
+            };
           }
         }
         return null;

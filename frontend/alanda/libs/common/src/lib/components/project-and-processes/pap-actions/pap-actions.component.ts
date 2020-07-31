@@ -1,9 +1,18 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
 
-type Actions = 'CANCEL-PROJECT' | 'CANCEL-PROCESS' | 'START-SUBPROCESS' | 'REMOVE-SUBPROCESS' |
-               'CONFIGURE-SUBPROCESS' | 'CREATE-SUBPROJECT' | 'RELATE-SUBPROJECT' | 'RELATE-ME-TO' |
-               'UNRELATE-ME' | 'MOVE-ME-TO' | 'RELATE-PROJECTS'
+type Actions =
+  | 'CANCEL-PROJECT'
+  | 'CANCEL-PROCESS'
+  | 'START-SUBPROCESS'
+  | 'REMOVE-SUBPROCESS'
+  | 'CONFIGURE-SUBPROCESS'
+  | 'CREATE-SUBPROJECT'
+  | 'RELATE-SUBPROJECT'
+  | 'RELATE-ME-TO'
+  | 'UNRELATE-ME'
+  | 'MOVE-ME-TO'
+  | 'RELATE-PROJECTS';
 
 export interface PapConfigValues {
   readOnly?: boolean;
@@ -12,7 +21,7 @@ export interface PapConfigValues {
 
 export type PapActionConfig = {
   [action in Actions]?: PapConfigValues;
-}
+};
 
 @Component({
   selector: 'alanda-pap-actions',
@@ -20,7 +29,6 @@ export type PapActionConfig = {
   styleUrls: ['./pap-actions.component.css'],
 })
 export class PapActionsComponent implements OnInit {
-
   @Input() config: PapActionConfig = {};
   @Input() disabled: boolean;
   @Input() status: string;
@@ -46,33 +54,43 @@ export class PapActionsComponent implements OnInit {
       {
         label: 'Create subproject',
         icon: 'fa fa-angle-right',
-        visible : this.config['CREATE-SUBPROJECT'] ? this.config['CREATE-SUBPROJECT'].display : false,
+        visible: this.config['CREATE-SUBPROJECT']
+          ? this.config['CREATE-SUBPROJECT'].display
+          : false,
         command: (onclick) => this.createSubproject.emit(),
       },
       {
         label: 'Relate subproject',
         icon: 'fa fa-angle-right',
-        visible : this.config['RELATE-SUBPROJECT'] ? this.config['RELATE-SUBPROJECT'].display : false,
+        visible: this.config['RELATE-SUBPROJECT']
+          ? this.config['RELATE-SUBPROJECT'].display
+          : false,
         command: (onclick) => this.relateSubproject.emit(),
       },
       {
         label: 'Relate me to',
         icon: 'fa fa-angle-right',
-        visible : this.config['RELATE-ME-TO'] ? this.config['RELATE-ME-TO'].display : false,
+        visible: this.config['RELATE-ME-TO']
+          ? this.config['RELATE-ME-TO'].display
+          : false,
         command: (onclick) => this.relateMeTo.emit(),
       },
       {
         label: 'Unrelate me',
         icon: 'fa fa-angle-right',
-        visible : this.config['UNRELATE-ME'] ? this.config['UNRELATE-ME'].display : false,
+        visible: this.config['UNRELATE-ME']
+          ? this.config['UNRELATE-ME'].display
+          : false,
         command: (onclick) => this.unrelateMe.emit(),
       },
       {
         label: 'Move me to',
         icon: 'fa fa-angle-right',
-        visible : this.config['MOVE-ME-TO'] ? this.config['MOVE-ME-TO'].display : false,
+        visible: this.config['MOVE-ME-TO']
+          ? this.config['MOVE-ME-TO'].display
+          : false,
         command: (onclick) => this.moveMeTo.emit(),
-      }
+      },
     ];
 
     /* if (this.data.process) {
@@ -81,8 +99,8 @@ export class PapActionsComponent implements OnInit {
         return;
       } */
 
-      // When to show the button logic
-      /* if ((!this.projectTypeConfig.subprocessProperties[this.data.process['processKeyWithoutPhase']] &&
+    // When to show the button logic
+    /* if ((!this.projectTypeConfig.subprocessProperties[this.data.process['processKeyWithoutPhase']] &&
           !this.projectTypeConfig.subprocessPropertiesTemplate[this.data.process['processKeyWithoutPhase']]) ||
           !(this.data.process.status === 'ACTIVE' || this.data.process.status === 'NEW')
       ) {

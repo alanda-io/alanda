@@ -1,7 +1,8 @@
 <div [formGroup]="milestoneForm">
   <div class="p-grid">
     <div class="p-col-12">
-      <strong>{{ displayName }}
+      <strong
+        >{{ displayName }}
         <span *ngIf="!showACT && showFC"> - FC</span>
         <span *ngIf="!showFC && showACT"> - ACT</span>
       </strong>

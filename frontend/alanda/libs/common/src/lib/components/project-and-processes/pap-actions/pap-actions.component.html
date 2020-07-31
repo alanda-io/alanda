@@ -3,41 +3,49 @@
   *ngIf="config['RELATE-PROJECTS'] && config['RELATE-PROJECTS'].display"
   [readOnly]=""
   type="CONFIG"
-  (clicked)="menu.toggle($event)">
+  (clicked)="menu.toggle($event)"
+>
 </alanda-pap-action-symbol>
 <alanda-pap-action-symbol
   *ngIf="config['CANCEL-PROJECT'] && config['CANCEL-PROJECT'].display"
   [readOnly]=""
   pTooltip="Cancel project"
   type="CANCEL"
-  (clicked)="cancelProject.emit()">
+  (clicked)="cancelProject.emit()"
+>
 </alanda-pap-action-symbol>
 <alanda-pap-action-symbol
   *ngIf="config['CANCEL-PROCESS'] && config['CANCEL-PROCESS'].display"
   [readOnly]=""
   type="CANCEL"
   pTooltip="Cancel process"
-  (clicked)="cancelProcess.emit()">
+  (clicked)="cancelProcess.emit()"
+>
 </alanda-pap-action-symbol>
 <alanda-pap-action-symbol
   *ngIf="config['START-SUBPROCESS'] && config['START-SUBPROCESS'].display"
   [readOnly]=""
   type="START"
   pTooltip="Start subprocess"
-  (clicked)="startSubprocess.emit()">
+  (clicked)="startSubprocess.emit()"
+>
 </alanda-pap-action-symbol>
 <alanda-pap-action-symbol
   *ngIf="config['REMOVE-SUBPROCESS'] && config['REMOVE-SUBPROCESS'].display"
   [readOnly]=""
   type="REMOVE"
   pTooltip="Remove subprocess"
-  (clicked)="removeSubprocess.emit()">
+  (clicked)="removeSubprocess.emit()"
+>
 </alanda-pap-action-symbol>
 <alanda-pap-action-symbol
-  *ngIf="config['CONFIGURE-SUBPROCESS'] && config['CONFIGURE-SUBPROCESS'].display"
+  *ngIf="
+    config['CONFIGURE-SUBPROCESS'] && config['CONFIGURE-SUBPROCESS'].display
+  "
   [readOnly]=""
   type="INFO"
   pTooltip="Configure process"
-  (clicked)="configureProcess.emit()">
+  (clicked)="configureProcess.emit()"
+>
 </alanda-pap-action-symbol>
 <alanda-badge *ngIf="status" [label]="status"></alanda-badge>

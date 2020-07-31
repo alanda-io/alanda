@@ -4,10 +4,9 @@ import { AlandaPropertyApiService } from '../../../../api/propertyApi.service';
 
 @Component({
   selector: 'alanda-pap-subprocess-property-input',
-  templateUrl: './pap-subprocess-property-input.component.html'
+  templateUrl: './pap-subprocess-property-input.component.html',
 })
 export class PapSubprocessPropertyInputComponent implements OnInit {
-
   @Input() property: SubprocessPropertyValue;
   @Input() projectGuid: number;
   @Input() processGuid: number;
@@ -19,11 +18,13 @@ export class PapSubprocessPropertyInputComponent implements OnInit {
   }
 
   saveProperty(property: SubprocessPropertyValue): void {
-   let propertyName = property.propertyName
+    let propertyName = property.propertyName;
     if (!property.projectScope) {
       propertyName += '_' + this.processGuid;
     }
-    this.propertyService.setString(null, null, this.projectGuid, propertyName, property.value).subscribe();
+    this.propertyService
+      .setString(null, null, this.projectGuid, propertyName, property.value)
+      .subscribe();
   }
 
   private loadProperty(): void {
@@ -32,16 +33,17 @@ export class PapSubprocessPropertyInputComponent implements OnInit {
       propertyName += '_' + this.processGuid;
     }
     this.property.display = true;
-    this.propertyService.get(null, null, this.projectGuid, propertyName)
-    .subscribe(response => {
-      if (response.value){
-        this.property.value = response.value;
-        if (this.property.hideIfAlreadySet) {
-          this.property.display = false;
+    this.propertyService
+      .get(null, null, this.projectGuid, propertyName)
+      .subscribe((response) => {
+        if (response.value) {
+          this.property.value = response.value;
+          if (this.property.hideIfAlreadySet) {
+            this.property.display = false;
+          }
+        } else {
+          this.property.value = this.property.defaultValue;
         }
-      } else {
-        this.property.value = this.property.defaultValue;
-      }
-    });
+      });
   }
 }

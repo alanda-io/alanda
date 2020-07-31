@@ -10,7 +10,7 @@ import { AlandaExceptionHandlingService } from '../services/exceptionHandling.se
 import { AlandaComment } from './models/comment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AlandaCommentApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;

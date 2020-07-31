@@ -69,7 +69,7 @@ export class AppComponent {
     },
   ];
 
-  logoPath = '/assets/default-logo.png'
+  logoPath = '/assets/default-logo.png';
 
   constructor(
     private userAdapter: UserAdapter,
