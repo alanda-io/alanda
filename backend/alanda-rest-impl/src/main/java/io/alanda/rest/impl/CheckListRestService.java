@@ -43,11 +43,25 @@ public class CheckListRestService {
         return null;
     }
 
+    @POST
+    @Path("/template")
+    public Response createCheckListTemplate(CheckListTemplateVM templateVM) {
+        checkListService.saveCheckListTemplate(null);
+
+        return Response.ok().build();
+    }
+
     @PUT
     @Path("/template/{templateId}")
     public Response updateCheckListTemplate(Long templateId, CheckListTemplateVM templateVM) {
         checkListService.saveCheckListTemplate(null);
 
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("/template/{templateId}")
+    public Response deleteCheckListTemplate(Long checkListTemplateId) {
         return Response.ok().build();
     }
 
