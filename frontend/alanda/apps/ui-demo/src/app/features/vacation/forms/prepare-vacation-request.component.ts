@@ -41,8 +41,6 @@ export class PrepareVacationRequestComponent
     // ]);
     this.rootForm.updateValueAndValidity();
     // this.formManagerService.addValidators();
-    console.log('role-selector', this.roleSelector);
-    console.log('form', this.rootForm);
   }
 
   get roleSelector(): AbstractControl {
