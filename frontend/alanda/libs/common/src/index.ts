@@ -94,7 +94,7 @@ export * from './lib/components/create-project/create-project.component';
 export * from './lib/components/attachments/attachments.component';
 export * from './lib/components/history/history-grid.component';
 export * from './lib/components/history/history-grid.component';
-export * from './lib/components/controller/directives/project.properties.directive';
+export * from './lib/components/controller/directives/process.config.directive';
 export * from './lib/components/project-and-processes/project-and-processes.component';
 export * from './lib/components/pio/pio.component';
 export * from './lib/components/pio/diagram/diagram.component';
