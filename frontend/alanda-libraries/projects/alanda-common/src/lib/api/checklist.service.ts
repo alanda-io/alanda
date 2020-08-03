@@ -16,7 +16,7 @@ export class ChecklistApiService extends ExceptionHandlingService {
       checkListItems: [
         {
           definition: {
-            custom: true,
+            custom: false,
             displayText: 'Check 1.1',
             key: 'check-1-1',
             required: true
@@ -25,19 +25,19 @@ export class ChecklistApiService extends ExceptionHandlingService {
         },
         {
           definition: {
-            custom: true,
+            custom: false,
             displayText: 'Check 1.2',
             key: 'check-1-2',
-            required: true
+            required: false
           },
           status: null
         },
         {
           definition: {
-            custom: true,
+            custom: false,
             displayText: 'Check 1.3',
             key: 'check-1-3',
-            required: true
+            required: false
           },
           status: null
         }
@@ -49,7 +49,7 @@ export class ChecklistApiService extends ExceptionHandlingService {
       checkListItems: [
         {
           definition: {
-            custom: true,
+            custom: false,
             displayText: 'Check 2.1',
             key: 'check-2-1',
             required: true
@@ -58,7 +58,7 @@ export class ChecklistApiService extends ExceptionHandlingService {
         },
         {
           definition: {
-            custom: true,
+            custom: false,
             displayText: 'Check 2.2',
             key: 'check-2-2',
             required: true
@@ -67,10 +67,10 @@ export class ChecklistApiService extends ExceptionHandlingService {
         },
         {
           definition: {
-            custom: true,
+            custom: false,
             displayText: 'Check 2.3',
             key: 'check-2-3',
-            required: true
+            required: false
           },
           status: null
         }
@@ -88,15 +88,18 @@ export class ChecklistApiService extends ExceptionHandlingService {
     return of(this.checkLists);
   }
 
-  setCheckListItemStatus(checkListId: number, itemKey: string, status: boolean): Observable<void> {
-    return this.http.put<void>(`${this.checkListApiPath}/${checkListId}/${itemKey}`, status);
+  setCheckListItemStatus(checkListId: number, itemKey: string, status: boolean): Observable<string> {
+    return of('dummy-response');
+    //return this.http.put<void>(`${this.checkListApiPath}/${checkListId}/${itemKey}`, status);
   }
 
-  addCheckListItemToCheckList(checkListId: number, itemDefinition: CheckListItemDefinition): Observable<void> {
-    return this.http.post<void>(`${this.checkListApiPath}/${checkListId}/definitions`, itemDefinition);
+  addCheckListItemToCheckList(checkListId: number, itemDefinition: CheckListItemDefinition): Observable<string> {
+    return of('dummy-response');
+    // return this.http.post<void>(`${this.checkListApiPath}/${checkListId}/definitions`, itemDefinition);
   }
 
-  removeCheckListItemFromCheckList(checkListId: number, itemKey: string): Observable<void> {
-    return this.http.delete<void>(`${this.checkListApiPath}/${checkListId}/definition/${itemKey}`);
+  removeCheckListItemFromCheckList(checkListId: number, itemKey: string): Observable<string> {
+    return of('dummy-response');
+    //return this.http.delete<void>(`${this.checkListApiPath}/${checkListId}/definition/${itemKey}`);
   }
 }

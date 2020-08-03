@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CheckList, CheckListItem } from '../../../models/checklist.model';
+import { CheckList, CheckListItem, CheckListItemDefinition } from '../../../models/checklist.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ChecklistApiService } from '../../../api/checklist.service';
-import { switchMap, catchError, retry } from 'rxjs/operators';
+import { switchMap, catchError, retry, finalize } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
 import { throwError } from 'rxjs';
 
@@ -14,6 +14,8 @@ import { throwError } from 'rxjs';
 export class AlandaChecklistComponent implements OnInit {
 
   @Input() checklist: CheckList;
+  mandatoryChecks: CheckListItem[] = [];
+  optionalChecks: CheckListItem[] = [];
   completedTasks = 0;
   formGroup: FormGroup = new FormGroup({});
 
@@ -23,6 +25,44 @@ export class AlandaChecklistComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._loadChecks();
+  }
+
+  addItem(name: string, required: boolean): void {
+    if (!name || !name.trim().length) {
+      return;
+    }
+    if (this.checklist.checkListItems.filter(val => val.definition.displayText.toLowerCase().trim() === name.toLowerCase().trim()).length) {
+      return;
+    }
+    const item: CheckListItemDefinition = {
+      custom: true,
+      displayText: name,
+      key: name.toLowerCase().trim(),
+      required: required
+    };
+    this.checklistAPI.addCheckListItemToCheckList(this.checklist.id, item)
+    .subscribe(res => {
+      this.checklist.checkListItems.push({status: false, definition: item});
+      this._loadChecks();
+    }, error => {
+      this.messageService.add({severity: 'error', summary: 'New check', detail: 'Could not create new check'});
+    });
+  }
+
+  removeItem(item: CheckListItem): void {
+    this.checklistAPI.removeCheckListItemFromCheckList(this.checklist.id, item.definition.key).subscribe(res => {
+      const index = this.checklist.checkListItems.indexOf(item);
+      this.checklist.checkListItems.splice(index, 1);
+      this._loadChecks();
+    }, error => {
+      this.messageService.add({severity: 'error', summary: 'Remove check', detail: 'Could not remove check'});
+    });
+  }
+
+  private _loadChecks(): void {
+    this.mandatoryChecks = this.checklist.checkListItems.filter(item => item.definition.required);
+    this.optionalChecks = this.checklist.checkListItems.filter(item => !item.definition.required);
     this.formGroup = this._getFormGroup();
     Object.entries(this.formGroup.controls).forEach(([key, formGrop]) => {
       formGrop.valueChanges.pipe(
@@ -35,7 +75,6 @@ export class AlandaChecklistComponent implements OnInit {
         )),
         retry()
       ).subscribe(res => {
-          this.messageService.add({severity: 'success', summary: 'Update Checklist', detail: 'Check has been updated'});
           this.completedTasks = Object.values(this.formGroup.controls).filter(control => control.value.status).length;
       });
     });
