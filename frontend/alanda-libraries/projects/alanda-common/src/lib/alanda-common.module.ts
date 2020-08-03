@@ -90,6 +90,7 @@ import {AlandaProjectAndProcessesComponent} from './components/project-and-proce
 import {PapActionsComponent} from './components/project-and-processes/pap-actions/pap-actions.component';
 import {RelateDialogComponent} from './components/project-and-processes/pap-actions/relate-dialog/relate-dialog.component';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
+import { ChecklistModule } from './components/checklist-panel/checklist.module';
 
 @NgModule({
   imports: [
@@ -128,7 +129,8 @@ import {DynamicDialogModule} from 'primeng/dynamicdialog';
     MessageModule,
     AccordionModule,
     TreeTableModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    ChecklistModule,
   ],
   declarations: [
     UserManagementComponent,
@@ -201,7 +203,8 @@ import {DynamicDialogModule} from 'primeng/dynamicdialog';
     AlandaTaskTemplateComponent,
     AlandaProjectAndProcessesComponent,
     PapActionsComponent,
-    RelateDialogComponent
+    RelateDialogComponent,
+    ChecklistModule
    ],
   entryComponents: [
     RelateDialogComponent

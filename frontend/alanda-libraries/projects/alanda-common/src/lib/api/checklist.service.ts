@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ExceptionHandlingService } from '../services/exception-handling.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of, EMPTY } from 'rxjs';
 import { CheckList, CheckListItemDefinition } from '../models/checklist.model';
 
 @Injectable({
@@ -10,12 +10,82 @@ import { CheckList, CheckListItemDefinition } from '../models/checklist.model';
 export class ChecklistApiService extends ExceptionHandlingService {
   private checkListApiPath = '/app/checklist';
 
+  checkLists: CheckList[] = [
+    {
+      id: 1,
+      checkListItems: [
+        {
+          definition: {
+            custom: true,
+            displayText: 'Check 1.1',
+            key: 'check-1-1',
+            required: true
+          },
+          status: null
+        },
+        {
+          definition: {
+            custom: true,
+            displayText: 'Check 1.2',
+            key: 'check-1-2',
+            required: true
+          },
+          status: null
+        },
+        {
+          definition: {
+            custom: true,
+            displayText: 'Check 1.3',
+            key: 'check-1-3',
+            required: true
+          },
+          status: null
+        }
+      ],
+      name: 'Checkliste 1'
+    },
+    {
+      id: 2,
+      checkListItems: [
+        {
+          definition: {
+            custom: true,
+            displayText: 'Check 2.1',
+            key: 'check-2-1',
+            required: true
+          },
+          status: null
+        },
+        {
+          definition: {
+            custom: true,
+            displayText: 'Check 2.2',
+            key: 'check-2-2',
+            required: true
+          },
+          status: null
+        },
+        {
+          definition: {
+            custom: true,
+            displayText: 'Check 2.3',
+            key: 'check-2-3',
+            required: true
+          },
+          status: null
+        }
+      ],
+      name: 'Checkliste 2'
+    }
+  ];
+
   constructor(private http: HttpClient) {
     super();
   }
 
   getCheckListsForUserTaskInstance(taskInstanceGuid: string): Observable<CheckList[]> {
-    return this.http.get<CheckList[]>(`${this.checkListApiPath}/userTask/${taskInstanceGuid}`);
+    //return this.http.get<CheckList[]>(`${this.checkListApiPath}/userTask/${taskInstanceGuid}`);
+    return of(this.checkLists);
   }
 
   setCheckListItemStatus(checkListId: number, itemKey: string, status: boolean): Observable<void> {

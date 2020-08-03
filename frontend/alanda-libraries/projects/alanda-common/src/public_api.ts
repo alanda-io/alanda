@@ -56,3 +56,6 @@ export * from './lib/components/history/history-grid.component';
 export * from './lib/components/history/history-grid.component';
 export * from './lib/components/controller/directives/project.properties.directive';
 export * from './lib/components/project-and-processes/project-and-processes.component';
+
+export { AlandaChecklistPanelComponent} from './lib/components/checklist-panel/checklist-panel.component';
+export { ChecklistModule} from './lib/components/checklist-panel/checklist.module';

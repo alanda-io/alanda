@@ -1,0 +1,22 @@
+<style>
+  ::ng-deep .cl-progressbar .ui-progressbar{
+    margin-bottom: 20px;
+    height: 6px !important;
+  }
+</style>
+<p-card [header]="checklist.name">
+  You have completed {{ completedTasks }} tasks out of {{ checklist.checkListItems.length }}
+  <p-progressBar class="cl-progressbar" [showValue]="false" unit="%" [value]="completedTasks / checklist.checkListItems.length * 100"></p-progressBar>
+  <form [formGroup]="formGroup" class="p-grid">
+    <div *ngFor="let item of checklist.checkListItems" class="p-col-12">
+      <div [formGroupName]="item.definition.key">
+        <p-checkbox
+          formControlName="status"
+          [name]="checklist.id"
+          [label]="item.definition.displayText"
+          [binary]="true"
+          ></p-checkbox>
+      </div>
+    </div>
+  </form>
+</p-card>
