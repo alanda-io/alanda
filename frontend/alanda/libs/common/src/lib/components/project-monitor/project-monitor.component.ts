@@ -52,7 +52,9 @@ export class AlandaProjectMonitorComponent implements OnInit {
   ngOnInit() {
     const data = this.monitorApiService.getProjectMonitorLayouts();
     for (const k in data) {
-      this.layouts.push(data[k]);
+      if (data.hasOwnProperty(k)) {
+        this.layouts.push(data[k]);
+      }
     }
     this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
 
@@ -85,7 +87,9 @@ export class AlandaProjectMonitorComponent implements OnInit {
       ];
     }
     for (const key in event.filters) {
-      this.serverOptions.filterOptions[key] = event.filters[key].value;
+      if (event.filters.hasOwnProperty(key) && event.filters[key].value) {
+        this.serverOptions.filterOptions[key] = event.filters[key].value;
+      }
     }
 
     this.serverOptions.pageNumber =

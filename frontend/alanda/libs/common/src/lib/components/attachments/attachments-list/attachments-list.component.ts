@@ -4,14 +4,14 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AlandaDocumentApiService } from '../../../api/documentApi.service';
 
 @Component({
-  selector: 'attachments-list',
+  selector: 'alanda-attachments-list',
   templateUrl: './attachments-list.component.html',
   styleUrls: ['./attachments-list.component.scss'],
 })
 export class AttachmentsListComponent implements OnInit {
   @Input() currentFiles: SimpleDocument[];
   @Input() data: any;
-  @Output() onDeleteFile = new EventEmitter<void>();
+  @Output() deleteFile = new EventEmitter<void>();
 
   selectionValue: SimpleDocument;
   fileColumns: any[];
@@ -61,7 +61,7 @@ export class AttachmentsListComponent implements OnInit {
     return this.previewExtensions.includes(ext);
   }
 
-  deleteFile(file: SimpleDocument) {
+  onDeleteFile(file: SimpleDocument) {
     this.documentService
       .deleteFile(
         this.data.refObjectType,
@@ -72,7 +72,7 @@ export class AttachmentsListComponent implements OnInit {
       )
       .subscribe((res) => {
         this.currentFiles.splice(this.currentFiles.indexOf(file), 1);
-        this.onDeleteFile.emit();
+        this.deleteFile.emit();
       });
   }
 }

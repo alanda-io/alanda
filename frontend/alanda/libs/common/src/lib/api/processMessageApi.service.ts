@@ -25,7 +25,7 @@ export class AlandaProcessMessageApiService extends AlandaExceptionHandlingServi
     pmcProjectGuid: number,
     processVariables: Map<string, string>,
   ): Observable<any> {
-    let reqUrl = `${this.endpointUrl}/${messageName}/${processDefinitionKey}/${pmcProjectGuid}`;
+    const reqUrl = `${this.endpointUrl}/${messageName}/${processDefinitionKey}/${pmcProjectGuid}`;
     return this.http
       .post(reqUrl, processVariables)
       .pipe(catchError(this.handleError('sendMessage')));

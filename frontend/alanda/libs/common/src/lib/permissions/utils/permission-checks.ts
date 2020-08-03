@@ -195,7 +195,7 @@ export class Authorizations {
     requestedPermissionTokens: string[],
   ): boolean {
     let contains = true;
-    for (let i = 0; i < requestedPermissionTokens.length; i++) {
+    for (const i of requestedPermissionTokens) {
       if (!userPermissionTokens.includes(requestedPermissionTokens[i])) {
         contains = false;
         break;

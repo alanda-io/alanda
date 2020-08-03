@@ -65,7 +65,6 @@ export class PapConfigDialogComponent implements OnInit, AfterViewInit {
     this.process = this.dynamicDialogConfig.data.process;
     this.configuration = this.dynamicDialogConfig.data.configuration;
     this.projectGuid = this.dynamicDialogConfig.data.projectGuid;
-    console.log(this.configuration);
 
     this.configuration.subprocessProperties.forEach((prop) => {
       if (prop.processDefinitionKey === this.process.processKey) {

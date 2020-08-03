@@ -13,7 +13,7 @@ export const importDiagram = (bpmnJS) => <Object>(source: Observable<string>) =>
         // in the first diagram to display only
         subscription.unsubscribe();
 
-        bpmnJS.importXML(res.bpmn20Xml, function (err, warnings) {
+        bpmnJS.importXML(res.bpmn20Xml, (err, warnings) => {
           if (err) {
             observer.error(err);
           } else {
@@ -24,7 +24,6 @@ export const importDiagram = (bpmnJS) => <Object>(source: Observable<string>) =>
         });
       },
       error(e) {
-        console.log('ERROR');
         observer.error(e);
       },
       complete() {

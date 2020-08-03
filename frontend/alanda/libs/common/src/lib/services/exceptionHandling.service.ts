@@ -9,8 +9,6 @@ export class AlandaExceptionHandlingService {
 
   public handleError<T>(operation: string = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.log(`${operation} failed: ${error.message}`);
-      console.log(error);
       if (result !== undefined) {
         return of(result);
       } else {

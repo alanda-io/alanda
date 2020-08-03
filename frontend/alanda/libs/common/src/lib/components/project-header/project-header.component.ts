@@ -99,7 +99,6 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
       .getPropertiesMap(this.project.guid)
       .subscribe((ret) => {
         const props: Map<string, any> = ret;
-        console.log('props', props);
       });
   }
 
