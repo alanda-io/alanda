@@ -101,6 +101,7 @@ import { AlandaProjectAndProcessesService } from './components/project-and-proce
 import { AlandaProcessMessageApiService } from './api/processMessageApi.service';
 import { AlandaVarDatepickerComponent } from './form/components/var-datepicker/var-datepicker.component';
 import { AlandaHeaderModule } from './components/header/header.module';
+import { AlandaTitleService } from './services/title.service';
 
 @NgModule({
   imports: [
@@ -261,6 +262,7 @@ export class AlandaCommonModule {
         AlandaProjectPropertiesService,
         AlandaProcessConfigModalService,
         AlandaProjectAndProcessesService,
+        AlandaTitleService,
         Error500Interceptor,
         {
           provide: APP_CONFIG,

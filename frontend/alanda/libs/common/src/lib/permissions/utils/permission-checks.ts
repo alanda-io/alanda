@@ -215,12 +215,12 @@ export class Authorizations {
   static filterMenuItems(
     item: AlandaMenuItem,
     user: AlandaUser,
-    accessLevel?: string
+    accessLevel?: string,
   ): boolean {
     if (item.items) {
-      item.items = item.items.map(i =>
-        Object.assign({}, i)
-      ).filter(_item => Authorizations.filterMenuItems(_item, user));
+      item.items = item.items
+        .map((i) => Object.assign({}, i))
+        .filter((_item) => Authorizations.filterMenuItems(_item, user));
 
       // remove item without routerLink and any child items
       if (!item.items.length && (!item.routerLink || !item.routerLink.length)) {
@@ -229,8 +229,9 @@ export class Authorizations {
     }
 
     if (item.permissions) {
-      return !item.permissions.find(permission =>
-        !Authorizations.hasPermission(user, permission, accessLevel)
+      return !item.permissions.find(
+        (permission) =>
+          !Authorizations.hasPermission(user, permission, accessLevel),
       );
     }
 

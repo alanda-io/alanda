@@ -6,28 +6,67 @@ type ActionType = 'CONFIG' | 'CANCEL' | 'REMOVE' | 'START' | 'INFO';
   selector: 'alanda-pap-action-symbol',
   template: `
     <style>
-      span {padding-left: 7px; padding-right: 7px; font-size: 25px;}
-      span:hover {cursor:pointer;}
-      .info{color: #116fbf;}
-      .danger{color: #c22;}
-      .success{color: #89ad4d;}
+      span {
+        padding-left: 7px;
+        padding-right: 7px;
+        font-size: 25px;
+      }
+      span:hover {
+        cursor: pointer;
+      }
+      .info {
+        color: #116fbf;
+      }
+      .danger {
+        color: #c22;
+      }
+      .success {
+        color: #89ad4d;
+      }
     </style>
     <ng-container *ngIf="!readOnly" [ngSwitch]="type">
-      <span *ngSwitchCase="'CONFIG'" class="fa fa-cog fa-lg info" (click)="clicked.emit($event)"></span>
-      <span *ngSwitchCase="'CANCEL'" class="fa fa-stop fa-lg danger" (click)="clicked.emit($event)"></span>
-      <span *ngSwitchCase="'REMOVE'" class="fa fa-window-close fa-lg danger" (click)="clicked.emit($event)"></span>
-      <span *ngSwitchCase="'START'" class="fa fa-play-circle fa-lg success" (click)="clicked.emit($event)"></span>
-      <span *ngSwitchCase="'INFO'" class="fa fa-info-circle fa-lg danger" (click)="clicked.emit($event)"></span>
-    <ng-container>
-
-    <ng-container *ngIf="readOnly" [ngSwitch]="type">
-      <span *ngSwitchCase="'CONFIG'" class="fa fa-cog fa-lg"></span>
-      <span *ngSwitchCase="'CANCEL'" class="fa fa-stop fa-lg"></span>
-      <span *ngSwitchCase="'REMOVE'" class="fa fa-window-close fa-lg"></span>
-      <span *ngSwitchCase="'START'" class="fa fa-play-circle fa-lg"></span>
-      <span *ngSwitchCase="'INFO'" class="fa fa-info-circle fa-lg" (click)="clicked.emit($event)"></span>
-    <ng-container>
-  `
+      <span
+        *ngSwitchCase="'CONFIG'"
+        class="fa fa-cog fa-lg info"
+        (click)="clicked.emit($event)"
+      ></span>
+      <span
+        *ngSwitchCase="'CANCEL'"
+        class="fa fa-stop fa-lg danger"
+        (click)="clicked.emit($event)"
+      ></span>
+      <span
+        *ngSwitchCase="'REMOVE'"
+        class="fa fa-window-close fa-lg danger"
+        (click)="clicked.emit($event)"
+      ></span>
+      <span
+        *ngSwitchCase="'START'"
+        class="fa fa-play-circle fa-lg success"
+        (click)="clicked.emit($event)"
+      ></span>
+      <span
+        *ngSwitchCase="'INFO'"
+        class="fa fa-info-circle fa-lg danger"
+        (click)="clicked.emit($event)"
+      ></span>
+      <ng-container>
+        <ng-container *ngIf="readOnly" [ngSwitch]="type">
+          <span *ngSwitchCase="'CONFIG'" class="fa fa-cog fa-lg"></span>
+          <span *ngSwitchCase="'CANCEL'" class="fa fa-stop fa-lg"></span>
+          <span
+            *ngSwitchCase="'REMOVE'"
+            class="fa fa-window-close fa-lg"
+          ></span>
+          <span *ngSwitchCase="'START'" class="fa fa-play-circle fa-lg"></span>
+          <span
+            *ngSwitchCase="'INFO'"
+            class="fa fa-info-circle fa-lg"
+            (click)="clicked.emit($event)"
+          ></span>
+          <ng-container> </ng-container></ng-container></ng-container
+    ></ng-container>
+  `,
 })
 export class PapActionSymbolComponent {
   @Input() type: ActionType;

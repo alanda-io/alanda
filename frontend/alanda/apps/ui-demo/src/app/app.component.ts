@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlandaMenuItem } from '@alanda/common';
+import { AlandaMenuItem, AlandaTitleService } from '@alanda/common';
 import { UserAdapter } from './core/services/user.adapter';
 import { Subject } from 'rxjs';
 
@@ -69,11 +69,15 @@ export class AppComponent {
     },
   ];
 
-  logoPath = '/assets/default-logo.png'
+  logoPath = '/assets/default-logo.png';
 
-  constructor(private userAdapter: UserAdapter) {
+  constructor(
+    private userAdapter: UserAdapter,
+    private titleService: AlandaTitleService,
+  ) {
     this.userAdapter.connectReleaseRunAs(
       this.releaseRunAsClick$.asObservable(),
     );
+    this.titleService.setRouterTitle();
   }
 }

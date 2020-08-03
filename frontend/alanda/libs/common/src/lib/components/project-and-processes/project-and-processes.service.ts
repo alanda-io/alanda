@@ -18,9 +18,9 @@ export interface MappedAllowedProcesses {
 }
 
 export interface MappedProcessesAndTasks {
-  data: AlandaProcessesAndTasks,
-  allowed: MappedAllowedProcesses[],
-  active: AlandaProcess[]
+  data: AlandaProcessesAndTasks;
+  allowed: MappedAllowedProcesses[];
+  active: AlandaProcess[];
 }
 
 export enum TreeNodeDataType {
@@ -28,8 +28,8 @@ export enum TreeNodeDataType {
   TASK,
   PROCESS,
   ACTIVITY,
-  STARTPROCESS
-};
+  STARTPROCESS,
+}
 
 export interface TreeNodeData {
   uuid: string;
@@ -50,23 +50,26 @@ export interface TreeNodeData {
 
 @Injectable()
 export class AlandaProjectAndProcessesService {
-
-  constructor(private readonly projectService: AlandaProjectApiService) { }
+  constructor(private readonly projectService: AlandaProjectApiService) {}
 
   mapProjectsToTreeNode(project: AlandaProject): TreeNode[] {
     const data: TreeNode[] = [];
     if (project.parents) {
       data.push({
         data: { label: `Parent Projects (${project.parents.length})` },
-        children: project.parents.map(parent => Object.assign({}, parent, {processes: null})).map(parent => this.mapProjectToTreeNode(parent)),
-      })
+        children: project.parents
+          .map((parent) => Object.assign({}, parent, { processes: null }))
+          .map((parent) => this.mapProjectToTreeNode(parent)),
+      });
     }
     data.push(this.mapProjectToTreeNode(project));
     if (project.children) {
       data.push({
         data: { label: `Child Projects (${project.children.length})` },
-        children: project.children.map(child => this.mapProjectToTreeNode(child)),
-      })
+        children: project.children.map((child) =>
+          this.mapProjectToTreeNode(child),
+        ),
+      });
     }
     return data;
   }
@@ -82,11 +85,13 @@ export class AlandaProjectAndProcessesService {
       routerLink: `/projectdetails/${project.projectId}`,
       type: TreeNodeDataType.PROJECT,
       project,
-      status: project.status
+      status: project.status,
     };
     return {
       data,
-      children: project.processes ? project.processes.map(process => this.mapProcessToTreeNode(process)) : null
+      children: project.processes
+        ? project.processes.map((process) => this.mapProcessToTreeNode(process))
+        : null,
     };
   }
 
@@ -101,11 +106,13 @@ export class AlandaProjectAndProcessesService {
       type: TreeNodeDataType.PROCESS,
       process,
       dropdown: process.status === ProjectState.NEW ? true : false,
-      status: process.status
+      status: process.status,
     };
     return {
       data,
-      children: process.tasks ? process.tasks.map((task) => this.mapTaskToTreeNode(task)) : null
+      children: process.tasks
+        ? process.tasks.map((task) => this.mapTaskToTreeNode(task))
+        : null,
     };
   }
 
@@ -118,9 +125,12 @@ export class AlandaProjectAndProcessesService {
       start: new Date(task.created),
       comment: task.comment,
       routerLink: `/forms/${task.formKey}/${task.task_id}`,
-      type: task.actinst_type === 'task' ? TreeNodeDataType.TASK : TreeNodeDataType.ACTIVITY,
+      type:
+        task.actinst_type === 'task'
+          ? TreeNodeDataType.TASK
+          : TreeNodeDataType.ACTIVITY,
       task,
-      status: task.state
+      status: task.state,
     };
     return {
       data,
@@ -128,68 +138,83 @@ export class AlandaProjectAndProcessesService {
   }
 
   getStartProcessDropdownAsTreeNode(): TreeNode {
-    return { data : {
-      uuid: uuid(),
-      type: TreeNodeDataType.STARTPROCESS,
-      dropdown: true
-      }
-    }
+    return {
+      data: {
+        uuid: uuid(),
+        type: TreeNodeDataType.STARTPROCESS,
+        dropdown: true,
+      },
+    };
   }
 
-  getProcessesAndTasksForProject(processesAndTasks: AlandaProcessesAndTasks): any {
+  getProcessesAndTasksForProject(
+    processesAndTasks: AlandaProcessesAndTasks,
+  ): any {
     const result: MappedProcessesAndTasks = {
       data: processesAndTasks,
       allowed: [],
-      active: []
+      active: [],
     };
     const phaseNames = processesAndTasks.phaseNames;
-    const processNameToPhaseMap = {}
+    const processNameToPhaseMap = {};
     let allowedProcesses = processesAndTasks.allowed['default'];
-    allowedProcesses = allowedProcesses.sort((itemA, itemB) => {return itemA.processName.localeCompare(itemB.processName)});
+    allowedProcesses = allowedProcesses.sort((itemA, itemB) => {
+      return itemA.processName.localeCompare(itemB.processName);
+    });
     for (const processDef of allowedProcesses) {
-      processNameToPhaseMap[processDef.processDefinitionKey] = 'default'
+      processNameToPhaseMap[processDef.processDefinitionKey] = 'default';
       result.allowed.push({
         keyWithoutPhase: processDef.processDefinitionKey,
         processKey: processDef.processDefinitionKey,
         label: processDef.processName,
-        phase: processNameToPhaseMap[processDef.processDefinitionKey]}
-      );
+        phase: processNameToPhaseMap[processDef.processDefinitionKey],
+      });
     }
-    for (let [phaseName, processes] of Object.entries(processesAndTasks.allowed)) {
+    for (let [phaseName, processes] of Object.entries(
+      processesAndTasks.allowed,
+    )) {
       if (phaseName !== 'default') {
-        processes = processes.sort((itemA, itemB) => {return itemA.processName.localeCompare(itemB.processName)});
+        processes = processes.sort((itemA, itemB) => {
+          return itemA.processName.localeCompare(itemB.processName);
+        });
         for (const processDef of processes) {
           processNameToPhaseMap[processDef.processDefinitionKey] = phaseName;
           result.allowed.push({
             keyWithoutPhase: processDef.processDefinitionKey,
             processKey: `${phaseName}:${processDef.processDefinitionKey}`,
             label: processDef.processName + ' (' + phaseNames[phaseName] + ')',
-            phase: phaseName
+            phase: phaseName,
           });
         }
       }
-      let active = processesAndTasks.active
+      let active = processesAndTasks.active;
       active = active.map((item) => {
         item['processKeyWithoutPhase'] = item.processKey;
         if (item.phase == null && processNameToPhaseMap[item.processKey]) {
           item.phase = processNameToPhaseMap[item.processKey];
         }
         if (item.phase && item.phase !== 'default') {
-          item.processKey=`${item.phase}:${item.processKey}`
+          item.processKey = `${item.phase}:${item.processKey}`;
         }
         return item;
       });
-      result.active = active
+      result.active = active;
     }
     return result;
   }
 
-  startSubprocess(value: {data: TreeNodeData, parent: TreeNode}): Observable<AlandaProcess> {
+  startSubprocess(value: {
+    data: TreeNodeData;
+    parent: TreeNode;
+  }): Observable<AlandaProcess> {
     value.data.process.status = ProjectState.NEW;
     value.data.process.relation = ProcessRelation.CHILD;
     value.data.process.workDetails = '';
-    value.data.process.businessObject = value.parent.data.project.refObjectIdName;
-    return this.projectService.saveProjectProcess(value.parent.data.project.guid, value.data.process);
+    value.data.process.businessObject =
+      value.parent.data.project.refObjectIdName;
+    return this.projectService.saveProjectProcess(
+      value.parent.data.project.guid,
+      value.data.process,
+    );
   }
-
 }

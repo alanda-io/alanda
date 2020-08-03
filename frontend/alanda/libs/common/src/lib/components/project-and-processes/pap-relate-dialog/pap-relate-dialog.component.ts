@@ -43,7 +43,10 @@ export class PapRelateDialogComponent implements OnInit {
       sortOptions[event.sortField] = { dir, prio: 0 };
     }
     this.serverOptions.sortOptions = sortOptions;
-    Object.assign(this.serverOptions.filterOptions, this.config.data.filterOptions || {});
+    Object.assign(
+      this.serverOptions.filterOptions,
+      this.config.data.filterOptions || {},
+    );
     if (this.config.data.types) {
       this.serverOptions.filterOptions[
         'project.pmcProjectType.idName.raw'
@@ -66,13 +69,13 @@ export class PapRelateDialogComponent implements OnInit {
 
   private loadProjects(serverOptions: ServerOptions) {
     this.loading = true;
-    this.projectService.loadProjects(serverOptions).pipe(
-      finalize(() => this.loading = false)
-    ).subscribe(response => {
+    this.projectService
+      .loadProjects(serverOptions)
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe((response) => {
         this.projects = [];
         this.total = response.total;
         response.results.forEach((value) => this.projects.push(value.project));
-      }
-    );
+      });
   }
 }

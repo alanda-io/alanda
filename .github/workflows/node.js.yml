@@ -9,17 +9,23 @@ on:
   pull_request:
     branches: [ Angular9 ]
 
-jobs:
-  build:
+defaults:
+  run:
+    working-directory: frontend/alanda
 
+jobs:
+  format:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
 
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
-        node-version: '12.x'
-    - run: cd frontend/alanda/
+        node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm run format:check

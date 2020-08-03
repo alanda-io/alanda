@@ -7,7 +7,7 @@ import { AlandaProcess } from './models/process';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AlandaProcessApiService extends AlandaExceptionHandlingService {
   endpointUrl: string;

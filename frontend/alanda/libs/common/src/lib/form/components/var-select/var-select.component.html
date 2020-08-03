@@ -18,7 +18,7 @@
       <p-message
         *ngIf="error.key !== 'required' && error.value.text !== undefined"
         severity="error"
-        text="{{error.value.text}}"
+        text="{{ error.value.text }}"
       ></p-message>
       <p-message
         *ngIf="error.key !== 'required' && error.value.text === undefined"

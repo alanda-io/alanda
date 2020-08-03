@@ -21,6 +21,7 @@ export * from './lib/permissions';
 export * from './lib/services/exceptionHandling.service';
 export * from './lib/services/project-properties.service';
 export * from './lib/services/monitorApi.service';
+export { AlandaTitleService } from './lib/services/title.service';
 export * from './lib/form/alanda-task-form.service';
 export * from './lib/form/base-form.component.interface';
 export * from './lib/form/base-state';
@@ -109,5 +110,5 @@ export * from './lib/components/project-and-processes/project-and-processes.comp
 export * from './lib/models/alandaTaskFormPanel';
 export * from './lib/components/project-and-processes/pap-actions/pap-actions.component';
 export * from './lib/components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
-export { AlandaHeaderComponent} from './lib/components/header/header.component';
-export { AlandaHeaderModule} from './lib/components/header/header.module';
+export { AlandaHeaderComponent } from './lib/components/header/header.component';
+export { AlandaHeaderModule } from './lib/components/header/header.module';
