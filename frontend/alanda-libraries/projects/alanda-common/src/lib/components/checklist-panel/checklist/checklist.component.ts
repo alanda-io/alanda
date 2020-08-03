@@ -24,9 +24,9 @@ export class AlandaChecklistComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = this._getFormGroup();
-    Object.entries(this.formGroup.controls).forEach(([key, formGrop]) => {
-      formGrop.valueChanges.pipe(
-        switchMap(v => this.checklistAPI.setCheckListItemStatus(this.checklist.id, key, v.status).pipe(
+    (<any>Object).entries(this.formGroup.controls).forEach(([key, formGroup]) => {
+      formGroup.valueChanges.pipe(
+        switchMap((v: any) => this.checklistAPI.setCheckListItemStatus(this.checklist.id, key, v.status).pipe(
           catchError(err => {
             this.formGroup.get(key).setValue({status: !v.status}, {emitEvent: false});
             this.messageService.add({severity: 'error', summary: 'Update Checklist', detail: 'Could not update check'});
@@ -36,7 +36,7 @@ export class AlandaChecklistComponent implements OnInit {
         retry()
       ).subscribe(res => {
           this.messageService.add({severity: 'success', summary: 'Update Checklist', detail: 'Check has been updated'});
-          this.completedTasks = Object.values(this.formGroup.controls).filter(control => control.value.status).length;
+          this.completedTasks = (<any>Object).values(this.formGroup.controls).filter(control => control.value.status).length;
       });
     });
   }

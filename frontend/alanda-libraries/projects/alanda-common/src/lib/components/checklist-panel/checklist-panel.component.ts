@@ -29,7 +29,7 @@ export class AlandaChecklistPanelComponent implements OnInit {
     .pipe(
       finalize(() => this.loading = false)
     )
-    .subscribe(res => {this.checklists = res; console.log(res)});
+    .subscribe(res => this.checklists = res);
   }
 
 }
