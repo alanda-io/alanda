@@ -137,7 +137,9 @@ export class AlandaUserManagementComponent implements OnInit {
       serverOptions.sortOptions = sortOptions;
     }
     for (const filter in event.filters) {
-      serverOptions.filterOptions[filter] = event.filters[filter].value;
+      if (event.filters[filter].value) {
+        serverOptions.filterOptions[filter] = event.filters[filter].value;
+      }
     }
     this.userService.getUsers(serverOptions).subscribe(
       (result) => {

@@ -1,7 +1,7 @@
 import { Directive, ViewContainerRef } from '@angular/core';
 
 @Directive({
-  selector: '[properties-host]',
+  selector: '[alandaProjectPropertiesHost]',
 })
 export class ProjectPropertiesDirective {
   constructor(public viewContainerRef: ViewContainerRef) {}

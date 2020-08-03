@@ -44,7 +44,6 @@ export class AlandaVarDatepickerComponent implements OnInit {
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
     this.dateFormat = config.DATE_FORMAT_STR_PRIME;
-    console.log('dateFormat', this.dateFormat);
   }
 
   ngOnInit(): void {

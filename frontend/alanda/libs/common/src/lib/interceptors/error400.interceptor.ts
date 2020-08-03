@@ -19,8 +19,8 @@ export class Error400Interceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error) => {
         if (error.status === 401) {
-          console.log('error', error);
-          location.reload(true);
+          console.warn('error', error);
+          location.reload();
         }
         const err = error.message || error.statusText;
         return throwError(err);

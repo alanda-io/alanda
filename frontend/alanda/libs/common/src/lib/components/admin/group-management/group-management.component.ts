@@ -147,8 +147,8 @@ export class AlandaGroupManagementComponent implements OnInit {
     }
 
     for (const f in event.filters) {
-      serverOptions.filterOptions[f] = event.filters[f].value;
       if (event.filters[f].value) {
+        serverOptions.filterOptions[f] = event.filters[f].value;
       }
     }
     this.groupService.getGroups(serverOptions).subscribe((result) => {
