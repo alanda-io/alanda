@@ -60,7 +60,7 @@ export class DiagramComponent
           }
         }
         for (const key in this.activities) {
-          if(this.activities[key]) {
+          if (this.activities[key]) {
             this.addTokenOverlay(canvas, overlays, key, this.activities[key]);
           }
         }

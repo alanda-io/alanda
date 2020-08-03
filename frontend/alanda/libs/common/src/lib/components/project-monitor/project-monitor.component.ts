@@ -52,7 +52,7 @@ export class AlandaProjectMonitorComponent implements OnInit {
   ngOnInit() {
     const data = this.monitorApiService.getProjectMonitorLayouts();
     for (const k in data) {
-      if(data.hasOwnProperty(k)) {
+      if (data.hasOwnProperty(k)) {
         this.layouts.push(data[k]);
       }
     }
@@ -87,7 +87,7 @@ export class AlandaProjectMonitorComponent implements OnInit {
       ];
     }
     for (const key in event.filters) {
-      if(event.filters.hasOwnProperty(key) && event.filters[key].value) {
+      if (event.filters.hasOwnProperty(key) && event.filters[key].value) {
         this.serverOptions.filterOptions[key] = event.filters[key].value;
       }
     }
