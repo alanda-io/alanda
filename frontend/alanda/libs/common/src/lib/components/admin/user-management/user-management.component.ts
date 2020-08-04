@@ -63,7 +63,7 @@ export class AlandaUserManagementComponent implements OnInit {
   availableRoles: AlandaRole[] = [];
   assignedRoles: AlandaRole[] = [];
 
-  userColumns = [
+  userColumns: any[] = [
     { field: 'loginName', header: 'Login' },
     { field: 'firstName', header: 'First Name' },
     { field: 'surname', header: 'Surname' },

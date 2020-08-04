@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlandaGroup } from '../../../api/models/group';
 import { AlandaPermission } from '../../../api/models/permission';
 import { AlandaRole } from '../../../api/models/role';
@@ -29,7 +29,7 @@ export class AlandaGroupManagementComponent implements OnInit {
   assignedRoles: AlandaRole[] = [];
   totalRecords: number;
   loading = true;
-  groupColumns = [
+  groupColumns: any[] = [
     { field: 'guid', header: 'Guid' },
     { field: 'groupName', header: 'Group Name' },
     { field: 'longName', header: 'Long Name' },

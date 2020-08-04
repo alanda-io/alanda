@@ -1,9 +1,9 @@
-import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlandaPermission } from '../../../api/models/permission';
 import { Table } from 'primeng/table';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlandaPermissionApiService } from '../../../api/permissionApi.service';
-import { MessageService, LazyLoadEvent } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'alanda-permission-management',
@@ -16,7 +16,7 @@ export class AlandaPermissionManagementComponent implements OnInit {
   loading: boolean;
   totalRecords: number;
 
-  permissionColumns = [
+  permissionColumns: any[] = [
     { field: 'guid', header: 'Guid' },
     { field: 'key', header: 'Key' },
   ];
@@ -33,6 +33,7 @@ export class AlandaPermissionManagementComponent implements OnInit {
 
   ngOnInit() {
     this.initPermissionForm();
+    this.loadPermissions();
   }
 
   private initPermissionForm() {
@@ -41,7 +42,7 @@ export class AlandaPermissionManagementComponent implements OnInit {
     });
   }
 
-  onLoadPermissions(event: LazyLoadEvent) {
+  loadPermissions() {
     this.permissionService.getPermissions().subscribe((res) => {
       this.permissions = res;
     });
