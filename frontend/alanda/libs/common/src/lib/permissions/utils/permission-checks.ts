@@ -5,6 +5,7 @@ import {
   WILDCARD_TOKEN,
 } from '../interfaces-and-types';
 import { AlandaUser } from '../../api/models/user';
+import { AlandaMenuItem } from '../../api/models/menuItem';
 
 export class Authorizations {
   /**
@@ -194,12 +195,46 @@ export class Authorizations {
     requestedPermissionTokens: string[],
   ): boolean {
     let contains = true;
-    for (let i = 0; i < requestedPermissionTokens.length; i++) {
+    for (const i of requestedPermissionTokens) {
       if (!userPermissionTokens.includes(requestedPermissionTokens[i])) {
         contains = false;
         break;
       }
     }
     return contains;
+  }
+
+  /**
+   *
+   * @description Checks if MenuItem has permissions removes them if not granted
+   *
+   * @param item - AlandaMenuItem to check
+   * @param user - AlandaUser to heck against permissions
+   * @param accessLevel: AccessLevels - Level of access
+   */
+  static filterMenuItems(
+    item: AlandaMenuItem,
+    user: AlandaUser,
+    accessLevel?: string,
+  ): boolean {
+    if (item.items) {
+      item.items = item.items
+        .map((i) => Object.assign({}, i))
+        .filter((_item) => Authorizations.filterMenuItems(_item, user));
+
+      // remove item without routerLink and any child items
+      if (!item.items.length && (!item.routerLink || !item.routerLink.length)) {
+        return false;
+      }
+    }
+
+    if (item.permissions) {
+      return !item.permissions.find(
+        (permission) =>
+          !Authorizations.hasPermission(user, permission, accessLevel),
+      );
+    }
+
+    return true;
   }
 }

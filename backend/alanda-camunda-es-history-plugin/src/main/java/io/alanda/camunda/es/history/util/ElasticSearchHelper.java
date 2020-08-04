@@ -18,27 +18,28 @@ package io.alanda.camunda.es.history.util;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ElasticSearchHelper {
 
-  protected static final Logger LOGGER = Logger.getLogger(ElasticSearchHelper.class.getName());
+  private static final Logger log = LoggerFactory.getLogger(ElasticSearchHelper.class);
 
   public static void checkIndex(RestHighLevelClient esClient, String indexName) throws IOException {
     if (!checkIndexExists(esClient, indexName)) {
       if (createIndex(esClient, indexName)) {
-        LOGGER.info("Index [" + indexName + "] not found. Creating new index [" + indexName + "]");
+        log.info("Index [{}] not found. Creating new index [{}]", indexName, indexName);
       } else {
         throw new RuntimeException("Unable to create index [" + indexName + "] in Elasticsearch.");
       }
     } else {
-      LOGGER.info("Index [" + indexName + "] already exists in Elasticsearch.");
+      log.info("Index [{}] already exists in Elasticsearch.", indexName);
     }
   }
 
@@ -60,7 +61,7 @@ public class ElasticSearchHelper {
       }
 
       if (updateMappingForType(esClient, indexName, typeName, mapping)) {
-        LOGGER.info("Created mapping for [" + indexName + "]/[" + typeName + "]");
+        log.info("Created mapping for [{}]/[{}]", indexName, typeName);
       } else {
         throw new RuntimeException("Could not define mapping for ["+ indexName +"]/["+ typeName +"]");
       }

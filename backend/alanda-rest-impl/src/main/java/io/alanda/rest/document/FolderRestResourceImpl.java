@@ -41,7 +41,7 @@ import io.alanda.base.util.UserContext;
  */
 public class FolderRestResourceImpl implements FolderRestResource {
 
-  private static final Logger logger = LoggerFactory.getLogger(FolderRestResourceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(FolderRestResourceImpl.class);
 
   @Inject
   private DocumentService documentService;
@@ -118,7 +118,7 @@ public class FolderRestResourceImpl implements FolderRestResource {
       DocumentSimpleDto fi = new DocumentSimpleDto(filename, mt.getType() + "/" + mt.getSubtype(), (long) bytes.length);
       fi.setAuthorName(UserContext.getUser().getDisplayName());
       DocumentSimpleDto doc = documentService.store(query, bytes, fi);
-      logger.info("Upload von " + doc.getName() + ", auf: " + doc.getPath());
+      log.info("Upload von {}, auf: {}", doc.getName(), doc.getPath());
       uploadPaths.add(doc);
     }
     //    Map<String, List<InputPart>> formData = input.getFormDataMap();
@@ -156,7 +156,7 @@ public class FolderRestResourceImpl implements FolderRestResource {
    */
   @Override
   public DocumentRestResource getDocument(String documentGuid) {
-    logger.info("Requesting document: " + documentGuid);
+    log.info("Requesting document: {}", documentGuid);
     return CDI.current().select(DocumentRestResourceImpl.class).get().with(query, documentGuid);
   }
 
@@ -170,7 +170,7 @@ public class FolderRestResourceImpl implements FolderRestResource {
     try {
       return fdf.parse(f2.getLastModified()).compareTo(fdf.parse(f1.getLastModified()));
     } catch (ParseException ex) {
-      logger.warn("can not parse date of file " + f1 + " or " + f2);
+      log.warn("can not parse date of file {} or {}", f1, f2);
       return 0;
     }
   }

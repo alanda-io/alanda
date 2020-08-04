@@ -14,7 +14,7 @@ import io.alanda.base.reporting.Report;
 
 public class StatusColorCellFormatter implements ReportCellFormatter {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(StatusColorCellFormatter.class);
 
   @Override
   public void init() {

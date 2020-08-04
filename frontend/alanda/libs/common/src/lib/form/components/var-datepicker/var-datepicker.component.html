@@ -1,0 +1,19 @@
+<div [formGroup]="datepickerForm">
+  {{ label }}
+  <p-calendar
+    formControlName="pickedDate"
+    [dateFormat]="dateFormat"
+    [showIcon]="true"
+    (onSelect)="save()"
+  >
+  </p-calendar>
+  <ng-container
+    *ngIf="pickedDate.invalid && (pickedDate.dirty || pickedDate.touched)"
+  >
+    <p-message
+      *ngIf="pickedDate.errors.required"
+      severity="error"
+      text="Field is required"
+    ></p-message>
+  </ng-container>
+</div>

@@ -35,7 +35,7 @@ public class PmcHeartBeatService {
   @Inject
   HeartBeatDao heartBeatDao;
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcHeartBeatService.class);
 
   public void finished(DelegateExecution execution) throws Exception {
     String processKey = execution
@@ -49,6 +49,8 @@ public class PmcHeartBeatService {
   }
 
   public void updateHeartbeat(String processKey) {
+    log.info("Updating heart beat for process with key {}", processKey);
+
     CronDefinition cronDefinition = CronDefinitionBuilder.instanceDefinitionFor(CronType.QUARTZ);
     CronParser parser = new CronParser(cronDefinition);
     Optional<PmcHeartBeatDef> heartBeatDefResult = heartBeaDeftDao.getHeartBeatDefByProcessKey(processKey);

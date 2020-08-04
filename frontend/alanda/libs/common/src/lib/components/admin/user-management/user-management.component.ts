@@ -20,6 +20,38 @@ import { Subject } from 'rxjs';
   styleUrls: ['./user-management.component.scss'],
 })
 export class AlandaUserManagementComponent implements OnInit {
+  constructor(
+    private readonly userService: AlandaUserApiService,
+    private readonly groupService: AlandaGroupApiService,
+    private readonly roleService: AlandaRoleApiService,
+    private readonly permissionService: AlandaPermissionApiService,
+    private readonly messageService: MessageService,
+    private readonly fb: FormBuilder,
+  ) {}
+
+  get login(): string {
+    return this.userForm.get('loginName').value;
+  }
+
+  get firstName(): string {
+    return this.userForm.get('firstName').value;
+  }
+
+  get lastName(): string {
+    return this.userForm.get('surname').value;
+  }
+
+  get email(): string {
+    return this.userForm.get('email').value;
+  }
+
+  get mobile(): string {
+    return this.userForm.get('mobile').value;
+  }
+
+  get locked(): boolean {
+    return this.userForm.get('locked').value;
+  }
   users: AlandaUser[] = [];
   selectedUser: AlandaUser;
   loading = true;
@@ -31,7 +63,7 @@ export class AlandaUserManagementComponent implements OnInit {
   availableRoles: AlandaRole[] = [];
   assignedRoles: AlandaRole[] = [];
 
-  userColumns = [
+  userColumns: any[] = [
     { field: 'loginName', header: 'Login' },
     { field: 'firstName', header: 'First Name' },
     { field: 'surname', header: 'Surname' },
@@ -40,14 +72,8 @@ export class AlandaUserManagementComponent implements OnInit {
   @ViewChild('table') turboTable: Table;
   userForm: FormGroup;
 
-  constructor(
-    private readonly userService: AlandaUserApiService,
-    private readonly groupService: AlandaGroupApiService,
-    private readonly roleService: AlandaRoleApiService,
-    private readonly permissionService: AlandaPermissionApiService,
-    private readonly messageService: MessageService,
-    private readonly fb: FormBuilder,
-  ) {}
+  @Output()
+  runAsUserClick = new Subject<string>();
 
   ngOnInit() {
     this.initUserForm();
@@ -92,30 +118,6 @@ export class AlandaUserManagementComponent implements OnInit {
     }
   }
 
-  get login(): string {
-    return this.userForm.get('loginName').value;
-  }
-
-  get firstName(): string {
-    return this.userForm.get('firstName').value;
-  }
-
-  get lastName(): string {
-    return this.userForm.get('surname').value;
-  }
-
-  get email(): string {
-    return this.userForm.get('email').value;
-  }
-
-  get mobile(): string {
-    return this.userForm.get('mobile').value;
-  }
-
-  get locked(): boolean {
-    return this.userForm.get('locked').value;
-  }
-
   private fillUserForm(user: AlandaUser) {
     this.userForm.patchValue(user);
   }
@@ -135,7 +137,9 @@ export class AlandaUserManagementComponent implements OnInit {
       serverOptions.sortOptions = sortOptions;
     }
     for (const filter in event.filters) {
-      serverOptions.filterOptions[filter] = event.filters[filter].value;
+      if (event.filters[filter].value) {
+        serverOptions.filterOptions[filter] = event.filters[filter].value;
+      }
     }
     this.userService.getUsers(serverOptions).subscribe(
       (result) => {
@@ -175,6 +179,7 @@ export class AlandaUserManagementComponent implements OnInit {
           summary: 'Create New User',
           detail: 'User has been created',
         });
+        this.userForm.reset();
         this.turboTable.reset();
       },
       (error) =>
@@ -298,9 +303,6 @@ export class AlandaUserManagementComponent implements OnInit {
           }),
       );
   }
-
-  @Output()
-  runAsUserClick = new Subject<string>()
 
   runAsUser() {
     this.runAsUserClick.next(this.selectedUser.loginName);

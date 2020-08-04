@@ -15,19 +15,51 @@ import { PermissionsDemoComponent } from './components/permissions-demo/permissi
 import { UserManagementContainerComponent } from './features/usermgmt/user-management-container/user-management-container.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'admin/users', component: UserManagementContainerComponent },
-  { path: 'admin/groups', component: AlandaGroupManagementComponent },
-  { path: 'admin/roles', component: AlandaRoleManagementComponent },
-  { path: 'admin/permissions', component: AlandaPermissionManagementComponent },
-  { path: 'admin/permissions-demo', component: PermissionsDemoComponent },
-  { path: 'create/project', component: AlandaCreateProjectComponent },
+  { path: '', component: HomeComponent, data: { title: 'Home' } },
+  {
+    path: 'admin/users',
+    component: UserManagementContainerComponent,
+    data: { title: 'Admin User' },
+  },
+  {
+    path: 'admin/groups',
+    component: AlandaGroupManagementComponent,
+    data: { title: 'Admin Groups' },
+  },
+  {
+    path: 'admin/roles',
+    component: AlandaRoleManagementComponent,
+    data: { title: 'Admin Roles' },
+  },
+  {
+    path: 'admin/permissions',
+    component: AlandaPermissionManagementComponent,
+    data: { title: 'Admin Permissions' },
+  },
+  {
+    path: 'admin/permissions-demo',
+    component: PermissionsDemoComponent,
+    data: { title: 'Admin Permissions Demo' },
+  },
+  {
+    path: 'create/project',
+    component: AlandaCreateProjectComponent,
+    data: { title: 'Create Project' },
+  },
   {
     path: 'create/project/:projectGuid',
     component: AlandaCreateProjectComponent,
   },
-  { path: 'monitor/projects', component: AlandaProjectMonitorComponent },
-  { path: 'tasks/list', component: AlandaTasklistComponent },
+  {
+    path: 'monitor/projects',
+    component: AlandaProjectMonitorComponent,
+    data: { title: 'Projects' },
+  },
+  {
+    path: 'tasks/list',
+    component: AlandaTasklistComponent,
+    data: { title: 'Tasks' },
+  },
   {
     path: 'forms',
     children: [

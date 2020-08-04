@@ -1,0 +1,43 @@
+@import '../../../styles/variables';
+
+.header-container {
+  margin-bottom: 20px;
+
+  .logo {
+    float: left;
+    min-width: $header-container-height;
+    width: auto;
+    max-width: 125px;
+    height: $header-container-height;
+    overflow: hidden;
+    margin: 0 10px;
+    user-select: none;
+
+    > img {
+      display: inline-block;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      max-height: 100%;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  .sub-menu {
+    margin: 0 10px;
+
+    .user-avatar {
+      padding: 0;
+      width: 35px;
+      height: 35px;
+      user-select: none;
+
+      > img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}

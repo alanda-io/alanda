@@ -25,7 +25,7 @@ import io.alanda.rest.api.PmcCommentRestResult;
 
 public class PmcCommentRestServiceImpl implements PmcCommentRestService {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcCommentRestServiceImpl.class);
 
   @Inject
   private PmcCommentService pmcCommentService;

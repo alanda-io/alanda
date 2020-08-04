@@ -22,7 +22,7 @@
         <maven.javadoc.skip>true</maven.javadoc.skip>
         <junit.version>4.11</junit.version>
         <hibernate.version>5.3.6.Final</hibernate.version>
-        <slf4j.version>1.7.22</slf4j.version>
+        <slf4j.version>1.7.30</slf4j.version>
         <camunda.version>7.10.0</camunda.version>
         <guava.version>20.0</guava.version>
         <dozer.version>5.5.1</dozer.version>

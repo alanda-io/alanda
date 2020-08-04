@@ -11,7 +11,9 @@ import { AlandaPermission } from './models/permission';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 import { ServerOptions } from '../models/serverOptions';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AlandaUserApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;
   public user$: BehaviorSubject<AlandaUser> = new BehaviorSubject(null);
@@ -110,24 +112,21 @@ export class AlandaUserApiService extends AlandaExceptionHandlingService {
   }
 
   getCurrentUser(): Observable<AlandaUser> {
-    return this.http.get<AlandaUser>(`${this.endpointUrl}/current`).pipe(
-      catchError(this.handleError<AlandaUser>('getCurrentUser')),
-    );
+    return this.http
+      .get<AlandaUser>(`${this.endpointUrl}/current`)
+      .pipe(catchError(this.handleError<AlandaUser>('getCurrentUser')));
   }
 
   runAsUser(userName: string): Observable<AlandaUser> {
-    console.log('asdsad',  userName);
     return this.http
       .post<AlandaUser>(`${this.endpointUrl}/runas/${userName}`, {})
-      .pipe(
-        catchError(this.handleError<AlandaUser>('runAsUser'))
-      );
+      .pipe(catchError(this.handleError<AlandaUser>('runAsUser')));
   }
 
   releaseRunAs(): Observable<AlandaUser> {
-    return this.http.post<AlandaUser>(`${this.endpointUrl}/release`, {}).pipe(
-      catchError(this.handleError<AlandaUser>('releaseRunAs'))
-    );
+    return this.http
+      .post<AlandaUser>(`${this.endpointUrl}/release`, {})
+      .pipe(catchError(this.handleError<AlandaUser>('releaseRunAs')));
   }
 
   getUsersByGroupId(groupId: number): Observable<AlandaUser[]> {

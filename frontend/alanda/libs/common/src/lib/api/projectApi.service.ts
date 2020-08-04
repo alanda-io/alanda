@@ -10,8 +10,12 @@ import { AlandaProcess } from './models/process';
 import { AlandaProjectType } from './models/projectType';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 import { AlandaRefObject } from './models/refObject';
+import { AlandaProcessesAndTasks } from './models/processesAndTasks';
+import { AlandaSimplePhase } from './models/simplePhase';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AlandaProjectApiService extends AlandaExceptionHandlingService {
   private readonly endpoint: string;
   private readonly refObjectEndpoint: string;
@@ -110,14 +114,16 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
 
   public getProcessesAndTasksForProject(
     guid: number,
-  ): Observable<Map<string, any>> {
+  ): Observable<AlandaProcessesAndTasks> {
     return this.http
-      .get<Map<string, any>>(
+      .get<AlandaProcessesAndTasks>(
         `${this.endpoint}/project/${guid}/processes-and-tasks`,
       )
       .pipe(
         catchError(
-          this.handleError<Map<string, any>>('getProcessesAndTasksForProject'),
+          this.handleError<AlandaProcessesAndTasks>(
+            'getProcessesAndTasksForProject',
+          ),
         ),
       );
   }
@@ -230,6 +236,36 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
     }
     return this.http.delete<any>(
       `${this.endpoint}/project/${projectGuid}/process/${processGuid}`,
+    );
+  }
+
+  public getPhasesForProject(
+    projectGuid: number,
+  ): Observable<AlandaSimplePhase[]> {
+    return this.http.get<AlandaSimplePhase[]>(
+      `${this.endpoint}/project/${projectGuid}/phase`,
+    );
+  }
+
+  public getPhase(
+    projectGuid: number,
+    phaseDefIdName: number,
+  ): Observable<AlandaSimplePhase> {
+    return this.http.get<AlandaSimplePhase>(
+      `${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}`,
+    );
+  }
+
+  public setPhaseEnabled(
+    projectGuid: number,
+    phaseDefIdName: string,
+    enabled: boolean,
+  ): Observable<AlandaSimplePhase> {
+    return this.http.post<AlandaSimplePhase>(
+      `${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}`,
+      {
+        enabled,
+      },
     );
   }
 }

@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 
 @Component({
-  selector: 'attachments-tree',
+  selector: 'alanda-attachments-tree',
   templateUrl: './attachments-tree.component.html',
 })
 export class AttachmentsTreeComponent {

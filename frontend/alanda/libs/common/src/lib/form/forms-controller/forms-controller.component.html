@@ -3,6 +3,19 @@
     <p-tabPanel header="Project Overview" leftIcon="fa fa-file-text">
       <ng-template pTemplate="content">
         <router-outlet></router-outlet>
+        <div class="p-grid p-justify-end">
+          <div class="p-col-2">
+            <div *ngIf="rootForm.touched && rootForm.errors">
+              <div *ngFor="let error of rootForm.errors | keyvalue">
+                <p-message
+                  *ngIf="error.value.text !== undefined"
+                  severity="error"
+                  text="{{ error.value.text }}"
+                ></p-message>
+              </div>
+            </div>
+          </div>
+        </div>
       </ng-template>
     </p-tabPanel>
     <p-tabPanel header="PIO" leftIcon="fa fa-eye">

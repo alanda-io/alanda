@@ -71,7 +71,7 @@ import io.alanda.base.util.cache.UserCache;
 @Lock(LockType.READ)
 public class PmcTaskServiceImpl implements PmcTaskService {
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcTaskServiceImpl.class);
 
   @Inject
   private TaskService taskService;
@@ -133,7 +133,7 @@ public class PmcTaskServiceImpl implements PmcTaskService {
           }
 
         } catch (Exception ex) {
-          logger.warn("Task #" + task.getId() + " - suspensionState for processPackageKey " + processPackageKey + " not found.", ex);
+          log.warn("Task #{} - suspensionState for processPackageKey {} not found.", task.getId(), processPackageKey, ex);
         }
       }
       // add candidate groups
@@ -144,13 +144,13 @@ public class PmcTaskServiceImpl implements PmcTaskService {
           try {
             group = userCache.getGroup(Long.valueOf(link.getGroupId().trim()));
           } catch (Exception ex) {
-            logger.warn("Task #" + task.getId() + " - candidate Group " + link.getGroupId() + " no valid group id.");
+            log.warn("Task #{} - candidate Group {} no valid group id.", task.getId(), link.getGroupId());
           }
           if (group != null) {
             candidateGroupNames.add(group.getLongName());
             candidateGroupIds.add(group.getGuid());
           } else {
-            logger.warn("Task #" + task.getId() + " - candidate Group " + link.getGroupId() + " not found.");
+            log.warn("Task #{} - candidate Group {} not found.", task.getId(), link.getGroupId());
           }
         }
       }
@@ -174,7 +174,7 @@ public class PmcTaskServiceImpl implements PmcTaskService {
           }
 
         } catch (Exception ex) {
-          logger.warn("Task #" + task.getId() + " - suspensionState for processPackageKey " + processPackageKey + " not found.", ex);
+          log.warn("Task #{} - suspensionState for processPackageKey {} not found.", task.getId(), processPackageKey, ex);
         }
       }
       task.initializeFormKey();
@@ -188,7 +188,7 @@ public class PmcTaskServiceImpl implements PmcTaskService {
             candidateGroupNames.add(group.getLongName());
             candidateGroupIds.add(group.getGuid());
           } else {
-            logger.warn("Task #" + task.getId() + " - candidate Group " + link.getGroupId() + " not found.");
+            log.warn("Task #{} - candidate Group {} not found.", task.getId(), link.getGroupId());
           }
         }
       }
@@ -208,7 +208,7 @@ public class PmcTaskServiceImpl implements PmcTaskService {
         PmcUserDto user = userCache.get(Long.valueOf(assigneeId));
         dto.setAssignee(user.getFirstName() + " " + user.getSurname());
       } catch (Exception ex) {
-        logger.warn("Task # " + task.getId() + "(" + task.getName() + ") cant load assignee " + assigneeId, ex);
+        log.warn("Task # {}({}) cant load assignee {}", task.getId(), task.getName(), assigneeId, ex);
       }
     }
     dto.setAssigneeId(assigneeId);
@@ -345,28 +345,22 @@ public class PmcTaskServiceImpl implements PmcTaskService {
       return;
     }
     List<Task> tl = taskService.createTaskQuery().orderByTaskCreateTime().asc().initializeFormKeys().listPage(firstResult, maxResults);
-    logger.info("updateAllTasks, params: firstResult: " + firstResult + ", maxResults: " + maxResults + ", size: " + tl.size());
+    log.info("updateAllTasks, params: firstResult: {}, maxResults: {}, size: {}", firstResult, maxResults, tl.size());
     int i = 0;
     for (Task task : tl) {
       i++ ;
       if (i % 100 == 0) {
-        logger.info("updateAllTasks, status: " + i + "/" + tl.size());
+        log.info("updateAllTasks, status: {}/{}", i, tl.size());
       }
       try {
         long startTime = System.currentTimeMillis();
         updateTask(task);
         long endTime = System.currentTimeMillis();
         if (endTime - startTime > 300) {
-          logger.warn((endTime - startTime) +
-            " millis for Indexing task #" +
-            task.getId() +
-            " (" +
-            task.getName() +
-            ") for process #" +
-            task.getProcessInstanceId());
+          log.warn("{} millis for Indexing task #{} ({}) for process #{}", endTime - startTime, task.getId(), task.getName(), task.getProcessInstanceId());
         }
       } catch (Exception ex) {
-        logger.warn("Error indexing task #" + task.getId() + " (" + task.getName() + ") for process #" + task.getProcessInstanceId());
+        log.warn("Error indexing task #{} ({}) for process #{}", task.getId(), task.getName(), task.getProcessInstanceId());
         throw ex;
       }
     }
@@ -383,7 +377,7 @@ public class PmcTaskServiceImpl implements PmcTaskService {
       Map<String, Object> tm = (Map<String, Object>) te.get("task");
       String id = (String) tm.get("task_id");
       Task theTask = this.taskService.createTaskQuery().taskId(id).singleResult();
-      logger.info("Task #" + id + ", exists: " + (theTask != null));
+      log.info("Task #{}, exists: {}", id, theTask != null);
       if (theTask == null) {
         elasticService.deleteTask(id);
       }
@@ -410,12 +404,7 @@ public class PmcTaskServiceImpl implements PmcTaskService {
     if (businessProcessEvent.getTask() == null) {
       return;
     }
-    logger.info("Update for Task #" +
-      businessProcessEvent.getTaskId() +
-      "(" +
-      businessProcessEvent.getTask().getName() +
-      ") action=" +
-      businessProcessEvent.getType().getTypeName());
+    log.info("Update for Task #{}({}) action={}", businessProcessEvent.getTaskId(), businessProcessEvent.getTask().getName(), businessProcessEvent.getType().getTypeName());
     PmcTaskDto dto = getTask((TaskEntity) businessProcessEvent.getTask());
     if (businessProcessEvent.getType().equals(BusinessProcessEventType.COMPLETE_TASK)) {
       dto.setState(PmcProjectState.COMPLETED);
@@ -452,11 +441,8 @@ public class PmcTaskServiceImpl implements PmcTaskService {
         businessProcessEvent.getExecutionId());
 
     if (ai == null) {
-      logger.warn(String.format(
-          "no activity instance found for pid=%s, activityId=%s, executionId=%s",
-          businessProcessEvent.getProcessInstanceId(),
-          businessProcessEvent.getActivityId(),
-          businessProcessEvent.getExecutionId()));
+      log.warn("no activity instance found for pid={}, activityId={}, executionId={}",
+              businessProcessEvent.getProcessInstanceId(), businessProcessEvent.getActivityId(), businessProcessEvent.getExecutionId());
       return;
     }
 
@@ -464,7 +450,7 @@ public class PmcTaskServiceImpl implements PmcTaskService {
       return;
     }
 
-    logger.info(String.format("Update for activity #%s (%s) action=%s",
+    log.info(String.format("Update for activity #%s (%s) action=%s",
         ai.getId(),
         ai.getActivityName(),
         businessProcessEvent.getType().getTypeName()));
@@ -476,7 +462,7 @@ public class PmcTaskServiceImpl implements PmcTaskService {
     } else if (businessProcessEvent.getType().equals(BusinessProcessEventType.END_ACTIVITY)) {
       dto.setState(PmcProjectState.COMPLETED);
     } else {
-      logger.warn(String.format("Unexpected BusinessProcessEventType %s", businessProcessEvent.getType().getTypeName()));
+      log.warn("Unexpected BusinessProcessEventType {}", businessProcessEvent.getType().getTypeName());
     }
 
     dto.setActivityInstanceType("activity");
@@ -486,7 +472,7 @@ public class PmcTaskServiceImpl implements PmcTaskService {
       dto.setTaskName(ai.getActivityName());
     } else {
       dto.setTaskName(ai.getActivityType());
-      logger.warn(String.format("Activity name is null!"));
+      log.warn("Activity name is null!");
     }
     dto.setExecutionId(businessProcessEvent.getExecutionId());
     dto.setProcessDefinitionId(businessProcessEvent.getProcessDefinition().getId());
@@ -501,12 +487,12 @@ public class PmcTaskServiceImpl implements PmcTaskService {
   private ActivityInstance getActivityInstance(String pid, String activityId, String executionId) {
     ActivityInstance processAi = runtimeService.getActivityInstance(pid);
     if (processAi == null) {
-      logger.warn(String.format("could not load process activity instance"));
+      log.warn("could not load process activity instance");
       return null;
     }
     ActivityInstance[] ais = processAi.getActivityInstances(activityId);
     if (ais == null) {
-      logger.warn(String.format("could not load child activity instances"));
+      log.warn("could not load child activity instances");
       return null;
     }
     for (ActivityInstance ai : ais) {
@@ -524,7 +510,7 @@ public class PmcTaskServiceImpl implements PmcTaskService {
                                      .processVariableValueEquals(ProcessVariables.PMC_PROJECT_GUID, pmcProjectGuid)
                                      .taskDefinitionKey(taskDefinitionKey)
                                      .list();
-    logger.info("Setting followUpDate to " + followUpDate + " for Tasks: " + taskList);
+    log.info("Setting followUpDate to {} for Tasks: {}", followUpDate, taskList);
     for (Task t : taskList) {
       updateFollowUpDateOfTask(t.getId(), followUpDate);
       modified++ ;
@@ -621,42 +607,19 @@ public class PmcTaskServiceImpl implements PmcTaskService {
         taskGroupIdSet.add(idLink.getGroupId());
       }
     }
-    logger.info("AccessCheck for task #" +
-      task.getId() +
-      " (" +
-      task.getName() +
-      ") assignee: " +
-      task.getAssignee() +
-      ", candidateGroups: " +
-      taskGroupIdSet +
-      ", user: " +
-      user.getLoginName() +
-      ", groups: " +
-      user.getGroups());
+    log.info("AccessCheck for task #{} ({}) assignee: {}, candidateGroups: {}, user: {}, groups: {}", task.getId(), task.getName(), task.getAssignee(), taskGroupIdSet, user.getLoginName(), user.getGroups());
 
     if (user.getGuid().toString().equals(task.getAssignee())) {
-      logger.info("User ist Assignee");
+      log.info("User ist Assignee");
       return true;
     }
     for (String group : user.getGroups()) {
       if (taskGroupIdSet.contains(group)) {
-        logger.info("Task ist Group: " + group + " zugeordnet.");
+        log.info("Task ist Group: {} zugeordnet.", group);
         return true;
       }
     }
-    logger.info("AccessCheck for task #" +
-      task.getId() +
-      " (" +
-      task.getName() +
-      ") assignee: " +
-      task.getAssignee() +
-      ", candidateGroups: " +
-      taskGroupIdSet +
-      ", user: " +
-      user.getLoginName() +
-      ", groups: " +
-      user.getGroups() +
-      ". Access Denied");
+    log.info("AccessCheck for task #{} ({}) assignee: {}, candidateGroups: {}, user: {}, groups: {}. Access Denied", task.getId(), task.getName(), task.getAssignee(), taskGroupIdSet, user.getLoginName(), user.getGroups());
     return false;
   }
 

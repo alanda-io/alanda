@@ -10,7 +10,9 @@ import { AlandaPermission } from './models/permission';
 import { AlandaRole } from './models/role';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AlandaGroupApiService extends AlandaExceptionHandlingService {
   private readonly endpointUrl: string;
 

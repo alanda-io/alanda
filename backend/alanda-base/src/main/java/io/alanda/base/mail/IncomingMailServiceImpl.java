@@ -55,7 +55,7 @@ import io.alanda.base.type.ProcessState;
 @Singleton
 public class IncomingMailServiceImpl implements IncomingMailService {
 
-  private final Logger log = LoggerFactory.getLogger(PmcProjectServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcProjectServiceImpl.class);
 
   private Html2PlainTextConverter html2Plain = new Html2PlainTextConverter();
 
@@ -104,7 +104,7 @@ public class IncomingMailServiceImpl implements IncomingMailService {
     Session emailSession = null;
     Store store = null;
 
-    log.info("config: " + configuration.toString());
+    log.info("Processing mail with config: {}", configuration);
     List<IncomingMessageDto> incomingMessages = new ArrayList<>();
     try {
       Properties properties = new Properties();
@@ -139,7 +139,7 @@ public class IncomingMailServiceImpl implements IncomingMailService {
       if (messages.length < 1) {
         messages = inbox.search(new FlagTerm(new Flags(Flags.Flag.SEEN), true));
       }
-      log.info("No. of Unread Messages : " + messages.length);
+      log.info("Processing {} unread messages...", messages.length);
 
       for (Message message : messages) {
         Date dt = new Date();
@@ -148,17 +148,15 @@ public class IncomingMailServiceImpl implements IncomingMailService {
         String subject = message.getSubject();
         Matcher m = correlationPattern.matcher(subject);
         if (m.find()) {
-          System.out.println(m.group() + "," + m.group(1) + "," + m.group(2));
+          log.trace("{},{},{}", m.group(), m.group(1), m.group(2));
           mail.setModuleName(m.group(1));
           mail.setModuleId(m.group(2));
         }
-        log.info("Subject: " + subject);
         String from = parseAddress(message.getFrom());
         String to = parseAddress(message.getRecipients(RecipientType.TO));
         String cc = parseAddress(message.getRecipients(RecipientType.CC));
-        log.info("From: " + from);
-        log.info("TO: " + to);
-        log.info("CC: " + cc);
+        log.debug("...processing message from {}: {}", from, subject);
+        log.debug("...sent to {} (CC: {})", to, cc);
         String text = null;
         // log.info("Message: "+message.get);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -166,12 +164,11 @@ public class IncomingMailServiceImpl implements IncomingMailService {
         byte[] mailBlob = baos.toByteArray();
 
         if (message.getContent() instanceof MimeMultipart) {
-          log.info("Multipart");
+          log.trace("...processing multipart");
           MimeMultipart mm = (MimeMultipart) message.getContent();
           for (int i = 0; i < mm.getCount(); i++ ) {
             BodyPart bp = mm.getBodyPart(i);
-            log.info("Part #" + i);
-            log.info(bp.getDisposition() + "-" + bp.getContentType());
+            log.trace("Part #{}: {}-{}", i, bp.getDisposition(), bp.getContentType());
             String cT = retrieveContentType(bp.getContentType());
             String name = bp.getFileName();
             if (name==null) {
@@ -190,12 +187,12 @@ public class IncomingMailServiceImpl implements IncomingMailService {
               ma.setName(name);
               ma.setBlob(IOUtils.toByteArray(bp.getInputStream()));
               Object attText = bp.getContent();
-              System.out.println(attText);
+              log.trace("...body part content: {}", attText);
               attachments.add(ma);
             }
           }
         } else {
-          log.info("Singlepart");
+          log.trace("... processing singlepart");
           String msg = message.getContent().toString();
           boolean isHtml = msg.toLowerCase().contains("<html");
           text = extractContent(msg, isHtml);
@@ -218,10 +215,12 @@ public class IncomingMailServiceImpl implements IncomingMailService {
         }
 
         message.setFlag(Flag.DELETED, true);
-        log.info("Message done..");
+        log.debug("...done processing message from {}: {}", from, subject);
       }
+
+      log.debug("...done processing {} messages...", messages.length);
     } catch (Exception ex) {
-      log.warn("Error reading mailbox " + configuration.getUsername() + ": " + ex.getMessage(), ex);
+      log.warn("Error reading mailbox {}: {}", configuration.getUsername(), ex.getMessage(), ex);
     } finally {
       try {
         if (inbox != null)
@@ -229,10 +228,11 @@ public class IncomingMailServiceImpl implements IncomingMailService {
         if (store != null)
           store.close();
       } catch (Exception ex2) {
-        log.warn("Error closing inbox/store mailbox " + configuration.getUsername() + ": " + ex2.getMessage(), ex2);
+        log.warn("Error closing inbox/store mailbox {}: {}", configuration.getUsername(), ex2.getMessage(), ex2);
       }
     }
-    log.info("MailAccount " + configuration.getUsername() + " done..");
+
+    log.info("MailAccount {} done..", configuration.getUsername());
     if ( !incomingMessages.isEmpty()) {
       this.internalEvent.fire(new PrivateNotificationList(incomingMessages));
     }
@@ -241,6 +241,8 @@ public class IncomingMailServiceImpl implements IncomingMailService {
   @Override
   @Transactional(value = TxType.REQUIRES_NEW)
   public void storeMessage(Mail mail) {
+    log.info("Saving mail {}", mail);
+
     mailDao.create(mail);
   }
 
@@ -253,13 +255,15 @@ public class IncomingMailServiceImpl implements IncomingMailService {
   @Asynchronous()
   @Lock(LockType.READ)
   public void internalEventAfterSuccess(@Observes(during = TransactionPhase.AFTER_SUCCESS) PrivateNotificationList internalNotification) {
+    log.trace("Sending event after success to {}", internalNotification);
+
     this.messageEvent.fire(new IncomingMessageEvent(internalNotification.getMessages()));
   }
 
   private String retrieveContentBody(BodyPart bp) throws MessagingException, IOException {
 
     Object content = bp.getContent();
-    System.out.println(content.getClass());
+    log.trace("Retrieved content body class {}: {}", content.getClass(), content);
     if (content instanceof MimeMultipart) {
       MimeMultipart mimu = (MimeMultipart) content;
       for (int i = 0; i < mimu.getCount(); i++ ) {

@@ -61,7 +61,6 @@ export class AlandaVarRoleUserSelectComponent implements OnInit {
           return item.guid === resp.value;
         });
         this.selected.setValue(user);
-        console.log(this.selected.value);
       });
   }
 

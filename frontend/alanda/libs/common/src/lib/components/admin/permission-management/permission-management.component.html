@@ -12,7 +12,6 @@
         [paginator]="true"
         [rows]="15"
         [totalRecords]="totalRecords"
-        [lazy]="true"
         [loading]="loading"
         (onRowUnselect)="onPermissionUnselected()"
         [autoLayout]="true"
@@ -20,7 +19,6 @@
         scrollHeight="320px"
         (onRowSelect)="onPermissionSelected($event)"
         [style]="{ 'font-size': '12px' }"
-        (onLazyLoad)="onLoadPermissions($event)"
       >
         <ng-template pTemplate="header" let-columns>
           <tr>

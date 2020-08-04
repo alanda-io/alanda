@@ -27,8 +27,9 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "build-common": "rm -r dist/libs/common && nx build common --prod",
-    "publish-common": "cd dist/libs/common && npm login --registry=https://repo.alanda.io/repository/alanda/ && npm publish"
+    "build-common": "rm -r -f dist/libs/common && nx build common --prod",
+    "publish-common": "cd dist/libs/common && npm login --registry=https://repo.alanda.io/repository/alanda/ && npm publish",
+    "publish": "bash publish-common.sh"
   },
   "private": true,
   "dependencies": {

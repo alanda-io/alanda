@@ -70,7 +70,7 @@ public class DbUnit {
     try {
       IDatabaseConnection connection = getConnection(config, tables);
       for (DbTable t : tables) {
-        log.info("Exporting " + t.tableName + " to file " + t.fileName + " (" + t.selectSql + ")");
+        log.info("Exporting {} to file {} ({})", t.tableName, t.fileName, t.selectSql);
         QueryDataSet qds = new QueryDataSet(connection);
         qds.addTable(t.tableName, t.selectSql);
         XmlDataSet.write(qds, new FileOutputStream(dataPath + "/" + t.fileName));
@@ -87,7 +87,7 @@ public class DbUnit {
     try {
       IDatabaseConnection connection = getConnection(config, tables);
       for (DbTable t : tables) {
-        log.info("Importing " + t.tableName + " from file " + t.fileName);
+        log.info("Importing {} from file {}", t.tableName, t.fileName);
         String xmlData = loadXml(t, dataPath);
         IDataSet dataSet = new XmlDataSet(new StringReader(xmlData));
         ITableFilter filter = new IncludeTableFilter(new String[] {t.tableName});

@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AlandaPermission } from '../../../api/models/permission';
 import { AlandaRole } from '../../../api/models/role';
 import { AlandaUser } from '../../../api/models/user';
@@ -6,7 +6,7 @@ import { Table } from 'primeng/table';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlandaRoleApiService } from '../../../api/roleApi.service';
 import { AlandaPermissionApiService } from '../../../api/permissionApi.service';
-import { MessageService, LazyLoadEvent } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { AlandaUserApiService } from '../../../api/userApi.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class AlandaRoleManagementComponent implements OnInit {
   availablePermissions: AlandaPermission[] = [];
   grantedPermissions: AlandaPermission[] = [];
 
-  roleColumns = [
+  roleColumns: any[] = [
     { field: 'guid', header: 'Guid' },
     { field: 'name', header: 'Name' },
   ];
@@ -42,6 +42,7 @@ export class AlandaRoleManagementComponent implements OnInit {
 
   ngOnInit() {
     this.initRoleForm();
+    this.loadRoles();
   }
 
   private initRoleForm() {
@@ -50,7 +51,7 @@ export class AlandaRoleManagementComponent implements OnInit {
     });
   }
 
-  onLoadRoles(event: LazyLoadEvent) {
+  loadRoles() {
     this.roleService.getRoles().subscribe((res) => {
       this.roles = res;
       this.totalRecords = this.roles.length;
@@ -113,7 +114,9 @@ export class AlandaRoleManagementComponent implements OnInit {
           summary: 'Create Role',
           detail: 'Role has been created',
         });
-        this.turboTable.reset();
+        this.roles.push(res);
+        this.totalRecords = this.roles.length;
+        this.roleForm.reset();
       },
       (error) =>
         this.messageService.add({

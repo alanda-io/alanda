@@ -76,9 +76,9 @@
                   <span
                     class="valid-error"
                     *ngIf="groupForm.dirty && !groupForm.get('groupName').valid"
-                    style=""
-                    >Please enter a groupname</span
                   >
+                    Please enter a groupname
+                  </span>
                 </div>
 
                 <div class="input-field">
@@ -146,9 +146,16 @@
               filterBy="name"
               [showSourceControls]="false"
               [showTargetControls]="false"
+              [style]="{ width: '100%' }"
+              [sourceStyle]="{ width: '100%' }"
+              [targetStyle]="{ width: '100%' }"
             >
               <ng-template let-role pTemplate="item">
-                {{ role.name }}
+                <div class="p-grid">
+                  <div class="p-col-12 key">
+                    {{ role.name }}
+                  </div>
+                </div>
               </ng-template>
             </p-pickList>
             <div class="p-col-12">
@@ -168,9 +175,16 @@
               filterBy="name"
               [showSourceControls]="false"
               [showTargetControls]="false"
+              [style]="{ width: '100%' }"
+              [sourceStyle]="{ width: '100%' }"
+              [targetStyle]="{ width: '100%' }"
             >
               <ng-template let-p pTemplate="item">
-                {{ p.key }}
+                <div class="p-grid">
+                  <div class="p-col-12 key">
+                    {{ p.key }}
+                  </div>
+                </div>
               </ng-template>
             </p-pickList>
             <div class="p-col-12">

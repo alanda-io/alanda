@@ -12,9 +12,7 @@
         [paginator]="true"
         [rows]="15"
         [totalRecords]="totalRecords"
-        [lazy]="true"
         [loading]="loading"
-        (onLazyLoad)="onLoadRoles($event)"
         [autoLayout]="true"
         selectionMode="single"
         [style]="{ 'font-size': '12px' }"
@@ -118,9 +116,16 @@
                 filterBy="name"
                 [showSourceControls]="false"
                 [showTargetControls]="false"
+                [style]="{ width: '100%' }"
+                [sourceStyle]="{ width: '100%' }"
+                [targetStyle]="{ width: '100%' }"
               >
                 <ng-template let-p pTemplate="item">
-                  {{ p.key }}
+                  <div class="p-grid">
+                    <div class="p-col-12 key">
+                      {{ p.key }}
+                    </div>
+                  </div>
                 </ng-template>
               </p-pickList>
             </div>

@@ -1,4 +1,10 @@
-<alanda-header [user]="user$" (releaseRunAsClick)="releaseRunAsClick$.next($event)"></alanda-header>
+<alanda-header
+  [user]="user$"
+  [title]="'ui-demo-test'"
+  [items]="items"
+  [logoPath]="logoPath"
+  (releaseRunAsClick)="releaseRunAsClick$.next($event)"
+></alanda-header>
 <div class="container">
   <router-outlet></router-outlet>
 </div>

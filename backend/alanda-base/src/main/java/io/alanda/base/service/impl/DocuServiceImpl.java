@@ -34,7 +34,7 @@ import io.alanda.base.util.DozerMapper;
 @Priority(0)
 public class DocuServiceImpl implements DocuService {
 
-  private final Logger logger = LoggerFactory.getLogger(DocuServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(DocuServiceImpl.class);
 
   public static final String PROJECTID = "projectId";
 
@@ -81,14 +81,14 @@ public class DocuServiceImpl implements DocuService {
   }
 
   private String evaluateFolderPathTemplate(Map<String, Object> paramMap, String folderPathTemplate) {
-    logger.info("Folder path template: " + folderPathTemplate);
+    log.info("Folder path template: {}", folderPathTemplate);
     String folderPath = templateService.evaluateTemplate(folderPathTemplate, paramMap);
-    logger.info("Folder path: " + folderPath);
+    log.info("Folder path: {}", folderPath);
     return folderPath;
   }
 
   private DocuFolderDto findFolder(DocuFolderDto root, String name) {
-    logger.info("folder:" + root.getName() + ", searchName: " + name);
+    log.info("folder:{}, searchName: {}", root.getName(), name);
     if (root.getSubFolders() == null)
       return null;
     for (DocuFolderDto sub : root.getSubFolders()) {

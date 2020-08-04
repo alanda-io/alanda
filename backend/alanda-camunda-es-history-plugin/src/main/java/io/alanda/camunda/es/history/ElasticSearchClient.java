@@ -14,17 +14,17 @@
 package io.alanda.camunda.es.history;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.settings.Settings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ElasticSearchClient {
 
-  protected static final Logger LOGGER = Logger.getLogger(ElasticSearchClient.class.getName());
+  private static final Logger log = LoggerFactory.getLogger(ElasticSearchClient.class);
 
   protected RestHighLevelClient esClient;
 
@@ -44,7 +44,7 @@ public class ElasticSearchClient {
         RestClient
           .builder(new HttpHost(historyPluginConfiguration.getEsHost(), Integer.parseInt(historyPluginConfiguration.getEsPort()), "http")));
     } catch (Exception uhe) {
-      LOGGER.log(Level.WARNING, "Could not connect to Elastic search!", uhe);
+      log.warn("Could not connect to Elastic search!", uhe);
       throw uhe;
     }
 
@@ -56,7 +56,7 @@ public class ElasticSearchClient {
       try {
         esClient.close();
       } catch (IOException e) {
-        LOGGER.log(Level.WARNING, "Error closing connection to Elastic search!", e);
+        log.warn("Error closing connection to Elastic search!", e);
       }
     }
 

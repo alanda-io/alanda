@@ -20,7 +20,7 @@ import io.alanda.base.process.variable.Variable;
 
 public abstract class AbstractDataAccessor extends AbstractData implements DataAccessor {
 
-  public static final Logger logger = LoggerFactory.getLogger(AbstractDataAccessor.class);
+  private static final Logger log = LoggerFactory.getLogger(AbstractDataAccessor.class);
 
   /**
    * Create new instance wrapping {@link PayloadAdapter}.

@@ -32,7 +32,7 @@ public class UserCache {
   @Inject
   private PmcUserService pmcUserService;
 
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(UserCache.class);
 
   private LoadingCache<String, Optional<PmcUserDto>> usernameCache;
 
@@ -101,7 +101,7 @@ public class UserCache {
     try {
       return usernameCache.get(loginName).orNull();
     } catch (ExecutionException e) {
-      logger.warn("An exception occurred while reading from user cache", e.getCause());
+      log.warn("An exception occurred while reading from user cache", e.getCause());
       return null;
     }
   }
@@ -123,7 +123,7 @@ public class UserCache {
     try {
       return guidCache.get(pmcUserGuid).orNull();
     } catch (ExecutionException e) {
-      logger.warn("An exception occurred while reading from user cache", e.getCause());
+      log.warn("An exception occurred while reading from user cache", e.getCause());
       return null;
     }
   }
@@ -136,7 +136,7 @@ public class UserCache {
     try {
       return groupCache.get(pmcGroupGuid).orNull();
     } catch (ExecutionException e) {
-      logger.warn("An exception occurred while reading from group cache", e.getCause());
+      log.warn("An exception occurred while reading from group cache", e.getCause());
       return null;
     }
   }

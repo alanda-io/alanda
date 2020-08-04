@@ -1,8 +1,9 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { AlandaTaskFormService, BaseFormComponent } from '@alanda/common';
-import { Validators, AbstractControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { commentRequiredValidator } from '@alanda/common';
 
 @Component({
   selector: 'alanda-prepare-vacation-request',
@@ -30,12 +31,27 @@ export class PrepareVacationRequestComponent
   }
 
   ngAfterViewInit(): void {
-    this.roleSelector.setValidators([Validators.required]);
-    this.roleSelector.updateValueAndValidity();
+    // this.roleSelector.setValidators([Validators.required]);
+    // this.roleSelector.updateValueAndValidity();
+    this.rootForm.setValidators([
+      commentRequiredValidator(this.comments, this.handover, [false]),
+    ]);
+    // this.rootForm.setValidators([
+    //   commentRequiredValidator(this.rootForm, [false]),
+    // ]);
+    this.rootForm.updateValueAndValidity();
     // this.formManagerService.addValidators();
   }
 
   get roleSelector(): AbstractControl {
     return this.rootForm.get('alanda-role-select-vacation-approver.selected');
+  }
+
+  get comments(): AbstractControl {
+    return this.rootForm.get('alanda-task-has-comment');
+  }
+
+  get handover(): AbstractControl {
+    return this.rootForm.get('alanda-var-select-handoverRequired.selected');
   }
 }

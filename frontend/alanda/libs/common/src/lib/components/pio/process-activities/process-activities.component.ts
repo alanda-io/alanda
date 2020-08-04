@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { APP_CONFIG, AppSettings } from '../../../models/appSettings';
 
 @Component({
-  selector: 'process-activities-component',
+  selector: 'alanda-process-activities-component',
   templateUrl: './process-activities.component.html',
 })
 export class ProcessActivitiesComponent implements OnInit {

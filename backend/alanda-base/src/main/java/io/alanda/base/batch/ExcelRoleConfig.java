@@ -3,12 +3,16 @@
  */
 package io.alanda.base.batch;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.Serializable;
 
 /**
  * @author developer
  */
 public class ExcelRoleConfig implements Serializable {
+  private static final Logger log = LoggerFactory.getLogger(ExcelRoleConfig.class);
 
   /**
    * 
@@ -41,6 +45,8 @@ public class ExcelRoleConfig implements Serializable {
    * 
    */
   public ExcelRoleConfig config(int col, String config) {
+    log.debug("Configuring {} for col {}", config, col);
+
     this.col = col;
     int lastDot = config.lastIndexOf(".");
     if (lastDot <= 0){

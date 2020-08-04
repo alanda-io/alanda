@@ -19,6 +19,8 @@ export class AlandaSelectMilestoneComponent implements OnInit {
       rootFormGroup.addControl(this.displayName, this.milestoneForm);
     }
   }
+  @Input() showFC = true;
+  @Input() showACT = true;
 
   milestoneForm = this.fb.group({
     fc: [null],

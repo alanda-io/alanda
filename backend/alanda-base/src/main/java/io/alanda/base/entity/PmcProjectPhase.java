@@ -18,11 +18,9 @@ import org.slf4j.LoggerFactory;
 @Table(name = "PMC_PROJECT_PHASE")
 public class PmcProjectPhase extends AbstractAuditEntity implements Serializable {
 
-  @Transient
   private static final long serialVersionUID = 4366474298630539513L;
 
-  @Transient
-  private final Logger logger = LoggerFactory.getLogger(this.getClass());
+  private static final Logger log = LoggerFactory.getLogger(PmcProjectPhase.class);
 
   @ManyToOne
   @JoinColumn(name = "PMC_PROJECT_PHASE_DEFINITION")

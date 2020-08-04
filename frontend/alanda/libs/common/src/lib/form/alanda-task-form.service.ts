@@ -22,10 +22,12 @@ import { AlandaProject } from '../api/models/project';
 import { AlandaProjectApiService } from '../api/projectApi.service';
 import { AlandaTaskApiService } from '../api/taskApi.service';
 import { MessageService } from 'primeng/api';
+import { AlandaTitleService } from '../services/title.service';
 
 export interface AlandaTaskFormState {
   task?: AlandaTask;
   project?: AlandaProject;
+  loading?: number;
   //  rootFormData: { [controlName: string]: any }
 }
 
@@ -43,7 +45,6 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     map(() => this.router.routerState.snapshot.root),
     // @TODO if we get away from global task managing delete this line and move code
     map((snapshot) => this.collectParams(snapshot)),
-    // tap((sn) => console.log("sn", sn))
   );
 
   urlTaskId$ = this.routerParams$.pipe(map((p) => p.taskId));
@@ -54,6 +55,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     }),
     concatMap((task: AlandaTask) => {
       if (task.pmcProjectGuid) {
+        this.titleService.setTaskTitle(task);
         return this.projectService
           .getProjectByGuid(task.pmcProjectGuid)
           .pipe(map((project) => ({ task, project })));
@@ -68,6 +70,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     private readonly taskService: AlandaTaskApiService,
     private readonly projectService: AlandaProjectApiService,
     private readonly messageService: MessageService,
+    private readonly titleService: AlandaTitleService,
   ) {
     super();
     this.connect(this.fetchTaskById$);
@@ -123,5 +126,17 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     } else {
       return of(this.rootForm.errors);
     }
+  }
+
+  connectLoadingState(o$: Observable<boolean>): void {
+    this.connect('loading', o$, (oldState, isLoading) => {
+      return isLoading ? oldState.loading++ : oldState.loading--;
+    });
+  }
+
+  setLoading(isLoading: boolean): void {
+    this.set('loading', (oldState) => {
+      return isLoading ? oldState.loading++ : oldState.loading--;
+    });
   }
 }

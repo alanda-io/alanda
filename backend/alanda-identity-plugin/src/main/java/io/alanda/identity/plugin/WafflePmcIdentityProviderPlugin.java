@@ -14,11 +14,11 @@ import io.alanda.identity.WafflePmcIdentityProviderFactory;
  */
 public class WafflePmcIdentityProviderPlugin extends PmcIdentityProviderPlugin {
 
-  private final Logger logger = LoggerFactory.getLogger(WafflePmcIdentityProviderPlugin.class);
+  private static final Logger log = LoggerFactory.getLogger(WafflePmcIdentityProviderPlugin.class);
 
   @Override
   public void preInit(ProcessEngineConfigurationImpl processEngineConfiguration) {
-    logger.info("PLUGIN {} activated on process engine {}", getClass().getSimpleName(), processEngineConfiguration.getProcessEngineName());
+    log.info("PLUGIN {} activated on process engine {}", getClass().getSimpleName(), processEngineConfiguration.getProcessEngineName());
     WafflePmcIdentityProviderFactory f = new WafflePmcIdentityProviderFactory();
     f.setPmcConfiguration(this);
     processEngineConfiguration.setIdentityProviderSessionFactory(f);

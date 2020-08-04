@@ -21,7 +21,7 @@ public class PmcProjectMilestoneRestResourceImpl extends AbstractProjectRestReso
     PmcProjectMilestoneRestResource {
 
   @SuppressWarnings("unused")
-  private static final Logger logger = LoggerFactory.getLogger(PmcProjectMilestoneRestResourceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(PmcProjectMilestoneRestResourceImpl.class);
 
   private String milestoneIdName;
 

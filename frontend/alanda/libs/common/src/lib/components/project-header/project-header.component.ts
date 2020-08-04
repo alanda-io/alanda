@@ -99,12 +99,10 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
       .getPropertiesMap(this.project.guid)
       .subscribe((ret) => {
         const props: Map<string, any> = ret;
-        console.log('props', props);
       });
   }
 
   private updateProject(changes: any): Observable<AlandaProject> {
-    console.log(changes);
     if (
       changes.taskDueDate &&
       changes.taskDueDate.toString() !== this.taskDueDate.toString()

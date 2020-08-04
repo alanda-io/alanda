@@ -7,10 +7,10 @@
   </p-header>
   <div class="p-grid">
     <div class="p-col-3">
-      <attachments-tree
+      <alanda-attachments-tree
         [treeNode]="treeNode"
         (nodeChangedEvent)="onSelectedNodeChange($event)"
-      ></attachments-tree>
+      ></alanda-attachments-tree>
     </div>
     <div class="p-col">
       <a [href]="downloadAllUrl">
@@ -24,11 +24,11 @@
       </a>
       <div class="p-grid">
         <div class="p-col-12 p-nogutter">
-          <attachments-list
+          <alanda-attachments-list
             [data]="data"
             [currentFiles]="currentFiles"
-            (onDeleteFile)="onDeleteFile()"
-          ></attachments-list>
+            (deleteFile)="onDeleteFile()"
+          ></alanda-attachments-list>
         </div>
         <div class="p-col-12 p-md-12 p-nogutter">
           <p-fileUpload
