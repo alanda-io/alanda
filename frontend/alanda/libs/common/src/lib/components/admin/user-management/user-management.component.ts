@@ -179,6 +179,7 @@ export class AlandaUserManagementComponent implements OnInit {
           summary: 'Create New User',
           detail: 'User has been created',
         });
+        this.userForm.reset();
         this.turboTable.reset();
       },
       (error) =>

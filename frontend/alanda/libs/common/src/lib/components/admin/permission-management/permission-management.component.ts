@@ -45,6 +45,7 @@ export class AlandaPermissionManagementComponent implements OnInit {
   loadPermissions() {
     this.permissionService.getPermissions().subscribe((res) => {
       this.permissions = res;
+      this.totalRecords = res.length;
     });
   }
 
@@ -89,7 +90,9 @@ export class AlandaPermissionManagementComponent implements OnInit {
           summary: 'Create permission',
           detail: 'Permission has been created',
         });
-        this.turboTable.reset();
+        this.permissions.push(res);
+        this.totalRecords = this.permissions.length;
+        this.permissionForm.reset();
       },
       (error) =>
         this.messageService.add({

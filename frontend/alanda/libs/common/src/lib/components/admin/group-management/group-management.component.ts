@@ -108,6 +108,7 @@ export class AlandaGroupManagementComponent implements OnInit {
           detail: 'Group has been created',
         });
         this.turboTable.reset();
+        this.groupForm.reset();
       },
       (error) =>
         this.messageService.add({

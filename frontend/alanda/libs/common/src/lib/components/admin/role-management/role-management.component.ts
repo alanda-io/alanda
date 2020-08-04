@@ -114,7 +114,9 @@ export class AlandaRoleManagementComponent implements OnInit {
           summary: 'Create Role',
           detail: 'Role has been created',
         });
-        this.turboTable.reset();
+        this.roles.push(res);
+        this.totalRecords = this.roles.length;
+        this.roleForm.reset();
       },
       (error) =>
         this.messageService.add({
