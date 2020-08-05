@@ -68,4 +68,8 @@ export class AlandaSelectMilestoneComponent implements OnInit {
       )
       .subscribe();
   }
+
+  get permissionString(): string {
+    return `ms:write:${this.project.projectTypeIdName}:${this.msName}`;
+  }
 }

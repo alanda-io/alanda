@@ -8,8 +8,6 @@ import {
   ElementManager,
   getManagersByElementRef,
 } from './utils/element-manager';
-import { filter, tap } from 'rxjs/operators';
-import { NgControlStatus } from '@angular/forms';
 
 /**
  *
@@ -18,15 +16,14 @@ import { NgControlStatus } from '@angular/forms';
  * Can be used on any dom element or component.
  *
  * @example
- * <field-set permissions="ms:write">
+ * <field-set alandaPermissions="ms:write">
  *   ...
  * </field-set>
  */
 @Directive({
-  // tslint:disable-next-line:directive-selector
-  selector: '[permissions]',
+  selector: '[alandaPermissions]',
 })
-export class PermissionsDirective extends RxState<{
+export class AlandaPermissionsDirective extends RxState<{
   user: AlandaUser;
   permissionString: string;
 }> {
@@ -34,7 +31,7 @@ export class PermissionsDirective extends RxState<{
     this.hostElement,
   );
 
-  @Input('permissions')
+  @Input('alandaPermissions')
   set rights(permissionString: string) {
     this.set({
       permissionString,

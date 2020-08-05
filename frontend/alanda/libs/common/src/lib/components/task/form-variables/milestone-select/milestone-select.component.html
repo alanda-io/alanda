@@ -9,7 +9,8 @@
     </div>
     <div class="p-col-12">
       <!-- FC -->
-      <div class="p-grid" *ngIf="showFC">
+      <div class="p-grid"
+           *ngIf="showFC" [alandaPermissions]="permissionString">
         <div class="p-col-2" *ngIf="showACT">
           <strong class="ms-title">FC</strong>
         </div>
@@ -25,7 +26,7 @@
         </div>
       </div>
 
-      <div class="p-grid" *ngIf="showACT">
+      <div class="p-grid" *ngIf="showACT" [alandaPermissions]="permissionString">
         <div class="p-col-2" *ngIf="showFC">
           <strong class="ms-title">ACT</strong>
         </div>

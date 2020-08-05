@@ -3,7 +3,7 @@
 </p>
 
 <form (ngSubmit)="onSubmit()" [formGroup]="demoForm">
-  <fieldset class="set-a" permissions="ms:write:MS_NAME">
+  <fieldset class="set-a" alandaPermissions="ms:write:MS_NAME">
     <div class="inputField">
       <span class="ui-float-label">
         <input id="input-guid" type="text" pInputText formControlName="guid" />
@@ -34,7 +34,7 @@
         <label for="input-title">title</label>
       </span>
     </div>
-    <div class="inputField" permissions="ms:write:MS_NAME">
+    <div class="inputField" alandaPermissions="ms:write:MS_NAME">
       <span class="ui-float-label">
         <input
           id="input-status"
@@ -48,7 +48,7 @@
     <div class="inputField">
       <span class="ui-float-label">
         <input
-          permissions="mts:write:MS_NAME"
+          alandaPermissions="mts:write:MS_NAME"
           id="input-phases"
           type="text"
           pInputText
@@ -70,7 +70,7 @@
     </div>
   </fieldset>
 
-  <button permissions="ms:read:??????">
+  <button alandaPermissions="ms:read:??????">
     Save
   </button>
 </form>

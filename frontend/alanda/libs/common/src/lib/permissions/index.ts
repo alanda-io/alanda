@@ -1,4 +1,4 @@
-export * from './permission.module';
+export { PermissionModule } from './permission.module';
 export * from './interfaces-and-types';
-export * from './permissions.directive';
+export { AlandaPermissionsDirective } from './permissions.directive';
 export * from './utils/permission-checks';
