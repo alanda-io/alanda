@@ -45,7 +45,7 @@ People *love* thorough bug reports. I'm not even kidding.
 See: [@TODO insert link to coding guidelines here]()
 
 ## License
-By contributing, you agree that your contributions will be licensed under its [CDDL License](https://github.com/alanda-io/alanda/blob/master/LICENSE.txt).
+By contributing, you agree that your contributions will be licensed under its [MIT License](https://github.com/alanda-io/alanda/blob/master/LICENSE.md).
 
 ## References
 This document was adapted from the open-source contribution guidelines for [Facebook's Draft](https://github.com/facebook/draft-js/blob/a9316a723f9e918afde44dea68b5f9f39b7d9b00/CONTRIBUTING.md)

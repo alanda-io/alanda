@@ -60,7 +60,7 @@ This document was adapted from the open-source support guidelines for [remarkjs]
 
 <!-- Definitions -->
 
-[license]:  https://github.com/alanda-io/alanda/blob/main/LICENSE.txt
+[license]:  https://github.com/alanda-io/alanda/blob/main/LICENSE.md
 
 [author]: https://alanda.io
 
