@@ -10,11 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ejb.ConcurrencyManagement;
-import javax.ejb.ConcurrencyManagementType;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
-import javax.ejb.Singleton;
+import javax.ejb.*;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.event.TransactionPhase;
@@ -178,7 +174,6 @@ public class PmcTaskServiceImpl implements PmcTaskService {
           log.warn("Task #{} - suspensionState for processPackageKey {} not found.", task.getId(), processPackageKey, ex);
         }
       }
-      task.initializeFormKey();
 
       // add candidate groups
       List<IdentityLinkEntity> identityLinksForTask = task.getIdentityLinks();
@@ -201,6 +196,7 @@ public class PmcTaskServiceImpl implements PmcTaskService {
     dto.setTaskType(refObjectType);
     dto.setTaskName(task.getName());
     dto.setObjectName(process.getBusinessKey());
+    task.initializeFormKey();
     dto.setFormKey(task.getFormKey());
     dto.setAssigneeId(task.getAssignee());
     String assigneeId = task.getAssignee();
@@ -399,6 +395,7 @@ public class PmcTaskServiceImpl implements PmcTaskService {
 
   }
 
+  @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   @Override
   public void taskEvent(@Observes(during = TransactionPhase.AFTER_SUCCESS) BusinessProcessEvent businessProcessEvent) {
     // Only observe task Events
