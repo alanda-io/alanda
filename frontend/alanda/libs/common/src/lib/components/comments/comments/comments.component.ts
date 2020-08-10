@@ -7,7 +7,7 @@ import { RxState } from '@rx-angular/state';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AlandaCommentPostBody } from '../../../api/models/commenPostBody';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 interface AlandaCommentsState {
   task: AlandaTask;
@@ -84,17 +84,19 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentsState> {
   ) {
     super();
     this.set({ task: null });
-    this.cp.connect('comments', ca.select('comments'), (oldState, comment) => {
-      this.taskHasCommentForm.setValue({
-        hasComment:
-          comment.findIndex(
-            (_comment) => _comment.taskId === this.get().task.task_id,
-          ) !== -1
-            ? true
-            : null,
-      });
+    this.cp.connect('comments', this.ca.select('comments'), (oldState, comments) => {
+      if (this.get().task) {
+        this.taskHasCommentForm.setValue({
+          hasComment:
+            comments.findIndex(
+              (_comment) => _comment.taskId === this.get().task.task_id,
+            ) !== -1
+              ? true
+              : null,
+        });
+      }
 
-      return comment;
+      return comments;
     });
     this.ca.connectFetchComments(this.processInstanceId$);
     this.ca.connectPostComment(this.commentPostBody$);
