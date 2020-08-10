@@ -84,20 +84,24 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentsState> {
   ) {
     super();
     this.set({ task: null });
-    this.cp.connect('comments', this.ca.select('comments'), (oldState, comments) => {
-      if (this.get().task) {
-        this.taskHasCommentForm.setValue({
-          hasComment:
-            comments.findIndex(
-              (_comment) => _comment.taskId === this.get().task.task_id,
-            ) !== -1
-              ? true
-              : null,
-        });
-      }
+    this.cp.connect(
+      'comments',
+      this.ca.select('comments'),
+      (oldState, comments) => {
+        if (this.get().task) {
+          this.taskHasCommentForm.setValue({
+            hasComment:
+              comments.findIndex(
+                (_comment) => _comment.taskId === this.get().task.task_id,
+              ) !== -1
+                ? true
+                : null,
+          });
+        }
 
-      return comments;
-    });
+        return comments;
+      },
+    );
     this.ca.connectFetchComments(this.processInstanceId$);
     this.ca.connectPostComment(this.commentPostBody$);
     this.ca.connectPostReply(this.cp.replyPostBody$);
