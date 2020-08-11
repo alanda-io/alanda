@@ -29,3 +29,4 @@ npm login --registry=https://repo.alanda.io/repository/alanda/ || {
   exit 1;
 }
 npm publish
+echo 'Done!'
