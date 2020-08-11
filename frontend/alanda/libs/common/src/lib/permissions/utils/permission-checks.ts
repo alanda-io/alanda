@@ -193,9 +193,14 @@ export class Authorizations {
     userPermissionTokens: string[],
     requestedPermissionTokens: string[],
   ): boolean {
-    return !requestedPermissionTokens.find((token) => {
-      return !userPermissionTokens.includes(token);
-    });
+    let contains = true;
+    for (const token of requestedPermissionTokens) {
+      if (!userPermissionTokens.includes(token)) {
+        contains = false;
+        break;
+      }
+    }
+    return contains;
   }
 
   /**
