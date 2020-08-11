@@ -14,7 +14,7 @@ echo 'Updating package version:'
 npm version ${VERSION_UPGRADE}
 cd ../../
 rm -r -f dist/libs/common
-nx build common --prod || {
+npm run nx run common:build:production || {
   echo -e 'Reverting version to:';
   cd ./libs/common/ || { echo -e '\e[31mPath does not exist!\e[0m'; exit 1; }
   npm version "${CURRENT_PACKAGE_VERSION}"
