@@ -59,7 +59,10 @@ export class AlandaCommentsPresenter extends RxState<
   ).pipe(
     map((comments: AlandaComment[]) => {
       return comments.reduce((tagMap, comment: AlandaComment) => {
-        return patch(tagMap, toDictionary(comment.tagList, 'name'));
+        if (comment.tagList && comment.tagList.length) {
+          return patch(tagMap, toDictionary(comment.tagList, 'name'));
+        }
+        return tagMap;
       }, {} as Dictionary<AlandaCommentTag>);
     }),
   );

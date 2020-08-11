@@ -13,6 +13,7 @@ export class AlandaSelectMilestoneComponent implements OnInit {
   @Input() project: AlandaProject;
   @Input() displayName: string;
   @Input() msName: string;
+  @Input() permission: string;
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {
@@ -67,5 +68,15 @@ export class AlandaSelectMilestoneComponent implements OnInit {
         false,
       )
       .subscribe();
+  }
+
+  getPermissionString(type?: string): string {
+    if (this.permission) {
+      return this.permission;
+    }
+    return (
+      `ms:write:${this.project.projectTypeIdName}:${this.msName}` +
+      (type ? `:${type}` : '')
+    );
   }
 }

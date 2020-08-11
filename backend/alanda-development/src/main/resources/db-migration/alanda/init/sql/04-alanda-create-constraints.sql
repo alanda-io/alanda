@@ -185,7 +185,7 @@ ALTER TABLE "PMC_MILESTONE"
 
 -- ================PMC_DOCUMENT ================
 ALTER TABLE "PMC_DOCUMENT"
-    ADD PRIMARY KEY ("ID")
+    ADD PRIMARY KEY ("GUID")
         USING INDEX ENABLE;
 
 -- ================PMC_DOCU_FOLDER ================

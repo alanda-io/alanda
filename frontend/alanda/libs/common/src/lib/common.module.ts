@@ -145,6 +145,7 @@ import { AlandaTitleService } from './services/title.service';
     BadgeModule,
     TooltipModule,
     PhaseTabModule,
+    PermissionModule,
   ],
   declarations: [
     AlandaUserManagementComponent,
