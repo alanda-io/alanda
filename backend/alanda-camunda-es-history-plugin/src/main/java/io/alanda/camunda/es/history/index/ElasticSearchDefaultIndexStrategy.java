@@ -27,6 +27,7 @@ import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.get.GetResult;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptType;
 
@@ -97,7 +98,8 @@ public class ElasticSearchDefaultIndexStrategy extends ElasticSearchIndexStrateg
 
       log.trace("[{}][{}][update] process instance with id '{}'", updateResponse.getIndex(), updateResponse.getType(), updateResponse.getId());
 
-      log.trace("Source: {}", updateResponse.getGetResult().sourceAsString());
+      final GetResult result = updateResponse.getGetResult();
+      log.trace("Source: {}", result != null ? result.sourceAsString() : null);
     } catch (IOException e) {
       log.error("Exception while executing request", e);
     }
