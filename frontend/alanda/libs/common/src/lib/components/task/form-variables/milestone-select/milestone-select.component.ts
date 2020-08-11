@@ -71,9 +71,12 @@ export class AlandaSelectMilestoneComponent implements OnInit {
   }
 
   getPermissionString(type?: string): string {
-    const permissionBaseString =
-      this.permission ||
-      `ms:write:${this.project.projectTypeIdName}:${this.msName}`;
-    return permissionBaseString + (type ? `:${type}` : '');
+    if (this.permission) {
+      return this.permission;
+    }
+    return (
+      `ms:write:${this.project.projectTypeIdName}:${this.msName}` +
+      (type ? `:${type}` : '')
+    );
   }
 }

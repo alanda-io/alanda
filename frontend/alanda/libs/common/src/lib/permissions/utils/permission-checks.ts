@@ -82,26 +82,23 @@ export class Authorizations {
    * @example
    * const isPermitted = hasPermission(user,'ms:write', 'write');
    *
-   * @param currentUser: AlandaUser - user to check rights for
+   * @param user: AlandaUser - user to check rights for
    * @param permissionString: string - entity to check rights for
    * @param accessLevel: AccessLevels - Level of access
    *
    * @returns isGranted {boolean} - true if rights are granted, false if not
    */
   static hasPermission(
-    currentUser: AlandaUser,
+    user: AlandaUser,
     permissionString: string,
     accessLevel?: string,
   ): boolean {
     // If the user has no valid permission strings no access is granted
-    if (
-      !currentUser?.stringPermissions ||
-      !Array.isArray(currentUser.stringPermissions)
-    ) {
+    if (!user?.stringPermissions || !Array.isArray(user.stringPermissions)) {
       return false;
     }
-    const permissions = currentUser.stringPermissions;
-    let requestedPermission;
+    const userPermissions: string[] = user.stringPermissions;
+    let requestedPermission: string;
     if (accessLevel) {
       requestedPermission = permissionString.replace(
         PERMISSION_PLACEHOLDER,
@@ -110,7 +107,7 @@ export class Authorizations {
     } else {
       requestedPermission = permissionString;
     }
-    return permissions.some((permission) =>
+    return userPermissions.some((permission) =>
       Authorizations.implies(requestedPermission, permission),
     );
   }
@@ -125,20 +122,22 @@ export class Authorizations {
    *
    * @see http://shiro.apache.org/permissions.html#implication-not-equality
    *
-   * @param requestedPerm - permissions to check for
-   * @param userPerm - user permissions to check against
+   * @param requestedPermission - permission to check for
+   * @param userPermission - user permission to check against
    */
-  static implies(requestedPerm: string, userPerm: string): boolean {
+  static implies(requestedPermission: string, userPermission: string): boolean {
     let isImplied = true;
-    const requestedParts: string[][] = Authorizations.resolveTokens(
-      requestedPerm,
+    const requestedPermissionParts: string[][] = Authorizations.resolveTokens(
+      requestedPermission,
     );
-    const userParts: string[][] = Authorizations.resolveTokens(userPerm);
+    const userPermissionParts: string[][] = Authorizations.resolveTokens(
+      userPermission,
+    );
 
-    for (let i = 0; i < requestedParts.length; i++) {
-      const userPart: string[] = userParts[i];
-      if (i < requestedParts.length) {
-        const requestedPart: string[] = requestedParts[i];
+    for (let i = 0; i < userPermissionParts.length; i++) {
+      const userPart: string[] = userPermissionParts[i];
+      if (i < requestedPermissionParts.length) {
+        const requestedPart: string[] = requestedPermissionParts[i];
         if (
           !Authorizations.containsWildCardToken(userPart) &&
           !Authorizations.containsAll(userPart, requestedPart)
@@ -152,8 +151,8 @@ export class Authorizations {
           break;
         }
       }
-      return isImplied;
     }
+    return isImplied;
   }
 
   /**
@@ -194,14 +193,9 @@ export class Authorizations {
     userPermissionTokens: string[],
     requestedPermissionTokens: string[],
   ): boolean {
-    let contains = true;
-    for (const i of requestedPermissionTokens) {
-      if (!userPermissionTokens.includes(requestedPermissionTokens[i])) {
-        contains = false;
-        break;
-      }
-    }
-    return contains;
+    return !requestedPermissionTokens.find((token) => {
+      return !userPermissionTokens.includes(token);
+    });
   }
 
   /**

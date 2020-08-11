@@ -18,7 +18,11 @@ export class AppComponent {
       icon: 'fa fa-home',
       routerLinkActiveOptions: { exact: true },
     },
-    { label: 'Tasks', routerLink: ['/tasks/list'], icon: 'fa fa-briefcase' },
+    {
+      label: 'Tasks',
+      routerLink: ['/tasks/list'],
+      icon: 'fa fa-briefcase',
+    },
     {
       label: 'Create',
       icon: 'fa fa-plus',

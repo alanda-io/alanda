@@ -51,7 +51,7 @@ interface AlandaHeaderState {
 })
 export class AlandaHeaderComponent implements OnInit {
   @Input()
-  set user(user: Observable<AlandaUser>) {
+  set user(user: Observable<AlandaUser> | AlandaUser) {
     if (isObservable(user)) {
       this.rxState.connect('user', user);
     } else {
@@ -59,8 +59,12 @@ export class AlandaHeaderComponent implements OnInit {
     }
   }
   @Input()
-  set items(items: AlandaMenuItem[]) {
-    this.rxState.set({ items });
+  set items(items: Observable<AlandaMenuItem[]> | AlandaMenuItem[]) {
+    if (isObservable(items)) {
+      this.rxState.connect('items', items);
+    } else {
+      this.rxState.set({ items });
+    }
   }
   @Input() logoPath?: string;
 

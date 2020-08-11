@@ -9,6 +9,11 @@ import {
   getManagersByElementRef,
 } from './utils/element-manager';
 
+interface AlandaPermissionsDirectiveState {
+  user: AlandaUser;
+  permissionString: string;
+}
+
 /**
  *
  * @description
@@ -22,31 +27,30 @@ import {
  */
 @Directive({
   selector: '[alandaPermissions]',
+  providers: [RxState],
 })
-export class AlandaPermissionsDirective extends RxState<{
-  user: AlandaUser;
-  permissionString: string;
-}> {
+export class AlandaPermissionsDirective {
   hostElementManagers: ElementManager[] = getManagersByElementRef(
     this.hostElement,
   );
 
   @Input('alandaPermissions')
-  set rights(permissionString: string) {
-    this.set({
-      permissionString,
-    });
+  set permission(permissionString: string) {
+    this.rxState.set({ permissionString });
   }
 
   constructor(
+    public rxState: RxState<AlandaPermissionsDirectiveState>,
     public hostElement: ElementRef,
     private readonly userService: AlandaUserApiService,
   ) {
-    super();
-    this.connect('user', this.userService.user$);
+    this.rxState.connect('user', this.userService.user$);
 
-    this.hold(
-      combineLatest([this.select('user'), this.select('permissionString')]),
+    this.rxState.hold(
+      combineLatest([
+        this.rxState.select('user'),
+        this.rxState.select('permissionString'),
+      ]),
       ([user, permissionString]) => {
         const tokens: string[][] = Authorizations.resolveTokens(
           permissionString,
@@ -55,6 +59,7 @@ export class AlandaPermissionsDirective extends RxState<{
 
         if (user === null) {
           this.forbidAll(permissionString);
+          console.warn('Forbid all: No user provided!');
         }
 
         const permissionsGranted = Authorizations.hasPermission(
