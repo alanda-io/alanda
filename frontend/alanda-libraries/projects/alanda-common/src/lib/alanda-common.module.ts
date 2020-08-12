@@ -77,7 +77,7 @@ import { SelectRoleComponent } from './components/task/form-variables/role-selec
 import { DateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
 import { DropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
 import { AlandaTaskTemplateComponent } from './components/task/template/alanda-task-template.component';
-import { AccordionModule } from 'primeng/accordion'
+import { AccordionModule } from 'primeng/accordion';
 import { SelectMilestoneComponent } from './components/task/form-variables/milestone-select/milestone-select.component';
 import { UserManagementComponent } from './components/admin/user-management/user-management.component';
 import { GroupManagementComponent } from './components/admin/group-management/group-management.component';
@@ -90,7 +90,10 @@ import {AlandaProjectAndProcessesComponent} from './components/project-and-proce
 import {PapActionsComponent} from './components/project-and-processes/pap-actions/pap-actions.component';
 import {RelateDialogComponent} from './components/project-and-processes/pap-actions/relate-dialog/relate-dialog.component';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
-import { ChecklistModule } from './components/checklist-panel/checklist.module';
+import {AlandaChecklistPanelComponent} from './components/checklist-panel/checklist-panel.component';
+import {AlandaChecklistComponent} from './components/checklist-panel/checklist/checklist.component';
+import {AlandaChecklistMenuComponent} from './components/checklist-menu/checklist-menu.component';
+import { OrderListModule } from 'primeng/orderlist';
 
 @NgModule({
   imports: [
@@ -130,7 +133,7 @@ import { ChecklistModule } from './components/checklist-panel/checklist.module';
     AccordionModule,
     TreeTableModule,
     DynamicDialogModule,
-    ChecklistModule,
+    OrderListModule
   ],
   declarations: [
     UserManagementComponent,
@@ -167,7 +170,10 @@ import { ChecklistModule } from './components/checklist-panel/checklist.module';
     AlandaProjectAndProcessesComponent,
     AlandaPagesizeSelectComponent,
     PapActionsComponent,
-    RelateDialogComponent
+    RelateDialogComponent,
+    AlandaChecklistPanelComponent,
+    AlandaChecklistComponent,
+    AlandaChecklistMenuComponent
   ],
   exports: [
     ProjectMonitorComponent,
@@ -204,7 +210,9 @@ import { ChecklistModule } from './components/checklist-panel/checklist.module';
     AlandaProjectAndProcessesComponent,
     PapActionsComponent,
     RelateDialogComponent,
-    ChecklistModule
+    AlandaChecklistPanelComponent,
+    AlandaChecklistComponent,
+    AlandaChecklistMenuComponent
    ],
   entryComponents: [
     RelateDialogComponent

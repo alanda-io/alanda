@@ -1,0 +1,54 @@
+<style>
+  .spacer-left {
+    margin-left: 8px;
+  }
+  .spacer-bottom {
+    margin-bottom: 8px;
+  }
+  .hint {
+    text-align: center;
+  }
+  .cl-input {
+    width: auto;
+  }
+  .add-icon {
+    font-size: 20px;
+    color: #1976d2;
+    margin-right: 6px;
+    margin-left: 8px;
+  }
+  .add-icon:hover, .delete-icon {
+    cursor: pointer;
+  }
+
+</style>
+<p-panel header="Checklist Administration">
+  <div class="p-grid">
+    <div class="p-col-4">
+      <p-listbox [options]="templateAPI.getAllCheckListTemplates() | async" [(ngModel)]="selectedTemplate" optionLabel="name"></p-listbox>
+    </div>
+    <span *ngIf="!selectedTemplate" class="p-col-8 hint">
+      No template selected
+    </span>
+    <div class="p-col-8" *ngIf="selectedTemplate">
+      <p-card [subheader]="selectedTemplate.name" class="p-mb-4 spacer-bottom">
+        <p-autoComplete></p-autoComplete>
+        <p-autoComplete></p-autoComplete>
+        <p-listbox [options]="templateAPI.getAllCheckListTemplates() | async" [(ngModel)]="selectedTemplate" optionLabel="name"></p-listbox>
+      </p-card>
+      <p-card subheader="Checklist Items">
+        <div class="spacer-bottom">
+          <span class="fa fa-plus-circle add-icon" (click)="addItem(clip.value, clcb.checked)"></span>
+          <input #clip pInput type="text" placeholder="Add new task...">
+          <p-checkbox #clcb class="spacer-left" [binary]="true" label="Required?"></p-checkbox>
+        </div>
+        <p-orderList (onReorder)="updateOrder$.next()" [dragdrop]="true" [value]="selectedTemplate.itemDefinitions">
+          <ng-template let-check pTemplate="item">
+              <input class="cl-input" pInputText type="text" [(ngModel)]="check.displayText" (ngModelChange)="updateCheck$.next()">
+              <p-checkbox class="spacer-left" [(ngModel)]="check.required" [binary]="true" label="Required?" (ngModelChange)="updateRequired$.next()"></p-checkbox>
+          </ng-template>
+        </p-orderList>
+      </p-card>
+    </div>
+  </div>
+</p-panel>
