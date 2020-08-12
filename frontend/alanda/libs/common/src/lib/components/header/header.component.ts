@@ -3,7 +3,6 @@ import {
   HostListener,
   Inject,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import {
@@ -49,7 +48,7 @@ interface AlandaHeaderState {
     ]),
   ],
 })
-export class AlandaHeaderComponent implements OnInit {
+export class AlandaHeaderComponent {
   @Input()
   set user(user: Observable<AlandaUser> | AlandaUser) {
     if (isObservable(user)) {
@@ -102,8 +101,6 @@ export class AlandaHeaderComponent implements OnInit {
     this.avatarBasePath = config.AVATAR_BASE_PATH;
     this.avatarExtension = config.AVATAR_EXT;
   }
-
-  ngOnInit() {}
 
   @HostListener('window:scroll', [])
   onWindowScroll() {

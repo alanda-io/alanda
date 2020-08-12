@@ -5,7 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { TemplateModule } from '@rx-angular/template';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlandaComment } from '../../../api/models/comment';
-import { APP_CONFIG } from '../../../..';
+import { APP_CONFIG } from '../../../models/appSettings';
 
 const appConfig = {
   AVATAR_BASE_PATH: 'test/foo',
