@@ -1,10 +1,4 @@
-import {
-  Component,
-  HostListener,
-  Inject,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, HostListener, Inject, Input, Output } from '@angular/core';
 import {
   state,
   style,

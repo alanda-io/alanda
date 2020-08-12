@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AlandaHeaderComponent } from './header.component';
-import { ToastModule,  } from 'primeng/toast';
+import { ToastModule } from 'primeng/toast';
 import { APP_CONFIG } from '../../models/appSettings';
 import { MenubarModule } from 'primeng/menubar';
 import { TemplateModule } from '@rx-angular/template';
@@ -24,9 +24,10 @@ describe('AlandaHeaderComponent', () => {
           provide: APP_CONFIG,
           useValue: appConfig,
         },
-        MessageService
+        MessageService,
       ],
-    }).compileComponents()
+    })
+      .compileComponents()
       .then(() => {
         fixture = TestBed.createComponent(AlandaHeaderComponent);
         component = fixture.componentInstance;
