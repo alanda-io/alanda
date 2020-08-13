@@ -1,43 +1,31 @@
 package io.alanda.base.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.ejb.*;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.enterprise.event.TransactionPhase;
-import javax.inject.Inject;
-
+import io.alanda.base.connector.PmcProjectListener;
+import io.alanda.base.dto.PagedResultDto;
+import io.alanda.base.dto.PmcGroupDto;
+import io.alanda.base.dto.PmcTaskDto;
+import io.alanda.base.dto.PmcUserDto;
+import io.alanda.base.service.ElasticService;
+import io.alanda.base.service.PmcListenerService;
+import io.alanda.base.service.PmcTaskService;
+import io.alanda.base.service.impl.task.TaskRetrieverService;
+import io.alanda.base.type.PmcProjectState;
+import io.alanda.base.type.ProcessVariables;
+import io.alanda.base.util.ElasticUtil;
+import io.alanda.base.util.UserContext;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.camunda.bpm.engine.HistoryService;
-import org.camunda.bpm.engine.ProcessEngines;
-import org.camunda.bpm.engine.RepositoryService;
-import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.*;
 import org.camunda.bpm.engine.cdi.BusinessProcessEvent;
 import org.camunda.bpm.engine.cdi.BusinessProcessEventType;
 import org.camunda.bpm.engine.delegate.TaskListener;
 import org.camunda.bpm.engine.impl.ProcessEngineImpl;
 import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.cmd.SaveTaskCmd;
-import org.camunda.bpm.engine.impl.context.Context;
 import org.camunda.bpm.engine.impl.interceptor.CommandContext;
 import org.camunda.bpm.engine.impl.interceptor.CommandExecutor;
-import org.camunda.bpm.engine.impl.persistence.entity.IdentityLinkEntity;
 import org.camunda.bpm.engine.impl.persistence.entity.TaskEntity;
-import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ActivityInstance;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.IdentityLink;
 import org.camunda.bpm.engine.task.Task;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -47,20 +35,12 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.alanda.base.connector.PmcProjectListener;
-import io.alanda.base.dto.PagedResultDto;
-import io.alanda.base.dto.PmcGroupDto;
-import io.alanda.base.dto.PmcTaskDto;
-import io.alanda.base.dto.PmcUserDto;
-import io.alanda.base.service.ElasticService;
-import io.alanda.base.service.PmcListenerService;
-import io.alanda.base.service.PmcTaskService;
-import io.alanda.base.service.PmcUserService;
-import io.alanda.base.type.PmcProjectState;
-import io.alanda.base.type.ProcessVariables;
-import io.alanda.base.util.ElasticUtil;
-import io.alanda.base.util.UserContext;
-import io.alanda.base.util.cache.UserCache;
+import javax.ejb.*;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+import javax.enterprise.event.TransactionPhase;
+import javax.inject.Inject;
+import java.util.*;
 
 @ApplicationScoped
 @Singleton
@@ -83,163 +63,29 @@ public class PmcTaskServiceImpl implements PmcTaskService {
   private RepositoryService repositoryService;
 
   @Inject
-  private UserCache userCache;
-
-  @Inject
   private ElasticService elasticService;
 
   @Inject
-  private PmcUserService pmcUserService;
+  private PmcListenerService pmcListenerService;
 
   @Inject
-  private PmcListenerService pmcListenerService;
+  private TaskRetrieverService taskRetrieverService;
 
   private final FastDateFormat taskListDateFormat = FastDateFormat.getInstance("yyyy-MM-dd");
 
   @Override
   public PmcTaskDto getTask(String taskId) {
-    Task task = taskService.createTaskQuery().initializeFormKeys().taskId(taskId).singleResult();
-    return getTask(task);
+    return getTask((TaskEntity) taskService.createTaskQuery().initializeFormKeys().taskId(taskId).singleResult());
   }
 
   @Override
-  public PmcTaskDto getTask(Task t) {
-    TaskEntity task = (TaskEntity) t;
-    Long refObjectId = null;
-    String refObjectType = null;
-    ProcessInstance process = null;
-    ProcessDefinition processDefinition = null;
-    String processPackageKey = null;
-    String comment = null;
-    Boolean suspensionState = null;
-    Set<String> candidateGroupNames = new HashSet<>();
-    Set<Long> candidateGroupIds = new HashSet<>();
-
-    if (Context.getCommandContext() == null) {
-      refObjectId = (Long) taskService.getVariable(task.getId(), "refObjectId");
-      refObjectType = (String) taskService.getVariable(task.getId(), "refObjectType");
-      process = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
-      processDefinition = repositoryService.getProcessDefinition(task.getProcessDefinitionId());
-      processPackageKey = (String) this.runtimeService.getVariable(task.getProcessInstanceId(), ProcessVariables.PROCESS_PACKAGE_KEY);
-      comment = (String) this.runtimeService.getVariable(task.getExecutionId(), ProcessVariables.COMMENT);
-      if (processPackageKey != null) {
-        try {
-          ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(processPackageKey).singleResult();
-          if (pi != null) {
-            suspensionState = (Boolean) this.runtimeService.getVariable(processPackageKey, ProcessVariables.SUSPENSION_STATE);
-          }
-
-        } catch (Exception ex) {
-          log.warn("Task #{} - suspensionState for processPackageKey {} not found.", task.getId(), processPackageKey, ex);
-        }
-      }
-      // add candidate groups
-      List<IdentityLink> identityLinksForTask = taskService.getIdentityLinksForTask(task.getId());
-      for (IdentityLink link : identityLinksForTask) {
-        if (link.getType().equals("candidate") && !StringUtils.isEmpty(link.getGroupId())) {
-          PmcGroupDto group = null;
-          try {
-            group = userCache.getGroup(Long.valueOf(link.getGroupId().trim()));
-          } catch (Exception ex) {
-            log.warn("Task #{} - candidate Group {} no valid group id.", task.getId(), link.getGroupId());
-          }
-          if (group != null) {
-            candidateGroupNames.add(group.getLongName());
-            candidateGroupIds.add(group.getGuid());
-          } else {
-            log.warn("Task #{} - candidate Group {} not found.", task.getId(), link.getGroupId());
-          }
-        }
-      }
-    } else {
-      refObjectId = (Long) task.getExecution().getVariable("refObjectId");
-      refObjectType = (String) task.getExecution().getVariable("refObjectType");
-      process = task.getExecution().getProcessInstance();
-      processDefinition = task.getProcessDefinition();
-      processPackageKey = (String) task.getExecution().getVariable(ProcessVariables.PROCESS_PACKAGE_KEY);
-      comment = (String) task.getExecution().getVariable(ProcessVariables.COMMENT);
-      //logger.info
-      if (processPackageKey != null) {
-        try {
-          if (processPackageKey.equals(task.getProcessInstanceId())) {
-            suspensionState = (Boolean) task.getExecution().getVariable(ProcessVariables.SUSPENSION_STATE);
-          } else {
-            ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(processPackageKey).singleResult();
-            if (pi != null) {
-              suspensionState = (Boolean) this.runtimeService.getVariable(processPackageKey, ProcessVariables.SUSPENSION_STATE);
-            }
-          }
-
-        } catch (Exception ex) {
-          log.warn("Task #{} - suspensionState for processPackageKey {} not found.", task.getId(), processPackageKey, ex);
-        }
-      }
-
-      // add candidate groups
-      List<IdentityLinkEntity> identityLinksForTask = task.getIdentityLinks();
-      for (IdentityLink link : identityLinksForTask) {
-        if (link.getType().equals("candidate") && !StringUtils.isEmpty(link.getGroupId())) {
-          PmcGroupDto group = pmcUserService.getGroupById(Long.valueOf(link.getGroupId().trim()));
-          if (group != null) {
-            candidateGroupNames.add(group.getLongName());
-            candidateGroupIds.add(group.getGuid());
-          } else {
-            log.warn("Task #{} - candidate Group {} not found.", task.getId(), link.getGroupId());
-          }
-        }
-      }
+  public PmcTaskDto getTask(TaskEntity t) {
+    if (t == null) {
+      log.warn("Can't map null task, returning null as well");
+      return null;
     }
 
-    PmcTaskDto dto = new PmcTaskDto();
-    dto.setState(PmcProjectState.ACTIVE);
-    dto.setTaskId(task.getId());
-    dto.setTaskType(refObjectType);
-    dto.setTaskName(task.getName());
-    dto.setObjectName(process.getBusinessKey());
-    task.initializeFormKey();
-    dto.setFormKey(task.getFormKey());
-    dto.setAssigneeId(task.getAssignee());
-    String assigneeId = task.getAssignee();
-    if ( !StringUtils.isEmpty(assigneeId)) {
-      try {
-        PmcUserDto user = userCache.get(Long.valueOf(assigneeId));
-        dto.setAssignee(user.getFirstName() + " " + user.getSurname());
-      } catch (Exception ex) {
-        log.warn("Task # {}({}) cant load assignee {}", task.getId(), task.getName(), assigneeId, ex);
-      }
-    }
-    dto.setAssigneeId(assigneeId);
-    Date created = task.getCreateTime();
-    if (created != null) {
-      dto.setCreated(taskListDateFormat.format(created));
-    }
-    Date due = task.getDueDate();
-    if (due != null) {
-      dto.setDue(taskListDateFormat.format(due));
-    }
-    Date followUp = task.getFollowUpDate();
-    if (followUp != null) {
-      dto.setFollowUp(taskListDateFormat.format(followUp));
-    }
-    dto.setProcessDefinitionId(task.getProcessDefinitionId());
-    dto.setProcessInstanceId(task.getProcessInstanceId());
-    dto.setProcessName(processDefinition.getName());
-    dto.setProcessDefinitionKey(processDefinition.getKey());
-    if (task.getFollowUpDate() != null) {
-      dto.setFollowUp(taskListDateFormat.format(task.getFollowUpDate()));
-    }
-    dto.setDescription(task.getDescription());
-    dto.setExecutionId(task.getExecutionId());
-    dto.setProcessPackageKey(processPackageKey);
-    dto.setComment(comment);
-    dto.setSuspensionState(suspensionState != null ? suspensionState : false);
-    dto.setObjectId(refObjectId);
-    dto.setCandidateGroups(new ArrayList<>(candidateGroupNames));
-    dto.setCandidateGroupIds(new ArrayList<>(candidateGroupIds));
-    Long pmcProjectGuid = (Long) runtimeService.getVariable(task.getExecutionId(), ProcessVariables.PMC_PROJECT_GUID);
-    if (pmcProjectGuid != null)
-      dto.setPmcProjectGuid(pmcProjectGuid);
-    return dto;
+    return taskRetrieverService.getTask(t);
   }
 
   @Override
@@ -249,7 +95,7 @@ public class PmcTaskServiceImpl implements PmcTaskService {
 
     List<Task> tasks = this.taskService.createTaskQuery().processInstanceId(pid).initializeFormKeys().list();
     for (Task task : tasks) {
-      result.add(getTask(task));
+      result.add(getTask((TaskEntity) task));
     }
     return result;
   }
@@ -390,9 +236,8 @@ public class PmcTaskServiceImpl implements PmcTaskService {
 
   @Override
   public void updateTask(Task task) {
-    PmcTaskDto dto = getTask(task);
+    PmcTaskDto dto = getTask((TaskEntity) task);
     elasticService.updateTask(dto);
-
   }
 
   @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -402,8 +247,11 @@ public class PmcTaskServiceImpl implements PmcTaskService {
     if (businessProcessEvent.getTask() == null) {
       return;
     }
-    log.info("Update for Task #{}({}) action={}", businessProcessEvent.getTaskId(), businessProcessEvent.getTask().getName(), businessProcessEvent.getType().getTypeName());
-    PmcTaskDto dto = getTask((TaskEntity) businessProcessEvent.getTask());
+
+    log.info("Update for Task #{}({}) action={}", businessProcessEvent.getTaskId(),
+            businessProcessEvent.getTask().getName(),businessProcessEvent.getType().getTypeName());
+    final PmcTaskDto dto = getTask((TaskEntity) businessProcessEvent.getTask());
+
     if (businessProcessEvent.getType().equals(BusinessProcessEventType.COMPLETE_TASK)) {
       dto.setState(PmcProjectState.COMPLETED);
     } else if (businessProcessEvent.getType().equals(BusinessProcessEventType.DELETE_TASK)) {
@@ -412,6 +260,7 @@ public class PmcTaskServiceImpl implements PmcTaskService {
       dto.setState(PmcProjectState.ACTIVE);
     }
     dto.setActivityInstanceType("task");
+
     elasticService.updateTask(dto);
   }
 
