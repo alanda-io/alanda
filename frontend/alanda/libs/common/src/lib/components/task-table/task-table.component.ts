@@ -9,23 +9,19 @@ import { AlandaUserApiService } from '../../api/userApi.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'alanda-tasklist',
-  templateUrl: './tasklist.component.html',
-  styleUrls: ['./tasklist.component.scss'],
+  selector: 'alanda-task-table',
+  templateUrl: './task-table.component.html',
+  styleUrls: ['./task-table.component.scss'],
 })
-export class AlandaTasklistComponent implements OnInit {
+export class AlandaTaskTableComponent implements OnInit {
   tasksData: any = {};
-  layouts: any[] = [];
   validLayouts: any[] = [];
   selectedLayout: any = {};
-  selectedTask: any = {};
-  selectedColumns: any = [];
   loading = true;
   groupTasks = false;
   currentUser: AlandaUser;
   serverOptions: ServerOptions;
   menuItems: MenuItem[];
-  delegationItems: MenuItem[];
   showDelegateDialog = false;
   candidateUsers: any[] = [];
   delegatedTaskData: any;

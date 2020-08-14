@@ -30,7 +30,7 @@ import { MessageModule } from 'primeng/message';
 import { AttachmentsListComponent } from './components/attachments/attachments-list/attachments-list.component';
 import { AttachmentsTreeComponent } from './components/attachments/attachments-tree/attachments-tree.component';
 import { MonitorValuesPipeModule } from './pipes/nested-object.pipe';
-import { AlandaTasklistComponent } from './components/task-list/tasklist.component';
+import { TaskTableModule } from './components/task-table/task-table.module';
 import { FilterPipe } from './pipes/filter.pipe';
 import { TagFilterPipe } from './pipes/tag-filter.pipe';
 import { AlandaProjectHeaderComponent } from './components/project-header/project-header.component';
@@ -148,13 +148,13 @@ import { ProjectTableModule } from './components/project-table/project-table.mod
     PermissionModule,
     ProjectTableModule,
     MonitorValuesPipeModule,
+    TaskTableModule,
   ],
   declarations: [
     AlandaUserManagementComponent,
     AttachmentsListComponent,
     AttachmentsTreeComponent,
     AlandaAttachmentsComponent,
-    AlandaTasklistComponent,
     FilterPipe,
     TagFilterPipe,
     AlandaGroupManagementComponent,
@@ -199,7 +199,7 @@ import { ProjectTableModule } from './components/project-table/project-table.mod
     AttachmentsListComponent,
     AttachmentsTreeComponent,
     MonitorValuesPipeModule,
-    AlandaTasklistComponent,
+    TaskTableModule,
     FilterPipe,
     TagFilterPipe,
     AlandaUserManagementComponent,

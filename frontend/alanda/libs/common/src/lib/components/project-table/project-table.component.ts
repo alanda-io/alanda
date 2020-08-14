@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
+import { LazyLoadEvent, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
@@ -18,17 +18,13 @@ export class AlandaProjectTableComponent implements OnInit {
 
   projectsData: any = {};
   selectedLayout: any = {};
-  selectedColumns: any = [];
   loading = true;
   serverOptions: ServerOptions;
   menuItems: MenuItem[];
 
   @ViewChild('tt') turboTable: Table;
 
-  constructor(
-    private readonly projectService: AlandaProjectApiService,
-    public messageService: MessageService,
-  ) {
+  constructor(private readonly projectService: AlandaProjectApiService) {
     this.serverOptions = {
       pageNumber: 1,
       pageSize: 15,

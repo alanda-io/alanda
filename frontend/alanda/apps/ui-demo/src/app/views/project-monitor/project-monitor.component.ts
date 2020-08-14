@@ -55,7 +55,7 @@ export class AlandaProjectMonitorComponent {
         field: 'project.status',
         width: 110,
       },
-    ]
+    ];
 
     this.layouts = [
       {

@@ -67,7 +67,8 @@ export * from './lib/common.module';
 
 export { ProjectTableModule } from './lib/components/project-table/project-table.module';
 export { AlandaProjectTableComponent } from './lib/components/project-table/project-table.component';
-export * from './lib/components/task-list/tasklist.component';
+export { AlandaTaskTableComponent } from './lib/components/task-table/task-table.component';
+export { TaskTableModule } from './lib/components/task-table/task-table.module';
 export * from './lib/components/attachments/attachments.component';
 export * from './lib/components/admin/role-management/role-management.component';
 export * from './lib/components/admin/user-management/user-management.component';
