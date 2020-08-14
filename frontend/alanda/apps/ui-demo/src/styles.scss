@@ -14,6 +14,7 @@ body {
 
 .container {
   background: $container-background;
+  overflow-x: hidden;
 }
 
 .form-root-tabs {

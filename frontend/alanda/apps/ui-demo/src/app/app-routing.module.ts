@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './views/home/home.component';
 import {
   AlandaCreateProjectComponent,
-  AlandaProjectMonitorComponent,
   AlandaTasklistComponent,
   AlandaGroupManagementComponent,
   AlandaRoleManagementComponent,
@@ -13,6 +12,7 @@ import {
 import { AlandaFormsControllerComponent } from '@alanda/common';
 import { PermissionsDemoComponent } from './components/permissions-demo/permissions-demo.component';
 import { UserManagementContainerComponent } from './features/usermgmt/user-management-container/user-management-container.component';
+import { AlandaProjectMonitorComponent } from './views/project-monitor/project-monitor.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, data: { title: 'Home' } },

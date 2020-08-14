@@ -2,19 +2,21 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
-import { AlandaMonitorAPIService } from '../../services/monitorApi.service';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
+import { AlandaTableLayout } from '../../api/models/tableLayout';
+
+const defaultLayoutInit = 0;
 
 @Component({
-  selector: 'alanda-project-monitor',
-  templateUrl: './project-monitor.component.html',
-  styleUrls: ['./project-monitor.component.scss'],
+  selector: 'alanda-project-table',
+  templateUrl: './project-table.component.html',
+  styleUrls: ['./project-table.component.scss'],
 })
-export class AlandaProjectMonitorComponent implements OnInit {
-  @Input() defaultLayout: string;
+export class AlandaProjectTableComponent implements OnInit {
+  @Input() defaultLayout = defaultLayoutInit;
+  @Input() layouts: AlandaTableLayout[];
 
   projectsData: any = {};
-  layouts: any[] = [];
   selectedLayout: any = {};
   selectedColumns: any = [];
   loading = true;
@@ -25,7 +27,6 @@ export class AlandaProjectMonitorComponent implements OnInit {
 
   constructor(
     private readonly projectService: AlandaProjectApiService,
-    private readonly monitorApiService: AlandaMonitorAPIService,
     public messageService: MessageService,
   ) {
     this.serverOptions = {
@@ -50,17 +51,17 @@ export class AlandaProjectMonitorComponent implements OnInit {
   }
 
   ngOnInit() {
-    const data = this.monitorApiService.getProjectMonitorLayouts();
-    for (const k in data) {
-      if (data.hasOwnProperty(k)) {
-        this.layouts.push(data[k]);
+    if (this.defaultLayout === defaultLayoutInit) {
+      const layoutAllIndex = this.layouts.findIndex(
+        (layout) => layout.name.toLowerCase() === 'all',
+      );
+      if (layoutAllIndex !== -1) {
+        this.defaultLayout = layoutAllIndex;
       }
     }
-    this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
 
-    this.selectedLayout = this.layouts.filter(
-      (layout) => layout.name === 'all',
-    )[0];
+    this.selectedLayout = this.layouts[this.defaultLayout];
+    this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
   }
 
   loadProjects(serverOptions: ServerOptions) {
