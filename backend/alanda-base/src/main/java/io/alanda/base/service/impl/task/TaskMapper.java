@@ -53,7 +53,6 @@ abstract class TaskMapper {
         dto.setTaskType(taskInfo.getRefObjectType());
         dto.setTaskName(task.getName());
         dto.setObjectName(taskInfo.getProcess().getBusinessKey());
-        task.initializeFormKey();
         dto.setFormKey(task.getFormKey());
         dto.setAssigneeId(task.getAssignee());
         String assigneeId = task.getAssignee();

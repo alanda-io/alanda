@@ -26,6 +26,7 @@ class TaskMapperWithCommandContext extends TaskMapper {
         taskInfo.setRefObjectType((String) task.getExecution().getVariable("refObjectType"));
         taskInfo.setProcess(task.getExecution().getProcessInstance());
         taskInfo.setProcessDefinition(task.getProcessDefinition());
+        task.initializeFormKey();
         taskInfo.setComment((String) task.getExecution().getVariable(ProcessVariables.COMMENT));
         taskInfo.setProcessPackageKey((String) task.getExecution().getVariable(ProcessVariables.PROCESS_PACKAGE_KEY));
         if (taskInfo.getProcessPackageKey() != null) {
