@@ -4,6 +4,8 @@ import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { AlandaTableLayout } from '../../api/models/tableLayout';
+import { AlandaListResult } from '../../api/models/listResult';
+import { AlandaProject } from '../../api/models/project';
 
 const defaultLayoutInit = 0;
 
@@ -16,8 +18,8 @@ export class AlandaProjectTableComponent implements OnInit {
   @Input() defaultLayout = defaultLayoutInit;
   @Input() layouts: AlandaTableLayout[];
 
-  projectsData: any = {};
-  selectedLayout: any = {};
+  projectsData: AlandaListResult<AlandaProject>;
+  selectedLayout: AlandaTableLayout;
   loading = true;
   serverOptions: ServerOptions;
   menuItems: MenuItem[];
@@ -25,6 +27,11 @@ export class AlandaProjectTableComponent implements OnInit {
   @ViewChild('tt') turboTable: Table;
 
   constructor(private readonly projectService: AlandaProjectApiService) {
+    this.projectsData = {
+      total: 0,
+      results: []
+    };
+
     this.serverOptions = {
       pageNumber: 1,
       pageSize: 15,

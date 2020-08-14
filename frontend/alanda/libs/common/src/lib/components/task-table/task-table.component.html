@@ -37,6 +37,7 @@
   </div>
 </div>
 <p-table
+  *ngIf="selectedLayout && tasksData"
   #tt
   [class]="'tasklist-table'"
   [value]="tasksData.results"
@@ -118,7 +119,7 @@
   [dismissableMask]="true"
   [closeOnEscape]="true"
   [closable]="true"
-  width="300"
+  [style]="{width: '300px'}"
   [contentStyle]="{ overflow: 'visible' }"
 >
   <p-header>

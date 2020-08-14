@@ -7,6 +7,9 @@ import { AlandaUser } from '../../api/models/user';
 import { AlandaTaskApiService } from '../../api/taskApi.service';
 import { AlandaUserApiService } from '../../api/userApi.service';
 import { Router } from '@angular/router';
+import { AlandaTableLayout } from '../../api/models/tableLayout';
+import { AlandaListResult } from '../../api/models/listResult';
+import { AlandaTask } from '../../api/models/task';
 
 @Component({
   selector: 'alanda-task-table',
@@ -14,9 +17,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./task-table.component.scss'],
 })
 export class AlandaTaskTableComponent implements OnInit {
-  tasksData: any = {};
-  validLayouts: any[] = [];
-  selectedLayout: any = {};
+  validLayouts: AlandaTableLayout[] = [];
+  tasksData: AlandaListResult<AlandaTask>;
+  selectedLayout: AlandaTableLayout;
   loading = true;
   groupTasks = false;
   currentUser: AlandaUser;
@@ -35,6 +38,10 @@ export class AlandaTaskTableComponent implements OnInit {
     public messageService: MessageService,
     private readonly router: Router,
   ) {
+    this.tasksData = {
+      total: 0,
+      results: []
+    }
     this.serverOptions = {
       pageNumber: 1,
       pageSize: 15,
