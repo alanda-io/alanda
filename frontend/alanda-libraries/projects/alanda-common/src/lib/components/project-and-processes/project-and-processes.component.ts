@@ -22,6 +22,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit {
   @Input() project: Project;
   @Input() task: PmcTask;
   @Input() dateFormat = 'yyyy-MM-dd';
+  @Input() filterOptions: any = {};
   @Output() changed: EventEmitter<void> = new EventEmitter();
 
   optionItems: MenuItem[];
