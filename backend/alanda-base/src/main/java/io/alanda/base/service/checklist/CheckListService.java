@@ -1,151 +1,144 @@
 package io.alanda.base.service.checklist;
 
-import io.alanda.base.entity.checklist.CheckListItemBackend;
-import io.alanda.base.entity.checklist.CheckListItemDefinition;
-import io.alanda.base.entity.checklist.CheckListTemplateTaskAssociation;
+import io.alanda.base.dao.ChecklistRepo;
+import io.alanda.base.dao.ChecklistTemplateRepo;
+import io.alanda.base.entity.AbstractEntity;
+import io.alanda.base.entity.checklist.*;
 import io.alanda.base.service.checklist.dto.CheckListDto;
 import io.alanda.base.service.checklist.dto.CheckListItemDefinitionDto;
 import io.alanda.base.service.checklist.dto.CheckListItemDto;
 import io.alanda.base.service.checklist.dto.CheckListTemplateDto;
-import io.alanda.base.service.checklist.statusresolver.TaskListItemService;
+import io.alanda.base.service.checklist.statusresolver.CheckListItemService;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class CheckListService {
-    private final Map<CheckListItemBackend, TaskListItemService<Object>> itemBackendServices = new HashMap<>();
+    private final Map<CheckListItemBackend, CheckListItemService<Object>> itemBackendServices = new HashMap<>();
     private final CheckListMapper checkListMapper = new CheckListMapper();
 
+    @Inject
+    private ChecklistTemplateRepo checklistTemplateRepo;
+
+    @Inject
+    private ChecklistRepo checklistRepo;
+
     @PostConstruct
-    public void registerBackends(List<TaskListItemService<Object>> itemBackends) {
-        for (TaskListItemService<Object> itemService : itemBackends) {
+    public void registerBackends(List<CheckListItemService<Object>> itemBackends) {
+        for (CheckListItemService<Object> itemService : itemBackends) {
             itemBackendServices.put(itemService.getTaskBackend(), itemService);
         }
     }
 
-    public List<CheckListItemDefinitionDto> getTaskListDefinitions(String taskId) {
-        final CheckListTemplateDto template = getTaskListTemplateForTask(taskId);
-        final CheckListTemplateTaskAssociation templateAssociation = null;
-
-        final List<CheckListItemDefinitionDto> itemDefinitionDtos = new ArrayList<>(template.getItemDefinitions());
-        //itemDefinitionDtos.addAll(checkListMapper.mapTaskListItemDefinitionToDto(templateAssociation.getTaskInstanceAssociations()));
-
-        itemDefinitionDtos.sort(Comparator.comparingInt(CheckListItemDefinitionDto::getSortOrder));
-        return itemDefinitionDtos;
-    }
-
-    public List<CheckListItemDto> getTaskListItems(String taskId) {
-        final CheckListTemplateDto templateDto = getTaskListTemplateForTask(taskId);
-        final List<CheckListItemDefinitionDto> definitionDtos = getTaskListDefinitions(taskId);
-
-        return definitionDtos.stream().map(def -> getItemBackend(templateDto).getTaskListItem(def)).collect(Collectors.toList());
-    }
-
-    public CheckListItemDefinitionDto getTaskListItemDefinition(Long id) {
-        return null;
-    }
-
-    public CheckListTemplateDto getTaskListTemplate(Long id) {
-        return null;
-    }
-
-    public CheckListTemplateDto getTaskListTemplateForTask(String taskId) {
-        return null;
-    }
-
-    public List<CheckListTemplateDto> getTaskListTemplates() {
-        return Collections.emptyList();
-    }
-
-    public List<CheckListTemplateDto> getTaskListTemplates(String nameQuery) {
-        return Collections.emptyList();
-    }
-
-    public void setTaskListTemplateItemDefinitions(CheckListTemplateDto templateDto, List<CheckListItemDefinitionDto> definitionDtos) {
-
-    }
-
-    public void setTaskListTemplateAssociation(String taskId, CheckListTemplateDto templateDto, List<CheckListItemDefinitionDto> additionalItemDefinitions) {
-
-    }
-
-    public void setTaskListItemStatus(Long taskListDefinitionId, Boolean status) {
-        final CheckListItemDefinitionDto definitionDto = getTaskListItemDefinition(taskListDefinitionId);
-        final TaskListItemService<Object> itemBackend = getItemBackend(definitionDto);
-
-        itemBackend.setTaskListItemStatus(itemBackend.getTaskListItem(definitionDto), status);
-    }
-
-    public void setTaskListItemStatus(CheckListItemDto itemDto, Boolean status) {
-        getItemBackend(itemDto).setTaskListItemStatus(itemDto.getId(), status);
-    }
-
-    public Boolean getTaskListItemStatus(CheckListItemDto itemDto) {
-        return getItemBackend(itemDto).getTaskListItemStatus(itemDto.getId());
-    }
-
-    private TaskListItemService<Object> getItemBackend(CheckListItemDto itemDto) {
-        return null;// itemBackendServices.get(itemDto.getBackend());
-    }
-
-    private TaskListItemService<Object> getItemBackend(CheckListTemplateDto templateDto) {
-        return itemBackendServices.get(templateDto.getItemBackend());
-    }
-
-    private TaskListItemService<Object> getItemBackend(CheckListItemDefinitionDto itemDefinitionDto) {
-        return null;
-    }
-
-    public CheckListTemplateDto createTaskListTemplate(CheckListTemplateDto templateDto) {
-        return null;
-    }
-
-    public CheckListTemplateDto updateTaskListTemplate(CheckListTemplateDto templateDto) {
-        return null;
-    }
-
-    public void deleteTaskListTemplate(CheckListTemplateDto templateDto) {
-
-    }
-
-    // **********************
-
-    public List<CheckListTemplateDto> getAllCheckListTemplates() {
-        return Collections.emptyList();
+    public Iterable<CheckListTemplateDto> getAllCheckListTemplates() {
+        return checkListMapper.mapChecklistTemplatesToDto(checklistTemplateRepo.findAll());
     }
 
 
     public Optional<CheckListTemplateDto> getCheckListTemplate(Long templateId) {
-        return Optional.empty();
+        return Optional.ofNullable(checklistTemplateRepo.findOne(templateId)).map(checkListMapper::mapChecklistTemplateToDto);
     }
 
     public CheckListTemplateDto saveCheckListTemplate(CheckListTemplateDto template) {
+        // TODO
         return null;
+    }
+
+    public CheckListItemDto getCheckListItemForDefinition(CheckListItemDefinition itemDefinition) {
+        final CheckListItemBackend itemBackend = itemDefinition.getCheckListTemplate().getItemBackend();
+        return itemBackendServices.get(itemBackend).getCheckListItem(itemDefinition.getGuid());
+    }
+
+    public List<CheckListItemDto> getCheckListItemsForDefinitions(CheckListItemBackend itemBackend, Iterable<Long> itemDefinitionIds) {
+        return new ArrayList<>(itemBackendServices.get(itemBackend).getCheckListItems(itemDefinitionIds));
+    }
+
+    public List<CheckListItemDto> getCheckListItems(CheckList checkList) {
+        final CheckListItemBackend itemBackend = checkList.getTemplateTaskAssociation().getCheckListTemplate().getItemBackend();
+
+        final List<CheckListItemDefinition> templateDefinitions = checkList.getTemplateTaskAssociation().getCheckListTemplate().getItemDefinitions();
+        final List<CheckListItemDefinition> checklistDefinitions = checkList.getItemDefinitions();
+
+
+        final List<CheckListItemDto> allItems = new ArrayList<>(getCheckListItemsForDefinitions(itemBackend,
+                templateDefinitions.stream().map(AbstractEntity::getGuid).collect(Collectors.toList())));
+        allItems.addAll(getCheckListItemsForDefinitions(itemBackend,
+                checklistDefinitions.stream().map(AbstractEntity::getGuid).collect(Collectors.toList())));
+        return allItems;
+    }
+
+    public List<CheckListItemDto> getCheckListItems(Long checkListGuid) {
+        return getCheckList(checkListGuid)
+                .map(CheckListDto::getCheckListItems)
+                .orElse(Collections.emptyList());
     }
 
     public List<CheckListDto> getCheckListsForUserTaskInstance(String taskInstanceGuid) {
-        return null;
+        final Iterable<CheckList> checklists = checklistRepo.findCheckListsByUserTaskInstance(taskInstanceGuid);
+
+        return checkListMapper.mapChecklistsToDto(checklists);
     }
 
     public Optional<CheckListDto> getCheckList(Long checkListId) {
-        return Optional.empty();
+        return Optional.ofNullable(checklistRepo.findOne(checkListId)).map(checkListMapper::mapChecklistToDto);
     }
 
     public void updateCheckListItemStatus(Long checkListId, String key, Boolean status) {
+        getCheckList(checkListId).ifPresent(cl -> {
+            getCheckListItems(cl.getId()).stream()
+                    .filter(ci -> ci.getItemDefinition().getKey().equals(key))
+                    .forEach(ci -> itemBackendServices.get(cl.getItemBackend()).setCheckListItemStatus(ci.getId(), status));
+        });
     }
 
     public CheckListDto saveCheckList(Long checkListId, CheckListDto updateCheckList) {
+        // TODO
         return null;
     }
 
     class CheckListMapper {
-        CheckListItemDefinitionDto mapTaskListItemDefinitionToDto(CheckListItemDefinition itemDefinition) {
+        CheckListItemDefinitionDto mapCheckListItemDefinitionToDto(CheckListItemDefinition itemDefinition) {
             return null;
         }
 
-        List<CheckListItemDefinitionDto> mapTaskListItemDefinitionToDto(List<CheckListItemDefinition> itemDefinitions) {
-            return itemDefinitions.stream().map(this::mapTaskListItemDefinitionToDto).collect(Collectors.toList());
+        List<CheckListItemDefinitionDto> mapCheckListItemDefinitionToDto(List<CheckListItemDefinition> itemDefinitions) {
+            return itemDefinitions.stream().map(this::mapCheckListItemDefinitionToDto).collect(Collectors.toList());
+        }
+
+        CheckListTemplateDto mapChecklistTemplateToDto(CheckListTemplate template) {
+            final CheckListTemplateDto templateDto = new CheckListTemplateDto();
+
+            templateDto.setId(template.getGuid());
+            templateDto.setItemBackend(template.getItemBackend());
+            templateDto.setName(template.getName());
+            templateDto.setItemDefinitions(mapCheckListItemDefinitionToDto(template.getItemDefinitions()));
+            templateDto.setUserTasks(template.getTaskAssociations().stream()
+                    .map(CheckListTemplateTaskAssociation::getUserTaskDefKey).collect(Collectors.toList()));
+
+            return templateDto;
+        }
+
+        List<CheckListTemplateDto> mapChecklistTemplatesToDto(Iterable<CheckListTemplate> templates) {
+            return StreamSupport.stream(templates.spliterator(), false).map(this::mapChecklistTemplateToDto).collect(Collectors.toList());
+        }
+
+        CheckListDto mapChecklistToDto(CheckList checkList) {
+            final CheckListDto checkListDto = new CheckListDto();
+
+            checkListDto.setId(checkList.getGuid());
+            checkListDto.setCheckListItems(getCheckListItems(checkList));
+
+            final CheckListTemplate checkListTemplate = checkList.getTemplateTaskAssociation().getCheckListTemplate();
+            checkListDto.setName(checkListTemplate.getName());
+
+            return checkListDto;
+        }
+
+        List<CheckListDto> mapChecklistsToDto(Iterable<CheckList> checkList) {
+            return StreamSupport.stream(checkList.spliterator(), false).map(this::mapChecklistToDto).collect(Collectors.toList());
         }
     }
 }

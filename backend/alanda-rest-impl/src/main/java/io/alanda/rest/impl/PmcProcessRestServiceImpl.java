@@ -305,4 +305,19 @@ public class PmcProcessRestServiceImpl implements PmcProcessRestService {
     return Response.accepted().build();
   }
 
+  @Override
+  public List<ProcessDto> queryProcess(String query) {
+    // TODO query existing camunda processes for string
+    // return all for empty query?
+
+    return null;
+  }
+
+  @Override
+  public List<ActivityInstanceDto> queryProcessActivities(String query) {
+    // TODO query existing camunda activities of a process for string
+    // return all for empty query?
+
+    return null;
+  }
 }

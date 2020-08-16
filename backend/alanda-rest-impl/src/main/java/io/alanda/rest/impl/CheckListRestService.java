@@ -28,8 +28,10 @@ public class CheckListRestService {
 
     @GET
     @Path("/templates")
-    public List<CheckListTemplateVM> getAllCheckListTemplates() {
-        final List<CheckListTemplateDto> allCheckListTemplates = checkListService.getAllCheckListTemplates();
+    public Iterable<CheckListTemplateVM> getAllCheckListTemplates() {
+        final Iterable<CheckListTemplateDto> allCheckListTemplates = checkListService.getAllCheckListTemplates();
+
+        // TODO map to VM (or return DTO)
 
         return null;
     }
@@ -39,6 +41,7 @@ public class CheckListRestService {
     @Path("/template/{templateId}")
     public CheckListTemplateVM getCheckListTemplate(Long templateId) {
         final CheckListTemplateDto checkListTemplate = checkListService.getCheckListTemplate(templateId).orElse(null);
+        // TODO map to VM (or return DTO)
 
         return null;
     }
@@ -46,6 +49,7 @@ public class CheckListRestService {
     @POST
     @Path("/template")
     public Response createCheckListTemplate(CheckListTemplateVM templateVM) {
+        // TODO map to VM (or use DTO)
         checkListService.saveCheckListTemplate(null);
 
         return Response.ok().build();
@@ -54,6 +58,8 @@ public class CheckListRestService {
     @PUT
     @Path("/template/{templateId}")
     public Response updateCheckListTemplate(Long templateId, CheckListTemplateVM templateVM) {
+        // TODO map to VM (or use DTO)
+
         checkListService.saveCheckListTemplate(null);
 
         return Response.ok().build();
@@ -69,6 +75,8 @@ public class CheckListRestService {
     @Path("/userTask/{taskInstanceGuid}")
     public List<CheckListVM> getCheckListsForUserTaskInstance(String taskInstanceGuid) {
         checkListService.getCheckListsForUserTaskInstance(taskInstanceGuid);
+        // TODO map to VM (or return DTO)
+
         return null;
     }
 

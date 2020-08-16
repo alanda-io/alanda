@@ -25,7 +25,7 @@ public class CheckListTemplateTaskAssociation extends AbstractAuditEntity {
         this.userTaskDefKey = userTask;
     }
 
-    public CheckListTemplate getTaskListTemplate() {
+    public CheckListTemplate getCheckListTemplate() {
         return checkListTemplate;
     }
 

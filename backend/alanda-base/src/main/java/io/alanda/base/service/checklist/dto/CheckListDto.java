@@ -1,6 +1,7 @@
 package io.alanda.base.service.checklist.dto;
 
 import io.alanda.base.entity.checklist.CheckListItem;
+import io.alanda.base.entity.checklist.CheckListItemBackend;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ public class CheckListDto {
     private String userTask;
 
     private List<CheckListItemDto> checkListItems;
+
+    private CheckListItemBackend itemBackend;
 
 
     public Long getId() {
@@ -44,5 +47,13 @@ public class CheckListDto {
 
     public void setCheckListItems(List<CheckListItemDto> checkListItems) {
         this.checkListItems = checkListItems;
+    }
+
+    public CheckListItemBackend getItemBackend() {
+        return itemBackend;
+    }
+
+    public void setItemBackend(CheckListItemBackend itemBackend) {
+        this.itemBackend = itemBackend;
     }
 }

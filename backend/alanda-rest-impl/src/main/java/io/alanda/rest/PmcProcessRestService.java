@@ -73,4 +73,12 @@ public interface PmcProcessRestService {
   @GET
   @Path("/check-mail")
   public Response checkMail();
+
+  @GET
+  @Path("/")
+  List<ProcessDto> queryProcess(@QueryParam("query") String query);
+
+  @GET
+  @Path("/{processInstanceId}/activities")
+  List<ActivityInstanceDto> queryProcessActivities(@QueryParam("query") String query);
 }

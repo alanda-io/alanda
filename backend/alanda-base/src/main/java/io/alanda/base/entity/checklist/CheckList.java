@@ -33,4 +33,12 @@ public class CheckList extends AbstractAuditEntity {
     public void setUserTaskInstance(String userTaskInstance) {
         this.userTaskInstance = userTaskInstance;
     }
+
+    public List<CheckListItemDefinition> getItemDefinitions() {
+        return itemDefinitions;
+    }
+
+    public void setItemDefinitions(List<CheckListItemDefinition> itemDefinitions) {
+        this.itemDefinitions = itemDefinitions;
+    }
 }
