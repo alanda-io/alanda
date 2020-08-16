@@ -102,6 +102,7 @@ import { AlandaProcessMessageApiService } from './api/processMessageApi.service'
 import { AlandaVarDatepickerComponent } from './form/components/var-datepicker/var-datepicker.component';
 import { AlandaHeaderModule } from './components/header/header.module';
 import { AlandaTitleService } from './services/title.service';
+import { PapReasonDialogComponent } from './components/project-and-processes/pap-reason-dialog/pap-reason-dialog.component';
 
 @NgModule({
   imports: [
@@ -184,6 +185,7 @@ import { AlandaTitleService } from './services/title.service';
     PapActionsComponent,
     PapActionSymbolComponent,
     PapConfigDialogComponent,
+    PapReasonDialogComponent,
     PapSubprocessPropertyInputComponent,
     ProcessConfigDirective,
     AlandaVarCheckboxComponent,
@@ -234,6 +236,7 @@ import { AlandaTitleService } from './services/title.service';
   ],
   entryComponents: [
     PapRelateDialogComponent,
+    PapReasonDialogComponent,
     AlandaVarSelectComponent,
     AlandaPropSelectComponent,
     PapConfigDialogComponent,

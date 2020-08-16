@@ -31,8 +31,10 @@ export enum TreeNodeDataType {
   STARTPROCESS,
 }
 
+export type PapActions = 'RELATE-OPTIONS' | 'CANCEL-PROJECT' | 'CANCEL-PROCESS' | 'START-SUBPROCESS' | 'REMOVE-SUBPROCESS' | 'CONFIGURE-PROCESS';
+
 export interface TreeNodeData {
-  uuid: string;
+  id?: string;
   label?: string;
   refObject?: string;
   assignee?: string;
@@ -46,6 +48,9 @@ export interface TreeNodeData {
   process?: AlandaProcess;
   dropdown?: boolean;
   status?: string;
+  relatedProject?: AlandaProject;
+  readOnly?: boolean;
+  papActions?: PapActions[];
 }
 
 @Injectable()
@@ -75,9 +80,17 @@ export class AlandaProjectAndProcessesService {
   }
 
   mapProjectToTreeNode(project: AlandaProject): TreeNode {
+    let label = `${project.projectId} (${project.subType ? project.subType : project.pmcProjectType.name} / ${project.title})`;
+    if (project.refObjectIdName) {
+      label = label + `for (${project.refObjectIdName})`;
+    }
+    if (project.displayMetaInfo) {
+      label = label + ` ${project.displayMetaInfo}`
+    }
+    const id = uuid();
     const data: TreeNodeData = {
-      uuid: uuid(),
-      label: `${project.projectId} (${project.pmcProjectType.name} / ${project.title})`,
+      id,
+      label,
       refObject: project.refObjectIdName,
       assignee: project.ownerName,
       start: new Date(project.createDate),
@@ -86,18 +99,26 @@ export class AlandaProjectAndProcessesService {
       type: TreeNodeDataType.PROJECT,
       project,
       status: project.status,
+      readOnly: project.status === ProjectState.CANCELED || project.status === ProjectState.COMPLETED || project.status === ProjectState.SUSPENDED,
+      papActions: ['RELATE-OPTIONS', 'CANCEL-PROJECT']
     };
     return {
+      key: id,
       data,
       children: project.processes
-        ? project.processes.map((process) => this.mapProcessToTreeNode(process))
+        ? project.processes.map((process) => this.mapProcessToTreeNode(process, project))
         : null,
     };
   }
 
-  mapProcessToTreeNode(process: AlandaProcess): TreeNode {
+  mapProcessToTreeNode(process: AlandaProcess, relatedProject: AlandaProject): TreeNode {
+    const papActions: PapActions[] = process.status === ProjectState.NEW ? ['REMOVE-SUBPROCESS', 'START-SUBPROCESS'] : ['CANCEL-PROCESS'];
+    if ( this.showSubprocessConfigButton(process, relatedProject)) {
+      papActions.push('CONFIGURE-PROCESS');
+    }
+    const id = uuid();
     const data: TreeNodeData = {
-      uuid: uuid(),
+      id,
       label: process.label,
       refObject: process.processKey,
       start: process.startTime,
@@ -107,8 +128,14 @@ export class AlandaProjectAndProcessesService {
       process,
       dropdown: process.status === ProjectState.NEW ? true : false,
       status: process.status,
+      relatedProject,
+      readOnly: process.status === ProjectState.CANCELED || process.status === ProjectState.COMPLETED || process.status === ProjectState.SUSPENDED ||
+      process.status === ProjectState.DELETED || relatedProject.status === ProjectState.CANCELED || relatedProject.status === ProjectState.COMPLETED ||
+      relatedProject.status === ProjectState.SUSPENDED,
+      papActions
     };
     return {
+      key: id,
       data,
       children: process.tasks
         ? process.tasks.map((task) => this.mapTaskToTreeNode(task))
@@ -117,8 +144,9 @@ export class AlandaProjectAndProcessesService {
   }
 
   mapTaskToTreeNode(task: AlandaTask): TreeNode {
+    const id = uuid();
     const data: TreeNodeData = {
-      uuid: uuid(),
+      id,
       label: task.task_name,
       refObject: task.process_definition_key,
       assignee: task.assignee,
@@ -133,17 +161,24 @@ export class AlandaProjectAndProcessesService {
       status: task.state,
     };
     return {
+      key: id,
       data,
     };
   }
 
-  getStartProcessDropdownAsTreeNode(): TreeNode {
+  getStartProcessDropdownAsTreeNode(relatedProject: AlandaProject): TreeNode {
+    const id = uuid();
     return {
       data: {
-        uuid: uuid(),
+        id,
         type: TreeNodeDataType.STARTPROCESS,
         dropdown: true,
+        relatedProject,
+        readOnly: relatedProject.status === ProjectState.CANCELED
+        || relatedProject.status === ProjectState.COMPLETED
+        || relatedProject.status === ProjectState.SUSPENDED
       },
+      key: id,
     };
   }
 
@@ -203,18 +238,31 @@ export class AlandaProjectAndProcessesService {
     return result;
   }
 
-  startSubprocess(value: {
-    data: TreeNodeData;
-    parent: TreeNode;
-  }): Observable<AlandaProcess> {
-    value.data.process.status = ProjectState.NEW;
-    value.data.process.relation = ProcessRelation.CHILD;
-    value.data.process.workDetails = '';
-    value.data.process.businessObject =
-      value.parent.data.project.refObjectIdName;
-    return this.projectService.saveProjectProcess(
-      value.parent.data.project.guid,
-      value.data.process,
-    );
+  private showSubprocessConfigButton(process: AlandaProcess, relatedProject: AlandaProject): boolean {
+    const projectTypeConfig = JSON.parse(relatedProject.pmcProjectType.configuration);
+    const subprocessPropertiesTemplate = {};
+    const subprocessProperties = {};
+    const subprocessPropertiesConfig = {};
+    if (projectTypeConfig) {
+      if (projectTypeConfig.subprocessProperties) {
+        for (const propDef of projectTypeConfig.subprocessProperties) {
+          subprocessPropertiesTemplate[propDef.processDefinitionKey] = propDef.propertiesTemplate;
+          subprocessProperties[propDef.processDefinitionKey] = propDef.properties;
+          subprocessPropertiesConfig[propDef.processDefinitionKey] = propDef;
+        }
+      }
+    }
+    const processKeyWithoutPhase = process['processKeyWithoutPhase'];
+    if ((!subprocessProperties[processKeyWithoutPhase] && subprocessPropertiesTemplate[processKeyWithoutPhase]) ||
+    !(process.status === ProjectState.ACTIVE || process.status === ProjectState.NEW )) {
+      return false;
+    }
+    if (subprocessPropertiesConfig[processKeyWithoutPhase] && subprocessPropertiesConfig[processKeyWithoutPhase].showButton) {
+      return subprocessPropertiesConfig[processKeyWithoutPhase].showButton;
+    }
+    return (subprocessProperties[processKeyWithoutPhase] && subprocessProperties[processKeyWithoutPhase].length > 0) ||
+      subprocessPropertiesTemplate[processKeyWithoutPhase];
   }
+
+
 }
