@@ -6,6 +6,7 @@ import {
 } from '../interfaces-and-types';
 import { AlandaUser } from '../../api/models/user';
 import { AlandaMenuItem } from '../../api/models/menuItem';
+import { AlandaTableLayout } from '../../..';
 
 export class Authorizations {
   /**
@@ -235,5 +236,24 @@ export class Authorizations {
     }
 
     return true;
+  }
+
+  static hasPermissionForLayout(
+    layout: AlandaTableLayout,
+    user: AlandaUser,
+  ): boolean {
+    // Ignore if user is Admin or layout has name default
+    if (
+      Authorizations.hasRole('Admin', user) ||
+      layout.name.toLowerCase() === 'default'
+    ) {
+      return true;
+    } else {
+      return Authorizations.hasPermission(
+        user,
+        'task:layout:' + layout.name.toLowerCase(),
+        null,
+      );
+    }
   }
 }

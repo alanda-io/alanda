@@ -1,0 +1,86 @@
+<div class="p-grid">
+  <div class="p-col-3">
+    <p-dropdown
+      [hidden]="layouts.length <= 1"
+      [options]="layouts"
+      [(ngModel)]="selectedLayout"
+      optionLabel="displayName"
+      [style]="{ width: '100%' }"
+      (onChange)="onChangeLayout()"
+    >
+    </p-dropdown>
+  </div>
+  <div class="p-col caption-button-group">
+    <p-menu #menu [popup]="true" [model]="menuItems" appendTo="body"></p-menu>
+    <button
+      type="button"
+      pButton
+      icon="fa fa-fw fa-list"
+      (click)="menu.toggle($event)"
+    ></button>
+  </div>
+</div>
+<p-table
+  *ngIf="selectedLayout && projectsData"
+  #tt
+  [resizableColumns]="true"
+  [value]="projectsData.results"
+  [columns]="selectedLayout.columnDefs"
+  [paginator]="true"
+  [rows]="15"
+  [lazy]="true"
+  [totalRecords]="projectsData.total"
+  (onLazyLoad)="loadProjectsLazy($event)"
+  [tableStyle]="{ 'table-layout': '100%' }"
+  [autoLayout]="true"
+  [loading]="loading"
+  [responsive]="true"
+>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th
+        *ngFor="let col of columns"
+        pResizableColumn
+        [pSortableColumn]="col.field"
+        class="ng-ui-table"
+        [style.width]="col.width + 'px'"
+      >
+        <span style="white-space: nowrap;"
+          >{{ col.displayName }}<p-sortIcon></p-sortIcon
+        ></span>
+      </th>
+    </tr>
+    <tr>
+      <th *ngFor="let col of columns">
+        <input
+          pInputText
+          type="text"
+          (input)="tt.filter($event.target.value, col.field, 'contains')"
+          [value]="tt.filters[col.field] ? tt.filters[col.field].value : ''"
+          style="width: 100%;"
+        />
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-project let-columns="columns">
+    <tr [pSelectableRow]="project" class="ng-center-cell">
+      <td
+        *ngFor="let col of columns"
+        [ngClass]="getCondition(project, col.template)"
+        style="font-size: 12px; white-space: nowrap;"
+      >
+        <ng-template [ngIf]="col.name === 'Project ID'" [ngIfElse]="default">
+          <a [routerLink]="openProject(project.project.projectId)">{{
+            project | nestedObject: col.field
+          }}</a>
+        </ng-template>
+        <ng-template #default>
+          {{ project | nestedObject: col.field }}
+        </ng-template>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="paginatorright">
+    <span *ngIf="projectsData.total"> Total: {{ projectsData.total }} </span>
+  </ng-template>
+</p-table>

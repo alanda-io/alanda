@@ -20,7 +20,6 @@ export * from './lib/permissions';
 
 export * from './lib/services/exceptionHandling.service';
 export * from './lib/services/project-properties.service';
-export * from './lib/services/monitorApi.service';
 export { AlandaTitleService } from './lib/services/title.service';
 export * from './lib/form/alanda-task-form.service';
 export * from './lib/form/base-form.component.interface';
@@ -56,6 +55,8 @@ export * from './lib/api/models/comment';
 export * from './lib/api/models/commentTag';
 export * from './lib/api/models/department';
 export * from './lib/api/models/menuItem';
+export { AlandaTableLayout } from './lib/api/models/tableLayout';
+export { AlandaTableColumnDefinition } from './lib/api/models/tableColumnDefinition';
 
 export * from './lib/pipes/nested-object.pipe';
 export * from './lib/pipes/filter.pipe';
@@ -63,8 +64,10 @@ export * from './lib/pipes/tag-filter.pipe';
 
 export * from './lib/common.module';
 
-export * from './lib/components/project-monitor/project-monitor.component';
-export * from './lib/components/task-list/tasklist.component';
+export { ProjectTableModule } from './lib/components/project-table/project-table.module';
+export { AlandaProjectTableComponent } from './lib/components/project-table/project-table.component';
+export { AlandaTaskTableComponent } from './lib/components/task-table/task-table.component';
+export { TaskTableModule } from './lib/components/task-table/task-table.module';
 export * from './lib/components/attachments/attachments.component';
 export * from './lib/components/admin/role-management/role-management.component';
 export * from './lib/components/admin/user-management/user-management.component';
@@ -111,4 +114,4 @@ export * from './lib/models/alandaTaskFormPanel';
 export * from './lib/components/project-and-processes/pap-actions/pap-actions.component';
 export * from './lib/components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
 export { AlandaHeaderComponent } from './lib/components/header/header.component';
-export { AlandaHeaderModule } from './lib/components/header/header.module';
+export { HeaderModule } from './lib/components/header/header.module';

@@ -29,9 +29,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { MessageModule } from 'primeng/message';
 import { AttachmentsListComponent } from './components/attachments/attachments-list/attachments-list.component';
 import { AttachmentsTreeComponent } from './components/attachments/attachments-tree/attachments-tree.component';
-import { AlandaProjectMonitorComponent } from './components/project-monitor/project-monitor.component';
-import { MonitorValuesPipe } from './pipes/nested-object.pipe';
-import { AlandaTasklistComponent } from './components/task-list/tasklist.component';
+import { MonitorValuesPipeModule } from './pipes/nested-object.pipe';
+import { TaskTableModule } from './components/task-table/task-table.module';
 import { FilterPipe } from './pipes/filter.pipe';
 import { TagFilterPipe } from './pipes/tag-filter.pipe';
 import { AlandaProjectHeaderComponent } from './components/project-header/project-header.component';
@@ -65,7 +64,6 @@ import { AlandaProjectApiService } from './api/projectApi.service';
 import { AlandaPropertyApiService } from './api/propertyApi.service';
 import { AlandaRoleApiService } from './api/roleApi.service';
 import { AlandaExceptionHandlingService } from './services/exceptionHandling.service';
-import { AlandaMonitorAPIService } from './services/monitorApi.service';
 import { AlandaAttachmentsComponent } from './components/attachments/attachments.component';
 import { AlandaProjectsControllerComponent } from './components/controller/projects-controller/projects-controller.component';
 import { AlandaProjectPropertiesService } from './services/project-properties.service';
@@ -100,8 +98,9 @@ import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-c
 import { AlandaProjectAndProcessesService } from './components/project-and-processes/project-and-processes.service';
 import { AlandaProcessMessageApiService } from './api/processMessageApi.service';
 import { AlandaVarDatepickerComponent } from './form/components/var-datepicker/var-datepicker.component';
-import { AlandaHeaderModule } from './components/header/header.module';
+import { HeaderModule } from './components/header/header.module';
 import { AlandaTitleService } from './services/title.service';
+import { ProjectTableModule } from './components/project-table/project-table.module';
 
 @NgModule({
   imports: [
@@ -146,15 +145,15 @@ import { AlandaTitleService } from './services/title.service';
     TooltipModule,
     PhaseTabModule,
     PermissionModule,
+    ProjectTableModule,
+    MonitorValuesPipeModule,
+    TaskTableModule,
   ],
   declarations: [
     AlandaUserManagementComponent,
     AttachmentsListComponent,
     AttachmentsTreeComponent,
-    AlandaProjectMonitorComponent,
     AlandaAttachmentsComponent,
-    MonitorValuesPipe,
-    AlandaTasklistComponent,
     FilterPipe,
     TagFilterPipe,
     AlandaGroupManagementComponent,
@@ -194,12 +193,12 @@ import { AlandaTitleService } from './services/title.service';
     PermissionModule,
     BadgeModule,
     CommentsModule,
-    AlandaProjectMonitorComponent,
+    ProjectTableModule,
     AlandaAttachmentsComponent,
     AttachmentsListComponent,
     AttachmentsTreeComponent,
-    MonitorValuesPipe,
-    AlandaTasklistComponent,
+    MonitorValuesPipeModule,
+    TaskTableModule,
     FilterPipe,
     TagFilterPipe,
     AlandaUserManagementComponent,
@@ -231,7 +230,7 @@ import { AlandaTitleService } from './services/title.service';
     PhaseTabModule,
     AlandaVarCheckboxComponent,
     AlandaVarDatepickerComponent,
-    AlandaHeaderModule,
+    HeaderModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,
@@ -259,7 +258,6 @@ export class AlandaCommonModule {
         AlandaPropertyApiService,
         AlandaRoleApiService,
         AlandaExceptionHandlingService,
-        AlandaMonitorAPIService,
         AlandaProjectPropertiesService,
         AlandaProcessConfigModalService,
         AlandaProjectAndProcessesService,

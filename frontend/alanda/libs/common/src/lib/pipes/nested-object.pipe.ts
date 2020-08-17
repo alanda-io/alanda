@@ -1,4 +1,4 @@
-import { PipeTransform, Pipe } from '@angular/core';
+import { PipeTransform, Pipe, NgModule } from '@angular/core';
 
 @Pipe({ name: 'nestedObject' })
 export class MonitorValuesPipe implements PipeTransform {
@@ -15,3 +15,9 @@ export class MonitorValuesPipe implements PipeTransform {
     return ref;
   }
 }
+
+@NgModule({
+  declarations: [MonitorValuesPipe],
+  exports: [MonitorValuesPipe],
+})
+export class MonitorValuesPipeModule {}

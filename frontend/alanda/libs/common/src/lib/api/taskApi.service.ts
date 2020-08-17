@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { AlandaUser } from './models/user';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
 import { ServerOptions } from '../models/serverOptions';
+import { AlandaListResult } from './models/listResult';
 
 @Injectable({
   providedIn: 'root',
@@ -30,10 +31,17 @@ export class AlandaTaskApiService extends AlandaExceptionHandlingService {
       .pipe(catchError(this.handleError<AlandaTask>('getTask')));
   }
 
-  loadTasks(serverOptions: ServerOptions): Observable<AlandaTask[]> {
+  loadTasks(
+    serverOptions: ServerOptions,
+  ): Observable<AlandaListResult<AlandaTask>> {
     return this.http
-      .post<AlandaTask[]>(this.endpointUrl + '/list', serverOptions)
-      .pipe(catchError(this.handleError<AlandaTask[]>('loadTasks')));
+      .post<AlandaListResult<AlandaTask>>(
+        this.endpointUrl + '/list',
+        serverOptions,
+      )
+      .pipe(
+        catchError(this.handleError<AlandaListResult<AlandaTask>>('loadTasks')),
+      );
   }
 
   getCandidates(taskId: string): Observable<AlandaUser[]> {
