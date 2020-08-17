@@ -31,10 +31,17 @@ export class AlandaTaskApiService extends AlandaExceptionHandlingService {
       .pipe(catchError(this.handleError<AlandaTask>('getTask')));
   }
 
-  loadTasks(serverOptions: ServerOptions): Observable<AlandaListResult<AlandaTask>> {
+  loadTasks(
+    serverOptions: ServerOptions,
+  ): Observable<AlandaListResult<AlandaTask>> {
     return this.http
-      .post<AlandaListResult<AlandaTask>>(this.endpointUrl + '/list', serverOptions)
-      .pipe(catchError(this.handleError<AlandaListResult<AlandaTask>>('loadTasks')));
+      .post<AlandaListResult<AlandaTask>>(
+        this.endpointUrl + '/list',
+        serverOptions,
+      )
+      .pipe(
+        catchError(this.handleError<AlandaListResult<AlandaTask>>('loadTasks')),
+      );
   }
 
   getCandidates(taskId: string): Observable<AlandaUser[]> {

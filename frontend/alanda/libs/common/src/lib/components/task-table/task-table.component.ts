@@ -15,7 +15,7 @@ import { getTableDefaultLayout } from '../../utils/helper-functions';
 const defaultLayoutInit = 0;
 
 interface AlandaTaskTableState {
-  user: AlandaUser
+  user: AlandaUser;
 }
 
 @Component({
@@ -52,12 +52,12 @@ export class AlandaTaskTableComponent implements OnInit {
     private readonly taskService: AlandaTaskApiService,
     public messageService: MessageService,
     private readonly router: Router,
-    private state: RxState<AlandaTaskTableState>
+    private state: RxState<AlandaTaskTableState>,
   ) {
     this.tasksData = {
       total: 0,
-      results: []
-    }
+      results: [],
+    };
     this.serverOptions = {
       pageNumber: 1,
       pageSize: 15,
@@ -205,7 +205,9 @@ export class AlandaTaskTableComponent implements OnInit {
             this.loading = false;
             task.task.assignee_id = String(this.state.get().user.guid);
             task.task.assignee =
-              this.state.get().user.firstName + ' ' + this.state.get().user.surname;
+              this.state.get().user.firstName +
+              ' ' +
+              this.state.get().user.surname;
             task.claimLabel = 'Unclaim';
             this.messageService.add({
               severity: 'success',

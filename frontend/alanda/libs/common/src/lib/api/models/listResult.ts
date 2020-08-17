@@ -4,7 +4,7 @@ export interface AlandaListResult<T> {
 }
 
 interface AlandaResult<T> {
-  [key: string]: T | any,
-  lastSyncTime?: number,
-  refObject?: any,
+  [key: string]: T | any;
+  lastSyncTime?: number;
+  refObject?: any;
 }

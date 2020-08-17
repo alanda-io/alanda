@@ -42,12 +42,12 @@
         *ngFor="let col of columns"
         pResizableColumn
         [pSortableColumn]="col.field"
-        ngClass="ng-ui-table"
+        class="ng-ui-table"
         [style.width]="col.width + 'px'"
       >
-      <span style="white-space: nowrap;"
-      >{{ col.displayName }}<p-sortIcon></p-sortIcon
-      ></span>
+        <span style="white-space: nowrap;"
+          >{{ col.displayName }}<p-sortIcon></p-sortIcon
+        ></span>
       </th>
     </tr>
     <tr>
@@ -58,9 +58,7 @@
           (input)="tt.filter($event.target.value, col.field, 'contains')"
           [value]="tt.filters[col.field] ? tt.filters[col.field].value : ''"
           style="width: 100%;"
-          inputStyle="width: 100%"
         />
-        <!--[style.width]="col.width + 'px'" -->
       </th>
     </tr>
   </ng-template>
@@ -72,10 +70,9 @@
         style="font-size: 12px; white-space: nowrap;"
       >
         <ng-template [ngIf]="col.name === 'Project ID'" [ngIfElse]="default">
-          <!-- <a [attr.href]="'#/pmc/projectdetails/' + project.project.projectId" target="blank">{{ project | monitorValues: col.field }}</a> -->
           <a [routerLink]="openProject(project.project.projectId)">{{
             project | nestedObject: col.field
-            }}</a>
+          }}</a>
         </ng-template>
         <ng-template #default>
           {{ project | nestedObject: col.field }}

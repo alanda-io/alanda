@@ -30,7 +30,7 @@ export class AlandaProjectTableComponent implements OnInit {
   constructor(private readonly projectService: AlandaProjectApiService) {
     this.projectsData = {
       total: 0,
-      results: []
+      results: [],
     };
 
     this.serverOptions = {
