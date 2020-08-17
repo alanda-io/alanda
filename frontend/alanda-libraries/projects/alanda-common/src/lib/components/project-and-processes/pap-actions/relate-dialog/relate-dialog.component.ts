@@ -37,7 +37,9 @@ export class RelateDialogComponent implements OnInit {
     this.serverOptions.sortOptions = sortOptions;
     this.serverOptions.filterOptions = {};
     if (this.config.data.filterOptions) {
-      this.serverOptions.filterOptions = this.config.data.filterOptions;
+      for (const key of Object.keys(this.config.data.filterOptions)) {
+        this.serverOptions.filterOptions[key] = this.config.data.filterOptions[key];
+      }
     }
     if (this.config.data.types) {
       this.serverOptions.filterOptions['project.pmcProjectType.idName.raw'] = this.config.data.types;
