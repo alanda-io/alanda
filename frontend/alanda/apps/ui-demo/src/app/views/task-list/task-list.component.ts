@@ -141,7 +141,7 @@ export class AlandaTaskListComponent {
     this.layouts$ = this.user$.pipe(
       map((user) => {
         return this.taskLayouts.filter((layout) =>
-          Authorizations.filterTaskListLayouts(layout, user),
+          Authorizations.hasPermissionForLayout(layout, user),
         );
       }),
     );

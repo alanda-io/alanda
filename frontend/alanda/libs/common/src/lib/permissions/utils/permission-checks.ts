@@ -238,10 +238,11 @@ export class Authorizations {
     return true;
   }
 
-  static filterTaskListLayouts(
+  static hasPermissionForLayout(
     layout: AlandaTableLayout,
     user: AlandaUser,
   ): boolean {
+    // Ignore if user is Admin or layout has name default
     if (
       Authorizations.hasRole('Admin', user) ||
       layout.name.toLowerCase() === 'default'
