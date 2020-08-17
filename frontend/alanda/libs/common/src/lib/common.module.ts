@@ -64,7 +64,6 @@ import { AlandaProjectApiService } from './api/projectApi.service';
 import { AlandaPropertyApiService } from './api/propertyApi.service';
 import { AlandaRoleApiService } from './api/roleApi.service';
 import { AlandaExceptionHandlingService } from './services/exceptionHandling.service';
-import { AlandaMonitorAPIService } from './services/monitorApi.service';
 import { AlandaAttachmentsComponent } from './components/attachments/attachments.component';
 import { AlandaProjectsControllerComponent } from './components/controller/projects-controller/projects-controller.component';
 import { AlandaProjectPropertiesService } from './services/project-properties.service';
@@ -259,7 +258,6 @@ export class AlandaCommonModule {
         AlandaPropertyApiService,
         AlandaRoleApiService,
         AlandaExceptionHandlingService,
-        AlandaMonitorAPIService,
         AlandaProjectPropertiesService,
         AlandaProcessConfigModalService,
         AlandaProjectAndProcessesService,
