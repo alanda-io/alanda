@@ -1,8 +1,8 @@
 <div class="p-grid">
   <div class="p-col-3">
     <p-dropdown
-      [hidden]="validLayouts.length <= 1"
-      [options]="validLayouts"
+      [hidden]="layouts.length <= 1"
+      [options]="layouts"
       [(ngModel)]="selectedLayout"
       optionLabel="displayName"
       (onChange)="onChangeLayout()"

@@ -6,6 +6,7 @@ import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaProject } from '../../api/models/project';
+import { getTableDefaultLayout } from '../../utils/helper-functions';
 
 const defaultLayoutInit = 0;
 
@@ -55,12 +56,7 @@ export class AlandaProjectTableComponent implements OnInit {
 
   ngOnInit() {
     if (this.defaultLayout === defaultLayoutInit) {
-      const layoutAllIndex = this.layouts.findIndex(
-        (layout) => layout.name.toLowerCase() === 'all',
-      );
-      if (layoutAllIndex !== -1) {
-        this.defaultLayout = layoutAllIndex;
-      }
+      this.defaultLayout = getTableDefaultLayout(this.layouts);
     }
 
     this.selectedLayout = this.layouts[this.defaultLayout];

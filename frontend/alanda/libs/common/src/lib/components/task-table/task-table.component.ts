@@ -1,28 +1,45 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
-import { AlandaMonitorAPIService } from '../../services/monitorApi.service';
 import { AlandaUser } from '../../api/models/user';
 import { AlandaTaskApiService } from '../../api/taskApi.service';
-import { AlandaUserApiService } from '../../api/userApi.service';
 import { Router } from '@angular/router';
 import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaTask } from '../../api/models/task';
+import { RxState } from '@rx-angular/state';
+import { isObservable, Observable } from 'rxjs';
+import { getTableDefaultLayout } from '../../utils/helper-functions';
+
+const defaultLayoutInit = 0;
+
+interface AlandaTaskTableState {
+  user: AlandaUser
+}
 
 @Component({
   selector: 'alanda-task-table',
   templateUrl: './task-table.component.html',
   styleUrls: ['./task-table.component.scss'],
+  providers: [RxState],
 })
 export class AlandaTaskTableComponent implements OnInit {
-  validLayouts: AlandaTableLayout[] = [];
+  @Input() defaultLayout = defaultLayoutInit;
+  @Input() layouts: AlandaTableLayout[];
+  @Input()
+  set user(user: Observable<AlandaUser> | AlandaUser) {
+    if (isObservable(user)) {
+      this.state.connect('user', user);
+    } else {
+      this.state.set({ user });
+    }
+  }
+
   tasksData: AlandaListResult<AlandaTask>;
   selectedLayout: AlandaTableLayout;
   loading = true;
   groupTasks = false;
-  currentUser: AlandaUser;
   serverOptions: ServerOptions;
   menuItems: MenuItem[];
   showDelegateDialog = false;
@@ -33,10 +50,9 @@ export class AlandaTaskTableComponent implements OnInit {
 
   constructor(
     private readonly taskService: AlandaTaskApiService,
-    private readonly monitorApiService: AlandaMonitorAPIService,
-    private readonly userService: AlandaUserApiService,
     public messageService: MessageService,
     private readonly router: Router,
+    private state: RxState<AlandaTaskTableState>
   ) {
     this.tasksData = {
       total: 0,
@@ -64,27 +80,12 @@ export class AlandaTaskTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loading = true;
-    this.userService.getCurrentUser().subscribe(
-      (user) => {
-        this.currentUser = user;
-        this.validLayouts = this.monitorApiService.getTaskListLayouts(user);
-        this.selectedLayout = this.validLayouts.filter(
-          (layout) => layout.name === 'default',
-        )[0];
-        this.validLayouts.sort((a, b) =>
-          a.displayName.localeCompare(b.displayName),
-        );
-      },
-      (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Get Current User',
-          detail: error.message,
-        });
-        this.loading = false;
-      },
-    );
+    if (this.defaultLayout === defaultLayoutInit) {
+      this.defaultLayout = getTableDefaultLayout(this.layouts);
+    }
+
+    this.selectedLayout = this.layouts[this.defaultLayout];
+    this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
   }
 
   loadTasks(serverOptions: ServerOptions): void {
@@ -94,7 +95,7 @@ export class AlandaTaskTableComponent implements OnInit {
         this.tasksData = res;
         for (const task of this.tasksData.results) {
           task.claimLabel = 'Claim';
-          if (this.currentUser.guid === +task.task.assignee_id) {
+          if (this.state.get().user.guid === +task.task.assignee_id) {
             task.claimLabel = 'Unclaim';
           }
         }
@@ -167,7 +168,7 @@ export class AlandaTaskTableComponent implements OnInit {
 
   claimAction(task): void {
     this.loading = true;
-    if (this.currentUser.guid === +task.task.assignee_id) {
+    if (this.state.get().user.guid === +task.task.assignee_id) {
       this.taskService.unclaim(task.task.task_id).subscribe(
         (res) => {
           this.loading = false;
@@ -198,13 +199,13 @@ export class AlandaTaskTableComponent implements OnInit {
       );
     } else {
       this.taskService
-        .assign(task.task.task_id, this.currentUser.guid)
+        .assign(task.task.task_id, this.state.get().user.guid)
         .subscribe(
           (res) => {
             this.loading = false;
-            task.task.assignee_id = String(this.currentUser.guid);
+            task.task.assignee_id = String(this.state.get().user.guid);
             task.task.assignee =
-              this.currentUser.firstName + ' ' + this.currentUser.surname;
+              this.state.get().user.firstName + ' ' + this.state.get().user.surname;
             task.claimLabel = 'Unclaim';
             this.messageService.add({
               severity: 'success',
@@ -264,7 +265,7 @@ export class AlandaTaskTableComponent implements OnInit {
             this.loading = false;
             if (
               this.groupTasks ||
-              selectedUser.guid === String(this.currentUser.guid)
+              selectedUser.guid === String(this.state.get().user.guid)
             ) {
               this.delegatedTaskData.task.assignee_id = +selectedUser.guid;
               this.delegatedTaskData.task.assignee = selectedUser.displayName;

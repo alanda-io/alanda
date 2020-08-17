@@ -1,68 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AlandaUser } from '../api/models/user';
 import { Authorizations } from '../permissions/utils/permission-checks';
+import { AlandaTableLayout } from '../api/models/tableLayout';
 
 @Injectable()
 export class AlandaMonitorAPIService {
   constructor() {}
-
-  projectMonitorColumnDefs = {
-    allColumnDefs: [
-      {
-        displayName: 'Project ID',
-        name: 'Project ID',
-        field: 'project.projectId',
-      },
-      { displayName: 'Title', name: 'Title', field: 'project.title' },
-      {
-        displayName: 'Project Type',
-        name: 'Project Type',
-        field: 'project.pmcProjectType.name',
-      },
-      { displayName: 'Sub Type', name: 'Sub Type', field: 'project.subtype' },
-      {
-        displayName: 'RefObjectId',
-        name: 'RefObjectId',
-        field: 'project.refObjectIdName',
-      },
-      {
-        displayName: 'Start Date',
-        name: 'startDate',
-        field: 'project.createDate',
-        width: 90,
-      },
-      {
-        displayName: 'Due Date',
-        name: 'Due Date',
-        field: 'project.dueDate',
-        width: 90,
-      },
-      {
-        displayName: 'Prio',
-        name: 'Prio',
-        field: 'project.priority',
-        width: '40',
-        template:
-          "{'ng-prio': true, 'ng-prio-low': project.priority == 0, 'ng-prio-medium': project.priority == 1, 'ng-prio-high': project.priority == 2}",
-      },
-      { displayName: 'Tag', name: 'Tag', field: 'project.tag' },
-      {
-        displayName: 'Status',
-        name: 'Status',
-        field: 'project.status',
-        width: 110,
-      },
-    ],
-  };
-
-  projectMonitorLayouts = {
-    all: {
-      name: 'all',
-      displayName: 'Alle',
-      filterOptions: {},
-      columnDefs: this.projectMonitorColumnDefs.allColumnDefs,
-    },
-  };
 
   clickableTaskCell = {
     displayName: 'Task Name',
@@ -173,11 +116,7 @@ export class AlandaMonitorAPIService {
     },
   };
 
-  public getProjectMonitorLayouts(): any {
-    return this.projectMonitorLayouts;
-  }
-
-  public getTaskListLayouts(user: AlandaUser): any {
+  public getTaskListLayouts(user: AlandaUser): AlandaTableLayout[] {
     let layouts: any[] = Object.keys(this.taskLayouts).map(
       (key) => this.taskLayouts[key],
     );
