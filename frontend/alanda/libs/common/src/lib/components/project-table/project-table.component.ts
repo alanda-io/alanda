@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Inject } from '@angular/core';
 import { LazyLoadEvent, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
@@ -7,6 +7,7 @@ import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaProject } from '../../api/models/project';
 import { getTableDefaultLayout } from '../../utils/helper-functions';
+import { AlandaPagesizeSelectComponent } from '../pagesize-select/pagesize-select.component';
 
 const defaultLayoutInit = 0;
 
@@ -19,6 +20,8 @@ export class AlandaProjectTableComponent implements OnInit {
   @Input() defaultLayout = defaultLayoutInit;
   @Input() layouts: AlandaTableLayout[];
   @Input() tableLayout = 'auto';
+  @Input() dateFormat = 'dd.MM.yyyy';
+  @Input() editablePageSize = false;
 
   projectsData: AlandaListResult<AlandaProject>;
   selectedLayout: AlandaTableLayout;
@@ -27,6 +30,7 @@ export class AlandaProjectTableComponent implements OnInit {
   menuItems: MenuItem[];
 
   @ViewChild('tt') turboTable: Table;
+  @ViewChild('pageSizeSelect') pageSizeSelect: AlandaPagesizeSelectComponent;
 
   constructor(private readonly projectService: AlandaProjectApiService) {
     this.projectsData = {
@@ -120,5 +124,18 @@ export class AlandaProjectTableComponent implements OnInit {
 
   openProject(projectId: string) {
     return '/projectdetails/' + projectId;
+  }
+
+  changePageSize(pageSize: number) {
+    const oldPageSize = this.serverOptions.pageSize;
+    const oldPageNumber = this.serverOptions.pageNumber;
+
+    // first entry should be visible after changing rows per page
+    const firstEntry = oldPageSize * (oldPageNumber - 1) + 1;
+
+    this.serverOptions.pageSize = pageSize;
+    this.serverOptions.pageNumber = Math.ceil(firstEntry / pageSize);
+
+    this.loadProjects(this.serverOptions);
   }
 }

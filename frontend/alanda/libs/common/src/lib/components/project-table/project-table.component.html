@@ -75,11 +75,28 @@
           }}</a>
         </ng-template>
         <ng-template #default>
-          {{ project | nestedObject: col.field }}
+          <ng-container *ngIf="col.type && col.type === 'date'">{{
+            project | nestedObject: col.field | date: dateFormat
+          }}</ng-container>
+          <ng-container *ngIf="!col || col.type !== 'date'">{{
+            project | nestedObject: col.field
+          }}</ng-container>
         </ng-template>
       </td>
     </tr>
   </ng-template>
+  <ng-template pTemplate="paginatorright">
+    <span *ngIf="editablePageSize" style="margin-right: 10px;">
+      Rows per page:
+      <alanda-pagesize-select
+        #pageSizeSelect
+        (onChange)="changePageSize($event)"
+        [maxPageSize]="projectsData.total"
+      ></alanda-pagesize-select>
+    </span>
+    <span *ngIf="projectsData.total">Total: {{ projectsData.total }}</span>
+  </ng-template>
+
   <ng-template pTemplate="paginatorright">
     <span *ngIf="projectsData.total"> Total: {{ projectsData.total }} </span>
   </ng-template>

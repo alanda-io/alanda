@@ -11,6 +11,7 @@ import { AlandaTaskTableComponent } from './task-table.component';
 import { DialogModule } from 'primeng/dialog';
 import { FormsModule } from '@angular/forms';
 import { MonitorValuesPipeModule } from '../../pipes/nested-object.pipe';
+import { FilterPipeModule } from '../../pipes/filter.pipe';
 
 @NgModule({
   declarations: [AlandaTaskTableComponent],
@@ -26,6 +27,7 @@ import { MonitorValuesPipeModule } from '../../pipes/nested-object.pipe';
     DialogModule,
     FormsModule,
     MonitorValuesPipeModule,
+    FilterPipeModule,
   ],
   exports: [AlandaTaskTableComponent],
 })

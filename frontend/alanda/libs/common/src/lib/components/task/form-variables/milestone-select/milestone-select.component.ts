@@ -13,6 +13,8 @@ export class AlandaSelectMilestoneComponent implements OnInit {
   @Input() project: AlandaProject;
   @Input() displayName: string;
   @Input() msName: string;
+  @Input() dateFormat = 'dd.mm.yyyy';
+  @Input() disabled: boolean;
   @Input() permission: string;
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
@@ -38,10 +40,10 @@ export class AlandaSelectMilestoneComponent implements OnInit {
       .getByProjectAndMsIdName(this.project.projectId, this.msName)
       .subscribe((ms) => {
         if (ms?.fc) {
-          this.milestoneForm.get('fc').setValue(ms.fc);
+          this.milestoneForm.get('fc').setValue(new Date(ms.fc));
         }
         if (ms?.act) {
-          this.milestoneForm.get('act').setValue(ms.act);
+          this.milestoneForm.get('act').setValue(new Date(ms.act));
         }
       });
   }

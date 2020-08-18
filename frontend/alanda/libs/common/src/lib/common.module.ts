@@ -31,7 +31,6 @@ import { AttachmentsListComponent } from './components/attachments/attachments-l
 import { AttachmentsTreeComponent } from './components/attachments/attachments-tree/attachments-tree.component';
 import { MonitorValuesPipeModule } from './pipes/nested-object.pipe';
 import { TaskTableModule } from './components/task-table/task-table.module';
-import { FilterPipe } from './pipes/filter.pipe';
 import { TagFilterPipe } from './pipes/tag-filter.pipe';
 import { AlandaProjectHeaderComponent } from './components/project-header/project-header.component';
 import { ProjectPropertiesDirective } from './components/controller/directives/project.properties.directive';
@@ -101,6 +100,8 @@ import { AlandaVarDatepickerComponent } from './form/components/var-datepicker/v
 import { HeaderModule } from './components/header/header.module';
 import { AlandaTitleService } from './services/title.service';
 import { ProjectTableModule } from './components/project-table/project-table.module';
+import { FilterPipeModule } from './pipes/filter.pipe';
+import { PagesizeSelectModule } from './components/pagesize-select/pagesize-select.module';
 
 @NgModule({
   imports: [
@@ -148,13 +149,14 @@ import { ProjectTableModule } from './components/project-table/project-table.mod
     ProjectTableModule,
     MonitorValuesPipeModule,
     TaskTableModule,
+    PagesizeSelectModule,
+    FilterPipeModule,
   ],
   declarations: [
     AlandaUserManagementComponent,
     AttachmentsListComponent,
     AttachmentsTreeComponent,
     AlandaAttachmentsComponent,
-    FilterPipe,
     TagFilterPipe,
     AlandaGroupManagementComponent,
     AlandaRoleManagementComponent,
@@ -199,7 +201,6 @@ import { ProjectTableModule } from './components/project-table/project-table.mod
     AttachmentsTreeComponent,
     MonitorValuesPipeModule,
     TaskTableModule,
-    FilterPipe,
     TagFilterPipe,
     AlandaUserManagementComponent,
     AlandaRoleManagementComponent,

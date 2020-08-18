@@ -39,9 +39,15 @@ public abstract class AbstractLocalMailService implements MailService, OnChangeL
       mailSender.setPort(Integer.parseInt(configService.getProperty("mail.port")));
       mailSender.setUsername(configService.getProperty("mail.username"));
       mailSender.setPassword(configService.getProperty("mail.password"));
-      
+
       // don't error if one of the email recipients is invalid
       Properties prop = new Properties();
+      if (configService.getProperty("mail.smtp.auth") != null) {
+        prop.setProperty("mail.smtp.auth", configService.getProperty("mail.smtp.auth"));
+      }
+      if (configService.getProperty("mail.smtp.starttls.enable") != null) {
+        prop.setProperty("mail.smtp.starttls.enable", configService.getProperty("mail.smtp.starttls.enable"));
+      }
       prop.setProperty("mail.smtp.sendpartial", "true");
       mailSender.setJavaMailProperties(prop);
       

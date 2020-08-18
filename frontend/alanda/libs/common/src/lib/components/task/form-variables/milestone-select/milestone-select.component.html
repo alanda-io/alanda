@@ -19,12 +19,12 @@
         </div>
         <div [ngClass]="[showACT ? 'p-col-10' : 'p-col-12']">
           <p-calendar
-            inputId="fc"
             formControlName="fc"
             placeholder="Select FC"
             (onSelect)="onChange()"
             [showIcon]="true"
-            dateFormat="yy-mm-dd"
+            [disabled]="disabled"
+            [dateFormat]="dateFormat"
           ></p-calendar>
         </div>
       </div>
@@ -43,7 +43,8 @@
             placeholder="Select ACT"
             (onSelect)="onChange()"
             [showIcon]="true"
-            dateFormat="yy-mm-dd"
+            [disabled]="disabled"
+            [dateFormat]="dateFormat"
           ></p-calendar>
         </div>
       </div>
