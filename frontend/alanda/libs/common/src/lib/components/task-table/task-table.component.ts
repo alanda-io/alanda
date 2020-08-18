@@ -27,6 +27,7 @@ interface AlandaTaskTableState {
 export class AlandaTaskTableComponent implements OnInit {
   @Input() defaultLayout = defaultLayoutInit;
   @Input() layouts: AlandaTableLayout[];
+  @Input() tableLayout = 'auto';
   @Input()
   set user(user: Observable<AlandaUser> | AlandaUser) {
     if (isObservable(user)) {

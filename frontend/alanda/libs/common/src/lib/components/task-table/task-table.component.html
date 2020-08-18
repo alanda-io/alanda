@@ -51,7 +51,7 @@
   [loading]="loading"
   [resizableColumns]="true"
   [responsive]="true"
-  [tableStyle]="{ 'table-layout': 'fixed' }"
+  [tableStyle]="{ 'table-layout': this.tableLayout }"
 >
   <ng-template pTemplate="header" let-columns>
     <tr>

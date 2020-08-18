@@ -18,6 +18,7 @@ const defaultLayoutInit = 0;
 export class AlandaProjectTableComponent implements OnInit {
   @Input() defaultLayout = defaultLayoutInit;
   @Input() layouts: AlandaTableLayout[];
+  @Input() tableLayout = 'auto';
 
   projectsData: AlandaListResult<AlandaProject>;
   selectedLayout: AlandaTableLayout;
