@@ -23,6 +23,7 @@ export class AlandaTaskListComponent {
       displayName: 'Task Name',
       name: 'Task Name',
       field: 'task.task_name',
+      width: 220,
     };
 
     const taskColumnDefs = {
@@ -31,13 +32,11 @@ export class AlandaTaskListComponent {
           displayName: 'Project Owner',
           name: 'project.additionalInfo.project_details_tenant',
           field: 'project.additionalInfo.project_details_tenant',
-          width: 200,
         },
         clickableTaskCell,
         {
           displayName: 'Type',
           name: 'Type',
-          width: 50,
           field: 'task.task_type',
         },
         { displayName: 'Object', name: 'Object', field: 'task.object_name' },
@@ -56,7 +55,6 @@ export class AlandaTaskListComponent {
           displayName: 'Prio',
           name: 'Priority',
           field: 'project.priority',
-          width: 70,
           template:
             "{'ng-prio': project != null, 'ng-prio-low': project != null && project.priority == 0, 'ng-prio-medium': project != null && project.priority == 1, 'ng-prio-high': project != null && project.priority == 2}",
         },
@@ -73,7 +71,6 @@ export class AlandaTaskListComponent {
           displayName: 'Created',
           name: 'Created',
           field: 'task.created',
-          width: 90,
         },
         { displayName: 'Due', name: 'Due', field: 'task.due', width: 90 },
       ],
@@ -82,7 +79,6 @@ export class AlandaTaskListComponent {
         {
           displayName: 'Type',
           name: 'Type',
-          width: 80,
           field: 'task.task_type',
         },
         { displayName: 'Object', name: 'Object', field: 'task.object_name' },
@@ -101,7 +97,6 @@ export class AlandaTaskListComponent {
           displayName: 'Prio',
           name: 'Priority',
           field: 'project.priority',
-          width: 70,
           template:
             "{'ng-prio': project != null, 'ng-prio-low': project != null && project.priority == 0, 'ng-prio-medium': project != null && project.priority == 1, 'ng-prio-high': project != null && project.priority == 2}",
         },
@@ -118,7 +113,6 @@ export class AlandaTaskListComponent {
           displayName: 'Created',
           name: 'Created',
           field: 'task.created',
-          width: 100,
         },
         { displayName: 'Due', name: 'Due', field: 'task.due', width: 90 },
         {
@@ -126,7 +120,6 @@ export class AlandaTaskListComponent {
           name: 'Candidate Group',
           field: 'task.candidateGroups',
           filter: '!Administrator',
-          width: 180,
         },
       ],
     };

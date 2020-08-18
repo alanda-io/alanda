@@ -15,6 +15,7 @@ export class AlandaProjectMonitorComponent {
         displayName: 'Project ID',
         name: 'Project ID',
         field: 'project.projectId',
+        width: 200,
       },
       { displayName: 'Title', name: 'Title', field: 'project.title' },
       {
@@ -32,13 +33,11 @@ export class AlandaProjectMonitorComponent {
         displayName: 'Start Date',
         name: 'startDate',
         field: 'project.createDate',
-        width: 90,
       },
       {
         displayName: 'Due Date',
         name: 'Due Date',
         field: 'project.dueDate',
-        width: 90,
       },
       {
         displayName: 'Prio',
@@ -53,7 +52,6 @@ export class AlandaProjectMonitorComponent {
         displayName: 'Status',
         name: 'Status',
         field: 'project.status',
-        width: 110,
       },
     ];
 
