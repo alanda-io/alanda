@@ -90,7 +90,7 @@
       Rows per page:
       <alanda-pagesize-select
         #pageSizeSelect
-        (onChange)="changePageSize($event)"
+        (valueChange)="changePageSize($event)"
         [maxPageSize]="projectsData.total"
       ></alanda-pagesize-select>
     </span>

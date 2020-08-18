@@ -44,7 +44,7 @@ export class AlandaPagesizeSelectComponent
   private unsubscribe$ = new Subject<void>();
   selectedPageSize = new Subject<number>();
 
-  @Output() onChange = new EventEmitter<number>();
+  @Output() valueChange = new EventEmitter<number>();
 
   @Input() pageSizes: number[] = AlandaPagesizeSelectComponent.defaultPageSizes;
   @Input() maxPageSize: number;
@@ -57,7 +57,7 @@ export class AlandaPagesizeSelectComponent
   ngOnInit(): void {
     this.selectedPageSize
       .pipe(takeUntil(this.unsubscribe$), debounceTime(750))
-      .subscribe((pageSize) => this.onChange.emit(pageSize));
+      .subscribe((pageSize) => this.valueChange.emit(pageSize));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
