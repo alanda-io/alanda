@@ -6,6 +6,5 @@ import { ProjectTableModule } from '@alanda/common';
 @NgModule({
   declarations: [AlandaProjectMonitorComponent],
   imports: [ProjectTableModule, PanelModule],
-  providers: [],
 })
 export class ProjectMonitorModule {}

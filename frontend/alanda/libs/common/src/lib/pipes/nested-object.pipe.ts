@@ -6,13 +6,12 @@ export class MonitorValuesPipe implements PipeTransform {
     if (path === undefined) {
       return '';
     }
-    const ref = path.split('.').reduce((a, v) => {
-      if (a[v] === null) {
+    return path.split('.').reduce((a, v) => {
+      if (typeof a !== 'object' || a[v] === null) {
         return '';
       }
       return (a = a[v]), a;
     }, obj);
-    return ref;
   }
 }
 

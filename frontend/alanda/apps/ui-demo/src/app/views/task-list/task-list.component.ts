@@ -27,6 +27,12 @@ export class AlandaTaskListComponent {
 
     const taskColumnDefs = {
       defaultColumnDefs: [
+        {
+          displayName: 'Project Owner',
+          name: 'project.additionalInfo.project_details_tenant',
+          field: 'project.additionalInfo.project_details_tenant',
+          width: 200,
+        },
         clickableTaskCell,
         {
           displayName: 'Type',
