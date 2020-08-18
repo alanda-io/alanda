@@ -15,7 +15,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Dropdown } from 'primeng/dropdown';
 
 @Component({
-  selector: 'alanda-pagesize-select',
+  selector: 'alanda-page-size-select',
   template: ` <p-dropdown
     #dropdown
     [placeholder]="defaultPageSize.toString()"
@@ -23,6 +23,7 @@ import { Dropdown } from 'primeng/dropdown';
     (onChange)="selectedPageSize.next($event.value)"
     showTransitionOptions="0ms"
     hideTransitionOptions="0ms"
+    appendTo="body"
   ></p-dropdown>`,
   styles: [
     `
@@ -37,7 +38,7 @@ import { Dropdown } from 'primeng/dropdown';
     `,
   ],
 })
-export class AlandaPagesizeSelectComponent
+export class AlandaPageSizeSelectComponent
   implements OnInit, OnChanges, OnDestroy {
   static defaultPageSizes = [15, 75, 250, 1000];
 
@@ -46,7 +47,7 @@ export class AlandaPagesizeSelectComponent
 
   @Output() valueChange = new EventEmitter<number>();
 
-  @Input() pageSizes: number[] = AlandaPagesizeSelectComponent.defaultPageSizes;
+  @Input() pageSizes: number[] = AlandaPageSizeSelectComponent.defaultPageSizes;
   @Input() maxPageSize: number;
   @Input() maxAllowedPageSize = 1000;
   @Input() defaultPageSize = 15;

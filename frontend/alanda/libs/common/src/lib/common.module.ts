@@ -101,7 +101,7 @@ import { HeaderModule } from './components/header/header.module';
 import { AlandaTitleService } from './services/title.service';
 import { ProjectTableModule } from './components/project-table/project-table.module';
 import { FilterPipeModule } from './pipes/filter.pipe';
-import { PagesizeSelectModule } from './components/pagesize-select/pagesize-select.module';
+import { PageSizeSelectModule } from './components/page-size-select/page-size-select.module';
 
 @NgModule({
   imports: [
@@ -149,7 +149,7 @@ import { PagesizeSelectModule } from './components/pagesize-select/pagesize-sele
     ProjectTableModule,
     MonitorValuesPipeModule,
     TaskTableModule,
-    PagesizeSelectModule,
+    PageSizeSelectModule,
     FilterPipeModule,
   ],
   declarations: [
@@ -201,6 +201,8 @@ import { PagesizeSelectModule } from './components/pagesize-select/pagesize-sele
     AttachmentsTreeComponent,
     MonitorValuesPipeModule,
     TaskTableModule,
+    PageSizeSelectModule,
+    FilterPipeModule,
     TagFilterPipe,
     AlandaUserManagementComponent,
     AlandaRoleManagementComponent,

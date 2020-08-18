@@ -8,7 +8,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-import { PagesizeSelectModule } from '../pagesize-select/pagesize-select.module';
+import { PageSizeSelectModule } from '../page-size-select/page-size-select.module';
 
 @NgModule({
   imports: [
@@ -20,7 +20,7 @@ import { PagesizeSelectModule } from '../pagesize-select/pagesize-select.module'
     InputTextModule,
     ButtonModule,
     FormsModule,
-    PagesizeSelectModule,
+    PageSizeSelectModule,
   ],
   declarations: [AlandaProjectTableComponent],
   exports: [AlandaProjectTableComponent],

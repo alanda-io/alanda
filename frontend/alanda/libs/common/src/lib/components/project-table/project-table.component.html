@@ -27,7 +27,7 @@
   [value]="projectsData.results"
   [columns]="selectedLayout.columnDefs"
   [paginator]="true"
-  [rows]="15"
+  [rows]="serverOptions.pageSize"
   [lazy]="true"
   [totalRecords]="projectsData.total"
   (onLazyLoad)="loadProjectsLazy($event)"
@@ -88,16 +88,11 @@
   <ng-template pTemplate="paginatorright">
     <span *ngIf="editablePageSize" style="margin-right: 10px;">
       Rows per page:
-      <alanda-pagesize-select
-        #pageSizeSelect
+      <alanda-page-size-select
         (valueChange)="changePageSize($event)"
         [maxPageSize]="projectsData.total"
-      ></alanda-pagesize-select>
+      ></alanda-page-size-select>
     </span>
     <span *ngIf="projectsData.total">Total: {{ projectsData.total }}</span>
-  </ng-template>
-
-  <ng-template pTemplate="paginatorright">
-    <span *ngIf="projectsData.total"> Total: {{ projectsData.total }} </span>
   </ng-template>
 </p-table>

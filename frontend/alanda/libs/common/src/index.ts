@@ -115,3 +115,4 @@ export * from './lib/components/project-and-processes/pap-actions/pap-actions.co
 export * from './lib/components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
 export { AlandaHeaderComponent } from './lib/components/header/header.component';
 export { HeaderModule } from './lib/components/header/header.module';
+export { PageSizeSelectModule } from './lib/components/page-size-select/page-size-select.module';

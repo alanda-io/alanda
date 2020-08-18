@@ -7,7 +7,6 @@ import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaProject } from '../../api/models/project';
 import { getTableDefaultLayout } from '../../utils/helper-functions';
-import { AlandaPagesizeSelectComponent } from '../pagesize-select/pagesize-select.component';
 
 const defaultLayoutInit = 0;
 
@@ -30,7 +29,6 @@ export class AlandaProjectTableComponent implements OnInit {
   menuItems: MenuItem[];
 
   @ViewChild('tt') turboTable: Table;
-  @ViewChild('pageSizeSelect') pageSizeSelect: AlandaPagesizeSelectComponent;
 
   constructor(private readonly projectService: AlandaProjectApiService) {
     this.projectsData = {
