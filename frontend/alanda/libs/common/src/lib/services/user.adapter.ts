@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AlandaUserApiService, AlandaUser } from '@alanda/common';
+import { AlandaUser } from '../api/models/user';
+import { AlandaUserApiService } from '../api/userApi.service';
 import { AppStateService } from './app-state.service';
 import { ActionService, Action } from './actions.service';
 import { Observable } from 'rxjs';
