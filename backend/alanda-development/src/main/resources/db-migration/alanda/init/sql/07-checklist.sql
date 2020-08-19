@@ -7,18 +7,20 @@ CREATE TABLE AL_CHECKLIST_TEMPLATE
     createuser   NUMBER(38, 0),
     lastupdate   DATE,
     updateuser   NUMBER(38, 0),
+    version   NUMBER(38, 0),
     PRIMARY KEY (guid)
 );
 
 CREATE TABLE AL_CHECKLIST_TEMPLATE_CHECKLIST
 (
     guid                NUMBER(38)    NOT NULL,
-    template NUMBER(38)    NOT NULL REFERENCES AL_CHECKLIST_TEMPLATE,
+    template            NUMBER(38)    NOT NULL REFERENCES AL_CHECKLIST_TEMPLATE,
     user_task_def_key   VARCHAR2(100) NOT NULL,
     created             DATE,
     createuser          NUMBER(38, 0),
     lastupdate          DATE,
     updateuser          NUMBER(38, 0),
+    version   NUMBER(38, 0),
     PRIMARY KEY (guid)
 );
 
@@ -31,6 +33,7 @@ CREATE TABLE AL_CHECKLIST
     createuser                    NUMBER(38, 0),
     lastupdate                    DATE,
     updateuser                    NUMBER(38, 0),
+    version   NUMBER(38, 0),
     PRIMARY KEY (guid)
 );
 
@@ -38,7 +41,7 @@ CREATE TABLE AL_CHECKLIST_ITEM_DEFINITION
 (
     guid                           NUMBER(38)    NOT NULL,
     template                       NUMBER(38) REFERENCES AL_CHECKLIST_TEMPLATE,
-    checklist NUMBER(38) REFERENCES AL_CHECKLIST,
+    checklist                      NUMBER(38) REFERENCES AL_CHECKLIST,
     key                            VARCHAR2(100) NOT NULL,
     display_text                   VARCHAR2(100) NOT NULL,
     required                       NUMBER(1, 0)  NOT NULL
@@ -49,6 +52,7 @@ CREATE TABLE AL_CHECKLIST_ITEM_DEFINITION
     createuser                     NUMBER(38, 0),
     lastupdate                     DATE,
     updateuser                     NUMBER(38, 0),
+    version   NUMBER(38, 0),
     PRIMARY KEY (guid),
     CONSTRAINT al_checklist_only_template_or_taskinst
         CHECK ((template IS NOT NULL OR checklist IS NOT NULL)
@@ -67,5 +71,6 @@ CREATE TABLE AL_CHECKLIST_ITEM
     createuser NUMBER(38, 0),
     lastupdate DATE,
     updateuser NUMBER(38, 0),
+    version   NUMBER(38, 0),
     PRIMARY KEY (guid)
 );

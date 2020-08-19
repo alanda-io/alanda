@@ -12,6 +12,7 @@ public class CheckListTemplateTaskAssociation extends AbstractAuditEntity {
     private String userTaskDefKey;
 
     @ManyToOne
+    @JoinColumn(name = "template")
     private CheckListTemplate checkListTemplate;
 
     @OneToMany(mappedBy = "templateTaskAssociation")

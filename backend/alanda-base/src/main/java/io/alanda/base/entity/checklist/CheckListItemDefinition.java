@@ -12,7 +12,7 @@ public class CheckListItemDefinition extends AbstractAuditEntity {
     private CheckListTemplate checkListTemplate;
 
     @ManyToOne
-    @JoinColumn(name = "USER_TASK_INSTANCE_ASSOCIATION")
+    @JoinColumn(name = "checklist")
     private CheckList checkList;
 
     @Column(name = "KEY", nullable = false)

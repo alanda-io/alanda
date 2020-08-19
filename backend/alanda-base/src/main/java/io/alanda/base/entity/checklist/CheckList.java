@@ -15,7 +15,7 @@ public class CheckList extends AbstractAuditEntity {
     @Column(name = "USER_TASK")
     private String userTaskInstance;
 
-    @OneToMany(mappedBy = "userTaskInstance")
+    @OneToMany(mappedBy = "checkList")
     private List<CheckListItemDefinition> itemDefinitions;
 
     public CheckListTemplateTaskAssociation getTemplateTaskAssociation() {

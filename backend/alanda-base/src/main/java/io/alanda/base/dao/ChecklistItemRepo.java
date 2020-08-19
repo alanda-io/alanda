@@ -6,7 +6,7 @@ import org.springframework.data.repository.cdi.Eager;
 
 @Eager
 public interface ChecklistItemRepo extends PagingAndSortingRepository<CheckListItem, Long> {
-    Iterable<CheckListItem> findCheckListItemsByDefinitionGuids(Iterable<Long> itemDefinitionGuid);
+    Iterable<CheckListItem> findCheckListItemsByDefinitionGuid(Iterable<Long> itemDefinitionGuid);
 
     CheckListItem findCheckListItemByDefinitionGuid(Long itemDefinitionGuid);
 }

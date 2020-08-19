@@ -15,12 +15,13 @@ public class CheckListTemplate extends AbstractAuditEntity {
     @Enumerated(EnumType.STRING)
     private CheckListItemBackend itemBackend;
 
-    @OneToMany
-    @JoinColumn(name = "TEMPLATE")
+    //@OneToMany(fetch = FetchType.EAGER)
+    //@JoinColumn(name = "TEMPLATE")
+    @OneToMany(mappedBy = "checkListTemplate", fetch = FetchType.EAGER)
     private List<CheckListItemDefinition> itemDefinitions;
 
-    @OneToMany
-    @JoinColumn(name = "TEMPLATE")
+    @OneToMany(mappedBy = "checkListTemplate", fetch = FetchType.EAGER)
+    //@JoinColumn(name = "TEMPLATE")
     private List<CheckListTemplateTaskAssociation> taskAssociations;
 
     public String getName() {

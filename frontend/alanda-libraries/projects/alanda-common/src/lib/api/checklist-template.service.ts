@@ -1,14 +1,21 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import { ExceptionHandlingService } from '../services/exception-handling.service';
 import { HttpClient } from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {CheckListItemBackend, CheckListItemDefinition, CheckListTemplate} from '../models/checklist.model';
+import {APP_CONFIG, AppSettings} from '../models/appSettings';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChecklistTemplateApiService extends ExceptionHandlingService {
-  private checkListApiPath = '/app/checklist';
+
+  private endpointUrl: string;
+
+  constructor(@Inject(APP_CONFIG) config: AppSettings, private http: HttpClient) {
+    super();
+    this.endpointUrl = config.API_ENDPOINT + '/checklist';
+  }
 
   private clTemplate: CheckListTemplate[] = [
     {
@@ -53,28 +60,24 @@ export class ChecklistTemplateApiService extends ExceptionHandlingService {
     }
   ];
 
-  constructor(private http: HttpClient) {
-    super();
-  }
-
   getAllCheckListTemplates(): Observable<CheckListTemplate[]> {
-    return of(this.clTemplate);
-    //return this.http.get<CheckListTemplate[]>(`${this.checkListApiPath}/templates`);
+    //return of(this.clTemplate);
+    return this.http.get<CheckListTemplate[]>(`${this.endpointUrl}/templates`);
   }
 
   getCheckListTemplate(templateId: number): Observable<CheckListTemplate> {
-    return this.http.get<CheckListTemplate>(`${this.checkListApiPath}/template/${templateId}`);
+    return this.http.get<CheckListTemplate>(`${this.endpointUrl}/template/${templateId}`);
   }
 
   createCheckListTemplate(checkListTemplate: CheckListTemplate): Observable<void> {
-    return this.http.post<void>(`${this.checkListApiPath}/template`, checkListTemplate);
+    return this.http.post<void>(`${this.endpointUrl}/template`, checkListTemplate);
   }
 
   updateCheckListTemplate(checkListTemplate: CheckListTemplate): Observable<void> {
-    return this.http.put<void>(`${this.checkListApiPath}/template/${checkListTemplate.id}`, checkListTemplate);
+    return this.http.put<void>(`${this.endpointUrl}/template/${checkListTemplate.id}`, checkListTemplate);
   }
 
   deleteCheckListTemplate(checkListTemplateId: number): Observable<void> {
-    return this.http.delete<void>(`${this.checkListApiPath}/template/${checkListTemplateId}`);
+    return this.http.delete<void>(`${this.endpointUrl}/template/${checkListTemplateId}`);
   }
 }

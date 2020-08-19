@@ -57,4 +57,4 @@ export * from './lib/components/history/history-grid.component';
 export * from './lib/components/controller/directives/project.properties.directive';
 export * from './lib/components/project-and-processes/project-and-processes.component';
 export * from './lib/components/checklist-panel/checklist-panel.component';
-export * from './lib/components/checklist-menu/checklist-menu.component';
+export * from './lib/components/checklist-administration/checklist-administration.component';

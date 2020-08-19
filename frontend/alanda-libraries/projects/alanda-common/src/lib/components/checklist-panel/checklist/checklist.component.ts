@@ -5,6 +5,7 @@ import { ChecklistApiService } from '../../../api/checklist.service';
 import { switchMap, catchError, retry, finalize } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
 import { throwError } from 'rxjs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'alanda-checklist',
@@ -21,11 +22,16 @@ export class AlandaChecklistComponent implements OnInit {
 
   constructor(private readonly fb: FormBuilder,
     private readonly checklistAPI: ChecklistApiService,
-    private readonly messageService: MessageService) {
+    private readonly messageService: MessageService,
+    private readonly router: Router) {
   }
 
   ngOnInit(): void {
     this._loadChecks();
+  }
+
+  goToAdministration() {
+    this.router.navigate(['/checklist-administration']);
   }
 
   addItem(name: string, required: boolean): void {

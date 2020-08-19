@@ -3,6 +3,7 @@
  */
 package io.alanda.rest;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.DefaultValue;
@@ -76,9 +77,11 @@ public interface PmcProcessRestService {
 
   @GET
   @Path("/")
-  List<ProcessDto> queryProcess(@QueryParam("query") String query);
+  @Produces(MediaType.APPLICATION_JSON)
+  Collection<String> queryProcess(@QueryParam("query") String query);
 
   @GET
-  @Path("/{processInstanceId}/activities")
-  List<ActivityInstanceDto> queryProcessActivities(@QueryParam("query") String query);
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/{processDefKey}/tasks")
+  Collection<String> queryUserTasks(@PathParam("processDefKey") String processDefKey, @QueryParam("query") String query);
 }

@@ -1,5 +1,7 @@
 package io.alanda.rest;
 
+import io.alanda.rest.impl.CheckListRestServiceImpl;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,8 +30,7 @@ public class PmcApplication extends Application {
     classes.add(io.alanda.rest.impl.PmcHistoryLogRestServiceImpl.class);
     classes.add(io.alanda.rest.impl.PmcFinderRestServiceImpl.class);
     classes.add(io.alanda.rest.impl.PmcMilestoneRestServiceImpl.class);
-
-
+    classes.add(io.alanda.rest.impl.CheckListRestServiceImpl.class);
     return classes;
   }
 

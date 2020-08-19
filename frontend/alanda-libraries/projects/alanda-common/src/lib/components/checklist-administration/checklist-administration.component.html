@@ -1,0 +1,83 @@
+<style>
+  .spacer-left {
+    margin-left: 8px;
+  }
+  .spacer-bottom {
+    margin-bottom: 8px;
+  }
+  .hint {
+    text-align: center;
+  }
+  .add-icon {
+    font-size: 20px;
+    color: #1976d2;
+    margin-right: 6px;
+    margin-left: 8px;
+  }
+  .add-icon:hover {
+    cursor: pointer;
+  }
+  .cl-button {
+    width: 100px !important;
+  }
+  .cl-input {
+    width: auto;
+  }
+</style>
+<p-panel header="Checklist Administration">
+  <div class="p-grid">
+    <div class="p-col-4">
+      <p-listbox *ngIf="templates.length" [options]="templates" [(ngModel)]="selectedTemplate" optionLabel="name"></p-listbox>
+      <div class="hint" *ngIf="!templates.length">
+        No templates available
+      </div>
+    </div>
+    <div *ngIf="!selectedTemplate && templates.length" class="p-col-8 hint">
+      No template selected
+    </div>
+    <div class="p-col-8" *ngIf="selectedTemplate">
+      <p-card>
+        <h4>{{selectedTemplate.name}}</h4>
+        <div class="p-grid">
+          <div class="p-col-3">
+            <p-autoComplete
+              [disabled]="loading"
+              [(ngModel)]="selectedProcess"
+              [suggestions]="processes"
+              (completeMethod)="searchProcess($event)"
+              placeholder="Select a process">
+            </p-autoComplete>
+          </div>
+          <div class="p-col-3">
+            <p-autoComplete
+              [(ngModel)]="selectedTask"
+              [disabled]="!selectedProcess || loading"
+              [suggestions]="userTasks"
+              (completeMethod)="searchTask($event)"
+              placeholder="Select a task"
+            ></p-autoComplete>
+          </div>
+          <div class="p-col">
+            <button pButton type="button" class="cl-button" [disabled]="!selectedTask" (click)="addUserTask()" label="Add"></button>
+          </div>
+        </div>
+        <p-chips [(ngModel)]="selectedTemplate.userTasks" [disabled]="loading" (onAdd)="addUserTask($event)"></p-chips>
+        <h4>Checklist Items</h4>
+        <div class="spacer-bottom">
+          <input #clip pInput type="text" placeholder="Add new task...">
+          <p-checkbox #clcb class="spacer-left" [binary]="true" label="Required?" [disabled]="loading"></p-checkbox>
+          <button pButton type="button" class="cl-button spacer-left" [disabled]="!clip.value" (click)="addItem(clip.value, clcb.checked)" label="Add"></button>
+        </div>
+        <p-orderList [dragdrop]="true" [value]="selectedTemplate.itemDefinitions">
+          <ng-template let-check pTemplate="item">
+              <input [disabled]="loading" class="cl-input" pInputText type="text" [(ngModel)]="check.displayText">
+              <p-checkbox [disabled]="loading" class="spacer-left" [(ngModel)]="check.required" [binary]="true" label="Required?"></p-checkbox>
+          </ng-template>
+        </p-orderList>
+        <p-footer>
+          <button pButton class="cl-button" (click)="updateTemplate$.next()" type="button" label="Update"></button>
+        </p-footer>
+      </p-card>
+    </div>
+  </div>
+</p-panel>

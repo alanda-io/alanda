@@ -1,14 +1,21 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import { ExceptionHandlingService } from '../services/exception-handling.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, EMPTY } from 'rxjs';
 import { CheckList, CheckListItemDefinition } from '../models/checklist.model';
+import {APP_CONFIG, AppSettings} from '../models/appSettings';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChecklistApiService extends ExceptionHandlingService {
-  private checkListApiPath = '/app/checklist';
+
+  private endpointUrl: string;
+
+  constructor(@Inject(APP_CONFIG) config: AppSettings, private http: HttpClient) {
+    super();
+    this.endpointUrl = config.API_ENDPOINT + '/checklist';
+  }
 
   checkLists: CheckList[] = [
     {
@@ -79,27 +86,19 @@ export class ChecklistApiService extends ExceptionHandlingService {
     }
   ];
 
-  constructor(private http: HttpClient) {
-    super();
-  }
-
   getCheckListsForUserTaskInstance(taskInstanceGuid: string): Observable<CheckList[]> {
-    //return this.http.get<CheckList[]>(`${this.checkListApiPath}/userTask/${taskInstanceGuid}`);
-    return of(this.checkLists);
+    return this.http.get<CheckList[]>(`${this.endpointUrl}/userTask/${taskInstanceGuid}`);
   }
 
-  setCheckListItemStatus(checkListId: number, itemKey: string, status: boolean): Observable<string> {
-    return of('dummy-response');
-    //return this.http.put<void>(`${this.checkListApiPath}/${checkListId}/${itemKey}`, status);
+  setCheckListItemStatus(checkListId: number, itemKey: string, status: boolean): Observable<void> {
+    return this.http.put<void>(`${this.endpointUrl}/${checkListId}/${itemKey}`, status);
   }
 
-  addCheckListItemToCheckList(checkListId: number, itemDefinition: CheckListItemDefinition): Observable<string> {
-    return of('dummy-response');
-    // return this.http.post<void>(`${this.checkListApiPath}/${checkListId}/definitions`, itemDefinition);
+  addCheckListItemToCheckList(checkListId: number, itemDefinition: CheckListItemDefinition): Observable<void> {
+    return this.http.post<void>(`${this.endpointUrl}/${checkListId}/definitions`, itemDefinition);
   }
 
-  removeCheckListItemFromCheckList(checkListId: number, itemKey: string): Observable<string> {
-    return of('dummy-response');
-    //return this.http.delete<void>(`${this.checkListApiPath}/${checkListId}/definition/${itemKey}`);
+  removeCheckListItemFromCheckList(checkListId: number, itemKey: string): Observable<void> {
+    return this.http.delete<void>(`${this.endpointUrl}/${checkListId}/definition/${itemKey}`);
   }
 }

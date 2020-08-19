@@ -56,7 +56,7 @@
 <p-card styleClass="cl-card">
   <p-header>
     <span class="cl-header">{{ checklist.name }}</span>
-    <span class="fa fa-cog option-icon"></span>
+    <span class="fa fa-cog option-icon" (click)="goToAdministration()"></span>
   </p-header>
   You have completed {{ completedTasks }} tasks out of {{ checklist.checkListItems.length }}
   <p-progressBar class="cl-progressbar" [showValue]="false" unit="%" [value]="completedTasks / checklist.checkListItems.length * 100"></p-progressBar>

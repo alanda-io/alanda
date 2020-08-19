@@ -46,7 +46,7 @@ public class CheckListItemDbService extends CheckListItemService<Long> {
 
     @Override
     public List<CheckListItemDto> getCheckListItems(Iterable<Long> definitionGuids) {
-        return mapToItemDtos(checklistItemRepo.findCheckListItemsByDefinitionGuids(definitionGuids));
+        return mapToItemDtos(checklistItemRepo.findCheckListItemsByDefinitionGuid(definitionGuids));
     }
 
     private CheckListItemDto mapToItemDto(CheckListItem item) {

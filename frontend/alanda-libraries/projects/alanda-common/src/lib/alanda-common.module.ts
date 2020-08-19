@@ -92,8 +92,9 @@ import {RelateDialogComponent} from './components/project-and-processes/pap-acti
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import {AlandaChecklistPanelComponent} from './components/checklist-panel/checklist-panel.component';
 import {AlandaChecklistComponent} from './components/checklist-panel/checklist/checklist.component';
-import {AlandaChecklistMenuComponent} from './components/checklist-menu/checklist-menu.component';
+import {AlandaChecklistAdministrationComponent} from './components/checklist-administration/checklist-administration.component';
 import { OrderListModule } from 'primeng/orderlist';
+import { ChipsModule } from 'primeng/chips';
 
 @NgModule({
   imports: [
@@ -133,7 +134,8 @@ import { OrderListModule } from 'primeng/orderlist';
     AccordionModule,
     TreeTableModule,
     DynamicDialogModule,
-    OrderListModule
+    OrderListModule,
+    ChipsModule
   ],
   declarations: [
     UserManagementComponent,
@@ -173,7 +175,7 @@ import { OrderListModule } from 'primeng/orderlist';
     RelateDialogComponent,
     AlandaChecklistPanelComponent,
     AlandaChecklistComponent,
-    AlandaChecklistMenuComponent
+    AlandaChecklistAdministrationComponent
   ],
   exports: [
     ProjectMonitorComponent,
@@ -212,7 +214,7 @@ import { OrderListModule } from 'primeng/orderlist';
     RelateDialogComponent,
     AlandaChecklistPanelComponent,
     AlandaChecklistComponent,
-    AlandaChecklistMenuComponent
+    AlandaChecklistAdministrationComponent
    ],
   entryComponents: [
     RelateDialogComponent
