@@ -9,9 +9,11 @@ import io.alanda.base.util.cache.UserCache;
 import org.apache.commons.lang.time.FastDateFormat;
 import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.impl.persistence.entity.TaskEntity;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +37,9 @@ abstract class TaskMapper {
     @Inject
     protected RuntimeService runtimeService;
 
+    @Inject
+    protected TaskService taskService;
+
     /**
      * Maps a {@link TaskEntity} to a {@link PmcTaskDto}, either using information from an active {@link org.camunda.bpm.engine.impl.interceptor.CommandContext}
      * or via other sources.
@@ -46,14 +51,14 @@ abstract class TaskMapper {
         checkCommandContext();
 
         final TaskInfo taskInfo = getTaskInfo(task);
-
+        String formKey = taskService.createTaskQuery().taskId(task.getId()).initializeFormKeys().singleResult().getFormKey();
         PmcTaskDto dto = new PmcTaskDto();
         dto.setState(PmcProjectState.ACTIVE);
         dto.setTaskId(task.getId());
         dto.setTaskType(taskInfo.getRefObjectType());
         dto.setTaskName(task.getName());
         dto.setObjectName(taskInfo.getProcess().getBusinessKey());
-        dto.setFormKey(task.getFormKey());
+        dto.setFormKey(formKey);
         dto.setAssigneeId(task.getAssignee());
         String assigneeId = task.getAssignee();
         if (!StringUtils.isEmpty(assigneeId)) {

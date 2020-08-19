@@ -247,6 +247,10 @@ public class PmcTaskServiceImpl implements PmcTaskService {
     if (businessProcessEvent.getTask() == null) {
       return;
     }
+    if(taskService.createTaskQuery().processInstanceId(businessProcessEvent.getProcessInstanceId()).singleResult() == null) {
+      elasticService.deleteTask(businessProcessEvent.getTaskId());
+      return;
+    }
 
     log.info("Update for Task #{}({}) action={}", businessProcessEvent.getTaskId(),
             businessProcessEvent.getTask().getName(),businessProcessEvent.getType().getTypeName());
