@@ -44,8 +44,8 @@ public class CheckListService {
     }
 
     public CheckListTemplateDto saveCheckListTemplate(CheckListTemplateDto template) {
-        checklistTemplateRepo.save(template)
-        return null;
+        checklistTemplateRepo.save(checkListMapper.mapDtoToChecklistTemplate(template));
+        return template;
     }
 
     public CheckListItemDto getCheckListItemForDefinition(CheckListItemDefinition itemDefinition) {
@@ -111,30 +111,31 @@ public class CheckListService {
 
         CheckListTemplate mapDtoToChecklistTemplate(CheckListTemplateDto checkListTemplateDto) {
             CheckListTemplate template = new CheckListTemplate();
+            template.setGuid(checkListTemplateDto.getId());
             template.setName(checkListTemplateDto.getName());
             template.setItemBackend(checkListTemplateDto.getItemBackend());
-            template.setItemDefinitions(checkListTemplateDto.getI);
+            template.setItemDefinitions(mapDtoToChecklistItemList(checkListTemplateDto.getItemDefinitions()));
             template.setTaskAssociations(checkListTemplateDto.getUserTasks());
         }
 
         List<CheckListItem> mapDtoToChecklistItemList(List<CheckListItemDto> checkListItemDtos) {
-            return checkListItemDtos.stream().map().collect(Collectors.toList());
+            return checkListItemDtos.stream().map(this::mapDtoToChecklistItem).collect(Collectors.toList());
         }
 
         CheckListItem mapDtoToChecklistItem(CheckListItemDto checkListItemDto) {
             CheckListItem checkListItem = new CheckListItem();
-            checkListItem.setDefinition(checkListItemDto.getItemDefinition());
+            checkListItem.setDefinition(mapDtoToChecklistItemDefinition(checkListItemDto.getItemDefinition()));
             checkListItem.setStatus(checkListItemDto.getStatus());
             return checkListItem;
         }
 
-        List<CheckListItemDefinition> mapDtoToCheckListItemDefinitions(List<CheckListItemDefinitionDto> checkListItemDefinitionDtos) {
-
-        }
-
         CheckListItemDefinition mapDtoToChecklistItemDefinition(CheckListItemDefinitionDto checkListItemDefinitionDto) {
             CheckListItemDefinition checkListItemDefinition = new CheckListItemDefinition();
-            checkListItemDefinition.setCheckList(checkListItemDefinitionDto.get);
+            checkListItemDefinition.setDisplayText(checkListItemDefinitionDto.getDisplayText());
+            checkListItemDefinition.setKey(checkListItemDefinitionDto.getKey());
+            checkListItemDefinition.setRequired(checkListItemDefinitionDto.getRequired());
+            checkListItemDefinition.setSortOrder(checkListItemDefinitionDto.getSortOrder().intValue());
+            return checkListItemDefinition;
         }
 
         CheckListTemplateDto mapChecklistTemplateToDto(CheckListTemplate template) {
