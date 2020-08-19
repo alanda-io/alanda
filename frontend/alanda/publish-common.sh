@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cd ./libs/common/ || { echo -e '\e[31mPath does not exist!\e[0m'; exit 1; }
 
 CURRENT_PACKAGE_VERSION=$(cat package.json \
