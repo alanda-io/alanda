@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AlandaMenuItem, AlandaTitleService } from '@alanda/common';
-import { UserAdapter } from './core/services/user.adapter';
+import { UserAdapter } from '@alanda/common';
 import { Subject } from 'rxjs';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input } from '@angular/core';
 import { RxState } from '@rx-angular/state';
-import { AlandaUserApiService } from '../api/userApi.service';
+import { UserAdapter } from '../services/user.adapter';
 import { AlandaUser } from '../api/models/user';
 import { combineLatest } from 'rxjs';
 import { Authorizations } from './utils/permission-checks';
@@ -42,9 +42,9 @@ export class AlandaPermissionsDirective {
   constructor(
     public rxState: RxState<AlandaPermissionsDirectiveState>,
     public hostElement: ElementRef,
-    private readonly userService: AlandaUserApiService,
+    private userAdapter: UserAdapter,
   ) {
-    this.rxState.connect('user', this.userService.user$);
+    this.rxState.connect('user', this.userAdapter.currentUser$);
 
     this.rxState.hold(
       combineLatest([

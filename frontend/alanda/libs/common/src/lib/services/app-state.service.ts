@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
 import { RxState } from '@rx-angular/state';
-import { AlandaUser } from '@alanda/common';
-
-// export interface AlandaState{
-//   currentUser: AlandaUser
-// }
 
 @Injectable({
   providedIn: 'root',

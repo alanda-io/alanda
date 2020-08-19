@@ -4,7 +4,7 @@ import {
   AlandaTableLayout,
   Authorizations,
 } from '@alanda/common';
-import { UserAdapter } from '../../core/services/user.adapter';
+import { UserAdapter } from '@alanda/common';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 

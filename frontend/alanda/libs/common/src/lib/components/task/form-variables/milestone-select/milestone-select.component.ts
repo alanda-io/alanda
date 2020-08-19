@@ -14,8 +14,8 @@ export class AlandaSelectMilestoneComponent implements OnInit {
   @Input() displayName: string;
   @Input() msName: string;
   @Input() dateFormat = 'dd.mm.yyyy';
-  @Input() disabled: boolean;
-  @Input() permission: string;
+  @Input() disabled: false;
+  @Input() permissionString: string;
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {
@@ -26,8 +26,8 @@ export class AlandaSelectMilestoneComponent implements OnInit {
   @Input() showACT = true;
 
   milestoneForm = this.fb.group({
-    fc: [null],
-    act: [null],
+    fc: [{value: null, disabled: this.disabled}],
+    act: [{value: null, disabled: this.disabled}],
   });
 
   constructor(
@@ -73,8 +73,8 @@ export class AlandaSelectMilestoneComponent implements OnInit {
   }
 
   getPermissionString(type?: string): string {
-    if (this.permission) {
-      return this.permission;
+    if (this.permissionString) {
+      return this.permissionString;
     }
     return (
       `ms:write:${this.project.projectTypeIdName}:${this.msName}` +
