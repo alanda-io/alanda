@@ -26,8 +26,8 @@ export class AlandaSelectMilestoneComponent implements OnInit {
   @Input() showACT = true;
 
   milestoneForm = this.fb.group({
-    fc: [{value: null, disabled: this.disabled}],
-    act: [{value: null, disabled: this.disabled}],
+    fc: [{ value: null, disabled: this.disabled }],
+    act: [{ value: null, disabled: this.disabled }],
   });
 
   constructor(
