@@ -117,3 +117,4 @@ export { AlandaHeaderComponent } from './lib/components/header/header.component'
 export { HeaderModule } from './lib/components/header/header.module';
 export { PageSizeSelectModule } from './lib/components/page-size-select/page-size-select.module';
 export { UserAdapter } from './lib/services/user.adapter';
+export * from './lib/state/store/user';

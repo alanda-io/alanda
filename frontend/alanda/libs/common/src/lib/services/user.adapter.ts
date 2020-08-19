@@ -4,7 +4,7 @@ import { AlandaUserApiService } from '../api/userApi.service';
 import { AppStateService } from './app-state.service';
 import { ActionService, Action } from './actions.service';
 import { Observable } from 'rxjs';
-import { filter, exhaustMap, map, switchMap, tap, mapTo } from 'rxjs/operators';
+import { filter, exhaustMap, map, switchMap, mapTo } from 'rxjs/operators';
 
 const loadUser = 'loadUser';
 const LOAD_USER = (): Action => ({
