@@ -19,7 +19,7 @@ public interface CheckListRestService {
 
     @GET
     @Path("/template/{templateId}")
-    CheckListTemplateVM getCheckListTemplate(Long templateId);
+    CheckListTemplateVM getCheckListTemplate(@PathParam("templateId") Long templateId);
 
     @POST
     @Path("/template")
@@ -27,25 +27,25 @@ public interface CheckListRestService {
 
     @PUT
     @Path("/template/{templateId}")
-    Response updateCheckListTemplate(Long templateId, CheckListTemplateVM templateVM);
+    Response updateCheckListTemplate(@PathParam("templateId") Long templateId, CheckListTemplateVM templateVM);
 
     @DELETE
     @Path("/template/{templateId}")
-    Response deleteCheckListTemplate(Long checkListTemplateId);
+    Response deleteCheckListTemplate(@PathParam("templateId") Long checkListTemplateId);
 
     @GET
     @Path("/userTask/{taskInstanceGuid}")
-    List<CheckListVM> getCheckListsForUserTaskInstance(String taskInstanceGuid);
+    List<CheckListVM> getCheckListsForUserTaskInstance(@PathParam("taskInstanceGuid") String taskInstanceGuid);
 
     @PUT
     @Path("/{checkListId}/{key}")
-    Response updateCheckListItemStatus(Long checkListId, String key, Boolean status);
+    Response updateCheckListItemStatus(@PathParam("checkListId") Long checkListId, @PathParam("key") String key, Boolean status);
 
     @POST
     @Path("/{checkListId}/definitions")
-    Response addCheckListItemToChecklist(Long checkListId, CheckListItemDefinitionVM checkListItemDefinitionVM);
+    Response addCheckListItemToChecklist(@PathParam("checkListId") Long checkListId, CheckListItemDefinitionVM checkListItemDefinitionVM);
 
     @DELETE
     @Path("/{checkListId}/definition/{itemKey}")
-    Response deleteCheckListItemFromChecklist(Long checkListId, String itemKey);
+    Response deleteCheckListItemFromChecklist(@PathParam("checkListId") Long checkListId, @PathParam("itemKey") String itemKey);
 }

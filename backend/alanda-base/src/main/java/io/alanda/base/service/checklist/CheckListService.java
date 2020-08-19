@@ -1,5 +1,6 @@
 package io.alanda.base.service.checklist;
 
+import io.alanda.base.dao.ChecklistItemRepo;
 import io.alanda.base.dao.ChecklistRepo;
 import io.alanda.base.dao.ChecklistTemplateRepo;
 import io.alanda.base.entity.AbstractEntity;
@@ -43,7 +44,7 @@ public class CheckListService {
     }
 
     public CheckListTemplateDto saveCheckListTemplate(CheckListTemplateDto template) {
-        // TODO
+        checklistTemplateRepo.save(template)
         return null;
     }
 
@@ -106,6 +107,34 @@ public class CheckListService {
 
         List<CheckListItemDefinitionDto> mapCheckListItemDefinitionToDto(List<CheckListItemDefinition> itemDefinitions) {
             return itemDefinitions.stream().map(this::mapCheckListItemDefinitionToDto).collect(Collectors.toList());
+        }
+
+        CheckListTemplate mapDtoToChecklistTemplate(CheckListTemplateDto checkListTemplateDto) {
+            CheckListTemplate template = new CheckListTemplate();
+            template.setName(checkListTemplateDto.getName());
+            template.setItemBackend(checkListTemplateDto.getItemBackend());
+            template.setItemDefinitions(checkListTemplateDto.getI);
+            template.setTaskAssociations(checkListTemplateDto.getUserTasks());
+        }
+
+        List<CheckListItem> mapDtoToChecklistItemList(List<CheckListItemDto> checkListItemDtos) {
+            return checkListItemDtos.stream().map().collect(Collectors.toList());
+        }
+
+        CheckListItem mapDtoToChecklistItem(CheckListItemDto checkListItemDto) {
+            CheckListItem checkListItem = new CheckListItem();
+            checkListItem.setDefinition(checkListItemDto.getItemDefinition());
+            checkListItem.setStatus(checkListItemDto.getStatus());
+            return checkListItem;
+        }
+
+        List<CheckListItemDefinition> mapDtoToCheckListItemDefinitions(List<CheckListItemDefinitionDto> checkListItemDefinitionDtos) {
+
+        }
+
+        CheckListItemDefinition mapDtoToChecklistItemDefinition(CheckListItemDefinitionDto checkListItemDefinitionDto) {
+            CheckListItemDefinition checkListItemDefinition = new CheckListItemDefinition();
+            checkListItemDefinition.setCheckList(checkListItemDefinitionDto.get);
         }
 
         CheckListTemplateDto mapChecklistTemplateToDto(CheckListTemplate template) {
