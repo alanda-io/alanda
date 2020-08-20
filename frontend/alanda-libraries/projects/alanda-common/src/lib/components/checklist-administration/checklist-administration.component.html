@@ -25,6 +25,7 @@
   }
 </style>
 <p-panel header="Checklist Administration">
+  {{loading ? 'is loading' : 'not loading'}}
   <div class="p-grid">
     <div class="p-col-4">
       <p-listbox *ngIf="templates.length" [options]="templates" [(ngModel)]="selectedTemplate" optionLabel="name"></p-listbox>
@@ -64,9 +65,9 @@
         <p-chips [(ngModel)]="selectedTemplate.userTasks" [disabled]="loading" (onAdd)="addUserTask($event)"></p-chips>
         <h4>Checklist Items</h4>
         <div class="spacer-bottom">
-          <input #clip pInput type="text" placeholder="Add new task...">
-          <p-checkbox #clcb class="spacer-left" [binary]="true" label="Required?" [disabled]="loading"></p-checkbox>
-          <button pButton type="button" class="cl-button spacer-left" [disabled]="!clip.value" (click)="addItem(clip.value, clcb.checked)" label="Add"></button>
+          <input pInput type="text" placeholder="Add new task..." [(ngModel)]="newTaskName">
+          <p-checkbox class="spacer-left" [binary]="true" label="Required?" [disabled]="loading" [(ngModel)]="newTaskRequired"></p-checkbox>
+          <button pButton type="button" class="cl-button spacer-left" [disabled]="!newTaskName" (click)="addItem(newTaskName, newTaskRequired)" label="Add"></button>
         </div>
         <p-orderList [dragdrop]="true" [value]="selectedTemplate.itemDefinitions">
           <ng-template let-check pTemplate="item">

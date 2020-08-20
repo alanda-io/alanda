@@ -11,7 +11,7 @@ public class CheckListTemplateTaskAssociation extends AbstractAuditEntity {
     @Column(name = "USER_TASK_DEF_KEY")
     private String userTaskDefKey;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "template")
     private CheckListTemplate checkListTemplate;
 

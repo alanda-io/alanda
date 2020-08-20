@@ -3,6 +3,7 @@ package io.alanda.base.entity.checklist;
 import io.alanda.base.entity.AbstractAuditEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,12 +18,20 @@ public class CheckListTemplate extends AbstractAuditEntity {
 
     //@OneToMany(fetch = FetchType.EAGER)
     //@JoinColumn(name = "TEMPLATE")
-    @OneToMany(mappedBy = "checkListTemplate", fetch = FetchType.EAGER)
-    private List<CheckListItemDefinition> itemDefinitions;
+    @OneToMany(
+            mappedBy = "checkListTemplate",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<CheckListItemDefinition> itemDefinitions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "checkListTemplate", fetch = FetchType.EAGER)
+    @OneToMany(
+            mappedBy = "checkListTemplate",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true)
     //@JoinColumn(name = "TEMPLATE")
-    private List<CheckListTemplateTaskAssociation> taskAssociations;
+    private List<CheckListTemplateTaskAssociation> taskAssociations = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -48,6 +57,26 @@ public class CheckListTemplate extends AbstractAuditEntity {
         this.itemDefinitions = itemDefinitions;
     }
 
+    public void addItemDefinition(CheckListItemDefinition checkListItemDefinition) {
+        itemDefinitions.add(checkListItemDefinition);
+        checkListItemDefinition.setCheckListTemplate(this);
+    }
+
+    public void removeItemDefinition(CheckListItemDefinition checkListItemDefinition) {
+        itemDefinitions.remove(checkListItemDefinition);
+        checkListItemDefinition.setCheckListTemplate(null);
+    }
+
+    public void addCheckListTemplateTaskAssociation(CheckListTemplateTaskAssociation checkListTemplateTaskAssociation) {
+        taskAssociations.add(checkListTemplateTaskAssociation);
+        checkListTemplateTaskAssociation.setTaskListTemplate(this);
+    }
+
+    public void removeCheckListTemplateTaskAssociation(CheckListTemplateTaskAssociation checkListTemplateTaskAssociation) {
+        taskAssociations.remove(checkListTemplateTaskAssociation);
+        checkListTemplateTaskAssociation.setTaskListTemplate(null);
+    }
+
     public List<CheckListTemplateTaskAssociation> getTaskAssociations() {
         return taskAssociations;
     }
@@ -55,4 +84,5 @@ public class CheckListTemplate extends AbstractAuditEntity {
     public void setTaskAssociations(List<CheckListTemplateTaskAssociation> taskAssociations) {
         this.taskAssociations = taskAssociations;
     }
+
 }

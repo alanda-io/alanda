@@ -7,11 +7,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "AL_CHECKLIST_ITEM_DEFINITION")
 public class CheckListItemDefinition extends AbstractAuditEntity {
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "TEMPLATE")
     private CheckListTemplate checkListTemplate;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "checklist")
     private CheckList checkList;
 

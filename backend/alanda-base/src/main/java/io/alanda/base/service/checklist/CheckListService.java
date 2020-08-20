@@ -10,16 +10,23 @@ import io.alanda.base.service.checklist.dto.CheckListItemDefinitionDto;
 import io.alanda.base.service.checklist.dto.CheckListItemDto;
 import io.alanda.base.service.checklist.dto.CheckListTemplateDto;
 import io.alanda.base.service.checklist.statusresolver.CheckListItemService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+
 public class CheckListService {
     private final Map<CheckListItemBackend, CheckListItemService<Object>> itemBackendServices = new HashMap<>();
     private final CheckListMapper checkListMapper = new CheckListMapper();
+
+    @Inject
+    private static final Logger log = LoggerFactory.getLogger(CheckListService.class);
 
     @Inject
     private ChecklistTemplateRepo checklistTemplateRepo;
@@ -45,6 +52,31 @@ public class CheckListService {
 
     public CheckListTemplateDto saveCheckListTemplate(CheckListTemplateDto template) {
         checklistTemplateRepo.save(checkListMapper.mapDtoToChecklistTemplate(template));
+        return template;
+    }
+
+    @Transactional
+    public CheckListTemplateDto updateCheckListTemplate(CheckListTemplateDto template) {
+        CheckListTemplate existingTemplate = checklistTemplateRepo.findOne(template.getId());
+        CheckListTemplate mappedTemplate = checkListMapper.mapDtoToChecklistTemplate(template);
+        existingTemplate.setItemBackend(mappedTemplate.getItemBackend());
+        existingTemplate.setName(mappedTemplate.getName());
+        Iterator<CheckListItemDefinition> itemDefinitionIterator = existingTemplate.getItemDefinitions().iterator();
+        while (itemDefinitionIterator.hasNext()) {
+            itemDefinitionIterator.next();
+            itemDefinitionIterator.remove();
+        }
+        Iterator<CheckListTemplateTaskAssociation> taskAssociationIterator = existingTemplate.getTaskAssociations().iterator();
+        while (taskAssociationIterator.hasNext()) {
+            taskAssociationIterator.next();
+            taskAssociationIterator.remove();
+        }
+        //existingTemplate.getItemDefinitions().forEach(checkListItemDefinition -> existingTemplate.removeItemDefinition(checkListItemDefinition));
+        //existingTemplate.getTaskAssociations().forEach(checkListTemplateTaskAssociation -> existingTemplate.removeCheckListTemplateTaskAssociation(checkListTemplateTaskAssociation));
+        mappedTemplate.getItemDefinitions().forEach(checkListItemDefinition -> existingTemplate.addItemDefinition(checkListItemDefinition));
+        mappedTemplate.getTaskAssociations().forEach(checkListTemplateTaskAssociation -> existingTemplate.addCheckListTemplateTaskAssociation(checkListTemplateTaskAssociation));
+        //existingTemplate.setItemDefinitions(mappedTemplate.getItemDefinitions());
+        //existingTemplate.setTaskAssociations(mappedTemplate.getTaskAssociations());
         return template;
     }
 
@@ -102,7 +134,13 @@ public class CheckListService {
 
     class CheckListMapper {
         CheckListItemDefinitionDto mapCheckListItemDefinitionToDto(CheckListItemDefinition itemDefinition) {
-            return null;
+            CheckListItemDefinitionDto checkListItemDefinitionDto = new CheckListItemDefinitionDto();
+            checkListItemDefinitionDto.setCustom(itemDefinition.getCheckListTemplate() != null ? true : false);
+            checkListItemDefinitionDto.setDisplayText(itemDefinition.getDisplayText());
+            checkListItemDefinitionDto.setKey(itemDefinition.getKey());
+            checkListItemDefinitionDto.setRequired(itemDefinition.getRequired());
+            checkListItemDefinitionDto.setSortOrder(itemDefinition.getSortOrder().longValue());
+            return checkListItemDefinitionDto;
         }
 
         List<CheckListItemDefinitionDto> mapCheckListItemDefinitionToDto(List<CheckListItemDefinition> itemDefinitions) {
@@ -114,8 +152,13 @@ public class CheckListService {
             template.setGuid(checkListTemplateDto.getId());
             template.setName(checkListTemplateDto.getName());
             template.setItemBackend(checkListTemplateDto.getItemBackend());
-            template.setItemDefinitions(mapDtoToChecklistItemList(checkListTemplateDto.getItemDefinitions()));
-            template.setTaskAssociations(checkListTemplateDto.getUserTasks());
+            checkListTemplateDto.getItemDefinitions().stream().map(this::mapDtoToChecklistItemDefinition).forEach(checkListItemDefinition -> {
+                template.addItemDefinition(checkListItemDefinition);
+            });
+            checkListTemplateDto.getUserTasks().stream().map(this::mapDtoToCheckListTemplateTaskAssociation).forEach(checkListTemplateTaskAssociation -> {
+                template.addCheckListTemplateTaskAssociation(checkListTemplateTaskAssociation);
+            });
+            return template;
         }
 
         List<CheckListItem> mapDtoToChecklistItemList(List<CheckListItemDto> checkListItemDtos) {
@@ -138,9 +181,14 @@ public class CheckListService {
             return checkListItemDefinition;
         }
 
+        CheckListTemplateTaskAssociation mapDtoToCheckListTemplateTaskAssociation(String userTask) {
+            CheckListTemplateTaskAssociation checkListTemplateTaskAssociation = new CheckListTemplateTaskAssociation();
+            checkListTemplateTaskAssociation.setUserTaskDefKey(userTask);
+            return checkListTemplateTaskAssociation;
+        }
+
         CheckListTemplateDto mapChecklistTemplateToDto(CheckListTemplate template) {
             final CheckListTemplateDto templateDto = new CheckListTemplateDto();
-
             templateDto.setId(template.getGuid());
             templateDto.setItemBackend(template.getItemBackend());
             templateDto.setName(template.getName());

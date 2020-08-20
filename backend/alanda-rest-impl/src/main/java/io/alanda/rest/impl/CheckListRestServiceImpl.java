@@ -54,8 +54,7 @@ public class CheckListRestServiceImpl implements CheckListRestService {
     @Override
     public Response updateCheckListTemplate(Long templateId, CheckListTemplateVM templateVM) {
         CheckListTemplateDto checkListTemplateDto = checkListVMToDTOMapper.mapCheckListTemplateVMToDTO(templateVM);
-        checkListTemplateDto.setId(templateId);
-        checkListService.saveCheckListTemplate(checkListTemplateDto);
+        checkListService.updateCheckListTemplate(checkListTemplateDto);
 
         return Response.ok().build();
     }

@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ChecklistTemplateApiService} from '../../api/checklist-template.service';
 import {CheckListItemDefinition, CheckListTemplate} from '../../models/checklist.model';
 import {EMPTY, merge, Observable, Subject} from 'rxjs';
-import {catchError, debounceTime, exhaustMap, finalize, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, exhaustMap, finalize, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {MessageService} from 'primeng/api';
 import {ProcessServiceNg} from '../../api/process.service';
 
@@ -18,6 +18,8 @@ export class AlandaChecklistAdministrationComponent implements OnInit, OnDestroy
   updateTemplate$: Subject<void> = new Subject<void>();
   selectedProcess: string;
   selectedTask: string;
+  newTaskName: string;
+  newTaskRequired = false;
   processes: string[] = [];
   userTasks: string[] = [];
   loading: boolean;
@@ -31,7 +33,7 @@ export class AlandaChecklistAdministrationComponent implements OnInit, OnDestroy
         catchError(err => {
           this.messageService.add({severity: 'error', summary: 'Update template', detail: 'Could not update template'});
           return EMPTY;
-        })
+        }),
       )),
       finalize(() => this.loading = false)
     ).subscribe();
@@ -66,6 +68,7 @@ export class AlandaChecklistAdministrationComponent implements OnInit, OnDestroy
   }
 
   addItem(name: string, required: boolean): void {
+    console.log("required", required);
     if (this.loading || !name.trim().length) {
       return;
     }
@@ -79,6 +82,7 @@ export class AlandaChecklistAdministrationComponent implements OnInit, OnDestroy
       required: required
     };
     this.selectedTemplate.itemDefinitions.push(item);
+    this.newTaskName = '';
   }
 
   ngOnDestroy(): void {
