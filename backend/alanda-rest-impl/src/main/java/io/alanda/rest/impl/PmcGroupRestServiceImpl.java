@@ -38,8 +38,6 @@ public class PmcGroupRestServiceImpl implements PmcGroupRestService {
 
   @Override
   public PagedResultDto<PmcGroupDto> getAllGroups(Map<String, Object> serverOptions) {
-    if ( !UserContext.getUser().isAdmin())
-      throw new javax.ws.rs.ForbiddenException("Access denied");
     log.info("called getGroupRepo");
     Integer pageNumber = (Integer) serverOptions.get("pageNumber");
     if (pageNumber == null)
@@ -79,8 +77,6 @@ public class PmcGroupRestServiceImpl implements PmcGroupRestService {
 
   @Override
   public PmcGroupDto getGroupById(Long groupId) {
-    if ( !UserContext.getUser().isAdmin())
-      throw new javax.ws.rs.ForbiddenException("Access denied");
     return pmcGroupService.getGroupById(groupId);
   }
 
@@ -94,8 +90,6 @@ public class PmcGroupRestServiceImpl implements PmcGroupRestService {
 
   @Override
   public PmcGroupDto getGroupByGroupName(String groupName) {
-    if ( !UserContext.getUser().isAdmin())
-      throw new javax.ws.rs.ForbiddenException("Access denied");
     return pmcGroupService.getGroupByGroupName(groupName);
   }
 
@@ -109,8 +103,6 @@ public class PmcGroupRestServiceImpl implements PmcGroupRestService {
 
   @Override
   public Collection<PmcPermissionDto> getEffectivePermissionsForGroup(Long groupId) {
-    if ( !UserContext.getUser().isAdmin())
-      throw new javax.ws.rs.ForbiddenException("Access denied");
     return pmcGroupService.getEffectivePermissionsForGroup(groupId);
   }
 
