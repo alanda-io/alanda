@@ -80,7 +80,7 @@ export class PapActionsComponent implements OnInit, OnDestroy {
 
   private relateMeTo() {
     this.projectService.getParentTypes(this.data.value.projectTypeIdName).subscribe(types => {
-      this.ref = this.openDynamicDialogModal('Select projects new parent project(s)', { types: types.map(type => type.idName), filterOptions: this.filterOptions });
+      this.ref = this.openDynamicDialogModal('Select projects new parent project(s)', { types: types.map(type => type.idName)});
       this.ref.onClose.subscribe((project: Project) => {
         if (project) {
           this.projectService.updateProjectRelations(this.data.value.projectId, null, null, project.projectId, null).subscribe(res => {
@@ -92,7 +92,7 @@ export class PapActionsComponent implements OnInit, OnDestroy {
   }
 
   private unrelateMe() {
-    this.ref = this.openDynamicDialogModal('Select parent project(s) to unrelate me from', { guid: this.data.value.guid, filterOptions: this.filterOptions });
+    this.ref = this.openDynamicDialogModal('Select parent project(s) to unrelate me from', { guid: this.data.value.guid });
     this.ref.onClose.subscribe((project: Project) => {
       if (project) {
         this.projectService.updateProjectRelations(this.data.value.projectId, null, null, null, project.projectId).subscribe(res => {
@@ -117,7 +117,7 @@ export class PapActionsComponent implements OnInit, OnDestroy {
 
   private moveMeTo() {
     this.projectService.getParentTypes(this.data.value.projectTypeIdName).subscribe(types => {
-      this.ref = this.openDynamicDialogModal('Select new parent project(s)', { types: types.map(type => type.idName), filterOptions: this.filterOptions });
+      this.ref = this.openDynamicDialogModal('Select new parent project(s)', { types: types.map(type => type.idName) });
       this.ref.onClose.subscribe((project: Project) => {
         if (project) {
           this.projectService.updateProjectRelations(this.data.value.projectId, null, null, project.projectId, '*').subscribe(res => {
