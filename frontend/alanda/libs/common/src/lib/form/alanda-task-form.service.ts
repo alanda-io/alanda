@@ -130,13 +130,13 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
 
   connectLoadingState(o$: Observable<boolean>): void {
     this.connect('loading', o$, (oldState, isLoading) => {
-      return isLoading ? oldState.loading++ : oldState.loading--;
+      return isLoading ? ++oldState.loading : --oldState.loading;
     });
   }
 
   setLoading(isLoading: boolean): void {
     this.set('loading', (oldState) => {
-      return isLoading ? oldState.loading++ : oldState.loading--;
+      return isLoading ? ++oldState.loading : --oldState.loading;
     });
   }
 }

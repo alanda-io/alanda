@@ -240,7 +240,9 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
   ],
 })
 export class AlandaCommonModule {
-  public static forRoot(config: AppSettings): ModuleWithProviders {
+  public static forRoot(
+    config: AppSettings,
+  ): ModuleWithProviders<AlandaCommonModule> {
     return {
       ngModule: AlandaCommonModule,
       providers: [
