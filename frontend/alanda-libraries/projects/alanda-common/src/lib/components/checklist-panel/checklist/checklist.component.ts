@@ -31,14 +31,14 @@ export class AlandaChecklistComponent implements OnInit {
   }
 
   goToAdministration() {
-    this.router.navigate(['/checklist-administration']);
+    this.router.navigate(['admin/checklist']);
   }
 
   addItem(name: string, required: boolean): void {
     if (!name || !name.trim().length) {
       return;
     }
-    if (this.checklist.checkListItems.filter(val => val.definition.displayText.toLowerCase().trim() === name.toLowerCase().trim()).length) {
+    if (this.checklist.checkListItems.filter(val => val.itemDefinition.displayText.toLowerCase().trim() === name.toLowerCase().trim()).length) {
       return;
     }
     const item: CheckListItemDefinition = {
@@ -49,7 +49,7 @@ export class AlandaChecklistComponent implements OnInit {
     };
     this.checklistAPI.addCheckListItemToCheckList(this.checklist.id, item)
     .subscribe(res => {
-      this.checklist.checkListItems.push({status: false, definition: item});
+      this.checklist.checkListItems.push({status: false, itemDefinition: item});
       this._loadChecks();
     }, error => {
       this.messageService.add({severity: 'error', summary: 'New check', detail: 'Could not create new check'});
@@ -57,7 +57,7 @@ export class AlandaChecklistComponent implements OnInit {
   }
 
   removeItem(item: CheckListItem): void {
-    this.checklistAPI.removeCheckListItemFromCheckList(this.checklist.id, item.definition.key).subscribe(res => {
+    this.checklistAPI.removeCheckListItemFromCheckList(this.checklist.id, item.itemDefinition.key).subscribe(res => {
       const index = this.checklist.checkListItems.indexOf(item);
       this.checklist.checkListItems.splice(index, 1);
       this._loadChecks();
@@ -67,8 +67,9 @@ export class AlandaChecklistComponent implements OnInit {
   }
 
   private _loadChecks(): void {
-    this.mandatoryChecks = this.checklist.checkListItems.filter(item => item.definition.required);
-    this.optionalChecks = this.checklist.checkListItems.filter(item => !item.definition.required);
+    this.mandatoryChecks = this.checklist.checkListItems.filter(item => item.itemDefinition.required);
+    this.optionalChecks = this.checklist.checkListItems.filter(item => !item.itemDefinition.required);
+    this.completedTasks = this.mandatoryChecks.filter(item => item.status).length + this.optionalChecks.filter(item => item.status).length;
     this.formGroup = this._getFormGroup();
     (<any>Object).entries(this.formGroup.controls).forEach(([key, formGroup]) => {
       formGroup.valueChanges.pipe(
@@ -89,7 +90,7 @@ export class AlandaChecklistComponent implements OnInit {
 
   private _getFormGroup(): FormGroup {
     const formControls = this.checklist.checkListItems.reduce((controls, item: CheckListItem) => {
-      controls[item.definition.key] = this.fb.group({status: [item.status, item.definition.required ? Validators.required : null]});
+      controls[item.itemDefinition.key] = this.fb.group({status: [item.status, item.itemDefinition.required ? Validators.required : null]});
       return controls;
     }, {});
 

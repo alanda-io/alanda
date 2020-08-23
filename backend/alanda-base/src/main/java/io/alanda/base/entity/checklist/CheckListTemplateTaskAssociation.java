@@ -1,8 +1,10 @@
 package io.alanda.base.entity.checklist;
 
 import io.alanda.base.entity.AbstractAuditEntity;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,12 +13,15 @@ public class CheckListTemplateTaskAssociation extends AbstractAuditEntity {
     @Column(name = "USER_TASK_DEF_KEY")
     private String userTaskDefKey;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "template")
     private CheckListTemplate checkListTemplate;
 
-    @OneToMany(mappedBy = "templateTaskAssociation")
-    private List<CheckList> taskInstanceAssociations;
+    @OneToMany(
+            mappedBy = "templateTaskAssociation",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<CheckList> taskInstanceAssociations = new ArrayList<>();
 
     public String getUserTaskDefKey() {
         return userTaskDefKey;
@@ -40,5 +45,15 @@ public class CheckListTemplateTaskAssociation extends AbstractAuditEntity {
 
     public void setTaskInstanceAssociations(List<CheckList> taskInstanceItemDefinitions) {
         this.taskInstanceAssociations = taskInstanceItemDefinitions;
+    }
+
+    public void addChecklist(CheckList checkList) {
+        taskInstanceAssociations.add(checkList);
+        checkList.setTemplateTaskAssociation(this);
+    }
+
+    public void removeChecklist(CheckList checkList) {
+        taskInstanceAssociations.remove(checkList);
+        checkList.setTemplateTaskAssociation(null);
     }
 }

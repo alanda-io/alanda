@@ -6,7 +6,7 @@ export type CheckListItemDefinition = {
 };
 
 export type CheckListItem = {
-  definition: CheckListItemDefinition,
+  itemDefinition: CheckListItemDefinition,
   status: boolean
 };
 

@@ -27,8 +27,8 @@ CREATE TABLE AL_CHECKLIST_TEMPLATE_CHECKLIST
 CREATE TABLE AL_CHECKLIST
 (
     guid                          NUMBER(38)    NOT NULL,
-    template_checklist NUMBER(38)    NOT NULL REFERENCES AL_CHECKLIST_TEMPLATE_CHECKLIST,
-    user_task                     NVARCHAR2(64) NOT NULL REFERENCES ACT_HI_TASKINST,
+    template_checklist            NUMBER(38)    REFERENCES AL_CHECKLIST_TEMPLATE_CHECKLIST,
+    user_task                     NVARCHAR2(64),
     created                       DATE,
     createuser                    NUMBER(38, 0),
     lastupdate                    DATE,

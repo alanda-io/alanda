@@ -61,7 +61,6 @@ export class ChecklistTemplateApiService extends ExceptionHandlingService {
   ];
 
   getAllCheckListTemplates(): Observable<CheckListTemplate[]> {
-    //return of(this.clTemplate);
     return this.http.get<CheckListTemplate[]>(`${this.endpointUrl}/templates`);
   }
 

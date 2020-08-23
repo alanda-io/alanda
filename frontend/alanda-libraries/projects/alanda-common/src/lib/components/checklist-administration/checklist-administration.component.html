@@ -25,7 +25,6 @@
   }
 </style>
 <p-panel header="Checklist Administration">
-  {{loading ? 'is loading' : 'not loading'}}
   <div class="p-grid">
     <div class="p-col-4">
       <p-listbox *ngIf="templates.length" [options]="templates" [(ngModel)]="selectedTemplate" optionLabel="name"></p-listbox>
@@ -76,7 +75,7 @@
           </ng-template>
         </p-orderList>
         <p-footer>
-          <button pButton class="cl-button" (click)="updateTemplate$.next()" type="button" label="Update"></button>
+          <button pButton class="cl-button" (click)="updateTemplate$.next()" [disabled]="loading" type="button" label="Update"></button>
         </p-footer>
       </p-card>
     </div>

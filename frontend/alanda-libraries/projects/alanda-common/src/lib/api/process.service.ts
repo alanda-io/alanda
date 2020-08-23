@@ -22,19 +22,13 @@ import { AppSettings, APP_CONFIG } from "../models/appSettings";
       return this.http.get(`${this.endpointUrl}/${processInstanceId}/variables/${variableName}`, {}).pipe(catchError(this.handleError('getVariable', null)));
     }
 
-    queryProcess(query?: string): Observable<string[]> {
-      const params: HttpParams = new HttpParams();
-      if (query && query.trim().length) {
-        params.set('query', query);
-      }
+    queryProcess(query: string): Observable<string[]> {
+      const params: HttpParams = new HttpParams().set('query', query);
       return this.http.get<string[]>(`${this.endpointUrl}`, {params}).pipe(catchError(this.handleError('queryProcess', null)));
     }
 
-  queryUserTasks(processDefKey: string, query?: string): Observable<string[]> {
-    const params: HttpParams = new HttpParams();
-    if (query && query.trim().length) {
-      params.set('query', query);
-    }
+  queryUserTasks(processDefKey: string, query: string): Observable<string[]> {
+    const params: HttpParams = new HttpParams().set('query', query);
     return this.http.get<string[]>(`${this.endpointUrl}/${processDefKey}/tasks`, {params}).pipe(catchError(this.handleError('queryUserTasks', null)));
   }
 }

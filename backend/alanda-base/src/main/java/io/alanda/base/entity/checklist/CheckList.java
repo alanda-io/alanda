@@ -8,14 +8,18 @@ import java.util.List;
 @Entity
 @Table(name = "AL_CHECKLIST")
 public class CheckList extends AbstractAuditEntity {
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "TEMPLATE_CHECKLIST")
     private CheckListTemplateTaskAssociation templateTaskAssociation;
 
     @Column(name = "USER_TASK")
     private String userTaskInstance;
 
-    @OneToMany(mappedBy = "checkList")
+    @OneToMany(
+            mappedBy = "checkList",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<CheckListItemDefinition> itemDefinitions;
 
     public CheckListTemplateTaskAssociation getTemplateTaskAssociation() {
@@ -40,5 +44,15 @@ public class CheckList extends AbstractAuditEntity {
 
     public void setItemDefinitions(List<CheckListItemDefinition> itemDefinitions) {
         this.itemDefinitions = itemDefinitions;
+    }
+
+    public void addItemDefinition(CheckListItemDefinition checkListItemDefinition) {
+        itemDefinitions.add(checkListItemDefinition);
+        checkListItemDefinition.setCheckList(this);
+    }
+
+    public void removeItemDefinition(CheckListItemDefinition checkListItemDefinition) {
+        itemDefinitions.remove(checkListItemDefinition);
+        checkListItemDefinition.setCheckList(null);
     }
 }

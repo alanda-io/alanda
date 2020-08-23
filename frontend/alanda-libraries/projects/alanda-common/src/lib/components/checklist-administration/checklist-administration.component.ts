@@ -32,15 +32,18 @@ export class AlandaChecklistAdministrationComponent implements OnInit, OnDestroy
       exhaustMap(() => this.templateAPI.updateCheckListTemplate(this.selectedTemplate).pipe(
         catchError(err => {
           this.messageService.add({severity: 'error', summary: 'Update template', detail: 'Could not update template'});
+          this.loading = false;
           return EMPTY;
-        }),
-      )),
-      finalize(() => this.loading = false)
-    ).subscribe();
+        }))
+      ),
+    ).subscribe(res => {
+      this.loading = false;
+      this.messageService.add({severity: 'success', summary: 'Update template', detail: 'Template updated'});
+    });
   }
 
   ngOnInit(): void {
-    this.templateAPI.getAllCheckListTemplates().subscribe(templates => {
+    this.templateAPI.getAllCheckListTemplates().pipe().subscribe(templates => {
       this.templates = templates;
     });
   }
@@ -68,7 +71,6 @@ export class AlandaChecklistAdministrationComponent implements OnInit, OnDestroy
   }
 
   addItem(name: string, required: boolean): void {
-    console.log("required", required);
     if (this.loading || !name.trim().length) {
       return;
     }

@@ -29,4 +29,5 @@ public class CheckListItem extends AbstractAuditEntity {
     public void setStatus(Boolean status) {
         this.status = status;
     }
+
 }

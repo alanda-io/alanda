@@ -4,6 +4,7 @@ import io.alanda.base.dao.ChecklistItemRepo;
 import io.alanda.base.entity.checklist.CheckListItem;
 import io.alanda.base.entity.checklist.CheckListItemBackend;
 import io.alanda.base.entity.checklist.CheckListItemDefinition;
+import io.alanda.base.service.checklist.dto.CheckListItemDefinitionDto;
 import io.alanda.base.service.checklist.dto.CheckListItemDto;
 
 import javax.inject.Inject;
@@ -11,17 +12,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class CheckListItemDbService extends CheckListItemService<Long> {
+public class CheckListItemDbService implements ICheckListItemService<Long> {
+
     @Inject
     private ChecklistItemRepo checklistItemRepo;
 
-    public CheckListItemDbService() {
-        super(CheckListItemBackend.DB, Long.class);
+    @Override
+    public CheckListItemBackend getTaskBackend() {
+        return CheckListItemBackend.DB;
     }
 
     @Override
-    public Long createCheckListItem(CheckListItemDefinition itemDefinition) {
-        return null;
+    public CheckListItemDefinition createCheckListItem(CheckListItemDefinition itemDefinition) {
+        CheckListItem checkListItem = new CheckListItem();
+        checkListItem.setStatus(false);
+        itemDefinition.addCheckListItem(checkListItem);
+        return itemDefinition;
     }
 
     @Override
@@ -36,30 +42,39 @@ public class CheckListItemDbService extends CheckListItemService<Long> {
 
     @Override
     public void setCheckListItemStatus(Long aLong, Boolean status) {
-
+        CheckListItem checkListItem = checklistItemRepo.findOne(aLong);
+        checkListItem.setStatus(status);
     }
 
     @Override
     public CheckListItemDto getCheckListItem(Long definitionGuid) {
-        return mapToItemDto(checklistItemRepo.findCheckListItemByDefinitionGuid(definitionGuid));
+        return mapToItemDto(checklistItemRepo.findByDefinitionGuid(definitionGuid));
     }
 
     @Override
     public List<CheckListItemDto> getCheckListItems(Iterable<Long> definitionGuids) {
-        return mapToItemDtos(checklistItemRepo.findCheckListItemsByDefinitionGuid(definitionGuids));
+        return mapToItemDtos(checklistItemRepo.findByDefinitionGuidIn(definitionGuids));
     }
 
     private CheckListItemDto mapToItemDto(CheckListItem item) {
         final CheckListItemDto itemDto = new CheckListItemDto();
-
         itemDto.setId(item.getGuid());
-        // itemDto.getItemDefinition(item.getDefinition()); // TODO map
+        itemDto.setItemDefinition(mapToCheckListItemDefinitionDto(item.getDefinition()));
         itemDto.setStatus(item.getStatus());
-
         return itemDto;
     }
 
-    private List<CheckListItemDto> mapToItemDtos(Iterable<CheckListItem> items) {
-        return StreamSupport.stream(items.spliterator(), false).map(this::mapToItemDto).collect(Collectors.toList());
+    private List<CheckListItemDto> mapToItemDtos(List<CheckListItem> items) {
+        return items.stream().map(this::mapToItemDto).collect(Collectors.toList());
+    }
+
+    private CheckListItemDefinitionDto mapToCheckListItemDefinitionDto(CheckListItemDefinition checkListItemDefinition) {
+        CheckListItemDefinitionDto checkListItemDefinitionDto = new CheckListItemDefinitionDto();
+        checkListItemDefinitionDto.setSortOrder(checkListItemDefinition.getSortOrder().longValue());
+        checkListItemDefinitionDto.setRequired(checkListItemDefinition.getRequired());
+        checkListItemDefinitionDto.setKey(checkListItemDefinition.getKey());
+        checkListItemDefinitionDto.setDisplayText(checkListItemDefinition.getDisplayText());
+        checkListItemDefinitionDto.setCustom(checkListItemDefinition.getCheckListTemplate() != null ? false : true);
+        return checkListItemDefinitionDto;
     }
 }

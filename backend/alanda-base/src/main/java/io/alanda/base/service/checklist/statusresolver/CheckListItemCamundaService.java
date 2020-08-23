@@ -6,13 +6,15 @@ import io.alanda.base.service.checklist.dto.CheckListItemDto;
 
 import java.util.List;
 
-public class CheckListItemCamundaService extends CheckListItemService<String> {
-    public CheckListItemCamundaService(){
-        super(CheckListItemBackend.CAMUNDA, String.class);
+public class CheckListItemCamundaService implements ICheckListItemService<String> {
+
+    @Override
+    public CheckListItemBackend getTaskBackend() {
+        return CheckListItemBackend.CAMUNDA;
     }
 
     @Override
-    public String createCheckListItem(CheckListItemDefinition itemDefinition) {
+    public CheckListItemDefinition createCheckListItem(CheckListItemDefinition itemDefinition) {
         // start process
         throw new UnsupportedOperationException("Not yet implemented");
     }

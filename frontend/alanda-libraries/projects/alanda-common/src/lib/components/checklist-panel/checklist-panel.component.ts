@@ -25,7 +25,7 @@ export class AlandaChecklistPanelComponent implements OnInit {
     if (collapsed) {
       return;
     }
-    this.checklistAPI.getCheckListsForUserTaskInstance(null)
+    this.checklistAPI.getCheckListsForUserTaskInstance(this.task.process_instance_id)
     .pipe(
       finalize(() => this.loading = false)
     )

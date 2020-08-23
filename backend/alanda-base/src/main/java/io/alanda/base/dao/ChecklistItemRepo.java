@@ -4,9 +4,12 @@ import io.alanda.base.entity.checklist.CheckListItem;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.cdi.Eager;
 
+import java.util.List;
+
 @Eager
 public interface ChecklistItemRepo extends PagingAndSortingRepository<CheckListItem, Long> {
-    Iterable<CheckListItem> findCheckListItemsByDefinitionGuid(Iterable<Long> itemDefinitionGuid);
 
-    CheckListItem findCheckListItemByDefinitionGuid(Long itemDefinitionGuid);
+    List<CheckListItem> findByDefinitionGuidIn(Iterable<Long> itemDefinitionGuid);
+
+    CheckListItem findByDefinitionGuid(Long itemDefinitionGuid);
 }

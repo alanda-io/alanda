@@ -20,8 +20,8 @@ public class CheckListTemplate extends AbstractAuditEntity {
     //@JoinColumn(name = "TEMPLATE")
     @OneToMany(
             mappedBy = "checkListTemplate",
-            fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
             orphanRemoval = true)
     private List<CheckListItemDefinition> itemDefinitions = new ArrayList<>();
 

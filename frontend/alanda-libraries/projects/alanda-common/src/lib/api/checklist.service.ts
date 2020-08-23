@@ -22,7 +22,7 @@ export class ChecklistApiService extends ExceptionHandlingService {
       id: 1,
       checkListItems: [
         {
-          definition: {
+          itemDefinition: {
             custom: false,
             displayText: 'Check 1.1',
             key: 'check-1-1',
@@ -31,7 +31,7 @@ export class ChecklistApiService extends ExceptionHandlingService {
           status: null
         },
         {
-          definition: {
+          itemDefinition: {
             custom: false,
             displayText: 'Check 1.2',
             key: 'check-1-2',
@@ -40,7 +40,7 @@ export class ChecklistApiService extends ExceptionHandlingService {
           status: null
         },
         {
-          definition: {
+          itemDefinition: {
             custom: false,
             displayText: 'Check 1.3',
             key: 'check-1-3',
@@ -55,7 +55,7 @@ export class ChecklistApiService extends ExceptionHandlingService {
       id: 2,
       checkListItems: [
         {
-          definition: {
+          itemDefinition: {
             custom: false,
             displayText: 'Check 2.1',
             key: 'check-2-1',
@@ -64,7 +64,7 @@ export class ChecklistApiService extends ExceptionHandlingService {
           status: null
         },
         {
-          definition: {
+          itemDefinition: {
             custom: false,
             displayText: 'Check 2.2',
             key: 'check-2-2',
@@ -73,7 +73,7 @@ export class ChecklistApiService extends ExceptionHandlingService {
           status: null
         },
         {
-          definition: {
+          itemDefinition: {
             custom: false,
             displayText: 'Check 2.3',
             key: 'check-2-3',

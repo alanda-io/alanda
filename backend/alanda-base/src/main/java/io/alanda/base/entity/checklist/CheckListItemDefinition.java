@@ -3,17 +3,25 @@ package io.alanda.base.entity.checklist;
 import io.alanda.base.entity.AbstractAuditEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "AL_CHECKLIST_ITEM_DEFINITION")
 public class CheckListItemDefinition extends AbstractAuditEntity {
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "TEMPLATE")
     private CheckListTemplate checkListTemplate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "checklist")
     private CheckList checkList;
+
+    @OneToMany(
+            mappedBy = "definition",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<CheckListItem> items = new ArrayList<>();
 
     @Column(name = "KEY", nullable = false)
     private String key;
@@ -81,5 +89,24 @@ public class CheckListItemDefinition extends AbstractAuditEntity {
 
     public void setRequired(Boolean required) {
         this.required = required;
+    }
+
+
+    public List<CheckListItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<CheckListItem> items) {
+        this.items = items;
+    }
+
+    public void addCheckListItem(CheckListItem checkListItem) {
+        items.add(checkListItem);
+        checkListItem.setDefinition(this);
+    }
+
+    public void removeCheckListItem(CheckListItem checkListItem) {
+        items.remove(checkListItem);
+        checkListItem.setDefinition(null);
     }
 }

@@ -62,28 +62,28 @@
   <p-progressBar class="cl-progressbar" [showValue]="false" unit="%" [value]="completedTasks / checklist.checkListItems.length * 100"></p-progressBar>
   <form [formGroup]="formGroup" class="p-grid">
     <div *ngFor="let item of mandatoryChecks" class="p-col-12">
-      <div [formGroupName]="item.definition.key">
+      <div [formGroupName]="item.itemDefinition.key">
         <p-checkbox
           formControlName="status"
           [name]="checklist.id"
-          [label]="item.definition.displayText"
+          [label]="item.itemDefinition.displayText"
           [binary]="true"
-          [labelStyleClass]="formGroup.get(item.definition.key).value.status ? 'cl-check-label-lt' : ''"
+          [labelStyleClass]="formGroup.get(item.itemDefinition.key).value.status ? 'cl-check-label-lt' : ''"
           ></p-checkbox>
-          <span *ngIf="item.definition.custom" (click)="removeItem(item)" class="fa fa-times-circle delete-icon"></span>
+          <span *ngIf="item.itemDefinition.custom" (click)="removeItem(item)" class="fa fa-times-circle delete-icon"></span>
       </div>
     </div>
     <h4 class="p-col-12">Optional Tasks</h4>
     <div *ngFor="let item of optionalChecks" class="p-col-12">
-      <div [formGroupName]="item.definition.key">
+      <div [formGroupName]="item.itemDefinition.key">
         <p-checkbox
           formControlName="status"
           [name]="checklist.id"
-          [label]="item.definition.displayText"
+          [label]="item.itemDefinition.displayText"
           [binary]="true"
-          [labelStyleClass]="formGroup.get(item.definition.key).value.status ? 'cl-check-label-lt-opt' : 'cl-check-label-opt'"
+          [labelStyleClass]="formGroup.get(item.itemDefinition.key).value.status ? 'cl-check-label-lt-opt' : 'cl-check-label-opt'"
           ></p-checkbox>
-          <span *ngIf="item.definition.custom" (click)="removeItem(item)" class="fa fa-times-circle delete-icon"></span>
+          <span *ngIf="item.itemDefinition.custom" (click)="removeItem(item)" class="fa fa-times-circle delete-icon"></span>
       </div>
     </div>
     <div class="p-col-12">

@@ -19,18 +19,6 @@ public abstract class CheckListItemService<ID> {
         return taskBackend;
     }
 
-    public abstract ID createCheckListItem(CheckListItemDefinition itemDefinition);
-
-    public abstract ID removeCheckListItem(CheckListItemDefinition itemDefinition);
-
-    public abstract Boolean getCheckListItemStatus(ID id);
-
-    public abstract void setCheckListItemStatus(ID id, Boolean status);
-
-    public abstract CheckListItemDto getCheckListItem(Long definitionGuid);
-
-    public abstract List<CheckListItemDto> getCheckListItems(Iterable<Long> definitionGuids);
-
     protected Class<ID> getIdClass() {
         return idClass;
     }

@@ -1,6 +1,8 @@
 package io.alanda.rest;
 
-import io.alanda.rest.impl.vm.*;
+import io.alanda.base.service.checklist.dto.CheckListDto;
+import io.alanda.base.service.checklist.dto.CheckListItemDefinitionDto;
+import io.alanda.base.service.checklist.dto.CheckListTemplateDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import javax.ws.rs.*;
@@ -15,19 +17,19 @@ public interface CheckListRestService {
 
     @GET
     @Path("/templates")
-    Iterable<CheckListTemplateVM> getAllCheckListTemplates();
+    Iterable<CheckListTemplateDto> getAllCheckListTemplates();
 
     @GET
     @Path("/template/{templateId}")
-    CheckListTemplateVM getCheckListTemplate(@PathParam("templateId") Long templateId);
+    CheckListTemplateDto getCheckListTemplate(@PathParam("templateId") Long templateId);
 
     @POST
     @Path("/template")
-    Response createCheckListTemplate(CheckListTemplateVM templateVM);
+    CheckListTemplateDto createCheckListTemplate(CheckListTemplateDto templateDto);
 
     @PUT
     @Path("/template/{templateId}")
-    Response updateCheckListTemplate(@PathParam("templateId") Long templateId, CheckListTemplateVM templateVM);
+    CheckListTemplateDto updateCheckListTemplate(@PathParam("templateId") Long templateId, CheckListTemplateDto templateDto);
 
     @DELETE
     @Path("/template/{templateId}")
@@ -35,7 +37,7 @@ public interface CheckListRestService {
 
     @GET
     @Path("/userTask/{taskInstanceGuid}")
-    List<CheckListVM> getCheckListsForUserTaskInstance(@PathParam("taskInstanceGuid") String taskInstanceGuid);
+    List<CheckListDto> getCheckListsForUserTaskInstance(@PathParam("taskInstanceGuid") String taskInstanceGuid);
 
     @PUT
     @Path("/{checkListId}/{key}")
@@ -43,7 +45,7 @@ public interface CheckListRestService {
 
     @POST
     @Path("/{checkListId}/definitions")
-    Response addCheckListItemToChecklist(@PathParam("checkListId") Long checkListId, CheckListItemDefinitionVM checkListItemDefinitionVM);
+    Response addCheckListItemToChecklist(@PathParam("checkListId") Long checkListId, CheckListItemDefinitionDto checkListItemDefinitionDto);
 
     @DELETE
     @Path("/{checkListId}/definition/{itemKey}")
