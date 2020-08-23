@@ -5,12 +5,13 @@ import { AlandaProject } from '../../api/models/project';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { map, switchMap } from 'rxjs/operators';
 import { RxState } from '@rx-angular/state';
+import { AlandaUser } from '../../api/models/user';
 
 export interface AlandaPhaseTabState {
   simplePhases: AlandaSimplePhase[];
   project: AlandaProject;
 }
-
+// TODO: add phase permission handling, add start/restart enabled behaviour
 @Component({
   selector: 'alanda-phase-tab',
   templateUrl: './phase-tab.component.html',
@@ -24,6 +25,7 @@ export class AlandaPhaseTabComponent {
   }
   @Input() activePhaseIndex = 0;
   @Output() activePhaseIndexChange = new EventEmitter<number>();
+  @Input() user: AlandaUser;
 
   overviewTab: AlandaSimplePhase = {
     active: false,

@@ -104,6 +104,16 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
       .pipe(catchError(this.handleError<AlandaProject>('createProject')));
   }
 
+  public getAllProjectProcesses(
+    projectGuid: number,
+  ): Observable<AlandaProcess[]> {
+    return this.http
+      .get<AlandaProcess[]>(`${this.endpoint}/project/${projectGuid}/process`)
+      .pipe(
+        catchError(this.handleError<AlandaProcess[]>('getAllProjectProcesses')),
+      );
+  }
+
   public getProjectTreeByGuid(guid: number): Observable<AlandaProject> {
     return this.http
       .get<AlandaProject>(`${this.endpoint}/guid/${guid}?tree=true`)

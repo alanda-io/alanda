@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { AlandaMenuItem, AlandaTitleService } from '@alanda/common';
-import { UserAdapter } from '@alanda/common';
 import { Subject } from 'rxjs';
+import { UserStoreImpl } from './store/user';
+import { RxState } from '@rx-angular/state';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'alanda-app-root',
   templateUrl: './app.component.html',
 })
-export class AppComponent {
-  user$ = this.userAdapter.currentUser$;
+export class AppComponent extends RxState<any> {
+  user$ = this.userStore.currentUser$;
   releaseRunAsClick$ = new Subject<void>();
 
   items: AlandaMenuItem[] = [
@@ -76,12 +78,21 @@ export class AppComponent {
   logoPath = '/assets/default-logo.png';
 
   constructor(
-    private userAdapter: UserAdapter,
+    private userStore: UserStoreImpl,
     private titleService: AlandaTitleService,
   ) {
-    this.userAdapter.connectReleaseRunAs(
-      this.releaseRunAsClick$.asObservable(),
+    super();
+    this.userStore.dispatch(this.userStore.createLoadUserAction());
+    this.hold(
+      this.releaseRunAsClick$.pipe(
+        tap(() =>
+          this.userStore.dispatch(
+            this.userStore.createReleaseRunAsUserAction(),
+          ),
+        ),
+      ),
     );
+
     this.titleService.setRouterTitle();
   }
 }

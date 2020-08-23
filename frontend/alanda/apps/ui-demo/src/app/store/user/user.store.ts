@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { AlandaUser } from '../../../api/models/user';
-import { AlandaUserApiService } from '../../../api/userApi.service';
 import { RxState } from '@rx-angular/state';
 import { Observable, Subject } from 'rxjs';
 import { filter, exhaustMap, switchMap, map } from 'rxjs/operators';
 import { isNil } from 'lodash';
 import { UserStore, ActionType } from './user.store.types';
 import { Action } from '../action';
+import { AlandaUser, AlandaUserApiService } from '@alanda/common';
 
 interface UserStoreState {
   currentUser: AlandaUser;

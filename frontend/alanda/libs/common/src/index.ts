@@ -90,11 +90,14 @@ export { PhaseTabModule } from './lib/components/phase-tab/phase-tab.module';
 
 export * from './lib/components/controller/directives/project.properties.directive';
 export * from './lib/components/controller/projects-controller/projects-controller.component';
-export * from './lib/components/attachments/attachments-list/attachments-list.component';
-export * from './lib/components/attachments/attachments-tree/attachments-tree.component';
+
+export { AttachmentsListComponent } from './lib/components/attachments/attachments-list/attachments-list.component';
+export { AttachmentsTreeComponent } from './lib/components/attachments/attachments-tree/attachments-tree.component';
+export { AlandaAttachmentsComponent } from './lib/components/attachments/attachments.component';
+export { AttachmentsModule } from './lib/components/attachments/attachments.module';
+
 export * from './lib/components/project-header/project-header.component';
 export * from './lib/components/create-project/create-project.component';
-export * from './lib/components/attachments/attachments.component';
 export * from './lib/components/history/history-grid.component';
 export * from './lib/components/history/history-grid.component';
 export * from './lib/components/controller/directives/process.config.directive';
@@ -116,5 +119,3 @@ export * from './lib/components/project-and-processes/pap-relate-dialog/pap-rela
 export { AlandaHeaderComponent } from './lib/components/header/header.component';
 export { HeaderModule } from './lib/components/header/header.module';
 export { PageSizeSelectModule } from './lib/components/page-size-select/page-size-select.module';
-export { UserAdapter } from './lib/services/user.adapter';
-export * from './lib/state/store/user';

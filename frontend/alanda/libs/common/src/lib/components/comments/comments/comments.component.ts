@@ -5,7 +5,7 @@ import { AlandaProject } from '../../../api/models/project';
 import { AlandaTask } from '../../../api/models/task';
 import { RxState } from '@rx-angular/state';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map, startWith } from 'rxjs/operators';
 import { AlandaCommentPostBody } from '../../../api/models/commenPostBody';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -21,17 +21,17 @@ interface AlandaCommentsState {
   selector: 'alanda-comments',
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.scss'],
-  providers: [AlandaCommentsAdapter, AlandaCommentsPresenter],
+  providers: [AlandaCommentsAdapter, AlandaCommentsPresenter, RxState],
 })
-export class AlandaCommentsComponent extends RxState<AlandaCommentsState> {
+export class AlandaCommentsComponent {
   @Input()
   set task(task: AlandaTask) {
-    this.set({ task });
+    this.state.set({ task });
   }
 
   @Input()
   set project(project: AlandaProject) {
-    this.set({ project });
+    this.state.set({ project });
   }
 
   @Input()
@@ -49,23 +49,28 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentsState> {
   });
 
   processInstanceId$ = combineLatest([
-    this.select('project'),
-    this.select('task'),
+    this.state.select('project').pipe(startWith(null)),
+    this.state.select('task').pipe(startWith(null)),
   ]).pipe(
+    filter(([project, task]) => project !== null || task !== null),
     map(([project, task]) => {
       if (task) {
         return task.process_instance_id;
       }
 
-      return project.processes.find((process) => process.relation === 'MAIN')
-        .processInstanceId;
+      if (project) {
+        return project.processes.find((process) => process.relation === 'MAIN')
+          .processInstanceId;
+      }
+
+      return null;
     }),
   );
 
   commentPostBody$: Observable<AlandaCommentPostBody> = combineLatest([
     this.cp.commentText$,
     this.processInstanceId$,
-    this.select('task'),
+    this.state.select('task'),
   ]).pipe(
     map(([commentText, processInstanceId, task]) => {
       return {
@@ -78,21 +83,20 @@ export class AlandaCommentsComponent extends RxState<AlandaCommentsState> {
   );
 
   constructor(
+    private state: RxState<AlandaCommentsState>,
     private readonly ca: AlandaCommentsAdapter,
     readonly cp: AlandaCommentsPresenter,
     private readonly fb: FormBuilder,
   ) {
-    super();
-    this.set({ task: null });
     this.cp.connect(
       'comments',
       this.ca.select('comments'),
       (oldState, comments) => {
-        if (this.get().task) {
+        if (this.state.get().task) {
           this.taskHasCommentForm.setValue({
             hasComment:
               comments.findIndex(
-                (_comment) => _comment.taskId === this.get().task.task_id,
+                (_comment) => _comment.taskId === this.state.get().task.task_id,
               ) !== -1
                 ? true
                 : null,

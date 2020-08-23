@@ -7,5 +7,4 @@ import { AlandaPermissionsDirective } from './permissions.directive';
   declarations: [AlandaPermissionsDirective],
   exports: [AlandaPermissionsDirective],
 })
-// forRoot for UserService
 export class PermissionModule {}

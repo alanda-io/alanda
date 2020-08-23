@@ -4,9 +4,9 @@ import {
   AlandaTableLayout,
   Authorizations,
 } from '@alanda/common';
-import { UserAdapter } from '@alanda/common';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { UserStoreImpl } from '../../store/user';
 
 @Component({
   selector: 'alanda-task-list',
@@ -15,10 +15,10 @@ import { Observable } from 'rxjs';
 })
 export class AlandaTaskListComponent {
   layouts$: Observable<AlandaTableLayout[]>;
-  user$ = this.userAdapter.currentUser$;
+  user$ = this.userStore.currentUser$;
   taskLayouts: AlandaTableLayout[];
 
-  constructor(private userAdapter: UserAdapter) {
+  constructor(private userStore: UserStoreImpl) {
     const clickableTaskCell: AlandaTableColumnDefinition = {
       displayName: 'Task Name',
       name: 'Task Name',

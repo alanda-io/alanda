@@ -37,7 +37,6 @@
       </span>
     </div>
   </p-header>
-  <p-header></p-header>
   <form [formGroup]="projectHeaderForm">
     <div class="p-grid spacer">
       <div class="p-col-12 p-md-6 p-lg-4">
@@ -127,6 +126,48 @@
   </form>
   <ng-template alandaProjectPropertiesHost></ng-template>
   <ng-content></ng-content>
+</p-panel>
+<p-panel [toggleable]="false" *ngIf="!project && task">
+  <p-header>
+    <strong>{{ task.task_name }}</strong>
+    <span *ngIf="snoozedTask">
+      &nbsp;(Task Snoozed) z<sup>z<sup>z</sup></sup>
+    </span>
+  </p-header>
+  <div class="p-grid">
+    <div class="p-col-4">
+      <div class="p-grid">
+        <div class="p-col-6"><strong>Process:</strong></div>
+        <div class="p-col-6">{{ task.process_name || 'N/A' }}</div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-6"><strong>Object Name:</strong></div>
+        <div class="p-col-6">{{ task.object_name || 'N/A' }}</div>
+      </div>
+    </div>
+    <div class="p-col-4">
+      <div class="p-grid">
+        <div class="p-col-6"><strong>Due Date:</strong></div>
+        <div class="p-col-6">{{ task.due || 'N/A' }}</div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-6"><strong>Follow up:</strong></div>
+        <div class="p-col-6">{{ task.follow_up || 'N/A' }}</div>
+      </div>
+    </div>
+    <div class="p-col-4">
+      <div class="p-grid">
+        <div class="p-col-6"><strong>Candidate Gr:</strong></div>
+        <div class="p-col-6">
+          {{ task.candidateGroups.join(', ') || 'N/A' }}
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-6"><strong>Assignee</strong></div>
+        <div class="p-col-6">{{ task.assignee || 'N/A' }}</div>
+      </div>
+    </div>
+  </div>
 </p-panel>
 
 <p-dialog

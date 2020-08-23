@@ -7,12 +7,14 @@ import { AlandaCommonModule } from '@alanda/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PanelModule } from 'primeng/panel';
 import { MessageModule } from 'primeng/message';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   imports: [
     CommonModule,
     CardModule,
     FieldsetModule,
+    CalendarModule,
     ButtonModule,
     PanelModule,
     AlandaCommonModule,
@@ -28,6 +30,7 @@ import { MessageModule } from 'primeng/message';
     AlandaCommonModule,
     ReactiveFormsModule,
     PanelModule,
+    CalendarModule,
   ],
   declarations: [],
 })

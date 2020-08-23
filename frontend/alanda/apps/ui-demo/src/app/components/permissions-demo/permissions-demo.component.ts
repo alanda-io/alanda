@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { UserStoreImpl } from '../../store/user';
 
 @Component({
   selector: 'alanda-permissions-demo',
@@ -21,9 +22,14 @@ export class PermissionsDemoComponent implements OnInit {
     status: [],
     phases: [],
     running: [],
+    fc: {},
   });
+  user$ = this.userStore.currentUser$;
 
-  constructor(private readonly fb: FormBuilder) {}
+  constructor(
+    private readonly fb: FormBuilder,
+    private userStore: UserStoreImpl,
+  ) {}
 
   ngOnInit() {}
 

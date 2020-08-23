@@ -4,11 +4,13 @@ import { AlandaTaskFormService, BaseFormComponent } from '@alanda/common';
 import { AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { commentRequiredValidator } from '@alanda/common';
+import { UserEnrichedTaskFormService } from '../../../services/userEnrichedTaskForm.service';
 
 @Component({
   selector: 'alanda-prepare-vacation-request',
   templateUrl: './prepare-vacation-request.component.html',
   styleUrls: ['./prepare-vacation-request.component.scss'],
+  providers: [UserEnrichedTaskFormService],
 })
 export class PrepareVacationRequestComponent
   implements BaseFormComponent, AfterViewInit {
@@ -17,7 +19,7 @@ export class PrepareVacationRequestComponent
   items: SelectItem[];
 
   constructor(
-    private readonly taskFormService: AlandaTaskFormService,
+    private readonly taskFormService: UserEnrichedTaskFormService,
     private readonly router: Router,
   ) {
     this.items = [

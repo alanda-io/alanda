@@ -27,8 +27,6 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CalendarModule } from 'primeng/calendar';
 import { MessageModule } from 'primeng/message';
-import { AttachmentsListComponent } from './components/attachments/attachments-list/attachments-list.component';
-import { AttachmentsTreeComponent } from './components/attachments/attachments-tree/attachments-tree.component';
 import { MonitorValuesPipeModule } from './pipes/nested-object.pipe';
 import { TaskTableModule } from './components/task-table/task-table.module';
 import { TagFilterPipe } from './pipes/tag-filter.pipe';
@@ -63,7 +61,6 @@ import { AlandaProjectApiService } from './api/projectApi.service';
 import { AlandaPropertyApiService } from './api/propertyApi.service';
 import { AlandaRoleApiService } from './api/roleApi.service';
 import { AlandaExceptionHandlingService } from './services/exceptionHandling.service';
-import { AlandaAttachmentsComponent } from './components/attachments/attachments.component';
 import { AlandaProjectsControllerComponent } from './components/controller/projects-controller/projects-controller.component';
 import { AlandaProjectPropertiesService } from './services/project-properties.service';
 import { TreeTableModule } from 'primeng/treetable';
@@ -103,6 +100,7 @@ import { PapReasonDialogComponent } from './components/project-and-processes/pap
 import { ProjectTableModule } from './components/project-table/project-table.module';
 import { FilterPipeModule } from './pipes/filter.pipe';
 import { PageSizeSelectModule } from './components/page-size-select/page-size-select.module';
+import { AttachmentsModule } from './components/attachments/attachments.module';
 
 @NgModule({
   imports: [
@@ -152,12 +150,10 @@ import { PageSizeSelectModule } from './components/page-size-select/page-size-se
     TaskTableModule,
     PageSizeSelectModule,
     FilterPipeModule,
+    AttachmentsModule,
   ],
   declarations: [
     AlandaUserManagementComponent,
-    AttachmentsListComponent,
-    AttachmentsTreeComponent,
-    AlandaAttachmentsComponent,
     TagFilterPipe,
     AlandaGroupManagementComponent,
     AlandaRoleManagementComponent,
@@ -198,9 +194,6 @@ import { PageSizeSelectModule } from './components/page-size-select/page-size-se
     BadgeModule,
     CommentsModule,
     ProjectTableModule,
-    AlandaAttachmentsComponent,
-    AttachmentsListComponent,
-    AttachmentsTreeComponent,
     MonitorValuesPipeModule,
     TaskTableModule,
     PageSizeSelectModule,
@@ -236,6 +229,7 @@ import { PageSizeSelectModule } from './components/page-size-select/page-size-se
     AlandaVarCheckboxComponent,
     AlandaVarDatepickerComponent,
     HeaderModule,
+    AttachmentsModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,

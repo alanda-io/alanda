@@ -2,12 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AlandaProject } from '../../../../api/models/project';
 import { AlandaGroup } from '../../../../api/models/group';
 import { AlandaRole } from '../../../../api/models/role';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  AbstractControl,
-} from '@angular/forms';
+import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { SelectItemGroup, SelectItem } from 'primeng/api';
 import { AlandaPropertyApiService } from '../../../../api/propertyApi.service';
 import { AlandaRoleApiService } from '../../../../api/roleApi.service';
@@ -15,12 +10,16 @@ import { mergeMap, concatMap } from 'rxjs/operators';
 import { AlandaUser } from '../../../../api/models/user';
 import { AlandaUserApiService } from '../../../../api/userApi.service';
 import { AlandaGroupApiService } from '../../../../api/groupApi.service';
+import {
+  PERMISSION_PLACEHOLDER,
+  Authorizations,
+} from '../../../../permissions';
 
 const SELECTOR = 'alanda-role-select';
 @Component({
   selector: SELECTOR,
   templateUrl: './role-select.component.html',
-  styleUrls: [],
+  styleUrls: ['./role-select.component.scss'],
 })
 export class AlandaSelectRoleComponent implements OnInit {
   @Input() project: AlandaProject;
@@ -33,6 +32,8 @@ export class AlandaSelectRoleComponent implements OnInit {
   @Input() grouping = false; // if type === user, group users by their groups in dropdown
   // TODO: @Input() parent?: SelectRoleComponent;
   @Input() formName: string;
+  @Input() user: AlandaUser;
+  @Input() permissionString: string;
 
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
@@ -61,6 +62,9 @@ export class AlandaSelectRoleComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (!Authorizations.hasPermission(this.user, this.getPermissionString())) {
+      this.roleSelectFormGroup.disable();
+    }
     this.loadDropdown();
   }
 
@@ -220,5 +224,15 @@ export class AlandaSelectRoleComponent implements OnInit {
 
   get selected(): AbstractControl {
     return this.roleSelectFormGroup.get('selected');
+  }
+
+  getPermissionString(): string {
+    if (this.permissionString) {
+      return this.permissionString;
+    }
+    return `prop:${this.project.authBase.replace(
+      PERMISSION_PLACEHOLDER,
+      'write',
+    )}:role_${this.roleName}`;
   }
 }

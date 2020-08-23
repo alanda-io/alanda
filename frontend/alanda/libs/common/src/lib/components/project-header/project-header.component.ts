@@ -78,7 +78,9 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.initFormGroup();
+    if (this.project) {
+      this.initFormGroup();
+    }
     this.projectHeaderForm.valueChanges
       .pipe(
         debounceTime(1200),
@@ -95,11 +97,13 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
           this.project.version = project.version;
         }
       });
-    this.propertyService
-      .getPropertiesMap(this.project.guid)
-      .subscribe((ret) => {
-        const props: Map<string, any> = ret;
-      });
+    if (this.project) {
+      this.propertyService
+        .getPropertiesMap(this.project.guid)
+        .subscribe((ret) => {
+          const props: Map<string, any> = ret;
+        });
+    }
   }
 
   private updateProject(changes: any): Observable<AlandaProject> {
@@ -149,7 +153,9 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.loadProjectPropertiesComponent();
+    if (this.project) {
+      this.loadProjectPropertiesComponent();
+    }
     this.cdRef.detectChanges();
   }
 

@@ -1,6 +1,6 @@
 import { Store } from '../store.interface';
 import { Action } from '../action';
-import { AlandaUser } from '../../../api/models/user';
+import { AlandaUser } from '@alanda/common';
 
 export interface UserStore extends Store<AlandaUser> {
   createLoadUserAction(): Action<AlandaUser>;

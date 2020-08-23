@@ -1,8 +1,7 @@
 import { Directive, ElementRef, Input } from '@angular/core';
 import { RxState } from '@rx-angular/state';
-import { UserAdapter } from '../services/user.adapter';
 import { AlandaUser } from '../api/models/user';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Observable, isObservable } from 'rxjs';
 import { Authorizations } from './utils/permission-checks';
 import {
   ElementManager,
@@ -39,13 +38,17 @@ export class AlandaPermissionsDirective {
     this.rxState.set({ permissionString });
   }
 
+  @Input('alandaUser')
+  set user(user: Observable<AlandaUser>) {
+    isObservable(user)
+      ? this.rxState.connect('user', user)
+      : this.rxState.set({ user });
+  }
+
   constructor(
     public rxState: RxState<AlandaPermissionsDirectiveState>,
     public hostElement: ElementRef,
-    private userAdapter: UserAdapter,
   ) {
-    this.rxState.connect('user', this.userAdapter.currentUser$);
-
     this.rxState.hold(
       combineLatest([
         this.rxState.select('user'),

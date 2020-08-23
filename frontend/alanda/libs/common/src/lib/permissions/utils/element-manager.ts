@@ -36,7 +36,7 @@ class AttributeManager implements ElementManager {
   }
 
   applyForbiddenBehavior(accessLevel: string[]): void {
-    this.element.setAttribute(this.disabledAttribute, this.disabledAttribute);
+    this.element.setAttribute(this.disabledAttribute, 'true');
   }
 }
 
