@@ -13,6 +13,9 @@ export class AlandaSelectMilestoneComponent implements OnInit {
   @Input() project: AlandaProject;
   @Input() displayName: string;
   @Input() msName: string;
+  @Input() dateFormat = 'dd.mm.yyyy';
+  @Input() disabled: false;
+  @Input() permissionString: string;
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {
@@ -23,8 +26,8 @@ export class AlandaSelectMilestoneComponent implements OnInit {
   @Input() showACT = true;
 
   milestoneForm = this.fb.group({
-    fc: [null],
-    act: [null],
+    fc: [{ value: null, disabled: this.disabled }],
+    act: [{ value: null, disabled: this.disabled }],
   });
 
   constructor(
@@ -37,10 +40,10 @@ export class AlandaSelectMilestoneComponent implements OnInit {
       .getByProjectAndMsIdName(this.project.projectId, this.msName)
       .subscribe((ms) => {
         if (ms?.fc) {
-          this.milestoneForm.get('fc').setValue(ms.fc);
+          this.milestoneForm.get('fc').setValue(new Date(ms.fc));
         }
         if (ms?.act) {
-          this.milestoneForm.get('act').setValue(ms.act);
+          this.milestoneForm.get('act').setValue(new Date(ms.act));
         }
       });
   }
@@ -67,5 +70,15 @@ export class AlandaSelectMilestoneComponent implements OnInit {
         false,
       )
       .subscribe();
+  }
+
+  getPermissionString(type?: string): string {
+    if (this.permissionString) {
+      return this.permissionString;
+    }
+    return (
+      `ms:write:${this.project.projectTypeIdName}:${this.msName}` +
+      (type ? `:${type}` : '')
+    );
   }
 }

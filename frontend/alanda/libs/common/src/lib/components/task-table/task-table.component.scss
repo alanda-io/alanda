@@ -1,0 +1,69 @@
+@import '../../../styles/variables';
+
+.ng-prio {
+  color: $white;
+}
+
+.ng-prio-high {
+  background-color: rgba(219, 0, 0, 0.57) !important;
+}
+
+.ng-prio-medium {
+  background-color: rgba(255, 172, 43, 0.57) !important;
+}
+
+.ng-prio-low {
+  background-color: rgba(0, 128, 0, 0.38) !important;
+}
+
+.tasklist-table {
+  min-height: 500px;
+
+  .header-col-filter {
+    width: 100%;
+  }
+}
+
+.ng-center-cell {
+  text-align: center;
+
+  .action-cell {
+    padding: 2px 0;
+  }
+}
+
+.ng-ui-table {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.table-action-buttons {
+  .action-button {
+    margin: 0 3px;
+  }
+
+  .menu-action-button {
+    float: right;
+  }
+}
+
+.badge {
+  float: right;
+  font-size: 11px;
+  width: auto;
+}
+
+::ng-deep .ui-paginator-right-content {
+  margin: 5px;
+}
+::ng-deep .ui-button.ui-splitbutton-menubutton {
+  font-size: 12px;
+}
+
+::ng-deep .ui-splitbutton > .ui-button {
+  font-size: 12px !important;
+}
+
+::ng-deep .ui-dialog-titlebar-close {
+  display: none;
+}

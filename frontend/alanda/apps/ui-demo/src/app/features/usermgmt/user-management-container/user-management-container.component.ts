@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
-import { UserAdapter } from '../../../core/services/user.adapter';
+import { UserAdapter } from '@alanda/common';
 import { RxState } from '@rx-angular/state';
 
 @Component({

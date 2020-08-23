@@ -1,11 +1,4 @@
-import {
-  Component,
-  HostListener,
-  Inject,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, HostListener, Inject, Input, Output } from '@angular/core';
 import {
   state,
   style,
@@ -49,9 +42,9 @@ interface AlandaHeaderState {
     ]),
   ],
 })
-export class AlandaHeaderComponent implements OnInit {
+export class AlandaHeaderComponent {
   @Input()
-  set user(user: Observable<AlandaUser>) {
+  set user(user: Observable<AlandaUser> | AlandaUser) {
     if (isObservable(user)) {
       this.rxState.connect('user', user);
     } else {
@@ -59,8 +52,12 @@ export class AlandaHeaderComponent implements OnInit {
     }
   }
   @Input()
-  set items(items: AlandaMenuItem[]) {
-    this.rxState.set({ items });
+  set items(items: Observable<AlandaMenuItem[]> | AlandaMenuItem[]) {
+    if (isObservable(items)) {
+      this.rxState.connect('items', items);
+    } else {
+      this.rxState.set({ items });
+    }
   }
   @Input() logoPath?: string;
 
@@ -98,8 +95,6 @@ export class AlandaHeaderComponent implements OnInit {
     this.avatarBasePath = config.AVATAR_BASE_PATH;
     this.avatarExtension = config.AVATAR_EXT;
   }
-
-  ngOnInit() {}
 
   @HostListener('window:scroll', [])
   onWindowScroll() {

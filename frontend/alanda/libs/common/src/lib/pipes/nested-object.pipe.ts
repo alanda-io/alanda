@@ -1,4 +1,4 @@
-import { PipeTransform, Pipe } from '@angular/core';
+import { PipeTransform, Pipe, NgModule } from '@angular/core';
 
 @Pipe({ name: 'nestedObject' })
 export class MonitorValuesPipe implements PipeTransform {
@@ -6,12 +6,17 @@ export class MonitorValuesPipe implements PipeTransform {
     if (path === undefined) {
       return '';
     }
-    const ref = path.split('.').reduce((a, v) => {
-      if (a[v] === null) {
+    return path.split('.').reduce((a, v) => {
+      if (typeof a !== 'object' || a[v] === null) {
         return '';
       }
       return (a = a[v]), a;
     }, obj);
-    return ref;
   }
 }
+
+@NgModule({
+  declarations: [MonitorValuesPipe],
+  exports: [MonitorValuesPipe],
+})
+export class MonitorValuesPipeModule {}

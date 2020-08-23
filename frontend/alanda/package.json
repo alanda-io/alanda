@@ -27,8 +27,6 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "build-common": "rm -r -f dist/libs/common && nx build common --prod",
-    "publish-common": "cd dist/libs/common && npm login --registry=https://repo.alanda.io/repository/alanda/ && npm publish",
     "publish": "bash publish-common.sh"
   },
   "private": true,
@@ -71,6 +69,7 @@
     "eslint": "6.8.0",
     "jest": "25.2.3",
     "jest-preset-angular": "8.1.2",
+    "jest-zone-patch": "0.0.10",
     "ng-packagr": "^9.0.0",
     "prettier": "2.0.4",
     "stylelint": "^13.6.1",

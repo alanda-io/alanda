@@ -10,6 +10,7 @@
         <include path="sun/misc/Unsafe" />
       </imports>
     </module>
+    <module name="org.slf4j"/>
     <module name="org.apache.log4j"/>
     <module name="org.apache.commons.logging"/>
     <module name="javax.api"/>

@@ -1,3 +1,5 @@
+import { AlandaTableLayout } from '../api/models/tableLayout';
+
 export function convertUTCDate(date: Date): Date {
   return new Date(
     Date.UTC(
@@ -16,4 +18,13 @@ export function uuid() {
   });
 }
 
-
+export function getTableDefaultLayout(layouts: AlandaTableLayout[]) {
+  let defaultLayout = 0;
+  const layoutAllIndex = layouts.findIndex(
+    (layout) => layout.name.toLowerCase() === 'all',
+  );
+  if (layoutAllIndex !== -1) {
+    defaultLayout = layoutAllIndex;
+  }
+  return defaultLayout;
+}

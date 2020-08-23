@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input } from '@angular/core';
 import { RxState } from '@rx-angular/state';
-import { AlandaUserApiService } from '../api/userApi.service';
+import { UserAdapter } from '../services/user.adapter';
 import { AlandaUser } from '../api/models/user';
 import { combineLatest } from 'rxjs';
 import { Authorizations } from './utils/permission-checks';
@@ -8,8 +8,11 @@ import {
   ElementManager,
   getManagersByElementRef,
 } from './utils/element-manager';
-import { filter, tap } from 'rxjs/operators';
-import { NgControlStatus } from '@angular/forms';
+
+interface AlandaPermissionsDirectiveState {
+  user: AlandaUser;
+  permissionString: string;
+}
 
 /**
  *
@@ -18,38 +21,36 @@ import { NgControlStatus } from '@angular/forms';
  * Can be used on any dom element or component.
  *
  * @example
- * <field-set permissions="ms:write">
+ * <field-set alandaPermissions="ms:write">
  *   ...
  * </field-set>
  */
 @Directive({
-  // tslint:disable-next-line:directive-selector
-  selector: '[permissions]',
+  selector: '[alandaPermissions]',
+  providers: [RxState],
 })
-export class PermissionsDirective extends RxState<{
-  user: AlandaUser;
-  permissionString: string;
-}> {
+export class AlandaPermissionsDirective {
   hostElementManagers: ElementManager[] = getManagersByElementRef(
     this.hostElement,
   );
 
-  @Input('permissions')
-  set rights(permissionString: string) {
-    this.set({
-      permissionString,
-    });
+  @Input('alandaPermissions')
+  set permission(permissionString: string) {
+    this.rxState.set({ permissionString });
   }
 
   constructor(
+    public rxState: RxState<AlandaPermissionsDirectiveState>,
     public hostElement: ElementRef,
-    private readonly userService: AlandaUserApiService,
+    private userAdapter: UserAdapter,
   ) {
-    super();
-    this.connect('user', this.userService.user$);
+    this.rxState.connect('user', this.userAdapter.currentUser$);
 
-    this.hold(
-      combineLatest([this.select('user'), this.select('permissionString')]),
+    this.rxState.hold(
+      combineLatest([
+        this.rxState.select('user'),
+        this.rxState.select('permissionString'),
+      ]),
       ([user, permissionString]) => {
         const tokens: string[][] = Authorizations.resolveTokens(
           permissionString,
@@ -58,6 +59,7 @@ export class PermissionsDirective extends RxState<{
 
         if (user === null) {
           this.forbidAll(permissionString);
+          console.warn('Forbid all: No user provided!');
         }
 
         const permissionsGranted = Authorizations.hasPermission(

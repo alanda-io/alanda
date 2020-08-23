@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AlandaMenuItem, AlandaTitleService } from '@alanda/common';
-import { UserAdapter } from './core/services/user.adapter';
+import { UserAdapter } from '@alanda/common';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -18,7 +18,11 @@ export class AppComponent {
       icon: 'fa fa-home',
       routerLinkActiveOptions: { exact: true },
     },
-    { label: 'Tasks', routerLink: ['/tasks/list'], icon: 'fa fa-briefcase' },
+    {
+      label: 'Tasks',
+      routerLink: ['/tasks/list'],
+      icon: 'fa fa-briefcase',
+    },
     {
       label: 'Create',
       icon: 'fa fa-plus',

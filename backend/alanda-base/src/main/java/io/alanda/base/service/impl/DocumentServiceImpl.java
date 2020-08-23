@@ -59,12 +59,12 @@ public class DocumentServiceImpl implements DocumentService {
 
   @Inject
   private DocumentDao documentDao;
-  
-  @Inject 
+
+  @Inject
   private Instance<DocumentMappingResolver> documentMappingResolvers;
 
   private Map<String, DocumentMappingResolver> docMappingResolverMap;
-  
+
   @PostConstruct
   private void initClass() {
     docMappingResolverMap = new HashMap<>();
@@ -95,13 +95,13 @@ public class DocumentServiceImpl implements DocumentService {
   @Override
   //TODO fix parameters
   public List<DocumentSimpleDto> getFolderContent(DocuQueryDto query) {
-    // Don't move outside of method scope! SimpleDateFormat is not Threadsafe! 
+    // Don't move outside of method scope! SimpleDateFormat is not Threadsafe!
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    
+
     DirectoryInfoDto di = docuService.getDirectoryInfo(query);
     Collection<Document> content = documentDao.getByPath(di.getFolderPath());
     List<DocumentSimpleDto> folderContent = new ArrayList<>();
-    
+
     for (Document document : content) {
       folderContent.add(
         new DocumentSimpleDto(
@@ -126,7 +126,7 @@ public class DocumentServiceImpl implements DocumentService {
       doc.setFileName(fileInfo.getName());
       // not necessary, gets set in AbstractAuditEntity
       //      doc.setCreateDate(now);
-      //      doc.setCreateUser(UserContext.getUser());    
+      //      doc.setCreateUser(UserContext.getUser());
     }
     doc.setMediaType(fileInfo.getMediaType());
     doc.setFileSize((long) input.length);
@@ -178,7 +178,7 @@ public class DocumentServiceImpl implements DocumentService {
 
   @Override
   public DocumentSimpleDto get(String documentId) throws IOException {
-    // Don't move outside of method scope! SimpleDateFormat is not Threadsafe! 
+    // Don't move outside of method scope! SimpleDateFormat is not Threadsafe!
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     Document doc = documentDao.getById(Long.valueOf(documentId));
     documentDao.update(doc);
@@ -277,7 +277,7 @@ public class DocumentServiceImpl implements DocumentService {
           DocuQueryDto dc = DocuQueryDto.forPmcProject(p, true).withMappingName(mapping);
           dc.docuConfig = docuService.getDocuConfig(dc);
           return Collections.singletonList(dc);
-        }        
+        }
     }
 
 }

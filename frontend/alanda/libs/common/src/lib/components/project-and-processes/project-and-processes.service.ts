@@ -5,8 +5,6 @@ import { AlandaProcess } from '../../api/models/process';
 import { AlandaTask } from '../../api/models/task';
 import { AlandaProcessesAndTasks } from '../../api/models/processesAndTasks';
 import { ProjectState } from '../../enums/projectState.enum';
-import { Observable } from 'rxjs';
-import { ProcessRelation } from '../../enums/processRelation.enum';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { uuid } from '../../utils/helper-functions';
 

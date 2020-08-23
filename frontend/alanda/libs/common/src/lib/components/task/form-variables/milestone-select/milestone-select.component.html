@@ -9,23 +9,31 @@
     </div>
     <div class="p-col-12">
       <!-- FC -->
-      <div class="p-grid" *ngIf="showFC">
+      <div
+        class="p-grid"
+        *ngIf="showFC"
+        [alandaPermissions]="getPermissionString('fc')"
+      >
         <div class="p-col-2" *ngIf="showACT">
           <strong class="ms-title">FC</strong>
         </div>
         <div [ngClass]="[showACT ? 'p-col-10' : 'p-col-12']">
           <p-calendar
-            inputId="fc"
             formControlName="fc"
             placeholder="Select FC"
             (onSelect)="onChange()"
             [showIcon]="true"
-            dateFormat="yy-mm-dd"
+            [disabled]="disabled"
+            [dateFormat]="dateFormat"
           ></p-calendar>
         </div>
       </div>
 
-      <div class="p-grid" *ngIf="showACT">
+      <div
+        class="p-grid"
+        *ngIf="showACT"
+        [alandaPermissions]="getPermissionString('act')"
+      >
         <div class="p-col-2" *ngIf="showFC">
           <strong class="ms-title">ACT</strong>
         </div>
@@ -35,7 +43,8 @@
             placeholder="Select ACT"
             (onSelect)="onChange()"
             [showIcon]="true"
-            dateFormat="yy-mm-dd"
+            [disabled]="disabled"
+            [dateFormat]="dateFormat"
           ></p-calendar>
         </div>
       </div>

@@ -10,4 +10,4 @@ import { CommonModule } from '@angular/common';
   declarations: [AlandaHeaderComponent],
   exports: [AlandaHeaderComponent],
 })
-export class AlandaHeaderModule {}
+export class HeaderModule {}
