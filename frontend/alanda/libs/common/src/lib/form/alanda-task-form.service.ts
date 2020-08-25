@@ -54,8 +54,8 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
       return this.taskService.getTask(tid);
     }),
     concatMap((task: AlandaTask) => {
+      this.titleService.setTaskTitle(task);
       if (task.pmcProjectGuid) {
-        this.titleService.setTaskTitle(task);
         return this.projectService
           .getProjectByGuid(task.pmcProjectGuid)
           .pipe(map((project) => ({ task, project })));
