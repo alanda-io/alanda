@@ -1096,9 +1096,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
     project.setDueDate(dueDate);
     pmcProjectDao.getEntityManager().flush();
-
     PmcProjectDto result = dozerMapper.map(project, PmcProjectDto.class);
     mapProjectTypeDtoFields(result.getPmcProjectType());
+    mapRelationIds(project, result);
     this.elasticService.updateEntry(result, true);
     //dueDate should not influence key so no authService update should be necessary
     return result;
