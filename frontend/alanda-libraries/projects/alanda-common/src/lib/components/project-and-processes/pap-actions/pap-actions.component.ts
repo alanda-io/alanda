@@ -14,6 +14,7 @@ import {Project} from '../../../models/project';
 })
 export class PapActionsComponent implements OnInit, OnDestroy {
   @Input() data: TreeNodeData;
+  @Input() filterOptions: any;
 
   optionItems: MenuItem[];
 
@@ -79,7 +80,7 @@ export class PapActionsComponent implements OnInit, OnDestroy {
 
   private relateMeTo() {
     this.projectService.getParentTypes(this.data.value.projectTypeIdName).subscribe(types => {
-      this.ref = this.openDynamicDialogModal('Select projects new parent project(s)', { types: types.map(type => type.idName) });
+      this.ref = this.openDynamicDialogModal('Select projects new parent project(s)', { types: types.map(type => type.idName)});
       this.ref.onClose.subscribe((project: Project) => {
         if (project) {
           this.projectService.updateProjectRelations(this.data.value.projectId, null, null, project.projectId, null).subscribe(res => {
@@ -103,7 +104,7 @@ export class PapActionsComponent implements OnInit, OnDestroy {
 
   private relateSubproject() {
     this.projectService.getChildTypes(this.data.value.projectTypeIdName).subscribe(types => {
-      this.ref = this.openDynamicDialogModal('Select project(s) to add as subproject', { types: types.map(type => type.idName) });
+      this.ref = this.openDynamicDialogModal('Select project(s) to add as subproject', { types: types.map(type => type.idName), filterOptions: this.filterOptions});
       this.ref.onClose.subscribe((project: Project) => {
         if (project) {
           this.projectService.updateProjectRelations(this.data.value.projectId, project.projectId, null, null, null).subscribe(res => {
