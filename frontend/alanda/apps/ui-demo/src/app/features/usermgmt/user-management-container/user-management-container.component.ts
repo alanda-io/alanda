@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
-import { UserAdapter } from '@alanda/common';
 import { RxState } from '@rx-angular/state';
+import { UserStoreImpl } from '../../../store/user';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'alanda-user-management-container',
@@ -14,8 +15,14 @@ import { RxState } from '@rx-angular/state';
 export class UserManagementContainerComponent extends RxState<any> {
   runAsUserClick$ = new Subject<string>();
 
-  constructor(private userAdapter: UserAdapter) {
+  constructor(private userStore: UserStoreImpl) {
     super();
-    this.userAdapter.connectRunAs(this.runAsUserClick$);
+    this.hold(
+      this.runAsUserClick$.pipe(
+        map((name) =>
+          this.userStore.dispatch(this.userStore.createRunAsUserAction(name)),
+        ),
+      ),
+    );
   }
 }

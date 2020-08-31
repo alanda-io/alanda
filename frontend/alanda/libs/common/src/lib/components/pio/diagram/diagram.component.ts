@@ -22,7 +22,7 @@ import { throwError } from 'rxjs';
 @Component({
   selector: 'alanda-diagram-component',
   templateUrl: './diagram.component.html',
-  styleUrls: [],
+  styleUrls: ['./diagram.component.scss'],
 })
 export class DiagramComponent
   implements OnInit, AfterContentInit, OnDestroy, OnChanges {

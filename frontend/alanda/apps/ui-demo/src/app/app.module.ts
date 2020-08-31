@@ -29,6 +29,8 @@ import { MessageService } from 'primeng/api';
 import { PermissionsDemoComponent } from './components/permissions-demo/permissions-demo.component';
 import { TemplateModule } from '@rx-angular/template';
 import { UserManagementContainerComponent } from './features/usermgmt/user-management-container/user-management-container.component';
+import { RxState } from '@rx-angular/state';
+import { DropdownModule } from 'primeng/dropdown';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 
@@ -54,10 +56,12 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     CommentsModule,
     AlandaCommonModule.forRoot(CURRENT_CONFIG),
     TemplateModule,
+    DropdownModule,
   ],
   providers: [
     { provide: APP_CONFIG, useValue: CURRENT_CONFIG },
     MessageService,
+    RxState,
   ],
   bootstrap: [AppComponent],
 })

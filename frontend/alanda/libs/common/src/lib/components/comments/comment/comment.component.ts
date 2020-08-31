@@ -113,6 +113,8 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState>
   }
 
   fallbackImage(event): void {
-    event.target.src = this.defaultAvatarPath;
+    if (event.target.src !== this.defaultAvatarPath) {
+      event.target.src = this.defaultAvatarPath;
+    }
   }
 }

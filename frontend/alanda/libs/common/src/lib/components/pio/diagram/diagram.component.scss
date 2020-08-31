@@ -1,14 +1,12 @@
 @import '../../../../styles/variables';
 
-.diagram {
-  .cockpit-link {
-    color: $lighter-blue;
-  }
+.cockpit-link {
+  color: $lighter-blue;
+}
 
-  .diagram-container {
-    height: 450px;
-    width: 100%;
-  }
+.diagram-container {
+  height: 500px;
+  width: 100%;
 }
 
 ::ng-deep .pd-token {
