@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ExtendedTreeNode } from '../../models/tree-node';
 import { SimpleDocument } from '../../api/models/simpleDocument';
 import { AlandaDocumentApiService } from '../../api/documentApi.service';
+import { removeAllWhitespaces } from '../../utils/helper-functions';
 
 @Component({
   selector: 'alanda-attachments',
@@ -9,7 +10,7 @@ import { AlandaDocumentApiService } from '../../api/documentApi.service';
   styleUrls: ['./attachments.component.scss'],
 })
 export class AlandaAttachmentsComponent implements OnInit {
-  @Input() mappings: string;
+  @Input() mappings: string | string[];
   @Input() project?: any;
   @Input() task?: any;
   @Input() pid?: string;
@@ -28,9 +29,18 @@ export class AlandaAttachmentsComponent implements OnInit {
   constructor(private readonly documentService: AlandaDocumentApiService) {}
 
   ngOnInit() {
-    if (!this.mappings) {
+    if (!this.mappings || this.mappings.length === 0) {
       this.mappings = 'AcquiDoc,SI,SA';
     }
+
+    if (Array.isArray(this.mappings) && this.mappings.length) {
+      this.mappings = this.mappings.join(',');
+    }
+
+    if (typeof this.mappings === 'string') {
+      this.mappings = removeAllWhitespaces(this.mappings);
+    }
+
     this.fileCount = 0;
     this.data.mappings = this.mappings;
     if (this.project) {

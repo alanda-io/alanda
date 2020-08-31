@@ -29,3 +29,7 @@ export function getTableDefaultLayout(layouts: AlandaTableLayout[]) {
   }
   return defaultLayout;
 }
+
+export function removeAllWhitespaces(text: string): string {
+  return text.replace(/\s+/g, '');
+}
