@@ -20,7 +20,7 @@ next to their day job; you are not entitled to free customer service.
 
 ## Questions
 
-Please chat and ask questions on [slack][slack]!
+Please chat and ask questions on [teams][teams]!
 Jump in there and lurk, talk to us, and help others.
 
 ### Asking quality questions
@@ -39,7 +39,7 @@ Spending the extra time up front can help save everyone time in the long run.
 *   Try to define what you need help with:
     *   Is there something in particular you want to do?
     *   What problem are you encountering and what steps have you taken to try
-        and fix it?
+        to fix it?
     *   Is there a concept you’re not understanding?
 *   Learn about the [rubber duck debugging method][rubberduck]
 *   Avoid falling for the [XY problem][xy]
@@ -72,6 +72,6 @@ This document was adapted from the open-source support guidelines for [remarkjs]
 
 [stackblitz]: https://stackblitz.com
 
-[slack]: https://alanda.slack.com
+[teams]: https://coming.soon
 
 [contributing]: https://github.com/alanda-io/alanda/.github/blob/main/CONTRIBUTING.md
