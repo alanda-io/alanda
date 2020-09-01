@@ -23,7 +23,7 @@ if applicable and relevant include any of the following:
 - etc
 -->
 
-# Steps to Reproduce the Issue
+# Steps to reproduce the issue
 <!--
 Explain in detail hoe to reproduce the issue:
 
@@ -76,12 +76,12 @@ webpack                           4.43.0
 ```
 -->
 
-# Related to Other Issues
+# Related to other issues
 <!--
 If applicable, otherwise remove a section
 -->
 
-# Tasks to Resolve This
+# Tasks to resolve this
 <!--
 If a breakdown into steps required to fix the issue is already possible. Otherwise, remove this section.
 -->
