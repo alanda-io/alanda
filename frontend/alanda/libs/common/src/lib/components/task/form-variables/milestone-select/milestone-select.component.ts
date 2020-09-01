@@ -20,7 +20,7 @@ export class AlandaSelectMilestoneComponent implements OnInit {
   @Input() displayName: string;
   @Input() msName: string;
   @Input() dateFormat: string;
-  @Input() disabled: boolean = false;
+  @Input() disabled = false;
   @Input() permissionString: string;
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
