@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { AlandaProject } from '@alanda/common';
-import { AlandaTaskFormService } from '@alanda/common';
-import { UserEnrichedTaskFormService } from 'apps/ui-demo/src/app/services/userEnrichedTaskForm.service';
+import { UserEnrichedTaskFormService } from '../../../../services/userEnrichedTaskForm.service';
 
 @Component({
   templateUrl: './project-properties.component.html',
