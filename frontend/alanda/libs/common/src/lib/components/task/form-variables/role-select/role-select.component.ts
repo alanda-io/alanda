@@ -13,7 +13,7 @@ import { AlandaGroupApiService } from '../../../../api/groupApi.service';
 import {
   PERMISSION_PLACEHOLDER,
   Authorizations,
-} from 'libs/common/src/lib/permissions';
+} from '../../../../permissions';
 
 const SELECTOR = 'alanda-role-select';
 @Component({

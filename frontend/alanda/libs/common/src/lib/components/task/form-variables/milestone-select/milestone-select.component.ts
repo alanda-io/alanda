@@ -3,15 +3,12 @@ import { AlandaProject } from '../../../../api/models/project';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { AlandaMilestoneApiService } from '../../../../api/milestoneApi.service';
 import { convertUTCDate } from '../../../../utils/helper-functions';
+import { AlandaUser } from '../../../../api/models/user';
+import { APP_CONFIG, AppSettings } from '../../../../models/appSettings';
 import {
   PERMISSION_PLACEHOLDER,
   Authorizations,
-} from 'libs/common/src/lib/permissions';
-import { AlandaUser } from 'libs/common/src/lib/api/models/user';
-import {
-  APP_CONFIG,
-  AppSettings,
-} from 'libs/common/src/lib/models/appSettings';
+} from '../../../../permissions';
 
 @Component({
   selector: 'alanda-milestone-select',
