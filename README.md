@@ -1,16 +1,16 @@
 # Welcome to alanda !
-
 A framework for developing processes the easy way.
 
-# License 
-Except where otherwise specified, source code in this repository is  licensed under
-the CDDL license.
-See LICENSE.txt for details.
-Refert to ATTRIBUTIONS.txt for the license of external components distributed with this projet.  
+[![Alanda](https://alanda.io/wp-content/uploads/2020/02/Alanda.png)](https://alanda.io/)
 
-# Building alanda from source
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-### Requirements :
+# Motivation
+Imagine a world in which the vast majority of time spent at work is used for inspiring, motivating work which creates value for your customers.
+
+# Installation
+
+### Requirements
 
 * docker
 * docker-compose 1.*
@@ -20,9 +20,7 @@ Refert to ATTRIBUTIONS.txt for the license of external components distributed wi
 * Oracle Database 11g Express Edition Release >= 11.2.0
 
 ### Installing docker and Oracle Database:
-
 To install docker and the Oracle Database, follow the instructions given in this [Oracle blog Post](https://blogs.oracle.com/oraclemagazine/deliver-oracle-database-18c-express-edition-in-containers)
-
 
 To ensure installing docker and oracle database is done correctly create, first the `docker network`,
 which is listed under **Local Deployment**. Afterwards use this `docker run` command instead of using the
@@ -43,12 +41,10 @@ which is listed under **Local Deployment**. Afterwards use this `docker run` com
         oracle/database:18.4.0-xe
 
 ### Note:
-
 The commands in the following guide assume you call them from the alanda root folder after cloning the repository.
 You may need to change some path values if you change to a different folder!
 
 ## Build the backend
-
 Install jdbc driver 8 and 7 manually: 
 
 Both files can be downloaded from [Oracle](https://www.oracle.com/database/technologies/appdev/jdbc-downloads.html).
@@ -60,7 +56,6 @@ Afterwards install them manually:
 Use the top level pom.xml to build the backend part:
 
     mvn -DskipTests -Dcobertura.skip=true --file backend/pom.xml clean install
-
 
 ## Local Deployment
 To save you the burden of setting up Wildfly and Elastic search for alanda, we have two ready to use
@@ -77,13 +72,11 @@ Camunda/Wildfly and Elasticsearch should be available on ports 8080 and 9206 res
     8080/tcp open  http-proxy
     9206/tcp open  wap-vcard-s
 
-
 ## Database initialization
 
 ### Oracle
 
 #### Create an alanda user in the oracle database
-
 As oracle **system** or **sys** user:
 
     alter session set "_ORACLE_SCRIPT"=true;
@@ -122,7 +115,6 @@ or via the command line:
     -Dexec.args="init"
 
 ### Elastic Search
-
 Once the elastic docker container is up, create the indices for Alanda:
 
     curl -XPUT -H "Content-Type: application/json" --data @backend/alanda-camunda-es-history-plugin/src/main/resources/mapping/index-schema.json http://localhost:9206/alanda-process    
@@ -145,14 +137,11 @@ Then create the aliases for the indices:
         ]
     }'
 
-
 ## Deploying the backend
-
 Copy the two wars in the wildfly deployment directory
 
     cp backend/alanda-rest/target/alanda-rest.war backend/alanda-development/src/test/resources/docker-camunda/mount_deployment
     cp backend/alanda-background/target/alanda-background.war backend/alanda-development/src/test/resources/docker-camunda/mount_deployment
-
 
 ## Building and running the frontend
 For the front end, we ship a npm pacakge.json which that you can use to build and serve the angular files
@@ -163,7 +152,25 @@ For the front end, we ship a npm pacakge.json which that you can use to build an
 
 ## Login as admin user
 
-The admin user alanda is created automatically without password.
+The admin user **alanda** is created automatically without a password.
 Now you can login.
 
 If you managed so far on your own, congratulation and enjoy !
+
+## Troubleshooting
+
+### Increasing the amount of inotify watchers
+
+If you are running Debian, RedHat, or another similar Linux distribution, run the following in a terminal:
+```
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+```
+If you are running ArchLinux, run the following command instead:
+```
+echo fs.inotify.max_user_watches=524288 | sudo tee /etc/sysctl.d/40-max-user-watches.conf && sudo sysctl --system
+```
+
+### WebStorm always chooses the wrong auto import path in a workspace
+Go to Settings/Preferences dialog (⌘,) -> Code Style -> Editor -> choose JavaScript or TypeScript -> Imports tab -> select **Only in files outside specified paths**
+
+[![Webstorm_settings](https://user-images.githubusercontent.com/2495032/57608810-f5f6fb80-756d-11e9-8403-e33f17c04212.png)](https://github.com/nrwl/nx/issues/83)
