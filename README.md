@@ -155,7 +155,7 @@ You can use the `start-dev.sh` bash script in the root directory to start all do
 
 ## Login as admin user
 
-The admin user **alanda** is created automatically without password.
+The admin user **alanda** is created automatically without a password.
 Now you can login.
 
 If you managed so far on your own, congratulation and enjoy !
@@ -177,9 +177,3 @@ echo fs.inotify.max_user_watches=524288 | sudo tee /etc/sysctl.d/40-max-user-wat
 Go to Settings/Preferences dialog (⌘,) -> Code Style -> Editor -> choose JavaScript or TypeScript -> Imports tab -> select **Only in files outside specified paths**
 
 [![Webstorm_settings](https://user-images.githubusercontent.com/2495032/57608810-f5f6fb80-756d-11e9-8403-e33f17c04212.png)](https://github.com/nrwl/nx/issues/83)
-
-# License 
-Except where otherwise specified, source code in this repository is licensed under
-the CDDL license.
-See LICENSE.txt for details.
-Refert to ATTRIBUTIONS.txt for the license of external components distributed with this projet.  
