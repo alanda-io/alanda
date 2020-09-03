@@ -13,36 +13,9 @@ body {
 }
 
 .container {
-  background: $container-background;
   overflow-x: hidden;
 }
 
-.form-root-tabs {
-  .ui-tabview-panels {
-    background: transparent !important;
-    border: 0 !important;
-    border-top: 1px solid #d8d8dc !important;
-  }
-
-  // .ui-tabview-nav {
-  //   background: transparent !important;
-  //   margin-bottom: 0 !important;
-
-  //   .ui-state-default {
-  //     background: transparent !important;
-  //     border-bottom-color: transparent !important;
-
-  //     &.ui-tabview-selected {
-  //       background: white !important;
-  //     }
-  //   }
-  // }
-
-  .ui-tabview-panel {
-    padding: 0 !important;
-  }
-
-  .ui-panel {
-    margin-bottom: 1em;
-  }
+.p-panel {
+  margin-bottom: 1.25em;
 }
