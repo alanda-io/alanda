@@ -49,6 +49,7 @@
     "primeicons": "^4.0.0",
     "primeng": "^10.0.0-rc.4",
     "rxjs": "6.5.5",
+    "tslib": "^2.0.1",
     "zone.js": "^0.10.2"
   },
   "devDependencies": {
@@ -75,7 +76,6 @@
     "stylelint": "^13.7.0",
     "ts-jest": "26.1.4",
     "ts-node": "~7.0.0",
-    "tslib": "^2.0.1",
     "tslint": "~6.0.0",
     "typescript": "3.9.7"
   }
