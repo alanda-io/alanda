@@ -67,7 +67,7 @@
       <td
         *ngFor="let col of columns"
         [ngClass]="getCondition(project, col.template)"
-        style="font-size: 12px; white-space: nowrap;"
+        style="white-space: nowrap;"
       >
         <ng-template [ngIf]="col.name === 'Project ID'" [ngIfElse]="default">
           <a [routerLink]="openProject(project.project.projectId)">{{
@@ -85,6 +85,7 @@
       </td>
     </tr>
   </ng-template>
+  <ng-template pTemplate="paginatorleft"></ng-template>
   <ng-template pTemplate="paginatorright">
     <span *ngIf="editablePageSize" style="margin-right: 10px;">
       Rows per page:

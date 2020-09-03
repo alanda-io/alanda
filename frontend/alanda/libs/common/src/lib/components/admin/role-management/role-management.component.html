@@ -15,7 +15,6 @@
         [loading]="loading"
         [autoLayout]="true"
         selectionMode="single"
-        [style]="{ 'font-size': '12px' }"
         scrollHeight="320px"
         (onRowSelect)="onRoleSelect($event)"
         (onRowUnselect)="onRoleUnselect()"
@@ -61,21 +60,23 @@
           <div class="p-grid">
             <div class="p-col-4">
               <form (ngSubmit)="onFormSubmit()" [formGroup]="roleForm">
-                <div class="input-field">
-                  <span class="ui-float-label">
-                    <input
-                      id="input-guid"
-                      type="text"
-                      pInputText
-                      formControlName="name"
-                    />
-                    <label for="input-guid">Rolename</label>
-                  </span>
-                  <span
-                    class="valid-error"
-                    *ngIf="roleForm.dirty && !roleForm.get('name').valid"
-                    >Please enter a rolename</span
-                  >
+                <div class="p-grid">
+                  <div class="p-field p-col-12">
+                    <span class="p-float-label">
+                      <input
+                        id="input-guid"
+                        type="text"
+                        pInputText
+                        formControlName="name"
+                      />
+                      <label for="input-guid">Rolename</label>
+                    </span>
+                    <span
+                      class="valid-error"
+                      *ngIf="roleForm.dirty && !roleForm.get('name').valid"
+                      >Please enter a rolename</span
+                    >
+                  </div>
                 </div>
 
                 <div class="p-grid">

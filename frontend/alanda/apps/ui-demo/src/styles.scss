@@ -3,6 +3,11 @@
 @import '../../../libs/common/src/styles';
 @import '~primeng/resources/themes/saga-blue/theme.css';
 
+html {
+  // This sets the font size for all components in the project
+  font-size: 14px;
+}
+
 body {
   color: $font-color;
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -14,8 +19,10 @@ body {
 
 .container {
   overflow-x: hidden;
+  height: 100vh;
 }
 
-.p-panel {
+.p-panel,
+.p-card {
   margin-bottom: 1.25em;
 }

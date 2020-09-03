@@ -18,7 +18,6 @@
         selectionMode="single"
         scrollHeight="320px"
         (onRowSelect)="onPermissionSelected($event)"
-        [style]="{ 'font-size': '12px' }"
       >
         <ng-template pTemplate="header" let-columns>
           <tr>
@@ -61,23 +60,25 @@
           <div class="p-grid">
             <div class="p-col-4">
               <form (ngSubmit)="onFormSubmit()" [formGroup]="permissionForm">
-                <div class="input-field">
-                  <span class="ui-float-label">
-                    <input
-                      id="input-guid"
-                      type="text"
-                      pInputText
-                      formControlName="key"
-                    />
-                    <label for="input-guid">Permission key</label>
-                  </span>
-                  <span
-                    class="valid-error"
-                    *ngIf="
-                      permissionForm.dirty && !permissionForm.get('key').valid
-                    "
-                    >Please enter a permission key</span
-                  >
+                <div class="p-grid">
+                  <div class="p-field p-col-12">
+                    <span class="p-float-label">
+                      <input
+                        id="inputPermissionKey"
+                        type="text"
+                        pInputText
+                        formControlName="key"
+                      />
+                      <label for="inputPermissionKey">Permission key</label>
+                    </span>
+                    <span
+                      class="valid-error"
+                      *ngIf="
+                        permissionForm.dirty && !permissionForm.get('key').valid
+                      "
+                      >Please enter a permission key</span
+                    >
+                  </div>
                 </div>
 
                 <div class="p-grid">

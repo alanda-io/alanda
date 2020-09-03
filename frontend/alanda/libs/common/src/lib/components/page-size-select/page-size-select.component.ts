@@ -25,18 +25,6 @@ import { Dropdown } from 'primeng/dropdown';
     hideTransitionOptions="0ms"
     appendTo="body"
   ></p-dropdown>`,
-  styles: [
-    `
-      p-dropdown ::ng-deep .ui-inputtext {
-        padding-top: 2px;
-        padding-bottom: 2px;
-      }
-
-      p-dropdown ::ng-deep .ui-dropdown {
-        height: unset;
-      }
-    `,
-  ],
 })
 export class AlandaPageSizeSelectComponent
   implements OnInit, OnChanges, OnDestroy {

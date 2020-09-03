@@ -17,7 +17,6 @@
         [loading]="loading"
         [autoLayout]="true"
         selectionMode="single"
-        [style]="{ 'font-size': '12px' }"
         scrollHeight="320px"
         (onRowSelect)="onUserSelected($event)"
         (onRowUnselect)="onUserUnselected()"
@@ -63,90 +62,92 @@
           <div class="p-grid">
             <div class="p-col-4">
               <form [formGroup]="userForm" (ngSubmit)="onFormSubmit()">
-                <div class="input-field">
-                  <span class="ui-float-label">
-                    <input
-                      id="input-login"
-                      type="text"
-                      pInputText
-                      formControlName="loginName"
-                    />
-                    <label for="input-login">Login</label>
-                  </span>
-                  <span
-                    *ngIf="userForm.dirty && !userForm.get('loginName').valid"
-                    style="font-size: 10px; color: red;"
-                    >Please enter a login</span
-                  >
-                </div>
+                <div class="p-grid">
+                  <div class="p-field p-col-12">
+                    <span class="p-float-label">
+                      <input
+                        id="input-login"
+                        type="text"
+                        pInputText
+                        formControlName="loginName"
+                      />
+                      <label for="input-login">Login</label>
+                    </span>
+                    <span
+                      *ngIf="userForm.dirty && !userForm.get('loginName').valid"
+                      style="font-size: 10px; color: red;"
+                      >Please enter a login</span
+                    >
+                  </div>
 
-                <div class="input-field">
-                  <span class="ui-float-label">
-                    <input
-                      id="input-firstname"
-                      type="text"
-                      pInputText
-                      formControlName="firstName"
-                    />
-                    <label for="input-firstname">First Name</label>
-                  </span>
-                  <span
-                    *ngIf="userForm.dirty && !userForm.get('firstName').valid"
-                    style="font-size: 10px; color: red;"
-                    >Please enter a first name</span
-                  >
-                </div>
+                  <div class="p-field p-col-12">
+                    <span class="p-float-label">
+                      <input
+                        id="input-firstname"
+                        type="text"
+                        pInputText
+                        formControlName="firstName"
+                      />
+                      <label for="input-firstname">First Name</label>
+                    </span>
+                    <span
+                      *ngIf="userForm.dirty && !userForm.get('firstName').valid"
+                      style="font-size: 10px; color: red;"
+                      >Please enter a first name</span
+                    >
+                  </div>
 
-                <div class="input-field">
-                  <span class="ui-float-label">
-                    <input
-                      id="input-surname"
-                      type="text"
-                      pInputText
-                      formControlName="surname"
-                    />
-                    <label for="input-surname">Surname</label>
-                  </span>
-                  <span
-                    *ngIf="userForm.dirty && !userForm.get('surname').valid"
-                    style="font-size: 10px; color: red;"
-                    >Please enter a surname</span
-                  >
-                </div>
+                  <div class="p-field p-col-12">
+                    <span class="p-float-label">
+                      <input
+                        id="input-surname"
+                        type="text"
+                        pInputText
+                        formControlName="surname"
+                      />
+                      <label for="input-surname">Surname</label>
+                    </span>
+                    <span
+                      *ngIf="userForm.dirty && !userForm.get('surname').valid"
+                      style="font-size: 10px; color: red;"
+                      >Please enter a surname</span
+                    >
+                  </div>
 
-                <div class="input-field">
-                  <span class="ui-float-label">
-                    <input
-                      id="input-email"
-                      type="email"
-                      pInputText
-                      formControlName="email"
-                    />
-                    <label for="input-email">E-Mail</label>
-                  </span>
-                  <span
-                    *ngIf="userForm.dirty && !userForm.get('email').valid"
-                    style="font-size: 10px; color: red;"
-                    >Please enter an email</span
-                  >
-                </div>
+                  <div class="p-field p-col-12">
+                    <span class="p-float-label">
+                      <input
+                        id="input-email"
+                        type="email"
+                        pInputText
+                        formControlName="email"
+                      />
+                      <label for="input-email">E-Mail</label>
+                    </span>
+                    <span
+                      *ngIf="userForm.dirty && !userForm.get('email').valid"
+                      style="font-size: 10px; color: red;"
+                      >Please enter an email</span
+                    >
+                  </div>
 
-                <div class="input-field">
-                  <span class="ui-float-label">
-                    <input
-                      id="input-mobile"
-                      style="height: 100%;"
-                      type="tel"
-                      pInputText
-                      formControlName="mobile"
-                    />
-                    <label for="input-mobile">Mobile</label>
-                  </span>
-                </div>
-                <div class="input-field">
-                  <p id="locked" [hidden]="locked">Not locked</p>
-                  <p id="locked" [hidden]="!locked">Locked</p>
-                  <p-inputSwitch formControlName="locked"></p-inputSwitch>
+                  <div class="p-field p-col-12">
+                    <span class="p-float-label">
+                      <input
+                        id="input-mobile"
+                        style="height: 100%;"
+                        type="tel"
+                        pInputText
+                        formControlName="mobile"
+                      />
+                      <label for="input-mobile">Mobile</label>
+                    </span>
+                  </div>
+                  <div class="p-field p-col-12">
+                    <p id="locked" [hidden]="locked">Not locked</p>
+                    <p id="locked" [hidden]="!locked">Locked</p>
+                    <p-inputSwitch formControlName="locked"></p-inputSwitch>
+                  </div>
                 </div>
 
                 <div class="p-grid">

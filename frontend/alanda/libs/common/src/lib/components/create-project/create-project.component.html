@@ -1,6 +1,6 @@
 <p-card *ngIf="!showDialog">
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-    <div class="p-grid spacer">
+    <div class="p-grid">
       <div class="p-col-12 p-md-6 p-lg-4">
         <div class="p-grid">
           <div class="p-col-4">
@@ -25,6 +25,7 @@
                 { label: '2 - Normal', value: 2 }
               ]"
               optionLabel="label"
+              [appendTo]="'body'"
             ></p-dropdown>
           </div>
           <div class="p-col-4">
@@ -36,6 +37,7 @@
               [options]="allowedTagList"
               formControlName="tag"
               optionLabel="value"
+              [appendTo]="'body'"
             ></p-dropdown>
           </div>
         </div>
@@ -52,6 +54,7 @@
               [showIcon]="true"
               dataType="string"
               dateFormat="yy-mm-dd"
+              [appendTo]="'body'"
             ></p-calendar>
           </div>
           <div class="p-col-4">
@@ -83,7 +86,7 @@
       </div>
     </div>
     <div class="p-grid">
-      <div class="col-1 p-lg-offset-11">
+      <div class="p-col-12 text-right">
         <button
           pButton
           type="button"

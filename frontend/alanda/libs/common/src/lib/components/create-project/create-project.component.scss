@@ -2,24 +2,8 @@ textarea {
   width: 100%;
 }
 
-::ng-deep .ui-dialog-titlebar-close {
-  display: none;
-}
-
-.spacer {
-  margin-top: 10px;
-}
-
-.spacer div[class^='p-col-'] {
-  min-height: 50px;
-}
-
-::ng-deep .ui-dropdown-label {
-  font-size: 12px !important;
-}
-
-* {
-  font-size: 12px;
+.text-right {
+  text-align: right;
 }
 
 .loading {
