@@ -1,1 +1,33 @@
-<h2>Add your components here for testing & development:</h2>
+<div class="p-grid">
+  <div class="p-col-12 p-md-6">
+    <p-card header="Component Testing & Playground">
+      <alanda-badge [label]="'Badge Test'"></alanda-badge>
+    </p-card>
+  </div>
+  <div class="p-col-12 p-md-6">
+    <p-card [header]="'Font Size Scaling: ' + fontSize + 'px'">
+      <div class="font-size-scaling">
+        <p style="font-size: 0.25rem">0.25 Rem</p>
+        <p style="font-size: 0.5rem">0.50 Rem</p>
+        <p style="font-size: 0.75rem">0.75 Rem</p>
+        <p style="font-size: 1rem">1.00 Rem</p>
+        <p style="font-size: 1.25rem">1.25 Rem</p>
+        <p style="font-size: 1.5rem">1.50 Rem</p>
+        <p style="font-size: 1.75rem">1.75 Rem</p>
+        <p style="font-size: 2rem">2.00 Rem</p>
+        <p style="font-size: 2.25rem">2.25 Rem</p>
+        <p style="font-size: 2.5rem">2.50 Rem</p>
+        <p style="font-size: 2.75rem">2.75 Rem</p>
+        <p style="font-size: 3rem">3.00 Rem</p>
+
+        <div class="font-size-control p-buttonset">
+          <button pButton type="button" icon="pi pi-minus"
+                  iconPos="left" (click)="changeFontSize(-1)"></button>
+          <button pButton type="button" icon="pi pi-plus" iconPos="left"
+                  (click)="changeFontSize(+1)"
+          ></button>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>
