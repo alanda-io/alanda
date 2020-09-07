@@ -5,18 +5,18 @@ $header-item-spacer: 4px;
 .phase-tab {
   .phase-tab-header {
     border-bottom: 1px solid #c8c8c8;
-    margin-top: 5px;
+    margin-top: 0.35rem;
 
     .header-item {
       background: #f4f4f4;
       border: 1px solid #c8c8c8;
       border-bottom: 0;
-      border-radius: 3px 3px 0 0;
+      border-radius: 0.2143rem 0.2143rem 0 0;
       color: $font-color;
       cursor: pointer;
       display: inline-block;
       margin: 0 $header-item-spacer/2;
-      padding: 10px 15px;
+      padding: 0.725rem 1.071rem;
       min-width: 130px;
       height: 70px;
       text-align: center;
@@ -29,23 +29,23 @@ $header-item-spacer: 4px;
       }
 
       .header-state {
-        bottom: 10px;
+        bottom: 0.725rem;
         left: 0;
         width: 100%;
 
         .edit-state {
           color: $primary-blue;
-          margin: 0 5px;
+          margin: 0 0.35rem;
         }
 
         .status {
           background: #f5f5f5;
-          border-radius: 3px;
+          border-radius: 0.2143rem;
           display: inline-block;
           font-size: 1rem;
           font-weight: 200;
           line-height: 1;
-          padding: 5px;
+          padding: 0.35rem;
           text-transform: uppercase;
           user-select: none;
           color: #777;
@@ -103,6 +103,6 @@ $header-item-spacer: 4px;
   }
 
   .phase-tab-content {
-    padding: 10px;
+    padding: 0.725rem;
   }
 }

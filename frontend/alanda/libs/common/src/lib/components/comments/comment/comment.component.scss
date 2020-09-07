@@ -1,7 +1,7 @@
 .comment {
   * {
-    margin-bottom: 5px;
-    margin-top: 5px;
+    margin-bottom: 0.35rem;
+    margin-top: 0.35rem;
   }
 
   .avatar {
@@ -15,33 +15,33 @@
 
   .author {
     font-weight: 900;
-    line-height: 20px;
+    line-height: 1.45rem;
     text-align: center;
     width: 100%;
   }
 
   .comment-box {
     background: #dae2f0;
-    border-radius: 5px;
-    margin-left: 20px;
+    border-radius: 0.35rem;
+    margin-left: 1.45rem;
     min-height: 70px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
+    padding-bottom: 0.35rem;
+    padding-left: 0.725rem;
+    padding-right: 0.725rem;
+    padding-top: 0.35rem;
     position: relative;
     width: 80%;
 
     &.bubble-effect::before {
-      border-bottom: 10px solid transparent;
-      border-left: 10px solid transparent;
-      border-right: 10px solid #dae2f0;
-      border-top: 10px solid #dae2f0;
+      border-bottom: 0.725rem solid transparent;
+      border-left: 0.725rem solid transparent;
+      border-right: 0.725rem solid #dae2f0;
+      border-top: 0.725rem solid #dae2f0;
       content: '';
       height: 0;
       left: -19px;
       position: absolute;
-      top: 20px;
+      top: 1.45rem;
       width: 0;
     }
 
@@ -49,7 +49,7 @@
       display: block;
 
       .header-date {
-        margin-right: 10px;
+        margin-right: 0.725rem;
       }
     }
 
@@ -70,7 +70,7 @@
   }
 
   .comment-reply-form {
-    padding-left: 15px;
+    padding-left: 1.071rem;
 
     .comment-reply {
       resize: none;

@@ -1,7 +1,7 @@
 @import '../../../styles/variables';
 
 .header-container {
-  margin-bottom: 20px;
+  margin-bottom: 1.45rem;
 
   .logo {
     float: left;
@@ -10,7 +10,7 @@
     max-width: 125px;
     height: $header-container-height;
     overflow: hidden;
-    margin: 0 10px;
+    margin: 0 0.725rem;
     user-select: none;
 
     > img {
@@ -26,7 +26,7 @@
   }
 
   .sub-menu {
-    margin: 0 10px;
+    margin: 0 0.725rem;
 
     .user-avatar {
       padding: 0;

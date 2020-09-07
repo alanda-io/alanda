@@ -6,14 +6,7 @@ import { AlandaCommonModule } from '@alanda/common';
 import { ButtonModule } from 'primeng/button';
 
 @NgModule({
-  declarations: [
-    HomeComponent
-  ],
-  imports: [
-    CommonModule,
-    AlandaCommonModule,
-    CardModule,
-    ButtonModule,
-  ]
+  declarations: [HomeComponent],
+  imports: [CommonModule, AlandaCommonModule, CardModule, ButtonModule],
 })
-export class HomeModule { }
+export class HomeModule {}

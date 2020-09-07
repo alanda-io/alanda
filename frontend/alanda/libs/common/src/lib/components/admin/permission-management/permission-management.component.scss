@@ -1,17 +1,12 @@
 @import '../../../../styles/variables';
 
 .permission-management {
-  .input-field {
-    margin-bottom: 20px;
-    margin-top: 20px;
+  .p-field:first-child {
+    margin-top: 1rem;
   }
 
   .valid-error {
     color: $primary-red;
     font-size: 0.85rem;
   }
-}
-
-.p-field:first-child {
-  margin-top: 20px;
 }
