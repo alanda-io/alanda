@@ -1,6 +1,6 @@
 @import '../../../styles/variables';
 
-$header-item-spacer: 4px;
+$header-item-spacer: 0.286rem;
 
 .phase-tab {
   .phase-tab-header {
@@ -17,8 +17,8 @@ $header-item-spacer: 4px;
       display: inline-block;
       margin: 0 $header-item-spacer/2;
       padding: 0.725rem 1.071rem;
-      min-width: 130px;
-      height: 70px;
+      min-width: 9.286rem;
+      height: 5rem;
       text-align: center;
       vertical-align: bottom;
 
