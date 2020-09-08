@@ -21,7 +21,6 @@ export interface AlandaProject {
   subType?: string;
   dueDate?: string;
   pmcProjectType?: AlandaProjectType;
-  subtype?: string;
   parents?: AlandaProject[];
   children?: AlandaProject[];
   processes?: AlandaProcess[];

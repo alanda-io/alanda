@@ -96,6 +96,7 @@ import { AlandaProcessMessageApiService } from './api/processMessageApi.service'
 import { AlandaVarDatepickerComponent } from './form/components/var-datepicker/var-datepicker.component';
 import { HeaderModule } from './components/header/header.module';
 import { AlandaTitleService } from './services/title.service';
+import { PapReasonDialogComponent } from './components/project-and-processes/pap-reason-dialog/pap-reason-dialog.component';
 import { ProjectTableModule } from './components/project-table/project-table.module';
 import { FilterPipeModule } from './pipes/filter.pipe';
 import { PageSizeSelectModule } from './components/page-size-select/page-size-select.module';
@@ -182,6 +183,7 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     PapActionsComponent,
     PapActionSymbolComponent,
     PapConfigDialogComponent,
+    PapReasonDialogComponent,
     PapSubprocessPropertyInputComponent,
     ProcessConfigDirective,
     AlandaVarCheckboxComponent,
@@ -231,6 +233,7 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
   ],
   entryComponents: [
     PapRelateDialogComponent,
+    PapReasonDialogComponent,
     AlandaVarSelectComponent,
     AlandaPropSelectComponent,
     PapConfigDialogComponent,
