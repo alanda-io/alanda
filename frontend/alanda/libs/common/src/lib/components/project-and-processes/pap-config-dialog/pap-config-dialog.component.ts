@@ -42,7 +42,6 @@ export interface SubprocessPropertyValue {
 }
 
 @Component({
-  selector: 'alanda-pap-config-dialog',
   templateUrl: './pap-config-dialog.component.html',
 })
 export class PapConfigDialogComponent implements OnInit, AfterViewInit {
