@@ -2,15 +2,23 @@
   "name": "@alanda/common",
   "version": "10.0.5",
   "peerDependencies": {
+    "@angular/animations": "^10.1.0",
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
-    "tslib": "^2.0.1",
-    "primeng": "9.1.3",
-    "primeicons": "2.0.0",
-    "primeflex": "1.0.0",
-    "bpmn-js": "7.3.0",
+    "@angular/forms": "^10.1.0",
+    "@angular/platform-browser": "^10.1.0",
+    "@angular/router": "^10.1.0",
     "@rx-angular/state": "^1.4.0",
-    "@rx-angular/template": "^1.0.0-alpha.4"
+    "@rx-angular/template": "^1.0.0-alpha.4",
+    "bpmn-js": "^7.3.0",
+    "font-awesome": "^4.7.0",
+    "primeng": "^9.1.3",
+    "primeicons": "^2.0.0",
+    "primeflex": "^1.0.0",
+    "rxjs": "^6.5.5"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
   },
   "publishConfig": {
     "registry": "https://repo.alanda.io/repository/alanda/"
