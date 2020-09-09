@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import {
   FormGroup,
@@ -21,6 +21,7 @@ export class AlandaVarSelectComponent implements OnInit {
   @Input() task: any;
   @Input() label: string;
   @Input() type?: string;
+  @Output() onChange: EventEmitter<any> = new EventEmitter();
 
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
@@ -52,13 +53,17 @@ export class AlandaVarSelectComponent implements OnInit {
       });
   }
 
-  save() {
+  save(event) {
     this.taskService
       .setVariable(this.task.task_id, this.variableName, {
         value: this.selected.value,
         type: this.type,
       })
       .subscribe();
+    this.onChange.emit({
+      originalEvent: event.originalEvent,
+      value: this.selected.value,
+    });
   }
 
   get selected(): AbstractControl {

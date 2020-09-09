@@ -1,48 +1,47 @@
-<p-menu #menu [popup]="true" [model]="optionItems" appendTo="body"></p-menu>
+<p-menu #menu [popup]="true" [model]="menuItems" appendTo="body"></p-menu>
 <alanda-pap-action-symbol
-  *ngIf="config['RELATE-PROJECTS'] && config['RELATE-PROJECTS'].display"
-  [readOnly]=""
-  type="CONFIG"
+  *ngIf="actions.includes('RELATE-OPTIONS')"
+  [readOnly]="readOnly"
+  type="OPTIONS"
+  pTooltip="Relate Options"
   (clicked)="menu.toggle($event)"
 >
 </alanda-pap-action-symbol>
 <alanda-pap-action-symbol
-  *ngIf="config['CANCEL-PROJECT'] && config['CANCEL-PROJECT'].display"
-  [readOnly]=""
+*ngIf="actions.includes('CANCEL-PROJECT')"
+  [readOnly]="readOnly"
   pTooltip="Cancel project"
   type="CANCEL"
   (clicked)="cancelProject.emit()"
 >
 </alanda-pap-action-symbol>
 <alanda-pap-action-symbol
-  *ngIf="config['CANCEL-PROCESS'] && config['CANCEL-PROCESS'].display"
-  [readOnly]=""
+*ngIf="actions.includes('CANCEL-PROCESS')"
+  [readOnly]="readOnly"
   type="CANCEL"
   pTooltip="Cancel process"
   (clicked)="cancelProcess.emit()"
 >
 </alanda-pap-action-symbol>
 <alanda-pap-action-symbol
-  *ngIf="config['START-SUBPROCESS'] && config['START-SUBPROCESS'].display"
-  [readOnly]=""
+  *ngIf="actions.includes('START-SUBPROCESS')"
+  [readOnly]="readOnly"
   type="START"
   pTooltip="Start subprocess"
   (clicked)="startSubprocess.emit()"
 >
 </alanda-pap-action-symbol>
 <alanda-pap-action-symbol
-  *ngIf="config['REMOVE-SUBPROCESS'] && config['REMOVE-SUBPROCESS'].display"
-  [readOnly]=""
+  *ngIf="actions.includes('REMOVE-SUBPROCESS')"
+  [readOnly]="readOnly"
   type="REMOVE"
   pTooltip="Remove subprocess"
   (clicked)="removeSubprocess.emit()"
 >
 </alanda-pap-action-symbol>
 <alanda-pap-action-symbol
-  *ngIf="
-    config['CONFIGURE-SUBPROCESS'] && config['CONFIGURE-SUBPROCESS'].display
-  "
-  [readOnly]=""
+  *ngIf="actions.includes('CONFIGURE-PROCESS')"
+  [readOnly]="readOnly"
   type="INFO"
   pTooltip="Configure process"
   (clicked)="configureProcess.emit()"
