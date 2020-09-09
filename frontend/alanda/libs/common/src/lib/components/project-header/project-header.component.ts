@@ -44,6 +44,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
       rootFormGroup.addControl('alanda-project-header', this.projectHeaderForm);
     }
   }
+  @Input() activePhaseIndex: number;
 
   taskDueDate: Date;
   loading: boolean;
@@ -173,6 +174,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     viewContainerRef.clear();
     const componentRef = viewContainerRef.createComponent(componentFactory);
     (componentRef.instance as any).project = this.project;
+    (componentRef.instance as any).activePhaseIndex = this.activePhaseIndex;
   }
 
   private initFormGroup(): void {

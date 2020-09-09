@@ -30,8 +30,7 @@ import { MessageModule } from 'primeng/message';
 import { MonitorValuesPipeModule } from './pipes/nested-object.pipe';
 import { TaskTableModule } from './components/task-table/task-table.module';
 import { TagFilterPipe } from './pipes/tag-filter.pipe';
-import { AlandaProjectHeaderComponent } from './components/project-header/project-header.component';
-import { ProjectPropertiesDirective } from './components/controller/directives/project.properties.directive';
+import { ProjectHeaderModule } from './components/project-header/project-header.module';
 import { AlandaPioComponent } from './components/pio/pio.component';
 import { DiagramComponent } from './components/pio/diagram/diagram.component';
 import { ProcessActivitiesComponent } from './components/pio/process-activities/process-activities.component';
@@ -150,6 +149,7 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     PageSizeSelectModule,
     FilterPipeModule,
     AttachmentsModule,
+    ProjectHeaderModule,
   ],
   declarations: [
     AlandaUserManagementComponent,
@@ -157,8 +157,6 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     AlandaGroupManagementComponent,
     AlandaRoleManagementComponent,
     AlandaPermissionManagementComponent,
-    AlandaProjectHeaderComponent,
-    ProjectPropertiesDirective,
     AlandaFormsControllerComponent,
     AlandaPioComponent,
     DiagramComponent,
@@ -201,8 +199,6 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     AlandaRoleManagementComponent,
     AlandaGroupManagementComponent,
     AlandaPermissionManagementComponent,
-    AlandaProjectHeaderComponent,
-    ProjectPropertiesDirective,
     AlandaPioComponent,
     DiagramComponent,
     ProcessActivitiesComponent,
@@ -228,6 +224,7 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     AlandaVarDatepickerComponent,
     HeaderModule,
     AttachmentsModule,
+    ProjectHeaderModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,

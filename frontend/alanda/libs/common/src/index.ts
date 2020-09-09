@@ -88,7 +88,7 @@ export { BadgeModule } from './lib/components/badge/badge.module';
 export { AlandaPhaseTabComponent } from './lib/components/phase-tab/phase-tab.component';
 export { PhaseTabModule } from './lib/components/phase-tab/phase-tab.module';
 
-export * from './lib/components/controller/directives/project.properties.directive';
+export { ProjectPropertiesDirective } from './lib/components/controller/directives/project.properties.directive';
 export * from './lib/components/controller/projects-controller/projects-controller.component';
 
 export { AttachmentsListComponent } from './lib/components/attachments/attachments-list/attachments-list.component';
@@ -96,7 +96,9 @@ export { AttachmentsTreeComponent } from './lib/components/attachments/attachmen
 export { AlandaAttachmentsComponent } from './lib/components/attachments/attachments.component';
 export { AttachmentsModule } from './lib/components/attachments/attachments.module';
 
-export * from './lib/components/project-header/project-header.component';
+export { AlandaProjectHeaderComponent } from './lib/components/project-header/project-header.component';
+export { ProjectHeaderModule } from './lib/components/project-header/project-header.module';
+
 export * from './lib/components/create-project/create-project.component';
 export * from './lib/components/history/history-grid.component';
 export * from './lib/components/history/history-grid.component';
