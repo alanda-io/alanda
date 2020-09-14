@@ -3,11 +3,7 @@
 
 name: Node.js CI
 
-on:
-  push:
-    branches: [ Angular9 ]
-  pull_request:
-    branches: [ Angular9 ]
+on: [push]
 
 defaults:
   run:
