@@ -29,7 +29,13 @@ export enum TreeNodeDataType {
   STARTPROCESS,
 }
 
-export type PapActions = 'RELATE-OPTIONS' | 'CANCEL-PROJECT' | 'CANCEL-PROCESS' | 'START-SUBPROCESS' | 'REMOVE-SUBPROCESS' | 'CONFIGURE-PROCESS';
+export type PapActions =
+  | 'RELATE-OPTIONS'
+  | 'CANCEL-PROJECT'
+  | 'CANCEL-PROCESS'
+  | 'START-SUBPROCESS'
+  | 'REMOVE-SUBPROCESS'
+  | 'CONFIGURE-PROCESS';
 
 export interface TreeNodeData {
   id?: string;
@@ -78,12 +84,14 @@ export class AlandaProjectAndProcessesService {
   }
 
   mapProjectToTreeNode(project: AlandaProject): TreeNode {
-    let label = `${project.projectId} (${project.subType ? project.subType : project.pmcProjectType.name} / ${project.title})`;
+    let label = `${project.projectId} (${
+      project.subType ? project.subType : project.pmcProjectType.name
+    } / ${project.title})`;
     if (project.refObjectIdName) {
       label = label + `for (${project.refObjectIdName})`;
     }
     if (project.displayMetaInfo) {
-      label = label + ` ${project.displayMetaInfo}`
+      label = label + ` ${project.displayMetaInfo}`;
     }
     const id = uuid();
     const data: TreeNodeData = {
@@ -97,21 +105,32 @@ export class AlandaProjectAndProcessesService {
       type: TreeNodeDataType.PROJECT,
       project,
       status: project.status,
-      readOnly: project.status === ProjectState.CANCELED || project.status === ProjectState.COMPLETED || project.status === ProjectState.SUSPENDED,
-      papActions: ['RELATE-OPTIONS', 'CANCEL-PROJECT']
+      readOnly:
+        project.status === ProjectState.CANCELED ||
+        project.status === ProjectState.COMPLETED ||
+        project.status === ProjectState.SUSPENDED,
+      papActions: ['RELATE-OPTIONS', 'CANCEL-PROJECT'],
     };
     return {
       key: id,
       data,
       children: project.processes
-        ? project.processes.map((process) => this.mapProcessToTreeNode(process, project))
+        ? project.processes.map((process) =>
+            this.mapProcessToTreeNode(process, project),
+          )
         : null,
     };
   }
 
-  mapProcessToTreeNode(process: AlandaProcess, relatedProject: AlandaProject): TreeNode {
-    const papActions: PapActions[] = process.status === ProjectState.NEW ? ['REMOVE-SUBPROCESS', 'START-SUBPROCESS'] : ['CANCEL-PROCESS'];
-    if ( this.showSubprocessConfigButton(process, relatedProject)) {
+  mapProcessToTreeNode(
+    process: AlandaProcess,
+    relatedProject: AlandaProject,
+  ): TreeNode {
+    const papActions: PapActions[] =
+      process.status === ProjectState.NEW
+        ? ['REMOVE-SUBPROCESS', 'START-SUBPROCESS']
+        : ['CANCEL-PROCESS'];
+    if (this.showSubprocessConfigButton(process, relatedProject)) {
       papActions.push('CONFIGURE-PROCESS');
     }
     const id = uuid();
@@ -127,10 +146,15 @@ export class AlandaProjectAndProcessesService {
       dropdown: process.status === ProjectState.NEW ? true : false,
       status: process.status,
       relatedProject,
-      readOnly: process.status === ProjectState.CANCELED || process.status === ProjectState.COMPLETED || process.status === ProjectState.SUSPENDED ||
-      process.status === ProjectState.DELETED || relatedProject.status === ProjectState.CANCELED || relatedProject.status === ProjectState.COMPLETED ||
-      relatedProject.status === ProjectState.SUSPENDED,
-      papActions
+      readOnly:
+        process.status === ProjectState.CANCELED ||
+        process.status === ProjectState.COMPLETED ||
+        process.status === ProjectState.SUSPENDED ||
+        process.status === ProjectState.DELETED ||
+        relatedProject.status === ProjectState.CANCELED ||
+        relatedProject.status === ProjectState.COMPLETED ||
+        relatedProject.status === ProjectState.SUSPENDED,
+      papActions,
     };
     return {
       key: id,
@@ -172,9 +196,10 @@ export class AlandaProjectAndProcessesService {
         type: TreeNodeDataType.STARTPROCESS,
         dropdown: true,
         relatedProject,
-        readOnly: relatedProject.status === ProjectState.CANCELED
-        || relatedProject.status === ProjectState.COMPLETED
-        || relatedProject.status === ProjectState.SUSPENDED
+        readOnly:
+          relatedProject.status === ProjectState.CANCELED ||
+          relatedProject.status === ProjectState.COMPLETED ||
+          relatedProject.status === ProjectState.SUSPENDED,
       },
       key: id,
     };
@@ -236,31 +261,48 @@ export class AlandaProjectAndProcessesService {
     return result;
   }
 
-  private showSubprocessConfigButton(process: AlandaProcess, relatedProject: AlandaProject): boolean {
-    const projectTypeConfig = JSON.parse(relatedProject.pmcProjectType.configuration);
+  private showSubprocessConfigButton(
+    process: AlandaProcess,
+    relatedProject: AlandaProject,
+  ): boolean {
+    const projectTypeConfig = JSON.parse(
+      relatedProject.pmcProjectType.configuration,
+    );
     const subprocessPropertiesTemplate = {};
     const subprocessProperties = {};
     const subprocessPropertiesConfig = {};
     if (projectTypeConfig) {
       if (projectTypeConfig.subprocessProperties) {
         for (const propDef of projectTypeConfig.subprocessProperties) {
-          subprocessPropertiesTemplate[propDef.processDefinitionKey] = propDef.propertiesTemplate;
-          subprocessProperties[propDef.processDefinitionKey] = propDef.properties;
+          subprocessPropertiesTemplate[propDef.processDefinitionKey] =
+            propDef.propertiesTemplate;
+          subprocessProperties[propDef.processDefinitionKey] =
+            propDef.properties;
           subprocessPropertiesConfig[propDef.processDefinitionKey] = propDef;
         }
       }
     }
     const processKeyWithoutPhase = process['processKeyWithoutPhase'];
-    if ((!subprocessProperties[processKeyWithoutPhase] && subprocessPropertiesTemplate[processKeyWithoutPhase]) ||
-    !(process.status === ProjectState.ACTIVE || process.status === ProjectState.NEW )) {
+    if (
+      (!subprocessProperties[processKeyWithoutPhase] &&
+        subprocessPropertiesTemplate[processKeyWithoutPhase]) ||
+      !(
+        process.status === ProjectState.ACTIVE ||
+        process.status === ProjectState.NEW
+      )
+    ) {
       return false;
     }
-    if (subprocessPropertiesConfig[processKeyWithoutPhase] && subprocessPropertiesConfig[processKeyWithoutPhase].showButton) {
+    if (
+      subprocessPropertiesConfig[processKeyWithoutPhase] &&
+      subprocessPropertiesConfig[processKeyWithoutPhase].showButton
+    ) {
       return subprocessPropertiesConfig[processKeyWithoutPhase].showButton;
     }
-    return (subprocessProperties[processKeyWithoutPhase] && subprocessProperties[processKeyWithoutPhase].length > 0) ||
-      subprocessPropertiesTemplate[processKeyWithoutPhase];
+    return (
+      (subprocessProperties[processKeyWithoutPhase] &&
+        subprocessProperties[processKeyWithoutPhase].length > 0) ||
+      subprocessPropertiesTemplate[processKeyWithoutPhase]
+    );
   }
-
-
 }

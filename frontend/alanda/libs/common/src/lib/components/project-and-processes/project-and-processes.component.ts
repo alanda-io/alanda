@@ -50,10 +50,14 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   loading: boolean;
   readOnly: boolean;
   subprocessSelect$: Subject<any> = new Subject();
-  updateDetails$: Subject<{project: AlandaProject, process: AlandaProcess}> = new Subject();
-  refObjectSelect$: Subject<{project: AlandaProject, process: AlandaProcess}> = new Subject();
-
-
+  updateDetails$: Subject<{
+    project: AlandaProject;
+    process: AlandaProcess;
+  }> = new Subject();
+  refObjectSelect$: Subject<{
+    project: AlandaProject;
+    process: AlandaProcess;
+  }> = new Subject();
 
   allowedProcesses: { [projectGuid: number]: MappedAllowedProcesses[] } = {};
   dynamicDialogRef: DynamicDialogRef;
@@ -67,7 +71,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   ) {
     this.subprocessSelect$
       .pipe(
-        tap(() => this.loading = true),
+        tap(() => (this.loading = true)),
         exhaustMap((data) =>
           this.startSubprocess(data).pipe(
             finalize(() => (this.loading = false)),
@@ -77,20 +81,28 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => this.changed.emit());
 
-    this.updateDetails$.pipe(
-      debounceTime(400),
-      tap(() => this.loading = true),
-      switchMap(v => this.justSaveSubprocess(v.project, v.process).pipe(
-        finalize(() => (this.loading = false))
-      ))
-    ).subscribe();
+    this.updateDetails$
+      .pipe(
+        debounceTime(400),
+        tap(() => (this.loading = true)),
+        switchMap((v) =>
+          this.justSaveSubprocess(v.project, v.process).pipe(
+            finalize(() => (this.loading = false)),
+          ),
+        ),
+      )
+      .subscribe();
 
-    this.refObjectSelect$.pipe(
-      tap(() => this.loading = true),
-      switchMap(v => this.justSaveSubprocess(v.project, v.process).pipe(
-        finalize(() => (this.loading = false))
-      ))
-    ).subscribe();
+    this.refObjectSelect$
+      .pipe(
+        tap(() => (this.loading = true)),
+        switchMap((v) =>
+          this.justSaveSubprocess(v.project, v.process).pipe(
+            finalize(() => (this.loading = false)),
+          ),
+        ),
+      )
+      .subscribe();
   }
 
   ngOnInit() {}
@@ -122,9 +134,11 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
       return;
     }
     if (projectType) {
-      this.projectService.autocompleteRefObjects(searchTerm.query, projectType.objectType).subscribe(res => {
-        this.refObjects = res.map(item => item.idName);
-      });
+      this.projectService
+        .autocompleteRefObjects(searchTerm.query, projectType.objectType)
+        .subscribe((res) => {
+          this.refObjects = res.map((item) => item.idName);
+        });
     }
   }
 
@@ -282,7 +296,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
       `Cancel ${data.project.projectId}`,
       {
         placeholder: 'Reason for canceling the project',
-        content: `Are you sure to cancel project ${data.project.projectId}? All progress will be lost !`
+        content: `Are you sure to cancel project ${data.project.projectId}? All progress will be lost !`,
       },
     );
 
@@ -301,13 +315,10 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   }
 
   openCancelProcessDialog(data: TreeNodeData, node: TreeNode) {
-    this.dynamicDialogRef = this.openReasonDialogModal(
-      'Cancel Process',
-      {
-        placeholder: 'Reason for canceling the process',
-        content: `Are you sure to cancel ${data.process.label}? All progress will be lost !`
-      },
-    );
+    this.dynamicDialogRef = this.openReasonDialogModal('Cancel Process', {
+      placeholder: 'Reason for canceling the process',
+      content: `Are you sure to cancel ${data.process.label}? All progress will be lost !`,
+    });
     this.dynamicDialogRef.onClose.subscribe((reason: string) => {
       if (reason !== null) {
         this.loading = true;
@@ -330,17 +341,14 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     this.dynamicDialogRef = this.openReasonDialogModal(
       `Start ${data.process.label}`,
       {
-        content: `Are you sure to start ${data.process.label}?`
+        content: `Are you sure to start ${data.process.label}?`,
       },
     );
     this.dynamicDialogRef.onClose.subscribe((reason: string) => {
       if (reason !== null) {
         this.loading = true;
         this.projectService
-          .startProjectProcess(
-            data.relatedProject.guid,
-            data.process.guid,
-          )
+          .startProjectProcess(data.relatedProject.guid, data.process.guid)
           .pipe(finalize(() => (this.loading = false)))
           .subscribe(() => {
             this.changed.emit();
@@ -351,13 +359,10 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   }
 
   openRemoveProcessDialog(data: TreeNodeData, node: TreeNode) {
-    this.dynamicDialogRef = this.openReasonDialogModal(
-      'Remove Process',
-      {
-        placeholder: 'Reason for removing the process',
-        content: `Are you sure to remove ${data.process.label}? All progress will be lost !`
-      },
-    );
+    this.dynamicDialogRef = this.openReasonDialogModal('Remove Process', {
+      placeholder: 'Reason for removing the process',
+      content: `Are you sure to remove ${data.process.label}? All progress will be lost !`,
+    });
     this.dynamicDialogRef.onClose.subscribe((reason: string) => {
       if (reason !== null) {
         this.loading = true;
@@ -403,7 +408,10 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     );
   }
 
-  private justSaveSubprocess(project: AlandaProject, process: AlandaProcess): Observable<AlandaProcess> {
+  private justSaveSubprocess(
+    project: AlandaProject,
+    process: AlandaProcess,
+  ): Observable<AlandaProcess> {
     return this.projectService.saveProjectProcess(project.guid, process);
   }
 
@@ -414,7 +422,9 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
       this.getProjectWithProcessesAndTasks(data.project)
         .pipe(
           switchMap((project) => from(project.processes)),
-          map((process) => this.papService.mapProcessToTreeNode(process, data.project)),
+          map((process) =>
+            this.papService.mapProcessToTreeNode(process, data.project),
+          ),
           toArray(),
           map((processes) =>
             processes.sort((a, b) =>

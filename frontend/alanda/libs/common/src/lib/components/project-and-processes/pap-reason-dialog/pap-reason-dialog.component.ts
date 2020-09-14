@@ -5,7 +5,6 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
   templateUrl: './pap-reason-dialog.component.html',
 })
 export class PapReasonDialogComponent {
-
   reason = '';
 
   constructor(

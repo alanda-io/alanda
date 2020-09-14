@@ -54,10 +54,7 @@ type ActionType = 'CONFIG' | 'CANCEL' | 'REMOVE' | 'START' | 'INFO';
     <ng-container *ngIf="readOnly" [ngSwitch]="type">
       <span *ngSwitchCase="'OPTIONS'" class="fa fa-cog fa-lg"></span>
       <span *ngSwitchCase="'CANCEL'" class="fa fa-stop fa-lg"></span>
-      <span
-        *ngSwitchCase="'REMOVE'"
-        class="fa fa-window-close fa-lg"
-      ></span>
+      <span *ngSwitchCase="'REMOVE'" class="fa fa-window-close fa-lg"></span>
       <span *ngSwitchCase="'START'" class="fa fa-play-circle fa-lg"></span>
       <span
         *ngSwitchCase="'INFO'"
