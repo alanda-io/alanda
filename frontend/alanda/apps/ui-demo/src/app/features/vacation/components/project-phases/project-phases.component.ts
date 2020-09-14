@@ -8,4 +8,5 @@ import { AlandaProject } from '@alanda/common';
 export class ProjectPhasesComponent {
   project: AlandaProject;
   activePhaseIndex = 0;
+  phase: string;
 }

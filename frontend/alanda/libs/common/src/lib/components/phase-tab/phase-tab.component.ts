@@ -3,7 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { AlandaSimplePhase } from '../../api/models/simplePhase';
 import { AlandaProject } from '../../api/models/project';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { RxState } from '@rx-angular/state';
 import { AlandaUser } from '../../api/models/user';
 
@@ -23,7 +23,8 @@ export class AlandaPhaseTabComponent {
   set project(project: AlandaProject) {
     this.state.set({ project });
   }
-  @Input() activePhaseIndex = 0;
+  @Input() activePhaseIndex: number;
+  @Input() phase: string;
   @Output() activePhaseIndexChange = new EventEmitter<number>();
   @Input() user: AlandaUser;
 
@@ -90,8 +91,24 @@ export class AlandaPhaseTabComponent {
     switchMap((project: AlandaProject) =>
       this.projectApiService.getPhasesForProject(project.guid),
     ),
-    map((simplePhases) => {
+    map((simplePhases: AlandaSimplePhase[]) => {
       return [this.overviewTab, ...simplePhases];
+    }),
+    tap((simplePhases: AlandaSimplePhase[]) => {
+      if (!this.activePhaseIndex) {
+        this.activePhaseIndex = 0;
+      }
+
+      if (this.phase) {
+        const index = simplePhases.findIndex(
+          (phase: AlandaSimplePhase) =>
+            phase.pmcProjectPhaseDefinition.displayName.toLowerCase() ===
+            this.phase.toLowerCase(),
+        );
+        if (index > -1) {
+          this.activePhaseIndex = index;
+        }
+      }
     }),
   );
 
