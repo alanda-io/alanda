@@ -7,6 +7,7 @@ import {
 import { AlandaUser } from '../../api/models/user';
 import { AlandaMenuItem } from '../../api/models/menuItem';
 import { AlandaTableLayout } from '../../..';
+import { TableType } from '../../enums/tableType.enum';
 
 export class Authorizations {
   /**
@@ -212,7 +213,7 @@ export class Authorizations {
    * @param user - AlandaUser to heck against permissions
    * @param accessLevel: AccessLevels - Level of access
    */
-  static filterMenuItems(
+  static hasPermissionForMenuItem(
     item: AlandaMenuItem,
     user: AlandaUser,
     accessLevel?: string,
@@ -220,7 +221,7 @@ export class Authorizations {
     if (item.items) {
       item.items = item.items
         .map((i) => Object.assign({}, i))
-        .filter((_item) => Authorizations.filterMenuItems(_item, user));
+        .filter((_item) => Authorizations.hasPermissionForMenuItem(_item, user));
 
       // remove item without routerLink and any child items
       if (!item.items.length && (!item.routerLink || !item.routerLink.length)) {
@@ -238,9 +239,10 @@ export class Authorizations {
     return true;
   }
 
-  static hasPermissionForLayout(
+  static hasPermissionForTableLayout(
     layout: AlandaTableLayout,
     user: AlandaUser,
+    type: TableType,
   ): boolean {
     // Ignore if user is Admin or layout has name default
     if (
@@ -251,7 +253,7 @@ export class Authorizations {
     } else {
       return Authorizations.hasPermission(
         user,
-        'task:layout:' + layout.name.toLowerCase(),
+        `layout:${type}:${layout.name.toLowerCase()}`,
         null,
       );
     }

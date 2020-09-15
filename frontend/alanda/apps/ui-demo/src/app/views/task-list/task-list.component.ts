@@ -7,6 +7,7 @@ import {
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserStoreImpl } from '../../store/user';
+import { TableType } from '../../../../../../libs/common/src/lib/enums/tableType.enum';
 
 @Component({
   selector: 'alanda-task-list',
@@ -140,7 +141,7 @@ export class AlandaTaskListComponent {
     this.layouts$ = this.user$.pipe(
       map((user) => {
         return this.taskLayouts.filter((layout) =>
-          Authorizations.hasPermissionForLayout(layout, user),
+          Authorizations.hasPermissionForTableLayout(layout, user, TableType.TASK),
         );
       }),
     );

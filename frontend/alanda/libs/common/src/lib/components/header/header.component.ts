@@ -77,7 +77,7 @@ export class AlandaHeaderComponent {
 
   items$ = combineLatest([this.user$, this.rxState.select('items')]).pipe(
     map(([user, items]) =>
-      items.filter((item) => Authorizations.filterMenuItems(item, user)),
+      items.filter((item) => Authorizations.hasPermissionForMenuItem(item, user)),
     ),
   );
 
