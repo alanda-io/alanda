@@ -38,7 +38,7 @@ import { ProcessRelation } from '../../enums/processRelation.enum';
 @Component({
   selector: 'alanda-project-and-processes',
   templateUrl: './project-and-processes.component.html',
-  styleUrls: ['./project-and-processes.component.css'],
+  styleUrls: ['./project-and-processes.component.scss'],
   providers: [DialogService, AlandaProjectAndProcessesService],
 })
 export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
