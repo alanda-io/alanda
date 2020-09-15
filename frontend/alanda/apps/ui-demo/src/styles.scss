@@ -21,3 +21,9 @@ body {
 .p-card {
   margin-bottom: 1.25em;
 }
+
+*:focus,
+.p-focus {
+  outline: none !important;
+  box-shadow: none !important;
+}

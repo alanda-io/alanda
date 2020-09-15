@@ -4,7 +4,7 @@
   *ngIf="cp.filteredComments$ | push as comments"
 >
   <p-header>
-    <span class="ui-panel-title">
+    <span class="p-panel-title">
       Comments
       <alanda-badge label="{{ comments.length }}"></alanda-badge>
     </span>
@@ -83,7 +83,7 @@
           type="button"
           (onClick)="cp.clearAllTagFilters()"
           *ngIf="cp.hasActiveFilters$ | push"
-          styleClass="ui-button-danger"
+          styleClass="p-button-danger"
         ></p-button>
       </div>
     </div>

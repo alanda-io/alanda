@@ -42,7 +42,6 @@
         *ngFor="let col of columns"
         pResizableColumn
         [pSortableColumn]="col.field"
-        class="ng-ui-table"
         [style.width]="col.width + 'px'"
       >
         <span style="white-space: nowrap;"
