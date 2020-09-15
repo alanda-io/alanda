@@ -59,25 +59,21 @@ export class AlandaProjectMonitorComponent {
       {
         name: 'test',
         displayName: 'Test',
-        filterOptions: {},
         columnDefs: columnDefAll,
       },
       {
         name: 'all',
         displayName: 'All',
-        filterOptions: {},
         columnDefs: columnDefAll,
       },
       {
         name: 'foo',
         displayName: 'Foo',
-        filterOptions: {},
         columnDefs: columnDefAll,
       },
       {
         name: 'bar',
         displayName: 'Bar',
-        filterOptions: {},
         columnDefs: columnDefAll,
       },
     ];

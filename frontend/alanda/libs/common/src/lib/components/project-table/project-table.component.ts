@@ -84,10 +84,10 @@ export class AlandaProjectTableComponent implements OnInit {
     }
     this.serverOptions.sortOptions = sortOptions;
     this.serverOptions.filterOptions = {};
-    for (const key of Object.keys(this.selectedLayout.filterOptions)) {
-      this.serverOptions.filterOptions[key] = this.selectedLayout.filterOptions[
-        key
-      ];
+    if (this.selectedLayout.filterOptions) {
+      for (const [key, value] of Object.entries(this.selectedLayout.filterOptions)) {
+        this.serverOptions.filterOptions[key] = value
+      }
     }
     for (const key in event.filters) {
       if (event.filters.hasOwnProperty(key) && event.filters[key].value) {
@@ -103,10 +103,10 @@ export class AlandaProjectTableComponent implements OnInit {
   onChangeLayout() {
     this.serverOptions.pageNumber = 1;
     this.serverOptions.filterOptions = {};
-    for (const key of Object.keys(this.selectedLayout.filterOptions)) {
-      this.serverOptions.filterOptions[key] = this.selectedLayout.filterOptions[
-        key
-      ];
+    if (this.selectedLayout.filterOptions) {
+      for (const [key, value] of Object.entries(this.selectedLayout.filterOptions)) {
+        this.serverOptions.filterOptions[key] = value;
+      }
     }
     this.loadProjects(this.serverOptions);
   }
