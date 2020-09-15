@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AlandaCommentTagComponent } from './comment-tag.component';
 import { ButtonModule } from 'primeng/button';
 import { TemplateModule } from '@rx-angular/template';
@@ -13,12 +13,14 @@ describe('AlandaCommentTagComponent', () => {
     status: true,
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [AlandaCommentTagComponent],
-      imports: [ButtonModule, TemplateModule],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AlandaCommentTagComponent],
+        imports: [ButtonModule, TemplateModule],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AlandaCommentTagComponent);

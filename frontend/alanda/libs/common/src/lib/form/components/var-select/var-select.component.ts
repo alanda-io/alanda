@@ -21,7 +21,7 @@ export class AlandaVarSelectComponent implements OnInit {
   @Input() task: any;
   @Input() label: string;
   @Input() type?: string;
-  @Output() onChange: EventEmitter<any> = new EventEmitter();
+  @Output() valueChange: EventEmitter<any> = new EventEmitter();
 
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
@@ -60,7 +60,7 @@ export class AlandaVarSelectComponent implements OnInit {
         type: this.type,
       })
       .subscribe();
-    this.onChange.emit({
+    this.valueChange.emit({
       originalEvent: event.originalEvent,
       value: this.selected.value,
     });
