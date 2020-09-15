@@ -1,8 +1,4 @@
-import {
-  ComponentFixture,
-  TestBed,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AlandaPhaseTabComponent } from './phase-tab.component';
 import { MenuModule } from 'primeng/menu';
 import { TemplateModule } from '@rx-angular/template';
@@ -17,21 +13,23 @@ describe('AlandaPhaseTabComponent', () => {
   let component: AlandaPhaseTabComponent;
   let fixture: ComponentFixture<AlandaPhaseTabComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [AlandaPhaseTabComponent],
-      imports: [MenuModule, TemplateModule],
-      providers: [
-        AlandaProjectApiService,
-        HttpClient,
-        HttpHandler,
-        {
-          provide: APP_CONFIG,
-          useValue: appConfig,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AlandaPhaseTabComponent],
+        imports: [MenuModule, TemplateModule],
+        providers: [
+          AlandaProjectApiService,
+          HttpClient,
+          HttpHandler,
+          {
+            provide: APP_CONFIG,
+            useValue: appConfig,
+          },
+        ],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AlandaPhaseTabComponent);
