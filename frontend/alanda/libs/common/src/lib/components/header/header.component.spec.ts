@@ -1,4 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  waitForAsync,
+} from '@angular/core/testing';
 import { AlandaHeaderComponent } from './header.component';
 import { ToastModule } from 'primeng/toast';
 import { APP_CONFIG } from '../../models/appSettings';
@@ -15,7 +19,7 @@ describe('AlandaHeaderComponent', () => {
   let component: AlandaHeaderComponent;
   let fixture: ComponentFixture<AlandaHeaderComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AlandaHeaderComponent],
       imports: [ToastModule, MenubarModule, TemplateModule],
