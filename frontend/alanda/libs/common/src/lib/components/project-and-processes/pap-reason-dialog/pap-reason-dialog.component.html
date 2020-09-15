@@ -14,7 +14,8 @@
 <p *ngIf="config.data?.content">
   {{ config.data.content }}
 </p>
-<textarea *ngIf="config.data?.placeholder"
+<textarea
+  *ngIf="config.data?.placeholder"
   [(ngModel)]="reason"
   pInputTextarea
   class="reason-input"
@@ -27,9 +28,5 @@
     class="ui-button-secondary spacer-right"
     (click)="dynamicDialogRef.close(null)"
   ></button>
-  <button
-    pButton
-    label="OK"
-    (click)="dynamicDialogRef.close(reason)"
-  ></button>
+  <button pButton label="OK" (click)="dynamicDialogRef.close(reason)"></button>
 </div>

@@ -96,17 +96,36 @@
       [(ngModel)]="rowData.refObject"
       [suggestions]="refObjects"
       placeholder="Reference Object"
-      (onSelect)="refObjectSelect$.next({project: rowNode.parent.data.project, process: rowData.process})"
-      [disabled]="!rowData.dropdown || !rowData.process.customRefObject || loading || rowData.readOnly"
-      (completeMethod)="autocompleteSites($event, rowNode.parent.data.project.pmcProjectType)">
+      (onSelect)="
+        refObjectSelect$.next({
+          project: rowNode.parent.data.project,
+          process: rowData.process
+        })
+      "
+      [disabled]="
+        !rowData.dropdown ||
+        !rowData.process.customRefObject ||
+        loading ||
+        rowData.readOnly
+      "
+      (completeMethod)="
+        autocompleteSites($event, rowNode.parent.data.project.pmcProjectType)
+      "
+    >
     </p-autoComplete>
   </td>
   <td colspan="4" class="col-process-input">
-    <textarea pInputTextarea
+    <textarea
+      pInputTextarea
       *ngIf="rowData.dropdown && rowData.process"
       [(ngModel)]="rowData.process.workDetails"
       [rows]="1"
-      (change)="updateDetails$.next({project: rowNode.parent.data.project, process: rowData.process})"
+      (change)="
+        updateDetails$.next({
+          project: rowNode.parent.data.project,
+          process: rowData.process
+        })
+      "
       placeholder="Details"
       [disabled]="rowData.readOnly || loading"
     ></textarea>

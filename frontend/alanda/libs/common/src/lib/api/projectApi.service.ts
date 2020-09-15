@@ -278,4 +278,28 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
       },
     );
   }
+
+  public restartPhase(
+    projectGuid: number,
+    phaseDefIdName: string,
+  ): Observable<AlandaSimplePhase> {
+    return this.http.post<AlandaSimplePhase>(
+      `${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}/restart`,
+      {
+        withCredentials: true,
+      },
+    );
+  }
+
+  public startPhase(
+    projectGuid: number,
+    phaseDefIdName: string,
+  ): Observable<AlandaSimplePhase> {
+    return this.http.post<AlandaSimplePhase>(
+      `${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}/start`,
+      {
+        withCredentials: true,
+      },
+    );
+  }
 }

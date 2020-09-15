@@ -12,7 +12,7 @@
         <p-menu
           #menu
           [popup]="true"
-          [model]="menuItems"
+          [model]="getMenuItems(phase)"
           appendTo="body"
         ></p-menu>
         <span

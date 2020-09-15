@@ -1,5 +1,9 @@
-<alanda-phase-tab [project]="project" [(activePhaseIndex)]="activeIndex">
-  <ng-container [ngSwitch]="activeIndex">
+<alanda-phase-tab
+  [project]="project"
+  [(activePhaseIndex)]="activePhaseIndex"
+  [phase]="phase"
+>
+  <ng-container [ngSwitch]="activePhaseIndex">
     <div *ngSwitchCase="0">
       overview
     </div>

@@ -7,5 +7,6 @@ import { AlandaProject } from '@alanda/common';
 })
 export class ProjectPhasesComponent {
   project: AlandaProject;
-  activeIndex = 0;
+  activePhaseIndex = 0;
+  phase: string;
 }
