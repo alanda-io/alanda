@@ -221,7 +221,9 @@ export class Authorizations {
     if (item.items) {
       item.items = item.items
         .map((i) => Object.assign({}, i))
-        .filter((_item) => Authorizations.hasPermissionForMenuItem(_item, user));
+        .filter((_item) =>
+          Authorizations.hasPermissionForMenuItem(_item, user),
+        );
 
       // remove item without routerLink and any child items
       if (!item.items.length && (!item.routerLink || !item.routerLink.length)) {

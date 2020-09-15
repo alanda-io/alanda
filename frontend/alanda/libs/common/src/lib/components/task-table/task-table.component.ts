@@ -239,7 +239,9 @@ export class AlandaTaskTableComponent implements OnInit {
       sortOptions: {},
     };
     if (this.selectedLayout.filterOptions) {
-      for (const [key, value] of Object.entries(this.selectedLayout.filterOptions)) {
+      for (const [key, value] of Object.entries(
+        this.selectedLayout.filterOptions,
+      )) {
         serverOptions.filterOptions[key] = value;
       }
     }

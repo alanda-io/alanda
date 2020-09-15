@@ -67,7 +67,11 @@ describe('Check Apache Shiro Authorizations', () => {
       },
     ];
 
-    const item0 = Authorizations.hasPermissionForMenuItem(items[0], user, 'write');
+    const item0 = Authorizations.hasPermissionForMenuItem(
+      items[0],
+      user,
+      'write',
+    );
     expect(item0).toBeFalsy();
 
     const item1 = Authorizations.hasPermissionForMenuItem(items[1], user);

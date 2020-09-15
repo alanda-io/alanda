@@ -85,8 +85,10 @@ export class AlandaProjectTableComponent implements OnInit {
     this.serverOptions.sortOptions = sortOptions;
     this.serverOptions.filterOptions = {};
     if (this.selectedLayout.filterOptions) {
-      for (const [key, value] of Object.entries(this.selectedLayout.filterOptions)) {
-        this.serverOptions.filterOptions[key] = value
+      for (const [key, value] of Object.entries(
+        this.selectedLayout.filterOptions,
+      )) {
+        this.serverOptions.filterOptions[key] = value;
       }
     }
     for (const key in event.filters) {
@@ -104,7 +106,9 @@ export class AlandaProjectTableComponent implements OnInit {
     this.serverOptions.pageNumber = 1;
     this.serverOptions.filterOptions = {};
     if (this.selectedLayout.filterOptions) {
-      for (const [key, value] of Object.entries(this.selectedLayout.filterOptions)) {
+      for (const [key, value] of Object.entries(
+        this.selectedLayout.filterOptions,
+      )) {
         this.serverOptions.filterOptions[key] = value;
       }
     }
