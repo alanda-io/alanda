@@ -40,6 +40,7 @@ export * from './lib/enums/projectState.enum';
 export * from './lib/enums/historyLogAction.enum';
 export * from './lib/enums/processRelation.enum';
 export * from './lib/enums/processResultStatus.enum';
+export { TableType } from './lib/enums/tableType.enum';
 
 export * from './lib/api/models/task';
 export * from './lib/models/appSettings';
