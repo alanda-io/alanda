@@ -175,7 +175,6 @@ import { CreateProjectModule } from './components/create-project/create-project.
     AlandaVarDisplayComponent,
     PapRelateDialogComponent,
     AlandaProjectAndProcessesComponent,
-    PapActionsComponent,
     PapActionSymbolComponent,
     PapConfigDialogComponent,
     PapReasonDialogComponent,
