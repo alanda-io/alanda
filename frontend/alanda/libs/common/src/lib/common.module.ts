@@ -31,7 +31,6 @@ import { MonitorValuesPipeModule } from './pipes/nested-object.pipe';
 import { TaskTableModule } from './components/task-table/task-table.module';
 import { TagFilterPipe } from './pipes/tag-filter.pipe';
 import { ProjectHeaderModule } from './components/project-header/project-header.module';
-import { AlandaHistoryGridComponent } from './components/history/history-grid.component';
 import { AlandaCreateProjectComponent } from './components/create-project/create-project.component';
 import { AppSettings, APP_CONFIG } from './models/appSettings';
 import { AlandaSimpleSelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
@@ -98,6 +97,7 @@ import { FilterPipeModule } from './pipes/filter.pipe';
 import { PageSizeSelectModule } from './components/page-size-select/page-size-select.module';
 import { AttachmentsModule } from './components/attachments/attachments.module';
 import { PioModule } from './components/pio/pio.module';
+import { HistoryGridModule } from './components/history/history-grid.module';
 
 @NgModule({
   imports: [
@@ -151,6 +151,7 @@ import { PioModule } from './components/pio/pio.module';
     ProjectHeaderModule,
     DirectivesModule,
     PioModule,
+    HistoryGridModule,
   ],
   declarations: [
     AlandaUserManagementComponent,
@@ -159,7 +160,6 @@ import { PioModule } from './components/pio/pio.module';
     AlandaRoleManagementComponent,
     AlandaPermissionManagementComponent,
     AlandaFormsControllerComponent,
-    AlandaHistoryGridComponent,
     AlandaCreateProjectComponent,
     AlandaSimpleSelectComponent,
     AlandaSelectRoleComponent,
@@ -197,7 +197,6 @@ import { PioModule } from './components/pio/pio.module';
     AlandaRoleManagementComponent,
     AlandaGroupManagementComponent,
     AlandaPermissionManagementComponent,
-    AlandaHistoryGridComponent,
     AlandaCreateProjectComponent,
     AlandaSimpleSelectComponent,
     AlandaSelectRoleComponent,
@@ -221,6 +220,7 @@ import { PioModule } from './components/pio/pio.module';
     ProjectHeaderModule,
     DirectivesModule,
     PioModule,
+    HistoryGridModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,

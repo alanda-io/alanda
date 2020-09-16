@@ -101,8 +101,7 @@ export { AlandaProjectHeaderComponent } from './lib/components/project-header/pr
 export { ProjectHeaderModule } from './lib/components/project-header/project-header.module';
 
 export * from './lib/components/create-project/create-project.component';
-export * from './lib/components/history/history-grid.component';
-export * from './lib/components/history/history-grid.component';
+export { AlandaHistoryGridComponent } from './lib/components/history/history-grid.component';
 export { ProcessConfigDirective } from './lib/directives/process.config.directive';
 export * from './lib/components/project-and-processes/project-and-processes.component';
 export { AlandaPioComponent } from './lib/components/pio/pio.component';
@@ -113,7 +112,6 @@ export * from './lib/components/task/form-variables/date-select/date-select.comp
 export * from './lib/components/task/form-variables/dropdown-select/dropdown-select.component';
 export * from './lib/components/task/form-variables/milestone-select/milestone-select.component';
 export * from './lib/components/task/form-variables/role-select/role-select.component';
-export * from './lib/components/history/history-grid.component';
 export * from './lib/form/forms-controller/forms-controller.component';
 export * from './lib/components/project-and-processes/project-and-processes.component';
 export * from './lib/models/alandaTaskFormPanel';
