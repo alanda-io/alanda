@@ -2,6 +2,8 @@
  * Public API Surface of alanda-common
  */
 
+export { AlandaCommonModule } from './lib/common.module';
+
 /**
  * Api Exports
  */
@@ -31,26 +33,15 @@ export * from './lib/api/models/commentTag';
 export * from './lib/api/models/department';
 export * from './lib/api/models/menuItem';
 export * from './lib/api/models/task';
+export { AlandaTableLayout } from './lib/api/models/tableLayout';
+export { AlandaTableColumnDefinition } from './lib/api/models/tableColumnDefinition';
 
-export * from './lib/permissions';
-
-export * from './lib/services/exceptionHandling.service';
-export * from './lib/services/project-properties.service';
-export { AlandaTitleService } from './lib/services/title.service';
-export * from './lib/form/alanda-task-form.service';
-export * from './lib/form/base-form.component.interface';
-export * from './lib/form/base-state';
-export { AlandaVarSelectComponent } from './lib/form/components/var-select/var-select.component';
-export { AlandaPropSelectComponent } from './lib/form/components/prop-select/prop-select.component';
-export { AlandaPropCheckboxComponent } from './lib/form/components/prop-checkbox/prop-checkbox.component';
-export { AlandaVarRoleUserSelectComponent } from './lib/form/components/var-role-user-select/var-role-user-select.component';
-export { AlandaVarDisplayComponent } from './lib/form/components/var-display/var-display.component';
-export { AlandaVarDatepickerComponent } from './lib/form/components/var-datepicker/var-datepicker.component';
-export { AlandaVarCheckboxComponent} from './lib/form/components/var-checkbox/var-checkbox.component';
-
-export * from './lib/interceptors/basic-auth.interceptor';
-export * from './lib/interceptors/error400.interceptor';
-export * from './lib/interceptors/error500.interceptor';
+/**
+ * Interceptors Exports
+ */
+export { BasicAuthInterceptor } from './lib/interceptors/basic-auth.interceptor';
+export { Error400Interceptor } from './lib/interceptors/error400.interceptor';
+export { Error500Interceptor } from './lib/interceptors/error500.interceptor';
 
 /**
  * Enum Exports
@@ -61,17 +52,19 @@ export { ProcessRelation } from './lib/enums/processRelation.enum';
 export { ProcessResultStatus } from './lib/enums/processResultStatus.enum';
 export { TableType } from './lib/enums/tableType.enum';
 
-export * from './lib/models/appSettings';
+/**
+ * Pipe Exports
+ */
+export {
+  MonitorValuesPipeModule,
+  MonitorValuesPipe,
+} from './lib/pipes/nested-object.pipe';
+export { FilterPipeModule, FilterPipe } from './lib/pipes/filter.pipe';
+export { TagFilterPipe } from './lib/pipes/tag-filter.pipe';
 
-export { AlandaTableLayout } from './lib/api/models/tableLayout';
-export { AlandaTableColumnDefinition } from './lib/api/models/tableColumnDefinition';
-
-export * from './lib/pipes/nested-object.pipe';
-export * from './lib/pipes/filter.pipe';
-export * from './lib/pipes/tag-filter.pipe';
-
-export { AlandaCommonModule} from './lib/common.module';
-
+/**
+ * Component Exports
+ */
 export { ProjectTableModule } from './lib/components/project-table/project-table.module';
 export { AlandaProjectTableComponent } from './lib/components/project-table/project-table.component';
 export { AlandaTaskTableComponent } from './lib/components/task-table/task-table.component';
@@ -80,35 +73,26 @@ export { AlandaRoleManagementComponent } from './lib/components/admin/role-manag
 export { AlandaUserManagementComponent } from './lib/components/admin/user-management/user-management.component';
 export { AlandaGroupManagementComponent } from './lib/components/admin/group-management/group-management.component';
 export { AlandaPermissionManagementComponent } from './lib/components/admin/permission-management/permission-management.component';
-
-export * from './lib/validators/subProcessValidator';
-export * from './lib/validators/commentRequiredValidator';
-
 export { AlandaCommentsComponent } from './lib/components/comments/comments/comments.component';
 export { AlandaCommentComponent } from './lib/components/comments/comment/comment.component';
 export { AlandaCommentTagComponent } from './lib/components/comments/comment-tag/comment-tag.component';
 export { CommentsModule } from './lib/components/comments/comments.module';
-
 export { AlandaBadgeComponent } from './lib/components/badge/badge.component';
 export { BadgeModule } from './lib/components/badge/badge.module';
-
 export { AlandaPhaseTabComponent } from './lib/components/phase-tab/phase-tab.component';
 export { PhaseTabModule } from './lib/components/phase-tab/phase-tab.module';
-
-export { ProjectPropertiesDirective } from './lib/directives/project.properties.directive';
-export { AlandaProjectsControllerComponent } from './lib/components/controller/projects-controller/projects-controller.component';
-
+export {
+  AlandaProjectsControllerComponent,
+  ProjectControllerState,
+} from './lib/components/controller/projects-controller/projects-controller.component';
 export { AttachmentsListComponent } from './lib/components/attachments/attachments-list/attachments-list.component';
 export { AttachmentsTreeComponent } from './lib/components/attachments/attachments-tree/attachments-tree.component';
 export { AlandaAttachmentsComponent } from './lib/components/attachments/attachments.component';
 export { AttachmentsModule } from './lib/components/attachments/attachments.module';
-
 export { AlandaProjectHeaderComponent } from './lib/components/project-header/project-header.component';
 export { ProjectHeaderModule } from './lib/components/project-header/project-header.module';
-
 export { AlandaCreateProjectComponent } from './lib/components/create-project/create-project.component';
 export { AlandaHistoryGridComponent } from './lib/components/history/history-grid.component';
-export { ProcessConfigDirective } from './lib/directives/process.config.directive';
 export { AlandaProjectAndProcessesComponent } from './lib/components/project-and-processes/project-and-processes.component';
 export { AlandaPioComponent } from './lib/components/pio/pio.component';
 export { DiagramComponent } from './lib/components/pio/diagram/diagram.component';
@@ -118,10 +102,33 @@ export { AlandaDateSelectComponent } from './lib/components/task/form-variables/
 export { AlandaDropdownSelectComponent } from './lib/components/task/form-variables/dropdown-select/dropdown-select.component';
 export { AlandaSelectMilestoneComponent } from './lib/components/task/form-variables/milestone-select/milestone-select.component';
 export { AlandaSelectRoleComponent } from './lib/components/task/form-variables/role-select/role-select.component';
-export * from './lib/form/forms-controller/forms-controller.component';
-export * from './lib/models/alandaTaskFormPanel';
 export { PapActionsComponent } from './lib/components/project-and-processes/pap-actions/pap-actions.component';
 export { PapRelateDialogComponent } from './lib/components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
 export { AlandaHeaderComponent } from './lib/components/header/header.component';
 export { HeaderModule } from './lib/components/header/header.module';
 export { PageSizeSelectModule } from './lib/components/page-size-select/page-size-select.module';
+export { AlandaVarSelectComponent } from './lib/form/components/var-select/var-select.component';
+export { AlandaPropSelectComponent } from './lib/form/components/prop-select/prop-select.component';
+export { AlandaPropCheckboxComponent } from './lib/form/components/prop-checkbox/prop-checkbox.component';
+export { AlandaVarRoleUserSelectComponent } from './lib/form/components/var-role-user-select/var-role-user-select.component';
+export { AlandaVarDisplayComponent } from './lib/form/components/var-display/var-display.component';
+export { AlandaVarDatepickerComponent } from './lib/form/components/var-datepicker/var-datepicker.component';
+export { AlandaVarCheckboxComponent } from './lib/form/components/var-checkbox/var-checkbox.component';
+
+/**
+ * Others
+ */
+export { APP_CONFIG, AppSettings } from './lib/models/appSettings';
+export * from './lib/validators/subProcessValidator';
+export * from './lib/validators/commentRequiredValidator';
+export * from './lib/form/forms-controller/forms-controller.component';
+export * from './lib/models/alandaTaskFormPanel';
+export { ProjectPropertiesDirective } from './lib/directives/project.properties.directive';
+export { ProcessConfigDirective } from './lib/directives/process.config.directive';
+export * from './lib/permissions';
+export * from './lib/services/exceptionHandling.service';
+export * from './lib/services/project-properties.service';
+export { AlandaTitleService } from './lib/services/title.service';
+export * from './lib/form/alanda-task-form.service';
+export * from './lib/form/base-form.component.interface';
+export * from './lib/form/base-state';
