@@ -130,6 +130,9 @@ export { ProjectHeaderModule } from './lib/components/project-header/project-hea
 export { AlandaCreateProjectComponent } from './lib/components/create-project/create-project.component';
 export { AlandaHistoryGridComponent } from './lib/components/history/history-grid.component';
 export { AlandaProjectAndProcessesComponent } from './lib/components/project-and-processes/project-and-processes.component';
+export { ProjectAndProcessesModule } from './lib/components/project-and-processes/project-and-processes.module';
+export { PapActionsComponent } from './lib/components/project-and-processes/pap-actions/pap-actions.component';
+export { PapRelateDialogComponent } from './lib/components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
 export { AlandaPioComponent } from './lib/components/pio/pio.component';
 export { DiagramComponent } from './lib/components/pio/diagram/diagram.component';
 export { ProcessActivitiesComponent } from './lib/components/pio/process-activities/process-activities.component';
@@ -138,8 +141,6 @@ export { AlandaDateSelectComponent } from './lib/components/task/form-variables/
 export { AlandaDropdownSelectComponent } from './lib/components/task/form-variables/dropdown-select/dropdown-select.component';
 export { AlandaSelectMilestoneComponent } from './lib/components/task/form-variables/milestone-select/milestone-select.component';
 export { AlandaSelectRoleComponent } from './lib/components/task/form-variables/role-select/role-select.component';
-export { PapActionsComponent } from './lib/components/project-and-processes/pap-actions/pap-actions.component';
-export { PapRelateDialogComponent } from './lib/components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
 export { AlandaHeaderComponent } from './lib/components/header/header.component';
 export { HeaderModule } from './lib/components/header/header.module';
 export { PageSizeSelectModule } from './lib/components/page-size-select/page-size-select.module';

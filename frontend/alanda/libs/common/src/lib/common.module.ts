@@ -64,7 +64,6 @@ import { AlandaFormsControllerComponent } from './form/forms-controller/forms-co
 import { AlandaVarSelectComponent } from './form/components/var-select/var-select.component';
 import { AlandaPropSelectComponent } from './form/components/prop-select/prop-select.component';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
-import { PapActionsComponent } from './components/project-and-processes/pap-actions/pap-actions.component';
 import { PermissionModule } from './permissions/permission.module';
 import { AlandaVarRoleUserSelectComponent } from './form/components/var-role-user-select/var-role-user-select.component';
 import { AlandaVarDisplayComponent } from './form/components/var-display/var-display.component';
@@ -75,10 +74,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { DirectivesModule } from './directives/directives.module';
 import { AlandaProcessConfigModalService } from './services/process-config-modal.service';
 import { PapRelateDialogComponent } from './components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
-import { PapActionSymbolComponent } from './components/project-and-processes/pap-actions/pap-action-symbol/pap-action-symbol.component';
 import { PapConfigDialogComponent } from './components/project-and-processes/pap-config-dialog/pap-config-dialog.component';
-import { PapSubprocessPropertyInputComponent } from './components/project-and-processes/pap-config-dialog/pap-subprocess-property-input/pap-subprocess-property-input.component';
-import { AlandaProjectAndProcessesComponent } from './components/project-and-processes/project-and-processes.component';
 import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
 import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-checkbox.component';
 import { AlandaProjectAndProcessesService } from './components/project-and-processes/project-and-processes.service';
@@ -95,6 +91,7 @@ import { PioModule } from './components/pio/pio.module';
 import { HistoryGridModule } from './components/history/history-grid.module';
 import { CreateProjectModule } from './components/create-project/create-project.module';
 import { AdminModule } from './components/admin/admin.module';
+import { ProjectAndProcessesModule } from './components/project-and-processes/project-and-processes.module';
 
 @NgModule({
   imports: [
@@ -152,6 +149,7 @@ import { AdminModule } from './components/admin/admin.module';
     CreateProjectModule,
     AdminModule,
     TagFilterPipeModule,
+    ProjectAndProcessesModule,
   ],
   declarations: [
     AlandaFormsControllerComponent,
@@ -161,18 +159,11 @@ import { AdminModule } from './components/admin/admin.module';
     AlandaDropdownSelectComponent,
     AlandaSelectMilestoneComponent,
     AlandaProjectsControllerComponent,
-    PapActionsComponent,
     AlandaVarSelectComponent,
     AlandaPropSelectComponent,
     AlandaPropCheckboxComponent,
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
-    PapRelateDialogComponent,
-    AlandaProjectAndProcessesComponent,
-    PapActionSymbolComponent,
-    PapConfigDialogComponent,
-    PapReasonDialogComponent,
-    PapSubprocessPropertyInputComponent,
     AlandaVarCheckboxComponent,
     AlandaVarDatepickerComponent,
   ],
@@ -191,9 +182,6 @@ import { AdminModule } from './components/admin/admin.module';
     AlandaDateSelectComponent,
     AlandaDropdownSelectComponent,
     AlandaProjectsControllerComponent,
-    AlandaProjectAndProcessesComponent,
-    PapActionsComponent,
-    PapRelateDialogComponent,
     AlandaVarSelectComponent,
     AlandaPropSelectComponent,
     AlandaPropCheckboxComponent,
@@ -211,6 +199,7 @@ import { AdminModule } from './components/admin/admin.module';
     CreateProjectModule,
     AdminModule,
     TagFilterPipeModule,
+    ProjectAndProcessesModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,
