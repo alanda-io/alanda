@@ -2,6 +2,9 @@
  * Public API Surface of alanda-common
  */
 
+/**
+ * Api Exports
+ */
 export * from './lib/api/taskApi.service';
 export * from './lib/api/userApi.service';
 export * from './lib/api/roleApi.service';
@@ -15,6 +18,19 @@ export * from './lib/api/propertyApi.service';
 export * from './lib/api/milestoneApi.service';
 export * from './lib/api/commentApi.service';
 export * from './lib/api/processMessageApi.service';
+export * from './lib/api/models/user';
+export * from './lib/api/models/projectType';
+export * from './lib/api/models/project';
+export * from './lib/api/models/group';
+export * from './lib/api/models/role';
+export * from './lib/api/models/milestone';
+export * from './lib/api/models/property';
+export * from './lib/api/models/refObject';
+export * from './lib/api/models/comment';
+export * from './lib/api/models/commentTag';
+export * from './lib/api/models/department';
+export * from './lib/api/models/menuItem';
+export * from './lib/api/models/task';
 
 export * from './lib/permissions';
 
@@ -45,20 +61,8 @@ export { ProcessRelation } from './lib/enums/processRelation.enum';
 export { ProcessResultStatus } from './lib/enums/processResultStatus.enum';
 export { TableType } from './lib/enums/tableType.enum';
 
-export * from './lib/api/models/task';
 export * from './lib/models/appSettings';
-export * from './lib/api/models/user';
-export * from './lib/api/models/projectType';
-export * from './lib/api/models/project';
-export * from './lib/api/models/group';
-export * from './lib/api/models/role';
-export * from './lib/api/models/milestone';
-export * from './lib/api/models/property';
-export * from './lib/api/models/refObject';
-export * from './lib/api/models/comment';
-export * from './lib/api/models/commentTag';
-export * from './lib/api/models/department';
-export * from './lib/api/models/menuItem';
+
 export { AlandaTableLayout } from './lib/api/models/tableLayout';
 export { AlandaTableColumnDefinition } from './lib/api/models/tableColumnDefinition';
 
