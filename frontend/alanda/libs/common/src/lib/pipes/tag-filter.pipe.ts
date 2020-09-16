@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { NgModule, Pipe, PipeTransform } from '@angular/core';
 import { AlandaComment } from '../api/models/comment';
 
 @Pipe({
@@ -24,3 +24,9 @@ export class TagFilterPipe implements PipeTransform {
     return newComments;
   }
 }
+
+@NgModule({
+  declarations: [TagFilterPipe],
+  exports: [TagFilterPipe],
+})
+export class TagFilterPipeModule {}

@@ -7,7 +7,7 @@ import {
   ComponentFactoryResolver,
   ChangeDetectorRef,
 } from '@angular/core';
-import { ProjectPropertiesDirective } from '../controller/directives/project.properties.directive';
+import { ProjectPropertiesDirective } from '../../directives/project.properties.directive';
 import { AlandaProject } from '../../api/models/project';
 import { AlandaTask } from '../../api/models/task';
 import { AlandaUser } from '../../api/models/user';
