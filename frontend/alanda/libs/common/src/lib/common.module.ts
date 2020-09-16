@@ -2,6 +2,8 @@ import { CardModule } from 'primeng/card';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { CheckboxModule } from 'primeng/checkbox';
+import { TabViewModule } from 'primeng/tabview';
+import { MessageModule } from 'primeng/message';
 import { MonitorValuesPipeModule } from './pipes/nested-object.pipe';
 import { TaskTableModule } from './components/task-table/task-table.module';
 import { TagFilterPipeModule } from './pipes/tag-filter.pipe';
@@ -30,6 +32,7 @@ import { AlandaProjectPropertiesService } from './services/project-properties.se
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Error500Interceptor } from './interceptors/error500.interceptor';
 import { AlandaFormsControllerComponent } from './form/forms-controller/forms-controller.component';
@@ -69,9 +72,12 @@ import { ProjectAndProcessesModule } from './components/project-and-processes/pr
     DropdownModule,
     CalendarModule,
     CheckboxModule,
+    TabViewModule,
+    MessageModule,
     CommonModule,
     HttpClientModule,
     FormsModule,
+    RouterModule,
     BadgeModule,
     ReactiveFormsModule,
     PhaseTabModule,
