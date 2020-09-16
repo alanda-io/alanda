@@ -81,7 +81,7 @@ import { AlandaPropCheckboxComponent } from './form/components/prop-checkbox/pro
 import { CommentsModule } from './components/comments/comments.module';
 import { BadgeModule } from './components/badge/badge.module';
 import { TooltipModule } from 'primeng/tooltip';
-import { ProcessConfigDirective } from './components/controller/directives/process.config.directive';
+import { DirectivesModule } from './directives/directives.module';
 import { AlandaProcessConfigModalService } from './services/process-config-modal.service';
 import { PapRelateDialogComponent } from './components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
 import { PapActionSymbolComponent } from './components/project-and-processes/pap-actions/pap-action-symbol/pap-action-symbol.component';
@@ -151,6 +151,7 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     FilterPipeModule,
     AttachmentsModule,
     ProjectHeaderModule,
+    DirectivesModule,
   ],
   declarations: [
     AlandaUserManagementComponent,
@@ -183,7 +184,6 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     PapConfigDialogComponent,
     PapReasonDialogComponent,
     PapSubprocessPropertyInputComponent,
-    ProcessConfigDirective,
     AlandaVarCheckboxComponent,
     AlandaVarDatepickerComponent,
   ],
@@ -220,13 +220,13 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     AlandaPropCheckboxComponent,
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
-    ProcessConfigDirective,
     PhaseTabModule,
     AlandaVarCheckboxComponent,
     AlandaVarDatepickerComponent,
     HeaderModule,
     AttachmentsModule,
     ProjectHeaderModule,
+    DirectivesModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,

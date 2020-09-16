@@ -89,7 +89,7 @@ export { BadgeModule } from './lib/components/badge/badge.module';
 export { AlandaPhaseTabComponent } from './lib/components/phase-tab/phase-tab.component';
 export { PhaseTabModule } from './lib/components/phase-tab/phase-tab.module';
 
-export { ProjectPropertiesDirective } from './lib/components/controller/directives/project.properties.directive';
+export { ProjectPropertiesDirective } from './lib/directives/project.properties.directive';
 export * from './lib/components/controller/projects-controller/projects-controller.component';
 
 export { AttachmentsListComponent } from './lib/components/attachments/attachments-list/attachments-list.component';
@@ -103,7 +103,7 @@ export { ProjectHeaderModule } from './lib/components/project-header/project-hea
 export * from './lib/components/create-project/create-project.component';
 export * from './lib/components/history/history-grid.component';
 export * from './lib/components/history/history-grid.component';
-export * from './lib/components/controller/directives/process.config.directive';
+export { ProcessConfigDirective } from './lib/directives/process.config.directive';
 export * from './lib/components/project-and-processes/project-and-processes.component';
 export * from './lib/components/pio/pio.component';
 export * from './lib/components/pio/diagram/diagram.component';
