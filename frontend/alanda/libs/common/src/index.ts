@@ -63,7 +63,10 @@ export {
   MonitorValuesPipe,
 } from './lib/pipes/nested-object.pipe';
 export { FilterPipeModule, FilterPipe } from './lib/pipes/filter.pipe';
-export { TagFilterPipe } from './lib/pipes/tag-filter.pipe';
+export {
+  TagFilterPipeModule,
+  TagFilterPipe,
+} from './lib/pipes/tag-filter.pipe';
 
 /**
  * Validators Exports

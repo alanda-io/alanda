@@ -29,7 +29,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { MessageModule } from 'primeng/message';
 import { MonitorValuesPipeModule } from './pipes/nested-object.pipe';
 import { TaskTableModule } from './components/task-table/task-table.module';
-import { TagFilterPipe } from './pipes/tag-filter.pipe';
+import { TagFilterPipeModule } from './pipes/tag-filter.pipe';
 import { ProjectHeaderModule } from './components/project-header/project-header.module';
 import { AppSettings, APP_CONFIG } from './models/appSettings';
 import { AlandaSimpleSelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
@@ -151,9 +151,9 @@ import { AdminModule } from './components/admin/admin.module';
     HistoryGridModule,
     CreateProjectModule,
     AdminModule,
+    TagFilterPipeModule,
   ],
   declarations: [
-    TagFilterPipe,
     AlandaFormsControllerComponent,
     AlandaSimpleSelectComponent,
     AlandaSelectRoleComponent,
@@ -185,7 +185,6 @@ import { AdminModule } from './components/admin/admin.module';
     TaskTableModule,
     PageSizeSelectModule,
     FilterPipeModule,
-    TagFilterPipe,
     AlandaSimpleSelectComponent,
     AlandaSelectRoleComponent,
     AlandaSelectMilestoneComponent,
@@ -211,6 +210,7 @@ import { AdminModule } from './components/admin/admin.module';
     HistoryGridModule,
     CreateProjectModule,
     AdminModule,
+    TagFilterPipeModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,
