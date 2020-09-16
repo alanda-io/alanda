@@ -12,7 +12,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
-import { ProjectPropertiesDirective } from '../controller/directives/project.properties.directive';
+import { DirectivesModule } from '../../directives/directives.module';
 
 @NgModule({
   imports: [
@@ -28,8 +28,9 @@ import { ProjectPropertiesDirective } from '../controller/directives/project.pro
     InputTextareaModule,
     DialogModule,
     ButtonModule,
+    DirectivesModule,
   ],
-  declarations: [AlandaProjectHeaderComponent, ProjectPropertiesDirective],
-  exports: [AlandaProjectHeaderComponent, ProjectPropertiesDirective],
+  declarations: [AlandaProjectHeaderComponent],
+  exports: [AlandaProjectHeaderComponent],
 })
 export class ProjectHeaderModule {}

@@ -31,11 +31,6 @@ import { MonitorValuesPipeModule } from './pipes/nested-object.pipe';
 import { TaskTableModule } from './components/task-table/task-table.module';
 import { TagFilterPipe } from './pipes/tag-filter.pipe';
 import { ProjectHeaderModule } from './components/project-header/project-header.module';
-import { AlandaPioComponent } from './components/pio/pio.component';
-import { DiagramComponent } from './components/pio/diagram/diagram.component';
-import { ProcessActivitiesComponent } from './components/pio/process-activities/process-activities.component';
-import { AlandaHistoryGridComponent } from './components/history/history-grid.component';
-import { AlandaCreateProjectComponent } from './components/create-project/create-project.component';
 import { AppSettings, APP_CONFIG } from './models/appSettings';
 import { AlandaSimpleSelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
 import { AlandaSelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
@@ -43,10 +38,6 @@ import { AlandaDateSelectComponent } from './components/task/form-variables/date
 import { AlandaDropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
 import { AccordionModule } from 'primeng/accordion';
 import { AlandaSelectMilestoneComponent } from './components/task/form-variables/milestone-select/milestone-select.component';
-import { AlandaUserManagementComponent } from './components/admin/user-management/user-management.component';
-import { AlandaGroupManagementComponent } from './components/admin/group-management/group-management.component';
-import { AlandaRoleManagementComponent } from './components/admin/role-management/role-management.component';
-import { AlandaPermissionManagementComponent } from './components/admin/permission-management/permission-management.component';
 import { AlandaUserApiService } from './api/userApi.service';
 import { AlandaTaskApiService } from './api/taskApi.service';
 import { AlandaCommentApiService } from './api/commentApi.service';
@@ -81,7 +72,7 @@ import { AlandaPropCheckboxComponent } from './form/components/prop-checkbox/pro
 import { CommentsModule } from './components/comments/comments.module';
 import { BadgeModule } from './components/badge/badge.module';
 import { TooltipModule } from 'primeng/tooltip';
-import { ProcessConfigDirective } from './components/controller/directives/process.config.directive';
+import { DirectivesModule } from './directives/directives.module';
 import { AlandaProcessConfigModalService } from './services/process-config-modal.service';
 import { PapRelateDialogComponent } from './components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
 import { PapActionSymbolComponent } from './components/project-and-processes/pap-actions/pap-action-symbol/pap-action-symbol.component';
@@ -100,6 +91,10 @@ import { ProjectTableModule } from './components/project-table/project-table.mod
 import { FilterPipeModule } from './pipes/filter.pipe';
 import { PageSizeSelectModule } from './components/page-size-select/page-size-select.module';
 import { AttachmentsModule } from './components/attachments/attachments.module';
+import { PioModule } from './components/pio/pio.module';
+import { HistoryGridModule } from './components/history/history-grid.module';
+import { CreateProjectModule } from './components/create-project/create-project.module';
+import { AdminModule } from './components/admin/admin.module';
 
 @NgModule({
   imports: [
@@ -151,19 +146,15 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     FilterPipeModule,
     AttachmentsModule,
     ProjectHeaderModule,
+    DirectivesModule,
+    PioModule,
+    HistoryGridModule,
+    CreateProjectModule,
+    AdminModule,
   ],
   declarations: [
-    AlandaUserManagementComponent,
     TagFilterPipe,
-    AlandaGroupManagementComponent,
-    AlandaRoleManagementComponent,
-    AlandaPermissionManagementComponent,
     AlandaFormsControllerComponent,
-    AlandaPioComponent,
-    DiagramComponent,
-    ProcessActivitiesComponent,
-    AlandaHistoryGridComponent,
-    AlandaCreateProjectComponent,
     AlandaSimpleSelectComponent,
     AlandaSelectRoleComponent,
     AlandaDateSelectComponent,
@@ -178,12 +169,10 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     AlandaVarDisplayComponent,
     PapRelateDialogComponent,
     AlandaProjectAndProcessesComponent,
-    PapActionsComponent,
     PapActionSymbolComponent,
     PapConfigDialogComponent,
     PapReasonDialogComponent,
     PapSubprocessPropertyInputComponent,
-    ProcessConfigDirective,
     AlandaVarCheckboxComponent,
     AlandaVarDatepickerComponent,
   ],
@@ -197,15 +186,6 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     PageSizeSelectModule,
     FilterPipeModule,
     TagFilterPipe,
-    AlandaUserManagementComponent,
-    AlandaRoleManagementComponent,
-    AlandaGroupManagementComponent,
-    AlandaPermissionManagementComponent,
-    AlandaPioComponent,
-    DiagramComponent,
-    ProcessActivitiesComponent,
-    AlandaHistoryGridComponent,
-    AlandaCreateProjectComponent,
     AlandaSimpleSelectComponent,
     AlandaSelectRoleComponent,
     AlandaSelectMilestoneComponent,
@@ -220,13 +200,17 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     AlandaPropCheckboxComponent,
     AlandaVarRoleUserSelectComponent,
     AlandaVarDisplayComponent,
-    ProcessConfigDirective,
     PhaseTabModule,
     AlandaVarCheckboxComponent,
     AlandaVarDatepickerComponent,
     HeaderModule,
     AttachmentsModule,
     ProjectHeaderModule,
+    DirectivesModule,
+    PioModule,
+    HistoryGridModule,
+    CreateProjectModule,
+    AdminModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,
