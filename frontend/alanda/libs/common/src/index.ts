@@ -70,10 +70,10 @@ export { AlandaProjectTableComponent } from './lib/components/project-table/proj
 export { AlandaTaskTableComponent } from './lib/components/task-table/task-table.component';
 export { TaskTableModule } from './lib/components/task-table/task-table.module';
 export * from './lib/components/attachments/attachments.component';
-export * from './lib/components/admin/role-management/role-management.component';
-export * from './lib/components/admin/user-management/user-management.component';
-export * from './lib/components/admin/group-management/group-management.component';
-export * from './lib/components/admin/permission-management/permission-management.component';
+export { AlandaRoleManagementComponent } from './lib/components/admin/role-management/role-management.component';
+export { AlandaUserManagementComponent } from './lib/components/admin/user-management/user-management.component';
+export { AlandaGroupManagementComponent } from './lib/components/admin/group-management/group-management.component';
+export { AlandaPermissionManagementComponent } from './lib/components/admin/permission-management/permission-management.component';
 
 export * from './lib/validators/subProcessValidator';
 export * from './lib/validators/commentRequiredValidator';

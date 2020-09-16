@@ -38,10 +38,6 @@ import { AlandaDateSelectComponent } from './components/task/form-variables/date
 import { AlandaDropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
 import { AccordionModule } from 'primeng/accordion';
 import { AlandaSelectMilestoneComponent } from './components/task/form-variables/milestone-select/milestone-select.component';
-import { AlandaUserManagementComponent } from './components/admin/user-management/user-management.component';
-import { AlandaGroupManagementComponent } from './components/admin/group-management/group-management.component';
-import { AlandaRoleManagementComponent } from './components/admin/role-management/role-management.component';
-import { AlandaPermissionManagementComponent } from './components/admin/permission-management/permission-management.component';
 import { AlandaUserApiService } from './api/userApi.service';
 import { AlandaTaskApiService } from './api/taskApi.service';
 import { AlandaCommentApiService } from './api/commentApi.service';
@@ -98,6 +94,7 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
 import { PioModule } from './components/pio/pio.module';
 import { HistoryGridModule } from './components/history/history-grid.module';
 import { CreateProjectModule } from './components/create-project/create-project.module';
+import { AdminModule } from './components/admin/admin.module';
 
 @NgModule({
   imports: [
@@ -153,13 +150,10 @@ import { CreateProjectModule } from './components/create-project/create-project.
     PioModule,
     HistoryGridModule,
     CreateProjectModule,
+    AdminModule,
   ],
   declarations: [
-    AlandaUserManagementComponent,
     TagFilterPipe,
-    AlandaGroupManagementComponent,
-    AlandaRoleManagementComponent,
-    AlandaPermissionManagementComponent,
     AlandaFormsControllerComponent,
     AlandaSimpleSelectComponent,
     AlandaSelectRoleComponent,
@@ -192,10 +186,6 @@ import { CreateProjectModule } from './components/create-project/create-project.
     PageSizeSelectModule,
     FilterPipeModule,
     TagFilterPipe,
-    AlandaUserManagementComponent,
-    AlandaRoleManagementComponent,
-    AlandaGroupManagementComponent,
-    AlandaPermissionManagementComponent,
     AlandaSimpleSelectComponent,
     AlandaSelectRoleComponent,
     AlandaSelectMilestoneComponent,
@@ -220,6 +210,7 @@ import { CreateProjectModule } from './components/create-project/create-project.
     PioModule,
     HistoryGridModule,
     CreateProjectModule,
+    AdminModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,
