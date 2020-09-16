@@ -31,9 +31,6 @@ import { MonitorValuesPipeModule } from './pipes/nested-object.pipe';
 import { TaskTableModule } from './components/task-table/task-table.module';
 import { TagFilterPipe } from './pipes/tag-filter.pipe';
 import { ProjectHeaderModule } from './components/project-header/project-header.module';
-import { AlandaPioComponent } from './components/pio/pio.component';
-import { DiagramComponent } from './components/pio/diagram/diagram.component';
-import { ProcessActivitiesComponent } from './components/pio/process-activities/process-activities.component';
 import { AlandaHistoryGridComponent } from './components/history/history-grid.component';
 import { AlandaCreateProjectComponent } from './components/create-project/create-project.component';
 import { AppSettings, APP_CONFIG } from './models/appSettings';
@@ -100,6 +97,7 @@ import { ProjectTableModule } from './components/project-table/project-table.mod
 import { FilterPipeModule } from './pipes/filter.pipe';
 import { PageSizeSelectModule } from './components/page-size-select/page-size-select.module';
 import { AttachmentsModule } from './components/attachments/attachments.module';
+import { PioModule } from './components/pio/pio.module';
 
 @NgModule({
   imports: [
@@ -152,6 +150,7 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     AttachmentsModule,
     ProjectHeaderModule,
     DirectivesModule,
+    PioModule,
   ],
   declarations: [
     AlandaUserManagementComponent,
@@ -160,9 +159,6 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     AlandaRoleManagementComponent,
     AlandaPermissionManagementComponent,
     AlandaFormsControllerComponent,
-    AlandaPioComponent,
-    DiagramComponent,
-    ProcessActivitiesComponent,
     AlandaHistoryGridComponent,
     AlandaCreateProjectComponent,
     AlandaSimpleSelectComponent,
@@ -201,9 +197,6 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     AlandaRoleManagementComponent,
     AlandaGroupManagementComponent,
     AlandaPermissionManagementComponent,
-    AlandaPioComponent,
-    DiagramComponent,
-    ProcessActivitiesComponent,
     AlandaHistoryGridComponent,
     AlandaCreateProjectComponent,
     AlandaSimpleSelectComponent,
@@ -227,6 +220,7 @@ import { AttachmentsModule } from './components/attachments/attachments.module';
     AttachmentsModule,
     ProjectHeaderModule,
     DirectivesModule,
+    PioModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,

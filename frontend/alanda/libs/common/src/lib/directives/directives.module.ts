@@ -6,5 +6,6 @@ import { ProjectPropertiesDirective } from './project.properties.directive';
 @NgModule({
   declarations: [ProcessConfigDirective, ProjectPropertiesDirective],
   imports: [CommonModule],
+  exports: [ProcessConfigDirective, ProjectPropertiesDirective],
 })
 export class DirectivesModule {}
