@@ -3,6 +3,9 @@
  */
 
 export { AlandaCommonModule } from './lib/common.module';
+export { APP_CONFIG, AppSettings } from './lib/models/appSettings';
+export { AlandaTaskFormPanel } from './lib/models/alandaTaskFormPanel';
+export * from './lib/permissions';
 
 /**
  * Api Exports
@@ -63,6 +66,34 @@ export { FilterPipeModule, FilterPipe } from './lib/pipes/filter.pipe';
 export { TagFilterPipe } from './lib/pipes/tag-filter.pipe';
 
 /**
+ * Validators Exports
+ */
+export { subProcessValidator } from './lib/validators/subProcessValidator';
+export { commentRequiredValidator } from './lib/validators/commentRequiredValidator';
+
+/**
+ * Form Exports
+ */
+export { AlandaFormsControllerComponent } from './lib/form/forms-controller/forms-controller.component';
+export { AlandaTaskFormService, AlandaTaskFormState } from './lib/form/alanda-task-form.service';
+export { BaseFormComponent } from './lib/form/base-form.component.interface';
+export { BaseState } from './lib/form/base-state';
+
+/**
+ * Service Exports
+ */
+export { AlandaExceptionHandlingService } from './lib/services/exceptionHandling.service';
+export { AlandaProjectPropertiesService } from './lib/services/project-properties.service';
+export { AlandaTitleService } from './lib/services/title.service';
+
+/**
+ * Directive Exports
+ */
+export { ProjectPropertiesDirective } from './lib/directives/project.properties.directive';
+export { ProcessConfigDirective } from './lib/directives/process.config.directive';
+
+
+/**
  * Component Exports
  */
 export { ProjectTableModule } from './lib/components/project-table/project-table.module';
@@ -114,21 +145,3 @@ export { AlandaVarRoleUserSelectComponent } from './lib/form/components/var-role
 export { AlandaVarDisplayComponent } from './lib/form/components/var-display/var-display.component';
 export { AlandaVarDatepickerComponent } from './lib/form/components/var-datepicker/var-datepicker.component';
 export { AlandaVarCheckboxComponent } from './lib/form/components/var-checkbox/var-checkbox.component';
-
-/**
- * Others
- */
-export { APP_CONFIG, AppSettings } from './lib/models/appSettings';
-export * from './lib/validators/subProcessValidator';
-export * from './lib/validators/commentRequiredValidator';
-export * from './lib/form/forms-controller/forms-controller.component';
-export * from './lib/models/alandaTaskFormPanel';
-export { ProjectPropertiesDirective } from './lib/directives/project.properties.directive';
-export { ProcessConfigDirective } from './lib/directives/process.config.directive';
-export * from './lib/permissions';
-export * from './lib/services/exceptionHandling.service';
-export * from './lib/services/project-properties.service';
-export { AlandaTitleService } from './lib/services/title.service';
-export * from './lib/form/alanda-task-form.service';
-export * from './lib/form/base-form.component.interface';
-export * from './lib/form/base-state';
