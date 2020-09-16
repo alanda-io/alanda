@@ -100,7 +100,7 @@ export { AttachmentsModule } from './lib/components/attachments/attachments.modu
 export { AlandaProjectHeaderComponent } from './lib/components/project-header/project-header.component';
 export { ProjectHeaderModule } from './lib/components/project-header/project-header.module';
 
-export * from './lib/components/create-project/create-project.component';
+export { AlandaCreateProjectComponent } from './lib/components/create-project/create-project.component';
 export { AlandaHistoryGridComponent } from './lib/components/history/history-grid.component';
 export { ProcessConfigDirective } from './lib/directives/process.config.directive';
 export * from './lib/components/project-and-processes/project-and-processes.component';

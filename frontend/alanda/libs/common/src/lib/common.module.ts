@@ -31,7 +31,6 @@ import { MonitorValuesPipeModule } from './pipes/nested-object.pipe';
 import { TaskTableModule } from './components/task-table/task-table.module';
 import { TagFilterPipe } from './pipes/tag-filter.pipe';
 import { ProjectHeaderModule } from './components/project-header/project-header.module';
-import { AlandaCreateProjectComponent } from './components/create-project/create-project.component';
 import { AppSettings, APP_CONFIG } from './models/appSettings';
 import { AlandaSimpleSelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
 import { AlandaSelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
@@ -98,6 +97,7 @@ import { PageSizeSelectModule } from './components/page-size-select/page-size-se
 import { AttachmentsModule } from './components/attachments/attachments.module';
 import { PioModule } from './components/pio/pio.module';
 import { HistoryGridModule } from './components/history/history-grid.module';
+import { CreateProjectModule } from './components/create-project/create-project.module';
 
 @NgModule({
   imports: [
@@ -152,6 +152,7 @@ import { HistoryGridModule } from './components/history/history-grid.module';
     DirectivesModule,
     PioModule,
     HistoryGridModule,
+    CreateProjectModule,
   ],
   declarations: [
     AlandaUserManagementComponent,
@@ -160,7 +161,6 @@ import { HistoryGridModule } from './components/history/history-grid.module';
     AlandaRoleManagementComponent,
     AlandaPermissionManagementComponent,
     AlandaFormsControllerComponent,
-    AlandaCreateProjectComponent,
     AlandaSimpleSelectComponent,
     AlandaSelectRoleComponent,
     AlandaDateSelectComponent,
@@ -197,7 +197,6 @@ import { HistoryGridModule } from './components/history/history-grid.module';
     AlandaRoleManagementComponent,
     AlandaGroupManagementComponent,
     AlandaPermissionManagementComponent,
-    AlandaCreateProjectComponent,
     AlandaSimpleSelectComponent,
     AlandaSelectRoleComponent,
     AlandaSelectMilestoneComponent,
@@ -221,6 +220,7 @@ import { HistoryGridModule } from './components/history/history-grid.module';
     DirectivesModule,
     PioModule,
     HistoryGridModule,
+    CreateProjectModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,
