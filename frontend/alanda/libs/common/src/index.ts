@@ -63,7 +63,10 @@ export {
   MonitorValuesPipe,
 } from './lib/pipes/nested-object.pipe';
 export { FilterPipeModule, FilterPipe } from './lib/pipes/filter.pipe';
-export { TagFilterPipe } from './lib/pipes/tag-filter.pipe';
+export {
+  TagFilterPipeModule,
+  TagFilterPipe,
+} from './lib/pipes/tag-filter.pipe';
 
 /**
  * Validators Exports
@@ -127,6 +130,16 @@ export { ProjectHeaderModule } from './lib/components/project-header/project-hea
 export { AlandaCreateProjectComponent } from './lib/components/create-project/create-project.component';
 export { AlandaHistoryGridComponent } from './lib/components/history/history-grid.component';
 export { AlandaProjectAndProcessesComponent } from './lib/components/project-and-processes/project-and-processes.component';
+export { ProjectAndProcessesModule } from './lib/components/project-and-processes/project-and-processes.module';
+export { PapActionsComponent } from './lib/components/project-and-processes/pap-actions/pap-actions.component';
+export { PapRelateDialogComponent } from './lib/components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
+export {
+  PapConfigDialogComponent,
+  SubprocessPropertyValue,
+} from './lib/components/project-and-processes/pap-config-dialog/pap-config-dialog.component';
+export { PapReasonDialogComponent } from './lib/components/project-and-processes/pap-reason-dialog/pap-reason-dialog.component';
+export { PapActionSymbolComponent } from './lib/components/project-and-processes/pap-actions/pap-action-symbol/pap-action-symbol.component';
+export { PapSubprocessPropertyInputComponent } from './lib/components/project-and-processes/pap-config-dialog/pap-subprocess-property-input/pap-subprocess-property-input.component';
 export { AlandaPioComponent } from './lib/components/pio/pio.component';
 export { DiagramComponent } from './lib/components/pio/diagram/diagram.component';
 export { ProcessActivitiesComponent } from './lib/components/pio/process-activities/process-activities.component';
@@ -135,8 +148,6 @@ export { AlandaDateSelectComponent } from './lib/components/task/form-variables/
 export { AlandaDropdownSelectComponent } from './lib/components/task/form-variables/dropdown-select/dropdown-select.component';
 export { AlandaSelectMilestoneComponent } from './lib/components/task/form-variables/milestone-select/milestone-select.component';
 export { AlandaSelectRoleComponent } from './lib/components/task/form-variables/role-select/role-select.component';
-export { PapActionsComponent } from './lib/components/project-and-processes/pap-actions/pap-actions.component';
-export { PapRelateDialogComponent } from './lib/components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
 export { AlandaHeaderComponent } from './lib/components/header/header.component';
 export { HeaderModule } from './lib/components/header/header.module';
 export { PageSizeSelectModule } from './lib/components/page-size-select/page-size-select.module';
@@ -147,3 +158,9 @@ export { AlandaVarRoleUserSelectComponent } from './lib/form/components/var-role
 export { AlandaVarDisplayComponent } from './lib/form/components/var-display/var-display.component';
 export { AlandaVarDatepickerComponent } from './lib/form/components/var-datepicker/var-datepicker.component';
 export { AlandaVarCheckboxComponent } from './lib/form/components/var-checkbox/var-checkbox.component';
+export { AlandaPageSizeSelectComponent } from './lib/components/page-size-select/page-size-select.component';
+export { DirectivesModule } from './lib/directives/directives.module';
+export { PioModule } from './lib/components/pio/pio.module';
+export { HistoryGridModule } from './lib/components/history/history-grid.module';
+export { CreateProjectModule } from './lib/components/create-project/create-project.module';
+export { AdminModule } from './lib/components/admin/admin.module';
