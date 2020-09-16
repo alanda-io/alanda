@@ -1,32 +1,7 @@
-import { TableModule } from 'primeng/table';
-import { DropdownModule } from 'primeng/dropdown';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import { FileUploadModule } from 'primeng/fileupload';
-import { DialogModule } from 'primeng/dialog';
-import { PanelModule } from 'primeng/panel';
-import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { LightboxModule } from 'primeng/lightbox';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { ToastModule } from 'primeng/toast';
-import { InputTextModule } from 'primeng/inputtext';
-import { TabViewModule } from 'primeng/tabview';
-import { PickListModule } from 'primeng/picklist';
-import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { TreeModule } from 'primeng/tree';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { SplitButtonModule } from 'primeng/splitbutton';
-import { MenuModule } from 'primeng/menu';
-import { TabMenuModule } from 'primeng/tabmenu';
-import { OverlayPanelModule } from 'primeng/overlaypanel';
-import { CheckboxModule } from 'primeng/checkbox';
-import { ToggleButtonModule } from 'primeng/togglebutton';
-import { ListboxModule } from 'primeng/listbox';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { FieldsetModule } from 'primeng/fieldset';
+import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
-import { MessageModule } from 'primeng/message';
+import { CheckboxModule } from 'primeng/checkbox';
 import { MonitorValuesPipeModule } from './pipes/nested-object.pipe';
 import { TaskTableModule } from './components/task-table/task-table.module';
 import { TagFilterPipeModule } from './pipes/tag-filter.pipe';
@@ -36,7 +11,6 @@ import { AlandaSimpleSelectComponent } from './components/task/form-variables/si
 import { AlandaSelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
 import { AlandaDateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
 import { AlandaDropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
-import { AccordionModule } from 'primeng/accordion';
 import { AlandaSelectMilestoneComponent } from './components/task/form-variables/milestone-select/milestone-select.component';
 import { AlandaUserApiService } from './api/userApi.service';
 import { AlandaTaskApiService } from './api/taskApi.service';
@@ -53,24 +27,20 @@ import { AlandaRoleApiService } from './api/roleApi.service';
 import { AlandaExceptionHandlingService } from './services/exceptionHandling.service';
 import { AlandaProjectsControllerComponent } from './components/controller/projects-controller/projects-controller.component';
 import { AlandaProjectPropertiesService } from './services/project-properties.service';
-import { TreeTableModule } from 'primeng/treetable';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MessagesModule } from 'primeng/messages';
 import { Error500Interceptor } from './interceptors/error500.interceptor';
 import { AlandaFormsControllerComponent } from './form/forms-controller/forms-controller.component';
 import { AlandaVarSelectComponent } from './form/components/var-select/var-select.component';
 import { AlandaPropSelectComponent } from './form/components/prop-select/prop-select.component';
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { PermissionModule } from './permissions/permission.module';
 import { AlandaVarRoleUserSelectComponent } from './form/components/var-role-user-select/var-role-user-select.component';
 import { AlandaVarDisplayComponent } from './form/components/var-display/var-display.component';
 import { AlandaPropCheckboxComponent } from './form/components/prop-checkbox/prop-checkbox.component';
 import { CommentsModule } from './components/comments/comments.module';
 import { BadgeModule } from './components/badge/badge.module';
-import { TooltipModule } from 'primeng/tooltip';
 import { DirectivesModule } from './directives/directives.module';
 import { AlandaProcessConfigModalService } from './services/process-config-modal.service';
 import { PapRelateDialogComponent } from './components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
@@ -95,45 +65,15 @@ import { ProjectAndProcessesModule } from './components/project-and-processes/pr
 
 @NgModule({
   imports: [
+    CardModule,
+    DropdownModule,
+    CalendarModule,
+    CheckboxModule,
     CommonModule,
     HttpClientModule,
     FormsModule,
-    TableModule,
-    DropdownModule,
-    AutoCompleteModule,
-    FileUploadModule,
-    DialogModule,
-    PanelModule,
-    CardModule,
-    LightboxModule,
-    ButtonModule,
-    ProgressSpinnerModule,
-    MultiSelectModule,
-    InputTextModule,
-    ToastModule,
-    TabViewModule,
-    PickListModule,
-    ScrollPanelModule,
-    TreeModule,
-    InputSwitchModule,
-    SplitButtonModule,
-    MenuModule,
-    TabMenuModule,
-    OverlayPanelModule,
-    CheckboxModule,
-    ReactiveFormsModule,
-    ToggleButtonModule,
-    ListboxModule,
-    InputTextareaModule,
-    FieldsetModule,
-    CalendarModule,
-    MessagesModule,
-    AccordionModule,
-    TreeTableModule,
-    MessageModule,
-    DynamicDialogModule,
     BadgeModule,
-    TooltipModule,
+    ReactiveFormsModule,
     PhaseTabModule,
     PermissionModule,
     ProjectTableModule,
