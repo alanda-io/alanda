@@ -75,7 +75,10 @@ export { commentRequiredValidator } from './lib/validators/commentRequiredValida
  * Form Exports
  */
 export { AlandaFormsControllerComponent } from './lib/form/forms-controller/forms-controller.component';
-export { AlandaTaskFormService, AlandaTaskFormState } from './lib/form/alanda-task-form.service';
+export {
+  AlandaTaskFormService,
+  AlandaTaskFormState,
+} from './lib/form/alanda-task-form.service';
 export { BaseFormComponent } from './lib/form/base-form.component.interface';
 export { BaseState } from './lib/form/base-state';
 
@@ -91,7 +94,6 @@ export { AlandaTitleService } from './lib/services/title.service';
  */
 export { ProjectPropertiesDirective } from './lib/directives/project.properties.directive';
 export { ProcessConfigDirective } from './lib/directives/process.config.directive';
-
 
 /**
  * Component Exports
