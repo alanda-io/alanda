@@ -133,6 +133,10 @@ export { AlandaProjectAndProcessesComponent } from './lib/components/project-and
 export { ProjectAndProcessesModule } from './lib/components/project-and-processes/project-and-processes.module';
 export { PapActionsComponent } from './lib/components/project-and-processes/pap-actions/pap-actions.component';
 export { PapRelateDialogComponent } from './lib/components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
+export { PapConfigDialogComponent, SubprocessPropertyValue } from './lib/components/project-and-processes/pap-config-dialog/pap-config-dialog.component';
+export { PapReasonDialogComponent } from './lib/components/project-and-processes/pap-reason-dialog/pap-reason-dialog.component';
+export { PapActionSymbolComponent } from './lib/components/project-and-processes/pap-actions/pap-action-symbol/pap-action-symbol.component';
+export { PapSubprocessPropertyInputComponent } from './lib/components/project-and-processes/pap-config-dialog/pap-subprocess-property-input/pap-subprocess-property-input.component';
 export { AlandaPioComponent } from './lib/components/pio/pio.component';
 export { DiagramComponent } from './lib/components/pio/diagram/diagram.component';
 export { ProcessActivitiesComponent } from './lib/components/pio/process-activities/process-activities.component';
@@ -151,3 +155,9 @@ export { AlandaVarRoleUserSelectComponent } from './lib/form/components/var-role
 export { AlandaVarDisplayComponent } from './lib/form/components/var-display/var-display.component';
 export { AlandaVarDatepickerComponent } from './lib/form/components/var-datepicker/var-datepicker.component';
 export { AlandaVarCheckboxComponent } from './lib/form/components/var-checkbox/var-checkbox.component';
+export { AlandaPageSizeSelectComponent } from './lib/components/page-size-select/page-size-select.component'
+export { DirectivesModule } from './lib/directives/directives.module'
+export { PioModule } from './lib/components/pio/pio.module';
+export { HistoryGridModule } from './lib/components/history/history-grid.module';
+export { CreateProjectModule } from './lib/components/create-project/create-project.module';
+export { AdminModule } from './lib/components/admin/admin.module';
