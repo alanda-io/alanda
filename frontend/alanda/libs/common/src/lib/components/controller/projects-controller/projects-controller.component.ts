@@ -56,6 +56,7 @@ export class AlandaProjectsControllerComponent {
     tap((project: AlandaProject) => {
       this.router.navigate([project.projectTypeIdName.toLowerCase()], {
         relativeTo: this.route,
+        skipLocationChange: true,
       });
     }),
   );

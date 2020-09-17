@@ -259,7 +259,7 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
 
   public getPhase(
     projectGuid: number,
-    phaseDefIdName: number,
+    phaseDefIdName: string,
   ): Observable<AlandaSimplePhase> {
     return this.http.get<AlandaSimplePhase>(
       `${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}`,
