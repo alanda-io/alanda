@@ -9,11 +9,6 @@ import { TaskTableModule } from './components/task-table/task-table.module';
 import { TagFilterPipeModule } from './pipes/tag-filter.pipe';
 import { ProjectHeaderModule } from './components/project-header/project-header.module';
 import { AppSettings, APP_CONFIG } from './models/appSettings';
-import { AlandaSimpleSelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
-import { AlandaSelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
-import { AlandaDateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
-import { AlandaDropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
-import { AlandaSelectMilestoneComponent } from './components/task/form-variables/milestone-select/milestone-select.component';
 import { AlandaUserApiService } from './api/userApi.service';
 import { AlandaTaskApiService } from './api/taskApi.service';
 import { AlandaCommentApiService } from './api/commentApi.service';
@@ -65,6 +60,10 @@ import { HistoryGridModule } from './components/history/history-grid.module';
 import { CreateProjectModule } from './components/create-project/create-project.module';
 import { AdminModule } from './components/admin/admin.module';
 import { ProjectAndProcessesModule } from './components/project-and-processes/project-and-processes.module';
+import { DateSelectModule } from './components/date-select/date-select.module';
+import { DropdownSelectModule } from './components/dropdown-select/dropdown-select.module';
+import { RoleSelectModule } from './components/role-select/role-select.module';
+import { SimpleSelectModule } from './components/simple-select/simple-select.module';
 
 @NgModule({
   imports: [
@@ -96,14 +95,13 @@ import { ProjectAndProcessesModule } from './components/project-and-processes/pr
     AdminModule,
     TagFilterPipeModule,
     ProjectAndProcessesModule,
+    DateSelectModule,
+    DropdownSelectModule,
+    RoleSelectModule,
+    SimpleSelectModule,
   ],
   declarations: [
     AlandaFormsControllerComponent,
-    AlandaSimpleSelectComponent,
-    AlandaSelectRoleComponent,
-    AlandaDateSelectComponent,
-    AlandaDropdownSelectComponent,
-    AlandaSelectMilestoneComponent,
     AlandaProjectsControllerComponent,
     AlandaVarSelectComponent,
     AlandaPropSelectComponent,
@@ -122,11 +120,6 @@ import { ProjectAndProcessesModule } from './components/project-and-processes/pr
     TaskTableModule,
     PageSizeSelectModule,
     FilterPipeModule,
-    AlandaSimpleSelectComponent,
-    AlandaSelectRoleComponent,
-    AlandaSelectMilestoneComponent,
-    AlandaDateSelectComponent,
-    AlandaDropdownSelectComponent,
     AlandaProjectsControllerComponent,
     AlandaVarSelectComponent,
     AlandaPropSelectComponent,
@@ -146,6 +139,10 @@ import { ProjectAndProcessesModule } from './components/project-and-processes/pr
     AdminModule,
     TagFilterPipeModule,
     ProjectAndProcessesModule,
+    DateSelectModule,
+    DropdownSelectModule,
+    RoleSelectModule,
+    SimpleSelectModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,
