@@ -22,7 +22,6 @@ import { AlandaProjectApiService } from './api/projectApi.service';
 import { AlandaPropertyApiService } from './api/propertyApi.service';
 import { AlandaRoleApiService } from './api/roleApi.service';
 import { AlandaExceptionHandlingService } from './services/exceptionHandling.service';
-import { AlandaProjectsControllerComponent } from './components/controller/projects-controller/projects-controller.component';
 import { AlandaProjectPropertiesService } from './services/project-properties.service';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -59,6 +58,7 @@ import { DropdownSelectModule } from './components/dropdown-select/dropdown-sele
 import { RoleSelectModule } from './components/role-select/role-select.module';
 import { SimpleSelectModule } from './components/simple-select/simple-select.module';
 import { FormModule } from './form/form.module';
+import { ProjectsControllerModule } from './components/controller/projects-controller/projects-controller.module';
 
 @NgModule({
   imports: [
@@ -95,8 +95,8 @@ import { FormModule } from './form/form.module';
     RoleSelectModule,
     SimpleSelectModule,
     FormModule,
+    ProjectsControllerModule,
   ],
-  declarations: [AlandaProjectsControllerComponent],
   exports: [
     PermissionModule,
     BadgeModule,
@@ -106,7 +106,6 @@ import { FormModule } from './form/form.module';
     TaskTableModule,
     PageSizeSelectModule,
     FilterPipeModule,
-    AlandaProjectsControllerComponent,
     PhaseTabModule,
     HeaderModule,
     AttachmentsModule,
@@ -123,6 +122,7 @@ import { FormModule } from './form/form.module';
     RoleSelectModule,
     SimpleSelectModule,
     FormModule,
+    ProjectsControllerModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,

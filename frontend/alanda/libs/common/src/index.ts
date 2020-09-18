@@ -122,6 +122,7 @@ export {
   AlandaProjectsControllerComponent,
   ProjectControllerState,
 } from './lib/components/controller/projects-controller/projects-controller.component';
+export { ProjectsControllerModule } from './lib/components/controller/projects-controller/projects-controller.module';
 export { AttachmentsListComponent } from './lib/components/attachments/attachments-list/attachments-list.component';
 export { AttachmentsTreeComponent } from './lib/components/attachments/attachments-tree/attachments-tree.component';
 export { AlandaAttachmentsComponent } from './lib/components/attachments/attachments.component';
