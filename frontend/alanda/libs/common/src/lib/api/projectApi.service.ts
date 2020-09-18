@@ -104,6 +104,16 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
       .pipe(catchError(this.handleError<AlandaProject>('createProject')));
   }
 
+  public getAllProjectProcesses(
+    projectGuid: number,
+  ): Observable<AlandaProcess[]> {
+    return this.http
+      .get<AlandaProcess[]>(`${this.endpoint}/project/${projectGuid}/process`)
+      .pipe(
+        catchError(this.handleError<AlandaProcess[]>('getAllProjectProcesses')),
+      );
+  }
+
   public getProjectTreeByGuid(guid: number): Observable<AlandaProject> {
     return this.http
       .get<AlandaProject>(`${this.endpoint}/guid/${guid}?tree=true`)
@@ -249,7 +259,7 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
 
   public getPhase(
     projectGuid: number,
-    phaseDefIdName: number,
+    phaseDefIdName: string,
   ): Observable<AlandaSimplePhase> {
     return this.http.get<AlandaSimplePhase>(
       `${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}`,
@@ -265,6 +275,30 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
       `${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}`,
       {
         enabled,
+      },
+    );
+  }
+
+  public restartPhase(
+    projectGuid: number,
+    phaseDefIdName: string,
+  ): Observable<AlandaSimplePhase> {
+    return this.http.post<AlandaSimplePhase>(
+      `${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}/restart`,
+      {
+        withCredentials: true,
+      },
+    );
+  }
+
+  public startPhase(
+    projectGuid: number,
+    phaseDefIdName: string,
+  ): Observable<AlandaSimplePhase> {
+    return this.http.post<AlandaSimplePhase>(
+      `${this.endpoint}/project/${projectGuid}/phase-definition/${phaseDefIdName}/start`,
+      {
+        withCredentials: true,
       },
     );
   }

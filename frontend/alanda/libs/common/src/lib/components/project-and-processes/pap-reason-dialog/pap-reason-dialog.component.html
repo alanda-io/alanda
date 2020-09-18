@@ -1,0 +1,32 @@
+<style>
+  .reason-input {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .footer {
+    float: right;
+  }
+  .spacer-right {
+    margin-right: 10px;
+  }
+</style>
+<p *ngIf="config.data?.content">
+  {{ config.data.content }}
+</p>
+<textarea
+  *ngIf="config.data?.placeholder"
+  [(ngModel)]="reason"
+  pInputTextarea
+  class="reason-input"
+  [placeholder]="config.data?.placeholder"
+></textarea>
+<div class="footer">
+  <button
+    pButton
+    label="Cancel"
+    class="ui-button-secondary spacer-right"
+    (click)="dynamicDialogRef.close(null)"
+  ></button>
+  <button pButton label="OK" (click)="dynamicDialogRef.close(reason)"></button>
+</div>

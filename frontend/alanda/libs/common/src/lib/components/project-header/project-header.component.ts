@@ -7,7 +7,7 @@ import {
   ComponentFactoryResolver,
   ChangeDetectorRef,
 } from '@angular/core';
-import { ProjectPropertiesDirective } from '../controller/directives/project.properties.directive';
+import { ProjectPropertiesDirective } from '../../directives/project.properties.directive';
 import { AlandaProject } from '../../api/models/project';
 import { AlandaTask } from '../../api/models/task';
 import { AlandaUser } from '../../api/models/user';
@@ -44,6 +44,8 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
       rootFormGroup.addControl('alanda-project-header', this.projectHeaderForm);
     }
   }
+  @Input() activePhaseIndex: number;
+  @Input() phase: string;
 
   taskDueDate: Date;
   loading: boolean;
@@ -173,6 +175,8 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     viewContainerRef.clear();
     const componentRef = viewContainerRef.createComponent(componentFactory);
     (componentRef.instance as any).project = this.project;
+    (componentRef.instance as any).activePhaseIndex = this.activePhaseIndex;
+    (componentRef.instance as any).phase = this.phase;
   }
 
   private initFormGroup(): void {

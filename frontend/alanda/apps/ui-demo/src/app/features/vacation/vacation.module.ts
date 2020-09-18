@@ -32,6 +32,6 @@ export class VacationModule {
       'VACATION',
       ProjectPropertiesComponent,
     );
-    this.propertiesService.addPropsForType('VACATION', ProjectPhasesComponent);
+    // this.propertiesService.addPropsForType('VACATION', ProjectPhasesComponent);
   }
 }

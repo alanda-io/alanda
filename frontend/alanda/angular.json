@@ -26,7 +26,8 @@
               "apps/ui-demo/src/assets"
             ],
             "styles": ["apps/ui-demo/src/styles.scss"],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["lodash"]
           },
           "configurations": {
             "production": {
@@ -92,9 +93,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/ui-demo/jest.config.js",
-            "tsConfig": "apps/ui-demo/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "apps/ui-demo/src/test-setup.ts"
+            "passWithNoTests": true
           }
         }
       }
@@ -158,9 +157,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/common/jest.config.js",
-            "tsConfig": "libs/common/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "libs/common/src/test-setup.ts"
+            "passWithNoTests": true
           }
         }
       },

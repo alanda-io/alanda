@@ -2,7 +2,7 @@ version: "3.1"
 services:
   alanda-oracle-service:
     build: ./image
-    image: oracle/database:11.2.0.2-xe
+    image: oracle/database:18.4.0-xe
     container_name: alanda-oracle
     shm_size: '1gb'
     environment:

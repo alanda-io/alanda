@@ -26,7 +26,10 @@
       }
     ],
     "no-consecutive-blank-lines": false,
-    "no-console": [true, "debug", "info", "time", "timeEnd", "trace", "log"],
+    "no-console": {
+      "severity": "warning",
+      "options": ["debug", "info", "time", "timeEnd", "trace", "log"]
+    },
     "no-empty": false,
     "no-inferrable-types": [true, "ignore-params"],
     "no-non-null-assertion": true,

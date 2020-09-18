@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog/';
 import { AlandaProcess } from '../../../api/models/process';
-import { ProcessConfigDirective } from '../../controller/directives/process.config.directive';
+import { ProcessConfigDirective } from '../../../directives/process.config.directive';
 import { AlandaProcessConfigModalService } from '../../../services/process-config-modal.service';
 
 interface ProjectTypeProcessConfig {
@@ -42,7 +42,6 @@ export interface SubprocessPropertyValue {
 }
 
 @Component({
-  selector: 'alanda-pap-config-dialog',
   templateUrl: './pap-config-dialog.component.html',
 })
 export class PapConfigDialogComponent implements OnInit, AfterViewInit {

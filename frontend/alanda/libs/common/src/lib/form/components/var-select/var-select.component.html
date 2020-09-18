@@ -4,7 +4,7 @@
     [options]="items"
     formControlName="selected"
     placeholder="Select"
-    (onChange)="save()"
+    (onChange)="save($event)"
   ></p-dropdown>
   <ng-container
     *ngIf="selected.invalid && (selected.dirty || selected.touched)"

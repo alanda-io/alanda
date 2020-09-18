@@ -67,10 +67,14 @@ describe('Check Apache Shiro Authorizations', () => {
       },
     ];
 
-    const item0 = Authorizations.filterMenuItems(items[0], user, 'write');
+    const item0 = Authorizations.hasPermissionForMenuItem(
+      items[0],
+      user,
+      'write',
+    );
     expect(item0).toBeFalsy();
 
-    const item1 = Authorizations.filterMenuItems(items[1], user);
+    const item1 = Authorizations.hasPermissionForMenuItem(items[1], user);
     expect(item1).toBeTruthy();
   });
 });

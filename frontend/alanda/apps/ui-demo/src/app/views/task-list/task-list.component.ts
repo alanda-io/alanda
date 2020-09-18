@@ -3,6 +3,7 @@ import {
   AlandaTableColumnDefinition,
   AlandaTableLayout,
   Authorizations,
+  TableType,
 } from '@alanda/common';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -140,7 +141,11 @@ export class AlandaTaskListComponent {
     this.layouts$ = this.user$.pipe(
       map((user) => {
         return this.taskLayouts.filter((layout) =>
-          Authorizations.hasPermissionForLayout(layout, user),
+          Authorizations.hasPermissionForTableLayout(
+            layout,
+            user,
+            TableType.TASK,
+          ),
         );
       }),
     );

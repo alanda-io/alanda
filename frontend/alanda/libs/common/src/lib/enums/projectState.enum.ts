@@ -6,4 +6,5 @@ export enum ProjectState {
   CANCELED = 'CANCELED',
   SUSPENDED = 'SUSPENDED',
   SCHEDULED = 'SCHEDULED',
+  DELETED = 'DELETED',
 }

@@ -3,6 +3,7 @@
     <alanda-project-header
       [task]="taskFormState.task"
       [project]="taskFormState.project"
+      [phase]="'test'"
     ></alanda-project-header>
     <alanda-comments
       [rootFormGroup]="rootForm"
@@ -22,32 +23,33 @@
           [items]="items"
           variableName="handoverRequired"
           label="Require handover?"
+          (onChange)="change($event)"
         ></alanda-var-select>
       </div>
       <div class="p-col-2">
-        <alanda-prop-select
+        <!-- <alanda-prop-select
           [rootFormGroup]="rootForm"
           [project]="taskFormState.project"
           [items]="items"
           type="BOOLEAN"
           propertyName="propertyRequired"
           label="Require property?"
-        ></alanda-prop-select>
+        ></alanda-prop-select> -->
       </div>
       <div class="p-col-2">
-        <alanda-prop-checkbox
+        <!-- <alanda-prop-checkbox
           [project]="taskFormState.project"
           propertyName="propertyChecked"
           label="Checked property?"
-        ></alanda-prop-checkbox>
+        ></alanda-prop-checkbox> -->
       </div>
       <div class="p-col-4">
-        <alanda-var-datepicker
+        <!-- <alanda-var-datepicker
           [task]="taskFormState.task"
           [rootFormGroup]="rootForm"
           variableName="milestone"
           label="Set MS"
-        ></alanda-var-datepicker>
+        ></alanda-var-datepicker> -->
       </div>
       <div class="p-col-2">
         <p-card [style]="{ height: '100%' }">
