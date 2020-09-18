@@ -7,10 +7,10 @@ on: [push]
 
 defaults:
   run:
-    working-directory: frontend/alanda
+    working-directory: frontend/alanda-libraries
 
 jobs:
-  format:
+  build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -24,4 +24,4 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: npm run format:check
+      - run: npm run build
