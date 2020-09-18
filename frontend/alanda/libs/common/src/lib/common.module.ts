@@ -30,13 +30,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Error500Interceptor } from './interceptors/error500.interceptor';
-import { AlandaFormsControllerComponent } from './form/forms-controller/forms-controller.component';
 import { AlandaVarSelectComponent } from './form/components/var-select/var-select.component';
 import { AlandaPropSelectComponent } from './form/components/prop-select/prop-select.component';
 import { PermissionModule } from './permissions/permission.module';
-import { AlandaVarRoleUserSelectComponent } from './form/components/var-role-user-select/var-role-user-select.component';
-import { AlandaVarDisplayComponent } from './form/components/var-display/var-display.component';
-import { AlandaPropCheckboxComponent } from './form/components/prop-checkbox/prop-checkbox.component';
 import { CommentsModule } from './components/comments/comments.module';
 import { BadgeModule } from './components/badge/badge.module';
 import { DirectivesModule } from './directives/directives.module';
@@ -44,10 +40,8 @@ import { AlandaProcessConfigModalService } from './services/process-config-modal
 import { PapRelateDialogComponent } from './components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
 import { PapConfigDialogComponent } from './components/project-and-processes/pap-config-dialog/pap-config-dialog.component';
 import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
-import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-checkbox.component';
 import { AlandaProjectAndProcessesService } from './components/project-and-processes/project-and-processes.service';
 import { AlandaProcessMessageApiService } from './api/processMessageApi.service';
-import { AlandaVarDatepickerComponent } from './form/components/var-datepicker/var-datepicker.component';
 import { HeaderModule } from './components/header/header.module';
 import { AlandaTitleService } from './services/title.service';
 import { PapReasonDialogComponent } from './components/project-and-processes/pap-reason-dialog/pap-reason-dialog.component';
@@ -64,6 +58,7 @@ import { DateSelectModule } from './components/date-select/date-select.module';
 import { DropdownSelectModule } from './components/dropdown-select/dropdown-select.module';
 import { RoleSelectModule } from './components/role-select/role-select.module';
 import { SimpleSelectModule } from './components/simple-select/simple-select.module';
+import { FormModule } from './form/form.module';
 
 @NgModule({
   imports: [
@@ -99,18 +94,9 @@ import { SimpleSelectModule } from './components/simple-select/simple-select.mod
     DropdownSelectModule,
     RoleSelectModule,
     SimpleSelectModule,
+    FormModule,
   ],
-  declarations: [
-    AlandaFormsControllerComponent,
-    AlandaProjectsControllerComponent,
-    AlandaVarSelectComponent,
-    AlandaPropSelectComponent,
-    AlandaPropCheckboxComponent,
-    AlandaVarRoleUserSelectComponent,
-    AlandaVarDisplayComponent,
-    AlandaVarCheckboxComponent,
-    AlandaVarDatepickerComponent,
-  ],
+  declarations: [AlandaProjectsControllerComponent],
   exports: [
     PermissionModule,
     BadgeModule,
@@ -121,14 +107,7 @@ import { SimpleSelectModule } from './components/simple-select/simple-select.mod
     PageSizeSelectModule,
     FilterPipeModule,
     AlandaProjectsControllerComponent,
-    AlandaVarSelectComponent,
-    AlandaPropSelectComponent,
-    AlandaPropCheckboxComponent,
-    AlandaVarRoleUserSelectComponent,
-    AlandaVarDisplayComponent,
     PhaseTabModule,
-    AlandaVarCheckboxComponent,
-    AlandaVarDatepickerComponent,
     HeaderModule,
     AttachmentsModule,
     ProjectHeaderModule,
@@ -143,6 +122,7 @@ import { SimpleSelectModule } from './components/simple-select/simple-select.mod
     DropdownSelectModule,
     RoleSelectModule,
     SimpleSelectModule,
+    FormModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,

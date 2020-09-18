@@ -84,6 +84,7 @@ export {
 } from './lib/form/alanda-task-form.service';
 export { BaseFormComponent } from './lib/form/base-form.component.interface';
 export { BaseState } from './lib/form/base-state';
+export { FormModule } from './lib/form/form.module';
 
 /**
  * Service Exports
