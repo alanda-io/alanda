@@ -1,9 +1,3 @@
-import { CardModule } from 'primeng/card';
-import { DropdownModule } from 'primeng/dropdown';
-import { CalendarModule } from 'primeng/calendar';
-import { CheckboxModule } from 'primeng/checkbox';
-import { TabViewModule } from 'primeng/tabview';
-import { MessageModule } from 'primeng/message';
 import { MonitorValuesPipeModule } from './pipes/nested-object.pipe';
 import { TaskTableModule } from './components/task-table/task-table.module';
 import { TagFilterPipeModule } from './pipes/tag-filter.pipe';
@@ -62,18 +56,12 @@ import { ProjectsControllerModule } from './components/controller/projects-contr
 
 @NgModule({
   imports: [
-    CardModule,
-    DropdownModule,
-    CalendarModule,
-    CheckboxModule,
-    TabViewModule,
-    MessageModule,
     CommonModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule,
     BadgeModule,
-    ReactiveFormsModule,
     PhaseTabModule,
     PermissionModule,
     ProjectTableModule,
@@ -82,6 +70,7 @@ import { ProjectsControllerModule } from './components/controller/projects-contr
     PageSizeSelectModule,
     FilterPipeModule,
     AttachmentsModule,
+    CommentsModule,
     ProjectHeaderModule,
     DirectivesModule,
     PioModule,
@@ -98,17 +87,17 @@ import { ProjectsControllerModule } from './components/controller/projects-contr
     ProjectsControllerModule,
   ],
   exports: [
-    PermissionModule,
     BadgeModule,
-    CommentsModule,
+    PhaseTabModule,
+    PermissionModule,
     ProjectTableModule,
     MonitorValuesPipeModule,
     TaskTableModule,
     PageSizeSelectModule,
     FilterPipeModule,
-    PhaseTabModule,
-    HeaderModule,
     AttachmentsModule,
+    CommentsModule,
+    HeaderModule,
     ProjectHeaderModule,
     DirectivesModule,
     PioModule,
