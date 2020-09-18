@@ -53,6 +53,7 @@ import { RoleSelectModule } from './components/role-select/role-select.module';
 import { SimpleSelectModule } from './components/simple-select/simple-select.module';
 import { FormModule } from './form/form.module';
 import { ProjectsControllerModule } from './components/controller/projects-controller/projects-controller.module';
+import { MilestoneSelectModule } from './components/milestone-select/milestone-select.module';
 
 @NgModule({
   imports: [
@@ -85,6 +86,7 @@ import { ProjectsControllerModule } from './components/controller/projects-contr
     SimpleSelectModule,
     FormModule,
     ProjectsControllerModule,
+    MilestoneSelectModule,
   ],
   exports: [
     BadgeModule,
@@ -112,6 +114,7 @@ import { ProjectsControllerModule } from './components/controller/projects-contr
     SimpleSelectModule,
     FormModule,
     ProjectsControllerModule,
+    MilestoneSelectModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,
