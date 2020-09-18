@@ -6,7 +6,7 @@ import {
   Validators,
   AbstractControl,
 } from '@angular/forms';
-import { AlandaTaskApiService } from '../../../../api/taskApi.service';
+import { AlandaTaskApiService } from '../../api/taskApi.service';
 
 @Component({
   selector: 'alanda-simple-select',

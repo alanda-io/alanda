@@ -1,19 +1,8 @@
-import { CardModule } from 'primeng/card';
-import { DropdownModule } from 'primeng/dropdown';
-import { CalendarModule } from 'primeng/calendar';
-import { CheckboxModule } from 'primeng/checkbox';
-import { TabViewModule } from 'primeng/tabview';
-import { MessageModule } from 'primeng/message';
 import { MonitorValuesPipeModule } from './pipes/nested-object.pipe';
 import { TaskTableModule } from './components/task-table/task-table.module';
 import { TagFilterPipeModule } from './pipes/tag-filter.pipe';
 import { ProjectHeaderModule } from './components/project-header/project-header.module';
 import { AppSettings, APP_CONFIG } from './models/appSettings';
-import { AlandaSimpleSelectComponent } from './components/task/form-variables/simple-select/simple-select.component';
-import { AlandaSelectRoleComponent } from './components/task/form-variables/role-select/role-select.component';
-import { AlandaDateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
-import { AlandaDropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
-import { AlandaSelectMilestoneComponent } from './components/task/form-variables/milestone-select/milestone-select.component';
 import { AlandaUserApiService } from './api/userApi.service';
 import { AlandaTaskApiService } from './api/taskApi.service';
 import { AlandaCommentApiService } from './api/commentApi.service';
@@ -27,7 +16,6 @@ import { AlandaProjectApiService } from './api/projectApi.service';
 import { AlandaPropertyApiService } from './api/propertyApi.service';
 import { AlandaRoleApiService } from './api/roleApi.service';
 import { AlandaExceptionHandlingService } from './services/exceptionHandling.service';
-import { AlandaProjectsControllerComponent } from './components/controller/projects-controller/projects-controller.component';
 import { AlandaProjectPropertiesService } from './services/project-properties.service';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -35,13 +23,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Error500Interceptor } from './interceptors/error500.interceptor';
-import { AlandaFormsControllerComponent } from './form/forms-controller/forms-controller.component';
 import { AlandaVarSelectComponent } from './form/components/var-select/var-select.component';
 import { AlandaPropSelectComponent } from './form/components/prop-select/prop-select.component';
 import { PermissionModule } from './permissions/permission.module';
-import { AlandaVarRoleUserSelectComponent } from './form/components/var-role-user-select/var-role-user-select.component';
-import { AlandaVarDisplayComponent } from './form/components/var-display/var-display.component';
-import { AlandaPropCheckboxComponent } from './form/components/prop-checkbox/prop-checkbox.component';
 import { CommentsModule } from './components/comments/comments.module';
 import { BadgeModule } from './components/badge/badge.module';
 import { DirectivesModule } from './directives/directives.module';
@@ -49,10 +33,8 @@ import { AlandaProcessConfigModalService } from './services/process-config-modal
 import { PapRelateDialogComponent } from './components/project-and-processes/pap-relate-dialog/pap-relate-dialog.component';
 import { PapConfigDialogComponent } from './components/project-and-processes/pap-config-dialog/pap-config-dialog.component';
 import { PhaseTabModule } from './components/phase-tab/phase-tab.module';
-import { AlandaVarCheckboxComponent } from './form/components/var-checkbox/var-checkbox.component';
 import { AlandaProjectAndProcessesService } from './components/project-and-processes/project-and-processes.service';
 import { AlandaProcessMessageApiService } from './api/processMessageApi.service';
-import { AlandaVarDatepickerComponent } from './form/components/var-datepicker/var-datepicker.component';
 import { HeaderModule } from './components/header/header.module';
 import { AlandaTitleService } from './services/title.service';
 import { PapReasonDialogComponent } from './components/project-and-processes/pap-reason-dialog/pap-reason-dialog.component';
@@ -65,21 +47,21 @@ import { HistoryGridModule } from './components/history/history-grid.module';
 import { CreateProjectModule } from './components/create-project/create-project.module';
 import { AdminModule } from './components/admin/admin.module';
 import { ProjectAndProcessesModule } from './components/project-and-processes/project-and-processes.module';
+import { DateSelectModule } from './components/date-select/date-select.module';
+import { DropdownSelectModule } from './components/dropdown-select/dropdown-select.module';
+import { RoleSelectModule } from './components/role-select/role-select.module';
+import { SimpleSelectModule } from './components/simple-select/simple-select.module';
+import { FormModule } from './form/form.module';
+import { ProjectsControllerModule } from './components/controller/projects-controller/projects-controller.module';
 
 @NgModule({
   imports: [
-    CardModule,
-    DropdownModule,
-    CalendarModule,
-    CheckboxModule,
-    TabViewModule,
-    MessageModule,
     CommonModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule,
     BadgeModule,
-    ReactiveFormsModule,
     PhaseTabModule,
     PermissionModule,
     ProjectTableModule,
@@ -88,6 +70,7 @@ import { ProjectAndProcessesModule } from './components/project-and-processes/pr
     PageSizeSelectModule,
     FilterPipeModule,
     AttachmentsModule,
+    CommentsModule,
     ProjectHeaderModule,
     DirectivesModule,
     PioModule,
@@ -96,48 +79,25 @@ import { ProjectAndProcessesModule } from './components/project-and-processes/pr
     AdminModule,
     TagFilterPipeModule,
     ProjectAndProcessesModule,
-  ],
-  declarations: [
-    AlandaFormsControllerComponent,
-    AlandaSimpleSelectComponent,
-    AlandaSelectRoleComponent,
-    AlandaDateSelectComponent,
-    AlandaDropdownSelectComponent,
-    AlandaSelectMilestoneComponent,
-    AlandaProjectsControllerComponent,
-    AlandaVarSelectComponent,
-    AlandaPropSelectComponent,
-    AlandaPropCheckboxComponent,
-    AlandaVarRoleUserSelectComponent,
-    AlandaVarDisplayComponent,
-    AlandaVarCheckboxComponent,
-    AlandaVarDatepickerComponent,
+    DateSelectModule,
+    DropdownSelectModule,
+    RoleSelectModule,
+    SimpleSelectModule,
+    FormModule,
+    ProjectsControllerModule,
   ],
   exports: [
-    PermissionModule,
     BadgeModule,
-    CommentsModule,
+    PhaseTabModule,
+    PermissionModule,
     ProjectTableModule,
     MonitorValuesPipeModule,
     TaskTableModule,
     PageSizeSelectModule,
     FilterPipeModule,
-    AlandaSimpleSelectComponent,
-    AlandaSelectRoleComponent,
-    AlandaSelectMilestoneComponent,
-    AlandaDateSelectComponent,
-    AlandaDropdownSelectComponent,
-    AlandaProjectsControllerComponent,
-    AlandaVarSelectComponent,
-    AlandaPropSelectComponent,
-    AlandaPropCheckboxComponent,
-    AlandaVarRoleUserSelectComponent,
-    AlandaVarDisplayComponent,
-    PhaseTabModule,
-    AlandaVarCheckboxComponent,
-    AlandaVarDatepickerComponent,
-    HeaderModule,
     AttachmentsModule,
+    CommentsModule,
+    HeaderModule,
     ProjectHeaderModule,
     DirectivesModule,
     PioModule,
@@ -146,6 +106,12 @@ import { ProjectAndProcessesModule } from './components/project-and-processes/pr
     AdminModule,
     TagFilterPipeModule,
     ProjectAndProcessesModule,
+    DateSelectModule,
+    DropdownSelectModule,
+    RoleSelectModule,
+    SimpleSelectModule,
+    FormModule,
+    ProjectsControllerModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,
