@@ -7,7 +7,6 @@
       "severity": "warning",
       "options": ["debug", "info", "time", "timeEnd", "trace", "log"]
     },
-    "no-redundant-jsdoc": true,
     "nx-enforce-module-boundaries": [
       true,
       {
