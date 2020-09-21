@@ -13,6 +13,10 @@ import { MessageModule } from 'primeng/message';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TabViewModule } from 'primeng/tabview';
+import { RouterModule } from '@angular/router';
+import { PioModule } from '../components/pio/pio.module';
+import { HistoryGridModule } from '../components/history/history-grid.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +36,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     DropdownModule,
     CalendarModule,
     ReactiveFormsModule,
+    TabViewModule,
+    RouterModule,
+    PioModule,
+    HistoryGridModule,
   ],
   exports: [
     AlandaPropCheckboxComponent,
