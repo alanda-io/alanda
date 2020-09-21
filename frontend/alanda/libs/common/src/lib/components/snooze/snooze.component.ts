@@ -38,7 +38,7 @@ export class AlandaSnoozeComponent {
       let snoozeDuration = 0;
       for (const valueToCheck in this.valuesToCheck) {
         if (value === valueToCheck) {
-          if (this.isInteger(value)) {
+          if (Number.isInteger(value)) {
             snoozeDuration = value;
           } else {
             snoozeDuration = defaultSnoozedDays;
@@ -58,13 +58,5 @@ export class AlandaSnoozeComponent {
     private state: RxState<AlandaSnoozeState>,
   ) {
     this.state.connect('duration', this.duration$);
-  }
-
-  isInteger(value): boolean {
-    return (
-      typeof value === 'number' &&
-      isFinite(value) &&
-      Math.floor(value) === value
-    );
   }
 }
