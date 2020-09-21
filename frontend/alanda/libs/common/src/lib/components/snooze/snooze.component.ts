@@ -1,22 +1,21 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { AlandaTaskFormService } from '../../..';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'alanda-alanda-snooze',
   templateUrl: './snooze.component.html',
 })
-export class AlandaSnoozeComponent implements OnInit {
+export class AlandaSnoozeComponent {
 
   defaultSnoozedDays: number = 10 * 52 * 7
   @Input()
   pmcSelectId
   @Input()
   valuesToCheck
+  @Input()
+  rootFormGroup: FormGroup
 
-  constructor(private formService: AlandaTaskFormService) { }
-
-  ngOnInit(): void {
-  }
+  constructor() { }
 
   isInteger(value): boolean {
     return typeof value === 'number' && isFinite(value) && Math.floor(value) === value;
@@ -24,13 +23,12 @@ export class AlandaSnoozeComponent implements OnInit {
 
   getDuration (): number {
     let snoozeDuration = 0;
-    if (this.pmcSelectId) {
-      const selValue = this.formService.getFormComponent(this.pmcSelectId).selectedOption.value;
+    if (this.pmcSelectId && this.rootFormGroup) {
+      const selectValue = this.rootFormGroup.get(this.pmcSelectId).value;
       for (const valueToCheck in this.valuesToCheck) {
-        if (selValue === valueToCheck) {
-
-          if (this.isInteger(selValue)) {
-            snoozeDuration = selValue
+        if (selectValue === valueToCheck) {
+          if (this.isInteger(selectValue)) {
+            snoozeDuration = selectValue
           } else {
             snoozeDuration = this.defaultSnoozedDays
           }
@@ -41,5 +39,4 @@ export class AlandaSnoozeComponent implements OnInit {
     }
     return snoozeDuration
   }
-
 }
