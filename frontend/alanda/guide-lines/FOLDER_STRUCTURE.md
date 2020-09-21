@@ -46,9 +46,11 @@ These `index.ts` files have to be registered in the `tsconfig.json` on root leve
 In `nx.json` under `projects`, you tag a `feature` as type `feature`:
 
 ```json
+  {
     "features-merge": {
           "tags": ["type:feature"]
-        },
+        }
+  }
 ```
 
 `Features` need to be declared as such in angular.json e.g. `features-[name]`.
