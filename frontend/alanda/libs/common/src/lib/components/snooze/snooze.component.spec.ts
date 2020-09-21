@@ -8,9 +8,8 @@ describe('AlandaSnoozeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AlandaSnoozeComponent ]
-    })
-    .compileComponents();
+      declarations: [AlandaSnoozeComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
