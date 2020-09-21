@@ -108,7 +108,9 @@ export class AlandaSelectRoleComponent implements OnInit {
         });
         this.loadProperty();
       });
-    } else console.warn('wrong type input for role-select');
+    } else {
+      console.warn('wrong type input for role-select');
+    }
   }
 
   private addUsersToOptions(u?: AlandaUser[]) {
