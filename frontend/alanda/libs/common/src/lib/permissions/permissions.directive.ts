@@ -1,9 +1,12 @@
-import {Directive, ElementRef, Input} from '@angular/core';
-import {RxState} from '@rx-angular/state';
-import {AlandaUser} from '../api/models/user';
-import {combineLatest, isObservable, Observable} from 'rxjs';
-import {Authorizations} from './utils/permission-checks';
-import {ElementManager, getManagersByElementRef,} from './utils/element-manager';
+import { Directive, ElementRef, Input } from '@angular/core';
+import { RxState } from '@rx-angular/state';
+import { AlandaUser } from '../api/models/user';
+import { combineLatest, isObservable, Observable } from 'rxjs';
+import { Authorizations } from './utils/permission-checks';
+import {
+  ElementManager,
+  getManagersByElementRef,
+} from './utils/element-manager';
 
 interface AlandaPermissionsDirectiveState {
   user: AlandaUser;
@@ -26,21 +29,20 @@ interface AlandaPermissionsDirectiveState {
   providers: [RxState],
 })
 export class AlandaPermissionsDirective {
-
   hostElementManagers: ElementManager[] = getManagersByElementRef(
     this.hostElement,
   );
 
   @Input('alandaPermissions')
   set permission(permissionString: string) {
-    this.rxState.set({permissionString});
+    this.rxState.set({ permissionString });
   }
 
   @Input('alandaUser')
   set user(user: Observable<AlandaUser>) {
     isObservable(user)
       ? this.rxState.connect('user', user)
-      : this.rxState.set({user});
+      : this.rxState.set({ user });
   }
 
   constructor(
@@ -53,11 +55,10 @@ export class AlandaPermissionsDirective {
         this.rxState.select('permissionString'),
       ]),
       ([user, permissionString]) => {
-
         if (user === null) {
           this.forbidAll();
           console.warn('Forbid all: No user provided!');
-          return
+          return;
         }
 
         const permissionsGranted = Authorizations.hasPermission(

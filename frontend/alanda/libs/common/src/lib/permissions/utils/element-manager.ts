@@ -1,7 +1,6 @@
-import {ElementRef} from '@angular/core';
+import { ElementRef } from '@angular/core';
 
 export interface ElementManager {
-
   applyForbiddenBehavior(element: HTMLElement): void;
 
   applyGrantedBehavior(element: HTMLElement): void;
@@ -10,7 +9,6 @@ export interface ElementManager {
 }
 
 const attributeManager: ElementManager & { disabledAttribute: string } = {
-
   disabledAttribute: 'disabled',
 
   applyGrantedBehavior(element: HTMLElement): void {
@@ -22,12 +20,11 @@ const attributeManager: ElementManager & { disabledAttribute: string } = {
   },
 
   worksForElement(element: HTMLElement): boolean {
-    return ['FIELDSET', 'INPUT', 'SELECT', 'BUTTON'].includes(element.tagName)
+    return ['FIELDSET', 'INPUT', 'SELECT', 'BUTTON'].includes(element.tagName);
   },
-}
+};
 
 const classManager: ElementManager & { disabledClass: string } = {
-
   disabledClass: 'disabled',
 
   applyGrantedBehavior(element: HTMLElement): void {
@@ -39,10 +36,9 @@ const classManager: ElementManager & { disabledClass: string } = {
   },
 
   worksForElement(element: HTMLElement): boolean {
-    return (['DIV'].includes(element.tagName));
+    return ['DIV'].includes(element.tagName);
   },
-
-}
+};
 
 const elementManagers: ElementManager[] = [classManager, attributeManager];
 const defaultManager: ElementManager[] = [classManager];
@@ -50,7 +46,8 @@ const defaultManager: ElementManager[] = [classManager];
 export function getManagersByElementRef(
   elementRef: ElementRef,
 ): ElementManager[] {
-
-  let managers = elementManagers.filter(manager => manager.worksForElement(elementRef.nativeElement));
+  let managers = elementManagers.filter((manager) =>
+    manager.worksForElement(elementRef.nativeElement),
+  );
   return managers.length ? defaultManager : managers;
 }
