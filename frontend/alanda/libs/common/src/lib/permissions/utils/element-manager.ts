@@ -46,7 +46,7 @@ const defaultManager: ElementManager[] = [classManager];
 export function getManagersByElementRef(
   elementRef: ElementRef,
 ): ElementManager[] {
-  let managers = elementManagers.filter((manager) =>
+  const managers = elementManagers.filter((manager) =>
     manager.worksForElement(elementRef.nativeElement),
   );
   return managers.length ? defaultManager : managers;
