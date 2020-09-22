@@ -3,6 +3,7 @@
 @import '~primeflex/primeflex.css';
 @import '~primeicons/primeicons.css';
 @import '~font-awesome/css/font-awesome.css';
+@import 'helper';
 
 a {
   cursor: pointer;
@@ -13,6 +14,7 @@ a {
 }
 
 .ui-autocomplete .ui-autocomplete-input,
-.ui-autocomplete .ui-autocomplete-multiple-container {
+.ui-autocomplete .ui-autocomplete-multiple-container,
+.ui-calendar.ui-calendar-w-btn .ui-inputtext {
   width: calc(100% - 2.357em) !important;
 }

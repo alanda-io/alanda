@@ -24,11 +24,13 @@
           >
             <b>Responsible:</b> {{ candidateGroup }} |
           </span>
-          <span *ngIf="task.assignee === null" id="assignedTo">
-            currently unassigned
-          </span>
-          <span *ngIf="task.assignee != null" id="assignedTo">
-            <b>Assigned to:</b> {{ task.assignee }}
+          <span id="assignedTo">
+            <ng-container *ngIf="task.assignee === null">
+              Currently unassigned
+            </ng-container>
+            <ng-container *ngIf="task.assignee != null">
+              <b>Assigned to:</b> {{ task.assignee }}
+            </ng-container>
           </span>
           <a (click)="openDelegationForm()"><i class="pi pi-user-plus"></i></a>
         </span>
