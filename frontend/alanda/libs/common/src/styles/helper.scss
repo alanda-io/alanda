@@ -3,24 +3,12 @@
   The classes are global available. Do not define one helper class for multiple styling purposes!
  */
 
-.al-text-align-left {
-  text-align: left;
-}
-
-.al-text-align-right {
-  text-align: right;
-}
-
-.al-text-align-center {
-  text-align: center;
-}
-
 .al-button-group {
   display: inline-block;
 
   .ui-button,
   button {
-    margin-right: 10px;
+    margin-right: 0.725rem;
 
     &:last-child {
       margin-right: 0;

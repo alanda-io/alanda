@@ -1,20 +1,22 @@
 <p-panel [toggleable]="false" *ngIf="project">
-  <p-header>
-    <div>
-      <span *ngIf="task != null"
+  <p-header [style]="{width: '100%'}">
+    <div class="p-grid p-m-0">
+      <div class="p-col-6 p-p-0">
+        <span *ngIf="task != null"
         ><b>{{ task.task_name }}</b> /
       </span>
-      <a [routerLink]="'/projectdetails/' + project.projectId">{{
-        project.projectId
-      }}</a>
-      <span *ngIf="project.refObjectIdName">
+        <a [routerLink]="'/projectdetails/' + project.projectId">{{
+          project.projectId
+          }}</a>
+        <span *ngIf="project.refObjectIdName">
         / {{ project.refObjectIdName }}
       </span>
-      / {{ project.status }}
-      <span *ngIf="snoozedTask">
+        / {{ project.status }}
+        <span *ngIf="snoozedTask">
         &nbsp;(Task Snoozed) z<sup>z<sup>z</sup></sup>
       </span>
-      <span style="float: right;">
+      </div>
+      <div class="p-col-6 p-p-0 p-text-right">
         <span *ngIf="task != null">
           <span
             *ngFor="
@@ -36,7 +38,7 @@
         </span>
         <b>created by:</b> {{ project.ownerName }} <b>at:</b>
         {{ project.createDate }}
-      </span>
+      </div>
     </div>
   </p-header>
   <form [formGroup]="projectHeaderForm">
