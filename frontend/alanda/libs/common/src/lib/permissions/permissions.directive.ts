@@ -1,7 +1,7 @@
 import { Directive, ElementRef, Input } from '@angular/core';
 import { RxState } from '@rx-angular/state';
 import { AlandaUser } from '../api/models/user';
-import { combineLatest, Observable, isObservable } from 'rxjs';
+import { combineLatest, isObservable, Observable } from 'rxjs';
 import { Authorizations } from './utils/permission-checks';
 import {
   ElementManager,
@@ -55,14 +55,10 @@ export class AlandaPermissionsDirective {
         this.rxState.select('permissionString'),
       ]),
       ([user, permissionString]) => {
-        const tokens: string[][] = Authorizations.resolveTokens(
-          permissionString,
-        );
-        const accessLevel = tokens[1];
-
         if (user === null) {
-          this.forbidAll(permissionString);
+          this.forbidAll();
           console.warn('Forbid all: No user provided!');
+          return;
         }
 
         const permissionsGranted = Authorizations.hasPermission(
@@ -72,18 +68,18 @@ export class AlandaPermissionsDirective {
 
         this.hostElementManagers.forEach((manager) => {
           if (permissionsGranted) {
-            manager.applyGrantedBehavior(accessLevel);
+            manager.applyGrantedBehavior(hostElement.nativeElement);
           } else {
-            manager.applyForbiddenBehavior(accessLevel);
+            manager.applyForbiddenBehavior(hostElement.nativeElement);
           }
         });
       },
     );
   }
 
-  forbidAll(accessLevel): void {
+  forbidAll(): void {
     this.hostElementManagers.forEach((manager) => {
-      manager.applyForbiddenBehavior(accessLevel);
+      manager.applyForbiddenBehavior(this.hostElement.nativeElement);
     });
   }
 }
