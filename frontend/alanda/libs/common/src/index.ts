@@ -84,6 +84,7 @@ export {
 } from './lib/form/alanda-task-form.service';
 export { BaseFormComponent } from './lib/form/base-form.component.interface';
 export { BaseState } from './lib/form/base-state';
+export { FormModule } from './lib/form/form.module';
 
 /**
  * Service Exports
@@ -121,6 +122,7 @@ export {
   AlandaProjectsControllerComponent,
   ProjectControllerState,
 } from './lib/components/controller/projects-controller/projects-controller.component';
+export { ProjectsControllerModule } from './lib/components/controller/projects-controller/projects-controller.module';
 export { AttachmentsListComponent } from './lib/components/attachments/attachments-list/attachments-list.component';
 export { AttachmentsTreeComponent } from './lib/components/attachments/attachments-tree/attachments-tree.component';
 export { AlandaAttachmentsComponent } from './lib/components/attachments/attachments.component';
@@ -143,11 +145,16 @@ export { PapSubprocessPropertyInputComponent } from './lib/components/project-an
 export { AlandaPioComponent } from './lib/components/pio/pio.component';
 export { DiagramComponent } from './lib/components/pio/diagram/diagram.component';
 export { ProcessActivitiesComponent } from './lib/components/pio/process-activities/process-activities.component';
-export { AlandaSimpleSelectComponent } from './lib/components/task/form-variables/simple-select/simple-select.component';
-export { AlandaDateSelectComponent } from './lib/components/task/form-variables/date-select/date-select.component';
-export { AlandaDropdownSelectComponent } from './lib/components/task/form-variables/dropdown-select/dropdown-select.component';
-export { AlandaSelectMilestoneComponent } from './lib/components/task/form-variables/milestone-select/milestone-select.component';
-export { AlandaSelectRoleComponent } from './lib/components/task/form-variables/role-select/role-select.component';
+export { AlandaSimpleSelectComponent } from './lib/components/simple-select/simple-select.component';
+export { SimpleSelectModule } from './lib/components/simple-select/simple-select.module';
+export { AlandaDateSelectComponent } from './lib/components/date-select/date-select.component';
+export { DateSelectModule } from './lib/components/date-select/date-select.module';
+export { AlandaDropdownSelectComponent } from './lib/components/dropdown-select/dropdown-select.component';
+export { DropdownSelectModule } from './lib/components/dropdown-select/dropdown-select.module';
+export { AlandaSelectMilestoneComponent } from './lib/components/milestone-select/milestone-select.component';
+export { MilestoneSelectModule } from './lib/components/milestone-select/milestone-select.module';
+export { AlandaSelectRoleComponent } from './lib/components/role-select/role-select.component';
+export { RoleSelectModule } from './lib/components/role-select/role-select.module';
 export { AlandaHeaderComponent } from './lib/components/header/header.component';
 export { HeaderModule } from './lib/components/header/header.module';
 export { PageSizeSelectModule } from './lib/components/page-size-select/page-size-select.module';

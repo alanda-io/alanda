@@ -72,7 +72,9 @@ export class AlandaAttachmentsComponent implements OnInit {
         let temp = [];
         if (res.virtual) {
           temp = res.children;
-        } else temp = [res];
+        } else {
+          temp = [res];
+        }
         this.data.selectedNode = temp[0];
         this.refreshUrls();
         this.fileCount = this.checkFileCount(temp);

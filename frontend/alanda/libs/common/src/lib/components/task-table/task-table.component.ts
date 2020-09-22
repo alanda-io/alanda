@@ -160,7 +160,9 @@ export class AlandaTaskTableComponent implements OnInit {
   }
 
   getCondition(obj, condition): any {
-    if (condition === undefined) return '';
+    if (condition === undefined) {
+      return '';
+    }
     const props = Object.keys(obj).reduce((acc, next) => `${acc} , ${next}`);
     const evalCon = new Function(
       ` return function ({${props}})  { return ${condition}} `,

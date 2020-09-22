@@ -38,5 +38,13 @@
         </div>
       </div>
     </p-card>
+    <p-card [header]="'Grid and layout'">
+      <p-checkbox
+        [(ngModel)]="hasFluidDesign"
+        (ngModelChange)="toggleFluidDesign($event)"
+        [binary]="true"
+        [label]="'Enable Fluid Design'"
+      ></p-checkbox>
+    </p-card>
   </div>
 </div>

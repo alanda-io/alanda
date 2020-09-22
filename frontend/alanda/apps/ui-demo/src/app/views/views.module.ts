@@ -5,6 +5,5 @@ import { TaskListModule } from './task-list/task-list.module';
 
 @NgModule({
   imports: [HomeModule, ProjectMonitorModule, TaskListModule],
-  providers: [],
 })
 export class ViewsModule {}

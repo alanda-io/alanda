@@ -1,19 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AlandaProject } from '../../../../api/models/project';
-import { AlandaGroup } from '../../../../api/models/group';
-import { AlandaRole } from '../../../../api/models/role';
+import { AlandaProject } from '../../api/models/project';
+import { AlandaGroup } from '../../api/models/group';
+import { AlandaRole } from '../../api/models/role';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { SelectItemGroup, SelectItem } from 'primeng/api';
-import { AlandaPropertyApiService } from '../../../../api/propertyApi.service';
-import { AlandaRoleApiService } from '../../../../api/roleApi.service';
+import { AlandaPropertyApiService } from '../../api/propertyApi.service';
+import { AlandaRoleApiService } from '../../api/roleApi.service';
 import { mergeMap, concatMap } from 'rxjs/operators';
-import { AlandaUser } from '../../../../api/models/user';
-import { AlandaUserApiService } from '../../../../api/userApi.service';
-import { AlandaGroupApiService } from '../../../../api/groupApi.service';
-import {
-  PERMISSION_PLACEHOLDER,
-  Authorizations,
-} from '../../../../permissions';
+import { AlandaUser } from '../../api/models/user';
+import { AlandaUserApiService } from '../../api/userApi.service';
+import { AlandaGroupApiService } from '../../api/groupApi.service';
+import { PERMISSION_PLACEHOLDER, Authorizations } from '../../permissions';
 
 const SELECTOR = 'alanda-role-select';
 @Component({
@@ -111,7 +108,9 @@ export class AlandaSelectRoleComponent implements OnInit {
         });
         this.loadProperty();
       });
-    } else console.warn('wrong type input for role-select');
+    } else {
+      console.warn('wrong type input for role-select');
+    }
   }
 
   private addUsersToOptions(u?: AlandaUser[]) {

@@ -27,7 +27,8 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "publish": "bash publish-common.sh"
+    "publish": "bash publish-common.sh",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json"
   },
   "private": true,
   "dependencies": {
@@ -77,6 +78,8 @@
     "ts-jest": "26.1.4",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
+    "tslint-angular": "^3.0.3",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "3.9.7"
   }
 }

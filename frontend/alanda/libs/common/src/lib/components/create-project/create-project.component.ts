@@ -39,10 +39,14 @@ export class AlandaCreateProjectComponent implements OnInit {
           tap((project) => (this.project.parents = [project])),
           mergeMap((_) => this.projectService.searchCreateAbleProjectType()),
         )
-        .subscribe((types) => (this.projectTypes = types));
+        .subscribe((types) => {
+          this.projectTypes = types;
+          this.selectedProjectType = types[0];
+        });
     } else {
       this.projectService.searchCreateAbleProjectType().subscribe((types) => {
         this.projectTypes = types;
+        this.selectedProjectType = types[0];
       });
     }
   }
