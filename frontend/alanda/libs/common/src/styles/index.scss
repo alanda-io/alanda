@@ -11,3 +11,8 @@ a {
     cursor: default;
   }
 }
+
+.ui-autocomplete .ui-autocomplete-input,
+.ui-autocomplete .ui-autocomplete-multiple-container {
+  width: calc(100% - 2.357em) !important;
+}
