@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
-import { HomeComponent } from './home/home.component';
+import { HomeModule } from './home/home.module';
 import { ProjectMonitorModule } from './project-monitor/project-monitor.module';
 import { TaskListModule } from './task-list/task-list.module';
 
 @NgModule({
-  declarations: [HomeComponent],
-  imports: [ProjectMonitorModule, TaskListModule],
-  providers: [],
+  imports: [HomeModule, ProjectMonitorModule, TaskListModule],
 })
 export class ViewsModule {}

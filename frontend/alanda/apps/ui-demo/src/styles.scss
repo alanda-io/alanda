@@ -3,6 +3,11 @@
 @import '../../../libs/common/src/styles';
 @import '~primeng/resources/themes/nova-light/theme.css';
 
+html {
+  // This sets the font size for all components in the project
+  // font-size: 14px;
+}
+
 body {
   color: $font-color;
   font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -10,12 +15,6 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-}
-
-.container {
-  background: $container-background;
-  overflow-x: hidden;
-  height: 100vh;
 }
 
 .form-root-tabs {

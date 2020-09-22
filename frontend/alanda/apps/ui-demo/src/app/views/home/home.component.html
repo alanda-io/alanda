@@ -1,1 +1,17 @@
-<h2>Add your components here for testing & development:</h2>
+<div class="p-grid">
+  <div class="p-col-12 p-md-6">
+    <p-card header="Component Testing & Playground">
+      <alanda-badge [label]="'Badge Test'"></alanda-badge>
+    </p-card>
+  </div>
+  <div class="p-col-12 p-md-6">
+    <p-card [header]="'Grid and layout'">
+      <p-checkbox
+        [(ngModel)]="hasFluidDesign"
+        (ngModelChange)="toggleFluidDesign($event)"
+        [binary]="true"
+        [label]="'Enable Fluid Design'"
+      ></p-checkbox>
+    </p-card>
+  </div>
+</div>
