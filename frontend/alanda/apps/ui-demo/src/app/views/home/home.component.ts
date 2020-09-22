@@ -9,7 +9,7 @@ export class HomeComponent {
   fontSize: number;
   htmlElement: HTMLElement;
 
-  hasFluidDesign = false;
+  hasFluidDesign: boolean;
   contentElement: HTMLElement;
 
   constructor() {
@@ -17,7 +17,7 @@ export class HomeComponent {
     this.fontSize =
       parseInt(getComputedStyle(this.htmlElement).fontSize, 10) || 14;
     this.contentElement = document.querySelector('.content');
-    this.hasFluidDesign = this.contentElement.classList.contains('ui-fluid');
+    this.hasFluidDesign = this.contentElement.classList.contains('p-fluid');
   }
 
   changeFontSize(scale: number): void {
@@ -27,6 +27,6 @@ export class HomeComponent {
 
   toggleFluidDesign(value): void {
     this.hasFluidDesign = value;
-    this.contentElement.classList.toggle('ui-fluid', value);
+    this.contentElement.classList.toggle('p-fluid', value);
   }
 }
