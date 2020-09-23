@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AlandaPropertyApiService } from '../../api/propertyApi.service';
 import { AlandaProject } from '../../api/models/project';
+import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 
 @Component({
   selector: 'alanda-date-select',
@@ -14,7 +15,7 @@ export class AlandaDateSelectComponent implements OnInit {
   @Input() label: string;
   @Input() project: AlandaProject;
   @Input() formName: string;
-  @Input() dateFormat = 'dd.mm.yyyy';
+  @Input() dateFormat: string;
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {
@@ -29,7 +30,12 @@ export class AlandaDateSelectComponent implements OnInit {
   constructor(
     private readonly messageService: MessageService,
     private readonly propertyService: AlandaPropertyApiService,
-  ) {}
+    @Inject(APP_CONFIG) config: AppSettings,
+  ) {
+    if (!this.dateFormat) {
+      this.dateFormat = config.DATE_FORMAT_PRIME;
+    }
+  }
 
   ngOnInit() {
     this.load();
