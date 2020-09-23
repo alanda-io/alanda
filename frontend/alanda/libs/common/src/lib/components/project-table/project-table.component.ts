@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Inject } from '@angular/core';
 import { LazyLoadEvent, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
@@ -7,6 +7,7 @@ import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaProject } from '../../api/models/project';
 import { getTableDefaultLayout } from '../../utils/helper-functions';
+import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 
 const defaultLayoutInit = 0;
 
@@ -19,7 +20,7 @@ export class AlandaProjectTableComponent implements OnInit {
   @Input() defaultLayout = defaultLayoutInit;
   @Input() layouts: AlandaTableLayout[];
   @Input() tableLayout = 'auto';
-  @Input() dateFormat = 'dd.MM.yyyy';
+  @Input() dateFormat: string;
   @Input() editablePageSize = false;
 
   projectsData: AlandaListResult<AlandaProject>;
@@ -30,7 +31,13 @@ export class AlandaProjectTableComponent implements OnInit {
 
   @ViewChild('tt') turboTable: Table;
 
-  constructor(private readonly projectService: AlandaProjectApiService) {
+  constructor(
+    private readonly projectService: AlandaProjectApiService,
+    @Inject(APP_CONFIG) config: AppSettings,
+  ) {
+    if (!this.dateFormat) {
+      this.dateFormat = config.DATE_FORMAT;
+    }
     this.projectsData = {
       total: 0,
       results: [],

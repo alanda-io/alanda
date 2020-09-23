@@ -39,7 +39,9 @@ export class AlandaSelectMilestoneComponent implements OnInit {
     private readonly fb: FormBuilder,
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
-    this.dateFormat = config.DATE_FORMAT_STR_PRIME;
+    if (!this.dateFormat) {
+      this.dateFormat = config.DATE_FORMAT_PRIME;
+    }
   }
 
   ngOnInit() {
