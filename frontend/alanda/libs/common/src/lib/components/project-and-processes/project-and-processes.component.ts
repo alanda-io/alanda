@@ -4,7 +4,7 @@ import {
   OnInit,
   OnDestroy,
   Output,
-  EventEmitter,
+  EventEmitter, Inject,
 } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 import {
@@ -34,6 +34,7 @@ import { AlandaProjectType } from '../../api/models/projectType';
 import { AlandaProcess } from '../../api/models/process';
 import { PapReasonDialogComponent } from './pap-reason-dialog/pap-reason-dialog.component';
 import { ProcessRelation } from '../../enums/processRelation.enum';
+import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 
 @Component({
   selector: 'alanda-project-and-processes',
@@ -43,7 +44,7 @@ import { ProcessRelation } from '../../enums/processRelation.enum';
 })
 export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   @Input() project: AlandaProject;
-  @Input() dateFormat = 'yyyy-MM-dd';
+  @Input() dateFormat: string;
   @Input() filterOptions: any = {};
   @Output() changed: EventEmitter<void> = new EventEmitter();
   data: TreeNode[] = [];
@@ -68,7 +69,12 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     private readonly papService: AlandaProjectAndProcessesService,
     private readonly router: Router,
     private readonly dialogService: DialogService,
+    @Inject(APP_CONFIG) config: AppSettings,
   ) {
+    if (!this.dateFormat) {
+      this.dateFormat = config.DATE_FORMAT;
+    }
+
     this.subprocessSelect$
       .pipe(
         tap(() => (this.loading = true)),
