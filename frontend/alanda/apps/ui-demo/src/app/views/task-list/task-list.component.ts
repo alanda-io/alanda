@@ -4,11 +4,11 @@ import {
   AlandaTableLayout,
   Authorizations,
   TableType,
+  TableColumnTypeEnum,
 } from '@alanda/common';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserStoreImpl } from '../../store/user';
-import { TableColumnTypeEnum } from '../../../../../../libs/common/src/lib/enums/tableColumnType.enum';
 
 @Component({
   selector: 'alanda-task-list',
