@@ -70,7 +70,7 @@ export class AlandaCreateProjectComponent implements OnInit {
     this.formGroup = new FormGroup({
       tag: new FormControl(null, { validators: [Validators.required] }),
       prio: new FormControl(null, { validators: [Validators.required] }),
-      projectDueDate: new FormControl(new Date()),
+      projectDueDate: new FormControl(),
       projectTitle: new FormControl(null, {
         validators: [Validators.required],
       }),
