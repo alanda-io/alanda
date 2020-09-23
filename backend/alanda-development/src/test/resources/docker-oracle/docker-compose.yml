@@ -11,7 +11,7 @@ services:
       - ./mount_data:/u01/app/oracle/oradata
     ports:
       - 8081:8080
-      - 11521:1521
+      - 1521:1521
     networks:
       - default
 
