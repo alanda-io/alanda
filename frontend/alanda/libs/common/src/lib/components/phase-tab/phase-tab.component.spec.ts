@@ -8,7 +8,7 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 const appConfig = {
   API_ENDPOINT: '/test-api',
   DATE_FORMAT: 'dd.MM.yyyy',
-  DATE_FORMAT_PRIME: 'dd.mm.yy'
+  DATE_FORMAT_PRIME: 'dd.mm.yy',
 };
 
 describe('AlandaPhaseTabComponent', () => {
