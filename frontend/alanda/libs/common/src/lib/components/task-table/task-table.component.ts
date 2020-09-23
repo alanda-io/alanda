@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
@@ -11,6 +11,7 @@ import { AlandaTask } from '../../api/models/task';
 import { RxState } from '@rx-angular/state';
 import { isObservable, Observable } from 'rxjs';
 import { getTableDefaultLayout } from '../../utils/helper-functions';
+import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 
 const defaultLayoutInit = 0;
 
@@ -27,7 +28,7 @@ interface AlandaTaskTableState {
 export class AlandaTaskTableComponent implements OnInit {
   @Input() defaultLayout = defaultLayoutInit;
   @Input() layouts: AlandaTableLayout[];
-  @Input() dateFormat = 'dd.MM.yyyy';
+  @Input() dateFormat: string;
   @Input() tableLayout = 'auto';
   @Input()
   set user(user: Observable<AlandaUser> | AlandaUser) {
@@ -55,7 +56,11 @@ export class AlandaTaskTableComponent implements OnInit {
     public messageService: MessageService,
     private readonly router: Router,
     private state: RxState<AlandaTaskTableState>,
+    @Inject(APP_CONFIG) config: AppSettings,
   ) {
+    if (!this.dateFormat) {
+      this.dateFormat = config.DATE_FORMAT;
+    }
     this.tasksData = {
       total: 0,
       results: [],

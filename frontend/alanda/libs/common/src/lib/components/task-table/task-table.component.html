@@ -104,12 +104,12 @@
           >
         </ng-template>
         <ng-template #default>
-          <ng-container *ngIf="col.type && col.type === 'date'">{{
-            task | nestedObject: col.field | date: dateFormat
-          }}</ng-container>
-          <ng-container *ngIf="!col || col.type !== 'date'">{{
-            task | nestedObject: col.field | filter: col.filter
-          }}</ng-container>
+          <ng-container *ngIf="col.type && col.type === 'date'">
+            {{ task | nestedObject: col.field | date: dateFormat }}
+          </ng-container>
+          <ng-container *ngIf="!col || col.type !== 'date'">
+            {{ task | nestedObject: col.field | filter: col.filter }}
+          </ng-container>
         </ng-template>
       </td>
     </tr>

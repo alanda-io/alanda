@@ -8,6 +8,7 @@ import {
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserStoreImpl } from '../../store/user';
+import { TableColumnTypeEnum } from '../../../../../../libs/common/src/lib/enums/tableColumnType.enum';
 
 @Component({
   selector: 'alanda-task-list',
@@ -72,6 +73,7 @@ export class AlandaTaskListComponent {
           displayName: 'Created',
           name: 'Created',
           field: 'task.created',
+          type: TableColumnTypeEnum.DATE
         },
         { displayName: 'Due', name: 'Due', field: 'task.due', width: 90 },
       ],
