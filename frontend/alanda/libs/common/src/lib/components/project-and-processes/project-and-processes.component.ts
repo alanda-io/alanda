@@ -4,7 +4,8 @@ import {
   OnInit,
   OnDestroy,
   Output,
-  EventEmitter, Inject,
+  EventEmitter,
+  Inject,
 } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 import {

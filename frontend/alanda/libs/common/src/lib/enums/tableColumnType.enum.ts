@@ -1,3 +1,3 @@
 export enum TableColumnTypeEnum {
-  DATE = 'date'
+  DATE = 'date',
 }

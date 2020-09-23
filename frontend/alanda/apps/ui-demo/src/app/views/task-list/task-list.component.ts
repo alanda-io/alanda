@@ -73,7 +73,7 @@ export class AlandaTaskListComponent {
           displayName: 'Created',
           name: 'Created',
           field: 'task.created',
-          type: TableColumnTypeEnum.DATE
+          type: TableColumnTypeEnum.DATE,
         },
         { displayName: 'Due', name: 'Due', field: 'task.due', width: 90 },
       ],

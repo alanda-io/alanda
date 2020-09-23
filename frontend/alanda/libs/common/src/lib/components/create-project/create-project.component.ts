@@ -82,7 +82,11 @@ export class AlandaCreateProjectComponent implements OnInit {
 
   public onSubmit(): void {
     if (this.formGroup.valid) {
-      this.project.dueDate = formatDate(this.formGroup.get('projectDueDate').value, 'yyyy-MM-dd', 'en');
+      this.project.dueDate = formatDate(
+        this.formGroup.get('projectDueDate').value,
+        'yyyy-MM-dd',
+        'en',
+      );
       this.project.title = this.formGroup.get('projectTitle').value;
       this.project.priority = this.formGroup.get('prio').value.value;
       this.project.properties = [];
