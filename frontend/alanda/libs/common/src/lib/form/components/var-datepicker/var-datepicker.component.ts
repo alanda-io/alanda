@@ -21,8 +21,7 @@ export class AlandaVarDatepickerComponent implements OnInit {
   @Input() project: AlandaProject;
   @Input() task: any;
   @Input() label: string;
-
-  dateFormat: string;
+  @Input() dateFormat: string;
 
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
@@ -43,7 +42,9 @@ export class AlandaVarDatepickerComponent implements OnInit {
     private readonly fb: FormBuilder,
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
-    this.dateFormat = config.DATE_FORMAT_STR_PRIME;
+    if (!this.dateFormat) {
+      this.dateFormat = config.DATE_FORMAT_PRIME;
+    }
   }
 
   ngOnInit(): void {
