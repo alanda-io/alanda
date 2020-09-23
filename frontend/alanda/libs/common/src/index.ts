@@ -54,7 +54,7 @@ export { HistoryLogAction } from './lib/enums/historyLogAction.enum';
 export { ProcessRelation } from './lib/enums/processRelation.enum';
 export { ProcessResultStatus } from './lib/enums/processResultStatus.enum';
 export { TableType } from './lib/enums/tableType.enum';
-export { TableColumnTypeEnum } from './lib/enums/tableColumnType.enum';
+export { TableColumnType } from './lib/enums/tableColumnType.enum';
 
 /**
  * Pipe Exports

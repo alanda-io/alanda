@@ -1,3 +1,3 @@
-export enum TableColumnTypeEnum {
+export enum TableColumnType {
   DATE = 'date',
 }

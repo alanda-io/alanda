@@ -4,7 +4,7 @@ import {
   AlandaTableLayout,
   Authorizations,
   TableType,
-  TableColumnTypeEnum,
+  TableColumnType,
 } from '@alanda/common';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -73,7 +73,7 @@ export class AlandaTaskListComponent {
           displayName: 'Created',
           name: 'Created',
           field: 'task.created',
-          type: TableColumnTypeEnum.DATE,
+          type: TableColumnType.DATE,
         },
         { displayName: 'Due', name: 'Due', field: 'task.due', width: 90 },
       ],
@@ -116,6 +116,7 @@ export class AlandaTaskListComponent {
           displayName: 'Created',
           name: 'Created',
           field: 'task.created',
+          type: TableColumnType.DATE,
         },
         { displayName: 'Due', name: 'Due', field: 'task.due', width: 90 },
         {
