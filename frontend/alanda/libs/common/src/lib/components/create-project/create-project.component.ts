@@ -5,14 +5,24 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { AlandaProjectType } from '../../api/models/projectType';
 import { AlandaProject } from '../../api/models/project';
-import { mergeMap, tap } from 'rxjs/operators';
+import { debounceTime, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { formatDate } from '@angular/common';
+import { RxState } from '@rx-angular/state';
+import { AlandaRefObject } from '../../api/models/refObject';
+import { Subject } from 'rxjs';
+import { AlandaRoleApiService } from '../../api/roleApi.service';
+
+interface CreateState {
+  refObject: AlandaRefObject;
+  refObjectList: AlandaRefObject[];
+}
 
 @Component({
   selector: 'alanda-create-project',
   templateUrl: './create-project.component.html',
   styleUrls: ['./create-project.component.scss'],
+  providers: [RxState],
 })
 export class AlandaCreateProjectComponent implements OnInit {
   showDialog = true;
@@ -24,14 +34,33 @@ export class AlandaCreateProjectComponent implements OnInit {
   isLoading = false;
   dateFormat: string;
 
+  state$ = this.state.select();
+  searchRefObjectEvent$ = new Subject<string>();
+  selectRefObjectEvent$ = new Subject<string>();
+
+  searchRefObjects$ = this.searchRefObjectEvent$.pipe(
+    debounceTime(300),
+    switchMap((searchTerm) => {
+      return this.projectService.autocompleteRefObjects(
+        searchTerm,
+        this.selectedProjectType.objectType.toLowerCase(),
+      );
+    }),
+  );
+
   constructor(
     public readonly projectService: AlandaProjectApiService,
     private readonly messageService: MessageService,
+    private roleService: AlandaRoleApiService,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
+    private state: RxState<CreateState>,
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
     this.dateFormat = config.DATE_FORMAT_PRIME;
+    this.state.set({ refObjectList: [] });
+    this.state.connect('refObjectList', this.searchRefObjects$);
+    // this.state.hold(this.searchRefObjectEvent$);
   }
 
   ngOnInit(): void {
@@ -70,6 +99,9 @@ export class AlandaCreateProjectComponent implements OnInit {
     this.formGroup = new FormGroup({
       tag: new FormControl(null, { validators: [Validators.required] }),
       prio: new FormControl(null, { validators: [Validators.required] }),
+      selectedRefObject: new FormControl(null, {
+        validators: [Validators.required],
+      }),
       projectDueDate: new FormControl(),
       projectTitle: new FormControl(null, {
         validators: [Validators.required],

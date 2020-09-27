@@ -13,6 +13,7 @@ import { PermissionsDemoComponent } from './components/permissions-demo/permissi
 import { UserManagementContainerComponent } from './features/usermgmt/user-management-container/user-management-container.component';
 import { AlandaProjectMonitorComponent } from './views/project-monitor/project-monitor.component';
 import { AlandaTaskListComponent } from './views/task-list/task-list.component';
+import { UserEnrichedProjectsControllerComponent } from './components/projects-controller/user-enriched-projects-controller.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, data: { title: 'Home' } },
@@ -75,7 +76,7 @@ const routes: Routes = [
   },
   {
     path: 'projectdetails/:projectId',
-    component: AlandaProjectsControllerComponent,
+    component: UserEnrichedProjectsControllerComponent,
     children: [
       {
         path: 'vacation',

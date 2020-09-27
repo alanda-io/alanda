@@ -31,6 +31,9 @@ import { TemplateModule } from '@rx-angular/template';
 import { UserManagementContainerComponent } from './features/usermgmt/user-management-container/user-management-container.component';
 import { RxState } from '@rx-angular/state';
 import { DropdownModule } from 'primeng/dropdown';
+import { UserEnrichedTaskFormService } from './services/userEnrichedTaskForm.service';
+import { UserEnrichedProjectsControllerComponent } from './components/projects-controller/user-enriched-projects-controller.component';
+import { TabViewModule } from 'primeng/tabview';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 
@@ -40,6 +43,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     ProjectDetailsComponent,
     PermissionsDemoComponent,
     UserManagementContainerComponent,
+    UserEnrichedProjectsControllerComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +61,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     AlandaCommonModule.forRoot(CURRENT_CONFIG),
     TemplateModule,
     DropdownModule,
+    TabViewModule,
   ],
   providers: [
     { provide: APP_CONFIG, useValue: CURRENT_CONFIG },

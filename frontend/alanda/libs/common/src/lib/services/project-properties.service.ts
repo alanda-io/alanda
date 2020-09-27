@@ -1,7 +1,9 @@
 import { Injectable, Type } from '@angular/core';
 import { Component } from '@angular/compiler/src/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AlandaProjectPropertiesService {
   private readonly propertyComponents: Map<string, Type<any>>;
 

@@ -38,9 +38,10 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
 
   @Input() project: AlandaProject;
   @Input() task: AlandaTask;
+  @Input() user: AlandaUser;
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
-    if (rootFormGroup) {
+    if (rootFormGroup != null) {
       rootFormGroup.addControl('alanda-project-header', this.projectHeaderForm);
     }
   }
@@ -130,6 +131,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
           },
           (error) => {
             this.messageService.add({
+              key: 'center',
               severity: 'error',
               summary: 'Update Due Date Of Task',
               detail: error.message,
@@ -175,6 +177,8 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     viewContainerRef.clear();
     const componentRef = viewContainerRef.createComponent(componentFactory);
     (componentRef.instance as any).project = this.project;
+    (componentRef.instance as any).user = this.user;
+    (componentRef.instance as any).rootFormGroup = this.rootFormGroup;
     (componentRef.instance as any).activePhaseIndex = this.activePhaseIndex;
     (componentRef.instance as any).phase = this.phase;
   }

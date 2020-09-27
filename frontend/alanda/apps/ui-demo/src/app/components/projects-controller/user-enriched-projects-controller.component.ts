@@ -1,23 +1,28 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap, tap, map, distinctUntilChanged } from 'rxjs/operators';
-import { AlandaProjectApiService } from '../../../api/projectApi.service';
-import { AlandaProject } from '../../../api/models/project';
 import { Subscription } from 'rxjs';
 import { RxState } from '@rx-angular/state';
-import { BaseState } from '../../../form/base-state';
-import { AlandaTaskFormService } from '../../../form/alanda-task-form.service';
+import {
+  AlandaProject,
+  AlandaProjectApiService,
+  AlandaUser,
+  BaseState,
+  ProjectControllerState,
+} from '../../../../../../libs/common/src';
+import { UserStoreImpl } from '../../store/user/user.store';
 
-export interface ProjectControllerState extends BaseState {
+export interface UserEnrichedProjectControllerState extends BaseState {
   pid: string;
+  user: AlandaUser;
 }
 
 @Component({
-  templateUrl: './projects-controller.component.html',
+  templateUrl: './user-enriched-projects-controller.component.html',
   styleUrls: [],
   providers: [RxState],
 })
-export class AlandaProjectsControllerComponent {
+export class UserEnrichedProjectsControllerComponent {
   activeTab = 0;
   paramSub: Subscription;
 
@@ -66,10 +71,12 @@ export class AlandaProjectsControllerComponent {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly projectService: AlandaProjectApiService,
-    public state: RxState<ProjectControllerState>,
+    public state: RxState<UserEnrichedProjectControllerState>,
+    private userStore: UserStoreImpl,
   ) {
     this.state.connect('project', this.fetchProjectByProjectId$);
     this.state.connect('pid', this.getPidFromProject$);
+    this.state.connect('user', this.userStore.currentUser$);
     this.state.hold(this.forwardByType$);
   }
 }

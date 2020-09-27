@@ -95,6 +95,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
       return this.taskService.complete(this.get().task.task_id).pipe(
         catchError((error) => {
           this.messageService.add({
+            key: 'center',
             severity: 'error',
             summary: 'Task completion failed',
             detail: `The task ${
