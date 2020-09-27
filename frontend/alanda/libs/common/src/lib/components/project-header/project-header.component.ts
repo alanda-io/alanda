@@ -6,6 +6,7 @@ import {
   Input,
   ComponentFactoryResolver,
   ChangeDetectorRef,
+  Inject,
 } from '@angular/core';
 import { ProjectPropertiesDirective } from '../../directives/project.properties.directive';
 import { AlandaProject } from '../../api/models/project';
@@ -26,6 +27,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { AlandaProjectPropertiesService } from '../../services/project-properties.service';
 import { AlandaPropertyApiService } from '../../api/propertyApi.service';
+import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 
 @Component({
   selector: 'alanda-project-header',
@@ -48,6 +50,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   @Input() activePhaseIndex: number;
   @Input() phase: string;
 
+  dateFormat: string;
   taskDueDate: Date;
   loading: boolean;
   snoozedTask: boolean;
@@ -78,7 +81,10 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     private readonly fb: FormBuilder,
     private readonly projectService: AlandaProjectApiService,
     private readonly propertyService: AlandaPropertyApiService,
-  ) {}
+    @Inject(APP_CONFIG) config: AppSettings,
+  ) {
+    this.dateFormat = config.DATE_FORMAT;
+  }
 
   ngOnInit(): void {
     if (this.project) {
