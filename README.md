@@ -39,7 +39,7 @@ Next, prepare a network for your containers:
                             alanda_bpma_bridge
 
 ## Installing Oracle Database:
-If you have a running Oracle database (reachable under localhost, port 1251), you can skip this step and continue with [Setup](#setup).
+If you have a running Oracle database (reachable under localhost, port 1521), you can skip this step and continue with [Setup](#setup).
 
 To create an Oracle Database Docker container, follow the instructions given in this [Oracle blog Post](https://blogs.oracle.com/oraclemagazine/deliver-oracle-database-18c-express-edition-in-containers) or read the summary below:
 1. Clone [Oracle's sample Dockerfiles repository](https://github.com/oracle/docker-images)
@@ -52,7 +52,7 @@ For 18.4 Express Edition:
     git clone https://github.com/oracle/docker-images
     wget -P docker-images/OracleDatabase/SingleInstance/dockerfiles/18.4.0/ \
             https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm
-    ./docker-images/OracleDatabase/SingleInstance/dockerfiles/buildDockerImage.sh -v 18.4.0 -x
+    bash ./docker-images/OracleDatabase/SingleInstance/dockerfiles/buildDockerImage.sh -v 18.4.0 -x
 
 # Setup
 
@@ -62,6 +62,9 @@ Use the `start-dev.sh` bash script in the root directory to start the docker con
 Camunda/Wildfly and Elasticsearch should be available on ports 8080 and 9206 respectively.
 
     nmap -p 8080,9206 localhost
+
+Output: 
+
     8080/tcp open  http-proxy
     9206/tcp open  wap-vcard-s
 
