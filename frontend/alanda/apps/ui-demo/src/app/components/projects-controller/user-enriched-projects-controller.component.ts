@@ -8,8 +8,7 @@ import {
   AlandaProjectApiService,
   AlandaUser,
   BaseState,
-  ProjectControllerState,
-} from '../../../../../../libs/common/src';
+} from '@alanda/common';
 import { UserStoreImpl } from '../../store/user/user.store';
 
 export interface UserEnrichedProjectControllerState extends BaseState {
