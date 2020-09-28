@@ -52,7 +52,8 @@ For 18.4 Express Edition:
     git clone https://github.com/oracle/docker-images
     wget -P docker-images/OracleDatabase/SingleInstance/dockerfiles/18.4.0/ \
             https://download.oracle.com/otn-pub/otn_software/db-express/oracle-database-xe-18c-1.0-1.x86_64.rpm
-    bash ./docker-images/OracleDatabase/SingleInstance/dockerfiles/buildDockerImage.sh -v 18.4.0 -x
+    cd docker-images/OracleDatabase/SingleInstance/dockerfiles
+    bash dockerfiles/buildDockerImage.sh -v 18.4.0 -x
 
 # Setup
 
