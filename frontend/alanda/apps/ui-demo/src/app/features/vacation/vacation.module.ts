@@ -4,15 +4,30 @@ import { CheckVacationRequestComponent } from './forms/check-vacation-request.co
 import { ModifyVacationRequestComponent } from './forms/modify-vacation-request.component';
 import { DefaultTaskComponent } from './forms/default-task-template.component';
 import { VacationRoutingModule } from './vacation-routing.module';
-import { SharedModule } from '../../shared/shared.module';
 import { InformSubstituteComponent } from './forms/inform-substitute.component';
 import { PerformHandoverActivitiesComponent } from './forms/perform-handover-activities.component';
-import { CommentsModule, AlandaProjectPropertiesService } from '@alanda/common';
+import {
+  AlandaCommonModule,
+  AlandaProjectPropertiesService,
+} from '@alanda/common';
 import { ProjectPropertiesComponent } from './components/project-properties/project-properties.component';
 import { ProjectPhasesComponent } from './components/project-phases/project-phases.component';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { FieldsetModule } from 'primeng/fieldset';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [VacationRoutingModule, SharedModule, CommentsModule],
+  imports: [
+    VacationRoutingModule,
+    AlandaCommonModule,
+    CardModule,
+    FieldsetModule,
+    CommonModule,
+    ButtonModule,
+    ReactiveFormsModule,
+  ],
   declarations: [
     PrepareVacationRequestComponent,
     CheckVacationRequestComponent,
@@ -23,8 +38,6 @@ import { ProjectPhasesComponent } from './components/project-phases/project-phas
     ProjectPropertiesComponent,
     ProjectPhasesComponent,
   ],
-  exports: [],
-  providers: [],
 })
 export class VacationModule {
   constructor(private propertiesService: AlandaProjectPropertiesService) {

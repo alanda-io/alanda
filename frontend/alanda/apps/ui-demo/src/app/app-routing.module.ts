@@ -6,11 +6,10 @@ import {
   AlandaGroupManagementComponent,
   AlandaRoleManagementComponent,
   AlandaPermissionManagementComponent,
-  AlandaProjectsControllerComponent,
 } from '@alanda/common';
 import { AlandaFormsControllerComponent } from '@alanda/common';
 import { PermissionsDemoComponent } from './components/permissions-demo/permissions-demo.component';
-import { UserManagementContainerComponent } from './features/usermgmt/user-management-container/user-management-container.component';
+import { UserManagementContainerComponent } from './features/user-management/components/user-management-container.component';
 import { AlandaProjectMonitorComponent } from './views/project-monitor/project-monitor.component';
 import { AlandaTaskListComponent } from './views/task-list/task-list.component';
 import { UserEnrichedProjectsControllerComponent } from './components/projects-controller/user-enriched-projects-controller.component';

@@ -6,11 +6,7 @@ import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'alanda-user-management-container',
-  template: `
-    <alanda-user-management
-      (runAsUserClick)="runAsUserClick$.next($event)"
-    ></alanda-user-management>
-  `,
+  templateUrl: './user-management-container.component.html',
 })
 export class UserManagementContainerComponent extends RxState<any> {
   runAsUserClick$ = new Subject<string>();

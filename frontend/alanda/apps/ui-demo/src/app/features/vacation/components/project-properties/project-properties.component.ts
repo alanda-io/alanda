@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AlandaProject, AlandaUser } from '@alanda/common';
-import { UserEnrichedTaskFormService } from '../../../../services/userEnrichedTaskForm.service';
 import { FormGroup } from '@angular/forms';
 
 @Component({
