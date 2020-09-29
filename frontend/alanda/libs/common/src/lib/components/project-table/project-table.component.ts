@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, ViewChild, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  ViewChild,
+  Inject,
+} from '@angular/core';
+import { Subject } from 'rxjs';
 import { LazyLoadEvent, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
@@ -17,11 +25,18 @@ const defaultLayoutInit = 0;
   styleUrls: ['./project-table.component.scss'],
 })
 export class AlandaProjectTableComponent implements OnInit {
-  @Input() defaultLayout = defaultLayoutInit;
+  private _defaultLayout = defaultLayoutInit;
+  @Input() set defaultLayout(defaultLayout: number) {
+    this._defaultLayout = defaultLayout;
+    if (this.layouts) {
+      this.selectedLayout = this.layouts[this._defaultLayout];
+    }
+  }
   @Input() layouts: AlandaTableLayout[];
   @Input() tableLayout = 'auto';
   @Input() dateFormat: string;
   @Input() editablePageSize = false;
+  @Output() layoutChanged = new Subject<AlandaTableLayout>();
 
   projectsData: AlandaListResult<AlandaProject>;
   selectedLayout: AlandaTableLayout;
@@ -65,11 +80,9 @@ export class AlandaProjectTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.defaultLayout === defaultLayoutInit) {
-      this.defaultLayout = getTableDefaultLayout(this.layouts);
+    if (!this.selectedLayout) {
+      this.selectedLayout = this.layouts[this._defaultLayout];
     }
-
-    this.selectedLayout = this.layouts[this.defaultLayout];
     this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
   }
 
@@ -120,6 +133,7 @@ export class AlandaProjectTableComponent implements OnInit {
       }
     }
     this.loadProjects(this.serverOptions);
+    this.layoutChanged.next(this.selectedLayout);
   }
 
   public getCondition(obj, condition) {
