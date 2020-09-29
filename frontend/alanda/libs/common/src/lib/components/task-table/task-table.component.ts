@@ -1,4 +1,11 @@
-import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
@@ -9,7 +16,7 @@ import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaTask } from '../../api/models/task';
 import { RxState } from '@rx-angular/state';
-import { isObservable, Observable } from 'rxjs';
+import { isObservable, Observable, Subject } from 'rxjs';
 import { getTableDefaultLayout } from '../../utils/helper-functions';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 
@@ -30,6 +37,7 @@ export class AlandaTaskTableComponent implements OnInit {
   @Input() layouts: AlandaTableLayout[];
   @Input() dateFormat: string;
   @Input() tableLayout = 'auto';
+  @Input() groupTasks = false;
   @Input()
   set user(user: Observable<AlandaUser> | AlandaUser) {
     if (isObservable(user)) {
@@ -38,11 +46,12 @@ export class AlandaTaskTableComponent implements OnInit {
       this.state.set({ user });
     }
   }
+  @Output() layoutChanged = new Subject<AlandaTableLayout>();
+  @Output() toggleGroupTasksChanged = new Subject<boolean>();
 
   tasksData: AlandaListResult<AlandaTask>;
   selectedLayout: AlandaTableLayout;
   loading = true;
-  groupTasks = false;
   serverOptions: ServerOptions;
   menuItems: MenuItem[];
   showDelegateDialog = false;
@@ -153,6 +162,7 @@ export class AlandaTaskTableComponent implements OnInit {
       delete this.serverOptions.filterOptions[key];
     }
     this.loadTasks(this.serverOptions);
+    this.layoutChanged.next(this.selectedLayout);
   }
 
   toggleGroupTasks(v: boolean): void {
@@ -162,6 +172,7 @@ export class AlandaTaskTableComponent implements OnInit {
       this.serverOptions.filterOptions.mytasks = 1;
     }
     this.loadTasks(this.serverOptions);
+    this.toggleGroupTasksChanged.next(v);
   }
 
   getCondition(obj, condition): any {

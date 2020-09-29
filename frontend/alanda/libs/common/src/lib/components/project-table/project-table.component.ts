@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, ViewChild, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  ViewChild,
+  Inject,
+} from '@angular/core';
+import { Subject } from 'rxjs';
 import { LazyLoadEvent, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
@@ -22,6 +30,7 @@ export class AlandaProjectTableComponent implements OnInit {
   @Input() tableLayout = 'auto';
   @Input() dateFormat: string;
   @Input() editablePageSize = false;
+  @Output() layoutChanged = new Subject<AlandaTableLayout>();
 
   projectsData: AlandaListResult<AlandaProject>;
   selectedLayout: AlandaTableLayout;
@@ -120,6 +129,7 @@ export class AlandaProjectTableComponent implements OnInit {
       }
     }
     this.loadProjects(this.serverOptions);
+    this.layoutChanged.next(this.selectedLayout);
   }
 
   public getCondition(obj, condition) {
