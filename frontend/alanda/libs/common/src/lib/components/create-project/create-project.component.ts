@@ -100,7 +100,7 @@ export class AlandaCreateProjectComponent implements OnInit {
       tag: new FormControl(null, { validators: [Validators.required] }),
       prio: new FormControl(null, { validators: [Validators.required] }),
       selectedRefObject: new FormControl(null, {
-        validators: [Validators.required],
+        // validators: [Validators.required],
       }),
       projectDueDate: new FormControl(),
       projectTitle: new FormControl(null, {
