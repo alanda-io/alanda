@@ -9,7 +9,7 @@ import {
   AlandaUser,
   BaseState,
 } from '@alanda/common';
-import { UserStoreImpl } from '../../store/user/user.store';
+import { UserStoreImpl } from '../../../../store/user/user.store';
 
 export interface UserEnrichedProjectControllerState extends BaseState {
   pid: string;

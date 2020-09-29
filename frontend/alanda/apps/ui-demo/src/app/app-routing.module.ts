@@ -1,64 +1,38 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './views/home/home.component';
-import {
-  AlandaCreateProjectComponent,
-  AlandaGroupManagementComponent,
-  AlandaRoleManagementComponent,
-  AlandaPermissionManagementComponent,
-} from '@alanda/common';
 import { AlandaFormsControllerComponent } from '@alanda/common';
-import { PermissionsDemoComponent } from './components/permissions-demo/permissions-demo.component';
-import { UserManagementContainerComponent } from './features/user-management/components/user-management-container.component';
-import { AlandaProjectMonitorComponent } from './views/project-monitor/project-monitor.component';
-import { AlandaTaskListComponent } from './views/task-list/task-list.component';
-import { UserEnrichedProjectsControllerComponent } from './components/projects-controller/user-enriched-projects-controller.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, data: { title: 'Home' } },
   {
-    path: 'admin/users',
-    component: UserManagementContainerComponent,
-    data: { title: 'Admin User' },
+    path: '',
+    loadChildren: () =>
+      import('./views/home/home.module').then((m) => m.HomeModule),
   },
   {
-    path: 'admin/groups',
-    component: AlandaGroupManagementComponent,
-    data: { title: 'Admin Groups' },
+    path: 'admin',
+    loadChildren: () =>
+      import('./views/admin/admin.module').then((m) => m.AdminModule),
   },
   {
-    path: 'admin/roles',
-    component: AlandaRoleManagementComponent,
-    data: { title: 'Admin Roles' },
+    path: 'create',
+    loadChildren: () =>
+      import('./views/create-project/create-project.module').then(
+        (m) => m.CreateProjectModule,
+      ),
   },
   {
-    path: 'admin/permissions',
-    component: AlandaPermissionManagementComponent,
-    data: { title: 'Admin Permissions' },
+    path: 'monitor',
+    loadChildren: () =>
+      import('./views/project-monitor/project-monitor.module').then(
+        (m) => m.ProjectMonitorModule,
+      ),
   },
   {
-    path: 'admin/permissions-demo',
-    component: PermissionsDemoComponent,
-    data: { title: 'Admin Permissions Demo' },
-  },
-  {
-    path: 'create/project',
-    component: AlandaCreateProjectComponent,
-    data: { title: 'Create Project' },
-  },
-  {
-    path: 'create/project/:projectGuid',
-    component: AlandaCreateProjectComponent,
-  },
-  {
-    path: 'monitor/projects',
-    component: AlandaProjectMonitorComponent,
-    data: { title: 'Projects' },
-  },
-  {
-    path: 'tasks/list',
-    component: AlandaTaskListComponent,
-    data: { title: 'Tasks' },
+    path: 'tasks',
+    loadChildren: () =>
+      import('./views/task-list/task-list.module').then(
+        (m) => m.TaskListModule,
+      ),
   },
   {
     path: 'forms',
@@ -74,19 +48,12 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'projectdetails/:projectId',
-    component: UserEnrichedProjectsControllerComponent,
-    children: [
-      {
-        path: 'vacation',
-        loadChildren: () =>
-          import('./features/vacation/vacation.module').then(
-            (m) => m.VacationModule,
-          ),
-      },
-    ],
+    path: 'projectdetails',
+    loadChildren: () =>
+      import('./views/project-details/project-details.module').then(
+        (m) => m.ProjectDetailsModule,
+      ),
   },
-  // { path: 'projectdetails/:projectId', component:  AlandaProjectsControllerComponent},
   { path: '**', redirectTo: '' },
 ];
 

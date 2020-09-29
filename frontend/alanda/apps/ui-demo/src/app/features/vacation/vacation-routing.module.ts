@@ -3,12 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { PrepareVacationRequestComponent } from './forms/prepare-vacation-request.component';
 import { CheckVacationRequestComponent } from './forms/check-vacation-request.component';
 import { ModifyVacationRequestComponent } from './forms/modify-vacation-request.component';
-import { ProjectDetailsComponent } from '../../components/project-details/project-details.component';
 import { InformSubstituteComponent } from './forms/inform-substitute.component';
 import { PerformHandoverActivitiesComponent } from './forms/perform-handover-activities.component';
 
 const routes: Routes = [
-  { path: '', component: ProjectDetailsComponent },
   {
     path: 'prepare-vacation-request/:taskId',
     component: PrepareVacationRequestComponent,
@@ -26,7 +24,7 @@ const routes: Routes = [
     path: 'perform-handover-activities/:taskId',
     component: PerformHandoverActivitiesComponent,
   },
-  { path: '**', redirectTo: '' },
+  { path: '**', redirectTo: '/' },
 ];
 
 @NgModule({

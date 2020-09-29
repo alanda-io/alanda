@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { UserStoreImpl } from '../../store/user';
+import { UserStoreImpl } from '../../../../store/user';
 
 @Component({
   selector: 'alanda-permissions-demo',

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
 import { RxState } from '@rx-angular/state';
-import { UserStoreImpl } from '../../../store/user';
+import { UserStoreImpl } from '../../../../store/user';
 import { map } from 'rxjs/operators';
 
 @Component({

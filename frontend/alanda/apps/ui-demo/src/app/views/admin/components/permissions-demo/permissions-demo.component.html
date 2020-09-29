@@ -1,6 +1,3 @@
-<p>
-  permissions-demo works!
-</p>
 <ng-container *ngIf="user$ | async as user">
   {{ user.firstName }} {{ user.surname }}
   <form (ngSubmit)="onSubmit()" [formGroup]="demoForm">
