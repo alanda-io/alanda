@@ -91,11 +91,10 @@ export class AlandaPhaseTabComponent {
       if (this.phase) {
         const index = simplePhases.findIndex(
           (phase: AlandaSimplePhase) =>
-            phase.pmcProjectPhaseDefinition.displayName.toLowerCase() ===
-            this.phase.toLowerCase(),
+            phase.pmcProjectPhaseDefinition.idName === this.phase,
         );
         if (index > -1) {
-          this.activePhaseIndex = index;
+          this.setActivePhaseIndex(index);
         }
       }
     }),

@@ -34,7 +34,7 @@ export interface AlandaTaskFormState {
 @Injectable({ providedIn: 'root' })
 export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
   implements OnDestroy {
-  state$ = this.select();
+  state$ = this.select().pipe(filter((state) => state.task != null));
 
   rootForm = this.fb.group({});
 
@@ -73,6 +73,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     private readonly titleService: AlandaTitleService,
   ) {
     super();
+    this.set({ loading: 0 });
     this.connect(this.fetchTaskById$);
   }
 

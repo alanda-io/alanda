@@ -106,13 +106,13 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
           this.project.version = project.version;
         }
       });
-    if (this.project) {
-      this.propertyService
-        .getPropertiesMap(this.project.guid)
-        .subscribe((ret) => {
-          const props: Map<string, any> = ret;
-        });
-    }
+    // if (this.project) {
+    //   this.propertyService
+    //     .getPropertiesMap(this.project.guid)
+    //     .subscribe((ret) => {
+    //       const props: Map<string, any> = ret;
+    //     });
+    // }
   }
 
   private updateProject(changes: any): Observable<AlandaProject> {

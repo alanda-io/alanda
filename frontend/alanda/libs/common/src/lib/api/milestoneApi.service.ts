@@ -4,6 +4,7 @@ import { APP_CONFIG, AppSettings } from '../models/appSettings';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
+import { AlandaProjectMilestone } from './models/projectMilestone';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class AlandaMilestoneApiService extends AlandaExceptionHandlingService {
   getByProjectAndMsIdName(
     projectId: string,
     msIdName: string,
-  ): Observable<any> {
+  ): Observable<AlandaProjectMilestone> {
     return this.http
       .get<any>(`${this.endpointUrl}/project/${projectId}/ms/${msIdName}`)
       .pipe(catchError(this.handleError('getByProjectAndMsIdName')));
