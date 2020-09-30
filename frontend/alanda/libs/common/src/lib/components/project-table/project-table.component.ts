@@ -25,7 +25,13 @@ const defaultLayoutInit = 0;
   styleUrls: ['./project-table.component.scss'],
 })
 export class AlandaProjectTableComponent implements OnInit {
-  @Input() defaultLayout = defaultLayoutInit;
+  private _defaultLayout = defaultLayoutInit;
+  @Input() set defaultLayout(defaultLayout: number) {
+    this._defaultLayout = defaultLayout;
+    if (this.layouts) {
+      this.selectedLayout = this.layouts[this._defaultLayout];
+    }
+  }
   @Input() layouts: AlandaTableLayout[];
   @Input() tableLayout = 'auto';
   @Input() dateFormat: string;
@@ -74,11 +80,9 @@ export class AlandaProjectTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.defaultLayout === defaultLayoutInit) {
-      this.defaultLayout = getTableDefaultLayout(this.layouts);
+    if (!this.selectedLayout) {
+      this.selectedLayout = this.layouts[this._defaultLayout];
     }
-
-    this.selectedLayout = this.layouts[this.defaultLayout];
     this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
   }
 
