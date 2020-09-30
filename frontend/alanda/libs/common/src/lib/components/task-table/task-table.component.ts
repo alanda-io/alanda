@@ -17,7 +17,6 @@ import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaTask } from '../../api/models/task';
 import { RxState } from '@rx-angular/state';
 import { isObservable, Observable, Subject } from 'rxjs';
-import { getTableDefaultLayout } from '../../utils/helper-functions';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 
 const defaultLayoutInit = 0;
@@ -106,7 +105,6 @@ export class AlandaTaskTableComponent implements OnInit {
       this.selectedLayout = this.layouts[this._defaultLayout];
     }
     this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
-    this.toggleGroupTasks(this.groupTasks);
   }
 
   loadTasks(serverOptions: ServerOptions): void {
@@ -177,10 +175,7 @@ export class AlandaTaskTableComponent implements OnInit {
       this.serverOptions.filterOptions.mytasks = 1;
     }
     this.loadTasks(this.serverOptions);
-    const { user } = this.state.get();
-    if (user) {
-      this.toggleGroupTasksChanged.next(v);
-    }
+    this.toggleGroupTasksChanged.next(v);
   }
 
   getCondition(obj, condition): any {
