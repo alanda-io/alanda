@@ -66,6 +66,11 @@
         </p-card>
       </div>
     </div>
-    {{ rootForm.status }}
+    <alanda-snooze
+      [valuesToCheck]="[false]"
+      [variableControl]="handover"
+      [rootFormGroup]="rootForm"
+    ></alanda-snooze>
+    {{ rootForm.status }} - snooze - {{ snooze.value }}
   </form>
 </ng-container>

@@ -22,4 +22,8 @@ export class UserEnrichedTaskFormService {
   submit(alternate?: Observable<any>): Observable<any> {
     return this.taskFormService.submit(alternate);
   }
+
+  snooze(days: number): Observable<any> {
+    return this.taskFormService.snooze(days);
+  }
 }

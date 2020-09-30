@@ -30,7 +30,11 @@ export class PrepareVacationRequestComponent
   }
 
   submit(): void {
-    this.taskFormService.submit().subscribe();
+    if (this.snooze.value > 0) {
+      this.taskFormService.snooze(this.snooze.value).subscribe();
+    } else {
+      this.taskFormService.submit().subscribe();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -74,5 +78,9 @@ export class PrepareVacationRequestComponent
 
   get requestor(): AbstractControl {
     return this.rootForm.get('alanda-role-select-vacation-requestor.selected');
+  }
+
+  get snooze(): AbstractControl {
+    return this.rootForm.get('alanda-snooze.snooze');
   }
 }
