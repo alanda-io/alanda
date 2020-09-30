@@ -130,6 +130,34 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     }
   }
 
+  snooze(days: number): Observable<any> {
+    return this.taskService.snoozeTask(this.get().task.task_id, days).pipe(
+      catchError((error) => {
+        this.messageService.add({
+          key: 'center',
+          severity: 'error',
+          summary: 'Task snooze failed',
+          detail: `The task ${
+            this.get().task.task_name
+          } could not be snoozed: ${error}`,
+        });
+        return EMPTY;
+      }),
+      tap((resp) =>
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Task snoozed',
+          detail: `The task ${
+            this.get().task.task_name
+          } has been successfully snoozed for ${days} days!`,
+        }),
+      ),
+      tap((val) => {
+        this.router.navigate(['/']).catch(() => {});
+      }),
+    );
+  }
+
   connectLoadingState(o$: Observable<boolean>): void {
     this.connect('loading', o$, (oldState, isLoading) => {
       return isLoading ? ++oldState.loading : --oldState.loading;
