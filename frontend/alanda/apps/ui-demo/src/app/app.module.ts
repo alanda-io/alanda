@@ -34,6 +34,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { UserEnrichedTaskFormService } from './services/userEnrichedTaskForm.service';
 import { UserEnrichedProjectsControllerComponent } from './components/projects-controller/user-enriched-projects-controller.component';
 import { TabViewModule } from 'primeng/tabview';
+import { ToastModule } from 'primeng/toast';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 
@@ -56,6 +57,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     CardModule,
     FieldsetModule,
     ButtonModule,
+    ToastModule,
     PermissionModule,
     CommentsModule,
     AlandaCommonModule.forRoot(CURRENT_CONFIG),

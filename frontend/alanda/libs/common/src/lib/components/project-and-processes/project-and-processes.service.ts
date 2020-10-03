@@ -85,7 +85,7 @@ export class AlandaProjectAndProcessesService {
 
   mapProjectToTreeNode(project: AlandaProject): TreeNode {
     let label = `${project.projectId} (${
-      project.subType ? project.subType : project.pmcProjectType.name
+      project.subtype ? project.subtype : project.pmcProjectType.name
     } / ${project.title})`;
     if (project.refObjectIdName) {
       label = label + `for (${project.refObjectIdName})`;

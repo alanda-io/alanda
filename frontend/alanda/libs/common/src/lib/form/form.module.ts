@@ -17,6 +17,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { RouterModule } from '@angular/router';
 import { PioModule } from '../components/pio/pio.module';
 import { HistoryGridModule } from '../components/history/history-grid.module';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { HistoryGridModule } from '../components/history/history-grid.module';
     ReactiveFormsModule,
     TabViewModule,
     RouterModule,
+    ProgressSpinnerModule,
     PioModule,
     HistoryGridModule,
   ],

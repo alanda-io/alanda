@@ -62,6 +62,17 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
       }
       return of({ task });
     }),
+    catchError((error) => {
+      console.log(error, this.messageService);
+      this.messageService.add({
+        key: 'center',
+        severity: 'error',
+        summary: 'Task load failed',
+        detail: `The task could not be loaded: ${error.message}`,
+        sticky: true,
+      });
+      return EMPTY;
+    }),
   );
 
   constructor(
@@ -94,6 +105,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     this.rootForm.markAllAsTouched();
     if (this.rootForm.valid) {
       return this.taskService.complete(this.get().task.task_id).pipe(
+        tap(() => this.setLoading(true)),
         catchError((error) => {
           this.messageService.add({
             key: 'center',
@@ -101,8 +113,10 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
             summary: 'Task completion failed',
             detail: `The task ${
               this.get().task.task_name
-            } could not be completed: ${error}`,
+            } could not be completed: ${error.message}`,
+            sticky: true,
           });
+          this.setLoading(false);
           return EMPTY;
         }),
         tap((resp) =>
@@ -115,6 +129,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
           }),
         ),
         switchMap((val) => {
+          this.setLoading(false);
           if (alternate != null) {
             return alternate;
           } else {
