@@ -70,9 +70,9 @@ export class AlandaCommentsComponent {
   commentPostBody$: Observable<AlandaCommentPostBody> = combineLatest([
     this.cp.commentText$,
     this.processInstanceId$,
-    this.state.select('task'),
   ]).pipe(
-    map(([commentText, processInstanceId, task]) => {
+    map(([commentText, processInstanceId]) => {
+      const task = this.state.get('task');
       return {
         subject: ' ', // Bad API
         text: commentText,
