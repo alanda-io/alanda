@@ -3,15 +3,19 @@ import { MenuItem } from 'primeng/api';
 import { AlandaSimplePhase } from '../../api/models/simplePhase';
 import { AlandaProject } from '../../api/models/project';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { RxState } from '@rx-angular/state';
 import { AlandaUser } from '../../api/models/user';
+import { combineLatest, merge, Subject } from 'rxjs';
+import { Authorizations } from '../../permissions';
 
 export interface AlandaPhaseTabState {
   simplePhases: AlandaSimplePhase[];
   project: AlandaProject;
+  activePhase: AlandaSimplePhase;
+  phase: string;
 }
-// TODO: add phase permission handling, add start/restart enabled behaviour
+
 @Component({
   selector: 'alanda-phase-tab',
   templateUrl: './phase-tab.component.html',
@@ -22,11 +26,17 @@ export class AlandaPhaseTabComponent {
   @Input()
   set project(project: AlandaProject) {
     this.state.set({ project });
+    this.authBase = `project:${project.authBase}:phase`;
   }
-  @Input() activePhaseIndex: number;
+  @Input() set simplePhases(simplePhases: AlandaSimplePhase[]) {
+    this.state.set({ simplePhases });
+  }
   @Input() phase: string;
-  @Output() activePhaseIndexChange = new EventEmitter<number>();
+  @Output() activePhaseChange = new EventEmitter<string>();
   @Input() user: AlandaUser;
+
+  authBase: string;
+  phaseChanges = new Subject<any>();
 
   overviewTab: AlandaSimplePhase = {
     active: false,
@@ -34,11 +44,10 @@ export class AlandaPhaseTabComponent {
     pmcProjectPhaseDefinition: {
       allowedProcesses: null,
       displayName: 'Overview',
-      guid: null,
-      idName: null,
+      guid: 0,
+      idName: 'OVERVIEW',
     },
     guid: null,
-    idName: null,
     updateUser: null,
     updateDate: null,
   };
@@ -76,27 +85,39 @@ export class AlandaPhaseTabComponent {
 
   state$ = this.state.select();
 
-  simplePhases$ = this.state.select('project').pipe(
-    switchMap((project: AlandaProject) =>
-      this.projectApiService.getPhasesForProject(project.guid),
-    ),
+  simplePhases$ = this.state.select('simplePhases').pipe(
     map((simplePhases: AlandaSimplePhase[]) => {
-      return [this.overviewTab, ...simplePhases];
-    }),
-    tap((simplePhases: AlandaSimplePhase[]) => {
-      if (!this.activePhaseIndex) {
-        this.activePhaseIndex = 0;
-      }
-
+      const phases = [this.overviewTab, ...simplePhases];
+      let activePhase = phases[0];
       if (this.phase) {
-        const index = simplePhases.findIndex(
+        const initPhase = phases.find(
           (phase: AlandaSimplePhase) =>
             phase.pmcProjectPhaseDefinition.idName === this.phase,
         );
-        if (index > -1) {
-          this.setActivePhaseIndex(index);
+        if (initPhase != null) {
+          activePhase = initPhase;
         }
       }
+      return {
+        activePhase: activePhase,
+      };
+    }),
+    tap((phaseState) => {
+      this.activePhaseChange.emit(
+        phaseState.activePhase.pmcProjectPhaseDefinition.idName,
+      );
+    }),
+  );
+
+  /** If a tab is clicked or the phase set using phase input, we change the activePhase and emit an event */
+  phaseChange$ = this.phaseChanges.pipe(
+    filter(
+      (phase: AlandaSimplePhase) =>
+        phase.pmcProjectPhaseDefinition.idName !==
+        this.state.get('activePhase').pmcProjectPhaseDefinition.idName,
+    ),
+    tap((phase: AlandaSimplePhase) => {
+      this.activePhaseChange.emit(phase.pmcProjectPhaseDefinition.idName);
     }),
   );
 
@@ -104,16 +125,8 @@ export class AlandaPhaseTabComponent {
     private state: RxState<AlandaPhaseTabState>,
     private readonly projectApiService: AlandaProjectApiService,
   ) {
-    this.state.connect('simplePhases', this.simplePhases$);
-  }
-
-  setActivePhaseIndex(index: number): void {
-    if (this.activePhaseIndex === index) {
-      return;
-    }
-
-    this.activePhaseIndex = index;
-    this.activePhaseIndexChange.emit(this.activePhaseIndex);
+    this.state.connect(this.simplePhases$);
+    this.state.connect('activePhase', this.phaseChange$);
   }
 
   getPhaseStatus(
@@ -139,19 +152,14 @@ export class AlandaPhaseTabComponent {
     return this.phaseStatusMap.notSet;
   }
 
-  togglePhaseEnabled(enabled: boolean): void {
+  togglePhaseEnabled(phase: AlandaSimplePhase, enabled: boolean): void {
     const projectGuid = this.state.get().project.guid;
-    const phaseDefIdName = this.state.get().simplePhases[this.activePhaseIndex]
-      .pmcProjectPhaseDefinition.idName;
+    const phaseDefIdName = phase.pmcProjectPhaseDefinition.idName;
 
     this.projectApiService
       .setPhaseEnabled(projectGuid, phaseDefIdName, enabled)
       .subscribe((response) => {
-        const newSimplePhases = this.state.get().simplePhases;
-        newSimplePhases[this.activePhaseIndex].enabled = enabled;
-        this.state.set({
-          simplePhases: newSimplePhases,
-        });
+        this.updatePhasesInState(response);
       });
   }
 
@@ -160,62 +168,73 @@ export class AlandaPhaseTabComponent {
     const menuItems: MenuItem[] = [];
     if (!phase.enabled) {
       menuItems.push({
-        label: 'Enabled',
-        command: () => this.togglePhaseEnabled(true),
+        label: 'Required',
+        command: (ev) => this.togglePhaseEnabled(phase, true),
       });
     }
     if (phase.enabled) {
       menuItems.push({
-        label: 'Disabled',
-        command: () => this.togglePhaseEnabled(false),
+        label: 'Not required',
+        command: (ev) => this.togglePhaseEnabled(phase, false),
       });
     }
     if (project.status !== 'CANCELED' && project.status !== 'COMPLETED') {
-      if (phase.endDate) {
+      if (phase.endDate && this.hasAuth(phase, 'restart')) {
         menuItems.push({
           label: 'Restart Phase',
-          command: () => this.restartPhase(),
+          command: () => this.restartPhase(phase),
         });
       }
-      if (phase.frozen && !phase.enabled) {
+      if (phase.frozen && !phase.enabled && this.hasAuth(phase, 'start')) {
         menuItems.push({
           label: 'Start Phase',
-          command: () => this.startPhase(),
+          command: () => this.startPhase(phase),
         });
       }
     }
     return menuItems;
   }
 
-  restartPhase() {
+  restartPhase(phase: AlandaSimplePhase) {
     const projectGuid = this.state.get().project.guid;
-    const phaseDefIdName = this.state.get().simplePhases[this.activePhaseIndex]
-      .pmcProjectPhaseDefinition.idName;
+    const phaseDefIdName = phase.pmcProjectPhaseDefinition.idName;
 
     this.projectApiService
       .restartPhase(projectGuid, phaseDefIdName)
       .subscribe((response: AlandaSimplePhase) => {
-        const newSimplePhases = this.state.get().simplePhases;
-        newSimplePhases[this.activePhaseIndex] = response;
-        this.state.set({
-          simplePhases: newSimplePhases,
-        });
+        this.updatePhasesInState(response);
       });
   }
 
-  startPhase() {
+  startPhase(phase: AlandaSimplePhase) {
     const projectGuid = this.state.get().project.guid;
-    const phaseDefIdName = this.state.get().simplePhases[this.activePhaseIndex]
-      .pmcProjectPhaseDefinition.idName;
+    const phaseDefIdName = phase.pmcProjectPhaseDefinition.idName;
 
     this.projectApiService
       .startPhase(projectGuid, phaseDefIdName)
       .subscribe((response: AlandaSimplePhase) => {
-        const newSimplePhases = this.state.get().simplePhases;
-        newSimplePhases[this.activePhaseIndex] = response;
-        this.state.set({
-          simplePhases: newSimplePhases,
-        });
+        this.updatePhasesInState(response);
       });
+  }
+
+  hasAuth(phase: AlandaSimplePhase, accessLevel: string): boolean {
+    return Authorizations.hasPermission(
+      this.user,
+      `${this.authBase}:${phase.pmcProjectPhaseDefinition.idName}`,
+      accessLevel,
+    );
+  }
+
+  private updatePhasesInState(response: AlandaSimplePhase) {
+    const newSimplePhases = [...this.state.get().simplePhases];
+    const i = newSimplePhases.findIndex(
+      (phase) => phase.guid === response.guid,
+    );
+    if (i !== -1) {
+      newSimplePhases[i] = response;
+      this.state.set(() => ({
+        simplePhases: newSimplePhases,
+      }));
+    }
   }
 }
