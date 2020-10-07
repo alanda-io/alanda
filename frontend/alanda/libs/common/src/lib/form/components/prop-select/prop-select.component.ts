@@ -44,7 +44,7 @@ export class AlandaPropSelectComponent implements OnInit {
 
   ngOnInit() {
     if (!this.type) {
-      this.type = 'String';
+      this.type = 'STRING';
     }
     this.propertyService
       .get(null, null, this.project.guid, this.propertyName)

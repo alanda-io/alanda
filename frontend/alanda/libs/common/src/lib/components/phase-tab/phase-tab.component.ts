@@ -3,7 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { AlandaSimplePhase } from '../../api/models/simplePhase';
 import { AlandaProject } from '../../api/models/project';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { RxState } from '@rx-angular/state';
 import { AlandaUser } from '../../api/models/user';
 import { combineLatest, merge, Subject } from 'rxjs';
@@ -85,9 +85,11 @@ export class AlandaPhaseTabComponent {
 
   state$ = this.state.select();
 
+  /** set the initial phase tab */
   simplePhases$ = this.state.select('simplePhases').pipe(
+    take(1), // we only set the initial phase once
     map((simplePhases: AlandaSimplePhase[]) => {
-      const phases = [this.overviewTab, ...simplePhases];
+      const phases = [...simplePhases];
       let activePhase = phases[0];
       if (this.phase) {
         const initPhase = phases.find(

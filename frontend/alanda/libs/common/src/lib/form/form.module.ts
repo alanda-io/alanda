@@ -18,6 +18,8 @@ import { RouterModule } from '@angular/router';
 import { PioModule } from '../components/pio/pio.module';
 import { HistoryGridModule } from '../components/history/history-grid.module';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { AlandaPropAutocompleteEagerComponent } from './components/prop-autocomplete-eager/prop-autocomplete-eager.component';
 
 @NgModule({
   declarations: [
@@ -29,12 +31,14 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     AlandaVarRoleUserSelectComponent,
     AlandaVarSelectComponent,
     AlandaFormsControllerComponent,
+    AlandaPropAutocompleteEagerComponent,
   ],
   imports: [
     CommonModule,
     CheckboxModule,
     MessageModule,
     DropdownModule,
+    AutoCompleteModule,
     CalendarModule,
     ReactiveFormsModule,
     TabViewModule,
@@ -52,6 +56,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     AlandaVarRoleUserSelectComponent,
     AlandaVarSelectComponent,
     AlandaFormsControllerComponent,
+    AlandaPropAutocompleteEagerComponent,
   ],
 })
 export class FormModule {}
