@@ -20,6 +20,10 @@ import { HistoryGridModule } from '../components/history/history-grid.module';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { AlandaPropAutocompleteEagerComponent } from './components/prop-autocomplete-eager/prop-autocomplete-eager.component';
+import {AlandaVarTextComponent} from "./components/var-text/var-text.component";
+import { AlandaVarTextareaComponent } from './components/var-textarea/alanda-var-textarea.component';
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {InputTextModule} from "primeng/inputtext"
 
 @NgModule({
   declarations: [
@@ -32,6 +36,8 @@ import { AlandaPropAutocompleteEagerComponent } from './components/prop-autocomp
     AlandaVarSelectComponent,
     AlandaFormsControllerComponent,
     AlandaPropAutocompleteEagerComponent,
+    AlandaVarTextComponent,
+    AlandaVarTextareaComponent
   ],
   imports: [
     CommonModule,
@@ -46,6 +52,8 @@ import { AlandaPropAutocompleteEagerComponent } from './components/prop-autocomp
     ProgressSpinnerModule,
     PioModule,
     HistoryGridModule,
+    InputTextareaModule,
+    InputTextModule
   ],
   exports: [
     AlandaPropCheckboxComponent,
@@ -57,6 +65,8 @@ import { AlandaPropAutocompleteEagerComponent } from './components/prop-autocomp
     AlandaVarSelectComponent,
     AlandaFormsControllerComponent,
     AlandaPropAutocompleteEagerComponent,
+    AlandaVarTextComponent,
+    AlandaVarTextareaComponent
   ],
 })
 export class FormModule {}
