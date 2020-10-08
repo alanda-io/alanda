@@ -38,6 +38,7 @@ export class PrepareVacationRequestComponent
   }
 
   ngAfterViewInit(): void {
+    console.log('form1', this.rootForm);
     // An example how we can react to changes in some form component
     // whenever the value of the dropdown "handover checks required"
     // changes, we adapt the Validators of the requestor field
@@ -45,11 +46,12 @@ export class PrepareVacationRequestComponent
       this.handover.valueChanges.pipe(
         tap((value) => {
           if (value === true) {
-            this.requestor.setValidators([Validators.required]);
+            this.requestor?.setValidators([Validators.required]);
           } else {
-            this.requestor.setValidators([]);
+            this.requestor?.setValidators([]);
           }
-          this.requestor.updateValueAndValidity();
+          this.requestor?.updateValueAndValidity();
+          console.log('req', this.requestor);
         }),
       ),
     );
@@ -57,7 +59,6 @@ export class PrepareVacationRequestComponent
       commentRequiredValidator(this.comments, this.handover, [false]),
     ]);
     this.rootForm.updateValueAndValidity();
-    console.log('form', this.rootForm);
   }
 
   change(event) {

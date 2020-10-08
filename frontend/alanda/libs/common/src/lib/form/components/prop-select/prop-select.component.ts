@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { AlandaPropertyApiService } from '../../../api/propertyApi.service';
 import { AlandaProject } from '../../../api/models/project';
+import { AlandaUser } from '../../../api/models/user';
+import { Authorizations } from '../../../permissions';
 
 const SELECTOR = 'alanda-prop-select';
 
@@ -22,16 +24,10 @@ export class AlandaPropSelectComponent implements OnInit {
   @Input() project: AlandaProject;
   @Input() label: string;
   @Input() type?: string;
+  @Input() user: AlandaUser;
+  @Input() rootFormGroup: FormGroup;
 
-  @Input()
-  set rootFormGroup(rootFormGroup: FormGroup) {
-    if (rootFormGroup) {
-      rootFormGroup.addControl(
-        `${SELECTOR}-${this.propertyName}`,
-        this.selectForm,
-      );
-    }
-  }
+  canWrite: boolean;
 
   selectForm = this.fb.group({
     selected: [null, Validators.required],
@@ -43,8 +39,20 @@ export class AlandaPropSelectComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (this.rootFormGroup) {
+      this.rootFormGroup.addControl(
+        `${SELECTOR}-${this.propertyName}`,
+        this.selectForm,
+      );
+    }
     if (!this.type) {
       this.type = 'STRING';
+    }
+    if (this.user != null) {
+      const authStr = `prop:${this.project.authBase}:${this.propertyName}`;
+      this.canWrite = Authorizations.hasPermission(this.user, authStr, 'write');
+    } else {
+      this.canWrite = true;
     }
     this.propertyService
       .get(null, null, this.project.guid, this.propertyName)

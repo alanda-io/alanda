@@ -41,12 +41,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   @Input() project: AlandaProject;
   @Input() task: AlandaTask;
   @Input() user: AlandaUser;
-  @Input()
-  set rootFormGroup(rootFormGroup: FormGroup) {
-    if (rootFormGroup != null) {
-      rootFormGroup.addControl('alanda-project-header', this.projectHeaderForm);
-    }
-  }
+  @Input() rootFormGroup: FormGroup;
   @Input() activePhaseIndex: number;
   @Input() phase: string;
 
@@ -87,6 +82,12 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    if (this.rootFormGroup != null) {
+      this.rootFormGroup.addControl(
+        'alanda-project-header',
+        this.projectHeaderForm,
+      );
+    }
     if (this.project) {
       this.initFormGroup();
     }
@@ -184,7 +185,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     const componentRef = viewContainerRef.createComponent(componentFactory);
     (componentRef.instance as any).project = this.project;
     (componentRef.instance as any).user = this.user;
-    (componentRef.instance as any).rootFormGroup = this.rootFormGroup;
+    (componentRef.instance as any).rootForm = this.rootFormGroup;
     (componentRef.instance as any).phase = this.phase;
   }
 

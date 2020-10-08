@@ -32,6 +32,7 @@ export class AlandaSimpleSelectComponent implements OnInit {
 
   selectForm = this.fb.group({
     selected: [null, Validators.required],
+    test: [null],
   });
 
   constructor(

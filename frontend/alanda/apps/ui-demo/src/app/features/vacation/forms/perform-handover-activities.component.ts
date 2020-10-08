@@ -2,6 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import { SelectItem } from 'primeng/api';
 import { BaseFormComponent } from '@alanda/common';
 import { AlandaTaskFormService } from '@alanda/common';
+import { AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'alanda-perform-handover-activities',
@@ -26,6 +27,10 @@ export class PerformHandoverActivitiesComponent
   }
 
   ngAfterViewInit(): void {
-    // this.formManagerService.addValidators();
+    this.approveRequest.setValidators(null);
+  }
+
+  get approveRequest(): AbstractControl {
+    return this.rootForm.get('alanda-simple-select-requestApproved.selected');
   }
 }

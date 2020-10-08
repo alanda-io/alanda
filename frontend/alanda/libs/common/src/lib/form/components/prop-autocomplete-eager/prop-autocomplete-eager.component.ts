@@ -7,13 +7,14 @@ import { combineLatest, merge, of, Subject, zip } from 'rxjs';
 import {
   concatMap,
   debounceTime,
-  distinctUntilChanged,
+  filter,
   map,
-  retry,
   switchMap,
   tap,
 } from 'rxjs/operators';
 import { SelectItem } from 'primeng/api';
+import { Authorizations } from '../../../permissions';
+import { AlandaUser } from '../../../api/models/user';
 
 const SELECTOR = 'alanda-prop-autocomplete-eager';
 const NOT_EMMITABLE = { emitEvent: false };
@@ -25,6 +26,7 @@ interface PropState {
   selected: SelectItem;
   options: SelectItem[];
   filteredOptions: SelectItem[];
+  canWrite: boolean;
 }
 
 const initState = {
@@ -43,7 +45,7 @@ const initState = {
   styleUrls: [],
   providers: [RxState],
 })
-export class AlandaPropAutocompleteEagerComponent {
+export class AlandaPropAutocompleteEagerComponent implements OnInit {
   @Input() set options(options: SelectItem[]) {
     this.state.set({ options: options, filteredOptions: options });
   }
@@ -57,18 +59,11 @@ export class AlandaPropAutocompleteEagerComponent {
   @Input() set type(type: string) {
     this.state.set({ type });
   }
+  @Input() user: AlandaUser;
 
-  @Output() completeMethod = new EventEmitter<string>();
+  @Output() propertySelected = new EventEmitter<SelectItem>();
 
-  @Input()
-  set rootFormGroup(rootFormGroup: FormGroup) {
-    if (rootFormGroup) {
-      rootFormGroup.addControl(
-        `${SELECTOR}-${this.propertyName}`,
-        this.selectForm,
-      );
-    }
-  }
+  @Input() rootFormGroup: FormGroup;
 
   selectPropEvent$ = new Subject<SelectItem>();
   searchPropEvent$ = new Subject<string>();
@@ -85,7 +80,6 @@ export class AlandaPropAutocompleteEagerComponent {
     this.state.select('options'),
   ]).pipe(
     switchMap(([project, propertyName]) => {
-      // console.log('pro', project.guid, propertyName, options);
       return this.propertyService.get(null, null, project.guid, propertyName);
     }),
     map((prop) => {
@@ -100,10 +94,17 @@ export class AlandaPropAutocompleteEagerComponent {
       return { label: '', value: '' } as SelectItem;
     }),
     tap((prop) => {
-      console.log('prop', prop);
       this.selected.patchValue(prop, NOT_EMMITABLE);
     }),
-    map((prop) => ({ selected: prop })),
+    map((prop) => {
+      const authStr = `prop:${
+        this.state.get('project').authBase
+      }:${this.state.get('propertyName')}`;
+      return {
+        selected: prop,
+        canWrite: Authorizations.hasPermission(this.user, authStr, 'write'),
+      };
+    }),
   );
 
   saveProp$ = this.selectPropEvent$.pipe(
@@ -121,20 +122,24 @@ export class AlandaPropAutocompleteEagerComponent {
         of(prop),
       );
     }),
+    tap(([voidResult, newProp]) => this.propertySelected.emit(newProp)),
     map(([voidResult, newProp]) => ({ selected: newProp })),
   );
 
-  searchProps$ = this.searchPropEvent$.pipe(
-    distinctUntilChanged(),
+  searchProps$ = merge(
+    this.searchPropEvent$,
+    this.selected.valueChanges.pipe(filter((input) => input === '')),
+  ).pipe(
     debounceTime(300),
     concatMap((searchTerm) => {
-      return of(
-        this.state
-          .get('options')
-          .filter((option) =>
-            option.label.toLowerCase().startsWith(searchTerm.toLowerCase()),
-          ),
-      );
+      console.log(searchTerm);
+      let res = this.state
+        .get('options')
+        .filter((option) =>
+          option.label.toLowerCase().startsWith(searchTerm.toLowerCase()),
+        );
+      console.log('res', res);
+      return of(res);
     }),
   );
 
@@ -147,6 +152,15 @@ export class AlandaPropAutocompleteEagerComponent {
     this.state.connect(this.fetchProp$);
     this.state.connect(this.saveProp$);
     this.state.connect('filteredOptions', this.searchProps$);
+  }
+
+  ngOnInit(): void {
+    if (this.rootFormGroup) {
+      this.rootFormGroup.addControl(
+        `${SELECTOR}-${this.state.get('propertyName')}`,
+        this.selectForm,
+      );
+    }
   }
 
   get selected(): AbstractControl {

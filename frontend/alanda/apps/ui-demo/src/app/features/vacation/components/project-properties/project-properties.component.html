@@ -33,23 +33,32 @@
             roleName="vacation-approver"
             [user]="user"
           ></alanda-role-select>
-          <!-- <alanda-role-select
-          [rootFormGroup]="rootForm"
-          formName="selectSubstitute"
-          type="group"
-          displayName="Substitute"
-          [project]="project"
-          roleName="vacation-requestor"
-          [user]="user"
-        ></alanda-role-select> -->
-          <alanda-prop-autocomplete-eager
+          <alanda-role-select
+            [rootFormGroup]="rootForm"
+            formName="selectSubstitute"
+            type="group"
+            displayName="Substitute"
+            [project]="project"
+            roleName="vacation-requestor"
+            [user]="user"
+          ></alanda-role-select>
+          <!-- <alanda-prop-autocomplete-eager
+            [rootFormGroup]="rootForm"
+            [user]="user"
             [project]="project"
             [options]="taskFormState.options"
             propertyName="role_vacation-approver"
             label="Prop"
-            (completeMethod)="autoCompEvent$.next($event)"
           >
-          </alanda-prop-autocomplete-eager>
+          </alanda-prop-autocomplete-eager> -->
+          <!-- <alanda-prop-select
+            [rootFormGroup]="rootForm"
+            [user]="user"
+            [project]="project"
+            [items]="taskFormState.options"
+            propertyName="role_vacation-approver"
+            label="PropSel"
+          ></alanda-prop-select> -->
           <!-- <alanda-prop-select
             [project]="project"
             [items]="taskFormState.options"
