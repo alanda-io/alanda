@@ -1,16 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {AlandaProject, AlandaTaskApiService} from "../../../..";
-import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
-
+import { Component, Input, OnInit } from '@angular/core';
+import { AlandaProject, AlandaTaskApiService } from '../../../..';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 
 const SELECTOR = 'alanda-var-textarea';
 
 @Component({
   selector: SELECTOR,
-  templateUrl: './alanda-var-textarea.component.html',
+  templateUrl: './var-textarea.component.html',
 })
 export class AlandaVarTextareaComponent implements OnInit {
-
   @Input() variableName: string;
   @Input() project: AlandaProject;
   @Input() task: any;
@@ -19,10 +17,10 @@ export class AlandaVarTextareaComponent implements OnInit {
   type = 'String';
 
   @Input()
-  rootFormGroup: FormGroup
+  rootFormGroup: FormGroup;
 
   textArea = this.fb.group({
-    text: "",
+    text: '',
   });
 
   constructor(

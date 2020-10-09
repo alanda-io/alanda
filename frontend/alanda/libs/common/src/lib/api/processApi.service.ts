@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AlandaProcess } from './models/process';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
+import { AlandaReqProcess } from './models/reqProcess';
 
 @Injectable({
   providedIn: 'root',
@@ -23,9 +24,9 @@ export class AlandaProcessApiService extends AlandaExceptionHandlingService {
   getProcessInfoForProcessInstanceId(
     processInstanceId,
     processPackageKey,
-  ): Observable<AlandaProcess> {
+  ): Observable<AlandaProcess[]> {
     return this.http
-      .get<AlandaProcess>(
+      .get<AlandaProcess[]>(
         `${this.endpointUrl}/info/${processInstanceId}/${processPackageKey}`,
       )
       .pipe(
@@ -45,40 +46,36 @@ export class AlandaProcessApiService extends AlandaExceptionHandlingService {
       );
   }
 
-  saveReqProcess(processInstanceId, reqProcessDto): Observable<AlandaProcess> {
+  saveReqProcess(processInstanceId, reqProcessDto): Observable<void> {
     return this.http
-      .post<AlandaProcess>(
+      .post<void>(
         `${this.endpointUrl}/reqProcess/${processInstanceId}/save`,
         reqProcessDto,
       )
-      .pipe(catchError(this.handleError('saveReqProcess')));
+      .pipe(catchError(this.handleError<void>('saveReqProcess')));
   }
 
-  startReqProcess(
-    processInstanceId,
-    executionId,
-    index,
-  ): Observable<AlandaProcess> {
+  startReqProcess(processInstanceId, executionId, index): Observable<void> {
     return this.http
-      .post<AlandaProcess>(
+      .post<void>(
         `${this.endpointUrl}/reqProcess/${processInstanceId}/#${executionId}/start/#${index}`,
         {},
       )
-      .pipe(catchError(this.handleError('startReqProcess')));
+      .pipe(catchError(this.handleError<void>('startReqProcess')));
   }
 
-  removeReqProcess(processInstanceId, index): Observable<AlandaProcess> {
+  removeReqProcess(processInstanceId, index): Observable<void> {
     return this.http
-      .post<AlandaProcess>(
+      .post<void>(
         `${this.endpointUrl}/reqProcess/${processInstanceId}/remove/${index}`,
         {},
       )
-      .pipe(catchError(this.handleError('removeReqProcess')));
+      .pipe(catchError(this.handleError<void>('removeReqProcess')));
   }
 
-  getReqProcessInfo(processInstanceId): Observable<AlandaProcess> {
+  getReqProcessInfo(processInstanceId): Observable<AlandaReqProcess[]> {
     return this.http
-      .get<AlandaProcess>(
+      .get<AlandaReqProcess[]>(
         `${this.endpointUrl}/reqProcess/${processInstanceId}/info`,
         {},
       )
