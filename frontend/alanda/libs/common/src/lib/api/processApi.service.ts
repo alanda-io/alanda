@@ -58,7 +58,7 @@ export class AlandaProcessApiService extends AlandaExceptionHandlingService {
   startReqProcess(processInstanceId, executionId, index): Observable<void> {
     return this.http
       .post<void>(
-        `${this.endpointUrl}/reqProcess/${processInstanceId}/#${executionId}/start/#${index}`,
+        `${this.endpointUrl}/reqProcess/${processInstanceId}/${executionId}/start/${index}`,
         {},
       )
       .pipe(catchError(this.handleError<void>('startReqProcess')));
