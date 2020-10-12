@@ -24,6 +24,7 @@ import { AlandaVarTextComponent } from './components/var-text/var-text.component
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 import { AlandaVarTextareaComponent } from './components/var-textarea/var-textarea.component';
+import { AlandaPropTextareaComponent } from './components/prop-textarea/prop-textarea.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { AlandaVarTextareaComponent } from './components/var-textarea/var-textar
     AlandaPropAutocompleteEagerComponent,
     AlandaVarTextComponent,
     AlandaVarTextareaComponent,
+    AlandaPropTextareaComponent,
   ],
   imports: [
     CommonModule,
@@ -67,6 +69,7 @@ import { AlandaVarTextareaComponent } from './components/var-textarea/var-textar
     AlandaPropAutocompleteEagerComponent,
     AlandaVarTextComponent,
     AlandaVarTextareaComponent,
+    AlandaPropTextareaComponent,
   ],
 })
 export class FormModule {}

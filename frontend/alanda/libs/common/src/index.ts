@@ -163,6 +163,7 @@ export { AlandaVarSelectComponent } from './lib/form/components/var-select/var-s
 export { AlandaPropSelectComponent } from './lib/form/components/prop-select/prop-select.component';
 export { AlandaPropCheckboxComponent } from './lib/form/components/prop-checkbox/prop-checkbox.component';
 export { AlandaPropAutocompleteEagerComponent } from './lib/form/components/prop-autocomplete-eager/prop-autocomplete-eager.component';
+export { AlandaPropTextareaComponent } from './lib/form/components/prop-textarea/prop-textarea.component';
 export { AlandaVarRoleUserSelectComponent } from './lib/form/components/var-role-user-select/var-role-user-select.component';
 export { AlandaVarDisplayComponent } from './lib/form/components/var-display/var-display.component';
 export { AlandaVarDatepickerComponent } from './lib/form/components/var-datepicker/var-datepicker.component';
