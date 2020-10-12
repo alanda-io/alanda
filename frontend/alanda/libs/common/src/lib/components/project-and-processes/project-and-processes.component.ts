@@ -122,6 +122,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     this.projectService
       .getProjectByGuid(this.project.guid, true)
       .pipe(
+        switchMap(project => this.getProjectWithProcessesAndTasks(project)),
         map((project) => this.papService.mapProjectsToTreeNode(project)),
         finalize(() => (this.loading = false)),
       )
