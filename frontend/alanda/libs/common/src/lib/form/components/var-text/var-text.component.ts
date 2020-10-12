@@ -29,7 +29,7 @@ export class AlandaVarTextComponent implements OnInit {
   }
 
   textBox = this.fb.group({
-    text: "",
+    text: '',
   });
 
   constructor(

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AlandaProject, AlandaTaskApiService } from '../../../..';
+import { AlandaProject } from '../../../api/models/project';
+import { AlandaTaskApiService } from '../../../api/taskApi.service';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 
 const SELECTOR = 'alanda-var-textarea';
