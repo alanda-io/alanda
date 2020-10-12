@@ -14,6 +14,8 @@ import { UserManagementContainerComponent } from './features/usermgmt/user-manag
 import { AlandaProjectMonitorComponent } from './views/project-monitor/project-monitor.component';
 import { AlandaTaskListComponent } from './views/task-list/task-list.component';
 import { UserEnrichedProjectsControllerComponent } from './components/projects-controller/user-enriched-projects-controller.component';
+import { ProjectsAndProcessesDemoComponent } from './components/projects-and-processes-demo/projects-and-processes-demo.component';
+import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, data: { title: 'Home' } },
@@ -74,20 +76,23 @@ const routes: Routes = [
       },
     ],
   },
+  // {
+  //   path: 'projectdetails/:projectId',
+  //   component: UserEnrichedProjectsControllerComponent,
+  //   children: [
+  //     {
+  //       path: 'vacation',
+  //       loadChildren: () =>
+  //         import('./features/vacation/vacation.module').then(
+  //           (m) => m.VacationModule,
+  //         ),
+  //     },
+  //   ],
+  // },
   {
     path: 'projectdetails/:projectId',
-    component: UserEnrichedProjectsControllerComponent,
-    children: [
-      {
-        path: 'vacation',
-        loadChildren: () =>
-          import('./features/vacation/vacation.module').then(
-            (m) => m.VacationModule,
-          ),
-      },
-    ],
+    component: ProjectsAndProcessesDemoComponent,
   },
-  // { path: 'projectdetails/:projectId', component:  AlandaProjectsControllerComponent},
   { path: '**', redirectTo: '' },
 ];
 

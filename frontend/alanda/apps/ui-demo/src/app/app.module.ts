@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 
 /**
@@ -35,6 +36,7 @@ import { UserEnrichedTaskFormService } from './services/userEnrichedTaskForm.ser
 import { UserEnrichedProjectsControllerComponent } from './components/projects-controller/user-enriched-projects-controller.component';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
+import { ProjectsAndProcessesDemoComponent } from './components/projects-and-processes-demo/projects-and-processes-demo.component';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 
@@ -45,8 +47,10 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     PermissionsDemoComponent,
     UserManagementContainerComponent,
     UserEnrichedProjectsControllerComponent,
+    ProjectsAndProcessesDemoComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
