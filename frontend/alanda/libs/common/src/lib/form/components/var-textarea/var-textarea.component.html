@@ -1,9 +1,6 @@
 <div [formGroup]="textArea">
   {{ label }}
-  <textarea pInputTextarea
-            formControlName="text"
-            (blur)="save()">
-  </textarea>
+  <textarea pInputTextarea formControlName="text" (blur)="save()"> </textarea>
   <ng-container *ngIf="text.invalid && (text.dirty || text.touched)">
     <p-message
       *ngIf="text.errors.required"
