@@ -93,6 +93,7 @@ export { FormModule } from './lib/form/form.module';
 export { AlandaExceptionHandlingService } from './lib/services/exceptionHandling.service';
 export { AlandaProjectPropertiesService } from './lib/services/project-properties.service';
 export { AlandaTitleService } from './lib/services/title.service';
+export { AlandaProcessConfigModalService } from './lib/services/process-config-modal.service';
 
 /**
  * Directive Exports
