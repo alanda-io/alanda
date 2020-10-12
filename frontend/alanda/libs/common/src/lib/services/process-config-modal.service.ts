@@ -12,4 +12,10 @@ export class AlandaProcessConfigModalService {
   getTemplate(key: string): Type<Component> {
     return this.configTemplateComponents.get(key);
   }
+
+  addTemplateForType(key: string, propertyComponent: Type<any>): void {
+    this.configTemplateComponents.set(key, propertyComponent);
+  }
+
+
 }

@@ -245,19 +245,22 @@ export class AlandaProjectAndProcessesService {
           });
         }
       }
-      let active = processesAndTasks.active;
-      active = active.map((item) => {
-        item['processKeyWithoutPhase'] = item.processKey;
-        if (item.phase == null && processNameToPhaseMap[item.processKey]) {
-          item.phase = processNameToPhaseMap[item.processKey];
-        }
-        if (item.phase && item.phase !== 'default') {
-          item.processKey = `${item.phase}:${item.processKey}`;
-        }
-        return item;
-      });
-      result.active = active;
     }
+
+    let active = processesAndTasks.active;
+    active = active.map((item) => {
+      const processKeyWithoutPhase = JSON.parse(JSON.stringify(item.processKey));
+      item['processKeyWithoutPhase'] = processKeyWithoutPhase;
+      if (item.phase == null && processNameToPhaseMap[item.processKey]) {
+        item.phase = processNameToPhaseMap[item.processKey];
+      }
+      if (item.phase && item.phase !== 'default') {
+        item.processKey = `${item.phase}:${item.processKey}`;
+      }
+      return item;
+    });
+    result.active = active;
+
     return result;
   }
 
@@ -282,10 +285,12 @@ export class AlandaProjectAndProcessesService {
         }
       }
     }
+
     const processKeyWithoutPhase = process['processKeyWithoutPhase'];
+
     if (
       (!subprocessProperties[processKeyWithoutPhase] &&
-        subprocessPropertiesTemplate[processKeyWithoutPhase]) ||
+        !subprocessPropertiesTemplate[processKeyWithoutPhase]) ||
       !(
         process.status === ProjectState.ACTIVE ||
         process.status === ProjectState.NEW
