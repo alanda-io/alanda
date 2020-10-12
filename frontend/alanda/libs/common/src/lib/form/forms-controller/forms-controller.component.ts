@@ -4,7 +4,7 @@ import { AlandaTaskFormService } from '../alanda-task-form.service';
 @Component({
   selector: 'alanda-forms-controller',
   templateUrl: './forms-controller.component.html',
-  styleUrls: [],
+  styleUrls: ['./forms-controller.component.scss'],
   providers: [AlandaTaskFormService],
 })
 export class AlandaFormsControllerComponent implements AfterViewInit {

@@ -1,3 +1,5 @@
+import { TableColumnType } from '../../enums/tableColumnType.enum';
+
 export interface AlandaTableColumnDefinition {
   displayName: string;
   name: string;
@@ -7,4 +9,5 @@ export interface AlandaTableColumnDefinition {
   cellTemplate?: string;
   template?: string;
   filter?: string;
+  type?: TableColumnType;
 }

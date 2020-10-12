@@ -54,6 +54,7 @@ export { HistoryLogAction } from './lib/enums/historyLogAction.enum';
 export { ProcessRelation } from './lib/enums/processRelation.enum';
 export { ProcessResultStatus } from './lib/enums/processResultStatus.enum';
 export { TableType } from './lib/enums/tableType.enum';
+export { TableColumnType } from './lib/enums/tableColumnType.enum';
 
 /**
  * Pipe Exports
@@ -161,6 +162,7 @@ export { PageSizeSelectModule } from './lib/components/page-size-select/page-siz
 export { AlandaVarSelectComponent } from './lib/form/components/var-select/var-select.component';
 export { AlandaPropSelectComponent } from './lib/form/components/prop-select/prop-select.component';
 export { AlandaPropCheckboxComponent } from './lib/form/components/prop-checkbox/prop-checkbox.component';
+export { AlandaPropAutocompleteEagerComponent } from './lib/form/components/prop-autocomplete-eager/prop-autocomplete-eager.component';
 export { AlandaVarRoleUserSelectComponent } from './lib/form/components/var-role-user-select/var-role-user-select.component';
 export { AlandaVarDisplayComponent } from './lib/form/components/var-display/var-display.component';
 export { AlandaVarDatepickerComponent } from './lib/form/components/var-datepicker/var-datepicker.component';

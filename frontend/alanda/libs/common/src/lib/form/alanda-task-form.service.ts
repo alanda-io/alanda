@@ -34,7 +34,7 @@ export interface AlandaTaskFormState {
 @Injectable({ providedIn: 'root' })
 export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
   implements OnDestroy {
-  state$ = this.select();
+  state$ = this.select().pipe(filter((state) => state.task != null));
 
   rootForm = this.fb.group({});
 
@@ -62,6 +62,17 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
       }
       return of({ task });
     }),
+    catchError((error) => {
+      console.log(error, this.messageService);
+      this.messageService.add({
+        key: 'center',
+        severity: 'error',
+        summary: 'Task load failed',
+        detail: `The task could not be loaded: ${error.message}`,
+        sticky: true,
+      });
+      return EMPTY;
+    }),
   );
 
   constructor(
@@ -73,6 +84,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     private readonly titleService: AlandaTitleService,
   ) {
     super();
+    this.set({ loading: 0 });
     this.connect(this.fetchTaskById$);
   }
 
@@ -93,14 +105,18 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     this.rootForm.markAllAsTouched();
     if (this.rootForm.valid) {
       return this.taskService.complete(this.get().task.task_id).pipe(
+        tap(() => this.setLoading(true)),
         catchError((error) => {
           this.messageService.add({
+            key: 'center',
             severity: 'error',
             summary: 'Task completion failed',
             detail: `The task ${
               this.get().task.task_name
-            } could not be completed: ${error}`,
+            } could not be completed: ${error.message}`,
+            sticky: true,
           });
+          this.setLoading(false);
           return EMPTY;
         }),
         tap((resp) =>
@@ -113,6 +129,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
           }),
         ),
         switchMap((val) => {
+          this.setLoading(false);
           if (alternate != null) {
             return alternate;
           } else {
@@ -126,6 +143,34 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     } else {
       return of(this.rootForm.errors);
     }
+  }
+
+  snooze(days: number): Observable<any> {
+    return this.taskService.snoozeTask(this.get().task.task_id, days).pipe(
+      catchError((error) => {
+        this.messageService.add({
+          key: 'center',
+          severity: 'error',
+          summary: 'Task snooze failed',
+          detail: `The task ${
+            this.get().task.task_name
+          } could not be snoozed: ${error}`,
+        });
+        return EMPTY;
+      }),
+      tap((resp) =>
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Task snoozed',
+          detail: `The task ${
+            this.get().task.task_name
+          } has been successfully snoozed for ${days} days!`,
+        }),
+      ),
+      tap((val) => {
+        this.router.navigate(['/']).catch(() => {});
+      }),
+    );
   }
 
   connectLoadingState(o$: Observable<boolean>): void {

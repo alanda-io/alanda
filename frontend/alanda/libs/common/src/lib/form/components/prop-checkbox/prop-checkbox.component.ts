@@ -17,15 +17,7 @@ export class AlandaPropCheckboxComponent implements OnInit {
   @Input() existingValue: boolean;
   type = 'BOOLEAN';
 
-  @Input()
-  set rootFormGroup(rootFormGroup: FormGroup) {
-    if (rootFormGroup) {
-      rootFormGroup.addControl(
-        `${SELECTOR}-${this.propertyName}`,
-        this.checkboxForm,
-      );
-    }
-  }
+  @Input() rootFormGroup: FormGroup;
 
   checkboxForm = this.fb.group({
     checked: [null],
@@ -37,6 +29,12 @@ export class AlandaPropCheckboxComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (this.rootFormGroup) {
+      this.rootFormGroup.addControl(
+        `${SELECTOR}-${this.propertyName}`,
+        this.checkboxForm,
+      );
+    }
     if (this.existingValue != null) {
       this.checked.setValue(this.existingValue);
     } else {

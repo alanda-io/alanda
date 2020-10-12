@@ -1,14 +1,50 @@
-import { Component } from '@angular/core';
-import { AlandaProject } from '@alanda/common';
-import { UserEnrichedTaskFormService } from '../../../../services/userEnrichedTaskForm.service';
+import { AfterViewInit, Component } from '@angular/core';
+import {
+  AlandaProject,
+  AlandaUser,
+  AlandaUserApiService,
+} from '@alanda/common';
+import { FormGroup } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { RxState } from '@rx-angular/state';
+import { map } from 'rxjs/operators';
+import { SelectItem } from 'primeng/api';
 
+interface PropState {
+  options: SelectItem[];
+}
 @Component({
   templateUrl: './project-properties.component.html',
+  providers: [RxState],
 })
-export class ProjectPropertiesComponent {
+export class ProjectPropertiesComponent implements AfterViewInit {
   project: AlandaProject;
-  state$ = this.taskFormService.state$;
-  rootForm = this.taskFormService.rootForm;
+  user: AlandaUser;
+  rootForm: FormGroup;
 
-  constructor(private readonly taskFormService: UserEnrichedTaskFormService) {}
+  state$ = this.state.select();
+  autoCompEvent$ = new Subject<string>();
+
+  autoComp$ = this.userService.searchUsers('', 'vacation-approver').pipe(
+    map((users) => {
+      let ret: SelectItem[] = new Array();
+      users.forEach((user) => {
+        ret.push({ label: user.displayName, value: user.guid });
+      });
+      return ret;
+    }),
+  );
+
+  constructor(
+    private state: RxState<PropState>,
+    private userService: AlandaUserApiService,
+  ) {
+    // this.state.set({ options: [] });
+    this.state.connect('options', this.autoComp$);
+    this.autoCompEvent$.next('');
+  }
+
+  ngAfterViewInit(): void {
+    console.log('form', this.rootForm);
+  }
 }

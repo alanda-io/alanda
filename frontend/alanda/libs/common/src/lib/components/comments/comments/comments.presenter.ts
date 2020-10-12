@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RxState, toDictionary, toggle, patch } from '@rx-angular/state';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { FormBuilder, Validators } from '@angular/forms';
 import {

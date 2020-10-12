@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlandaTableLayout } from '@alanda/common';
+import { AlandaTableLayout, TableColumnType } from '@alanda/common';
 
 @Component({
   selector: 'alanda-project-monitor',
@@ -33,11 +33,13 @@ export class AlandaProjectMonitorComponent {
         displayName: 'Start Date',
         name: 'startDate',
         field: 'project.createDate',
+        type: TableColumnType.DATE,
       },
       {
         displayName: 'Due Date',
         name: 'Due Date',
         field: 'project.dueDate',
+        type: TableColumnType.DATE,
       },
       {
         displayName: 'Prio',

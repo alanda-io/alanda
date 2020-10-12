@@ -9,14 +9,14 @@
               [project]="project"
               displayName="Vacation Start"
               msName="VACATION_START"
-              [user]="taskFormState.user"
+              [user]="user"
               [dateFormat]=""
             ></alanda-milestone-select>
             <alanda-milestone-select
               [project]="project"
               displayName="Vacation End"
               msName="VACATION_END"
-              [user]="taskFormState.user"
+              [user]="user"
             ></alanda-milestone-select>
           </div>
         </p-card>
@@ -31,7 +31,7 @@
             [project]="project"
             [onlyInherited]="false"
             roleName="vacation-approver"
-            [user]="taskFormState.user"
+            [user]="user"
           ></alanda-role-select>
           <alanda-role-select
             [rootFormGroup]="rootForm"
@@ -40,8 +40,32 @@
             displayName="Substitute"
             [project]="project"
             roleName="vacation-requestor"
-            [user]="taskFormState.user"
+            [user]="user"
           ></alanda-role-select>
+          <!-- <alanda-prop-autocomplete-eager
+            [rootFormGroup]="rootForm"
+            [user]="user"
+            [project]="project"
+            [options]="taskFormState.options"
+            propertyName="role_vacation-approver"
+            label="Prop"
+          >
+          </alanda-prop-autocomplete-eager> -->
+          <!-- <alanda-prop-select
+            [rootFormGroup]="rootForm"
+            [user]="user"
+            [project]="project"
+            [items]="taskFormState.options"
+            propertyName="role_vacation-approver"
+            label="PropSel"
+          ></alanda-prop-select> -->
+          <!-- <alanda-prop-select
+            [project]="project"
+            [items]="taskFormState.options"
+            label="ERP"
+            propertyName="role_vacation-approver"
+          >
+          </alanda-prop-select> -->
         </p-card>
       </div>
     </div>

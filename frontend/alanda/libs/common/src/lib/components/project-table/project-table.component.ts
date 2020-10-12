@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  ViewChild,
+  Inject,
+} from '@angular/core';
+import { Subject } from 'rxjs';
 import { LazyLoadEvent, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
@@ -7,6 +15,7 @@ import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaProject } from '../../api/models/project';
 import { getTableDefaultLayout } from '../../utils/helper-functions';
+import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 
 const defaultLayoutInit = 0;
 
@@ -16,11 +25,18 @@ const defaultLayoutInit = 0;
   styleUrls: ['./project-table.component.scss'],
 })
 export class AlandaProjectTableComponent implements OnInit {
-  @Input() defaultLayout = defaultLayoutInit;
+  private _defaultLayout = defaultLayoutInit;
+  @Input() set defaultLayout(defaultLayout: number) {
+    this._defaultLayout = defaultLayout;
+    if (this.layouts) {
+      this.selectedLayout = this.layouts[this._defaultLayout];
+    }
+  }
   @Input() layouts: AlandaTableLayout[];
   @Input() tableLayout = 'auto';
-  @Input() dateFormat = 'dd.MM.yyyy';
+  @Input() dateFormat: string;
   @Input() editablePageSize = false;
+  @Output() layoutChanged = new Subject<AlandaTableLayout>();
 
   projectsData: AlandaListResult<AlandaProject>;
   selectedLayout: AlandaTableLayout;
@@ -30,7 +46,13 @@ export class AlandaProjectTableComponent implements OnInit {
 
   @ViewChild('tt') turboTable: Table;
 
-  constructor(private readonly projectService: AlandaProjectApiService) {
+  constructor(
+    private readonly projectService: AlandaProjectApiService,
+    @Inject(APP_CONFIG) config: AppSettings,
+  ) {
+    if (!this.dateFormat) {
+      this.dateFormat = config.DATE_FORMAT;
+    }
     this.projectsData = {
       total: 0,
       results: [],
@@ -58,11 +80,9 @@ export class AlandaProjectTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.defaultLayout === defaultLayoutInit) {
-      this.defaultLayout = getTableDefaultLayout(this.layouts);
+    if (!this.selectedLayout) {
+      this.selectedLayout = this.layouts[this._defaultLayout];
     }
-
-    this.selectedLayout = this.layouts[this.defaultLayout];
     this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
   }
 
@@ -113,6 +133,7 @@ export class AlandaProjectTableComponent implements OnInit {
       }
     }
     this.loadProjects(this.serverOptions);
+    this.layoutChanged.next(this.selectedLayout);
   }
 
   public getCondition(obj, condition) {

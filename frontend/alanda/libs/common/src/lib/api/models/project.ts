@@ -18,7 +18,7 @@ export interface AlandaProject {
   refObjectType?: string;
   projectType?: string;
   projectTypeIdName?: string;
-  subType?: string;
+  subtype?: string; // intentionally no camelcase to match the backend!
   dueDate?: string;
   pmcProjectType?: AlandaProjectType;
   parents?: AlandaProject[];

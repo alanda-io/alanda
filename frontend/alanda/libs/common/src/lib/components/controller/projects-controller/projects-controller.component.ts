@@ -6,6 +6,7 @@ import { AlandaProject } from '../../../api/models/project';
 import { Subscription } from 'rxjs';
 import { RxState } from '@rx-angular/state';
 import { BaseState } from '../../../form/base-state';
+import { AlandaTaskFormService } from '../../../form/alanda-task-form.service';
 
 export interface ProjectControllerState extends BaseState {
   pid: string;

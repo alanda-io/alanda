@@ -1,4 +1,14 @@
 <div class="container">
+  <p-toast></p-toast>
+  <p-toast position="center" key="center" [modal]="true">
+    <ng-template let-message pTemplate="message">
+      <div style="text-align: center;">
+        <i class="pi pi-exclamation-triangle" style="font-size: 3em;"></i>
+        <h3>{{ message.summary }}</h3>
+        <p>{{ message.detail }}</p>
+      </div>
+    </ng-template>
+  </p-toast>
   <alanda-header
     [user]="user$"
     [title]="'ui-demo-test'"

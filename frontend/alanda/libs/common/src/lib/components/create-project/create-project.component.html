@@ -1,143 +1,159 @@
-<p-card *ngIf="!showDialog">
-  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-    <div class="p-grid">
-      <div class="p-col-12 p-md-6 p-lg-4">
-        <div class="p-grid">
-          <div class="p-col-4">
-            <strong>Type (Sub Type):</strong>
-          </div>
-          <div class="p-col-7">
-            <span *ngIf="project.subType">{{ project.subtype }}</span>
-            <span *ngIf="!project.subType">{{
-              project.pmcProjectType.name
-            }}</span>
-          </div>
-          <div class="p-col-4">
-            <strong>Prio*:</strong>
-          </div>
-          <div class="p-col-7">
-            <p-dropdown
-              [autoDisplayFirst]="false"
-              formControlName="prio"
-              [options]="[
-                { label: '0 - Emergency', value: 0 },
-                { label: '1 - Urgent', value: 1 },
-                { label: '2 - Normal', value: 2 }
-              ]"
-              optionLabel="label"
-              [appendTo]="'body'"
-            ></p-dropdown>
-          </div>
-          <div class="p-col-4">
-            <strong>Tag(s)*:</strong>
-          </div>
-          <div class="p-col-7">
-            <p-dropdown
-              [autoDisplayFirst]="false"
-              [options]="allowedTagList"
-              formControlName="tag"
-              optionLabel="value"
-              [appendTo]="'body'"
-            ></p-dropdown>
+<ng-container *ngIf="state$ | async as s">
+  <p-card *ngIf="!showDialog">
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6 p-lg-4">
+          <div class="p-grid">
+            <div class="p-col-4">
+              <strong>Type (Sub Type):</strong>
+            </div>
+            <div class="p-col-7">
+              <span *ngIf="project.subtype">{{ project.subtype }}</span>
+              <span *ngIf="!project.subtype">{{
+                project.pmcProjectType.name
+              }}</span>
+            </div>
+            <div class="p-col-4">
+              <strong>Ref Object*:</strong>
+            </div>
+            <div class="p-col-7">
+              <p-autoComplete
+                [suggestions]="s.refObjectList"
+                formControlName="selectedRefObject"
+                (completeMethod)="searchRefObjectEvent$.next($event.query)"
+                field="displayName"
+                [dropdown]="true"
+                placeHolder="Select"
+                (onSelect)="selectRefObjectEvent$.next($event)"
+              ></p-autoComplete>
+            </div>
+            <div class="p-col-4">
+              <strong>Tag(s)*:</strong>
+            </div>
+            <div class="p-col-7">
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                [options]="allowedTagList"
+                formControlName="tag"
+                optionLabel="value"
+              ></p-dropdown>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="p-col-12 p-md-6 p-lg-4">
-        <div class="p-grid">
-          <div class="p-col-4">
-            <strong>Project Due Date:</strong>
+        <div class="p-col-12 p-md-6 p-lg-4">
+          <div class="p-grid">
+            <div class="p-col-4">
+              <strong>Prio*:</strong>
+            </div>
+            <div class="p-col-7">
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                formControlName="prio"
+                [options]="[
+                  { label: '0 - Emergency', value: 0 },
+                  { label: '1 - Urgent', value: 1 },
+                  { label: '2 - Normal', value: 2 }
+                ]"
+                optionLabel="label"
+              ></p-dropdown>
+            </div>
+            <div class="p-col-4">
+              <strong>Project Due Date:</strong>
+            </div>
+            <div class="p-col-7">
+              <p-calendar
+                formControlName="projectDueDate"
+                [showIcon]="true"
+                [dateFormat]="dateFormat"
+              ></p-calendar>
+            </div>
+            <div class="p-col-4">
+              <strong>Project Title*:</strong>
+            </div>
+            <div class="p-col-7">
+              <input
+                pInputText
+                formControlName="projectTitle"
+                type="text"
+                value="{{ project.title }}"
+              />
+            </div>
           </div>
-          <div class="p-col-7">
-            <p-calendar
-              formControlName="projectDueDate"
-              [showIcon]="true"
-              dataType="string"
-              dateFormat="yy-mm-dd"
-              [appendTo]="'body'"
-            ></p-calendar>
+        </div>
+        <div class="p-col-12 p-md-12 p-lg-4">
+          <div class="p-grid">
+            <div class="p-col-12">
+              <strong>Project Details*:</strong>
+            </div>
           </div>
-          <div class="p-col-4">
-            <strong>Project Title*:</strong>
-          </div>
-          <div class="p-col-7">
-            <input
-              pInputText
-              formControlName="projectTitle"
-              type="text"
-              value="{{ project.title }}"
-            />
+          <div class="p-grid">
+            <div class="p-col-12">
+              <textarea
+                pInputTextarea
+                maxLength="2000"
+                formControlName="projectDetails"
+                [rows]="6"
+                >{{ project.comment }}</textarea
+              >
+            </div>
           </div>
         </div>
       </div>
-      <div class="p-col-12 p-md-12 p-lg-4">
-        <div class="p-grid">
-          <div class="p-col-12">
-            <textarea
-              pInputTextarea
-              maxLength="2000"
-              placeholder="Project Details"
-              formControlName="projectDetails"
-              [rows]="6"
-              >{{ project.comment }}</textarea
-            >
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6 p-md-offset-6 p-text-right">
+          <div class="al-button-group">
+            <button
+              pButton
+              type="button"
+              label="Cancel"
+              class="p-button-info"
+              routerLink="/"
+            ></button>
+            <button
+              pButton
+              type="submit"
+              class="p-button-success"
+              label="Create"
+            ></button>
           </div>
         </div>
       </div>
-    </div>
-    <div class="p-grid">
-      <div class="p-col-12 p-md-6 p-md-offset-6 p-text-right">
-        <div class="al-button-group">
-          <button
-            pButton
-            type="button"
-            label="Cancel"
-            class="p-button-info"
-            routerLink="/"
-          ></button>
-          <button
-            pButton
-            type="submit"
-            class="p-button-success"
-            label="Create"
-          ></button>
-        </div>
-      </div>
-    </div>
-  </form>
-</p-card>
+    </form>
+  </p-card>
 
-<p-dialog
-  [visible]="showDialog"
-  [dismissableMask]="false"
-  [closable]="false"
-  [contentStyle]="{ overflow: 'visible' }"
->
-  <p-header>
-    Create Project
-  </p-header>
-  <p-dropdown
-    [options]="projectTypes"
-    filter="true"
-    [(ngModel)]="selectedProjectType"
-    optionLabel="name"
-    [style]="{ width: '100%' }"
-    placeholder="Project Type..."
-    [filter]="true"
-  ></p-dropdown>
-  <p-footer>
-    <p-button
-      routerLink=""
-      styleClass="p-button-raised p-button-info"
-      label="Cancel"
-    ></p-button>
-    <p-button
-      (onClick)="onProjectTypeSelected()"
-      styleClass="p-button-raised p-button-success"
-      label="OK"
-    ></p-button>
-  </p-footer>
-</p-dialog>
+  <p-dialog
+    [visible]="showDialog"
+    [dismissableMask]="false"
+    [closable]="false"
+    [contentStyle]="{ overflow: 'visible' }"
+  >
+    <p-header>
+      Create Project
+    </p-header>
+    <p-dropdown
+      [options]="projectTypes"
+      filter="true"
+      [(ngModel)]="selectedProjectType"
+      optionLabel="name"
+      [style]="{ width: '100%' }"
+      placeholder="Project Type..."
+      [filter]="true"
+    ></p-dropdown>
+    <p-footer>
+      <p-button
+        routerLink=""
+        styleClass="p-button-raised p-button-info"
+        label="Cancel"
+      ></p-button>
+      <p-button
+        (onClick)="onProjectTypeSelected()"
+        styleClass="p-button-raised p-button-success"
+        label="OK"
+      ></p-button>
+    </p-footer>
+  </p-dialog>
+</ng-container>
 <div class="loading" *ngIf="isLoading">
   <p-progressSpinner
     [style]="{ width: '50px', height: '50px' }"

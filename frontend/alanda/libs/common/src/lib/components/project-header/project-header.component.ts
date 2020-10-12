@@ -6,6 +6,7 @@ import {
   Input,
   ComponentFactoryResolver,
   ChangeDetectorRef,
+  Inject,
 } from '@angular/core';
 import { ProjectPropertiesDirective } from '../../directives/project.properties.directive';
 import { AlandaProject } from '../../api/models/project';
@@ -26,6 +27,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { AlandaProjectPropertiesService } from '../../services/project-properties.service';
 import { AlandaPropertyApiService } from '../../api/propertyApi.service';
+import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 
 @Component({
   selector: 'alanda-project-header',
@@ -38,15 +40,12 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
 
   @Input() project: AlandaProject;
   @Input() task: AlandaTask;
-  @Input()
-  set rootFormGroup(rootFormGroup: FormGroup) {
-    if (rootFormGroup) {
-      rootFormGroup.addControl('alanda-project-header', this.projectHeaderForm);
-    }
-  }
+  @Input() user: AlandaUser;
+  @Input() rootFormGroup: FormGroup;
   @Input() activePhaseIndex: number;
   @Input() phase: string;
 
+  dateFormat: string;
   taskDueDate: Date;
   loading: boolean;
   snoozedTask: boolean;
@@ -77,9 +76,18 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     private readonly fb: FormBuilder,
     private readonly projectService: AlandaProjectApiService,
     private readonly propertyService: AlandaPropertyApiService,
-  ) {}
+    @Inject(APP_CONFIG) config: AppSettings,
+  ) {
+    this.dateFormat = config.DATE_FORMAT;
+  }
 
   ngOnInit(): void {
+    if (this.rootFormGroup != null) {
+      this.rootFormGroup.addControl(
+        'alanda-project-header',
+        this.projectHeaderForm,
+      );
+    }
     if (this.project) {
       this.initFormGroup();
     }
@@ -99,13 +107,13 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
           this.project.version = project.version;
         }
       });
-    if (this.project) {
-      this.propertyService
-        .getPropertiesMap(this.project.guid)
-        .subscribe((ret) => {
-          const props: Map<string, any> = ret;
-        });
-    }
+    // if (this.project) {
+    //   this.propertyService
+    //     .getPropertiesMap(this.project.guid)
+    //     .subscribe((ret) => {
+    //       const props: Map<string, any> = ret;
+    //     });
+    // }
   }
 
   private updateProject(changes: any): Observable<AlandaProject> {
@@ -130,6 +138,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
           },
           (error) => {
             this.messageService.add({
+              key: 'center',
               severity: 'error',
               summary: 'Update Due Date Of Task',
               detail: error.message,
@@ -175,7 +184,8 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     viewContainerRef.clear();
     const componentRef = viewContainerRef.createComponent(componentFactory);
     (componentRef.instance as any).project = this.project;
-    (componentRef.instance as any).activePhaseIndex = this.activePhaseIndex;
+    (componentRef.instance as any).user = this.user;
+    (componentRef.instance as any).rootForm = this.rootFormGroup;
     (componentRef.instance as any).phase = this.phase;
   }
 

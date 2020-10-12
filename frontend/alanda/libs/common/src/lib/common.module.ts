@@ -54,6 +54,7 @@ import { SimpleSelectModule } from './components/simple-select/simple-select.mod
 import { FormModule } from './form/form.module';
 import { ProjectsControllerModule } from './components/controller/projects-controller/projects-controller.module';
 import { MilestoneSelectModule } from './components/milestone-select/milestone-select.module';
+import { SnoozeModule } from './components/snooze/snooze.module';
 
 @NgModule({
   imports: [
@@ -87,6 +88,7 @@ import { MilestoneSelectModule } from './components/milestone-select/milestone-s
     FormModule,
     ProjectsControllerModule,
     MilestoneSelectModule,
+    SnoozeModule,
   ],
   exports: [
     BadgeModule,
@@ -115,6 +117,7 @@ import { MilestoneSelectModule } from './components/milestone-select/milestone-s
     FormModule,
     ProjectsControllerModule,
     MilestoneSelectModule,
+    SnoozeModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,

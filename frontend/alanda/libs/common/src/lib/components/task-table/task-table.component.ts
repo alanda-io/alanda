@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
@@ -9,8 +16,8 @@ import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaTask } from '../../api/models/task';
 import { RxState } from '@rx-angular/state';
-import { isObservable, Observable } from 'rxjs';
-import { getTableDefaultLayout } from '../../utils/helper-functions';
+import { isObservable, Observable, Subject } from 'rxjs';
+import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 
 const defaultLayoutInit = 0;
 
@@ -25,10 +32,17 @@ interface AlandaTaskTableState {
   providers: [RxState],
 })
 export class AlandaTaskTableComponent implements OnInit {
-  @Input() defaultLayout = defaultLayoutInit;
+  private _defaultLayout = defaultLayoutInit;
+  @Input() set defaultLayout(defaultLayout: number) {
+    this._defaultLayout = defaultLayout;
+    if (this.layouts) {
+      this.selectedLayout = this.layouts[this._defaultLayout];
+    }
+  }
   @Input() layouts: AlandaTableLayout[];
-  @Input() dateFormat = 'dd.MM.yyyy';
+  @Input() dateFormat: string;
   @Input() tableLayout = 'auto';
+  @Input() groupTasks = false;
   @Input()
   set user(user: Observable<AlandaUser> | AlandaUser) {
     if (isObservable(user)) {
@@ -37,11 +51,12 @@ export class AlandaTaskTableComponent implements OnInit {
       this.state.set({ user });
     }
   }
+  @Output() layoutChanged = new Subject<AlandaTableLayout>();
+  @Output() toggleGroupTasksChanged = new Subject<boolean>();
 
   tasksData: AlandaListResult<AlandaTask>;
   selectedLayout: AlandaTableLayout;
   loading = true;
-  groupTasks = false;
   serverOptions: ServerOptions;
   menuItems: MenuItem[];
   showDelegateDialog = false;
@@ -55,7 +70,11 @@ export class AlandaTaskTableComponent implements OnInit {
     public messageService: MessageService,
     private readonly router: Router,
     private state: RxState<AlandaTaskTableState>,
+    @Inject(APP_CONFIG) config: AppSettings,
   ) {
+    if (!this.dateFormat) {
+      this.dateFormat = config.DATE_FORMAT;
+    }
     this.tasksData = {
       total: 0,
       results: [],
@@ -82,11 +101,9 @@ export class AlandaTaskTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.defaultLayout === defaultLayoutInit) {
-      this.defaultLayout = getTableDefaultLayout(this.layouts);
+    if (!this.selectedLayout) {
+      this.selectedLayout = this.layouts[this._defaultLayout];
     }
-
-    this.selectedLayout = this.layouts[this.defaultLayout];
     this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
   }
 
@@ -148,6 +165,7 @@ export class AlandaTaskTableComponent implements OnInit {
       delete this.serverOptions.filterOptions[key];
     }
     this.loadTasks(this.serverOptions);
+    this.layoutChanged.next(this.selectedLayout);
   }
 
   toggleGroupTasks(v: boolean): void {
@@ -157,6 +175,7 @@ export class AlandaTaskTableComponent implements OnInit {
       this.serverOptions.filterOptions.mytasks = 1;
     }
     this.loadTasks(this.serverOptions);
+    this.toggleGroupTasksChanged.next(v);
   }
 
   getCondition(obj, condition): any {

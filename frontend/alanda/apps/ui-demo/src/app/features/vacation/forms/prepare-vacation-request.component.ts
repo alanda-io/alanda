@@ -30,10 +30,15 @@ export class PrepareVacationRequestComponent
   }
 
   submit(): void {
-    this.taskFormService.submit().subscribe();
+    if (this.snooze.value > 0) {
+      this.taskFormService.snooze(this.snooze.value).subscribe();
+    } else {
+      this.taskFormService.submit().subscribe();
+    }
   }
 
   ngAfterViewInit(): void {
+    console.log('form1', this.rootForm);
     // An example how we can react to changes in some form component
     // whenever the value of the dropdown "handover checks required"
     // changes, we adapt the Validators of the requestor field
@@ -41,11 +46,12 @@ export class PrepareVacationRequestComponent
       this.handover.valueChanges.pipe(
         tap((value) => {
           if (value === true) {
-            this.requestor.setValidators([Validators.required]);
+            this.requestor?.setValidators([Validators.required]);
           } else {
-            this.requestor.setValidators([]);
+            this.requestor?.setValidators([]);
           }
-          this.requestor.updateValueAndValidity();
+          this.requestor?.updateValueAndValidity();
+          console.log('req', this.requestor);
         }),
       ),
     );
@@ -53,7 +59,6 @@ export class PrepareVacationRequestComponent
       commentRequiredValidator(this.comments, this.handover, [false]),
     ]);
     this.rootForm.updateValueAndValidity();
-    console.log('form', this.rootForm);
   }
 
   change(event) {
@@ -74,5 +79,9 @@ export class PrepareVacationRequestComponent
 
   get requestor(): AbstractControl {
     return this.rootForm.get('alanda-role-select-vacation-requestor.selected');
+  }
+
+  get snooze(): AbstractControl {
+    return this.rootForm.get('alanda-snooze.snooze');
   }
 }
