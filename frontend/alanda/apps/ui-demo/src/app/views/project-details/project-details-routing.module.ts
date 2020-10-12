@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { UserEnrichedProjectsControllerComponent } from './components/projects-controller/user-enriched-projects-controller.component';
+import { ProjectDetailsComponent } from './project-details.component';
 
 @NgModule({
   imports: [
@@ -10,15 +11,11 @@ import { UserEnrichedProjectsControllerComponent } from './components/projects-c
         component: UserEnrichedProjectsControllerComponent,
         children: [
           {
-            path: 'vacation',
-            loadChildren: () =>
-              import('../../features/vacation/vacation.module').then(
-                (m) => m.VacationModule,
-              ),
+            path: '',
+            component: ProjectDetailsComponent,
           },
         ],
       },
-      { path: '**', redirectTo: '/' },
     ]),
   ],
   exports: [RouterModule],

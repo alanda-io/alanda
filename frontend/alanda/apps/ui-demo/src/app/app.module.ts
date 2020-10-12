@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { AppSettings, APP_CONFIG, AlandaCommonModule } from '@alanda/common';
 import { ALANDA_CONFIG } from './app.settings';
-import { MessageService } from 'primeng/api';
 import { RxState } from '@rx-angular/state';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
@@ -20,11 +19,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     CoreModule,
     AlandaCommonModule.forRoot(CURRENT_CONFIG),
   ],
-  providers: [
-    { provide: APP_CONFIG, useValue: CURRENT_CONFIG },
-    MessageService,
-    RxState,
-  ],
+  providers: [{ provide: APP_CONFIG, useValue: CURRENT_CONFIG }, RxState],
   bootstrap: [AppComponent],
 })
 export class AppModule {

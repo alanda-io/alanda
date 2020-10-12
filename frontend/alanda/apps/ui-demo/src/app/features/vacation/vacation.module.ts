@@ -37,17 +37,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     DefaultTaskComponent,
     ProjectPropertiesComponent,
     ProjectPhasesComponent,
-  ],
-  exports: [
-    PrepareVacationRequestComponent,
-    CheckVacationRequestComponent,
-    ModifyVacationRequestComponent,
-    InformSubstituteComponent,
-    PerformHandoverActivitiesComponent,
-    DefaultTaskComponent,
-    ProjectPropertiesComponent,
-    ProjectPhasesComponent,
-  ],
+  ]
 })
 export class VacationModule {
   constructor(private propertiesService: AlandaProjectPropertiesService) {

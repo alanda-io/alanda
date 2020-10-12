@@ -24,7 +24,6 @@ const routes: Routes = [
     path: 'perform-handover-activities/:taskId',
     component: PerformHandoverActivitiesComponent,
   },
-  { path: '**', redirectTo: '/' },
 ];
 
 @NgModule({
