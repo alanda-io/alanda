@@ -4,6 +4,7 @@ import { APP_CONFIG, AppSettings } from '../models/appSettings';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
+import { AlandaHistoryLog } from './models/historyLog';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,21 @@ export class AlandaHistoryApiService extends AlandaExceptionHandlingService {
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
     super();
-    this.endpointUrl = config.API_ENDPOINT + '/history';
+    this.endpointUrl = config.API_ENDPOINT;
+  }
+
+  addOrUpdateHistoryLog(
+    projectId: string,
+    historyLog: AlandaHistoryLog,
+  ): Observable<any> {
+    return this.http
+      .post<AlandaHistoryLog>(
+        `${this.endpointUrl}/api/v1/project/${projectId}/history`,
+        historyLog,
+      )
+      .pipe(
+        catchError(this.handleError<AlandaHistoryLog>('addOrUpdateHistoryLog')),
+      );
   }
 
   search(filterOptions, pageNumber, pageSize): Observable<any[]> {
@@ -28,7 +43,7 @@ export class AlandaHistoryApiService extends AlandaExceptionHandlingService {
     }
     return this.http
       .post<any[]>(
-        `${this.endpointUrl}/search/${pageNumber}/${pageSize}`,
+        `${this.endpointUrl}/history/search/${pageNumber}/${pageSize}`,
         searchDto,
       )
       .pipe(catchError(this.handleError('search', [])));

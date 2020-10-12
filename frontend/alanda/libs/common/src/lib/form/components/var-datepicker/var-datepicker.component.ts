@@ -48,6 +48,12 @@ export class AlandaVarDatepickerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.rootFormGroup) {
+      this.rootFormGroup.addControl(
+        `${SELECTOR}-${this.variableName}`,
+        this.datepickerForm,
+      );
+    }
     this.taskService
       .getVariable(this.task.task_id, this.variableName)
       .subscribe((resp) => {

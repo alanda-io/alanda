@@ -3,25 +3,33 @@ import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
 import { AlandaProject } from '../../../api/models/project';
 import { AlandaTaskApiService } from '../../../api/taskApi.service';
 
-const SELECTOR = 'alanda-var-checkbox';
+const SELECTOR = 'alanda-var-text';
 
 @Component({
   selector: SELECTOR,
-  templateUrl: './var-checkbox.component.html',
+  templateUrl: './var-text.component.html',
   styleUrls: [],
 })
-export class AlandaVarCheckboxComponent implements OnInit {
+export class AlandaVarTextComponent implements OnInit {
   @Input() variableName: string;
   @Input() project: AlandaProject;
   @Input() task: any;
   @Input() label: string;
-  @Input() existingValue: boolean;
-  type = 'BOOLEAN';
+  @Input() existingValue: string;
+  type = 'String';
 
-  @Input() rootFormGroup: FormGroup;
+  @Input()
+  set rootFormGroup(rootFormGroup: FormGroup) {
+    if (rootFormGroup) {
+      rootFormGroup.addControl(
+        `${SELECTOR}-${this.variableName}`,
+        this.textBox,
+      );
+    }
+  }
 
-  checkboxForm = this.fb.group({
-    checked: [null],
+  textBox = this.fb.group({
+    text: "",
   });
 
   constructor(
@@ -30,19 +38,13 @@ export class AlandaVarCheckboxComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.rootFormGroup) {
-      this.rootFormGroup.addControl(
-        `${SELECTOR}-${this.variableName}`,
-        this.checkboxForm,
-      );
-    }
     if (this.existingValue != null) {
-      this.checked.setValue(this.existingValue);
+      this.text.setValue(this.existingValue);
     } else {
       this.taskService
         .getVariable(this.task.task_id, this.variableName)
         .subscribe((resp) => {
-          this.checked.setValue(resp.value);
+          this.text.setValue(resp.value);
         });
     }
   }
@@ -50,13 +52,13 @@ export class AlandaVarCheckboxComponent implements OnInit {
   save(): void {
     this.taskService
       .setVariable(this.task.task_id, this.variableName, {
-        value: this.checked.value,
+        value: this.text.value,
         type: this.type,
       })
       .subscribe();
   }
 
-  get checked(): AbstractControl {
-    return this.checkboxForm.get('checked');
+  get text(): AbstractControl {
+    return this.textBox.get('text');
   }
 }

@@ -8,15 +8,6 @@ export function commentRequiredValidator(
   return (control: AbstractControl): ValidationErrors | null => {
     const comment = commentControl.value;
     const value = valueControl.value;
-    // const comment = control.get('alanda-task-has-comment').value;
-    // const dropDown = control.get('alanda-var-select-handoverRequired').value;
-
-    // console.log(
-    //   'selected value matched',
-    //   value,
-    //   values.findIndex((val) => val === value) !== -1,
-    // );
-    // console.log('hasComment', comment, comment.hasComment !== true);
     if (
       values.findIndex((val) => val === value) !== -1 &&
       comment.hasComment !== true

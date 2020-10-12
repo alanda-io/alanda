@@ -3,6 +3,8 @@
     <alanda-project-header
       [task]="taskFormState.task"
       [project]="taskFormState.project"
+      [user]="taskFormState.user"
+      [rootFormGroup]="rootForm"
       [phase]="'test'"
     ></alanda-project-header>
     <alanda-comments
@@ -65,6 +67,11 @@
         </p-card>
       </div>
     </div>
-    {{ rootForm.status }}
+    <alanda-snooze
+      [valuesToCheck]="[false]"
+      [variableControl]="handover"
+      [rootFormGroup]="rootForm"
+    ></alanda-snooze>
+    {{ rootForm.status }} - snooze - {{ snooze.value }}
   </form>
 </ng-container>

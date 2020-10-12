@@ -23,15 +23,7 @@ export class AlandaVarSelectComponent implements OnInit {
   @Input() type?: string;
   @Output() valueChange: EventEmitter<any> = new EventEmitter();
 
-  @Input()
-  set rootFormGroup(rootFormGroup: FormGroup) {
-    if (rootFormGroup) {
-      rootFormGroup.addControl(
-        `${SELECTOR}-${this.variableName}`,
-        this.selectForm,
-      );
-    }
-  }
+  @Input() rootFormGroup: FormGroup;
 
   selectForm = this.fb.group({
     selected: [null, Validators.required],
@@ -43,6 +35,12 @@ export class AlandaVarSelectComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (this.rootFormGroup) {
+      this.rootFormGroup.addControl(
+        `${SELECTOR}-${this.variableName}`,
+        this.selectForm,
+      );
+    }
     if (!this.type) {
       this.type = 'String';
     }

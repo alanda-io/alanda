@@ -17,6 +17,13 @@ import { TabViewModule } from 'primeng/tabview';
 import { RouterModule } from '@angular/router';
 import { PioModule } from '../components/pio/pio.module';
 import { HistoryGridModule } from '../components/history/history-grid.module';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { AlandaPropAutocompleteEagerComponent } from './components/prop-autocomplete-eager/prop-autocomplete-eager.component';
+import { AlandaVarTextComponent } from './components/var-text/var-text.component';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
+import { AlandaVarTextareaComponent } from './components/var-textarea/var-textarea.component';
 
 @NgModule({
   declarations: [
@@ -28,18 +35,25 @@ import { HistoryGridModule } from '../components/history/history-grid.module';
     AlandaVarRoleUserSelectComponent,
     AlandaVarSelectComponent,
     AlandaFormsControllerComponent,
+    AlandaPropAutocompleteEagerComponent,
+    AlandaVarTextComponent,
+    AlandaVarTextareaComponent,
   ],
   imports: [
     CommonModule,
     CheckboxModule,
     MessageModule,
     DropdownModule,
+    AutoCompleteModule,
     CalendarModule,
     ReactiveFormsModule,
     TabViewModule,
     RouterModule,
+    ProgressSpinnerModule,
     PioModule,
     HistoryGridModule,
+    InputTextareaModule,
+    InputTextModule,
   ],
   exports: [
     AlandaPropCheckboxComponent,
@@ -50,6 +64,9 @@ import { HistoryGridModule } from '../components/history/history-grid.module';
     AlandaVarRoleUserSelectComponent,
     AlandaVarSelectComponent,
     AlandaFormsControllerComponent,
+    AlandaPropAutocompleteEagerComponent,
+    AlandaVarTextComponent,
+    AlandaVarTextareaComponent,
   ],
 })
 export class FormModule {}

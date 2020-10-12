@@ -1,19 +1,21 @@
 <alanda-phase-tab
   [project]="project"
-  [(activePhaseIndex)]="activePhaseIndex"
+  [simplePhases]="phases"
   [phase]="phase"
+  [user]="user"
+  (activePhaseChange)="phaseChange($event)"
 >
-  <ng-container [ngSwitch]="activePhaseIndex">
-    <div *ngSwitchCase="0">
+  <ng-container [ngSwitch]="activePhase">
+    <div *ngSwitchCase="'OVERVIEW'">
       overview
     </div>
-    <div *ngSwitchCase="1">
+    <div *ngSwitchCase="'PHASE1'">
       1
     </div>
-    <div *ngSwitchCase="2">
+    <div *ngSwitchCase="'PHASE2'">
       2
     </div>
-    <div *ngSwitchCase="3">
+    <div *ngSwitchCase="'PHASE3'">
       3
     </div>
   </ng-container>

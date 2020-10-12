@@ -1,25 +1,32 @@
-<div class="phase-tab" *rxLet="state$; let state">
+<div class="phase-tab" *ngIf="state$ | async as state">
   <div class="phase-tab-header">
     <div
       *ngFor="let phase of state.simplePhases; let i = index"
-      [ngClass]="{ 'header-item': true, active: i === activePhaseIndex }"
-      (click)="setActivePhaseIndex(i)"
+      [ngClass]="{
+        'header-item': true,
+        active:
+          phase.pmcProjectPhaseDefinition.idName ===
+          state.activePhase.pmcProjectPhaseDefinition.idName
+      }"
+      (click)="phaseChanges.next(phase)"
     >
       <div class="header-text">
         {{ phase.pmcProjectPhaseDefinition.displayName }}
       </div>
       <div class="header-state" *ngIf="phase.guid">
-        <p-menu
-          #menu
-          [popup]="true"
-          [model]="getMenuItems(phase)"
-          appendTo="body"
-        ></p-menu>
-        <span
-          class="fa fa-cog edit-state"
-          *ngIf="!phase.frozen"
-          (click)="menu.toggle($event)"
-        ></span>
+        <ng-container *ngIf="hasAuth(phase, 'write')">
+          <p-menu
+            #menu
+            [popup]="true"
+            [model]="getMenuItems(phase)"
+            appendTo="body"
+          ></p-menu>
+          <span
+            class="fa fa-cog edit-state"
+            *ngIf="!phase.frozen"
+            (click)="menu.toggle($event)"
+          ></span>
+        </ng-container>
         <span [ngClass]="['status', getPhaseStatus(phase).styleClass]">{{
           getPhaseStatus(phase).label
         }}</span>

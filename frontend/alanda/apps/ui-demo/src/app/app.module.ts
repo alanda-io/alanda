@@ -7,6 +7,7 @@ import { CoreModule } from './core/core.module';
 import { AppSettings, APP_CONFIG, AlandaCommonModule } from '@alanda/common';
 import { ALANDA_CONFIG } from './app.settings';
 import { RxState } from '@rx-angular/state';
+import { ToastModule } from 'primeng/toast';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 
@@ -17,6 +18,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     BrowserAnimationsModule,
     AppRoutingModule,
     CoreModule,
+    ToastModule,
     AlandaCommonModule.forRoot(CURRENT_CONFIG),
   ],
   providers: [{ provide: APP_CONFIG, useValue: CURRENT_CONFIG }, RxState],

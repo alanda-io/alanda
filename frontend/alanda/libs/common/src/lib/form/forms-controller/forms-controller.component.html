@@ -1,4 +1,12 @@
 <ng-container *ngIf="state$ | async as s">
+  <div class="loading" *ngIf="s.loading > 0">
+    <p-progressSpinner
+      [style]="{ width: '50px', height: '50px' }"
+      strokeWidth="8"
+      fill="#EEEEEE"
+      animationDuration=".5s"
+    ></p-progressSpinner>
+  </div>
   <p-tabView [activeIndex]="activeTab" styleClass="form-root-tabs">
     <p-tabPanel header="Project Overview" leftIcon="fa fa-file-text">
       <ng-template pTemplate="content">
