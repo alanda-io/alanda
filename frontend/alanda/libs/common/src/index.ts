@@ -171,6 +171,8 @@ export { AlandaVarRoleUserSelectComponent } from './lib/form/components/var-role
 export { AlandaVarDisplayComponent } from './lib/form/components/var-display/var-display.component';
 export { AlandaVarDatepickerComponent } from './lib/form/components/var-datepicker/var-datepicker.component';
 export { AlandaVarCheckboxComponent } from './lib/form/components/var-checkbox/var-checkbox.component';
+export { AlandaVarTextComponent } from './lib/form/components/var-text/var-text.component';
+export { AlandaVarTextareaComponent } from './lib/form/components/var-textarea/var-textarea.component';
 export { AlandaPageSizeSelectComponent } from './lib/components/page-size-select/page-size-select.component';
 export { DirectivesModule } from './lib/directives/directives.module';
 export { PioModule } from './lib/components/pio/pio.module';
