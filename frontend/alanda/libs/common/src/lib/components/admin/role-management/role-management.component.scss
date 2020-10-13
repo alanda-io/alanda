@@ -1,22 +1,17 @@
 @import '../../../../styles/variables';
 
 .role-management {
-  .ui-picklist-item {
+  .p-picklist-item {
     word-break: break-all;
   }
 
-  .input-field {
-    margin-bottom: 20px;
-    margin-top: 20px;
-  }
-
-  .ui-panel {
-    margin-top: 20px;
+  .p-field:first-child {
+    margin-top: 1rem;
   }
 
   .valid-error {
     color: $primary-red;
-    font-size: 10px;
+    font-size: 0.85rem;
   }
 
   .key {

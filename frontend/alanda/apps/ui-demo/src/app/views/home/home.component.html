@@ -5,6 +5,39 @@
     </p-card>
   </div>
   <div class="p-col-12 p-md-6">
+    <p-card [header]="'Font Size Scaling: ' + fontSize + 'px'">
+      <div class="font-size-scaling">
+        <p style="font-size: 0.25rem;">Some text with 0.25 rem</p>
+        <p style="font-size: 0.5rem;">Some text with 0.50 rem</p>
+        <p style="font-size: 0.75rem;">Some text with 0.75 rem</p>
+        <p style="font-size: 1rem;">Some text with 1.00 rem - Standard</p>
+        <p style="font-size: 1.25rem;">Some text with 1.25 rem</p>
+        <p style="font-size: 1.5rem;">Some text with 1.50 rem</p>
+        <p style="font-size: 1.75rem;">Some text with 1.75 rem</p>
+        <p style="font-size: 2rem;">Some text with 2.00 rem</p>
+        <p style="font-size: 2.25rem;">Some text with 2.25 rem</p>
+        <p style="font-size: 2.5rem;">Some text with 2.50 rem</p>
+        <p style="font-size: 2.75rem;">Some text with 2.75 rem</p>
+        <p style="font-size: 3rem;">Some text with 3.00 rem</p>
+
+        <div class="font-size-control p-buttonset">
+          <button
+            pButton
+            type="button"
+            icon="pi pi-minus"
+            iconPos="left"
+            (click)="changeFontSize(-1)"
+          ></button>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-plus"
+            iconPos="left"
+            (click)="changeFontSize(+1)"
+          ></button>
+        </div>
+      </div>
+    </p-card>
     <p-card [header]="'Grid and layout'">
       <p-checkbox
         [(ngModel)]="hasFluidDesign"

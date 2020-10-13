@@ -1,6 +1,6 @@
 <p-panel class="group-management">
   <p-header>Group Management</p-header>
-  <div class="p-grid ui-fluid">
+  <div class="p-grid p-fluid">
     <!-- Group Table-->
 
     <div class="p-col-12 p-md-4">
@@ -17,7 +17,6 @@
         [loading]="loading"
         [autoLayout]="true"
         selectionMode="single"
-        [style]="{ 'font-size': '12px' }"
         scrollHeight="320px"
         (onRowSelect)="onGroupSelected($event)"
         (onRowUnselect)="onGroupUnselected()"
@@ -63,51 +62,57 @@
           <div class="p-grid">
             <div class="p-col-4">
               <form [formGroup]="groupForm" (ngSubmit)="onFormSubmit()">
-                <div class="input-field">
-                  <span class="ui-float-label">
-                    <input
-                      id="input-guid"
-                      type="text"
-                      pInputText
-                      formControlName="groupName"
-                    />
-                    <label for="input-guid">Groupname</label>
-                  </span>
-                  <span
-                    class="valid-error"
-                    *ngIf="groupForm.dirty && !groupForm.get('groupName').valid"
-                  >
-                    Please enter a groupname
-                  </span>
-                </div>
+                <div class="p-grid">
+                  <div class="p-field p-col-12">
+                    <span class="p-float-label">
+                      <input
+                        id="inputGroup"
+                        type="text"
+                        pInputText
+                        formControlName="groupName"
+                      />
+                      <label for="inputGroup">Groupname</label>
+                    </span>
+                    <span
+                      class="valid-error"
+                      *ngIf="
+                        groupForm.dirty && !groupForm.get('groupName').valid
+                      "
+                    >
+                      Please enter a groupname
+                    </span>
+                  </div>
 
-                <div class="input-field">
-                  <span class="ui-float-label">
-                    <input
-                      id="input-login"
-                      type="text"
-                      pInputText
-                      formControlName="longName"
-                    />
-                    <label for="input-login">Longname</label>
-                  </span>
-                  <span
-                    class="valid-error"
-                    *ngIf="groupForm.dirty && !groupForm.get('longName').valid"
-                    >Please enter a group longname</span
-                  >
-                </div>
+                  <div class="p-field p-col-12">
+                    <span class="p-float-label">
+                      <input
+                        id="inputLogin"
+                        type="text"
+                        pInputText
+                        formControlName="longName"
+                      />
+                      <label for="inputLogin">Longname</label>
+                    </span>
+                    <span
+                      class="valid-error"
+                      *ngIf="
+                        groupForm.dirty && !groupForm.get('longName').valid
+                      "
+                      >Please enter a group longname</span
+                    >
+                  </div>
 
-                <div class="input-field">
-                  <span class="ui-float-label">
-                    <input
-                      id="input-login"
-                      type="text"
-                      pInputText
-                      formControlName="groupSource"
-                    />
-                    <label for="input-login">Source</label>
-                  </span>
+                  <div class="p-field p-col-12">
+                    <span class="p-float-label">
+                      <input
+                        id="inputSource"
+                        type="text"
+                        pInputText
+                        formControlName="groupSource"
+                      />
+                      <label for="inputSource">Source</label>
+                    </span>
+                  </div>
                 </div>
 
                 <div class="p-grid">

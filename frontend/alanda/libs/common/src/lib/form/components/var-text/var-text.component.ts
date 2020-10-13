@@ -20,12 +20,10 @@ export class AlandaVarTextComponent implements OnInit {
   type = 'String';
 
   @Input()
-  rootFormGroup: FormGroup
-
-
+  rootFormGroup: FormGroup;
 
   textBox = this.fb.group({
-    text: ''
+    text: '',
   });
 
   constructor(
@@ -50,13 +48,13 @@ export class AlandaVarTextComponent implements OnInit {
           this.text.setValue(resp.value);
         });
     }
-    if(this.disabled === true){
+    if (this.disabled === true) {
       this.textBox.disable();
     }
   }
 
   save(): void {
-    if(!this.textBox.invalid) {
+    if (!this.textBox.invalid) {
       this.taskService
         .setVariable(this.task.task_id, this.variableName, {
           value: this.text.value,

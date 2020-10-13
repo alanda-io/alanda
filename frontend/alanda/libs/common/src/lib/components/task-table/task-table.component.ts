@@ -57,7 +57,6 @@ export class AlandaTaskTableComponent implements OnInit {
   tasksData: AlandaListResult<AlandaTask>;
   selectedLayout: AlandaTableLayout;
   loading = true;
-  serverOptions: ServerOptions;
   menuItems: MenuItem[];
   showDelegateDialog = false;
   candidateUsers: any[] = [];
@@ -78,12 +77,6 @@ export class AlandaTaskTableComponent implements OnInit {
     this.tasksData = {
       total: 0,
       results: [],
-    };
-    this.serverOptions = {
-      pageNumber: 1,
-      pageSize: 15,
-      filterOptions: { hideSnoozedTasks: 1, mytasks: 1 },
-      sortOptions: {},
     };
 
     this.menuItems = [
@@ -111,7 +104,8 @@ export class AlandaTaskTableComponent implements OnInit {
     this.loading = true;
     this.taskService.loadTasks(serverOptions).subscribe(
       (res) => {
-        this.tasksData = res;
+        this.tasksData.total = res.total;
+        this.tasksData.results = [...res.results];
         for (const task of this.tasksData.results) {
           task.claimLabel = 'Claim';
           if (this.state.get().user.guid === +task.task.assignee_id) {
@@ -132,50 +126,50 @@ export class AlandaTaskTableComponent implements OnInit {
   }
 
   loadTasksLazy(event: LazyLoadEvent): void {
-    this.serverOptions = this.getNewServerOptions();
-    if (event.sortField) {
-      const sortOptions = {};
-      const dir = event.sortOrder === 1 ? 'asc' : 'desc';
-      sortOptions[event.sortField] = { dir, prio: 0 };
-      this.serverOptions.sortOptions = sortOptions;
+    const serverOptions: ServerOptions = {
+      pageNumber: event.first / event.rows + 1,
+      pageSize: event.rows,
+      filterOptions: {
+        hideSnoozedTasks: 1,
+      },
+      sortOptions: {},
+    };
+
+    if (!this.groupTasks) {
+      serverOptions.filterOptions.mytasks = 1;
+    } else {
+      delete serverOptions.filterOptions.mytasks;
+    }
+
+    if (this.selectedLayout.filterOptions) {
+      for (const [key, value] of Object.entries(
+        this.selectedLayout.filterOptions,
+      )) {
+        serverOptions.filterOptions[key] = value;
+      }
     }
 
     Object.keys(event.filters).forEach((key) => {
-      this.serverOptions.filterOptions[key] = event.filters[key].value;
+      serverOptions.filterOptions[key] = event.filters[key].value;
     });
 
-    this.serverOptions.pageNumber =
-      event.first / this.serverOptions.pageSize + 1;
-    this.loadTasks(this.serverOptions);
+    if (event.sortField) {
+      const dir = event.sortOrder === 1 ? 'asc' : 'desc';
+      serverOptions.sortOptions[event.sortField] = { dir, prio: 0 };
+    }
+
+    this.loadTasks(serverOptions);
   }
 
   onChangeLayout(): void {
-    this.serverOptions.pageNumber = 1;
-    const key = 'project.additionalInfo.rootparent.projectTypeIdName';
-    this.serverOptions.filterOptions = { hideSnoozedTasks: 1 };
-    if (!this.groupTasks) {
-      this.serverOptions.filterOptions.mytasks = 1;
-    }
-    if (this.selectedLayout.filterOptions) {
-      delete this.serverOptions.filterOptions[key];
-      this.serverOptions.filterOptions[key] = this.selectedLayout.filterOptions[
-        key
-      ];
-    } else {
-      delete this.serverOptions.filterOptions[key];
-    }
-    this.loadTasks(this.serverOptions);
+    this.turboTable.reset();
     this.layoutChanged.next(this.selectedLayout);
   }
 
-  toggleGroupTasks(v: boolean): void {
-    this.groupTasks = v;
-    delete this.serverOptions.filterOptions.mytasks;
-    if (!this.groupTasks) {
-      this.serverOptions.filterOptions.mytasks = 1;
-    }
-    this.loadTasks(this.serverOptions);
-    this.toggleGroupTasksChanged.next(v);
+  toggleGroupTasks(value: boolean): void {
+    this.groupTasks = value;
+    this.turboTable.reset();
+    this.toggleGroupTasksChanged.next(value);
   }
 
   getCondition(obj, condition): any {
@@ -248,28 +242,6 @@ export class AlandaTaskTableComponent implements OnInit {
           },
         );
     }
-  }
-
-  getNewServerOptions(): ServerOptions {
-    const serverOptions: ServerOptions = {
-      pageNumber: 1,
-      pageSize: 15,
-      filterOptions: {
-        hideSnoozedTasks: 1,
-      },
-      sortOptions: {},
-    };
-    if (this.selectedLayout.filterOptions) {
-      for (const [key, value] of Object.entries(
-        this.selectedLayout.filterOptions,
-      )) {
-        serverOptions.filterOptions[key] = value;
-      }
-    }
-    if (!this.groupTasks) {
-      serverOptions.filterOptions.mytasks = 1;
-    }
-    return serverOptions;
   }
 
   openDelegationForm(data): void {

@@ -28,19 +28,14 @@
   text-align: center;
 
   .action-cell {
-    padding: 2px 0;
+    padding: 0.5rem 0;
     min-width: 100px;
   }
 }
 
-.ng-ui-table {
-  font-size: 12px;
-  white-space: nowrap;
-}
-
 .table-action-buttons {
   .action-button {
-    margin: 0 3px;
+    margin: 0 0.2143rem;
   }
 
   .menu-action-button {
@@ -50,21 +45,5 @@
 
 .badge {
   float: right;
-  font-size: 11px;
   width: auto;
-}
-
-::ng-deep .ui-paginator-right-content {
-  margin: 5px;
-}
-::ng-deep .ui-button.ui-splitbutton-menubutton {
-  font-size: 12px;
-}
-
-::ng-deep .ui-splitbutton > .ui-button {
-  font-size: 12px !important;
-}
-
-::ng-deep .ui-dialog-titlebar-close {
-  display: none;
 }

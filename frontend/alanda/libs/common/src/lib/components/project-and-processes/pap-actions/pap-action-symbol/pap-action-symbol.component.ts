@@ -9,7 +9,7 @@ type ActionType = 'CONFIG' | 'CANCEL' | 'REMOVE' | 'START' | 'INFO';
       span {
         padding-left: 7px;
         padding-right: 7px;
-        font-size: 25px;
+        font-size: 1.75rem;
       }
       span:hover {
         cursor: pointer;

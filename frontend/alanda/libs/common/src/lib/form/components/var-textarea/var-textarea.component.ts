@@ -24,7 +24,7 @@ export class AlandaVarTextareaComponent implements OnInit {
   rootFormGroup: FormGroup;
 
   textArea = this.fb.group({
-    text: ''
+    text: '',
   });
 
   constructor(
@@ -49,13 +49,13 @@ export class AlandaVarTextareaComponent implements OnInit {
           this.text.setValue(resp.value);
         });
     }
-    if(this.disabled === true){
+    if (this.disabled === true) {
       this.textArea.disable();
     }
   }
 
   save(): void {
-    if(!this.textArea.invalid) {
+    if (!this.textArea.invalid) {
       this.taskService
         .setVariable(this.task.task_id, this.variableName, {
           value: this.text.value,

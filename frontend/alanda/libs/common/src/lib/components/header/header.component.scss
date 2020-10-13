@@ -1,16 +1,16 @@
 @import '../../../styles/variables';
 
 .header-container {
-  margin-bottom: 20px;
+  margin-bottom: 1.45rem;
 
   .logo {
     float: left;
     min-width: $header-container-height;
     width: auto;
-    max-width: 125px;
+    max-width: 8.929rem;
     height: $header-container-height;
     overflow: hidden;
-    margin: 0 10px;
+    margin: 0 0.725rem;
     user-select: none;
 
     > img {
@@ -26,12 +26,12 @@
   }
 
   .sub-menu {
-    margin: 0 10px;
+    margin: 0 0.725rem;
 
     .user-avatar {
       padding: 0;
-      width: 35px;
-      height: 35px;
+      width: 2.5rem;
+      height: 2.5rem;
       user-select: none;
 
       > img {

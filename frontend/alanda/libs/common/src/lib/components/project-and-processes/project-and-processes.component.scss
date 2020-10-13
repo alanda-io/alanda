@@ -1,11 +1,11 @@
-::ng-deep .pap-input.ui-dropdown,
-.ui-inputtext {
+::ng-deep .pap-input.p-dropdown,
+.p-inputtext {
   border: 0;
 }
 
-:host ::ng-deep .pap-panel .ui-panel-content {
+:host ::ng-deep .pap-panel .p-panel-content {
   padding: 0;
-  border: 0;
+  border-bottom: 0;
 }
 
 .col-process-input {

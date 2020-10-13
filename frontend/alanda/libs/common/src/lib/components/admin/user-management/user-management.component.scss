@@ -1,15 +1,9 @@
-.ui-picklist-item {
-  font-size: 12px;
+.p-picklist-item {
   word-break: break-all;
 }
 
-.input-field {
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
-.ui-scrollpanel-content {
-  font-size: 12px;
+.p-field:first-child {
+  margin-top: 1rem;
 }
 
 .key {
@@ -20,8 +14,4 @@
 .source {
   text-align: right;
   vertical-align: middle;
-}
-
-.ui-panel {
-  margin-top: 20px;
 }
