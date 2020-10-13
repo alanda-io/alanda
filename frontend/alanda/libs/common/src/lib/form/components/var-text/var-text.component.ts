@@ -16,20 +16,16 @@ export class AlandaVarTextComponent implements OnInit {
   @Input() task: any;
   @Input() label: string;
   @Input() existingValue: string;
+  @Input() disabled: boolean;
   type = 'String';
 
   @Input()
-  set rootFormGroup(rootFormGroup: FormGroup) {
-    if (rootFormGroup) {
-      rootFormGroup.addControl(
-        `${SELECTOR}-${this.variableName}`,
-        this.textBox,
-      );
-    }
-  }
+  rootFormGroup: FormGroup
+
+
 
   textBox = this.fb.group({
-    text: '',
+    text: ''
   });
 
   constructor(
@@ -38,6 +34,13 @@ export class AlandaVarTextComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (this.rootFormGroup) {
+      this.rootFormGroup.addControl(
+        `${SELECTOR}-${this.variableName}`,
+        this.textBox,
+      );
+    }
+
     if (this.existingValue != null) {
       this.text.setValue(this.existingValue);
     } else {
@@ -47,15 +50,20 @@ export class AlandaVarTextComponent implements OnInit {
           this.text.setValue(resp.value);
         });
     }
+    if(this.disabled === true){
+      this.textBox.disable();
+    }
   }
 
   save(): void {
-    this.taskService
-      .setVariable(this.task.task_id, this.variableName, {
-        value: this.text.value,
-        type: this.type,
-      })
-      .subscribe();
+    if(!this.textBox.invalid) {
+      this.taskService
+        .setVariable(this.task.task_id, this.variableName, {
+          value: this.text.value,
+          type: this.type,
+        })
+        .subscribe();
+    }
   }
 
   get text(): AbstractControl {
