@@ -394,7 +394,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
       data: {
         configuration: JSON.parse(project.pmcProjectType.configuration),
         process: data.process,
-        projectGuid: project.guid,
+        project: project,
       },
       header: `Process Configuration - ${data.process.processKey}`,
       width: '50%',

@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog/';
 import { AlandaProcess } from '../../../api/models/process';
+import { AlandaProject } from '../../../api/models/project';
 import { ProcessConfigDirective } from '../../../directives/process.config.directive';
 import { AlandaProcessConfigModalService } from '../../../services/process-config-modal.service';
 
@@ -46,7 +47,7 @@ export interface SubprocessPropertyValue {
 })
 export class PapConfigDialogComponent implements OnInit, AfterViewInit {
   process: AlandaProcess;
-  projectGuid: number;
+  project: AlandaProject;
   configuration: ProjectTypeProcessConfig;
   properties: SubprocessPropertyValue[];
   template: string;
@@ -63,7 +64,7 @@ export class PapConfigDialogComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.process = this.dynamicDialogConfig.data.process;
     this.configuration = this.dynamicDialogConfig.data.configuration;
-    this.projectGuid = this.dynamicDialogConfig.data.projectGuid;
+    this.project = this.dynamicDialogConfig.data.project;
 
     this.configuration.subprocessProperties.forEach((prop) => {
       if (
@@ -92,6 +93,7 @@ export class PapConfigDialogComponent implements OnInit, AfterViewInit {
     const viewContainerRef = this.propertiesHost.viewContainerRef;
     viewContainerRef.clear();
     const componentRef = viewContainerRef.createComponent(componentFactory);
-    // (componentRef.instance as any).project = this.project;
+    (componentRef.instance as any).project = this.project;
+    (componentRef.instance as any).processGuid = this.process?.guid;
   }
 }
