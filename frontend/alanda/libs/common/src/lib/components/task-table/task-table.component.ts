@@ -130,11 +130,17 @@ export class AlandaTaskTableComponent implements OnInit {
       pageNumber: event.first / event.rows + 1,
       pageSize: event.rows,
       filterOptions: {
-        hideSnoozedTasks: 1,
-        mytasks: this.groupTasks ? 0 : 1,
+        hideSnoozedTasks: 1
       },
       sortOptions: {},
     };
+
+
+    if (!this.groupTasks) {
+      serverOptions.filterOptions.mytasks = 1
+    } else {
+      delete serverOptions.filterOptions.mytasks;
+    }
 
     if (this.selectedLayout.filterOptions) {
       for (const [key, value] of Object.entries(
