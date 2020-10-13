@@ -1,0 +1,15 @@
+<div [formGroup]="textArea" class="p-grid">
+  <div class="p-col-12">
+    <strong>{{ label }}:</strong>
+  </div>
+  <div class="p-col-12">
+    <textarea pInputTextarea formControlName="text" (blur)="save()"> </textarea>
+    <ng-container *ngIf="text.invalid && (text.dirty || text.touched)">
+      <p-message
+        *ngIf="text.errors.required"
+        severity="error"
+        text="Field is required"
+      ></p-message>
+    </ng-container>
+  </div>
+</div>

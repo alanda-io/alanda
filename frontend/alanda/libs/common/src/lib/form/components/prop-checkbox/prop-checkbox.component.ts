@@ -15,6 +15,7 @@ export class AlandaPropCheckboxComponent implements OnInit {
   @Input() project: AlandaProject;
   @Input() label: string;
   @Input() existingValue: boolean;
+  @Input() readonly: boolean;
   type = 'BOOLEAN';
 
   @Input() rootFormGroup: FormGroup;
@@ -29,6 +30,9 @@ export class AlandaPropCheckboxComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (this.readonly === true) {
+      this.checked.disable( {emitEvent : false});
+    }
     if (this.rootFormGroup) {
       this.rootFormGroup.addControl(
         `${SELECTOR}-${this.propertyName}`,
