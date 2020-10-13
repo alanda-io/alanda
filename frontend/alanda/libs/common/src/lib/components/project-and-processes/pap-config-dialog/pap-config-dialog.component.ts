@@ -71,7 +71,7 @@ export class PapConfigDialogComponent implements OnInit, AfterViewInit {
         prop.processDefinitionKey === this.process['processKeyWithoutPhase']
       ) {
         this.properties = prop.properties;
-        this.template = prop.propertiesTemplate;
+        this.template = prop.processDefinitionKey;
       }
     });
   }
