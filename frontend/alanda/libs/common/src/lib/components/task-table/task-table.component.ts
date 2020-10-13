@@ -135,7 +135,6 @@ export class AlandaTaskTableComponent implements OnInit {
       sortOptions: {},
     };
 
-
     if (!this.groupTasks) {
       serverOptions.filterOptions.mytasks = 1
     } else {
