@@ -31,7 +31,7 @@ export class AlandaPropCheckboxComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.readonly === true) {
-      this.checked.disable( {emitEvent : false});
+      this.checked.disable({ emitEvent: false });
     }
     if (this.rootFormGroup) {
       this.rootFormGroup.addControl(

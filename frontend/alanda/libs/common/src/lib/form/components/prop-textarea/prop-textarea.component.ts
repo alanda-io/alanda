@@ -40,10 +40,10 @@ export class AlandaPropTextareaComponent implements OnInit {
       this.text.setValue(this.existingValue);
     } else {
       this.propertyService
-      .get(null, null, this.project.guid, this.propertyName)
-      .subscribe((resp) => {
-        this.text.setValue(resp.value);
-      });
+        .get(null, null, this.project.guid, this.propertyName)
+        .subscribe((resp) => {
+          this.text.setValue(resp.value);
+        });
     }
   }
 

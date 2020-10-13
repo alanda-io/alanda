@@ -84,7 +84,8 @@ export class AlandaPropAutocompleteEagerComponent implements OnInit {
     }),
     map((prop) => {
       if (prop != null) {
-        let selectedProp = this.state.get('options').find((option) => {
+        const selectedProp = this.state.get('options').find((option) => {
+          /* tslint:disable-next-line:triple-equals */
           return option.value == prop.value; // no triple check intentional!
         });
         if (selectedProp != null) {
@@ -133,7 +134,7 @@ export class AlandaPropAutocompleteEagerComponent implements OnInit {
     debounceTime(300),
     concatMap((searchTerm) => {
       console.log(searchTerm);
-      let res = this.state
+      const res = this.state
         .get('options')
         .filter((option) =>
           option.label.toLowerCase().startsWith(searchTerm.toLowerCase()),

@@ -249,7 +249,9 @@ export class AlandaProjectAndProcessesService {
 
     let active = processesAndTasks.active;
     active = active.map((item) => {
-      const processKeyWithoutPhase = JSON.parse(JSON.stringify(item.processKey));
+      const processKeyWithoutPhase = JSON.parse(
+        JSON.stringify(item.processKey),
+      );
       item['processKeyWithoutPhase'] = processKeyWithoutPhase;
       if (item.phase == null && processNameToPhaseMap[item.processKey]) {
         item.phase = processNameToPhaseMap[item.processKey];
