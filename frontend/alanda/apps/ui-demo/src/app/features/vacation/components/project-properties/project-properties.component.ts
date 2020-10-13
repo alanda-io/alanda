@@ -27,7 +27,7 @@ export class ProjectPropertiesComponent implements AfterViewInit {
 
   autoComp$ = this.userService.searchUsers('', 'vacation-approver').pipe(
     map((users) => {
-      let ret: SelectItem[] = new Array();
+      const ret: SelectItem[] = new Array();
       users.forEach((user) => {
         ret.push({ label: user.displayName, value: user.guid });
       });

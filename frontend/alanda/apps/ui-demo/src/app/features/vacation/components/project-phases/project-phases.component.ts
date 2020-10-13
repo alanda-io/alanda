@@ -3,8 +3,8 @@ import {
   AlandaProject,
   AlandaProjectApiService,
   AlandaUser,
+  AlandaSimplePhase,
 } from '@alanda/common';
-import { AlandaSimplePhase } from 'libs/common/src/lib/api/models/simplePhase';
 
 @Component({
   selector: 'alanda-project-phases',
@@ -37,7 +37,7 @@ export class ProjectPhasesComponent implements OnInit {
     this.projectApiService
       .getPhasesForProject(this.project.guid)
       .subscribe((resp) => {
-        let ps = resp.filter(
+        const ps = resp.filter(
           (p) => p.pmcProjectPhaseDefinition.idName !== 'PHASE1',
         );
         this.phases = [this.overviewTab, ...ps];

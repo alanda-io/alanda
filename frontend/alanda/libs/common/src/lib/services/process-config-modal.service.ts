@@ -16,6 +16,4 @@ export class AlandaProcessConfigModalService {
   addTemplateForType(key: string, propertyComponent: Type<any>): void {
     this.configTemplateComponents.set(key, propertyComponent);
   }
-
-
 }

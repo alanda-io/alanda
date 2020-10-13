@@ -38,6 +38,8 @@ export * from './lib/api/models/menuItem';
 export * from './lib/api/models/task';
 export { AlandaTableLayout } from './lib/api/models/tableLayout';
 export { AlandaTableColumnDefinition } from './lib/api/models/tableColumnDefinition';
+export { AlandaSimplePhase } from './lib/api/models/simplePhase';
+export { AlandaPhaseDefinition } from './lib/api/models/phaseDefinition';
 
 /**
  * Interceptors Exports
