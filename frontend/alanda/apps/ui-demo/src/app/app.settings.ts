@@ -1,7 +1,7 @@
 import { AppSettings } from '@alanda/common';
 
 export const ALANDA_CONFIG: AppSettings = {
-  API_ENDPOINT: '/drei-bpm-rest/app',
+  API_ENDPOINT: '/alanda-rest/app',
   DATE_FORMAT: 'dd.MM.yyyy',
   DATE_FORMAT_PRIME: 'dd.mm.yy',
   AVATAR_BASE_PATH: 'src/app/assets',
