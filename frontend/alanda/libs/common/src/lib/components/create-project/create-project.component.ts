@@ -144,6 +144,10 @@ export class AlandaCreateProjectComponent implements OnInit {
           });
         },
       );
+    } else {
+      Object.keys(this.formGroup.controls).forEach(key => {
+        this.formGroup.controls[key].markAsDirty();
+      });
     }
   }
 }

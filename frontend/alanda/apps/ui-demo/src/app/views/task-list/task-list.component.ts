@@ -58,7 +58,7 @@ export class AlandaTaskListComponent {
           name: 'Priority',
           field: 'project.priority',
           template:
-            "{'ng-prio': project != null, 'ng-prio-low': project != null && project.priority == 0, 'ng-prio-medium': project != null && project.priority == 1, 'ng-prio-high': project != null && project.priority == 2}",
+            "{'p-text-center': true,'ng-prio': project != null, 'ng-prio-low': project != null && project.priority == 2, 'ng-prio-medium': project != null && project.priority == 1, 'ng-prio-high': project != null && project.priority == 0}",
         },
         {
           displayName: 'Project Tag',
