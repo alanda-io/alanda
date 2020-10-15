@@ -34,7 +34,7 @@
           <ng-template #defaultNode>
             <td>
               <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-              <span [ngClass]="getIconClass(rowData.type)"></span>
+              <i [ngClass]="getIconClass(rowData.type)"></i>
               <a *ngIf="rowData.routerLink" [routerLink]="rowData.routerLink">
                 {{ rowData.label }}
               </a>
