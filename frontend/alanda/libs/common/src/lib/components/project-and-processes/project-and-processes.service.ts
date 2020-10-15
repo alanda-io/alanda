@@ -84,9 +84,10 @@ export class AlandaProjectAndProcessesService {
   }
 
   mapProjectToTreeNode(project: AlandaProject): TreeNode {
+    const projectTitle = project.title?.length ? ` / ${project.title}` : '';
     let label = `${project.projectId} (${
       project.subtype ? project.subtype : project.pmcProjectType.name
-    } / ${project.title})`;
+    }${projectTitle})`;
     if (project.refObjectIdName) {
       label = label + `for (${project.refObjectIdName})`;
     }
@@ -98,7 +99,6 @@ export class AlandaProjectAndProcessesService {
       id,
       label,
       refObject: project.refObjectIdName,
-      assignee: project.ownerName,
       start: new Date(project.createDate),
       comment: project.comment,
       routerLink: `/projectdetails/${project.projectId}`,
@@ -111,14 +111,22 @@ export class AlandaProjectAndProcessesService {
         project.status === ProjectState.SUSPENDED,
       papActions: ['RELATE-OPTIONS', 'CANCEL-PROJECT'],
     };
+
+    const children = [];
+    project.processes?.map((process) => {
+      if (process.relation === 'MAIN') {
+        process.tasks?.map((task) =>
+          children.push(this.mapTaskToTreeNode(task)),
+        );
+      } else {
+        children.push(this.mapProcessToTreeNode(process, project));
+      }
+    });
+
     return {
       key: id,
       data,
-      children: project.processes
-        ? project.processes.map((process) =>
-            this.mapProcessToTreeNode(process, project),
-          )
-        : null,
+      children,
     };
   }
 
@@ -141,6 +149,7 @@ export class AlandaProjectAndProcessesService {
       start: process.startTime,
       end: process.endTime,
       comment: process.resultComment,
+      routerLink: `/finder/pio/${process.processInstanceId}`,
       type: TreeNodeDataType.PROCESS,
       process,
       dropdown: process.status === ProjectState.NEW ? true : false,
@@ -174,7 +183,10 @@ export class AlandaProjectAndProcessesService {
       assignee: task.assignee,
       start: new Date(task.created),
       comment: task.comment,
-      routerLink: `/forms/${task.formKey}/${task.task_id}`,
+      routerLink:
+        task.actinst_type === 'task'
+          ? `/forms/${task.formKey}/${task.task_id}`
+          : undefined,
       type:
         task.actinst_type === 'task'
           ? TreeNodeDataType.TASK

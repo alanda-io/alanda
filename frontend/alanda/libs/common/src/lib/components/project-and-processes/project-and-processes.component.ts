@@ -133,7 +133,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
 
   onNodeExpand(event) {
     const node = event.node;
-    this.loadNode(node);
+    // this.loadNode(node);
   }
 
   autocompleteSites(searchTerm: any, projectType: AlandaProjectType) {
@@ -159,7 +159,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
       case TreeNodeDataType.PROCESS:
         return 'fa fa-random';
       case TreeNodeDataType.ACTIVITY:
-        return 'fa fa-clock';
+        return 'pi pi-clock';
       default:
         return '';
     }
