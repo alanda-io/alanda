@@ -10,7 +10,6 @@ import { PapActions } from '../project-and-processes.service';
 export class PapActionsComponent implements OnInit {
   @Input() disabled: boolean;
   @Input() actions: PapActions[] = [];
-  @Input() status: string;
   @Input() loading: boolean;
   @Input() readOnly: boolean;
   @Output() createSubproject: EventEmitter<void> = new EventEmitter();

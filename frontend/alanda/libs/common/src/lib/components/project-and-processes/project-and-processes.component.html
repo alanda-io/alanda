@@ -21,7 +21,8 @@
         <th>Assignment</th>
         <th>Start</th>
         <th>End</th>
-        <th>Comments</th>
+        <th>Info</th>
+        <th>Status</th>
         <th>Action</th>
       </tr>
     </ng-template>
@@ -44,12 +45,17 @@
             <td>{{ rowData.assignee }}</td>
             <td>{{ rowData.start | date: dateFormat }}</td>
             <td>{{ rowData.end | date: dateFormat }}</td>
-            <td>{{ rowData.comment }}</td>
+            <td><span [innerHTML]="rowData.info"></span></td>
           </ng-template>
         </ng-container>
+        <td>
+          <alanda-badge
+            *ngIf="rowData.status"
+            [label]="rowData.status"
+          ></alanda-badge>
+        </td>
         <td class="col-action">
           <alanda-pap-actions
-            [status]="rowData.status"
             [loading]="loading"
             [readOnly]="rowData.readOnly"
             [actions]="rowData.papActions || []"
@@ -90,7 +96,7 @@
     >
     </p-dropdown>
   </td>
-  <td class="col-process-input">
+  <td colspan="2" class="col-process-input">
     <p-autoComplete
       *ngIf="rowData.dropdown && rowData.process"
       [(ngModel)]="rowData.refObject"
@@ -114,7 +120,7 @@
     >
     </p-autoComplete>
   </td>
-  <td colspan="4" class="col-process-input">
+  <td colspan="3" class="col-process-input">
     <textarea
       pInputTextarea
       *ngIf="rowData.dropdown && rowData.process"

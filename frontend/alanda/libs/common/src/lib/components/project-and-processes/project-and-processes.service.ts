@@ -8,6 +8,8 @@ import { ProjectState } from '../../enums/projectState.enum';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { uuid } from '../../utils/helper-functions';
 
+const MAX_CHARACTERS_LENGTH = 25;
+
 export interface MappedAllowedProcesses {
   keyWithoutPhase: string;
   processKey: string;
@@ -44,7 +46,7 @@ export interface TreeNodeData {
   assignee?: string;
   start?: Date;
   end?: Date;
-  comment?: string;
+  info?: string;
   routerLink?: string;
   type?: TreeNodeDataType;
   project?: AlandaProject;
@@ -89,18 +91,22 @@ export class AlandaProjectAndProcessesService {
       project.subtype ? project.subtype : project.pmcProjectType.name
     }${projectTitle})`;
     if (project.refObjectIdName) {
-      label = label + `for (${project.refObjectIdName})`;
+      label = label + ` for (${project.refObjectIdName})`;
     }
     if (project.displayMetaInfo) {
       label = label + ` ${project.displayMetaInfo}`;
     }
+
     const id = uuid();
+    const { processDefsToHideAfterCompletion, processDefsToHide } = JSON.parse(
+      project.pmcProjectType?.configuration,
+    );
     const data: TreeNodeData = {
       id,
       label,
       refObject: project.refObjectIdName,
       start: new Date(project.createDate),
-      comment: project.comment,
+      info: this.getLimitedText(project.details || ''),
       routerLink: `/projectdetails/${project.projectId}`,
       type: TreeNodeDataType.PROJECT,
       project,
@@ -119,7 +125,15 @@ export class AlandaProjectAndProcessesService {
           children.push(this.mapTaskToTreeNode(task)),
         );
       } else {
-        children.push(this.mapProcessToTreeNode(process, project));
+        if (
+          this.showProcessInTheTree(
+            process,
+            processDefsToHideAfterCompletion,
+            processDefsToHide,
+          )
+        ) {
+          children.push(this.mapProcessToTreeNode(process, project));
+        }
       }
     });
 
@@ -141,6 +155,7 @@ export class AlandaProjectAndProcessesService {
     if (this.showSubprocessConfigButton(process, relatedProject)) {
       papActions.push('CONFIGURE-PROCESS');
     }
+
     const id = uuid();
     const data: TreeNodeData = {
       id,
@@ -148,7 +163,7 @@ export class AlandaProjectAndProcessesService {
       refObject: process.processKey,
       start: process.startTime,
       end: process.endTime,
-      comment: process.resultComment,
+      info: this.getLimitedText(process.workDetails || ''),
       routerLink: `/finder/pio/${process.processInstanceId}`,
       type: TreeNodeDataType.PROCESS,
       process,
@@ -182,7 +197,7 @@ export class AlandaProjectAndProcessesService {
       refObject: task.process_definition_key,
       assignee: task.assignee,
       start: new Date(task.created),
-      comment: task.comment,
+      info: this.getTaskInfo(task),
       routerLink:
         task.actinst_type === 'task'
           ? `/forms/${task.formKey}/${task.task_id}`
@@ -215,6 +230,29 @@ export class AlandaProjectAndProcessesService {
       },
       key: id,
     };
+  }
+
+  getTaskInfo(task: AlandaTask): string {
+    const candidateGroups = task?.candidateGroups?.reduce((acc, group) => {
+      if (group !== 'Administrator') {
+        acc += `${group}, `;
+      }
+      return acc;
+    }, '');
+    return task.actinst_type === 'task'
+      ? `<b>Assignee:</b> ${task.assignee}<br /> <b>Candidate Group:</b> ${
+          task.candidateGroups?.length
+            ? candidateGroups.substr(0, candidateGroups.length - 2)
+            : '-'
+        }`
+      : '';
+  }
+
+  getLimitedText(property: string): string {
+    if (property?.length > MAX_CHARACTERS_LENGTH) {
+      property = `${property.substring(0, MAX_CHARACTERS_LENGTH)}...`;
+    }
+    return property;
   }
 
   getProcessesAndTasksForProject(
@@ -323,5 +361,24 @@ export class AlandaProjectAndProcessesService {
         subprocessProperties[processKeyWithoutPhase].length > 0) ||
       subprocessPropertiesTemplate[processKeyWithoutPhase]
     );
+  }
+
+  showProcessInTheTree(
+    process: AlandaProcess,
+    processDefsToHideAfterCompletion: string[],
+    processDefsToHide: string[],
+  ): boolean {
+    if (processDefsToHide?.includes(process?.processKey)) {
+      return false;
+    }
+
+    if (
+      process.status === ProjectState.COMPLETED &&
+      processDefsToHideAfterCompletion?.includes(process?.processKey)
+    ) {
+      return false;
+    }
+
+    return true;
   }
 }

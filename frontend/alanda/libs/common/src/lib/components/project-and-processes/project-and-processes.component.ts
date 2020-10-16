@@ -133,7 +133,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
 
   onNodeExpand(event) {
     const node = event.node;
-    // this.loadNode(node);
+    this.loadNode(node);
   }
 
   autocompleteSites(searchTerm: any, projectType: AlandaProjectType) {
@@ -429,20 +429,11 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.getProjectWithProcessesAndTasks(data.project)
         .pipe(
-          switchMap((project) => from(project.processes)),
-          map((process) =>
-            this.papService.mapProcessToTreeNode(process, data.project),
-          ),
-          toArray(),
-          map((processes) =>
-            processes.sort((a, b) =>
-              a.data.process.status > b.data.process.status ? 1 : -1,
-            ),
-          ),
+          map((project) => this.papService.mapProjectToTreeNode(project)),
           finalize(() => (this.loading = false)),
         )
-        .subscribe((nodes) => {
-          node.children = nodes;
+        .subscribe((tree) => {
+          node.children = tree?.children;
           node.children.push(
             this.papService.getStartProcessDropdownAsTreeNode(data.project),
           );
