@@ -13,6 +13,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { DirectivesModule } from '../../directives/directives.module';
+import { LabelModule } from '../label/label.module';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { DirectivesModule } from '../../directives/directives.module';
     DialogModule,
     ButtonModule,
     DirectivesModule,
+    LabelModule,
   ],
   declarations: [AlandaProjectHeaderComponent],
   exports: [AlandaProjectHeaderComponent],

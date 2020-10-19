@@ -5,7 +5,7 @@
         <div class="p-col-12 p-md-6 p-lg-4">
           <div class="p-grid">
             <div class="p-col-4">
-              <strong>Type (Sub Type):</strong>
+              <alanda-label label="Type (Sub Type)"></alanda-label>
             </div>
             <div class="p-col-7">
               <span *ngIf="project.subtype">{{ project.subtype }}</span>
@@ -14,7 +14,7 @@
               }}</span>
             </div>
             <div class="p-col-4">
-              <strong>Ref Object*:</strong>
+              <alanda-label label="Ref Object" [required]="true"></alanda-label>
             </div>
             <div class="p-col-7">
               <p-autoComplete
@@ -28,7 +28,7 @@
               ></p-autoComplete>
             </div>
             <div class="p-col-4">
-              <strong>Tag(s)*:</strong>
+              <alanda-label label="Tag(s)" [required]="true"></alanda-label>
             </div>
             <div class="p-col-7">
               <p-dropdown
@@ -44,7 +44,7 @@
         <div class="p-col-12 p-md-6 p-lg-4">
           <div class="p-grid">
             <div class="p-col-4">
-              <strong>Prio*:</strong>
+              <alanda-label label="Prio" [required]="true"></alanda-label>
             </div>
             <div class="p-col-7">
               <p-dropdown
@@ -59,7 +59,7 @@
               ></p-dropdown>
             </div>
             <div class="p-col-4">
-              <strong>Project Due Date:</strong>
+              <alanda-label label="Project Due Date"></alanda-label>
             </div>
             <div class="p-col-7">
               <p-calendar
@@ -69,7 +69,10 @@
               ></p-calendar>
             </div>
             <div class="p-col-4">
-              <strong>Project Title*:</strong>
+              <alanda-label
+                label="Project Title"
+                [required]="true"
+              ></alanda-label>
             </div>
             <div class="p-col-7">
               <input
@@ -84,7 +87,10 @@
         <div class="p-col-12 p-md-12 p-lg-4">
           <div class="p-grid">
             <div class="p-col-12">
-              <strong>Project Details*:</strong>
+              <alanda-label
+                label="Project Details"
+                [required]="true"
+              ></alanda-label>
             </div>
           </div>
           <div class="p-grid">

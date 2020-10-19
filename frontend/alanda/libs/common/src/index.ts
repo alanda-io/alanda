@@ -179,3 +179,4 @@ export { PioModule } from './lib/components/pio/pio.module';
 export { HistoryGridModule } from './lib/components/history/history-grid.module';
 export { CreateProjectModule } from './lib/components/create-project/create-project.module';
 export { AdminModule } from './lib/components/admin/admin.module';
+export { LabelModule } from './lib/components/label/label.module';

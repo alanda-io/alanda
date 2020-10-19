@@ -1,0 +1,8 @@
+<label class="label">
+  <ng-container *ngIf="label; else contentBlock">
+    {{ label }}<span *ngIf="required">*</span>:
+  </ng-container>
+  <ng-container #contentBlock>
+    <ng-content></ng-content>
+  </ng-container>
+</label>

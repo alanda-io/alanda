@@ -1,8 +1,6 @@
-<h4>
-  <b>{{ displayName }}:</b>
-</h4>
-<div [formGroup]="roleSelectFormGroup">
-  <span *ngIf="!grouping">
+<div class="p-field" [formGroup]="roleSelectFormGroup">
+  <alanda-label [label]="displayName"></alanda-label>
+  <ng-container *ngIf="!grouping">
     <p-dropdown
       [options]="options"
       formControlName="selected"
@@ -21,8 +19,8 @@
         text="Field is required"
       ></p-message>
     </ng-container>
-  </span>
-  <span *ngIf="grouping">
+  </ng-container>
+  <ng-container *ngIf="grouping">
     <p-dropdown
       [options]="optionsGrouped"
       [group]="true"
@@ -40,5 +38,5 @@
         text="Field is required"
       ></p-message>
     </ng-container>
-  </span>
+  </ng-container>
 </div>

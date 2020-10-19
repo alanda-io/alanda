@@ -42,32 +42,36 @@
     </div>
   </p-header>
   <form [formGroup]="projectHeaderForm">
-    <div class="p-grid spacer">
-      <div class="p-col-12 p-md-6 p-lg-4">
-        <div class="p-grid">
-          <div class="p-col-4">
-            <strong>Type (Sub Type):</strong>
+    <div class="p-grid p-fluid">
+      <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
+        <div class="p-field p-grid">
+          <div class="p-col-12 p-lg-5 p-xl-4">
+            <alanda-label label="Type (Sub Type)"></alanda-label>
           </div>
-          <div class="p-col-8">
+          <div class="p-col-12 p-lg-7 p-xl-7">
             <span *ngIf="project.subtype != null">{{ project.subtype }}</span>
             <span *ngIf="project.subtype === null">{{
               project.pmcProjectType.name
             }}</span>
           </div>
-          <div class="p-col-4">
-            <strong>Prio:</strong>
+        </div>
+        <div class="p-field p-grid">
+          <div class="p-col-12 p-lg-5 p-xl-4">
+            <alanda-label label="Prio"></alanda-label>
           </div>
-          <div class="p-col-8">
+          <div class="p-col-12 p-lg-7 p-xl-7">
             <p-dropdown
               formControlName="priority"
               [options]="priorities"
               optionLabel="label"
             ></p-dropdown>
           </div>
-          <div class="p-col-4">
-            <strong>Tag(s):</strong>
+        </div>
+        <div class="p-field p-grid">
+          <div class="p-col-12 p-lg-5 p-xl-4">
+            <alanda-label label="Tag(s)"></alanda-label>
           </div>
-          <div class="p-col-8">
+          <div class="p-col-12 p-lg-7 p-xl-7">
             <p-autoComplete
               formControlName="tag"
               [multiple]="true"
@@ -81,32 +85,36 @@
         </div>
       </div>
 
-      <div class="p-col-12 p-md-6 p-lg-4">
-        <div class="p-grid">
-          <div class="p-col-4" *ngIf="task != null">
-            <strong>Task Due Date:</strong>
+      <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
+        <div class="p-field p-grid" *ngIf="task != null">
+          <div class="p-col-12 p-lg-5 p-xl-4">
+            <alanda-label label="Task Due Date"></alanda-label>
           </div>
-          <div class="p-col-8" *ngIf="task != null">
+          <div class="p-col-12 p-lg-7 p-xl-7">
             <p-calendar
               formControlName="taskDueDate"
               [showIcon]="true"
               dateFormat="yy-mm-dd"
             ></p-calendar>
           </div>
-          <div class="p-col-4">
-            <strong>Project Due Date:</strong>
+        </div>
+        <div class="p-field p-grid">
+          <div class="p-col-12 p-lg-5 p-xl-4">
+            <alanda-label label="Project Due Date"></alanda-label>
           </div>
-          <div class="p-col-8">
+          <div class="p-col-12 p-lg-7 p-xl-7">
             <p-calendar
               formControlName="dueDate"
               [showIcon]="true"
               dateFormat="yy-mm-dd"
             ></p-calendar>
           </div>
-          <div class="p-col-4">
-            <strong>Project Title:</strong>
+        </div>
+        <div class="p-field p-grid">
+          <div class="p-col-12 p-lg-5 p-xl-4">
+            <alanda-label label="Project Title"></alanda-label>
           </div>
-          <div class="p-col-8">
+          <div class="p-col-12 p-lg-7 p-xl-7">
             <input
               pInputText
               formControlName="title"
@@ -116,15 +124,19 @@
           </div>
         </div>
       </div>
-      <div class="p-col-12 p-md-12 p-lg-4">
-        <textarea
-          pInputTextarea
-          maxLength="2000"
-          formControlName="comment"
-          placeholder="Project Details"
-          [rows]="6"
-          >{{ project.comment }}</textarea
-        >
+
+      <div class="p-col-12 p-md-12 p-xl-4 p-py-0 p-py-md-2">
+        <div class="p-field">
+          <alanda-label label="Project Details"></alanda-label>
+          <textarea
+            pInputTextarea
+            maxLength="2000"
+            formControlName="comment"
+            placeholder="Project Details"
+            [rows]="5"
+            >{{ project.comment }}</textarea
+          >
+        </div>
       </div>
     </div>
   </form>
@@ -141,33 +153,43 @@
   <div class="p-grid">
     <div class="p-col-4">
       <div class="p-grid">
-        <div class="p-col-6"><strong>Process:</strong></div>
+        <div class="p-col-6"><alanda-label label="Process"></alanda-label></div>
         <div class="p-col-6">{{ task.process_name || 'N/A' }}</div>
       </div>
       <div class="p-grid">
-        <div class="p-col-6"><strong>Object Name:</strong></div>
+        <div class="p-col-6">
+          <alanda-label label="Object Name"></alanda-label>
+        </div>
         <div class="p-col-6">{{ task.object_name || 'N/A' }}</div>
       </div>
     </div>
     <div class="p-col-4">
       <div class="p-grid">
-        <div class="p-col-6"><strong>Due Date:</strong></div>
+        <div class="p-col-6">
+          <alanda-label label="Due Date"></alanda-label>
+        </div>
         <div class="p-col-6">{{ task.due || 'N/A' }}</div>
       </div>
       <div class="p-grid">
-        <div class="p-col-6"><strong>Follow up:</strong></div>
+        <div class="p-col-6">
+          <alanda-label label="Follow up"></alanda-label>
+        </div>
         <div class="p-col-6">{{ task.follow_up || 'N/A' }}</div>
       </div>
     </div>
     <div class="p-col-4">
       <div class="p-grid">
-        <div class="p-col-6"><strong>Candidate Gr:</strong></div>
+        <div class="p-col-6">
+          <alanda-label label="Candidate Gr"></alanda-label>
+        </div>
         <div class="p-col-6">
           {{ task.candidateGroups.join(', ') || 'N/A' }}
         </div>
       </div>
       <div class="p-grid">
-        <div class="p-col-6"><strong>Assignee</strong></div>
+        <div class="p-col-6">
+          <alanda-label label="Assignee"></alanda-label>
+        </div>
         <div class="p-col-6">{{ task.assignee || 'N/A' }}</div>
       </div>
     </div>

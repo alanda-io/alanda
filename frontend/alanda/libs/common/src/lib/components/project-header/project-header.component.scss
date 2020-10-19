@@ -1,11 +1,4 @@
 textarea {
   width: 100%;
-}
-
-.spacer {
-  margin-top: 0.725rem;
-}
-
-.spacer div[class^='p-col-'] {
-  min-height: 3.571rem;
+  resize: vertical;
 }

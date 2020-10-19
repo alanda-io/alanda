@@ -12,6 +12,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { LabelModule } from '../label/label.module';
 
 @NgModule({
   declarations: [AlandaCreateProjectComponent],
@@ -29,6 +30,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     RouterModule,
     ReactiveFormsModule,
     AutoCompleteModule,
+    LabelModule,
   ],
   exports: [AlandaCreateProjectComponent],
 })

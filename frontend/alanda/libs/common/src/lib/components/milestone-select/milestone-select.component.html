@@ -1,43 +1,38 @@
-<div [formGroup]="milestoneForm">
-  <div class="p-grid">
-    <div class="p-col-12">
-      <strong
-        >{{ displayName }}
-        <span *ngIf="!showACT && showFC"> - FC</span>
-        <span *ngIf="!showFC && showACT"> - ACT</span>
-      </strong>
-    </div>
-    <div class="p-col-12">
-      <!-- FC -->
-      <div class="p-grid" *ngIf="showFC">
-        <div class="p-col-2" *ngIf="showACT">
-          <strong class="ms-title">FC</strong>
-        </div>
-        <div [ngClass]="[showACT ? 'p-col-10' : 'p-col-12']">
-          <p-calendar
-            formControlName="fc"
-            placeholder="Select FC"
-            (onSelect)="onChange()"
-            [showIcon]="true"
-            [dateFormat]="dateFormat"
-          ></p-calendar>
-        </div>
-      </div>
+<div class="p-field" [formGroup]="milestoneForm">
+  <alanda-label>
+    {{ displayName }}
+    <span *ngIf="!showACT && showFC"> - FC</span>
+    <span *ngIf="!showFC && showACT"> - ACT</span>
+  </alanda-label>
 
-      <div class="p-grid" *ngIf="showACT">
-        <div class="p-col-2" *ngIf="showFC">
-          <strong class="ms-title">ACT</strong>
-        </div>
-        <div [ngClass]="[showFC ? 'p-col-10' : 'p-col-12']">
-          <p-calendar
-            formControlName="act"
-            placeholder="Select ACT"
-            (onSelect)="onChange()"
-            [showIcon]="true"
-            [dateFormat]="dateFormat"
-          ></p-calendar>
-        </div>
-      </div>
+  <!-- FC -->
+  <div class="p-grid" *ngIf="showFC">
+    <div class="p-col-2" *ngIf="showACT">
+      <alanda-label class="ms-title" label="FC"></alanda-label>
+    </div>
+    <div [ngClass]="[showACT ? 'p-col-10' : 'p-col-12']">
+      <p-calendar
+        formControlName="fc"
+        placeholder="Select FC"
+        (onSelect)="onChange()"
+        [showIcon]="true"
+        [dateFormat]="dateFormat"
+      ></p-calendar>
+    </div>
+  </div>
+
+  <div class="p-grid" *ngIf="showACT">
+    <div class="p-col-2" *ngIf="showFC">
+      <alanda-label class="ms-title" label="ACT"></alanda-label>
+    </div>
+    <div [ngClass]="[showFC ? 'p-col-10' : 'p-col-12']">
+      <p-calendar
+        formControlName="act"
+        placeholder="Select ACT"
+        (onSelect)="onChange()"
+        [showIcon]="true"
+        [dateFormat]="dateFormat"
+      ></p-calendar>
     </div>
   </div>
 </div>

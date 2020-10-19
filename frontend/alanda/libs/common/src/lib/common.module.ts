@@ -55,6 +55,7 @@ import { FormModule } from './form/form.module';
 import { ProjectsControllerModule } from './components/controller/projects-controller/projects-controller.module';
 import { MilestoneSelectModule } from './components/milestone-select/milestone-select.module';
 import { SnoozeModule } from './components/snooze/snooze.module';
+import { LabelModule } from './components/label/label.module';
 
 @NgModule({
   imports: [
@@ -89,6 +90,7 @@ import { SnoozeModule } from './components/snooze/snooze.module';
     ProjectsControllerModule,
     MilestoneSelectModule,
     SnoozeModule,
+    LabelModule,
   ],
   exports: [
     BadgeModule,
@@ -118,6 +120,7 @@ import { SnoozeModule } from './components/snooze/snooze.module';
     ProjectsControllerModule,
     MilestoneSelectModule,
     SnoozeModule,
+    LabelModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,
