@@ -6,11 +6,11 @@
   </alanda-label>
 
   <!-- FC -->
-  <div class="p-grid" *ngIf="showFC">
-    <div class="p-col-2" *ngIf="showACT">
+  <div class="p-grid p-formgrid p-field" *ngIf="showFC">
+    <div class="p-col-fixed col-title" *ngIf="showACT">
       <alanda-label class="ms-title" label="FC"></alanda-label>
     </div>
-    <div [ngClass]="[showACT ? 'p-col-10' : 'p-col-12']">
+    <div [ngClass]="[showACT ? 'p-col' : 'p-col-12']">
       <p-calendar
         formControlName="fc"
         placeholder="Select FC"
@@ -21,11 +21,11 @@
     </div>
   </div>
 
-  <div class="p-grid" *ngIf="showACT">
-    <div class="p-col-2" *ngIf="showFC">
+  <div class="p-grid p-formgrid p-field" *ngIf="showACT">
+    <div class="p-col-fixed col-title" *ngIf="showFC">
       <alanda-label class="ms-title" label="ACT"></alanda-label>
     </div>
-    <div [ngClass]="[showFC ? 'p-col-10' : 'p-col-12']">
+    <div [ngClass]="[showFC ? 'p-col' : 'p-col-12']">
       <p-calendar
         formControlName="act"
         placeholder="Select ACT"
