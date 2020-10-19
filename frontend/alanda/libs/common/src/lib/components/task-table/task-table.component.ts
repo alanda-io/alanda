@@ -51,6 +51,7 @@ export class AlandaTaskTableComponent implements OnInit {
       this.state.set({ user });
     }
   }
+  @Input() target = '_self';
   @Output() layoutChanged = new Subject<AlandaTableLayout>();
   @Output() toggleGroupTasksChanged = new Subject<boolean>();
 

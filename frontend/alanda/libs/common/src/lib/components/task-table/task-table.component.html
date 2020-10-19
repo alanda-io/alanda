@@ -101,6 +101,7 @@
                 [routerLink]="
                   '/forms/' + task.task.formKey + '/' + task.task.task_id
                 "
+                [target]="target"
                 >{{ task | nestedObject: col.field }}</a
               >
             </ng-template>
