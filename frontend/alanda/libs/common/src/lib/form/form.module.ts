@@ -25,6 +25,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 import { AlandaVarTextareaComponent } from './components/var-textarea/var-textarea.component';
 import { AlandaPropTextareaComponent } from './components/prop-textarea/prop-textarea.component';
+import { LabelModule } from '../components/label/label.module';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { AlandaPropTextareaComponent } from './components/prop-textarea/prop-tex
     HistoryGridModule,
     InputTextareaModule,
     InputTextModule,
+    LabelModule,
   ],
   exports: [
     AlandaPropCheckboxComponent,

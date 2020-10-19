@@ -1,17 +1,13 @@
-<div [formGroup]="textArea">
-  <div class="ui-grid-row">
-    {{ label }}
-  </div>
-  <div class="ui-grid-row">
-    <textarea
-      pInputTextarea
-      formControlName="text"
-      [rows]="rows"
-      [cols]="cols"
-      (blur)="save()"
-    >
-    </textarea>
-  </div>
+<div class="p-field" [formGroup]="textArea">
+  <alanda-label [label]="label"></alanda-label>
+  <textarea
+    pInputTextarea
+    formControlName="text"
+    [rows]="rows"
+    [cols]="cols"
+    (blur)="save()"
+  >
+  </textarea>
   <ng-container *ngIf="text.invalid && (text.dirty || text.touched)">
     <p-message
       *ngIf="text.errors.required"

@@ -1,5 +1,5 @@
-<div [formGroup]="selectForm">
-  {{ label }}
+<div class="p-field" [formGroup]="selectForm">
+  <alanda-label [label]="label"></alanda-label>
   <p-dropdown
     [options]="items"
     optionLabel="displayName"

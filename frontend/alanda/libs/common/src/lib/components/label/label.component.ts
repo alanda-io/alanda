@@ -8,4 +8,5 @@ import { Component, Input } from '@angular/core';
 export class LabelComponent {
   @Input() label: string;
   @Input() required = false;
+  @Input() for: string;
 }

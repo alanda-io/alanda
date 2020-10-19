@@ -1,5 +1,5 @@
-<div [formGroup]="datepickerForm">
-  {{ label }}
+<div class="p-field" [formGroup]="datepickerForm">
+  <alanda-label [label]="label"></alanda-label>
   <p-calendar
     formControlName="pickedDate"
     [dateFormat]="dateFormat"

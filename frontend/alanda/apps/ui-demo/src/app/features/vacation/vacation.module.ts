@@ -7,12 +7,15 @@ import { VacationRoutingModule } from './vacation-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { InformSubstituteComponent } from './forms/inform-substitute.component';
 import { PerformHandoverActivitiesComponent } from './forms/perform-handover-activities.component';
-import { CommentsModule, AlandaProjectPropertiesService } from '@alanda/common';
+import {
+  AlandaCommonModule,
+  AlandaProjectPropertiesService,
+} from '@alanda/common';
 import { ProjectPropertiesComponent } from './components/project-properties/project-properties.component';
 import { ProjectPhasesComponent } from './components/project-phases/project-phases.component';
 
 @NgModule({
-  imports: [VacationRoutingModule, SharedModule, CommentsModule],
+  imports: [VacationRoutingModule, SharedModule, AlandaCommonModule],
   declarations: [
     PrepareVacationRequestComponent,
     CheckVacationRequestComponent,

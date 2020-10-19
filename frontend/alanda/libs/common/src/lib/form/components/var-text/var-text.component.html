@@ -1,5 +1,5 @@
-<div [formGroup]="textBox">
-  {{ label }}
+<div class="p-field" [formGroup]="textBox">
+  <alanda-label [label]="label"></alanda-label>
   <input pInputText type="text" formControlName="text" (blur)="save()" />
   <ng-container *ngIf="text.invalid && (text.dirty || text.touched)">
     <p-message

@@ -1,4 +1,4 @@
-<label class="label">
+<label class="label" [for]="for">
   <ng-container *ngIf="label; else contentBlock">
     {{ label }}<span *ngIf="required">*</span>:
   </ng-container>

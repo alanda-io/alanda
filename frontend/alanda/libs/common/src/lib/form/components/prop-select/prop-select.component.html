@@ -1,23 +1,19 @@
-<div [formGroup]="selectForm" class="p-grid">
-  <div class="p-col-6">
-    <strong>{{ label }}:</strong>
-  </div>
-  <div class="p-col-6">
-    <p-dropdown
-      [options]="items"
-      formControlName="selected"
-      placeholder="Select"
-      (onChange)="save()"
-      [disabled]="!canWrite"
-    ></p-dropdown>
-    <ng-container
-      *ngIf="selected.invalid && (selected.dirty || selected.touched)"
-    >
-      <p-message
-        *ngIf="selected.errors.required"
-        severity="error"
-        text="Field is required"
-      ></p-message>
-    </ng-container>
-  </div>
+<div [formGroup]="selectForm" class="p-field">
+  <alanda-label [label]="label"></alanda-label>
+  <p-dropdown
+    [options]="items"
+    formControlName="selected"
+    placeholder="Select"
+    (onChange)="save()"
+    [disabled]="!canWrite"
+  ></p-dropdown>
+  <ng-container
+    *ngIf="selected.invalid && (selected.dirty || selected.touched)"
+  >
+    <p-message
+      *ngIf="selected.errors.required"
+      severity="error"
+      text="Field is required"
+    ></p-message>
+  </ng-container>
 </div>
