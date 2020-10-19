@@ -142,7 +142,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/common/tsconfig.lib.json",
-            "project": "libs/common/ng-package.json"
+            "project": "libs/common/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           },
           "configurations": {
             "production": {

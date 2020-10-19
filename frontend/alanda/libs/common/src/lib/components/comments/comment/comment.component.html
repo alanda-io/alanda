@@ -14,7 +14,10 @@
         <i class="header-date">{{
           s.comment.createDate | date: 'dd.MM.yyyy HH:mm'
         }}</i>
-        <a *ngIf="s.comment.replies.length" (click)="doReply = !doReply; autofocus()">
+        <a
+          *ngIf="s.comment.replies.length"
+          (click)="doReply = !doReply; autofocus()"
+        >
           <span class="fa fa-comments">
             {{ s.comment.replies.length }} Replies</span
           >
