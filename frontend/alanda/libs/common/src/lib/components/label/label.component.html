@@ -2,7 +2,7 @@
   <ng-container *ngIf="label; else contentBlock">
     {{ label }}<span *ngIf="required">*</span>:
   </ng-container>
-  <ng-container #contentBlock>
+  <ng-template #contentBlock>
     <ng-content></ng-content>
-  </ng-container>
+  </ng-template>
 </label>
