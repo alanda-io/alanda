@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AlandaProject, AlandaTaskApiService } from '../../../..';
+import { AlandaProject } from '../../../api/models/project';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { AlandaPropertyApiService } from '../../../api/propertyApi.service';
 
