@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'alanda-home',
@@ -10,14 +11,16 @@ export class HomeComponent {
   htmlElement: HTMLElement;
 
   hasFluidDesign: boolean;
+  useRippleAnimation: boolean;
   contentElement: HTMLElement;
 
-  constructor() {
+  constructor(private primengConfig: PrimeNGConfig) {
     this.htmlElement = document.querySelector('html');
     this.fontSize =
       parseInt(getComputedStyle(this.htmlElement).fontSize, 10) || 14;
     this.contentElement = document.querySelector('.content');
     this.hasFluidDesign = this.contentElement.classList.contains('p-fluid');
+    this.useRippleAnimation = this.primengConfig.ripple;
   }
 
   changeFontSize(scale: number): void {

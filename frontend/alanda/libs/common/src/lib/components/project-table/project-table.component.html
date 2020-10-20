@@ -69,9 +69,11 @@
         style="white-space: nowrap;"
       >
         <ng-template [ngIf]="col.name === 'Project ID'" [ngIfElse]="default">
-          <a [routerLink]="openProject(project.project.projectId)">{{
-            project | nestedObject: col.field
-          }}</a>
+          <a
+            [routerLink]="openProject(project.project.projectId)"
+            [target]="target"
+            >{{ project | nestedObject: col.field }}</a
+          >
         </ng-template>
         <ng-template #default>
           <ng-container *ngIf="col.type && col.type === 'date'">{{

@@ -36,6 +36,7 @@ export class AlandaProjectTableComponent implements OnInit {
   @Input() tableLayout = 'auto';
   @Input() dateFormat: string;
   @Input() editablePageSize = false;
+  @Input() target = '_self';
   @Output() layoutChanged = new Subject<AlandaTableLayout>();
 
   projectsData: AlandaListResult<AlandaProject>;

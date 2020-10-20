@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import '../../../libs/common/src/styles/variables';
-@import '../../../libs/common/src/styles';
+@import '../../../libs/common/src/styles/index.scss';
 
 html {
   // This sets the font size for all components in the project
@@ -9,12 +8,9 @@ html {
 }
 
 body {
-  color: $font-color;
-  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
-  height: 100%;
+  min-height: 100%;
   margin: 0;
   padding: 0;
-  width: 100%;
 }
 
 .p-panel,

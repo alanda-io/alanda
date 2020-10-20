@@ -76,19 +76,19 @@ const routes: Routes = [
       },
     ],
   },
-  // {
-  //   path: 'projectdetails/:projectId',
-  //   component: UserEnrichedProjectsControllerComponent,
-  //   children: [
-  //     {
-  //       path: 'vacation',
-  //       loadChildren: () =>
-  //         import('./features/vacation/vacation.module').then(
-  //           (m) => m.VacationModule,
-  //         ),
-  //     },
-  //   ],
-  // },
+  {
+    path: 'projectdetails/:projectId',
+    component: UserEnrichedProjectsControllerComponent,
+    children: [
+      {
+        path: 'vacation',
+        loadChildren: () =>
+          import('./features/vacation/vacation.module').then(
+            (m) => m.VacationModule,
+          ),
+      },
+    ],
+  },
   {
     path: 'projectdetails/:projectId',
     component: ProjectsAndProcessesDemoComponent,

@@ -3,6 +3,24 @@
     <p-card header="Component Testing & Playground">
       <alanda-badge [label]="'Badge Test'"></alanda-badge>
     </p-card>
+    <p-card header="Important Links">
+      <p>
+        <a href="https://angular.io/guide/styleguide"
+          >Angular coding style guide</a
+        >
+      </p>
+      <p>
+        <a href="https://www.primefaces.org/primeng/showcase/#/setup"
+          >Prime NG</a
+        >
+      </p>
+      <p><a href="https://fontawesome.com/v4.7.0/icons/">Font Awesome 4</a></p>
+      <p>
+        <a href="https://nx.dev/latest/angular/getting-started/why-nx"
+          >Nx Workspace
+        </a>
+      </p>
+    </p-card>
   </div>
   <div class="p-col-12 p-md-6">
     <p-card [header]="'Font Size Scaling: ' + fontSize + 'px'">
@@ -38,13 +56,23 @@
         </div>
       </div>
     </p-card>
-    <p-card [header]="'Grid and layout'">
-      <p-checkbox
-        [(ngModel)]="hasFluidDesign"
-        (ngModelChange)="toggleFluidDesign($event)"
-        [binary]="true"
-        [label]="'Enable Fluid Design'"
-      ></p-checkbox>
+    <p-card [header]="'Grid And Layout'">
+      <div class="p-field-checkbox">
+        <p-checkbox
+          [(ngModel)]="hasFluidDesign"
+          (ngModelChange)="toggleFluidDesign($event)"
+          [binary]="true"
+          [label]="'Enable Fluid Design'"
+        ></p-checkbox>
+      </div>
+      <div class="p-field-checkbox">
+        <p-checkbox
+          [(ngModel)]="useRippleAnimation"
+          [disabled]="true"
+          [binary]="true"
+          [label]="'Enable Ripple Animations'"
+        ></p-checkbox>
+      </div>
     </p-card>
   </div>
 </div>

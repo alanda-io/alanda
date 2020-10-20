@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlandaMenuItem, AlandaTitleService } from '@alanda/common';
 import { Subject } from 'rxjs';
 import { UserStoreImpl } from './store/user';
 import { RxState } from '@rx-angular/state';
 import { tap } from 'rxjs/operators';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'alanda-app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent extends RxState<any> {
+export class AppComponent extends RxState<any> implements OnInit {
   user$ = this.userStore.currentUser$;
   releaseRunAsClick$ = new Subject<void>();
 
@@ -81,6 +82,7 @@ export class AppComponent extends RxState<any> {
   constructor(
     private userStore: UserStoreImpl,
     private titleService: AlandaTitleService,
+    private primengConfig: PrimeNGConfig,
   ) {
     super();
     this.userStore.dispatch(this.userStore.createLoadUserAction());
@@ -95,5 +97,9 @@ export class AppComponent extends RxState<any> {
     );
 
     this.titleService.setRouterTitle();
+  }
+
+  ngOnInit() {
+    this.primengConfig.ripple = true;
   }
 }
