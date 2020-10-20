@@ -3,7 +3,14 @@ import { Component, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RxState } from '@rx-angular/state';
 import { EMPTY, Subject } from 'rxjs';
-import { catchError, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
 import { AlandaProject } from '../../../api/models/project';
 import { AlandaProjectApiService } from '../../../api/projectApi.service';
@@ -21,7 +28,7 @@ const NOT_EMITTABLE = { emitEvent: false };
 const initState = {
   mode: ProjectDetailsMode.DETAILS,
   working: false,
-}
+};
 
 @Component({
   selector: 'alanda-task-table-project-details',
@@ -44,10 +51,14 @@ export class TaskTableProjectDetailsComponent {
     this.state.set({ project });
     const mode = this.state?.get()?.mode;
     if (project) {
-      this.mainForm.get('text').patchValue(
-        mode === ProjectDetailsMode.DETAILS ? 
-          project.details : project.guStatus, 
-      NOT_EMITTABLE);
+      this.mainForm
+        .get('text')
+        .patchValue(
+          mode === ProjectDetailsMode.DETAILS
+            ? project.details
+            : project.guStatus,
+          NOT_EMITTABLE,
+        );
     }
   }
   @Input() set projectGuid(projectGuid: number) {
@@ -58,13 +69,15 @@ export class TaskTableProjectDetailsComponent {
   /**
    * Enables/disables main form based on working flag
    */
-  enableDisableMainForm$ = this.state.select('working').pipe(
-    tap((working) => working ? 
-      this.mainForm.disable(NOT_EMITTABLE)
-      :
-      this.mainForm.enable(NOT_EMITTABLE)
-    ),
-  );
+  enableDisableMainForm$ = this.state
+    .select('working')
+    .pipe(
+      tap((working) =>
+        working
+          ? this.mainForm.disable(NOT_EMITTABLE)
+          : this.mainForm.enable(NOT_EMITTABLE),
+      ),
+    );
 
   /**
    * Loads project from its guid when available
@@ -76,12 +89,18 @@ export class TaskTableProjectDetailsComponent {
     filter((guid) => !isNil(guid)),
     switchMap((guid) =>
       this.projectService.getProjectByGuid(guid).pipe(
-        tap((project) => this.mainForm.get('text').patchValue(
-          this.state.get()?.mode === ProjectDetailsMode.DETAILS ? 
-            project?.details : project?.guStatus, 
-        NOT_EMITTABLE)),
+        tap((project) =>
+          this.mainForm
+            .get('text')
+            .patchValue(
+              this.state.get()?.mode === ProjectDetailsMode.DETAILS
+                ? project?.details
+                : project?.guStatus,
+              NOT_EMITTABLE,
+            ),
+        ),
         map((project) => ({ project, working: false })),
-        startWith({working: true}),
+        startWith({ working: true }),
         catchError((err) => {
           this.messageService.add({
             severity: 'error',
@@ -102,27 +121,31 @@ export class TaskTableProjectDetailsComponent {
    * @returns data object { project AlandaProject, working: boolean }
    */
   updateProject$ = this.saveClickEvent$.pipe(
-    map(() => ({ mode: this.state.get()?.mode, project: this.state.get()?.project })),
+    map(() => ({
+      mode: this.state.get()?.mode,
+      project: this.state.get()?.project,
+    })),
     filter(({ project }) => this.mainForm.valid && !isEmpty(project)),
     map(({ mode, project }) => {
-      mode === ProjectDetailsMode.DETAILS ? 
-      project.details = this.mainForm.get('text')?.value
-       : 
-      project.guStatus = this.mainForm.get('text')?.value;
+      mode === ProjectDetailsMode.DETAILS
+        ? (project.details = this.mainForm.get('text')?.value)
+        : (project.guStatus = this.mainForm.get('text')?.value);
       return project;
     }),
-    switchMap((project) => this.projectService.updateProject(project).pipe(
-      tap(() => this.close.next(project)),
-      map((updateProject) => ({ project: updateProject, working: false })),
-      catchError((err) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Update Project Details',
-          detail: err?.message,
-        });
-        return EMPTY;
-      }),
-    )),
+    switchMap((project) =>
+      this.projectService.updateProject(project).pipe(
+        tap(() => this.close.next(project)),
+        map((updateProject) => ({ project: updateProject, working: false })),
+        catchError((err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Update Project Details',
+            detail: err?.message,
+          });
+          return EMPTY;
+        }),
+      ),
+    ),
     startWith({ working: true }),
   );
 
@@ -135,7 +158,9 @@ export class TaskTableProjectDetailsComponent {
     this.state.connect(this.loadProjectByGuid$);
     this.state.connect(this.updateProject$);
     this.state.hold(this.saveClickEvent$);
-    this.state.hold(this.close.pipe(tap(() => this.mainForm.reset(NOT_EMITTABLE))));
+    this.state.hold(
+      this.close.pipe(tap(() => this.mainForm.reset(NOT_EMITTABLE))),
+    );
     this.state.hold(this.enableDisableMainForm$);
     this.state.set(initState);
   }

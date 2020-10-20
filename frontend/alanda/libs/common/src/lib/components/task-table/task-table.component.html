@@ -74,7 +74,9 @@
                 type="text"
                 class="header-col-filter"
                 (input)="tt.filter($event.target.value, col.field, 'contains')"
-                [value]="tt.filters[col.field] ? tt.filters[col.field].value : ''"
+                [value]="
+                  tt.filters[col.field] ? tt.filters[col.field].value : ''
+                "
               />
             </th>
           </tr>
@@ -104,7 +106,10 @@
                   ><i class="pi pi-pencil"></i
                 ></span>
               </ng-container>
-              <ng-template [ngIf]="col.name === 'Task Name'" [ngIfElse]="default">
+              <ng-template
+                [ngIf]="col.name === 'Task Name'"
+                [ngIfElse]="default"
+              >
                 <a
                   [routerLink]="
                     '/forms/' + task.task.formKey + '/' + task.task.task_id
@@ -162,7 +167,7 @@
         label="Delegate"
       ></p-button>
     </p-footer>
-  </p-dialog>  
+  </p-dialog>
   <!-- Project Details Modal-->
   <p-dialog
     [visible]="s.showProjectDetailsModal"
@@ -172,9 +177,10 @@
     <p-header>
       Edit Project
     </p-header>
-    <alanda-task-table-project-details 
-      [project]="s.selectedProject" 
-      (close)="closeProjectDetailsModalEvent$.next($event)">
+    <alanda-task-table-project-details
+      [project]="s.selectedProject"
+      (close)="closeProjectDetailsModalEvent$.next($event)"
+    >
     </alanda-task-table-project-details>
-  </p-dialog>  
+  </p-dialog>
 </ng-container>

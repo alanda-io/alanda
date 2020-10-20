@@ -4,9 +4,13 @@
       {{ s.mode }}
     </div>
     <div class="p-col-10">
-      <textarea rows="5"
-        [placeholder]="s.mode === viewMode.DETAILS ? 'Your details...' : 'Your status...'" 
-        formControlName="text">
+      <textarea
+        rows="5"
+        [placeholder]="
+          s.mode === viewMode.DETAILS ? 'Your details...' : 'Your status...'
+        "
+        formControlName="text"
+      >
       </textarea>
     </div>
     <div class="p-col-12">

@@ -47,4 +47,4 @@ export const isEmpty = (val) => {
     return true;
   }
   return false;
-}
+};

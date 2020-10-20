@@ -17,7 +17,7 @@ import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaTask } from '../../api/models/task';
 import { RxState } from '@rx-angular/state';
 import { isObservable, Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators'; 
+import { map } from 'rxjs/operators';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { AlandaProject } from '../../api/models/project';
 
@@ -100,18 +100,25 @@ export class AlandaTaskTableComponent implements OnInit {
       },
     ];
 
-    this.state.connect(this.setupProjectDetailsModalEvent$.pipe(
-      map((selectedProject) => ({ selectedProject, showProjectDetailsModal: true}))
+    this.state.connect(
+      this.setupProjectDetailsModalEvent$.pipe(
+        map((selectedProject) => ({
+          selectedProject,
+          showProjectDetailsModal: true,
+        })),
       ),
     );
-    this.state.connect('showProjectDetailsModal', this.closeProjectDetailsModalEvent$.pipe(
-      map((project) => {
-        if (project) {
-          this.loadTasksLazy(this.turboTable as LazyLoadEvent);
-        }
-        return false;
-      }),
-    ));
+    this.state.connect(
+      'showProjectDetailsModal',
+      this.closeProjectDetailsModalEvent$.pipe(
+        map((project) => {
+          if (project) {
+            this.loadTasksLazy(this.turboTable as LazyLoadEvent);
+          }
+          return false;
+        }),
+      ),
+    );
   }
 
   ngOnInit(): void {

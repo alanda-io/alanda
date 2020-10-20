@@ -128,7 +128,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
             } has been successfully completed!`,
           });
           this.setLoading(false);
-          console.log('loading',this.get('loading'));
+          console.log('loading', this.get('loading'));
         }),
         switchMap((val) => {
           if (alternate != null) {
