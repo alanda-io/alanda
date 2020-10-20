@@ -27,6 +27,7 @@
             ],
             "styles": [
               "apps/ui-demo/src/styles.scss",
+              "libs/common/src/styles/index.scss",
               "node_modules/primeng/resources/themes/saga-blue/theme.css",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeflex/primeflex.scss",

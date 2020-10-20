@@ -16,7 +16,9 @@
     "primeflex": "^2.0.0",
     "primeicons": "^4.0.0",
     "primeng": "^10.0.0",
-    "rxjs": "^6.5.5",
+    "rxjs": "^6.5.5"
+  },
+  "dependencies": {
     "tslib": "^2.0.0"
   },
   "publishConfig": {
