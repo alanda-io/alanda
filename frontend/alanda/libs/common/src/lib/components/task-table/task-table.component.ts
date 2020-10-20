@@ -17,11 +17,15 @@ import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaTask } from '../../api/models/task';
 import { RxState } from '@rx-angular/state';
 import { isObservable, Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators'; 
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
+import { AlandaProject } from '../../api/models/project';
 
 const defaultLayoutInit = 0;
 
 interface AlandaTaskTableState {
+  selectedProject: AlandaProject;
+  showProjectDetailsModal: boolean;
   user: AlandaUser;
 }
 
@@ -32,7 +36,10 @@ interface AlandaTaskTableState {
   providers: [RxState],
 })
 export class AlandaTaskTableComponent implements OnInit {
+  state$ = this.state.select();
   private _defaultLayout = defaultLayoutInit;
+  closeProjectDetailsModalEvent$ = new Subject<AlandaProject>();
+  setupProjectDetailsModalEvent$ = new Subject<AlandaProject>();
   @Input() set defaultLayout(defaultLayout: number) {
     this._defaultLayout = defaultLayout;
     if (this.layouts) {
@@ -92,6 +99,19 @@ export class AlandaTaskTableComponent implements OnInit {
         command: (onclick) => this.turboTable.reset(),
       },
     ];
+
+    this.state.connect(this.setupProjectDetailsModalEvent$.pipe(
+      map((selectedProject) => ({ selectedProject, showProjectDetailsModal: true}))
+      ),
+    );
+    this.state.connect('showProjectDetailsModal', this.closeProjectDetailsModalEvent$.pipe(
+      map((project) => {
+        if (project) {
+          this.loadTasksLazy(this.turboTable as LazyLoadEvent);
+        }
+        return false;
+      }),
+    ));
   }
 
   ngOnInit(): void {

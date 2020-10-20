@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
@@ -9,12 +10,12 @@ import { TableModule } from 'primeng/table';
 import { PanelModule } from 'primeng/panel';
 import { AlandaTaskTableComponent } from './task-table.component';
 import { DialogModule } from 'primeng/dialog';
-import { FormsModule } from '@angular/forms';
 import { MonitorValuesPipeModule } from '../../pipes/nested-object.pipe';
 import { FilterPipeModule } from '../../pipes/filter.pipe';
+import { TaskTableProjectDetailsComponent } from './task-table-project-details/task-table-project-details.component';
 
 @NgModule({
-  declarations: [AlandaTaskTableComponent],
+  declarations: [AlandaTaskTableComponent, TaskTableProjectDetailsComponent],
   imports: [
     CommonModule,
     PanelModule,
@@ -26,6 +27,7 @@ import { FilterPipeModule } from '../../pipes/filter.pipe';
     InputTextModule,
     DialogModule,
     FormsModule,
+    ReactiveFormsModule,
     MonitorValuesPipeModule,
     FilterPipeModule,
   ],

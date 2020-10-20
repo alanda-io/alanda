@@ -33,3 +33,18 @@ export function getTableDefaultLayout(layouts: AlandaTableLayout[]) {
 export function removeAllWhitespaces(text: string): string {
   return text.replace(/\s+/g, '');
 }
+
+export const isNil = (val) => val === undefined || val === null;
+
+export const isEmpty = (val) => {
+  if (isNil(val)) {
+    return true;
+  }
+  if (typeof val === 'object' && val === {}) {
+    return true;
+  }
+  if (Array.isArray(val) && val.length === 0) {
+    return true;
+  }
+  return false;
+}

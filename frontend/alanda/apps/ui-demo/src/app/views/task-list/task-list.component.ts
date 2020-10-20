@@ -126,6 +126,70 @@ export class AlandaTaskListComponent {
           filter: '!Administrator',
         },
       ],
+      schnickSchnackColumnDefs: [
+        {
+          displayName: 'Project Owner',
+          name: 'project.additionalInfo.project_details_tenant',
+          field: 'project.additionalInfo.project_details_tenant',
+        },
+        clickableTaskCell,
+        {
+          displayName: 'Type',
+          name: 'Type',
+          field: 'task.task_type',
+        },
+        { displayName: 'Object', name: 'Object', field: 'task.object_name' },
+        { displayName: 'Project', name: 'Project', field: 'project.projectId' },
+        {
+          displayName: 'Prio',
+          name: 'Priority',
+          field: 'project.priority',
+          template:
+            "{'p-text-center': true, 'ng-prio': project != null, 'ng-prio-low': project != null && project.priority == 2, 'ng-prio-medium': project != null && project.priority == 1, 'ng-prio-high': project != null && project.priority == 0}",
+        },
+        {
+          displayName: 'Project Due',
+          name: 'Project Due',
+          field: 'project.dueDate',
+          type: TableColumnType.DATE,
+        },
+        {
+          displayName: 'Project Tag',
+          name: 'Project Tag',
+          field: 'project.tag',
+          cellTemplate:
+            '<div class="ui-grid-cell-contents"><span>{{grid.appScope.tagArrayToString(row.entity.project.tag)}}</span></div>',
+        },
+        { displayName: 'Assignee', name: 'Assignee', field: 'task.assignee' },
+        {
+          displayName: 'Action',
+          name: 'Action',
+          // cellTemplate: require('pmc-cockpit-base/app/core/task/list/views/taskactions.template.html'),
+        },
+        {
+          displayName: 'Created',
+          name: 'Created',
+          field: 'task.created',
+          type: TableColumnType.DATE,
+        },
+        { displayName: 'Details', name: 'Details', field: 'project.details' },
+        {
+          displayName: 'Responsible Groups',
+          name: 'Responsible Groups',
+          field: 'task.candidateGroups',
+          cellTemplate:
+            '<div class="ui-grid-cell-contents"><span>{{grid.appScope.tagArrayToString(row.entity.task.candidateGroups | filter: "!Administrator")}}</span></div>',
+        },
+        {
+          displayName: 'X',
+          name: 'X',
+          cellTemplate:
+            '<div class="ui-grid-cell-contents"><span ng-click="grid.appScope.editDetails(row)"><i class="fa fa-edit"></i></span></div>',
+          enableCellEdit: false,
+          enableSorting: false,
+          enableFiltering: false,
+        },
+      ],
     };
 
     this.taskLayouts = [
@@ -138,6 +202,16 @@ export class AlandaTaskListComponent {
         name: 'admin',
         displayName: 'Admin',
         columnDefs: taskColumnDefs.adminColumnDefs,
+      },
+      {
+        name: 'admin',
+        displayName: 'Admin',
+        columnDefs: taskColumnDefs.adminColumnDefs,
+      },
+      {
+        name: 'schnickSchnack',
+        displayName: 'Schnick Schnack Schabernak',
+        columnDefs: taskColumnDefs.schnickSchnackColumnDefs,
       },
     ];
 
