@@ -113,6 +113,7 @@ export class AlandaCreateProjectComponent implements OnInit {
   }
 
   public onSubmit(): void {
+    this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
       this.project.dueDate = formatDate(
         this.formGroup.get('projectDueDate').value,
