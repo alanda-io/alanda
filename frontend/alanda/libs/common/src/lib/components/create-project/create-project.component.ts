@@ -5,13 +5,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { AlandaProjectType } from '../../api/models/projectType';
 import { AlandaProject } from '../../api/models/project';
-import { debounceTime, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { catchError, concatMap, debounceTime, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { formatDate } from '@angular/common';
 import { RxState } from '@rx-angular/state';
 import { AlandaRefObject } from '../../api/models/refObject';
-import { Subject } from 'rxjs';
+import { EMPTY, of, Subject, zip } from 'rxjs';
 import { AlandaRoleApiService } from '../../api/roleApi.service';
+import { AlandaTaskApiService } from '../../api/taskApi.service';
 
 interface CreateState {
   refObject: AlandaRefObject;
@@ -50,6 +51,7 @@ export class AlandaCreateProjectComponent implements OnInit {
 
   constructor(
     public readonly projectService: AlandaProjectApiService,
+    private taskService: AlandaTaskApiService,
     private readonly messageService: MessageService,
     private roleService: AlandaRoleApiService,
     private readonly router: Router,
@@ -126,25 +128,34 @@ export class AlandaCreateProjectComponent implements OnInit {
       this.project.comment = this.formGroup.get('projectDetails').value;
       this.project.tag = [this.formGroup.get('tag').value.value];
       this.isLoading = true;
-      this.projectService.createProject(this.project).subscribe(
-        (project) => {
-          this.isLoading = false;
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Create Project',
-            detail: 'Project has been created',
-          });
-          this.router.navigate([`projectdetails/${project.projectId}`]);
-        },
-        (error) => {
-          this.isLoading = false;
+      this.projectService.createProject(this.project).pipe(
+        catchError((error) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Create Project',
             detail: error.message,
           });
-        },
-      );
+          this.isLoading = false;
+          return EMPTY;
+        }),
+        concatMap((project) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Create Project',
+            detail: 'Project has been created',
+          });
+          return zip(of(project), this.taskService.loadTasks({ filterOptions: {'project.projectId' : project.projectId}}));
+          }),
+        tap(([project, result]) => {
+          this.isLoading = false;
+          if (result.total <= 0) {
+            this.router.navigate([`projectdetails/${project.projectId}`]);
+          } else {
+            const task = result.results[0].task;
+            this.router.navigate([`forms/${task.formKey}/${task.task_id}`]);
+          }
+        })
+        ).subscribe();
     } else {
       Object.keys(this.formGroup.controls).forEach((key) => {
         this.formGroup.controls[key].markAsDirty();
