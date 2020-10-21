@@ -4,10 +4,10 @@
       <div class="p-fluid p-grid p-mt-1">
         <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
           <div class="p-field p-grid">
-            <div class="p-col-4">
+            <div class="p-col-12 p-md-4">
               <alanda-label label="Type (Sub Type)"></alanda-label>
             </div>
-            <div class="p-col-7">
+            <div class="p-col-12 p-md-7">
               <span *ngIf="project.subtype">{{ project.subtype }}</span>
               <span *ngIf="!project.subtype">{{
                 project.pmcProjectType.name
@@ -15,10 +15,10 @@
             </div>
           </div>
           <div class="p-field p-grid">
-            <div class="p-col-4">
+            <div class="p-col-12 p-md-4">
               <alanda-label label="Ref Object" [required]="true"></alanda-label>
             </div>
-            <div class="p-col-7">
+            <div class="p-col-12 p-md-7">
               <p-autoComplete
                 [suggestions]="s.refObjectList"
                 formControlName="selectedRefObject"
@@ -31,10 +31,10 @@
             </div>
           </div>
           <div class="p-field p-grid">
-            <div class="p-col-4">
+            <div class="p-col-12 p-md-4">
               <alanda-label label="Tag(s)" [required]="true"></alanda-label>
             </div>
-            <div class="p-col-7">
+            <div class="p-col-12 p-md-7">
               <p-dropdown
                 [autoDisplayFirst]="false"
                 [options]="allowedTagList"
@@ -47,10 +47,10 @@
 
         <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
           <div class="p-field p-grid">
-            <div class="p-col-4">
+            <div class="p-col-12 p-md-4">
               <alanda-label label="Prio" [required]="true"></alanda-label>
             </div>
-            <div class="p-col-7">
+            <div class="p-col-12 p-md-7">
               <p-dropdown
                 [autoDisplayFirst]="false"
                 formControlName="prio"
@@ -64,10 +64,10 @@
             </div>
           </div>
           <div class="p-field p-grid">
-            <div class="p-col-4">
+            <div class="p-col-12 p-md-4">
               <alanda-label label="Project Due Date"></alanda-label>
             </div>
-            <div class="p-col-7">
+            <div class="p-col-12 p-md-7">
               <p-calendar
                 formControlName="projectDueDate"
                 [showIcon]="true"
@@ -76,13 +76,13 @@
             </div>
           </div>
           <div class="p-field p-grid">
-            <div class="p-col-4">
+            <div class="p-col-12 p-md-4">
               <alanda-label
                 label="Project Title"
                 [required]="true"
               ></alanda-label>
             </div>
-            <div class="p-col-7">
+            <div class="p-col-12 p-md-7">
               <input
                 pInputText
                 formControlName="projectTitle"
