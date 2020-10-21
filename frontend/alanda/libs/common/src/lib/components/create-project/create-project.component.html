@@ -1,9 +1,9 @@
 <ng-container *ngIf="state$ | async as s">
   <p-card *ngIf="!showDialog">
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-      <div class="p-grid">
-        <div class="p-col-12 p-md-6 p-lg-4">
-          <div class="p-grid">
+      <div class="p-fluid p-grid p-mt-1">
+        <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
+          <div class="p-field p-grid">
             <div class="p-col-4">
               <alanda-label label="Type (Sub Type)"></alanda-label>
             </div>
@@ -13,6 +13,8 @@
                 project.pmcProjectType.name
               }}</span>
             </div>
+          </div>
+          <div class="p-field p-grid">
             <div class="p-col-4">
               <alanda-label label="Ref Object" [required]="true"></alanda-label>
             </div>
@@ -27,6 +29,8 @@
                 (onSelect)="selectRefObjectEvent$.next($event)"
               ></p-autoComplete>
             </div>
+          </div>
+          <div class="p-field p-grid">
             <div class="p-col-4">
               <alanda-label label="Tag(s)" [required]="true"></alanda-label>
             </div>
@@ -41,8 +45,8 @@
           </div>
         </div>
 
-        <div class="p-col-12 p-md-6 p-lg-4">
-          <div class="p-grid">
+        <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
+          <div class="p-field p-grid">
             <div class="p-col-4">
               <alanda-label label="Prio" [required]="true"></alanda-label>
             </div>
@@ -58,6 +62,8 @@
                 optionLabel="label"
               ></p-dropdown>
             </div>
+          </div>
+          <div class="p-field p-grid">
             <div class="p-col-4">
               <alanda-label label="Project Due Date"></alanda-label>
             </div>
@@ -68,6 +74,8 @@
                 [dateFormat]="dateFormat"
               ></p-calendar>
             </div>
+          </div>
+          <div class="p-field p-grid">
             <div class="p-col-4">
               <alanda-label
                 label="Project Title"
@@ -84,17 +92,14 @@
             </div>
           </div>
         </div>
-        <div class="p-col-12 p-md-12 p-lg-4">
-          <div class="p-grid">
+
+        <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
+          <div class="p-field p-grid">
             <div class="p-col-12">
               <alanda-label
                 label="Project Details"
                 [required]="true"
               ></alanda-label>
-            </div>
-          </div>
-          <div class="p-grid">
-            <div class="p-col-12">
               <textarea
                 pInputTextarea
                 maxLength="2000"
