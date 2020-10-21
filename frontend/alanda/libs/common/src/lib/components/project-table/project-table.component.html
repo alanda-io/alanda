@@ -62,7 +62,11 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-project let-columns="columns">
-    <tr [pSelectableRow]="project" class="ng-center-cell">
+    <tr
+      [pSelectableRow]="project"
+      class="ng-center-cell"
+      (dblclick)="openProject(project.project.projectId)"
+    >
       <td
         *ngFor="let col of columns"
         [ngClass]="getCondition(project, col.template)"
@@ -70,7 +74,7 @@
       >
         <ng-template [ngIf]="col.name === 'Project ID'" [ngIfElse]="default">
           <a
-            [routerLink]="openProject(project.project.projectId)"
+            [routerLink]="getProjectPath(project.project.projectId)"
             [target]="target"
             >{{ project | nestedObject: col.field }}</a
           >

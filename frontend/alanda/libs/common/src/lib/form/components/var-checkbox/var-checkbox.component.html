@@ -1,10 +1,14 @@
-<div class="p-field-checkbox" [formGroup]="checkboxForm">
-  <p-checkbox
-    formControlName="checked"
-    [binary]="true"
-    (onChange)="save()"
-  ></p-checkbox>
-  <label>{{ label }}</label>
+<div class="p-field-checkbox p-grid" [formGroup]="checkboxForm">
+  <div class="p-col-12 p-lg-5 p-xl-4">
+    <alanda-label [label]="label"></alanda-label>
+  </div>
+  <div class="p-col-12 p-lg-7 p-xl-7">
+    <p-checkbox
+      formControlName="checked"
+      [binary]="true"
+      (onChange)="save()"
+    ></p-checkbox>
+  </div>
   <ng-container *ngIf="checked.invalid && (checked.dirty || checked.touched)">
     <p-message
       *ngIf="checked.errors.required"
