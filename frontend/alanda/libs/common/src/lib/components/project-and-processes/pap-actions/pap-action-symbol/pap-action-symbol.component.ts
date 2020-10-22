@@ -23,42 +23,45 @@ type ActionType = 'CONFIG' | 'CANCEL' | 'REMOVE' | 'START' | 'INFO';
       .success {
         color: #89ad4d;
       }
+      .pi-lg {
+        font-size: 1.75rem;
+      }
     </style>
     <ng-container *ngIf="!readOnly" [ngSwitch]="type">
       <span
         *ngSwitchCase="'OPTIONS'"
-        class="fa fa-cog fa-lg info"
+        class="pi pi-cog pi-lg info"
         (click)="clicked.emit($event)"
       ></span>
       <span
         *ngSwitchCase="'CANCEL'"
-        class="fa fa-stop fa-lg danger"
+        class="pi pi-pause pi-lg danger"
         (click)="clicked.emit($event)"
       ></span>
       <span
         *ngSwitchCase="'REMOVE'"
-        class="fa fa-window-close fa-lg danger"
+        class="pi pi-window-minimize pi-lg danger"
         (click)="clicked.emit($event)"
       ></span>
       <span
         *ngSwitchCase="'START'"
-        class="fa fa-play-circle fa-lg success"
+        class="pi pi-play pi-lg success"
         (click)="clicked.emit($event)"
       ></span>
       <span
         *ngSwitchCase="'INFO'"
-        class="fa fa-info-circle fa-lg danger"
+        class="pi pi-info-circle pi-lg danger"
         (click)="clicked.emit($event)"
       ></span>
     </ng-container>
     <ng-container *ngIf="readOnly" [ngSwitch]="type">
-      <span *ngSwitchCase="'OPTIONS'" class="fa fa-cog fa-lg"></span>
-      <span *ngSwitchCase="'CANCEL'" class="fa fa-stop fa-lg"></span>
-      <span *ngSwitchCase="'REMOVE'" class="fa fa-window-close fa-lg"></span>
-      <span *ngSwitchCase="'START'" class="fa fa-play-circle fa-lg"></span>
+      <span *ngSwitchCase="'OPTIONS'" class="pi pi-cog pi-lg"></span>
+      <span *ngSwitchCase="'CANCEL'" class="pi pi-pause pi-lg"></span>
+      <span *ngSwitchCase="'REMOVE'" class="pi pi-window-minimize pi-lg"></span>
+      <span *ngSwitchCase="'START'" class="pi pi-play pi-lg"></span>
       <span
         *ngSwitchCase="'INFO'"
-        class="fa fa-info-circle fa-lg"
+        class="pi pi-info-circle pi-lg"
         (click)="clicked.emit($event)"
       ></span>
     </ng-container>

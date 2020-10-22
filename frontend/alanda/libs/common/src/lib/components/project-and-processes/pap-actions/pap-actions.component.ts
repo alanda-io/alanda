@@ -31,31 +31,31 @@ export class PapActionsComponent implements OnInit {
     this.menuItems = [
       {
         label: 'Create subproject',
-        icon: 'fa fa-angle-right',
+        icon: 'pi pi-angle-right',
         disabled: this.loading || this.readOnly,
         command: (onclick) => this.createSubproject.emit(),
       },
       {
         label: 'Relate subproject',
-        icon: 'fa fa-angle-right',
+        icon: 'pi pi-angle-right',
         disabled: this.loading || this.readOnly,
         command: (onclick) => this.relateSubproject.emit(),
       },
       {
         label: 'Relate me to',
-        icon: 'fa fa-angle-right',
+        icon: 'pi pi-angle-right',
         disabled: this.loading || this.readOnly,
         command: (onclick) => this.relateMeTo.emit(),
       },
       {
         label: 'Unrelate me',
-        icon: 'fa fa-angle-right',
+        icon: 'pi pi-angle-right',
         disabled: this.loading || this.readOnly,
         command: (onclick) => this.unrelateMe.emit(),
       },
       {
         label: 'Move me to',
-        icon: 'fa fa-angle-right',
+        icon: 'pi pi-angle-right',
         disabled: this.loading || this.readOnly,
         command: (onclick) => this.moveMeTo.emit(),
       },

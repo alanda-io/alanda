@@ -18,9 +18,7 @@
           *ngIf="s.comment.replies.length"
           (click)="doReply = !doReply; autofocus()"
         >
-          <span class="fa fa-comments">
-            {{ s.comment.replies.length }} Replies</span
-          >
+          <i class="pi pi-comments"></i> {{ s.comment.replies.length }} Replies
         </a>
       </div>
       <div class="body">
@@ -43,7 +41,7 @@
           label="Reply"
           class="button-right"
           (click)="doReply = !doReply; autofocus()"
-          icon="fa fa-reply"
+          icon="pi pi-reply"
           iconPos="left"
           type="button"
         ></p-button>
@@ -70,7 +68,7 @@
         <p-button
           type="submit"
           class="button-right"
-          icon="fa fa-paper-plane"
+          icon="pi pi-check"
           iconPos="left"
           label="Post Reply"
           [disabled]="!commentReplyForm.valid"

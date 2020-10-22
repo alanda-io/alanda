@@ -153,11 +153,11 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   getIconClass(type: TreeNodeDataType): string {
     switch (type) {
       case TreeNodeDataType.PROJECT:
-        return 'fa fa-book';
+        return 'pi pi-folder';
       case TreeNodeDataType.TASK:
-        return 'fa fa-user';
+        return 'pi pi-check-circle';
       case TreeNodeDataType.PROCESS:
-        return 'fa fa-random';
+        return 'pi pi-sitemap';
       case TreeNodeDataType.ACTIVITY:
         return 'pi pi-clock';
       default:

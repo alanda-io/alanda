@@ -19,33 +19,33 @@ export class AppComponent extends RxState<any> implements OnInit {
     {
       label: 'Home',
       routerLink: ['/'],
-      icon: 'fa fa-home',
+      icon: 'pi pi-home',
       routerLinkActiveOptions: { exact: true },
     },
     {
       label: 'Tasks',
       routerLink: ['/tasks/list'],
-      icon: 'fa fa-briefcase',
+      icon: 'pi pi-check-circle',
     },
     {
       label: 'Create',
-      icon: 'fa fa-plus',
+      icon: 'pi pi-plus',
       items: [
         {
           label: 'Project',
           routerLink: ['/create/project'],
-          icon: 'fa fa-list-alt',
+          icon: 'pi pi-bars',
         },
       ],
     },
     {
       label: 'Monitor',
-      icon: 'fa fa-eye',
+      icon: 'pi pi-eye',
       items: [
         {
           label: 'Projects',
           routerLink: ['/monitor/projects'],
-          icon: 'fa fa-list-alt',
+          icon: 'pi pi-bars',
         },
       ],
     },
@@ -56,22 +56,22 @@ export class AppComponent extends RxState<any> implements OnInit {
         {
           label: 'Users',
           routerLink: ['/admin/users'],
-          icon: 'fa fa-list-alt',
+          icon: 'pi pi-user',
         },
         {
           label: 'Groups',
           routerLink: ['/admin/groups'],
-          icon: 'fa fa-list-alt',
+          icon: 'pi pi-users',
         },
         {
           label: 'Roles',
           routerLink: ['/admin/roles'],
-          icon: 'fa fa-list-alt',
+          icon: 'pi pi-tags',
         },
         {
           label: 'Permissions',
           routerLink: ['/admin/permissions'],
-          icon: 'fa fa-list-alt',
+          icon: 'pi pi-key',
         },
       ],
     },

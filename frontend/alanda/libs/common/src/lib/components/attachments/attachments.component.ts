@@ -89,8 +89,8 @@ export class AlandaAttachmentsComponent implements OnInit {
 
   setupTreeNode(node: ExtendedTreeNode) {
     node.expanded = false;
-    node.collapsedIcon = 'fa fa-folder';
-    node.expandedIcon = 'fa fa-folder-open';
+    node.collapsedIcon = 'pi pi-folder';
+    node.expandedIcon = 'pi pi-folder-open';
     node.name = node.label;
     node.label = node.name + ' (' + node.files + ')';
     for (const child of node.children) {
