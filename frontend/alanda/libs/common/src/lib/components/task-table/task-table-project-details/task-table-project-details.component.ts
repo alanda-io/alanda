@@ -158,9 +158,6 @@ export class TaskTableProjectDetailsComponent {
     this.state.connect(this.loadProjectByGuid$);
     this.state.connect(this.updateProject$);
     this.state.hold(this.saveClickEvent$);
-    this.state.hold(
-      this.close.pipe(tap(() => this.mainForm.reset(NOT_EMITTABLE))),
-    );
     this.state.hold(this.enableDisableMainForm$);
     this.state.set(initState);
   }
