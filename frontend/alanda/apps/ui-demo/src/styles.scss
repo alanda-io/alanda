@@ -20,3 +20,7 @@ body {
   outline: none !important;
   box-shadow: none !important;
 }
+
+textarea {
+  resize: vertical;
+}

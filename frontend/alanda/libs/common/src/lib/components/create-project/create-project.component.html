@@ -1,22 +1,24 @@
 <ng-container *ngIf="state$ | async as s">
   <p-card *ngIf="!showDialog">
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-      <div class="p-grid">
-        <div class="p-col-12 p-md-6 p-lg-4">
-          <div class="p-grid">
-            <div class="p-col-4">
+      <div class="p-fluid p-grid p-mt-1">
+        <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
+          <div class="p-field p-grid">
+            <div class="p-col-12 p-md-4">
               <alanda-label label="Type (Sub Type)"></alanda-label>
             </div>
-            <div class="p-col-7">
+            <div class="p-col-12 p-md-7">
               <span *ngIf="project.subtype">{{ project.subtype }}</span>
               <span *ngIf="!project.subtype">{{
                 project.pmcProjectType.name
               }}</span>
             </div>
-            <div class="p-col-4">
+          </div>
+          <div class="p-field p-grid">
+            <div class="p-col-12 p-md-4">
               <alanda-label label="Ref Object" [required]="true"></alanda-label>
             </div>
-            <div class="p-col-7">
+            <div class="p-col-12 p-md-7">
               <p-autoComplete
                 [suggestions]="s.refObjectList"
                 formControlName="selectedRefObject"
@@ -27,10 +29,12 @@
                 (onSelect)="selectRefObjectEvent$.next($event)"
               ></p-autoComplete>
             </div>
-            <div class="p-col-4">
+          </div>
+          <div class="p-field p-grid">
+            <div class="p-col-12 p-md-4">
               <alanda-label label="Tag(s)" [required]="true"></alanda-label>
             </div>
-            <div class="p-col-7">
+            <div class="p-col-12 p-md-7">
               <p-dropdown
                 [autoDisplayFirst]="false"
                 [options]="allowedTagList"
@@ -41,12 +45,12 @@
           </div>
         </div>
 
-        <div class="p-col-12 p-md-6 p-lg-4">
-          <div class="p-grid">
-            <div class="p-col-4">
+        <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
+          <div class="p-field p-grid">
+            <div class="p-col-12 p-md-4">
               <alanda-label label="Prio" [required]="true"></alanda-label>
             </div>
-            <div class="p-col-7">
+            <div class="p-col-12 p-md-7">
               <p-dropdown
                 [autoDisplayFirst]="false"
                 formControlName="prio"
@@ -58,23 +62,27 @@
                 optionLabel="label"
               ></p-dropdown>
             </div>
-            <div class="p-col-4">
+          </div>
+          <div class="p-field p-grid">
+            <div class="p-col-12 p-md-4">
               <alanda-label label="Project Due Date"></alanda-label>
             </div>
-            <div class="p-col-7">
+            <div class="p-col-12 p-md-7">
               <p-calendar
                 formControlName="projectDueDate"
                 [showIcon]="true"
                 [dateFormat]="dateFormat"
               ></p-calendar>
             </div>
-            <div class="p-col-4">
+          </div>
+          <div class="p-field p-grid">
+            <div class="p-col-12 p-md-4">
               <alanda-label
                 label="Project Title"
                 [required]="true"
               ></alanda-label>
             </div>
-            <div class="p-col-7">
+            <div class="p-col-12 p-md-7">
               <input
                 pInputText
                 formControlName="projectTitle"
@@ -84,17 +92,14 @@
             </div>
           </div>
         </div>
-        <div class="p-col-12 p-md-12 p-lg-4">
-          <div class="p-grid">
+
+        <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
+          <div class="p-field p-grid">
             <div class="p-col-12">
               <alanda-label
                 label="Project Details"
                 [required]="true"
               ></alanda-label>
-            </div>
-          </div>
-          <div class="p-grid">
-            <div class="p-col-12">
               <textarea
                 pInputTextarea
                 maxLength="2000"

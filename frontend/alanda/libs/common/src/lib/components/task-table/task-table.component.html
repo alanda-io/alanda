@@ -82,7 +82,11 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-task let-columns="columns">
-          <tr [pSelectableRow]="task" class="ng-center-cell">
+          <tr
+            [pSelectableRow]="task"
+            class="ng-center-cell"
+            (dblclick)="openTask(task.task.formKey, task.task.task_id)"
+          >
             <td
               *ngFor="let col of columns"
               [ngClass]="getCondition(task, col.template)"
@@ -112,7 +116,7 @@
               >
                 <a
                   [routerLink]="
-                    '/forms/' + task.task.formKey + '/' + task.task.task_id
+                    getTaskPath(task.task.formKey, task.task.task_id)
                   "
                   [target]="target"
                   >{{ task | nestedObject: col.field }}</a

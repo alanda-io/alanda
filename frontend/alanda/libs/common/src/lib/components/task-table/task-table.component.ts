@@ -11,7 +11,6 @@ import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
 import { AlandaUser } from '../../api/models/user';
 import { AlandaTaskApiService } from '../../api/taskApi.service';
-import { Router } from '@angular/router';
 import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaTask } from '../../api/models/task';
@@ -59,6 +58,7 @@ export class AlandaTaskTableComponent implements OnInit {
     }
   }
   @Input() target = '_self';
+  @Input() routerBasePath = '/forms';
   @Output() layoutChanged = new Subject<AlandaTableLayout>();
   @Output() toggleGroupTasksChanged = new Subject<boolean>();
 
@@ -75,7 +75,6 @@ export class AlandaTaskTableComponent implements OnInit {
   constructor(
     private readonly taskService: AlandaTaskApiService,
     public messageService: MessageService,
-    private readonly router: Router,
     private state: RxState<AlandaTaskTableState>,
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
@@ -319,7 +318,11 @@ export class AlandaTaskTableComponent implements OnInit {
     return encodeURIComponent(v).replace(/%/g, '~');
   }
 
+  getTaskPath(formKey: string, taskId: string): string {
+    return `${this.routerBasePath}/${formKey}/${taskId}`;
+  }
+
   openTask(formKey: string, taskId: string): void {
-    this.router.navigate(['/forms/' + formKey + '/' + taskId]);
+    window.open(this.getTaskPath(formKey, taskId), '_blank');
   }
 }

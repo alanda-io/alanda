@@ -14,7 +14,6 @@ import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaProject } from '../../api/models/project';
-import { getTableDefaultLayout } from '../../utils/helper-functions';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 
 const defaultLayoutInit = 0;
@@ -38,6 +37,7 @@ export class AlandaProjectTableComponent implements OnInit {
   @Input() dateFormat: string;
   @Input() editablePageSize = false;
   @Input() target = '_self';
+  @Input() routerBasePath = '/projectdetails';
   @Output() layoutChanged = new Subject<AlandaTableLayout>();
 
   projectsData: AlandaListResult<AlandaProject>;
@@ -149,8 +149,12 @@ export class AlandaProjectTableComponent implements OnInit {
     return evalCon()(obj);
   }
 
-  openProject(projectId: string) {
-    return '/projectdetails/' + projectId;
+  openProject(projectId: string): void {
+    window.open(this.getProjectPath(projectId), '_blank');
+  }
+
+  getProjectPath(projectId: string): string {
+    return `${this.routerBasePath}/${projectId}`;
   }
 
   changePageSize(pageSize: number) {

@@ -1,16 +1,11 @@
-<div class="p-field" [formGroup]="milestoneForm">
-  <alanda-label>
-    {{ displayName }}
-    <span *ngIf="!showACT && showFC"> - FC</span>
-    <span *ngIf="!showFC && showACT"> - ACT</span>
-  </alanda-label>
-
+<div [formGroup]="milestoneForm">
+  <alanda-label [label]="displayName"></alanda-label>
   <!-- FC -->
-  <div class="p-grid p-formgrid p-field" *ngIf="showFC">
-    <div class="p-col-fixed col-title" *ngIf="showACT">
+  <div class="p-grid p-field" *ngIf="showFC">
+    <div class="p-col-12 p-lg-5 p-xl-4">
       <alanda-label class="ms-title" label="FC"></alanda-label>
     </div>
-    <div [ngClass]="[showACT ? 'p-col' : 'p-col-12']">
+    <div class="p-col-12 p-lg-7 p-xl-7">
       <p-calendar
         formControlName="fc"
         placeholder="Select FC"
@@ -21,11 +16,11 @@
     </div>
   </div>
 
-  <div class="p-grid p-formgrid p-field" *ngIf="showACT">
-    <div class="p-col-fixed col-title" *ngIf="showFC">
+  <div class="p-grid p-field" *ngIf="showACT">
+    <div class="p-col-12 p-lg-5 p-xl-4">
       <alanda-label class="ms-title" label="ACT"></alanda-label>
     </div>
-    <div [ngClass]="[showFC ? 'p-col' : 'p-col-12']">
+    <div class="p-col-12 p-lg-7 p-xl-7">
       <p-calendar
         formControlName="act"
         placeholder="Select ACT"

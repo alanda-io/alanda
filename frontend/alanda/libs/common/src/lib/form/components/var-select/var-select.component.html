@@ -1,11 +1,15 @@
-<div class="p-field" [formGroup]="selectForm">
-  <alanda-label [label]="label"></alanda-label>
-  <p-dropdown
-    [options]="items"
-    formControlName="selected"
-    placeholder="Select"
-    (onChange)="save($event)"
-  ></p-dropdown>
+<div class="p-field p-grid" [formGroup]="selectForm">
+  <div class="p-col-12 p-lg-5 p-xl-4">
+    <alanda-label [label]="label"></alanda-label>
+  </div>
+  <div class="p-col-12 p-lg-7 p-xl-7">
+    <p-dropdown
+      [options]="items"
+      formControlName="selected"
+      placeholder="Select"
+      (onChange)="save($event)"
+    ></p-dropdown>
+  </div>
   <ng-container
     *ngIf="selected.invalid && (selected.dirty || selected.touched)"
   >
