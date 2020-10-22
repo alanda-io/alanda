@@ -26,6 +26,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { AlandaVarTextareaComponent } from './components/var-textarea/var-textarea.component';
 import { AlandaPropTextareaComponent } from './components/prop-textarea/prop-textarea.component';
 import { LabelModule } from '../components/label/label.module';
+import { AlandaPropTextComponent } from './components/prop-text/prop-text.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { LabelModule } from '../components/label/label.module';
     AlandaVarTextComponent,
     AlandaVarTextareaComponent,
     AlandaPropTextareaComponent,
+    AlandaPropTextComponent,
   ],
   imports: [
     CommonModule,
@@ -72,6 +74,7 @@ import { LabelModule } from '../components/label/label.module';
     AlandaVarTextComponent,
     AlandaVarTextareaComponent,
     AlandaPropTextareaComponent,
+    AlandaPropTextComponent
   ],
 })
 export class FormModule {}
