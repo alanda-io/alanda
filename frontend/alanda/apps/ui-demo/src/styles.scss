@@ -1,3 +1,8 @@
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 html {
   // This sets the font size for all components in the project
   // You can use px or % (Desktop: 100% = 16px)
