@@ -5,7 +5,7 @@ import { NgModule, Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterPipe implements PipeTransform {
   transform(items: any[], searchText: string, key?: string): any[] {
-    if (!items || items.length === 0) {
+    if (typeof items === 'undefined' || (items && items.length === 0)) {
       return [];
     }
     if (!searchText || searchText.trim().length === 0) {
@@ -22,7 +22,7 @@ export class FilterPipe implements PipeTransform {
         });
       } else {
         return items.filter((it) => {
-          return it.toLowerCase() !== searchText;
+          return it.toLowerCase() !== searchText.toLowerCase();
         });
       }
     } else {

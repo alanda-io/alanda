@@ -1,46 +1,67 @@
 <p-panel [toggleable]="false" *ngIf="project">
-  <p-header [style]="{ width: '100%' }">
-    <div class="p-grid p-m-0">
-      <div class="p-col-6 p-p-0">
-        <span *ngIf="task != null"
-          ><b>{{ task.task_name }}</b> /
-        </span>
-        <a [routerLink]="'/projectdetails/' + project.projectId">{{
-          project.projectId
-        }}</a>
-        <span *ngIf="project.refObjectIdName">
-          / {{ project.refObjectIdName }}
-        </span>
-        / {{ project.status }}
-        <span *ngIf="snoozedTask">
-          &nbsp;(Task Snoozed) z<sup>z<sup>z</sup></sup>
-        </span>
-      </div>
-      <div class="p-col-6 p-p-0 p-text-right">
-        <span *ngIf="task != null">
-          <span
-            *ngFor="
-              let candidateGroup of task.candidateGroups
-                | filter: '!Administrators'
-            "
-          >
-            <b>Responsible:</b> {{ candidateGroup }} |
-          </span>
-          <span id="assignedTo">
-            <ng-container *ngIf="task.assignee === null">
-              Currently unassigned
-            </ng-container>
-            <ng-container *ngIf="task.assignee != null">
-              <b>Assigned to:</b> {{ task.assignee }}
-            </ng-container>
-          </span>
-          <a (click)="openDelegationForm()"><i class="pi pi-user-plus"></i></a>
-        </span>
-        <b>created by:</b> {{ project.ownerName }} <b>at:</b>
-        {{ project.createDate | date: dateFormat }}
-      </div>
-    </div>
+  <p-header>
+    <span *ngIf="task != null"
+      ><b>{{ task.task_name }}</b> /
+    </span>
+    <a [routerLink]="'/projectdetails/' + project.projectId">{{
+      project.projectId
+    }}</a>
+    <span *ngIf="project.refObjectIdName">
+      / {{ project.refObjectIdName }}
+    </span>
+    / {{ project.status }}
+    <span *ngIf="snoozedTask">
+      &nbsp;(Task Snoozed) z<sup>z<sup>z</sup></sup>
+    </span>
   </p-header>
+  <ng-template pTemplate="icons">
+    <ng-container *ngIf="task != null">
+      <span
+        class="header-info-item"
+        pTooltip="Responsible"
+        tooltipPosition="top"
+      >
+        <i class="pi pi-users"></i>
+        <ng-container
+          *ngFor="
+            let candidateGroup of task.candidateGroups
+              | filter: '!Administrators'
+          "
+          >&nbsp;{{ candidateGroup }}|</ng-container
+        >
+      </span>
+
+      <span
+        class="header-info-item"
+        pTooltip="Currently unassigned"
+        tooltipPosition="top"
+        *ngIf="task.assignee === null"
+      >
+        <i class="pi-circle-off"></i>
+      </span>
+
+      <span
+        class="header-info-item"
+        pTooltip="Assigned to"
+        tooltipPosition="top"
+        *ngIf="task.assignee != null"
+      >
+        <i class="pi pi-check-circle"></i> {{ task.assignee }}
+      </span>
+
+      <a (click)="openDelegationForm()" href="" class="header-info-item">
+        <i class="pi pi-user-plus"></i> Delegate Task
+      </a>
+    </ng-container>
+
+    <span class="header-info-item" pTooltip="Created by" tooltipPosition="top">
+      <i class="pi pi-user"></i> {{ project.ownerName }}
+    </span>
+
+    <span class="header-info-item" pTooltip="Created at" tooltipPosition="top">
+      <i class="pi pi-clock"></i> {{ project.createDate | date: dateFormat }}
+    </span>
+  </ng-template>
   <form [formGroup]="projectHeaderForm">
     <div class="p-grid p-fluid p-mt-1">
       <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">

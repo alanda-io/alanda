@@ -14,6 +14,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { DirectivesModule } from '../../directives/directives.module';
 import { LabelModule } from '../label/label.module';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { LabelModule } from '../label/label.module';
     ButtonModule,
     DirectivesModule,
     LabelModule,
+    TooltipModule,
   ],
   declarations: [AlandaProjectHeaderComponent],
   exports: [AlandaProjectHeaderComponent],
