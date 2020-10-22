@@ -30,6 +30,7 @@ export class AlandaProjectTableComponent implements OnInit {
     this._defaultLayout = defaultLayout;
     if (this.layouts) {
       this.selectedLayout = this.layouts[this._defaultLayout];
+      this.onChangeLayout();
     }
   }
   @Input() layouts: AlandaTableLayout[];
@@ -75,7 +76,7 @@ export class AlandaProjectTableComponent implements OnInit {
       {
         label: 'Reset all filters',
         icon: 'pi pi-fw pi-times',
-        command: (onclick) => this.turboTable.reset(),
+        command: (onclick) => this.turboTable.clear(),
       },
     ];
   }

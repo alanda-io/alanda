@@ -5,7 +5,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { AlandaProjectType } from '../../api/models/projectType';
 import { AlandaProject } from '../../api/models/project';
-import { catchError, concatMap, debounceTime, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  debounceTime,
+  map,
+  mergeMap,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { formatDate } from '@angular/common';
 import { RxState } from '@rx-angular/state';
@@ -128,34 +136,42 @@ export class AlandaCreateProjectComponent implements OnInit {
       this.project.comment = this.formGroup.get('projectDetails').value;
       this.project.tag = [this.formGroup.get('tag').value.value];
       this.isLoading = true;
-      this.projectService.createProject(this.project).pipe(
-        catchError((error) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Create Project',
-            detail: error.message,
-          });
-          this.isLoading = false;
-          return EMPTY;
-        }),
-        concatMap((project) => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Create Project',
-            detail: 'Project has been created',
-          });
-          return zip(of(project), this.taskService.loadTasks({ filterOptions: {'project.projectId' : project.projectId}}));
+      this.projectService
+        .createProject(this.project)
+        .pipe(
+          catchError((error) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Create Project',
+              detail: error.message,
+            });
+            this.isLoading = false;
+            return EMPTY;
           }),
-        tap(([project, result]) => {
-          this.isLoading = false;
-          if (result.total <= 0) {
-            this.router.navigate([`projectdetails/${project.projectId}`]);
-          } else {
-            const task = result.results[0].task;
-            this.router.navigate([`forms/${task.formKey}/${task.task_id}`]);
-          }
-        })
-        ).subscribe();
+          concatMap((project) => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Create Project',
+              detail: 'Project has been created',
+            });
+            return zip(
+              of(project),
+              this.taskService.loadTasks({
+                filterOptions: { 'project.projectId': project.projectId },
+              }),
+            );
+          }),
+          tap(([project, result]) => {
+            this.isLoading = false;
+            if (result.total <= 0) {
+              this.router.navigate([`projectdetails/${project.projectId}`]);
+            } else {
+              const task = result.results[0].task;
+              this.router.navigate([`forms/${task.formKey}/${task.task_id}`]);
+            }
+          }),
+        )
+        .subscribe();
     } else {
       Object.keys(this.formGroup.controls).forEach((key) => {
         this.formGroup.controls[key].markAsDirty();

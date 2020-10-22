@@ -392,7 +392,9 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   configureProcess(data: TreeNodeData, project: AlandaProject): void {
     this.dynamicDialogRef = this.dialogService.open(PapConfigDialogComponent, {
       data: {
-        configuration: JSON.parse(project.pmcProjectType.configuration),
+        configuration: project?.pmcProjectType?.configuration
+          ? JSON.parse(project.pmcProjectType.configuration)
+          : {},
         process: data.process,
         project: project,
       },

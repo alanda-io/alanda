@@ -98,9 +98,10 @@ export class AlandaProjectAndProcessesService {
     }
 
     const id = uuid();
-    const { processDefsToHideAfterCompletion, processDefsToHide } = JSON.parse(
-      project.pmcProjectType?.configuration,
-    );
+    const { processDefsToHideAfterCompletion, processDefsToHide } = project
+      .pmcProjectType?.configuration
+      ? JSON.parse(project.pmcProjectType?.configuration)
+      : { processDefsToHideAfterCompletion: [], processDefsToHide: [] };
     const data: TreeNodeData = {
       id,
       label,
@@ -299,9 +300,9 @@ export class AlandaProjectAndProcessesService {
 
     let active = processesAndTasks.active;
     active = active.map((item) => {
-      const processKeyWithoutPhase = JSON.parse(
-        JSON.stringify(item.processKey),
-      );
+      const processKeyWithoutPhase = item?.processKey
+        ? JSON.parse(JSON.stringify(item.processKey))
+        : null;
       item['processKeyWithoutPhase'] = processKeyWithoutPhase;
       if (item.phase == null && processNameToPhaseMap[item.processKey]) {
         item.phase = processNameToPhaseMap[item.processKey];
@@ -320,9 +321,9 @@ export class AlandaProjectAndProcessesService {
     process: AlandaProcess,
     relatedProject: AlandaProject,
   ): boolean {
-    const projectTypeConfig = JSON.parse(
-      relatedProject.pmcProjectType.configuration,
-    );
+    const projectTypeConfig = relatedProject?.pmcProjectType?.configuration
+      ? JSON.parse(relatedProject.pmcProjectType.configuration)
+      : {};
     const subprocessPropertiesTemplate = {};
     const subprocessProperties = {};
     const subprocessPropertiesConfig = {};

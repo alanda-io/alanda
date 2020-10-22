@@ -96,7 +96,7 @@ export class AlandaTaskTableComponent implements OnInit {
       {
         label: 'Reset all filters',
         icon: 'pi pi-fw pi-times',
-        command: (onclick) => this.turboTable.reset(),
+        command: (onclick) => this.turboTable.clear(),
       },
     ];
 
@@ -190,13 +190,13 @@ export class AlandaTaskTableComponent implements OnInit {
   }
 
   onChangeLayout(): void {
-    this.turboTable.reset();
+    this.loadTasksLazy(this.turboTable as LazyLoadEvent);
     this.layoutChanged.next(this.selectedLayout);
   }
 
   toggleGroupTasks(value: boolean): void {
     this.groupTasks = value;
-    this.turboTable.reset();
+    this.loadTasksLazy(this.turboTable as LazyLoadEvent);
     this.toggleGroupTasksChanged.next(value);
   }
 
