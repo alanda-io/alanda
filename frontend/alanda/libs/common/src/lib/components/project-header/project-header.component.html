@@ -25,9 +25,11 @@
         <ng-container
           *ngFor="
             let candidateGroup of task.candidateGroups
-              | filter: '!Administrators'
+              | filter: '!Administrator';
+            let last = last
           "
-          >&nbsp;{{ candidateGroup }}|</ng-container
+          >&nbsp;{{ candidateGroup
+          }}<ng-container *ngIf="!last">,</ng-container></ng-container
         >
       </span>
 
