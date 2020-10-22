@@ -24,7 +24,7 @@ type ActionType = 'CONFIG' | 'CANCEL' | 'REMOVE' | 'START' | 'INFO';
         color: #89ad4d;
       }
       .pi-lg {
-        font-size: 1.75rem;
+        font-size: 1.35rem;
       }
     </style>
     <ng-container *ngIf="!readOnly" [ngSwitch]="type">
