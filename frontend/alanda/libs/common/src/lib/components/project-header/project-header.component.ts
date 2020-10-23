@@ -28,6 +28,7 @@ import { Observable, of } from 'rxjs';
 import { AlandaProjectPropertiesService } from '../../services/project-properties.service';
 import { AlandaPropertyApiService } from '../../api/propertyApi.service';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
+import { Authorizations } from '../../permissions';
 
 @Component({
   selector: 'alanda-project-header',
@@ -190,12 +191,28 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   }
 
   private initFormGroup(): void {
+    const authBase = `project:${this.project.authBase}`
     this.allowedTagList = this.project.pmcProjectType.allowedTagList;
+    if (!Authorizations.hasPermission(this.user, `${authBase}:tag`, 'write')) {
+      this.projectHeaderForm.get('tag').disable( {emitEvent: false });
+    }
     this.projectHeaderForm.patchValue(this.project, { emitEvent: false });
     if (this.project.status.valueOf() === ProjectState.CANCELED.valueOf()) {
       this.projectHeaderForm.disable({ emitEvent: false });
     } else {
       this.projectHeaderForm.enable({ emitEvent: false });
+      if (!Authorizations.hasPermission(this.user, `${authBase}:priority`, 'write')) {
+        this.projectHeaderForm.get('priority').disable( { emitEvent: false});
+      }
+      if (!Authorizations.hasPermission(this.user, `${authBase}:dueDate`, 'write')) {
+        this.projectHeaderForm.get('dueDate').disable( { emitEvent: false});
+      }
+      if (!Authorizations.hasPermission(this.user, `${authBase}:title`, 'write')) {
+        this.projectHeaderForm.get('title').disable( { emitEvent: false});
+      }
+      if (!Authorizations.hasPermission(this.user, `${authBase}:comment`, 'write')) {
+        this.projectHeaderForm.get('comment').disable( { emitEvent: false});
+      }
     }
     if (this.task) {
       this.projectHeaderForm.patchValue(

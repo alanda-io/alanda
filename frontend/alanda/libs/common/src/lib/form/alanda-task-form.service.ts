@@ -107,6 +107,9 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     if (this.rootForm.valid) {
       return this.taskService.complete(this.get().task.task_id).pipe(
         catchError((error) => {
+          if (error.error != null) {
+            error.message = error.error.message;
+          }
           this.messageService.add({
             key: 'center',
             severity: 'error',
