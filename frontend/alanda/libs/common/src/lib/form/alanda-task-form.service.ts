@@ -103,8 +103,8 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
 
   submit(alternate?: Observable<any>): Observable<any> {
     this.rootForm.markAllAsTouched();
-    this.setLoading(true);
     if (this.rootForm.valid) {
+      this.setLoading(true);
       return this.taskService.complete(this.get().task.task_id).pipe(
         catchError((error) => {
           if (error.error != null) {
