@@ -1,17 +1,16 @@
 import { Component, Input } from '@angular/core';
 
 enum ValueStyleMapper {
-  ACTIVE = 'alanda-badge-active',
-  CANCELED = 'alanda-badge-canceled',
-  DELETED = 'alanda-badge-deleted',
-  NEW = 'alanda-badge-new',
-  NORMAL = 'alanda-badge-normal',
+  ACTIVE = 'p-tag-success',
+  CANCELED = 'p-tag-danger',
+  DELETED = 'p-tag-danger',
+  NEW = 'p-tag-info',
+  NORMAL = 'p-tag',
 }
 
 @Component({
   selector: 'alanda-badge',
   templateUrl: './badge.component.html',
-  styleUrls: ['./badge.component.scss'],
 })
 export class AlandaBadgeComponent {
   private _label: string;

@@ -1,6 +1,7 @@
 @import '../../../styles/variables';
 
 $header-item-spacer: 0.286rem;
+$white: #ffffff;
 
 .phase-tab {
   .phase-tab-header {
@@ -12,7 +13,6 @@ $header-item-spacer: 0.286rem;
       border: 1px solid #c8c8c8;
       border-bottom: 0;
       border-radius: 0.2143rem 0.2143rem 0 0;
-      color: $primaryTextColor;
       cursor: pointer;
       display: inline-block;
       margin: 0 $header-item-spacer/2;
@@ -52,22 +52,22 @@ $header-item-spacer: 0.286rem;
 
           &.active {
             background: #0a9c4d;
-            color: $primaryColorWhite;
+            color: $white;
           }
 
           &.completed {
             background: $primaryColorGreen;
-            color: $primaryColorWhite;
+            color: $white;
           }
 
           &.error {
             background: $primaryColorRed;
-            color: $primaryColorWhite;
+            color: $white;
           }
 
           &.starting {
             background: #0e6e40;
-            color: $primaryColorWhite;
+            color: $white;
           }
 
           &.required {
@@ -97,7 +97,7 @@ $header-item-spacer: 0.286rem;
       }
 
       &.active {
-        background: $primaryColorWhite;
+        background: $white;
       }
     }
   }
