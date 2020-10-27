@@ -26,7 +26,7 @@ export class AlandaVarSelectComponent implements OnInit {
   @Input() rootFormGroup: FormGroup;
 
   selectForm = this.fb.group({
-    selected: [null, { validators: [Validators.required], updateOn: 'blur' }],
+    selected: [null, Validators.required],
   });
 
   constructor(
