@@ -1,12 +1,5 @@
-@import '../../../../styles/variables';
-
 .permission-management {
   .p-field:first-child {
     margin-top: 1rem;
-  }
-
-  .valid-error {
-    color: $primaryColorRed;
-    font-size: 0.85rem;
   }
 }

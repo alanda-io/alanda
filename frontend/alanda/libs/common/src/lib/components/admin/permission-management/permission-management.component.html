@@ -71,12 +71,12 @@
                       />
                       <label for="inputPermissionKey">Permission key</label>
                     </span>
-                    <span
-                      class="valid-error"
+                    <small
+                      class="p-error"
                       *ngIf="
                         permissionForm.dirty && !permissionForm.get('key').valid
                       "
-                      >Please enter a permission key</span
+                      >Please enter a permission key</small
                     >
                   </div>
                 </div>

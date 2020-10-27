@@ -73,14 +73,14 @@
                       />
                       <label for="inputGroup">Groupname</label>
                     </span>
-                    <span
-                      class="valid-error"
+                    <small
+                      class="p-error"
                       *ngIf="
                         groupForm.dirty && !groupForm.get('groupName').valid
                       "
                     >
                       Please enter a groupname
-                    </span>
+                    </small>
                   </div>
 
                   <div class="p-field p-col-12">
@@ -93,12 +93,12 @@
                       />
                       <label for="inputLogin">Longname</label>
                     </span>
-                    <span
-                      class="valid-error"
+                    <small
+                      class="p-error"
                       *ngIf="
                         groupForm.dirty && !groupForm.get('longName').valid
                       "
-                      >Please enter a group longname</span
+                      >Please enter a group longname</small
                     >
                   </div>
 

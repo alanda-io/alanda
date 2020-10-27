@@ -1,18 +1,27 @@
-@import '../../../../styles/variables';
+$highlightBackgroundColor: #84c14d;
 
-.cockpit-link {
-  color: $lighter-blue;
+::ng-deep .pd-token {
+  background-color: $highlightBackgroundColor !important;
+}
+
+::ng-deep .highlight:not(.djs-connection) .djs-visual > :nth-child(1) {
+  fill: $highlightBackgroundColor !important; /* color elements as green */
 }
 
 .diagram-container {
   height: 500px;
   width: 100%;
-}
 
-::ng-deep .pd-token {
-  background-color: $lighter-green !important;
-}
+  .highlight:not(.djs-connection) .djs-visual > :nth-child(1) {
+    fill: $highlightBackgroundColor !important;
+  }
 
-::ng-deep .highlight:not(.djs-connection) .djs-visual > :nth-child(1) {
-  fill: $lighter-green !important; /* color elements as green */
+  .pd-token {
+    background-color: $highlightBackgroundColor !important;
+    color: #ffffff;
+    position: relative;
+    top: 0.25rem;
+    padding: 0 0.357rem;
+    border-radius: 50%;
+  }
 }
