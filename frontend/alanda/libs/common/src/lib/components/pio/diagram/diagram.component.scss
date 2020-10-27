@@ -2,26 +2,18 @@ $highlightBackgroundColor: #84c14d;
 
 ::ng-deep .pd-token {
   background-color: $highlightBackgroundColor !important;
+  color: #ffffff;
+  position: relative;
+  top: 0.25rem;
+  padding: 0 0.357rem;
+  border-radius: 50%;
 }
 
 ::ng-deep .highlight:not(.djs-connection) .djs-visual > :nth-child(1) {
-  fill: $highlightBackgroundColor !important; /* color elements as green */
+  fill: $highlightBackgroundColor !important;
 }
 
 .diagram-container {
   height: 500px;
   width: 100%;
-
-  .highlight:not(.djs-connection) .djs-visual > :nth-child(1) {
-    fill: $highlightBackgroundColor !important;
-  }
-
-  .pd-token {
-    background-color: $highlightBackgroundColor !important;
-    color: #ffffff;
-    position: relative;
-    top: 0.25rem;
-    padding: 0 0.357rem;
-    border-radius: 50%;
-  }
 }
