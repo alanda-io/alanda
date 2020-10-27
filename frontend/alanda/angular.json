@@ -31,8 +31,7 @@
               "node_modules/primeng/resources/themes/saga-blue/theme.css",
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeflex/primeflex.scss",
-              "node_modules/primeng/resources/primeng.css",
-              "node_modules/font-awesome/css/font-awesome.css"
+              "node_modules/primeng/resources/primeng.css"
             ],
             "scripts": [],
             "allowedCommonJsDependencies": ["lodash"]
