@@ -4,27 +4,6 @@
   text-align: right;
 }
 
-.ng-prio,
-.priority {
-  text-align: center !important;
-  color: $primaryColorWhite;
-}
-
-.ng-prio-high,
-.priority-high {
-  background-color: $priorityBackgroundColorHigh !important;
-}
-
-.ng-prio-medium,
-.priority-medium {
-  background-color: $priorityBackgroundColorMedium !important;
-}
-
-.ng-prio-low,
-.priority-low {
-  background-color: $priorityBackgroundColorLow !important;
-}
-
 .project-row {
   text-align: center;
 }
