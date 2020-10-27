@@ -1,24 +1,24 @@
 @import '../../../styles/variables';
 
 .ng-prio,
-.prio {
+.priority {
   text-align: center !important;
   color: $white !important;
 }
 
 .ng-prio-high,
-.prio-high {
-  background-color: lighten($primaryColorRed, 10%) !important;
+.priority-high {
+  background-color: $priorityBackgroundColorHigh !important;
 }
 
 .ng-prio-medium,
-.prio-medium {
-  background-color: lighten($primaryColorOrange, 10%) !important;
+.priority-medium {
+  background-color: $priorityBackgroundColorMedium !important;
 }
 
 .ng-prio-low,
-.prio-low {
-  background-color: lighten($primaryColorGreen, 10%) !important;
+.priority-low {
+  background-color: $priorityBackgroundColorLow !important;
 }
 
 .task-table {

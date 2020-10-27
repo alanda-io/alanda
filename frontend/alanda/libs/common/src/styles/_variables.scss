@@ -8,6 +8,10 @@ $primaryColorWhite: #ffffff !default;
 $primaryColor: $primaryColorBlue !default;
 $primaryTextColor: #495057 !default;
 
+$priorityBackgroundColorHigh: lighten($primaryColorRed, 10%) !default;
+$priorityBackgroundColorMedium: lighten($primaryColorOrange, 10%) !default;
+$priorityBackgroundColorLow: lighten($primaryColorGreen, 10%) !default;
+
 $lighter-blue: lighten($primaryColorBlue, 15%);
 $lighter-green: lighten($primaryColorGreen, 15%);
 $white: $primaryColorWhite;
