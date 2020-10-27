@@ -2,7 +2,7 @@
 
 .alanda-badge {
   border-radius: 2rem;
-  color: $white;
+  color: $primaryColorWhite;
   display: inline-block;
   line-height: normal;
   padding: 0.429em 1em;
@@ -29,6 +29,6 @@
 
   &-new {
     @extend .alanda-badge;
-    background: darken($white, 15%);
+    background: darken($primaryColorWhite, 15%);
   }
 }

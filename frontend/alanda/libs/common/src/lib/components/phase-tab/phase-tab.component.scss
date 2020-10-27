@@ -52,22 +52,22 @@ $header-item-spacer: 0.286rem;
 
           &.active {
             background: #0a9c4d;
-            color: $white;
+            color: $primaryColorWhite;
           }
 
           &.completed {
             background: $primaryColorGreen;
-            color: $white;
+            color: $primaryColorWhite;
           }
 
           &.error {
             background: $primaryColorRed;
-            color: $white;
+            color: $primaryColorWhite;
           }
 
           &.starting {
             background: #0e6e40;
-            color: $white;
+            color: $primaryColorWhite;
           }
 
           &.required {
@@ -97,7 +97,7 @@ $header-item-spacer: 0.286rem;
       }
 
       &.active {
-        background: $white;
+        background: $primaryColorWhite;
       }
     }
   }
