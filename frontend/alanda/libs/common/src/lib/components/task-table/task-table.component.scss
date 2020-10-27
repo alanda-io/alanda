@@ -1,22 +1,27 @@
 @import '../../../styles/variables';
 
-.ng-prio {
-  color: $white;
+.ng-prio,
+.prio {
+  text-align: center !important;
+  color: $white !important;
 }
 
-.ng-prio-high {
-  background-color: rgba(219, 0, 0, 0.57) !important;
+.ng-prio-high,
+.prio-high {
+  background-color: lighten($primaryColorRed, 10%) !important;
 }
 
-.ng-prio-medium {
-  background-color: rgba(255, 172, 43, 0.57) !important;
+.ng-prio-medium,
+.prio-medium {
+  background-color: lighten($primaryColorOrange, 10%) !important;
 }
 
-.ng-prio-low {
-  background-color: rgba(0, 128, 0, 0.38) !important;
+.ng-prio-low,
+.prio-low {
+  background-color: lighten($primaryColorGreen, 10%) !important;
 }
 
-.tasklist-table {
+.task-table {
   min-height: 500px;
 
   .header-col-filter {
@@ -24,9 +29,7 @@
   }
 }
 
-.ng-center-cell {
-  text-align: center;
-
+.task-row {
   .action-cell {
     padding: 0.5rem 0;
     min-width: 100px;

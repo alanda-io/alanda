@@ -1,24 +1,13 @@
 // Main colors
 
-$primary-red: #f00;
-$primary-green: #0f0;
-$primary-blue: #007ad9;
+$primaryColorRed: #f44336 !default;
+$primaryColorBlue: #2196f3 !default;
+$primaryColorGreen: #5e8f32 !default;
+$primaryColorOrange: #e8a704 !default;
+$primaryColorWhite: #ffffff !default;
+$primaryColor: $primaryColorBlue !default;
+$primaryTextColor: #495057 !default;
 
-$successBgColor: #0fc763;
-$dangerBgColor: #f56f64;
-$infoBgColor: #f5b064;
-$neutralBgColor: #adb5bd;
-
-$black: #000;
-$black-3: #333;
-$white: #fff;
-
-$lighter-blue: lighten($primary-blue, 15%);
-$lighter-green: lighten($primary-green, 15%);
-
-$blue-20: #c3def8;
-
-$container-background: $white;
-$font-color: $black-3;
-
-$header-container-height: 3.071rem;
+$lighter-blue: lighten($primaryColorBlue, 15%);
+$lighter-green: lighten($primaryColorGreen, 15%);
+$white: $primaryColorWhite;

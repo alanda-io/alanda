@@ -1,23 +1,30 @@
+@import '../../../styles/variables';
+
 .caption-button-group {
   text-align: right;
 }
 
-.ng-prio {
-  color: white;
+.ng-prio,
+.prio {
+  text-align: center !important;
+  color: $white;
 }
 
-.ng-prio-high {
-  background-color: rgba(219, 0, 0, 0.57) !important;
+.ng-prio-high,
+.prio-high {
+  background-color: lighten($primaryColorRed, 10%) !important;
 }
 
-.ng-prio-medium {
-  background-color: rgba(255, 172, 43, 0.57) !important;
+.ng-prio-medium,
+.prio-medium {
+  background-color: lighten($primaryColorOrange, 10%) !important;
 }
 
-.ng-prio-low {
-  background-color: rgba(0, 128, 0, 0.38) !important;
+.ng-prio-low,
+.prio-low {
+  background-color: lighten($primaryColorGreen, 10%) !important;
 }
 
-.ng-center-cell {
+.project-row {
   text-align: center;
 }

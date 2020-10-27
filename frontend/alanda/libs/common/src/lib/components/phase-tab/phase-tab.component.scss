@@ -12,7 +12,7 @@ $header-item-spacer: 0.286rem;
       border: 1px solid #c8c8c8;
       border-bottom: 0;
       border-radius: 0.2143rem 0.2143rem 0 0;
-      color: $font-color;
+      color: $primaryTextColor;
       cursor: pointer;
       display: inline-block;
       margin: 0 $header-item-spacer/2;
@@ -34,7 +34,7 @@ $header-item-spacer: 0.286rem;
         width: 100%;
 
         .edit-state {
-          color: $primary-blue;
+          color: $primaryColor;
           margin: 0 0.35rem;
         }
 
@@ -56,12 +56,12 @@ $header-item-spacer: 0.286rem;
           }
 
           &.completed {
-            background: $primary-green;
+            background: $primaryColorGreen;
             color: $white;
           }
 
           &.error {
-            background: $primary-red;
+            background: $primaryColorRed;
             color: $white;
           }
 

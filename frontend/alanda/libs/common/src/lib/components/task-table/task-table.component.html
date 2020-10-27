@@ -42,7 +42,7 @@
       <p-table
         *ngIf="selectedLayout && tasksData"
         #tt
-        [class]="'tasklist-table'"
+        [class]="'task-table'"
         [value]="tasksData.results"
         [columns]="selectedLayout.columnDefs"
         [paginator]="true"
@@ -84,7 +84,7 @@
         <ng-template pTemplate="body" let-task let-columns="columns">
           <tr
             [pSelectableRow]="task"
-            class="ng-center-cell"
+            class="task-row"
             (dblclick)="openTask(task.task.formKey, task.task.task_id)"
           >
             <td

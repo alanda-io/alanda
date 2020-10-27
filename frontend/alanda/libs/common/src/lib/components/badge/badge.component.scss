@@ -9,26 +9,26 @@
 
   &-normal {
     @extend .alanda-badge;
-    background: $primary-blue;
+    background: $primaryColor;
   }
 
   &-active {
     @extend .alanda-badge;
-    background: $successBgColor;
+    background: $primaryColorGreen;
   }
 
   &-canceled {
     @extend .alanda-badge;
-    background: $dangerBgColor;
+    background: $primaryColorRed;
   }
 
   &-deleted {
     @extend .alanda-badge;
-    background: $dangerBgColor;
+    background: $primaryColorRed;
   }
 
   &-new {
     @extend .alanda-badge;
-    background: $neutralBgColor;
+    background: darken($white, 15%);
   }
 }
