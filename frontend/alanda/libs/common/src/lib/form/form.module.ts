@@ -74,7 +74,7 @@ import { AlandaPropTextComponent } from './components/prop-text/prop-text.compon
     AlandaVarTextComponent,
     AlandaVarTextareaComponent,
     AlandaPropTextareaComponent,
-    AlandaPropTextComponent
+    AlandaPropTextComponent,
   ],
 })
 export class FormModule {}
