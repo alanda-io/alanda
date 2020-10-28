@@ -47,7 +47,7 @@ export class AlandaProjectMonitorComponent {
         field: 'project.priority',
         width: '40',
         template:
-          "{'ng-prio': true, 'ng-prio-low': project.priority == 0, 'ng-prio-medium': project.priority == 1, 'ng-prio-high': project.priority == 2}",
+          "{'priority': true, 'priority-high': project.priority == 0, 'priority-medium': project.priority == 1, 'priority-low': project.priority == 2}",
       },
       { displayName: 'Tag', name: 'Tag', field: 'project.tag' },
       {

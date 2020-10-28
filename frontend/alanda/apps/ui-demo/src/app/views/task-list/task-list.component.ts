@@ -58,7 +58,7 @@ export class AlandaTaskListComponent {
           name: 'Priority',
           field: 'project.priority',
           template:
-            "{'p-text-center': true,'ng-prio': project != null, 'ng-prio-low': project != null && project.priority == 2, 'ng-prio-medium': project != null && project.priority == 1, 'ng-prio-high': project != null && project.priority == 0}",
+            "{'priority': project != null, 'priority-low': project != null && project.priority == 2, 'priority-medium': project != null && project.priority == 1, 'priority-high': project != null && project.priority == 0}",
         },
         {
           displayName: 'Project Tag',
@@ -101,7 +101,7 @@ export class AlandaTaskListComponent {
           name: 'Priority',
           field: 'project.priority',
           template:
-            "{'ng-prio': project != null, 'ng-prio-low': project != null && project.priority == 0, 'ng-prio-medium': project != null && project.priority == 1, 'ng-prio-high': project != null && project.priority == 2}",
+            "{'priority': project != null, 'priority-low': project != null && project.priority == 0, 'priority-medium': project != null && project.priority == 1, 'priority-high': project != null && project.priority == 2}",
         },
         {
           displayName: 'Project Tag',
@@ -145,7 +145,7 @@ export class AlandaTaskListComponent {
           name: 'Priority',
           field: 'project.priority',
           template:
-            "{'p-text-center': true, 'ng-prio': project != null, 'ng-prio-low': project != null && project.priority == 2, 'ng-prio-medium': project != null && project.priority == 1, 'ng-prio-high': project != null && project.priority == 0}",
+            "{'priority': project != null, 'priority-low': project != null && project.priority == 2, 'priority-medium': project != null && project.priority == 1, 'priority-high': project != null && project.priority == 0}",
         },
         {
           displayName: 'Project Due',
@@ -164,7 +164,6 @@ export class AlandaTaskListComponent {
         {
           displayName: 'Action',
           name: 'Action',
-          // cellTemplate: require('pmc-cockpit-base/app/core/task/list/views/taskactions.template.html'),
         },
         {
           displayName: 'Created',
@@ -197,11 +196,6 @@ export class AlandaTaskListComponent {
         name: 'default',
         displayName: 'Site',
         columnDefs: taskColumnDefs.defaultColumnDefs,
-      },
-      {
-        name: 'admin',
-        displayName: 'Admin',
-        columnDefs: taskColumnDefs.adminColumnDefs,
       },
       {
         name: 'admin',
