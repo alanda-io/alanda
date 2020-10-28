@@ -73,10 +73,10 @@
                       />
                       <label for="input-login">Login</label>
                     </span>
-                    <span
+                    <small
                       *ngIf="userForm.dirty && !userForm.get('loginName').valid"
-                      style="font-size: 0.85rem; color: red;"
-                      >Please enter a login</span
+                      class="p-error"
+                      >Please enter a login</small
                     >
                   </div>
 
@@ -90,10 +90,10 @@
                       />
                       <label for="input-firstname">First Name</label>
                     </span>
-                    <span
+                    <small
                       *ngIf="userForm.dirty && !userForm.get('firstName').valid"
-                      style="font-size: 0.85rem; color: red;"
-                      >Please enter a first name</span
+                      class="p-error"
+                      >Please enter a first name</small
                     >
                   </div>
 
@@ -107,10 +107,10 @@
                       />
                       <label for="input-surname">Surname</label>
                     </span>
-                    <span
+                    <small
                       *ngIf="userForm.dirty && !userForm.get('surname').valid"
-                      style="font-size: 0.85rem; color: red;"
-                      >Please enter a surname</span
+                      class="p-error"
+                      >Please enter a surname</small
                     >
                   </div>
 
@@ -124,10 +124,10 @@
                       />
                       <label for="input-email">E-Mail</label>
                     </span>
-                    <span
+                    <small
                       *ngIf="userForm.dirty && !userForm.get('email').valid"
-                      style="font-size: 0.85rem; color: red;"
-                      >Please enter an email</span
+                      class="p-error"
+                      >Please enter an email</small
                     >
                   </div>
 
@@ -144,8 +144,8 @@
                     </span>
                   </div>
                   <div class="p-field p-col-12">
-                    <p id="locked" [hidden]="locked">Not locked</p>
-                    <p id="locked" [hidden]="!locked">Locked</p>
+                    <p [hidden]="locked">Not locked</p>
+                    <p [hidden]="!locked">Locked</p>
                     <p-inputSwitch formControlName="locked"></p-inputSwitch>
                   </div>
                 </div>
