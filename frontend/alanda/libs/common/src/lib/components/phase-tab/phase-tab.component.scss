@@ -1,7 +1,8 @@
-@import '../../../styles/variables';
-
 $header-item-spacer: 0.286rem;
 $white: #ffffff;
+$green: #689f38;
+$red: #f44336;
+$blue: #116fbf;
 
 .phase-tab {
   .phase-tab-header {
@@ -34,7 +35,7 @@ $white: #ffffff;
         width: 100%;
 
         .edit-state {
-          color: $primaryColor;
+          color: $blue;
           margin: 0 0.35rem;
         }
 
@@ -51,22 +52,22 @@ $white: #ffffff;
           color: #777;
 
           &.active {
-            background: #0a9c4d;
+            background: $green;
             color: $white;
           }
 
           &.completed {
-            background: $primaryColorGreen;
+            background: darken($green, 15%);
             color: $white;
           }
 
           &.error {
-            background: $primaryColorRed;
+            background: $red;
             color: $white;
           }
 
           &.starting {
-            background: #0e6e40;
+            background: lighten($green, 15%);
             color: $white;
           }
 

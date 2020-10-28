@@ -18,10 +18,10 @@ type ActionType = 'CONFIG' | 'CANCEL' | 'REMOVE' | 'START' | 'INFO';
         color: #116fbf;
       }
       .danger {
-        color: #c22;
+        color: #f44336;
       }
       .success {
-        color: #89ad4d;
+        color: #689f38;
       }
       .pi-lg {
         font-size: 1.35rem;
