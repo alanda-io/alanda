@@ -161,7 +161,10 @@ export class AlandaProjectAndProcessesService {
     const data: TreeNodeData = {
       id,
       label: process.label,
-      refObject: process.processKey,
+      refObject:
+        process.businessObject !== relatedProject.refObjectIdName
+          ? process.businessObject
+          : '',
       start: process.startTime,
       end: process.endTime,
       info: this.getLimitedText(process.workDetails || ''),
@@ -241,7 +244,9 @@ export class AlandaProjectAndProcessesService {
       return acc;
     }, '');
     return task.actinst_type === 'task'
-      ? `<b>Assignee:</b> ${task.assignee}<br /> <b>Candidate Group:</b> ${
+      ? `<b>Assignee:</b> ${
+          task.assignee ? task.assignee : 'no assignee'
+        }<br /> <b>Candidate Group:</b> ${
           task.candidateGroups?.length
             ? candidateGroups.substr(0, candidateGroups.length - 2)
             : '-'
