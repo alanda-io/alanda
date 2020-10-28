@@ -11,6 +11,21 @@ export function convertUTCDate(date: Date): Date {
   );
 }
 
+export function formatDateISO(date: Date): string {
+  let month: string | number = date.getMonth() + 1;
+  let day: string | number = date.getDate();
+
+  if (month < 10) {
+    month = '0' + month;
+  }
+
+  if (day < 10) {
+    day = '0' + day;
+  }
+
+  return date.getFullYear() + '-' + month + '-' + day;
+}
+
 export function uuid() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     const r = Math.random() * 16 || 0;

@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { PageSizeSelectModule } from '../page-size-select/page-size-select.module';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { PageSizeSelectModule } from '../page-size-select/page-size-select.modul
     ButtonModule,
     FormsModule,
     PageSizeSelectModule,
+    CalendarModule,
   ],
   declarations: [AlandaProjectTableComponent],
   exports: [AlandaProjectTableComponent],
