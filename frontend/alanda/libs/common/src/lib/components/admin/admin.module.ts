@@ -12,6 +12,7 @@ import { ButtonModule } from 'primeng/button';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { PickListModule } from 'primeng/picklist';
 import { ReactiveFormsModule } from '@angular/forms';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ScrollPanelModule,
     PickListModule,
     ReactiveFormsModule,
+    InputSwitchModule,
   ],
   exports: [
     AlandaGroupManagementComponent,
