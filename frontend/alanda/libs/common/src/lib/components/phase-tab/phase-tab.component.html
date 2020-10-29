@@ -17,9 +17,7 @@
           class="p-tabview-nav-link p-ripple"
           (click)="phaseChanges.next(phase)"
         >
-          <i
-            [ngClass]="[getPhaseStatus(phase).styleClass]"
-          ></i>
+          <i [ngClass]="[getPhaseStatus(phase).styleClass]"></i>
           <span>{{ phase.pmcProjectPhaseDefinition.displayName }}</span>
           <ng-container *ngIf="phase.guid && hasAuth(phase, 'write')">
             <i class="pi pi-angle-down" (click)="menu.toggle($event)"></i>
