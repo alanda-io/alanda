@@ -1,3 +1,49 @@
+<ng-container *ngIf="state$ | async as state">
+  <div class="p-tabview p-component phase-tabview-custom" #phaseTab>
+    <ul role="tablist" class="p-tabview-nav">
+      <li
+        role="presentation"
+        *ngFor="let phase of state.simplePhases; let i = index"
+        [ngClass]="{
+          'p-highlight':
+            phase.pmcProjectPhaseDefinition.idName ===
+            state.activePhase.pmcProjectPhaseDefinition.idName
+        }"
+        [pTooltip]="getPhaseStatus(phase).label.toUpperCase()"
+        tooltipPosition="top"
+      >
+        <a
+          role="tab"
+          class="p-tabview-nav-link p-ripple"
+          (click)="phaseChanges.next(phase)"
+        >
+          <i
+            *ngIf="phase.guid"
+            [ngClass]="[getPhaseStatus(phase).styleClass]"
+          ></i>
+          <span>{{ phase.pmcProjectPhaseDefinition.displayName }}</span>
+          <ng-container *ngIf="phase.guid && hasAuth(phase, 'write')">
+            <i class="pi pi-angle-down" (click)="menu.toggle($event)"></i>
+            <p-menu
+              #menu
+              [popup]="true"
+              [model]="getMenuItems(phase)"
+              [appendTo]="phaseTab"
+            ></p-menu>
+          </ng-container>
+        </a>
+      </li>
+    </ul>
+
+    <div class="p-tabview-panels">
+      <div class="p-tabview-panel">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<!--
 <div class="phase-tab" *ngIf="state$ | async as state">
   <div class="phase-tab-header">
     <div
@@ -35,7 +81,7 @@
   </div>
 
   <div class="phase-tab-content">
-    <!-- Something can be placed here -->
     <ng-content></ng-content>
   </div>
 </div>
+-->

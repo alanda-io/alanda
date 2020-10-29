@@ -3,10 +3,10 @@ import { MenuItem } from 'primeng/api';
 import { AlandaSimplePhase } from '../../api/models/simplePhase';
 import { AlandaProject } from '../../api/models/project';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { RxState } from '@rx-angular/state';
 import { AlandaUser } from '../../api/models/user';
-import { combineLatest, merge, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Authorizations } from '../../permissions';
 
 export interface AlandaPhaseTabState {
@@ -53,25 +53,29 @@ export class AlandaPhaseTabComponent {
   };
 
   phaseStatusMap = {
+    overview: {
+      label: '',
+      styleClass: 'overview',
+    },
     active: {
       label: 'active',
-      styleClass: 'active',
+      styleClass: 'active pi pi-check',
     },
     completed: {
       label: 'completed',
-      styleClass: 'completed',
+      styleClass: 'completed pi pi-check-circle',
     },
     error: {
       label: 'error',
-      styleClass: 'error',
+      styleClass: 'error pi pi-exclamation-circle',
     },
     starting: {
       label: 'starting',
-      styleClass: 'starting',
+      styleClass: 'starting pi pi-spinner pi-spin',
     },
     required: {
       label: 'required',
-      styleClass: 'required',
+      styleClass: 'required pi pi-info-circle',
     },
     notRequired: {
       label: 'not required',
@@ -79,7 +83,7 @@ export class AlandaPhaseTabComponent {
     },
     notSet: {
       label: 'not set',
-      styleClass: 'not-set',
+      styleClass: 'not-set pi pi-question-circle',
     },
   };
 
@@ -134,7 +138,9 @@ export class AlandaPhaseTabComponent {
   getPhaseStatus(
     phase: AlandaSimplePhase,
   ): { label: string; styleClass: string } {
-    if (phase.active) {
+    if (!phase.guid) {
+      return this.phaseStatusMap.overview;
+    } else if (phase.active) {
       return this.phaseStatusMap.active;
     } else if (phase.endDate) {
       return this.phaseStatusMap.completed;
@@ -171,13 +177,13 @@ export class AlandaPhaseTabComponent {
     if (!phase.enabled) {
       menuItems.push({
         label: 'Required',
-        command: (ev) => this.togglePhaseEnabled(phase, true),
+        command: () => this.togglePhaseEnabled(phase, true),
       });
     }
-    if (phase.enabled) {
+    if (phase.enabled || phase.enabled === null) {
       menuItems.push({
         label: 'Not required',
-        command: (ev) => this.togglePhaseEnabled(phase, false),
+        command: () => this.togglePhaseEnabled(phase, false),
       });
     }
     if (project.status !== 'CANCELED' && project.status !== 'COMPLETED') {

@@ -31,10 +31,11 @@ import { ProjectPhasesComponent } from './components/project-phases/project-phas
 })
 export class VacationModule {
   constructor(private propertiesService: AlandaProjectPropertiesService) {
-    this.propertiesService.addPropsForType(
+    /* this.propertiesService.addPropsForType(
       'VACATION',
       ProjectPropertiesComponent,
     );
-    // this.propertiesService.addPropsForType('VACATION', ProjectPhasesComponent);
+     */
+    this.propertiesService.addPropsForType('VACATION', ProjectPhasesComponent);
   }
 }

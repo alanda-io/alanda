@@ -1,3 +1,22 @@
+.phase-tabview-custom {
+  span {
+    margin: 0 0.5rem;
+
+    &:first-child {
+      margin-left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .pi {
+    line-height: 1.2;
+    z-index: 5;
+  }
+}
+
+/*
 $header-item-spacer: 0.286rem;
 $white: #ffffff;
 $green: #689f38;
@@ -107,3 +126,4 @@ $blue: #116fbf;
     padding: 0.725rem;
   }
 }
+*/
