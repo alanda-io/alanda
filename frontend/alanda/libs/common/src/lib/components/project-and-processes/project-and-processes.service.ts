@@ -151,10 +151,13 @@ export class AlandaProjectAndProcessesService {
   ): TreeNode {
     const papActions: PapActions[] =
       process.status === ProjectState.NEW
-        ? ['REMOVE-SUBPROCESS', 'START-SUBPROCESS']
+        ? ['REMOVE-SUBPROCESS']
         : ['CANCEL-PROCESS'];
     if (this.showSubprocessConfigButton(process, relatedProject)) {
       papActions.push('CONFIGURE-PROCESS');
+    }
+    if (relatedProject?.phases?.find((phase) => phase.idName === 'ACTIVE')) {
+      papActions.push('START-SUBPROCESS');
     }
 
     const id = uuid();
