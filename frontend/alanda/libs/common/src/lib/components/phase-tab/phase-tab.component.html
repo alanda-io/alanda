@@ -18,7 +18,6 @@
           (click)="phaseChanges.next(phase)"
         >
           <i
-            *ngIf="phase.guid"
             [ngClass]="[getPhaseStatus(phase).styleClass]"
           ></i>
           <span>{{ phase.pmcProjectPhaseDefinition.displayName }}</span>

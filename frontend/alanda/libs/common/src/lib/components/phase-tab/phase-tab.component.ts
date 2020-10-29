@@ -55,7 +55,7 @@ export class AlandaPhaseTabComponent {
   phaseStatusMap = {
     overview: {
       label: '',
-      styleClass: 'overview',
+      styleClass: 'overview pi pi-bookmark',
     },
     active: {
       label: 'active',
@@ -79,7 +79,7 @@ export class AlandaPhaseTabComponent {
     },
     notRequired: {
       label: 'not required',
-      styleClass: 'not-required',
+      styleClass: 'not-required pi pi-chevron-circle-right',
     },
     notSet: {
       label: 'not set',
