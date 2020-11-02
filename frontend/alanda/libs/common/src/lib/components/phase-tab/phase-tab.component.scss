@@ -1,4 +1,4 @@
-.phase-tabview-custom {
+.phase-tabview {
   span {
     margin: 0 0.5rem;
 
@@ -12,6 +12,10 @@
 
   .pi {
     line-height: 1.2;
-    z-index: 5;
+    z-index: 2;
+  }
+
+  .p-tabview-panels {
+    margin-top: 0.65rem;
   }
 }

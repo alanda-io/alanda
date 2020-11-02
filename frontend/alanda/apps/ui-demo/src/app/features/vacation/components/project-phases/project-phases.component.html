@@ -7,7 +7,18 @@
 >
   <ng-container [ngSwitch]="activePhase">
     <div *ngSwitchCase="'OVERVIEW'">
-      overview
+      <div class="p-grid">
+        <div class="p-col-3">
+          <div class="p-fluid p-grid">
+            <div class="p-col-12 p-lg-5 p-xl-3">
+              <label>Test</label>
+            </div>
+            <div class="p-col-12 p-lg-7 p-xl-8">
+              <input type="text" pInputText />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div *ngSwitchCase="'1'">
       1
