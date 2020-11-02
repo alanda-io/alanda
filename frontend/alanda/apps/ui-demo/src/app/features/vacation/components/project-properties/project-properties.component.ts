@@ -1,8 +1,10 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, Inject } from '@angular/core';
 import {
   AlandaProject,
   AlandaUser,
   AlandaUserApiService,
+  AppSettings,
+  APP_CONFIG,
 } from '@alanda/common';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';

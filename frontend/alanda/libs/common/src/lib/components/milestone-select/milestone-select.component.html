@@ -1,33 +1,120 @@
-<div [formGroup]="milestoneForm">
-  <alanda-label [label]="displayName"></alanda-label>
-  <!-- FC -->
-  <div class="p-grid p-field" *ngIf="showFC">
-    <div class="p-col-12 p-lg-5 p-xl-4">
-      <alanda-label class="ms-title" label="FC"></alanda-label>
+<ng-container *ngIf="state$ | async as s">
+  <div [formGroup]="milestoneForm">
+    <alanda-label [label]="displayName"></alanda-label>
+    <!-- FC -->
+    <div class="p-grid p-field" *ngIf="showFC">
+      <div class="p-col-12 p-lg-5 p-xl-4">
+        <alanda-label class="ms-title" label="FC"></alanda-label>
+      </div>
+      <div class="p-col-12 p-lg-7 p-xl-7" *ngIf="!fcCommentRequired">
+        <p-calendar
+          formControlName="fc"
+          placeholder="Select FC"
+          [showIcon]="true"
+          [dateFormat]="dateFormat"
+          [readonlyInput]="true"
+        ></p-calendar>
+      </div>
+      <div class="p-col-12 p-lg-7 p-xl-7" *ngIf="fcCommentRequired">
+        <div class="p-inputgroup">
+          <p-calendar
+            formControlName="fc"
+            placeholder="Select MS"
+            [showIcon]="false"
+            [dateFormat]="dateFormat"
+            [readonlyInput]="true"
+            (click)="clickForComment.next({ ms: 'FC' })"
+          ></p-calendar>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-calendar"
+            class="p-inputgroup-addon"
+            (click)="clickForComment.next({ ms: 'FC' })"
+          ></button>
+        </div>
+      </div>
     </div>
-    <div class="p-col-12 p-lg-7 p-xl-7">
-      <p-calendar
-        formControlName="fc"
-        placeholder="Select FC"
-        (onSelect)="onChange()"
-        [showIcon]="true"
-        [dateFormat]="dateFormat"
-      ></p-calendar>
-    </div>
-  </div>
 
-  <div class="p-grid p-field" *ngIf="showACT">
-    <div class="p-col-12 p-lg-5 p-xl-4">
-      <alanda-label class="ms-title" label="ACT"></alanda-label>
-    </div>
-    <div class="p-col-12 p-lg-7 p-xl-7">
-      <p-calendar
-        formControlName="act"
-        placeholder="Select ACT"
-        (onSelect)="onChange()"
-        [showIcon]="true"
-        [dateFormat]="dateFormat"
-      ></p-calendar>
+    <div class="p-grid p-field" *ngIf="showACT">
+      <div class="p-col-12 p-lg-5 p-xl-4">
+        <alanda-label class="ms-title" label="ACT"></alanda-label>
+      </div>
+      <div class="p-col-12 p-lg-7 p-xl-7" *ngIf="!actCommentRequired">
+        <p-calendar
+          formControlName="act"
+          placeholder="Select ACT"
+          [showIcon]="true"
+          [dateFormat]="dateFormat"
+          [readonlyInput]="true"
+        ></p-calendar>
+      </div>
+      <div class="p-col-12 p-lg-7 p-xl-7" *ngIf="actCommentRequired">
+        <div class="p-inputgroup">
+          <p-calendar
+            formControlName="act"
+            placeholder="Select MS"
+            [showIcon]="false"
+            [dateFormat]="dateFormat"
+            [readonlyInput]="true"
+            (click)="clickForComment.next({ ms: 'ACT' })"
+          ></p-calendar>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-calendar"
+            class="p-inputgroup-addon"
+            (click)="clickForComment.next({ ms: 'ACT' })"
+          ></button>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+  <p-dialog
+    [(visible)]="s.showCommentModal"
+    [modal]="true"
+    [dismissableMask]="true"
+    [closeOnEscape]="true"
+    [closable]="true"
+    [style]="{ width: '600px' }"
+  >
+    <p-header> Change {{ displayName }} {{ s.commentMsType }} </p-header>
+    <div class="p-grid" [formGroup]="commentForm">
+      <div class="p-col-12">
+        <p-calendar
+          formControlName="commentFormDate"
+          [showIcon]="true"
+          [dateFormat]="dateFormat"
+          [readonlyInput]="true"
+        ></p-calendar>
+      </div>
+      <div class="p-col-12">
+        <alanda-label [label]="s.commentLabel"></alanda-label>
+        <textarea
+          rows="10"
+          style="width: 100%;"
+          formControlName="comment"
+          [placeholder]="s.commentPlaceholder"
+        ></textarea>
+      </div>
+    </div>
+    <p-footer>
+      <button
+        pButton
+        type="button"
+        (click)="
+          saveFromComment.next({
+            msType: s.commentMsType,
+            commentFormDate: commentFormDate.value,
+            comment: comment.value
+          })
+        "
+        icon="fa fa-check"
+        iconPos="left"
+        class="ui-button-success"
+        [label]="s.commentButtonLabel"
+        [disabled]="commentForm.invalid"
+      ></button>
+    </p-footer>
+  </p-dialog>
+</ng-container>
