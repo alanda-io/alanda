@@ -156,7 +156,7 @@ export class AlandaProjectAndProcessesService {
     if (this.showSubprocessConfigButton(process, relatedProject)) {
       papActions.push('CONFIGURE-PROCESS');
     }
-    if (relatedProject?.phases?.find((phase) => phase.idName === 'ACTIVE')) {
+    if (relatedProject?.phases?.find((phase) => phase.active)) {
       papActions.push('START-SUBPROCESS');
     }
 
