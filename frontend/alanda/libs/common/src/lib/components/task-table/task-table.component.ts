@@ -48,7 +48,10 @@ export class AlandaTaskTableComponent implements OnInit {
   }
   @Input() layouts: AlandaTableLayout[];
   @Input() dateFormat: string;
-  @Input() tableLayout = 'auto';
+  @Input() tableStyle: object;
+  @Input() autoLayout = false;
+  @Input() resizableColumns = true;
+  @Input() responsive = true;
   @Input() groupTasks = false;
   @Input()
   set user(user: Observable<AlandaUser> | AlandaUser) {
@@ -93,12 +96,12 @@ export class AlandaTaskTableComponent implements OnInit {
       {
         label: 'Download CSV',
         icon: 'pi pi-fw pi-download',
-        command: (onclick) => this.turboTable.exportCSV(),
+        command: () => this.turboTable.exportCSV(),
       },
       {
         label: 'Reset all filters',
         icon: 'pi pi-fw pi-times',
-        command: (onclick) => this.turboTable.clear(),
+        command: () => this.turboTable.clear(),
       },
     ];
 
@@ -181,7 +184,6 @@ export class AlandaTaskTableComponent implements OnInit {
     }
 
     Object.keys(event.filters).forEach((key) => {
-      console.log(event.filters[key]);
       serverOptions.filterOptions[key] = event.filters[key].value;
     });
 

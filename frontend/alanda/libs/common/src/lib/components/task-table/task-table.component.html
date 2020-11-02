@@ -50,11 +50,11 @@
         [lazy]="true"
         [totalRecords]="tasksData.total"
         (onLazyLoad)="loadTasksLazy($event)"
-        [autoLayout]="true"
+        [autoLayout]="autoLayout"
         [loading]="loading"
-        [resizableColumns]="true"
-        [responsive]="true"
-        [tableStyle]="{ 'table-layout': this.tableLayout }"
+        [resizableColumns]="resizableColumns"
+        [responsive]="responsive"
+        [tableStyle]="tableStyle"
       >
         <ng-template pTemplate="header" let-columns>
           <tr>

@@ -34,7 +34,10 @@ export class AlandaProjectTableComponent implements OnInit {
     }
   }
   @Input() layouts: AlandaTableLayout[];
-  @Input() tableLayout = 'auto';
+  @Input() tableStyle: object;
+  @Input() autoLayout = false;
+  @Input() resizableColumns = true;
+  @Input() responsive = true;
   @Input() dateFormat: string;
   @Input() editablePageSize = false;
   @Input() target = '_self';
