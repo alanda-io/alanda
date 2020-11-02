@@ -1,18 +1,21 @@
 .phase-tabview {
-  span {
-    margin: 0 0.5rem;
+  .p-tabview-nav {
+    .p-tabview-nav-link {
+      span {
+        margin: 0 0.5rem;
 
-    &:first-child {
-      margin-left: 0;
-    }
-    &:last-child {
-      margin-right: 0;
-    }
-  }
+        &:first-child {
+          margin-left: 0;
+        }
+        &:last-child {
+          margin-right: 0;
+        }
+      }
 
-  .pi {
-    line-height: 1.2;
-    z-index: 2;
+      .pi {
+        z-index: 2;
+      }
+    }
   }
 
   .p-tabview-panels {
