@@ -18,8 +18,9 @@
     <ng-container *ngIf="task != null">
       <span
         class="header-info-item"
-        pTooltip="Responsible"
+        pTooltip="Responsible Groups"
         tooltipPosition="top"
+        *ngIf="(task.candidateGroups | filter: '!Administrator')?.length"
       >
         <i class="pi pi-users"></i>
         <ng-container
@@ -51,7 +52,11 @@
         <i class="pi pi-check-circle"></i> {{ task.assignee }}
       </span>
 
-      <a (click)="openDelegationForm()" href="" class="header-info-item">
+      <a
+        (click)="openDelegationForm()"
+        href="javascript:void(0)"
+        class="header-info-item"
+      >
         <i class="pi pi-arrow-circle-right"></i> Delegate Task
       </a>
     </ng-container>

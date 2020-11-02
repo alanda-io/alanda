@@ -23,7 +23,6 @@
 <p-table
   *ngIf="selectedLayout && projectsData"
   #tt
-  [resizableColumns]="true"
   [value]="projectsData.results"
   [columns]="selectedLayout.columnDefs"
   [paginator]="true"
@@ -31,10 +30,11 @@
   [lazy]="true"
   [totalRecords]="projectsData.total"
   (onLazyLoad)="loadProjectsLazy($event)"
-  [tableStyle]="{ 'table-layout': this.tableLayout }"
-  [autoLayout]="true"
+  [autoLayout]="autoLayout"
   [loading]="loading"
-  [responsive]="true"
+  [resizableColumns]="resizableColumns"
+  [responsive]="responsive"
+  [tableStyle]="tableStyle"
 >
   <ng-template pTemplate="header" let-columns>
     <tr>

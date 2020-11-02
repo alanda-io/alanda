@@ -30,6 +30,7 @@ export class PrepareVacationRequestComponent
   }
 
   submit(): void {
+    console.log('clicked submit');
     if (this.snooze.value > 0) {
       this.taskFormService.snooze(this.snooze.value).subscribe();
     } else {

@@ -13,9 +13,15 @@ import {
 } from '@alanda/common';
 import { ProjectPropertiesComponent } from './components/project-properties/project-properties.component';
 import { ProjectPhasesComponent } from './components/project-phases/project-phases.component';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
-  imports: [VacationRoutingModule, SharedModule, AlandaCommonModule],
+  imports: [
+    VacationRoutingModule,
+    SharedModule,
+    AlandaCommonModule,
+    InputTextModule,
+  ],
   declarations: [
     PrepareVacationRequestComponent,
     CheckVacationRequestComponent,
@@ -31,11 +37,11 @@ import { ProjectPhasesComponent } from './components/project-phases/project-phas
 })
 export class VacationModule {
   constructor(private propertiesService: AlandaProjectPropertiesService) {
-    /* this.propertiesService.addPropsForType(
+    this.propertiesService.addPropsForType(
       'VACATION',
       ProjectPropertiesComponent,
     );
-     */
-    this.propertiesService.addPropsForType('VACATION', ProjectPhasesComponent);
+
+    // this.propertiesService.addPropsForType('VACATION', ProjectPhasesComponent);
   }
 }

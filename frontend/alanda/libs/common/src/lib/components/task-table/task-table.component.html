@@ -50,11 +50,11 @@
         [lazy]="true"
         [totalRecords]="tasksData.total"
         (onLazyLoad)="loadTasksLazy($event)"
-        [autoLayout]="true"
+        [autoLayout]="autoLayout"
         [loading]="loading"
-        [resizableColumns]="true"
-        [responsive]="true"
-        [tableStyle]="{ 'table-layout': this.tableLayout }"
+        [resizableColumns]="resizableColumns"
+        [responsive]="responsive"
+        [tableStyle]="tableStyle"
       >
         <ng-template pTemplate="header" let-columns>
           <tr>
@@ -105,15 +105,23 @@
               [ngClass]="{ 'action-cell': col.name === 'Action' }"
             >
               <ng-container *ngIf="col.name === 'Action'">
-                <p-splitButton
-                  [showTransitionOptions]="'0ms'"
-                  [hideTransitionOptions]="'0ms'"
-                  label="{{ task.claimLabel }}"
-                  (onClick)="claimAction(task)"
-                  (onDropdownClick)="openDelegationForm(task)"
-                  class="table-action-button"
-                >
-                </p-splitButton>
+                <span class="p-buttonset">
+                  <button
+                    pButton
+                    class="table-action-button"
+                    type="button"
+                    label="{{ task.claimLabel }}"
+                    (click)="claimAction(task)"
+                  ></button>
+                  <button
+                    pButton
+                    class="table-action-button"
+                    type="button"
+                    icon="pi pi-arrow-circle-right"
+                    pTooltip="Delegate Task"
+                    (click)="openDelegationForm(task)"
+                  ></button>
+                </span>
               </ng-container>
               <ng-container *ngIf="col.name === 'X' && task.project">
                 <span
@@ -163,13 +171,15 @@
     <p-header>
       Delegate task for
     </p-header>
-    <p-dropdown
-      #dd
-      [options]="candidateUsers"
-      optionLabel="displayName"
-      placeholder="Select a user"
-      [filter]="true"
-    ></p-dropdown>
+    <div class="p-fluid">
+      <p-dropdown
+        #dd
+        [options]="candidateUsers"
+        optionLabel="displayName"
+        placeholder="Select a user"
+        [filter]="true"
+      ></p-dropdown>
+    </div>
     <p-footer>
       <p-button
         (onClick)="hideDelegateDialog()"

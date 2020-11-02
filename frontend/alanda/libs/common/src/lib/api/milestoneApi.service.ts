@@ -37,13 +37,13 @@ export class AlandaMilestoneApiService extends AlandaExceptionHandlingService {
     reason: string,
     delFc: boolean,
     delAct: boolean,
-  ) {
+  ): Observable<void> {
     let url = `${this.endpointUrl}/project/${projectId}/ms/${msIdName}?delFc=${delFc}&delAct=${delAct}`;
     if (reason) {
       url = `${url}&reason=${reason}`;
     }
     return this.http
-      .put(url, { act, fc })
-      .pipe(catchError(this.handleError('updateByProjectAndMsIdName')));
+      .put<void>(url, { act, fc })
+      .pipe(catchError(this.handleError<void>('updateByProjectAndMsIdName')));
   }
 }

@@ -7,6 +7,7 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { AlandaTaskApiService } from '../../../api/taskApi.service';
+import { RxState } from '@rx-angular/state';
 
 const SELECTOR = 'alanda-var-select';
 
@@ -14,6 +15,7 @@ const SELECTOR = 'alanda-var-select';
   selector: SELECTOR,
   templateUrl: './var-select.component.html',
   styleUrls: [],
+  providers: [RxState]
 })
 export class AlandaVarSelectComponent implements OnInit {
   @Input() items: SelectItem[];
@@ -30,6 +32,7 @@ export class AlandaVarSelectComponent implements OnInit {
   });
 
   constructor(
+    private state: RxState<any>,
     private readonly taskService: AlandaTaskApiService,
     private readonly fb: FormBuilder,
   ) {}

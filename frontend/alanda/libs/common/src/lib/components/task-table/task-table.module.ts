@@ -14,6 +14,7 @@ import { MonitorValuesPipeModule } from '../../pipes/nested-object.pipe';
 import { FilterPipeModule } from '../../pipes/filter.pipe';
 import { TaskTableProjectDetailsComponent } from './task-table-project-details/task-table-project-details.component';
 import { CalendarModule } from 'primeng/calendar';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [AlandaTaskTableComponent, TaskTableProjectDetailsComponent],
@@ -32,6 +33,7 @@ import { CalendarModule } from 'primeng/calendar';
     MonitorValuesPipeModule,
     FilterPipeModule,
     CalendarModule,
+    TooltipModule,
   ],
   exports: [AlandaTaskTableComponent],
 })
