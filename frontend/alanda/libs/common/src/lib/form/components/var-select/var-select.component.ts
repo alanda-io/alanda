@@ -15,7 +15,7 @@ const SELECTOR = 'alanda-var-select';
   selector: SELECTOR,
   templateUrl: './var-select.component.html',
   styleUrls: [],
-  providers: [RxState]
+  providers: [RxState],
 })
 export class AlandaVarSelectComponent implements OnInit {
   @Input() items: SelectItem[];

@@ -142,61 +142,72 @@
         </p-tabPanel>
         <p-tabPanel header="Roles" *ngIf="selectedGroup">
           <ng-template pTemplate="content">
-            <p-pickList
-              [source]="assignedRoles"
-              [target]="availableRoles"
-              sourceHeader="Assigned Roles"
-              targetHeader="Available Roles"
-              [responsive]="true"
-              filterBy="name"
-              [showSourceControls]="false"
-              [showTargetControls]="false"
-              [style]="{ width: '100%' }"
-              [sourceStyle]="{ width: '100%' }"
-              [targetStyle]="{ width: '100%' }"
-            >
-              <ng-template let-role pTemplate="item">
-                <div class="p-grid">
-                  <div class="p-col-12 key">
-                    {{ role.name }}
-                  </div>
-                </div>
-              </ng-template>
-            </p-pickList>
-            <div class="p-col-12">
-              <p-button label="Update Roles" (click)="updateRoles()"></p-button>
+            <div class="p-grid">
+              <div class="p-col-12">
+                <p-pickList
+                  [source]="assignedRoles"
+                  [target]="availableRoles"
+                  sourceHeader="Assigned Roles"
+                  targetHeader="Available Roles"
+                  [responsive]="true"
+                  filterBy="name"
+                  [showSourceControls]="false"
+                  [showTargetControls]="false"
+                  [style]="{ width: '100%' }"
+                  [sourceStyle]="{ width: '100%', height: '24rem' }"
+                  [targetStyle]="{ width: '100%', height: '24rem' }"
+                >
+                  <ng-template let-role pTemplate="item">
+                    <div class="p-grid">
+                      <div class="p-col-12 key">
+                        {{ role.name }}
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-pickList>
+              </div>
+              <div class="p-col-12">
+                <p-button
+                  label="Update Roles"
+                  (click)="updateRoles()"
+                ></p-button>
+              </div>
             </div>
           </ng-template>
         </p-tabPanel>
 
         <p-tabPanel header="Permissions" *ngIf="selectedGroup">
           <ng-template pTemplate="content">
-            <p-pickList
-              [source]="grantedPermissions"
-              [target]="availablePermissions"
-              sourceHeader="Granted Permissions"
-              targetHeader="Available Permissions"
-              [responsive]="true"
-              filterBy="name"
-              [showSourceControls]="false"
-              [showTargetControls]="false"
-              [style]="{ width: '100%' }"
-              [sourceStyle]="{ width: '100%' }"
-              [targetStyle]="{ width: '100%' }"
-            >
-              <ng-template let-p pTemplate="item">
-                <div class="p-grid">
-                  <div class="p-col-12 key">
-                    {{ p.key }}
-                  </div>
-                </div>
-              </ng-template>
-            </p-pickList>
-            <div class="p-col-12">
-              <p-button
-                label="Update Permissions"
-                (click)="updatePermissions()"
-              ></p-button>
+            <div class="p-grid">
+              <div class="p-col-12">
+                <p-pickList
+                  [source]="grantedPermissions"
+                  [target]="availablePermissions"
+                  sourceHeader="Granted Permissions"
+                  targetHeader="Available Permissions"
+                  [responsive]="true"
+                  filterBy="name"
+                  [showSourceControls]="false"
+                  [showTargetControls]="false"
+                  [style]="{ width: '100%' }"
+                  [sourceStyle]="{ width: '100%', height: '24rem' }"
+                  [targetStyle]="{ width: '100%', height: '24rem' }"
+                >
+                  <ng-template let-p pTemplate="item">
+                    <div class="p-grid">
+                      <div class="p-col-12 key">
+                        {{ p.key }}
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-pickList>
+              </div>
+              <div class="p-col-12">
+                <p-button
+                  label="Update Permissions"
+                  (click)="updatePermissions()"
+                ></p-button>
+              </div>
             </div>
           </ng-template>
         </p-tabPanel>

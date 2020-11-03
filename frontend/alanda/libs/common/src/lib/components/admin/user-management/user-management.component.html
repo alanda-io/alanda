@@ -208,59 +208,70 @@
         </p-tabPanel>
 
         <p-tabPanel header="Groups" *ngIf="selectedUser">
-          <p-pickList
-            [source]="assignedGroups"
-            [target]="availableGroups"
-            sourceHeader="Assigned Groups"
-            targetHeader="Available Groups"
-            [responsive]="true"
-            filterBy="groupName"
-            [showSourceControls]="false"
-            [showTargetControls]="false"
-            [style]="{ width: '100%' }"
-            [sourceStyle]="{ width: '100%' }"
-            [targetStyle]="{ width: '100%' }"
-          >
-            <ng-template let-group pTemplate="item">
-              {{ group.groupName }} ({{ group.longName }})
-            </ng-template>
-          </p-pickList>
-          <div class="p-col-12">
-            <p-button
-              label="Update Groups"
-              (click)="onUpdateGroups()"
-            ></p-button>
+          <div class="p-grid">
+            <div class="p-col-12">
+              <p-pickList
+                [source]="assignedGroups"
+                [target]="availableGroups"
+                sourceHeader="Assigned Groups"
+                targetHeader="Available Groups"
+                [responsive]="true"
+                filterBy="groupName"
+                [showSourceControls]="false"
+                [showTargetControls]="false"
+                [style]="{ width: '100%' }"
+                [sourceStyle]="{ width: '100%', height: '24rem' }"
+                [targetStyle]="{ width: '100%', height: '24rem' }"
+              >
+                <ng-template let-group pTemplate="item">
+                  {{ group.groupName }} ({{ group.longName }})
+                </ng-template>
+              </p-pickList>
+            </div>
+            <div class="p-col-12">
+              <p-button
+                label="Update Groups"
+                (click)="onUpdateGroups()"
+              ></p-button>
+            </div>
           </div>
         </p-tabPanel>
 
         <p-tabPanel header="Roles" *ngIf="selectedUser">
-          <p-pickList
-            [source]="assignedRoles"
-            [target]="availableRoles"
-            sourceHeader="Assigned Roles"
-            targetHeader="Available Roles"
-            [responsive]="true"
-            filterBy="name"
-            [showSourceControls]="false"
-            [showTargetControls]="false"
-            (onMoveToTarget)="moveRole($event)"
-            [style]="{ width: '100%' }"
-            [sourceStyle]="{ width: '100%' }"
-            [targetStyle]="{ width: '100%' }"
-          >
-            <ng-template let-role pTemplate="item">
-              <div class="p-grid">
-                <div class="p-col-6 key">
-                  {{ role.name }}
-                </div>
-                <div class="p-col-4 source" *ngIf="role.source">
-                  ({{ role.source }})
-                </div>
-              </div>
-            </ng-template>
-          </p-pickList>
-          <div class="p-col-12">
-            <p-button label="Update Roles" (click)="onUpdateRoles()"></p-button>
+          <div class="p-grid">
+            <div class="p-col-12">
+              <p-pickList
+                [source]="assignedRoles"
+                [target]="availableRoles"
+                sourceHeader="Assigned Roles"
+                targetHeader="Available Roles"
+                [responsive]="true"
+                filterBy="name"
+                [showSourceControls]="false"
+                [showTargetControls]="false"
+                (onMoveToTarget)="moveRole($event)"
+                [style]="{ width: '100%' }"
+                [sourceStyle]="{ width: '100%', height: '24rem' }"
+                [targetStyle]="{ width: '100%', height: '24rem' }"
+              >
+                <ng-template let-role pTemplate="item">
+                  <div class="p-grid">
+                    <div class="p-col-6 key">
+                      {{ role.name }}
+                    </div>
+                    <div class="p-col-4 source" *ngIf="role.source">
+                      ({{ role.source }})
+                    </div>
+                  </div>
+                </ng-template>
+              </p-pickList>
+            </div>
+            <div class="p-col-12">
+              <p-button
+                label="Update Roles"
+                (click)="onUpdateRoles()"
+              ></p-button>
+            </div>
           </div>
         </p-tabPanel>
 
@@ -278,8 +289,8 @@
                 [showTargetControls]="false"
                 (onMoveToTarget)="movePermission($event)"
                 [style]="{ width: '100%' }"
-                [sourceStyle]="{ width: '100%' }"
-                [targetStyle]="{ width: '100%' }"
+                [sourceStyle]="{ width: '100%', height: '24rem' }"
+                [targetStyle]="{ width: '100%', height: '24rem' }"
               >
                 <ng-template let-p pTemplate="item">
                   <div class="p-grid">

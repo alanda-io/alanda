@@ -9,7 +9,14 @@ import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [AlandaSelectMilestoneComponent],
-  imports: [CommonModule, ReactiveFormsModule, CalendarModule, LabelModule, InputTextModule, DialogModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    CalendarModule,
+    LabelModule,
+    InputTextModule,
+    DialogModule,
+  ],
   exports: [AlandaSelectMilestoneComponent],
 })
 export class MilestoneSelectModule {}
