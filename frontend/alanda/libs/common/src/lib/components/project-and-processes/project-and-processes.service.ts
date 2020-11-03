@@ -157,7 +157,10 @@ export class AlandaProjectAndProcessesService {
       papActions.push('CONFIGURE-PROCESS');
     }
     // checks if the phase of the process is active
-    if (relatedProject?.phases?.find((p) => p.idName === process.phase)?.active === true) {
+    if (
+      relatedProject?.phases?.find((p) => p.idName === process.phase)
+        ?.active === true
+    ) {
       papActions.push('START-SUBPROCESS');
     }
 

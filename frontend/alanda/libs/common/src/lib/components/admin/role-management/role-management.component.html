@@ -19,6 +19,7 @@
         (onRowSelect)="onRoleSelect($event)"
         (onRowUnselect)="onRoleUnselect()"
         [responsive]="false"
+        [resizableColumns]="true"
       >
         <ng-template pTemplate="header" let-columns>
           <tr>
@@ -26,6 +27,7 @@
               *ngFor="let col of columns"
               [pSortableColumn]="col.field"
               [class]="{ 'table-header-guid': col.header === 'Guid' }"
+              pResizableColumn
             >
               <strong>{{ col.header }}</strong>
               <p-sortIcon [field]="col.field"></p-sortIcon>
