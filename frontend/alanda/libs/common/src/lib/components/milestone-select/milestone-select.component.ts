@@ -71,8 +71,8 @@ export class AlandaSelectMilestoneComponent {
   @Input() showACT = true;
   @Input() delFC = false;
   @Input() delACT = false;
-  @Input() fcCommentRequired: boolean = false;
-  @Input() actCommentRequired: boolean = false;
+  @Input() fcCommentRequired = false;
+  @Input() actCommentRequired = false;
 
   @Input() set project(project: AlandaProject) {
     this.state.set({ project });
@@ -132,8 +132,8 @@ export class AlandaSelectMilestoneComponent {
   handleClickForComment$ = this.clickForComment.pipe(
     map((val) => {
       this.commentForm.get('comment').reset();
-      let comment = null;
-      let commentMsType = val.ms;
+      const comment = null;
+      const commentMsType = val.ms;
       let commentLabel = 'Reason';
       let commentButtonLabel = 'Reschedule';
       let commentPlaceholder = 'Reason for rescheduling of the Milestone';
@@ -261,7 +261,7 @@ export class AlandaSelectMilestoneComponent {
           ]),
         );
       } else {
-        //all other cases
+        // all other cases
         if (msType === 'ACT') {
           act = commentFormDate;
         } else {
@@ -299,9 +299,9 @@ export class AlandaSelectMilestoneComponent {
 
   saveMileStone(fc: Date, act: Date, reason: string): Observable<void> {
     const { project, msName } = this.state.get();
-    let fcStr =
+    const fcStr =
       fc != null ? convertUTCDate(fc).toISOString().substring(0, 10) : null;
-    let actStr =
+    const actStr =
       act != null ? convertUTCDate(act).toISOString().substring(0, 10) : null;
     return this.milestoneService.updateByProjectAndMsIdName(
       project.projectId,
