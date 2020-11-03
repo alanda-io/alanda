@@ -1,17 +1,25 @@
-.p-picklist-item {
-  word-break: break-all;
-}
+.user-management {
+  .p-picklist-item {
+    word-break: break-all;
+  }
 
-.p-field:first-child {
-  margin-top: 1rem;
-}
+  .p-field:first-child {
+    margin-top: 1rem;
+  }
 
-.key {
-  text-align: left;
-  vertical-align: middle;
-}
+  .permission-key {
+    width: 300px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    float: left;
+  }
 
-.source {
-  text-align: right;
-  vertical-align: middle;
+  .permission-source {
+    width: 150px;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    float: right;
+  }
 }

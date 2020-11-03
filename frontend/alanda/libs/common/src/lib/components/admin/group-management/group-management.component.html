@@ -3,7 +3,7 @@
   <div class="p-grid p-fluid">
     <!-- Group Table-->
 
-    <div class="p-col-12 p-md-4">
+    <div class="p-col-12 p-lg-4">
       <p-table
         #table
         [value]="groups"
@@ -15,7 +15,8 @@
         [lazy]="true"
         [totalRecords]="totalRecords"
         [loading]="loading"
-        [autoLayout]="true"
+        [autoLayout]="false"
+        [responsive]="false"
         selectionMode="single"
         scrollHeight="320px"
         (onRowSelect)="onGroupSelected($event)"
@@ -23,7 +24,11 @@
       >
         <ng-template pTemplate="header" let-columns>
           <tr>
-            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+            <th
+              *ngFor="let col of columns"
+              [pSortableColumn]="col.field"
+              [class]="{ 'table-header-guid': col.header === 'Guid' }"
+            >
               <strong>{{ col.header }}</strong>
               <p-sortIcon [field]="col.field"></p-sortIcon>
             </th>
@@ -47,7 +52,9 @@
         <ng-template pTemplate="body" let-group let-columns="columns">
           <tr [pSelectableRow]="group">
             <td *ngFor="let col of columns">
-              {{ group[col.field] }}
+              <div class="p-text-nowrap p-text-truncate">
+                {{ group[col.field] }}
+              </div>
             </td>
           </tr>
         </ng-template>
@@ -56,7 +63,7 @@
 
     <!-- Info Tabs -->
 
-    <div class="p-col-12 p-md-8">
+    <div class="p-col-12 p-lg-8">
       <p-tabView>
         <p-tabPanel header="General">
           <div class="p-grid">
@@ -158,11 +165,7 @@
                   [targetStyle]="{ width: '100%', height: '24rem' }"
                 >
                   <ng-template let-role pTemplate="item">
-                    <div class="p-grid">
-                      <div class="p-col-12 key">
-                        {{ role.name }}
-                      </div>
-                    </div>
+                    {{ role.name }}
                   </ng-template>
                 </p-pickList>
               </div>
@@ -189,15 +192,12 @@
                   filterBy="name"
                   [showSourceControls]="false"
                   [showTargetControls]="false"
-                  [style]="{ width: '100%' }"
-                  [sourceStyle]="{ width: '100%', height: '24rem' }"
-                  [targetStyle]="{ width: '100%', height: '24rem' }"
+                  [sourceStyle]="{ height: '24rem' }"
+                  [targetStyle]="{ height: '24rem' }"
                 >
                   <ng-template let-p pTemplate="item">
-                    <div class="p-grid">
-                      <div class="p-col-12 key">
-                        {{ p.key }}
-                      </div>
+                    <div class="permission-key">
+                      {{ p.key }}
                     </div>
                   </ng-template>
                 </p-pickList>

@@ -3,7 +3,7 @@
   <div class="p-grid p-fluid">
     <!-- Group Table-->
 
-    <div class="p-col-12 p-md-4">
+    <div class="p-col-12 p-md-8 p-lg-7">
       <p-table
         #table
         [value]="permissions"
@@ -14,14 +14,19 @@
         [totalRecords]="totalRecords"
         [loading]="loading"
         (onRowUnselect)="onPermissionUnselected()"
-        [autoLayout]="true"
+        [responsive]="false"
+        [autoLayout]="false"
         selectionMode="single"
         scrollHeight="320px"
         (onRowSelect)="onPermissionSelected($event)"
       >
         <ng-template pTemplate="header" let-columns>
           <tr>
-            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+            <th
+              *ngFor="let col of columns"
+              [pSortableColumn]="col.field"
+              [class]="{ 'table-header-guid': col.header === 'Guid' }"
+            >
               <strong>{{ col.header }}</strong>
               <p-sortIcon [field]="col.field"></p-sortIcon>
             </th>
@@ -45,7 +50,9 @@
         <ng-template pTemplate="body" let-permission let-columns="columns">
           <tr [pSelectableRow]="permission">
             <td *ngFor="let col of columns">
-              {{ permission[col.field] }}
+              <div class="p-text-nowrap p-text-truncate">
+                {{ permission[col.field] }}
+              </div>
             </td>
           </tr>
         </ng-template>
@@ -54,49 +61,44 @@
 
     <!-- Group Table-->
 
-    <div class="p-col-12 p-md-8">
+    <div class="p-col-12 p-md-4 p-lg-5">
       <p-tabView>
         <p-tabPanel header="General">
-          <div class="p-grid">
-            <div class="p-col-4">
-              <form (ngSubmit)="onFormSubmit()" [formGroup]="permissionForm">
-                <div class="p-grid">
-                  <div class="p-field p-col-12">
-                    <span class="p-float-label">
-                      <input
-                        id="inputPermissionKey"
-                        type="text"
-                        pInputText
-                        formControlName="key"
-                      />
-                      <label for="inputPermissionKey">Permission key</label>
-                    </span>
-                    <small
-                      class="p-error"
-                      *ngIf="
-                        permissionForm.dirty && !permissionForm.get('key').valid
-                      "
-                      >Please enter a permission key</small
-                    >
-                  </div>
-                </div>
-
-                <div class="p-grid">
-                  <div class="p-col-12 p-md-6">
-                    <button
-                      pButton
-                      type="submit"
-                      [label]="
-                        selectedPermission
-                          ? 'Update Permission'
-                          : 'Create Permission'
-                      "
-                    ></button>
-                  </div>
-                </div>
-              </form>
+          <form (ngSubmit)="onFormSubmit()" [formGroup]="permissionForm">
+            <div class="p-grid">
+              <div class="p-field p-col-12 p-xl-7">
+                <span class="p-float-label">
+                  <input
+                    id="inputPermissionKey"
+                    type="text"
+                    pInputText
+                    formControlName="key"
+                  />
+                  <label for="inputPermissionKey">Permission key</label>
+                </span>
+                <small
+                  class="p-error"
+                  *ngIf="
+                    permissionForm.dirty && !permissionForm.get('key').valid
+                  "
+                  >Please enter a permission key</small
+                >
+              </div>
             </div>
-          </div>
+            <div class="p-grid">
+              <div class="p-col-12 p-xl-7">
+                <button
+                  pButton
+                  type="submit"
+                  [label]="
+                    selectedPermission
+                      ? 'Update Permission'
+                      : 'Create Permission'
+                  "
+                ></button>
+              </div>
+            </div>
+          </form>
         </p-tabPanel>
       </p-tabView>
     </div>

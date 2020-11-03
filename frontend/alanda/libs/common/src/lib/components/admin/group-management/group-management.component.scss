@@ -1,8 +1,15 @@
-.p-field:first-child {
-  margin-top: 1rem;
-}
+.group-management {
+  .table-header-guid {
+    width: 6.2rem;
+  }
 
-.key {
-  text-align: left;
-  vertical-align: middle;
+  .p-field:first-child {
+    margin-top: 1rem;
+  }
+
+  .permission-key {
+    max-width: 350px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }

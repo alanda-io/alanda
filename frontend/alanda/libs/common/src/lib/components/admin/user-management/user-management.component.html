@@ -1,9 +1,9 @@
-<p-panel>
+<p-panel class="user-management">
   <p-header>User Management</p-header>
   <div class="p-grid p-fluid">
     <!-- User Table-->
 
-    <div class="p-col-4">
+    <div class="p-col-12 p-lg-4">
       <p-table
         #table
         [value]="users"
@@ -20,7 +20,7 @@
         scrollHeight="320px"
         (onRowSelect)="onUserSelected($event)"
         (onRowUnselect)="onUserUnselected()"
-        [responsive]="true"
+        [responsive]="false"
       >
         <ng-template pTemplate="header" let-columns>
           <tr>
@@ -56,11 +56,11 @@
     </div>
 
     <!-- Info Tabs -->
-    <div class="p-col-12 p-md-8">
+    <div class="p-col-12 p-lg-8">
       <p-tabView (onChange)="onTabChange($event)">
         <p-tabPanel header="General">
           <div class="p-grid">
-            <div class="p-col-4">
+            <div class="p-col-12 p-md-4">
               <form [formGroup]="userForm" (ngSubmit)="onFormSubmit()">
                 <div class="p-grid">
                   <div class="p-field p-col-12">
@@ -219,9 +219,8 @@
                 filterBy="groupName"
                 [showSourceControls]="false"
                 [showTargetControls]="false"
-                [style]="{ width: '100%' }"
-                [sourceStyle]="{ width: '100%', height: '24rem' }"
-                [targetStyle]="{ width: '100%', height: '24rem' }"
+                [sourceStyle]="{ height: '24rem' }"
+                [targetStyle]="{ height: '24rem' }"
               >
                 <ng-template let-group pTemplate="item">
                   {{ group.groupName }} ({{ group.longName }})
@@ -250,9 +249,8 @@
                 [showSourceControls]="false"
                 [showTargetControls]="false"
                 (onMoveToTarget)="moveRole($event)"
-                [style]="{ width: '100%' }"
-                [sourceStyle]="{ width: '100%', height: '24rem' }"
-                [targetStyle]="{ width: '100%', height: '24rem' }"
+                [sourceStyle]="{ height: '24rem' }"
+                [targetStyle]="{ height: '24rem' }"
               >
                 <ng-template let-role pTemplate="item">
                   <div class="p-grid">
@@ -288,18 +286,15 @@
                 [showSourceControls]="false"
                 [showTargetControls]="false"
                 (onMoveToTarget)="movePermission($event)"
-                [style]="{ width: '100%' }"
-                [sourceStyle]="{ width: '100%', height: '24rem' }"
-                [targetStyle]="{ width: '100%', height: '24rem' }"
+                [sourceStyle]="{ height: '24rem' }"
+                [targetStyle]="{ height: '24rem' }"
               >
                 <ng-template let-p pTemplate="item">
-                  <div class="p-grid">
-                    <div class="p-col-6 key">
-                      {{ p.key }}
-                    </div>
-                    <div class="p-col-4 source" *ngIf="p.source">
-                      ({{ p.source }})
-                    </div>
+                  <div class="permission-key">
+                    {{ p.key }}
+                  </div>
+                  <div class="permission-source" *ngIf="p.source">
+                    ({{ p.source }})
                   </div>
                 </ng-template>
               </p-pickList>
