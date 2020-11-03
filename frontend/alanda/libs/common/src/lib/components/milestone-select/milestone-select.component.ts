@@ -244,7 +244,8 @@ export class AlandaSelectMilestoneComponent {
 
   handleSaveFromComment$ = this.saveFromComment.pipe(
     switchMap(({ msType, commentFormDate, comment }) => {
-      let { fc, act, commentSubject, processInstanceId } = this.state.get();
+      let { fc, act } = this.state.get();
+      const { commentSubject, processInstanceId } = this.state.get();
       if (msType === 'ACT' && this.state.get('commentLabel') === 'Comment') {
         // it was the first time setting ACT
         return zip(
