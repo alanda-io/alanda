@@ -21,6 +21,7 @@ interface AlandaCommentState {
   type: string;
   activeTagFilters: { [name: string]: boolean };
   tag: AlandaCommentTag;
+  avatarPath: string;
 }
 
 /**
@@ -31,8 +32,7 @@ interface AlandaCommentState {
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss'],
 })
-export class AlandaCommentComponent extends RxState<AlandaCommentState>
-  implements OnInit {
+export class AlandaCommentComponent extends RxState<AlandaCommentState> {
   toggleFilterClick$ = new Subject<AlandaCommentTag>();
   commentReplyFormSubmit$ = new Subject<Event>();
 
@@ -62,7 +62,9 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState>
 
   @Input()
   set comment(comment: AlandaComment) {
-    this.set({ comment });
+    this.set({ comment : comment,
+               avatarPath: `${this.avatarBasePath}/${comment.createUser}.${this.avatarExtension}`
+    });
   }
 
   @Input()
@@ -97,12 +99,6 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState>
     super();
     this.avatarBasePath = config.AVATAR_BASE_PATH;
     this.avatarExtension = config.AVATAR_EXT;
-  }
-
-  ngOnInit() {
-    this.avatarPath = `${this.avatarBasePath}/${
-      this.get().comment.createUser
-    }.${this.avatarExtension}`;
   }
 
   autofocus(): void {
