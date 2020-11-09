@@ -114,6 +114,8 @@ export { AlandaRoleManagementComponent } from './lib/components/admin/role-manag
 export { AlandaUserManagementComponent } from './lib/components/admin/user-management/user-management.component';
 export { AlandaGroupManagementComponent } from './lib/components/admin/group-management/group-management.component';
 export { AlandaPermissionManagementComponent } from './lib/components/admin/permission-management/permission-management.component';
+export { AlandaCommentDialogComponent } from './lib/components/comment-dialog/comment-dialog.component';
+export { CommentDialogModule } from './lib/components/comment-dialog/comment-dialog.module';
 export { AlandaCommentsComponent } from './lib/components/comments/comments/comments.component';
 export { AlandaCommentComponent } from './lib/components/comments/comment/comment.component';
 export { AlandaCommentTagComponent } from './lib/components/comments/comment-tag/comment-tag.component';
