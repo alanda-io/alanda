@@ -64,7 +64,11 @@
               pResizableColumn
               [style.width]="col.width + 'px'"
             >
-              <span>{{ col.displayName }}<p-sortIcon></p-sortIcon></span>
+              {{ col.displayName }}
+              <p-sortIcon
+                *ngIf="col.field"
+                field="{{ col.field }}"
+              ></p-sortIcon>
             </th>
           </tr>
           <tr>
