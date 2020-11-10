@@ -5,7 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
-import { LabelModule } from '../../..';
+import { LabelModule } from '../label/label.module';
+
 
 @NgModule({
   declarations: [AlandaCommentDialogComponent],
