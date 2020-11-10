@@ -15,7 +15,6 @@ import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaProject } from '../../api/models/project';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
-import { formatDateISO } from '../../utils/helper-functions';
 
 const defaultLayoutInit = 0;
 
@@ -174,9 +173,5 @@ export class AlandaProjectTableComponent implements OnInit {
     this.serverOptions.pageNumber = Math.ceil(firstEntry / pageSize);
 
     this.loadProjects(this.serverOptions);
-  }
-
-  onDateSelect(value, field): void {
-    this.turboTable.filter(formatDateISO(value), field, 'contains');
   }
 }

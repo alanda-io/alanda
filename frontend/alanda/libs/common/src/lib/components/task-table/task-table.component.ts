@@ -19,7 +19,6 @@ import { isObservable, Observable, Subject } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { AlandaProject } from '../../api/models/project';
-import { formatDateISO } from '../../utils/helper-functions';
 
 const defaultLayoutInit = 0;
 
@@ -331,9 +330,5 @@ export class AlandaTaskTableComponent implements OnInit {
 
   openTask(formKey: string, taskId: string): void {
     window.open(this.getTaskPath(formKey, taskId), '_blank');
-  }
-
-  onDateSelect(value, field): void {
-    this.turboTable.filter(formatDateISO(value), field, 'contains');
   }
 }

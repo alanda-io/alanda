@@ -81,19 +81,7 @@
           </tr>
           <tr>
             <th *ngFor="let col of columns">
-              <p-calendar
-                *ngIf="col.type && col.type === 'date'"
-                (onSelect)="onDateSelect($event, col.field)"
-                (onClearClick)="tt.filter('', col.field, 'equals')"
-                [showButtonBar]="true"
-                styleClass="p-column-filter"
-                [readonlyInput]="true"
-                [appendTo]="'body'"
-                [dateFormat]="dateFormatPrime"
-              >
-              </p-calendar>
               <input
-                *ngIf="!col || col.type !== 'date'"
                 pInputText
                 type="text"
                 class="header-col-filter"
