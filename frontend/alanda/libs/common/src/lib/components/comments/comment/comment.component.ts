@@ -62,8 +62,9 @@ export class AlandaCommentComponent extends RxState<AlandaCommentState> {
 
   @Input()
   set comment(comment: AlandaComment) {
-    this.set({ comment : comment,
-               avatarPath: `${this.avatarBasePath}/${comment.createUser}.${this.avatarExtension}`
+    this.set({
+      comment: comment,
+      avatarPath: `${this.avatarBasePath}/${comment.createUser}.${this.avatarExtension}`,
     });
   }
 

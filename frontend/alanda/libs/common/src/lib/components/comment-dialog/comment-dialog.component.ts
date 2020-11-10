@@ -37,31 +37,33 @@ const initState = {
     commentTextAreaPlaceholder: 'Write your thoughts here',
     commentSubject: '',
     commentButtonClass: 'ui-button-success',
-    commentButtonIcon: 'pi pi-check'
-  }
+    commentButtonIcon: 'pi pi-check',
+  },
 };
 @Component({
   selector: 'alanda-comment-dialog',
   templateUrl: './comment-dialog.component.html',
-  styleUrls: ['./comment-dialog.component.css']
+  styleUrls: ['./comment-dialog.component.css'],
 })
 export class AlandaCommentDialogComponent {
   state$ = this.state.select();
   saveComment$ = new Subject<string>();
   onVisibleChange$ = new Subject<boolean>();
   commentForm = this.fb.group({
-    comment: [null, Validators.required]
+    comment: [null, Validators.required],
   });
 
-  @Input() set dialogProperties(properties: Partial<CommentDialogProperties>){
-    this.state.set( { properties : { ...this.state.get('properties'),...properties}});
+  @Input() set dialogProperties(properties: Partial<CommentDialogProperties>) {
+    this.state.set({
+      properties: { ...this.state.get('properties'), ...properties },
+    });
   }
-  @Input() set task ( task : AlandaTask){
-    this.state.set({task});
+  @Input() set task(task: AlandaTask) {
+    this.state.set({ task });
   }
 
-  @Input() set isVisible(showCommentDialog: boolean){
-    this.state.set( {showCommentDialog});
+  @Input() set isVisible(showCommentDialog: boolean) {
+    this.state.set({ showCommentDialog });
   }
   get isVisible() {
     return this.state.get('showCommentDialog');
@@ -71,40 +73,35 @@ export class AlandaCommentDialogComponent {
   @Output() commentSaved = new EventEmitter<boolean>();
 
   visibleChange$ = this.state.select('showCommentDialog').pipe(
-    tap( (val) => {
+    tap((val) => {
       this.isVisibleChange.emit(val);
     }),
   );
 
   sendCommentSaved$ = this.saveComment$.pipe(
-    tap( () => this.commentSaved.emit(true)),
+    tap(() => this.commentSaved.emit(true)),
   );
 
-  handleSaveComment$ = combineLatest(
-    [
-      this.saveComment$,
-      this.state.select('task')
-    ]
-  ).pipe(
-    switchMap( ( [comment,task]) =>
-      this.commentService.postComment(
-        {
-          subject: this.state.get('properties').commentSubject,
-          text: comment,
-          taskId: task.task_id,
-          procInstId: task.process_instance_id,
-        }
-      )
+  handleSaveComment$ = combineLatest([
+    this.saveComment$,
+    this.state.select('task'),
+  ]).pipe(
+    switchMap(([comment, task]) =>
+      this.commentService.postComment({
+        subject: this.state.get('properties').commentSubject,
+        text: comment,
+        taskId: task.task_id,
+        procInstId: task.process_instance_id,
+      }),
     ),
-    catchError(err => {
-      console.log(err)
+    catchError((err) => {
+      console.log(err);
       return EMPTY;
     }),
-    switchMap( () => {
+    switchMap(() => {
       return of(false);
     }),
   );
-
 
   constructor(
     private state: RxState<CommentState>,
@@ -114,7 +111,7 @@ export class AlandaCommentDialogComponent {
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
     this.state.set(initState);
-    this.state.connect('showCommentDialog',this.handleSaveComment$);
+    this.state.connect('showCommentDialog', this.handleSaveComment$);
     this.state.hold(this.sendCommentSaved$);
     this.state.hold(this.visibleChange$);
   }
@@ -122,5 +119,4 @@ export class AlandaCommentDialogComponent {
   get comment(): AbstractControl {
     return this.commentForm.get('comment');
   }
-
 }

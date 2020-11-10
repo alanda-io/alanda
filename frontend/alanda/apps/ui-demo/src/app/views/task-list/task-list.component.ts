@@ -46,12 +46,14 @@ export class AlandaTaskListComponent {
           displayName: 'Cluster',
           name: 'Cluster',
           field: 'refObject.clusterIdName',
+          sortable: true,
         },
         { displayName: 'Address', name: 'Address', field: 'refObject.address' },
         {
           displayName: 'Project ID',
           name: 'Project ID',
           field: 'project.projectId',
+          sortable: false,
         },
         {
           displayName: 'Prio',

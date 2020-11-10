@@ -60,13 +60,21 @@
           <tr>
             <th
               *ngFor="let col of columns"
-              [pSortableColumn]="col.field"
+              [pSortableColumn]="
+                col.field &&
+                (col.sortable == undefined || col.sortable === true)
+                  ? col.field
+                  : null
+              "
               pResizableColumn
               [style.width]="col.width + 'px'"
             >
               {{ col.displayName }}
               <p-sortIcon
-                *ngIf="col.field"
+                *ngIf="
+                  col.field &&
+                  (col.sortable == undefined || col.sortable === true)
+                "
                 field="{{ col.field }}"
               ></p-sortIcon>
             </th>

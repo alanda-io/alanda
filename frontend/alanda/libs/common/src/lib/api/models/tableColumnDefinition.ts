@@ -10,4 +10,5 @@ export interface AlandaTableColumnDefinition {
   template?: string;
   filter?: string;
   type?: TableColumnType;
+  sortable?: boolean;
 }

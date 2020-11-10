@@ -123,7 +123,7 @@ import { CommentDialogModule } from './components/comment-dialog/comment-dialog.
     MilestoneSelectModule,
     SnoozeModule,
     LabelModule,
-    CommentDialogModule
+    CommentDialogModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,
