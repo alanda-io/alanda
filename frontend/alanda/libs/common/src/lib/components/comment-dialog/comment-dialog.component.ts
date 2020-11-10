@@ -6,7 +6,9 @@ import { combineLatest, EMPTY, of, Subject } from 'rxjs';
 import { RxState } from '@rx-angular/state';
 import { MessageService } from 'primeng/api';
 import { EventEmitter } from '@angular/core';
-import { AlandaCommentApiService, AlandaTask, APP_CONFIG, AppSettings } from '../../..';
+import { AlandaTask } from '../../api/models/task';
+import { AlandaCommentApiService } from '../../api/commentApi.service';
+import { AppSettings, APP_CONFIG } from '../../models/appSettings';
 
 interface CommentDialogProperties {
   dialogHeader: string;
