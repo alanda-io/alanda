@@ -97,12 +97,12 @@ export class AlandaTaskTableComponent implements OnInit {
 
     this.menuItems = [
       {
-        label: 'Download CSV visible Data',
+        label: 'Download CSV visible page',
         icon: 'pi pi-fw pi-download',
         command: () => this.turboTable.exportCSV(),
       },
       {
-        label: 'Download CSV all Data',
+        label: 'Download CSV all pages',
         icon: 'pi pi-fw pi-download',
         command: () => this.exportAllData(),
       },
@@ -143,7 +143,7 @@ export class AlandaTaskTableComponent implements OnInit {
   }
 
   loadTasks(serverOptions: ServerOptions): void {
-    this.state.set({serverOptions});
+    this.state.set({ serverOptions });
     this.loading = true;
     this.taskService.loadTasks(serverOptions).subscribe(
       (res) => {
@@ -350,65 +350,61 @@ export class AlandaTaskTableComponent implements OnInit {
     const serverOptions = this.state.get('serverOptions');
     serverOptions.pageNumber = 1;
     serverOptions.pageSize = this.tasksData.total;
-    this.taskService.loadTasks(serverOptions).subscribe(
-      (res) => {
-        const data = [...res.results];
-        let csv = '';
-        const columns = this.selectedLayout.columnDefs;
-        // header
-        for (let i = 0; i < columns.length; i++) {
-          const column = columns[i];
-          if ( column.field) {
-            csv += '"' + column.displayName + '"';
+    this.taskService.loadTasks(serverOptions).subscribe((res) => {
+      const data = [...res.results];
+      let csv = '';
+      const columns = this.selectedLayout.columnDefs;
+      // header
+      for (let i = 0; i < columns.length; i++) {
+        const column = columns[i];
+        if (column.field) {
+          csv += '"' + column.displayName + '"';
 
-            if (i < (columns.length - 1)) {
+          if (i < columns.length - 1) {
+            csv += ',';
+          }
+        }
+      }
+      // body
+      data.forEach((record, i) => {
+        csv += '\n';
+        columns.forEach((column) => {
+          if (column.field) {
+            let cellData = ObjectUtils.resolveFieldData(record, column.field);
+            if (cellData != null) {
+              cellData = String(cellData).replace(/"/g, '""');
+            } else {
+              cellData = '';
+            }
+
+            csv += '"' + cellData + '"';
+
+            if (i < columns.length - 1) {
               csv += ',';
             }
           }
-        }
-        // body
-        data.forEach((record, i) => {
-          csv += '\n';
-          columns.forEach( ( column) => {
-            if (column.field) {
-              let cellData = ObjectUtils.resolveFieldData(record, column.field);
-              if (cellData != null) {
-                cellData = String(cellData).replace(/"/g, '""');
-              } else {
-                cellData = '';
-              }
-
-              csv += '"' + cellData + '"';
-
-              if (i < (columns.length - 1)) {
-                csv += ',';
-              }
-            }
-          });
         });
-        const blob = new Blob([csv], {
-          type: 'text/csv;charset=utf-8;'
-        });
+      });
+      const blob = new Blob([csv], {
+        type: 'text/csv;charset=utf-8;',
+      });
 
-        if (window.navigator.msSaveOrOpenBlob) {
-          navigator.msSaveOrOpenBlob(blob, this.exportFileName + '.csv');
+      if (window.navigator.msSaveOrOpenBlob) {
+        navigator.msSaveOrOpenBlob(blob, this.exportFileName + '.csv');
+      } else {
+        const link = document.createElement('a');
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        if (link.download !== undefined) {
+          link.setAttribute('href', URL.createObjectURL(blob));
+          link.setAttribute('download', this.exportFileName + '.csv');
+          link.click();
+        } else {
+          csv = 'data:text/csv;charset=utf-8,' + csv;
+          window.open(encodeURI(csv));
         }
-        else {
-          const link = document.createElement("a");
-          link.style.display = 'none';
-          document.body.appendChild(link);
-          if (link.download !== undefined) {
-            link.setAttribute('href', URL.createObjectURL(blob));
-            link.setAttribute('download', this.exportFileName + '.csv');
-            link.click();
-          }
-          else {
-            csv = 'data:text/csv;charset=utf-8,' + csv;
-            window.open(encodeURI(csv));
-          }
-          document.body.removeChild(link);
-        }
+        document.body.removeChild(link);
       }
-    );
+    });
   }
 }
