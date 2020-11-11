@@ -19,6 +19,7 @@ import { isObservable, Observable, Subject } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { AlandaProject } from '../../api/models/project';
+import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
 
 const defaultLayoutInit = 0;
 
@@ -73,6 +74,8 @@ export class AlandaTaskTableComponent implements OnInit {
   candidateUsers: any[] = [];
   delegatedTaskData: any;
   dateFormatPrime: string;
+  hiddenColumns = {};
+  filteredColumns: AlandaTableColumnDefinition[] = [];
 
   @ViewChild('tt') turboTable: Table;
 
@@ -90,19 +93,6 @@ export class AlandaTaskTableComponent implements OnInit {
       total: 0,
       results: [],
     };
-
-    this.menuItems = [
-      {
-        label: 'Download CSV',
-        icon: 'pi pi-fw pi-download',
-        command: () => this.turboTable.exportCSV(),
-      },
-      {
-        label: 'Reset all filters',
-        icon: 'pi pi-fw pi-times',
-        command: () => this.turboTable.clear(),
-      },
-    ];
 
     this.state.connect(
       this.setupProjectDetailsModalEvent$.pipe(
@@ -129,6 +119,8 @@ export class AlandaTaskTableComponent implements OnInit {
   ngOnInit(): void {
     if (!this.selectedLayout) {
       this.selectedLayout = this.layouts[this._defaultLayout];
+      this.filteredColumns = this.layouts[this._defaultLayout].columnDefs;
+      this.menuItems = this.updateMenu(this.filteredColumns);
     }
     this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
   }
@@ -197,6 +189,8 @@ export class AlandaTaskTableComponent implements OnInit {
   onChangeLayout(): void {
     this.loadTasksLazy(this.turboTable as LazyLoadEvent);
     this.layoutChanged.next(this.selectedLayout);
+    this.filteredColumns = this.selectedLayout.columnDefs;
+    this.menuItems = this.updateMenu(this.filteredColumns);
   }
 
   toggleGroupTasks(value: boolean): void {
@@ -330,5 +324,60 @@ export class AlandaTaskTableComponent implements OnInit {
 
   openTask(formKey: string, taskId: string): void {
     window.open(this.getTaskPath(formKey, taskId), '_blank');
+  }
+
+  updateMenu(columnDefs: AlandaTableColumnDefinition[]): MenuItem[] {
+    this.hiddenColumns = {};
+    const columnMenuItems: MenuItem[] = [];
+    columnDefs.forEach((column) => {
+      columnMenuItems.push({
+        label: column.displayName,
+        icon: 'pi pi-eye',
+        command: () => this.toggleColumn(column.name),
+      });
+    });
+
+    return [
+      {
+        label: 'Primary Actions',
+        items: [
+          {
+            label: 'Download CSV',
+            icon: 'pi pi-fw pi-download',
+            command: () => this.turboTable.exportCSV(),
+          },
+          {
+            label: 'Reset all filters',
+            icon: 'pi pi-fw pi-times',
+            command: () => this.turboTable.clear(),
+          },
+        ],
+      },
+      {
+        label: 'Column display',
+        items: columnMenuItems,
+      },
+    ];
+  }
+
+  toggleColumn(name: string): void {
+    if (this.hiddenColumns.hasOwnProperty(name)) {
+      const index = this.hiddenColumns[name];
+      delete this.hiddenColumns[name];
+      this.menuItems[1].items[index].icon = 'pi pi-eye';
+    } else {
+      this.selectedLayout.columnDefs.some((column, index) => {
+        if (column.name === name) {
+          this.hiddenColumns[column.name] = index;
+          this.menuItems[1].items[index].icon = 'pi pi-eye-slash';
+          return true;
+        }
+      });
+    }
+    this.filteredColumns = this.selectedLayout.columnDefs.filter(
+      (column, index) => {
+        return !this.hiddenColumns.hasOwnProperty(column.name);
+      },
+    );
   }
 }
