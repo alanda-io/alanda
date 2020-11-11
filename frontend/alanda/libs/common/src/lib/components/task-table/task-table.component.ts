@@ -19,6 +19,8 @@ import { isObservable, Observable, Subject } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { AlandaProject } from '../../api/models/project';
+import { ObjectUtils } from 'primeng/utils';
+import { formatDateISO } from '../../utils/helper-functions';
 
 const defaultLayoutInit = 0;
 
@@ -26,6 +28,7 @@ interface AlandaTaskTableState {
   selectedProject: AlandaProject;
   showProjectDetailsModal: boolean;
   user: AlandaUser;
+  serverOptions: ServerOptions;
 }
 
 @Component({
@@ -39,6 +42,7 @@ export class AlandaTaskTableComponent implements OnInit {
   private _defaultLayout = defaultLayoutInit;
   closeProjectDetailsModalEvent$ = new Subject<AlandaProject>();
   setupProjectDetailsModalEvent$ = new Subject<AlandaProject>();
+  exportFileName = 'download';
   @Input() set defaultLayout(defaultLayout: number) {
     this._defaultLayout = defaultLayout;
     if (this.layouts) {
@@ -93,9 +97,14 @@ export class AlandaTaskTableComponent implements OnInit {
 
     this.menuItems = [
       {
-        label: 'Download CSV',
+        label: 'Download CSV visible page',
         icon: 'pi pi-fw pi-download',
         command: () => this.turboTable.exportCSV(),
+      },
+      {
+        label: 'Download CSV all pages',
+        icon: 'pi pi-fw pi-download',
+        command: () => this.exportAllData(),
       },
       {
         label: 'Reset all filters',
@@ -134,6 +143,7 @@ export class AlandaTaskTableComponent implements OnInit {
   }
 
   loadTasks(serverOptions: ServerOptions): void {
+    this.state.set({ serverOptions });
     this.loading = true;
     this.taskService.loadTasks(serverOptions).subscribe(
       (res) => {
@@ -330,5 +340,71 @@ export class AlandaTaskTableComponent implements OnInit {
 
   openTask(formKey: string, taskId: string): void {
     window.open(this.getTaskPath(formKey, taskId), '_blank');
+  }
+
+  onDateSelect(value, field): void {
+    this.turboTable.filter(formatDateISO(value), field, 'contains');
+  }
+
+  exportAllData() {
+    const serverOptions = this.state.get('serverOptions');
+    serverOptions.pageNumber = 1;
+    serverOptions.pageSize = this.tasksData.total;
+    this.taskService.loadTasks(serverOptions).subscribe((res) => {
+      const data = [...res.results];
+      let csv = '';
+      const columns = this.selectedLayout.columnDefs;
+      // header
+      for (let i = 0; i < columns.length; i++) {
+        const column = columns[i];
+        if (column.field) {
+          csv += '"' + column.displayName + '"';
+
+          if (i < columns.length - 1) {
+            csv += ',';
+          }
+        }
+      }
+      // body
+      data.forEach((record, i) => {
+        csv += '\n';
+        columns.forEach((column) => {
+          if (column.field) {
+            let cellData = ObjectUtils.resolveFieldData(record, column.field);
+            if (cellData != null) {
+              cellData = String(cellData).replace(/"/g, '""');
+            } else {
+              cellData = '';
+            }
+
+            csv += '"' + cellData + '"';
+
+            if (i < columns.length - 1) {
+              csv += ',';
+            }
+          }
+        });
+      });
+      const blob = new Blob([csv], {
+        type: 'text/csv;charset=utf-8;',
+      });
+
+      if (window.navigator.msSaveOrOpenBlob) {
+        navigator.msSaveOrOpenBlob(blob, this.exportFileName + '.csv');
+      } else {
+        const link = document.createElement('a');
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        if (link.download !== undefined) {
+          link.setAttribute('href', URL.createObjectURL(blob));
+          link.setAttribute('download', this.exportFileName + '.csv');
+          link.click();
+        } else {
+          csv = 'data:text/csv;charset=utf-8,' + csv;
+          window.open(encodeURI(csv));
+        }
+        document.body.removeChild(link);
+      }
+    });
   }
 }
