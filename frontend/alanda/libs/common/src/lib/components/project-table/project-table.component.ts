@@ -38,7 +38,6 @@ export class AlandaProjectTableComponent implements OnInit {
     this._defaultLayout = defaultLayout;
     if (this.layouts) {
       this.selectedLayout = this.layouts[this._defaultLayout];
-      this.onChangeLayout();
     }
   }
   @Input() layouts: AlandaTableLayout[];
@@ -127,21 +126,13 @@ export class AlandaProjectTableComponent implements OnInit {
 
     this.serverOptions.pageNumber =
       event.first / this.serverOptions.pageSize + 1;
+
+    this.state.set({ serverOptions: this.serverOptions });
     this.loadProjects(this.serverOptions);
   }
 
   onChangeLayout() {
-    this.serverOptions.pageNumber = 1;
-    this.serverOptions.filterOptions = {};
-    if (this.selectedLayout.filterOptions) {
-      for (const [key, value] of Object.entries(
-        this.selectedLayout.filterOptions,
-      )) {
-        this.serverOptions.filterOptions[key] = value;
-      }
-    }
-    this.state.set({ serverOptions: this.serverOptions });
-    this.loadProjects(this.serverOptions);
+    this.loadProjectsLazy(this.turboTable);
     this.layoutChanged.next(this.selectedLayout);
     this.filteredColumns = this.selectedLayout.columnDefs;
     this.menuItems = this.updateMenu(this.filteredColumns);
