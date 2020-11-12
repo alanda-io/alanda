@@ -36,8 +36,9 @@ export class AlandaProjectTableComponent implements OnInit {
   private _defaultLayout = defaultLayoutInit;
   @Input() set defaultLayout(defaultLayout: number) {
     this._defaultLayout = defaultLayout;
-    if (this.layouts) {
+    if (this.layouts && this.turboTable) {
       this.selectedLayout = this.layouts[this._defaultLayout];
+      this.loadProjectsLazy(this.turboTable);
     }
   }
   @Input() layouts: AlandaTableLayout[];
