@@ -18,7 +18,7 @@ import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { RxState } from '@rx-angular/state';
 import { exportAsCsv } from '../../utils/helper-functions';
 import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const defaultLayoutInit = 0;
 const EXPORT_FILE_NAME = 'download';
@@ -154,8 +154,8 @@ export class AlandaProjectTableComponent implements OnInit {
   }
 
   openProject(projectId: string): void {
-    const url = this.router.createUrlTree([this.getProjectPath(projectId)]);
-    window.open(url.toString(), this.targetDblClick);
+    const baseUrl = window.location.href?.replace(this.router.url,'');
+    window.open(baseUrl.concat(this.getProjectPath(projectId)), this.targetDblClick);
   }
 
   getProjectPath(projectId: string): string {

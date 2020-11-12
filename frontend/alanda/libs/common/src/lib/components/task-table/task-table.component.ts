@@ -29,7 +29,7 @@ import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { AlandaProject } from '../../api/models/project';
 import { exportAsCsv, formatDateISO } from '../../utils/helper-functions';
 import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const DEFAULT_LAYOUT_INIT = 0;
 const EXPORT_FILE_NAME = 'download';
@@ -371,8 +371,8 @@ export class AlandaTaskTableComponent implements OnInit {
   }
 
   openTask(formKey: string, taskId: string): void {
-    const url = this.router.createUrlTree([this.getTaskPath(formKey,taskId)]);
-    window.open(url.toString(), this.targetDblClick);
+    const baseUrl = window.location.href?.replace(this.router.url,'');
+    window.open(baseUrl.concat(this.getTaskPath(formKey,taskId)), this.targetDblClick);
   }
 
   onDateSelect(value, field): void {
