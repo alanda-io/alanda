@@ -40,18 +40,18 @@
   <div class="p-grid">
     <div class="p-col-12">
       <p-table
-        *ngIf="selectedLayout && tasksData"
+        *ngIf="selectedLayout && s.tasksData"
         #tt
         [class]="'task-table'"
-        [value]="tasksData.results"
+        [value]="s.tasksData?.results"
         [columns]="filteredColumns"
         [paginator]="true"
         [rows]="15"
         [lazy]="true"
-        [totalRecords]="tasksData.total"
-        (onLazyLoad)="loadTasksLazy($event)"
+        [totalRecords]="s.tasksData?.total"
+        (onLazyLoad)="tableLazyLoadEvent$.next($event)"
         [autoLayout]="autoLayout"
-        [loading]="loading"
+        [loading]="s.loading"
         [resizableColumns]="resizableColumns"
         [responsive]="responsive"
         [tableStyle]="tableStyle"
@@ -155,7 +155,9 @@
         </ng-template>
         <ng-template pTemplate="paginatorleft"></ng-template>
         <ng-template pTemplate="paginatorright">
-          <span *ngIf="tasksData.total">Total: {{ tasksData.total }}</span>
+          <span *ngIf="s.tasksData?.total"
+            >Total: {{ s.tasksData?.total }}</span
+          >
         </ng-template>
       </p-table>
     </div>

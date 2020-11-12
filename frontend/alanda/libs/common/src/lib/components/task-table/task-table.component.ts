@@ -15,22 +15,42 @@ import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaTask } from '../../api/models/task';
 import { RxState } from '@rx-angular/state';
-import { isObservable, Observable, Subject } from 'rxjs';
-import { delay, filter, map } from 'rxjs/operators';
+import { isObservable, merge, Observable, of, Subject } from 'rxjs';
+import {
+  catchError,
+  delay,
+  filter,
+  map,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { AlandaProject } from '../../api/models/project';
 import { ObjectUtils } from 'primeng/utils';
 import { formatDateISO } from '../../utils/helper-functions';
 import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
 
-const defaultLayoutInit = 0;
+const DEFAULT_LAYOUT_INIT = 0;
+const EXPORT_FILE_NAME = 'download';
+const CLAIM_TEXT = 'Claim';
+const UNCLAIM_TEXT = 'Unclaim';
 
 interface AlandaTaskTableState {
+  loading: boolean;
   selectedProject: AlandaProject;
   showProjectDetailsModal: boolean;
   user: AlandaUser;
   serverOptions: ServerOptions;
+  tasksData: AlandaListResult<AlandaTask>;
 }
+
+const initState = {
+  tasksData: {
+    total: 0,
+    results: [],
+  },
+};
 
 @Component({
   selector: 'alanda-task-table',
@@ -40,10 +60,11 @@ interface AlandaTaskTableState {
 })
 export class AlandaTaskTableComponent implements OnInit {
   state$ = this.state.select();
-  private _defaultLayout = defaultLayoutInit;
+  private _defaultLayout = DEFAULT_LAYOUT_INIT;
   closeProjectDetailsModalEvent$ = new Subject<AlandaProject>();
+  needReloadEvent$ = new Subject();
   setupProjectDetailsModalEvent$ = new Subject<AlandaProject>();
-  exportFileName = 'download';
+  tableLazyLoadEvent$ = new Subject<LazyLoadEvent>();
   @Input() set defaultLayout(defaultLayout: number) {
     this._defaultLayout = defaultLayout;
     if (this.layouts) {
@@ -70,9 +91,7 @@ export class AlandaTaskTableComponent implements OnInit {
   @Output() layoutChanged = new Subject<AlandaTableLayout>();
   @Output() toggleGroupTasksChanged = new Subject<boolean>();
 
-  tasksData: AlandaListResult<AlandaTask>;
   selectedLayout: AlandaTableLayout;
-  loading = true;
   menuItems: MenuItem[];
   showDelegateDialog = false;
   candidateUsers: any[] = [];
@@ -83,20 +102,48 @@ export class AlandaTaskTableComponent implements OnInit {
 
   @ViewChild('tt') turboTable: Table;
 
+  /**
+   * Loads tasks from server when the server options changes or
+   * when a need reload event is triggered
+   *
+   * @returns data { tasksData: AlandaListResult<AlandaTask>, working: boolean }
+   */
+  loadTaskFromServer$ = merge(
+    this.tableLazyLoadEvent$,
+    this.needReloadEvent$.pipe(
+      delay(1000),
+      map(() => this.turboTable),
+    ),
+  ).pipe(
+    map((event) => this.buildServerOptions(event)),
+    switchMap((serverOptions) =>
+      this.taskService.loadTasks(serverOptions).pipe(
+        map((tasks) => this.mapClaimLabels(tasks)),
+        map((tasksData) => ({ serverOptions, tasksData, loading: false })),
+        startWith({ loading: true }),
+        catchError((err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Load Tasks',
+            detail: err.message,
+          });
+          return of({ serverOptions, loading: false });
+        }),
+      ),
+    ),
+  );
+
   constructor(
     private readonly taskService: AlandaTaskApiService,
     public messageService: MessageService,
     private state: RxState<AlandaTaskTableState>,
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
+    this.state.set(initState);
     if (!this.dateFormat) {
       this.dateFormat = config.DATE_FORMAT;
     }
     this.dateFormatPrime = config.DATE_FORMAT_PRIME;
-    this.tasksData = {
-      total: 0,
-      results: [],
-    };
 
     this.state.connect(
       this.setupProjectDetailsModalEvent$.pipe(
@@ -110,14 +157,17 @@ export class AlandaTaskTableComponent implements OnInit {
       'showProjectDetailsModal',
       this.closeProjectDetailsModalEvent$.pipe(map(() => false)),
     );
-
+    this.state.connect(this.loadTaskFromServer$);
     this.state.hold(
       this.closeProjectDetailsModalEvent$.pipe(
         filter((project) => !!project),
         delay(1000),
-        map(() => this.loadTasksLazy(this.turboTable as LazyLoadEvent)),
+        tap(() => this.needReloadEvent$.next()),
       ),
     );
+
+    this.state.hold(this.needReloadEvent$);
+    this.state.hold(this.tableLazyLoadEvent$);
   }
 
   ngOnInit(): void {
@@ -129,33 +179,7 @@ export class AlandaTaskTableComponent implements OnInit {
     this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
   }
 
-  loadTasks(serverOptions: ServerOptions): void {
-    this.state.set({ serverOptions });
-    this.loading = true;
-    this.taskService.loadTasks(serverOptions).subscribe(
-      (res) => {
-        this.tasksData.total = res.total;
-        this.tasksData.results = [...res.results];
-        for (const task of this.tasksData.results) {
-          task.claimLabel = 'Claim';
-          if (this.state.get().user.guid === +task.task.assignee_id) {
-            task.claimLabel = 'Unclaim';
-          }
-        }
-        this.loading = false;
-      },
-      (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Load Tasks',
-          detail: error.message,
-        });
-        this.loading = false;
-      },
-    );
-  }
-
-  loadTasksLazy(event: LazyLoadEvent): void {
+  buildServerOptions(event: LazyLoadEvent): ServerOptions {
     const serverOptions: ServerOptions = {
       pageNumber: event.first / event.rows + 1,
       pageSize: event.rows,
@@ -188,11 +212,25 @@ export class AlandaTaskTableComponent implements OnInit {
       serverOptions.sortOptions[event.sortField] = { dir, prio: 0 };
     }
 
-    this.loadTasks(serverOptions);
+    return serverOptions;
+  }
+
+  mapClaimLabels(
+    tasks: AlandaListResult<AlandaTask>,
+  ): AlandaListResult<AlandaTask> {
+    const user = this.state.get()?.user;
+    const newList = tasks?.results?.map((task) => {
+      task.claimLabel =
+        user?.guid === +task.task?.assignee_id ? UNCLAIM_TEXT : CLAIM_TEXT;
+      return task;
+    });
+
+    tasks.results = newList;
+    return tasks;
   }
 
   onChangeLayout(): void {
-    this.loadTasksLazy(this.turboTable as LazyLoadEvent);
+    this.needReloadEvent$.next();
     this.layoutChanged.next(this.selectedLayout);
     this.filteredColumns = this.selectedLayout.columnDefs;
     this.menuItems = this.updateMenu(this.filteredColumns);
@@ -200,7 +238,7 @@ export class AlandaTaskTableComponent implements OnInit {
 
   toggleGroupTasks(value: boolean): void {
     this.groupTasks = value;
-    this.loadTasksLazy(this.turboTable as LazyLoadEvent);
+    this.needReloadEvent$.next();
     this.toggleGroupTasksChanged.next(value);
   }
 
@@ -215,30 +253,30 @@ export class AlandaTaskTableComponent implements OnInit {
     return evalCon()(obj);
   }
 
+  // TODO Kill and Refactor
   claimAction(task): void {
-    this.loading = true;
+    this.state.set({ loading: true });
     if (this.state.get().user.guid === +task.task.assignee_id) {
       this.taskService.unclaim(task.task.task_id).subscribe(
-        (res) => {
-          this.loading = false;
+        () => {
           if (this.groupTasks) {
             task.task.assignee_id = 0;
             task.task.assignee = '';
             task.claimLabel = 'Claim';
           } else {
-            this.tasksData.results.splice(
-              this.tasksData.results.indexOf(task),
-              1,
-            );
+            const tasksData = this.state.get()?.tasksData;
+            tasksData.results.splice(tasksData.results.indexOf(task), 1);
+            this.state.set({ tasksData });
           }
           this.messageService.add({
             severity: 'success',
             summary: 'Unclaim Task',
             detail: 'Task has been unclaimed',
           });
+          this.needReloadEvent$.next();
         },
         (error) => {
-          this.loading = false;
+          this.state.set({ loading: false });
           this.messageService.add({
             severity: 'error',
             summary: 'Unclaim Task',
@@ -251,7 +289,6 @@ export class AlandaTaskTableComponent implements OnInit {
         .assign(task.task.task_id, this.state.get().user.guid)
         .subscribe(
           (res) => {
-            this.loading = false;
             task.task.assignee_id = String(this.state.get().user.guid);
             task.task.assignee =
               this.state.get().user.firstName +
@@ -263,9 +300,10 @@ export class AlandaTaskTableComponent implements OnInit {
               summary: 'Claim Task',
               detail: 'Task has been claimed',
             });
+            this.needReloadEvent$.next();
           },
           (error) => {
-            this.loading = false;
+            this.state.set({ loading: false });
             this.messageService.add({
               severity: 'error',
               summary: 'Claim Task',
@@ -284,14 +322,14 @@ export class AlandaTaskTableComponent implements OnInit {
     });
   }
 
+  // TODO Kill and Refactor
   delegateTask(selectedUser): void {
     if (selectedUser) {
-      this.loading = true;
+      this.state.set({ loading: true });
       this.taskService
         .assign(this.delegatedTaskData.task.task_id, selectedUser.guid)
         .subscribe(
           (res) => {
-            this.loading = false;
             if (
               this.groupTasks ||
               selectedUser.guid === String(this.state.get().user.guid)
@@ -299,15 +337,18 @@ export class AlandaTaskTableComponent implements OnInit {
               this.delegatedTaskData.task.assignee_id = +selectedUser.guid;
               this.delegatedTaskData.task.assignee = selectedUser.displayName;
             } else {
-              this.tasksData.results.splice(
-                this.tasksData.results.indexOf(this.delegatedTaskData),
+              const tasksData = this.state.get()?.tasksData;
+              tasksData.results.splice(
+                tasksData.results.indexOf(this.delegatedTaskData),
                 1,
               );
+              this.state.set({ tasksData });
             }
             this.hideDelegateDialog();
+            this.needReloadEvent$.next();
           },
           (err) => {
-            this.loading = false;
+            this.state.set({ loading: false });
             this.hideDelegateDialog();
           },
         );
@@ -335,10 +376,11 @@ export class AlandaTaskTableComponent implements OnInit {
     this.turboTable.filter(formatDateISO(value), field, 'contains');
   }
 
+  // TODO Kill and Refactor
   exportAllData() {
-    const serverOptions = this.state.get('serverOptions');
+    const { serverOptions, tasksData } = this.state.get();
     serverOptions.pageNumber = 1;
-    serverOptions.pageSize = this.tasksData.total;
+    serverOptions.pageSize = tasksData.total;
     this.taskService.loadTasks(serverOptions).subscribe((res) => {
       const data = [...res.results];
       let csv = '';
@@ -379,14 +421,14 @@ export class AlandaTaskTableComponent implements OnInit {
       });
 
       if (window.navigator.msSaveOrOpenBlob) {
-        navigator.msSaveOrOpenBlob(blob, this.exportFileName + '.csv');
+        navigator.msSaveOrOpenBlob(blob, `${EXPORT_FILE_NAME}.csv`);
       } else {
         const link = document.createElement('a');
         link.style.display = 'none';
         document.body.appendChild(link);
         if (link.download !== undefined) {
           link.setAttribute('href', URL.createObjectURL(blob));
-          link.setAttribute('download', this.exportFileName + '.csv');
+          link.setAttribute('download', `${EXPORT_FILE_NAME}.csv`);
           link.click();
         } else {
           csv = 'data:text/csv;charset=utf-8,' + csv;
