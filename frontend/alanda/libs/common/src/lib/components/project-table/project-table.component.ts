@@ -17,6 +17,7 @@ import { AlandaProject } from '../../api/models/project';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { RxState } from '@rx-angular/state';
 import { exportAsCsv } from '../../utils/helper-functions';
+import { AlandaTableColumnDefinition } from '../../..';
 
 const defaultLayoutInit = 0;
 const EXPORT_FILE_NAME = 'download';
@@ -57,6 +58,8 @@ export class AlandaProjectTableComponent implements OnInit {
   serverOptions: ServerOptions;
   menuItems: MenuItem[];
   dateFormatPrime: string;
+  hiddenColumns = {};
+  filteredColumns: AlandaTableColumnDefinition[] = [];
 
   @ViewChild('tt') turboTable: Table;
 
@@ -80,29 +83,13 @@ export class AlandaProjectTableComponent implements OnInit {
       filterOptions: {},
       sortOptions: {},
     };
-
-    this.menuItems = [
-      {
-        label: 'Download CSV visible page',
-        icon: 'pi pi-fw pi-download',
-        command: () => this.turboTable.exportCSV(),
-      },
-      {
-        label: 'Download CSV all pages',
-        icon: 'pi pi-fw pi-download',
-        command: () => this.exportAllData(),
-      },
-      {
-        label: 'Reset all filters',
-        icon: 'pi pi-fw pi-times',
-        command: (onclick) => this.turboTable.clear(),
-      },
-    ];
   }
 
   ngOnInit() {
     if (!this.selectedLayout) {
       this.selectedLayout = this.layouts[this._defaultLayout];
+      this.filteredColumns = this.layouts[this._defaultLayout].columnDefs;
+      this.menuItems = this.updateMenu(this.filteredColumns);
     }
     this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
   }
@@ -156,6 +143,8 @@ export class AlandaProjectTableComponent implements OnInit {
     this.state.set({ serverOptions: this.serverOptions });
     this.loadProjects(this.serverOptions);
     this.layoutChanged.next(this.selectedLayout);
+    this.filteredColumns = this.selectedLayout.columnDefs;
+    this.menuItems = this.updateMenu(this.filteredColumns);
   }
 
   public getCondition(obj, condition) {
@@ -198,5 +187,65 @@ export class AlandaProjectTableComponent implements OnInit {
       const data = [...res.results];
       exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
     });
+  }
+
+  updateMenu(columnDefs: AlandaTableColumnDefinition[]): MenuItem[] {
+    this.hiddenColumns = {};
+    const columnMenuItems: MenuItem[] = [];
+    columnDefs.forEach((column) => {
+      columnMenuItems.push({
+        label: column.displayName,
+        icon: 'pi pi-eye',
+        command: () => this.toggleColumn(column.name),
+      });
+    });
+
+    return [
+      {
+        label: 'Primary Actions',
+        items: [
+          {
+            label: 'Download CSV visible page',
+            icon: 'pi pi-fw pi-download',
+            command: () => this.turboTable.exportCSV(),
+          },
+          {
+            label: 'Download CSV all pages',
+            icon: 'pi pi-fw pi-download',
+            command: () => this.exportAllData(),
+          },
+          {
+            label: 'Reset all filters',
+            icon: 'pi pi-fw pi-times',
+            command: () => this.turboTable.clear(),
+          },
+        ],
+      },
+      {
+        label: 'Column display',
+        items: columnMenuItems,
+      },
+    ];
+  }
+
+  toggleColumn(name: string): void {
+    if (this.hiddenColumns.hasOwnProperty(name)) {
+      const index = this.hiddenColumns[name];
+      delete this.hiddenColumns[name];
+      this.menuItems[1].items[index].icon = 'pi pi-eye';
+    } else {
+      this.selectedLayout.columnDefs.some((column, index) => {
+        if (column.name === name) {
+          this.hiddenColumns[column.name] = index;
+          this.menuItems[1].items[index].icon = 'pi pi-eye-slash';
+          return true;
+        }
+      });
+    }
+    this.filteredColumns = this.selectedLayout.columnDefs.filter(
+      (column, index) => {
+        return !this.hiddenColumns.hasOwnProperty(column.name);
+      },
+    );
   }
 }

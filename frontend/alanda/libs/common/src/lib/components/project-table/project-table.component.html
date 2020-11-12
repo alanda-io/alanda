@@ -24,7 +24,7 @@
   *ngIf="selectedLayout && projectsData"
   #tt
   [value]="projectsData.results"
-  [columns]="selectedLayout.columnDefs"
+  [columns]="filteredColumns"
   [paginator]="true"
   [rows]="serverOptions.pageSize"
   [lazy]="true"
