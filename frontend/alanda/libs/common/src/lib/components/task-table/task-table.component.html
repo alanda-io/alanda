@@ -44,7 +44,7 @@
         #tt
         [class]="'task-table'"
         [value]="s.tasksData?.results"
-        [columns]="selectedLayout.columnDefs"
+        [columns]="filteredColumns"
         [paginator]="true"
         [rows]="15"
         [lazy]="true"

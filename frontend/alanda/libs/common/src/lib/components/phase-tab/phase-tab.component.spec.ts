@@ -4,6 +4,8 @@ import { MenuModule } from 'primeng/menu';
 import { TemplateModule } from '@rx-angular/template';
 import { AlandaProjectApiService, APP_CONFIG } from '../../..';
 import { HttpClient, HttpHandler } from '@angular/common/http';
+import { TooltipModule } from 'primeng/tooltip';
+import { TabViewModule } from 'primeng/tabview';
 
 const appConfig = {
   API_ENDPOINT: '/test-api',
@@ -19,7 +21,7 @@ describe('AlandaPhaseTabComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [AlandaPhaseTabComponent],
-        imports: [MenuModule, TemplateModule],
+        imports: [MenuModule, TemplateModule, TabViewModule, TooltipModule],
         providers: [
           AlandaProjectApiService,
           HttpClient,
