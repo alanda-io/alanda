@@ -18,6 +18,7 @@ import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { RxState } from '@rx-angular/state';
 import { exportAsCsv } from '../../utils/helper-functions';
 import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
+import { Router } from '@angular/router';
 
 const defaultLayoutInit = 0;
 const EXPORT_FILE_NAME = 'download';
@@ -49,6 +50,7 @@ export class AlandaProjectTableComponent implements OnInit {
   @Input() dateFormat: string;
   @Input() editablePageSize = false;
   @Input() target = '_self';
+  @Input() targetDblClick = '_blank';
   @Input() routerBasePath = '/projectdetails';
   @Output() layoutChanged = new Subject<AlandaTableLayout>();
 
@@ -67,6 +69,7 @@ export class AlandaProjectTableComponent implements OnInit {
     private readonly projectService: AlandaProjectApiService,
     @Inject(APP_CONFIG) config: AppSettings,
     private state: RxState<AlandaProjectTableState>,
+    private router: Router
   ) {
     if (!this.dateFormat) {
       this.dateFormat = config.DATE_FORMAT;
@@ -151,7 +154,8 @@ export class AlandaProjectTableComponent implements OnInit {
   }
 
   openProject(projectId: string): void {
-    window.open(this.getProjectPath(projectId), '_blank');
+    const url = this.router.createUrlTree([this.getProjectPath(projectId)]);
+    window.open(url.toString(), this.targetDblClick);
   }
 
   getProjectPath(projectId: string): string {
@@ -181,6 +185,10 @@ export class AlandaProjectTableComponent implements OnInit {
     });
   }
 
+  exportCurrentPageData(){
+    exportAsCsv(this.projectsData.results,this.selectedLayout.columnDefs,EXPORT_FILE_NAME);
+  }
+
   updateMenu(columnDefs: AlandaTableColumnDefinition[]): MenuItem[] {
     this.hiddenColumns = {};
     const columnMenuItems: MenuItem[] = [];
@@ -199,7 +207,7 @@ export class AlandaProjectTableComponent implements OnInit {
           {
             label: 'Download CSV visible page',
             icon: 'pi pi-fw pi-download',
-            command: () => this.turboTable.exportCSV(),
+            command: () => this.exportCurrentPageData(),
           },
           {
             label: 'Download CSV all pages',
