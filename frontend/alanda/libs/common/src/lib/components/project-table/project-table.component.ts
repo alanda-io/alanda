@@ -28,7 +28,7 @@ interface AlandaProjectTableState {
   selector: 'alanda-project-table',
   templateUrl: './project-table.component.html',
   styleUrls: ['./project-table.component.scss'],
-  providers: [RxState]
+  providers: [RxState],
 })
 export class AlandaProjectTableComponent implements OnInit {
   state$ = this.state.select();
@@ -153,7 +153,7 @@ export class AlandaProjectTableComponent implements OnInit {
         this.serverOptions.filterOptions[key] = value;
       }
     }
-    this.state.set({serverOptions: this.serverOptions});
+    this.state.set({ serverOptions: this.serverOptions });
     this.loadProjects(this.serverOptions);
     this.layoutChanged.next(this.selectedLayout);
   }
@@ -190,14 +190,13 @@ export class AlandaProjectTableComponent implements OnInit {
     this.loadProjects(this.serverOptions);
   }
 
-  exportAllData(){
+  exportAllData() {
     const serverOptions = this.state.get('serverOptions');
     serverOptions.pageNumber = 1;
     serverOptions.pageSize = this.projectsData.total;
     this.projectService.loadProjects(serverOptions).subscribe((res) => {
       const data = [...res.results];
-      exportAsCsv(data,this.selectedLayout.columnDefs,EXPORT_FILE_NAME);
+      exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
     });
   }
-
 }

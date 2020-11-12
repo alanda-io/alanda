@@ -28,7 +28,11 @@ import {
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { AlandaProject } from '../../api/models/project';
 import { ObjectUtils } from 'primeng/utils';
-import { exportAsCsv, formatDateISO, isEmpty } from '../../utils/helper-functions';
+import {
+  exportAsCsv,
+  formatDateISO,
+  isEmpty,
+} from '../../utils/helper-functions';
 
 const DEFAULT_LAYOUT_INIT = 0;
 const EXPORT_FILE_NAME = 'download';
@@ -395,7 +399,7 @@ export class AlandaTaskTableComponent implements OnInit {
     serverOptions.pageSize = tasksData.total;
     this.taskService.loadTasks(serverOptions).subscribe((res) => {
       const data = [...res.results];
-      exportAsCsv(data,this.selectedLayout.columnDefs,EXPORT_FILE_NAME);
+      exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
     });
   }
 }

@@ -65,7 +65,11 @@ export const isEmpty = (val) => {
   }
   return false;
 };
-export function exportAsCsv(data:any,columns: AlandaTableColumnDefinition[],fileName: string){
+export function exportAsCsv(
+  data: any,
+  columns: AlandaTableColumnDefinition[],
+  fileName: string,
+) {
   let csv = '';
   // header
   for (let i = 0; i < columns.length; i++) {
