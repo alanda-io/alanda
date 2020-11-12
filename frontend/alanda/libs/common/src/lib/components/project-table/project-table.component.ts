@@ -17,7 +17,7 @@ import { AlandaProject } from '../../api/models/project';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { RxState } from '@rx-angular/state';
 import { exportAsCsv } from '../../utils/helper-functions';
-import { AlandaTableColumnDefinition } from '../../..';
+import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
 
 const defaultLayoutInit = 0;
 const EXPORT_FILE_NAME = 'download';
