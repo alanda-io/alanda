@@ -15,15 +15,23 @@ import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaProject } from '../../api/models/project';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
+import { RxState } from '@rx-angular/state';
+import { exportAsCsv } from '../../utils/helper-functions';
 
 const defaultLayoutInit = 0;
+const EXPORT_FILE_NAME = 'download';
+interface AlandaProjectTableState {
+  serverOptions: ServerOptions;
+}
 
 @Component({
   selector: 'alanda-project-table',
   templateUrl: './project-table.component.html',
   styleUrls: ['./project-table.component.scss'],
+  providers: [RxState]
 })
 export class AlandaProjectTableComponent implements OnInit {
+  state$ = this.state.select();
   private _defaultLayout = defaultLayoutInit;
   @Input() set defaultLayout(defaultLayout: number) {
     this._defaultLayout = defaultLayout;
@@ -55,6 +63,7 @@ export class AlandaProjectTableComponent implements OnInit {
   constructor(
     private readonly projectService: AlandaProjectApiService,
     @Inject(APP_CONFIG) config: AppSettings,
+    private state: RxState<AlandaProjectTableState>,
   ) {
     if (!this.dateFormat) {
       this.dateFormat = config.DATE_FORMAT;
@@ -74,9 +83,14 @@ export class AlandaProjectTableComponent implements OnInit {
 
     this.menuItems = [
       {
-        label: 'Download CSV',
+        label: 'Download CSV visible page',
         icon: 'pi pi-fw pi-download',
-        command: (onclick) => this.turboTable.exportCSV(),
+        command: () => this.turboTable.exportCSV(),
+      },
+      {
+        label: 'Download CSV all pages',
+        icon: 'pi pi-fw pi-download',
+        command: () => this.exportAllData(),
       },
       {
         label: 'Reset all filters',
@@ -139,6 +153,7 @@ export class AlandaProjectTableComponent implements OnInit {
         this.serverOptions.filterOptions[key] = value;
       }
     }
+    this.state.set({serverOptions: this.serverOptions});
     this.loadProjects(this.serverOptions);
     this.layoutChanged.next(this.selectedLayout);
   }
@@ -174,4 +189,15 @@ export class AlandaProjectTableComponent implements OnInit {
 
     this.loadProjects(this.serverOptions);
   }
+
+  exportAllData(){
+    const serverOptions = this.state.get('serverOptions');
+    serverOptions.pageNumber = 1;
+    serverOptions.pageSize = this.projectsData.total;
+    this.projectService.loadProjects(serverOptions).subscribe((res) => {
+      const data = [...res.results];
+      exportAsCsv(data,this.selectedLayout.columnDefs,EXPORT_FILE_NAME);
+    });
+  }
+
 }
