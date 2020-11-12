@@ -80,7 +80,7 @@
         [ngClass]="getCondition(project, col.template)"
         style="white-space: nowrap;"
       >
-        <ng-template [ngIf]="col.name === 'Project ID'" [ngIfElse]="default">
+        <ng-template [ngIf]="col.field === 'project.projectId'" [ngIfElse]="default">
           <a
             [routerLink]="getProjectPath(project.project.projectId)"
             [target]="target"
