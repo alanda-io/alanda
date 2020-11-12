@@ -27,8 +27,7 @@ import {
 } from 'rxjs/operators';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { AlandaProject } from '../../api/models/project';
-import { ObjectUtils } from 'primeng/utils';
-import { formatDateISO } from '../../utils/helper-functions';
+import { exportAsCsv, formatDateISO } from '../../utils/helper-functions';
 import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
 
 const DEFAULT_LAYOUT_INIT = 0;
@@ -383,59 +382,7 @@ export class AlandaTaskTableComponent implements OnInit {
     serverOptions.pageSize = tasksData.total;
     this.taskService.loadTasks(serverOptions).subscribe((res) => {
       const data = [...res.results];
-      let csv = '';
-      const columns = this.selectedLayout.columnDefs;
-      // header
-      for (let i = 0; i < columns.length; i++) {
-        const column = columns[i];
-        if (column.field) {
-          csv += '"' + column.displayName + '"';
-
-          if (i < columns.length - 1) {
-            csv += ',';
-          }
-        }
-      }
-      // body
-      data.forEach((record, i) => {
-        csv += '\n';
-        columns.forEach((column) => {
-          if (column.field) {
-            let cellData = ObjectUtils.resolveFieldData(record, column.field);
-            if (cellData != null) {
-              cellData = String(cellData).replace(/"/g, '""');
-            } else {
-              cellData = '';
-            }
-
-            csv += '"' + cellData + '"';
-
-            if (i < columns.length - 1) {
-              csv += ',';
-            }
-          }
-        });
-      });
-      const blob = new Blob([csv], {
-        type: 'text/csv;charset=utf-8;',
-      });
-
-      if (window.navigator.msSaveOrOpenBlob) {
-        navigator.msSaveOrOpenBlob(blob, `${EXPORT_FILE_NAME}.csv`);
-      } else {
-        const link = document.createElement('a');
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        if (link.download !== undefined) {
-          link.setAttribute('href', URL.createObjectURL(blob));
-          link.setAttribute('download', `${EXPORT_FILE_NAME}.csv`);
-          link.click();
-        } else {
-          csv = 'data:text/csv;charset=utf-8,' + csv;
-          window.open(encodeURI(csv));
-        }
-        document.body.removeChild(link);
-      }
+      exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
     });
   }
 

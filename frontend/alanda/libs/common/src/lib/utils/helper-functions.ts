@@ -1,4 +1,6 @@
 import { AlandaTableLayout } from '../api/models/tableLayout';
+import { ObjectUtils } from 'primeng/utils';
+import { AlandaTableColumnDefinition } from '../..';
 
 export function convertUTCDate(date: Date): Date {
   return new Date(
@@ -63,3 +65,61 @@ export const isEmpty = (val) => {
   }
   return false;
 };
+export function exportAsCsv(
+  data: any,
+  columns: AlandaTableColumnDefinition[],
+  fileName: string,
+) {
+  let csv = '';
+  // header
+  for (let i = 0; i < columns.length; i++) {
+    const column = columns[i];
+    if (column.field) {
+      csv += '"' + column.displayName + '"';
+
+      if (i < columns.length - 1) {
+        csv += ',';
+      }
+    }
+  }
+  // body
+  data.forEach((record, i) => {
+    csv += '\n';
+    columns.forEach((column) => {
+      if (column.field) {
+        let cellData = ObjectUtils.resolveFieldData(record, column.field);
+        if (cellData != null) {
+          cellData = String(cellData).replace(/"/g, '""');
+        } else {
+          cellData = '';
+        }
+
+        csv += '"' + cellData + '"';
+
+        if (i < columns.length - 1) {
+          csv += ',';
+        }
+      }
+    });
+  });
+  const blob = new Blob([csv], {
+    type: 'text/csv;charset=utf-8;',
+  });
+
+  if (window.navigator.msSaveOrOpenBlob) {
+    navigator.msSaveOrOpenBlob(blob, `${fileName}.csv`);
+  } else {
+    const link = document.createElement('a');
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    if (link.download !== undefined) {
+      link.setAttribute('href', URL.createObjectURL(blob));
+      link.setAttribute('download', `${fileName}.csv`);
+      link.click();
+    } else {
+      csv = 'data:text/csv;charset=utf-8,' + csv;
+      window.open(encodeURI(csv));
+    }
+    document.body.removeChild(link);
+  }
+}
