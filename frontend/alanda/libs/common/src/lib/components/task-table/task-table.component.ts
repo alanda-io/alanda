@@ -317,8 +317,8 @@ export class AlandaTaskTableComponent implements OnInit {
     this.delegatedTaskData = data;
     this.taskService.getCandidates(data.task.task_id).subscribe((res) => {
       this.candidateUsers = res;
-      this.showDelegateDialog = true;
     });
+    this.showDelegateDialog = true;
   }
 
   // TODO Kill and Refactor
