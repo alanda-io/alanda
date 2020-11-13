@@ -29,6 +29,7 @@ import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { AlandaProject } from '../../api/models/project';
 import { exportAsCsv, formatDateISO } from '../../utils/helper-functions';
 import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const DEFAULT_LAYOUT_INIT = 0;
 const EXPORT_FILE_NAME = 'download';
@@ -86,6 +87,7 @@ export class AlandaTaskTableComponent implements OnInit {
     }
   }
   @Input() target = '_self';
+  @Input() targetDblClick = '_blank';
   @Input() routerBasePath = '/forms';
   @Output() layoutChanged = new Subject<AlandaTableLayout>();
   @Output() toggleGroupTasksChanged = new Subject<boolean>();
@@ -137,6 +139,7 @@ export class AlandaTaskTableComponent implements OnInit {
     public messageService: MessageService,
     private state: RxState<AlandaTaskTableState>,
     @Inject(APP_CONFIG) config: AppSettings,
+    private router: Router,
   ) {
     this.state.set(initState);
     if (!this.dateFormat) {
@@ -368,7 +371,11 @@ export class AlandaTaskTableComponent implements OnInit {
   }
 
   openTask(formKey: string, taskId: string): void {
-    window.open(this.getTaskPath(formKey, taskId), '_blank');
+    const baseUrl = window.location.href?.replace(this.router.url, '');
+    window.open(
+      baseUrl.concat(this.getTaskPath(formKey, taskId)),
+      this.targetDblClick,
+    );
   }
 
   onDateSelect(value, field): void {
@@ -384,6 +391,15 @@ export class AlandaTaskTableComponent implements OnInit {
       const data = [...res.results];
       exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
     });
+  }
+
+  exportCurrentPageData() {
+    const tasksData = this.state.get('tasksData');
+    exportAsCsv(
+      tasksData.results,
+      this.selectedLayout.columnDefs,
+      EXPORT_FILE_NAME,
+    );
   }
 
   updateMenu(columnDefs: AlandaTableColumnDefinition[]): MenuItem[] {
@@ -404,7 +420,7 @@ export class AlandaTaskTableComponent implements OnInit {
           {
             label: 'Download CSV visible page',
             icon: 'pi pi-fw pi-download',
-            command: () => this.turboTable.exportCSV(),
+            command: () => this.exportCurrentPageData(),
           },
           {
             label: 'Download CSV all pages',
