@@ -19,6 +19,7 @@ import { isObservable, merge, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   delay,
+  exhaustMap,
   filter,
   map,
   startWith,
@@ -51,7 +52,8 @@ const initState = {
     results: [],
   },
 };
-
+const DEFAULT_BUTTON_MENU_ICON = 'pi pi-bars';
+const LOADING_ICON = 'pi pi-spin pi-spinner';
 @Component({
   selector: 'alanda-task-table',
   templateUrl: './task-table.component.html',
@@ -60,6 +62,7 @@ const initState = {
 })
 export class AlandaTaskTableComponent implements OnInit {
   state$ = this.state.select();
+  menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
   private _defaultLayout = DEFAULT_LAYOUT_INIT;
   closeProjectDetailsModalEvent$ = new Subject<AlandaProject>();
   needReloadEvent$ = new Subject();
@@ -387,10 +390,18 @@ export class AlandaTaskTableComponent implements OnInit {
     const { serverOptions, tasksData } = this.state.get();
     serverOptions.pageNumber = 1;
     serverOptions.pageSize = tasksData.total;
-    this.taskService.loadTasks(serverOptions).subscribe((res) => {
-      const data = [...res.results];
-      exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
-    });
+    this.menuButtonIcon = LOADING_ICON;
+    this.taskService
+      .loadTasks(serverOptions)
+      .pipe(
+        exhaustMap((result) => {
+          const data = result.results;
+          exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
+          this.menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
+          return of(true);
+        }),
+      )
+      .subscribe();
   }
 
   exportCurrentPageData() {

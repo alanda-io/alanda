@@ -6,7 +6,7 @@ import {
   ViewChild,
   Inject,
 } from '@angular/core';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { LazyLoadEvent, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
@@ -18,7 +18,8 @@ import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { RxState } from '@rx-angular/state';
 import { exportAsCsv } from '../../utils/helper-functions';
 import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { exhaustMap } from 'rxjs/operators';
 
 const defaultLayoutInit = 0;
 const EXPORT_FILE_NAME = 'download';
@@ -26,6 +27,8 @@ interface AlandaProjectTableState {
   serverOptions: ServerOptions;
 }
 
+const DEFAULT_BUTTON_MENU_ICON = 'pi pi-bars';
+const LOADING_ICON = 'pi pi-spin pi-spinner';
 @Component({
   selector: 'alanda-project-table',
   templateUrl: './project-table.component.html',
@@ -34,6 +37,7 @@ interface AlandaProjectTableState {
 })
 export class AlandaProjectTableComponent implements OnInit {
   state$ = this.state.select();
+  menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
   private _defaultLayout = defaultLayoutInit;
   @Input() set defaultLayout(defaultLayout: number) {
     this._defaultLayout = defaultLayout;
@@ -182,10 +186,18 @@ export class AlandaProjectTableComponent implements OnInit {
     const serverOptions = this.state.get('serverOptions');
     serverOptions.pageNumber = 1;
     serverOptions.pageSize = this.projectsData.total;
-    this.projectService.loadProjects(serverOptions).subscribe((res) => {
-      const data = [...res.results];
-      exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
-    });
+    this.menuButtonIcon = LOADING_ICON;
+    this.projectService
+      .loadProjects(serverOptions)
+      .pipe(
+        exhaustMap((result) => {
+          const data = [...result.results];
+          exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
+          this.menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
+          return of(true);
+        }),
+      )
+      .subscribe();
   }
 
   exportCurrentPageData() {
