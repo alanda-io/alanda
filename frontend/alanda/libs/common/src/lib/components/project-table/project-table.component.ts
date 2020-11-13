@@ -69,7 +69,7 @@ export class AlandaProjectTableComponent implements OnInit {
     private readonly projectService: AlandaProjectApiService,
     @Inject(APP_CONFIG) config: AppSettings,
     private state: RxState<AlandaProjectTableState>,
-    private router: Router
+    private router: Router,
   ) {
     if (!this.dateFormat) {
       this.dateFormat = config.DATE_FORMAT;
@@ -154,8 +154,11 @@ export class AlandaProjectTableComponent implements OnInit {
   }
 
   openProject(projectId: string): void {
-    const baseUrl = window.location.href?.replace(this.router.url,'');
-    window.open(baseUrl.concat(this.getProjectPath(projectId)), this.targetDblClick);
+    const baseUrl = window.location.href?.replace(this.router.url, '');
+    window.open(
+      baseUrl.concat(this.getProjectPath(projectId)),
+      this.targetDblClick,
+    );
   }
 
   getProjectPath(projectId: string): string {
@@ -185,8 +188,12 @@ export class AlandaProjectTableComponent implements OnInit {
     });
   }
 
-  exportCurrentPageData(){
-    exportAsCsv(this.projectsData.results,this.selectedLayout.columnDefs,EXPORT_FILE_NAME);
+  exportCurrentPageData() {
+    exportAsCsv(
+      this.projectsData.results,
+      this.selectedLayout.columnDefs,
+      EXPORT_FILE_NAME,
+    );
   }
 
   updateMenu(columnDefs: AlandaTableColumnDefinition[]): MenuItem[] {

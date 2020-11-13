@@ -371,8 +371,11 @@ export class AlandaTaskTableComponent implements OnInit {
   }
 
   openTask(formKey: string, taskId: string): void {
-    const baseUrl = window.location.href?.replace(this.router.url,'');
-    window.open(baseUrl.concat(this.getTaskPath(formKey,taskId)), this.targetDblClick);
+    const baseUrl = window.location.href?.replace(this.router.url, '');
+    window.open(
+      baseUrl.concat(this.getTaskPath(formKey, taskId)),
+      this.targetDblClick,
+    );
   }
 
   onDateSelect(value, field): void {
@@ -390,9 +393,13 @@ export class AlandaTaskTableComponent implements OnInit {
     });
   }
 
-  exportCurrentPageData(){
-    const  tasksData = this.state.get('tasksData');
-    exportAsCsv(tasksData.results,this.selectedLayout.columnDefs,EXPORT_FILE_NAME);
+  exportCurrentPageData() {
+    const tasksData = this.state.get('tasksData');
+    exportAsCsv(
+      tasksData.results,
+      this.selectedLayout.columnDefs,
+      EXPORT_FILE_NAME,
+    );
   }
 
   updateMenu(columnDefs: AlandaTableColumnDefinition[]): MenuItem[] {
