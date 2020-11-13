@@ -18,6 +18,7 @@ import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { RxState } from '@rx-angular/state';
 import { exportAsCsv } from '../../utils/helper-functions';
 import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const defaultLayoutInit = 0;
 const EXPORT_FILE_NAME = 'download';
@@ -36,9 +37,9 @@ export class AlandaProjectTableComponent implements OnInit {
   private _defaultLayout = defaultLayoutInit;
   @Input() set defaultLayout(defaultLayout: number) {
     this._defaultLayout = defaultLayout;
-    if (this.layouts) {
+    if (this.layouts && this.turboTable) {
       this.selectedLayout = this.layouts[this._defaultLayout];
-      this.onChangeLayout();
+      this.loadProjectsLazy(this.turboTable);
     }
   }
   @Input() layouts: AlandaTableLayout[];
@@ -49,6 +50,7 @@ export class AlandaProjectTableComponent implements OnInit {
   @Input() dateFormat: string;
   @Input() editablePageSize = false;
   @Input() target = '_self';
+  @Input() targetDblClick = '_blank';
   @Input() routerBasePath = '/projectdetails';
   @Output() layoutChanged = new Subject<AlandaTableLayout>();
 
@@ -67,6 +69,7 @@ export class AlandaProjectTableComponent implements OnInit {
     private readonly projectService: AlandaProjectApiService,
     @Inject(APP_CONFIG) config: AppSettings,
     private state: RxState<AlandaProjectTableState>,
+    private router: Router,
   ) {
     if (!this.dateFormat) {
       this.dateFormat = config.DATE_FORMAT;
@@ -127,21 +130,13 @@ export class AlandaProjectTableComponent implements OnInit {
 
     this.serverOptions.pageNumber =
       event.first / this.serverOptions.pageSize + 1;
+
+    this.state.set({ serverOptions: this.serverOptions });
     this.loadProjects(this.serverOptions);
   }
 
   onChangeLayout() {
-    this.serverOptions.pageNumber = 1;
-    this.serverOptions.filterOptions = {};
-    if (this.selectedLayout.filterOptions) {
-      for (const [key, value] of Object.entries(
-        this.selectedLayout.filterOptions,
-      )) {
-        this.serverOptions.filterOptions[key] = value;
-      }
-    }
-    this.state.set({ serverOptions: this.serverOptions });
-    this.loadProjects(this.serverOptions);
+    this.loadProjectsLazy(this.turboTable);
     this.layoutChanged.next(this.selectedLayout);
     this.filteredColumns = this.selectedLayout.columnDefs;
     this.menuItems = this.updateMenu(this.filteredColumns);
@@ -159,7 +154,11 @@ export class AlandaProjectTableComponent implements OnInit {
   }
 
   openProject(projectId: string): void {
-    window.open(this.getProjectPath(projectId), '_blank');
+    const baseUrl = window.location.href?.replace(this.router.url, '');
+    window.open(
+      baseUrl.concat(this.getProjectPath(projectId)),
+      this.targetDblClick,
+    );
   }
 
   getProjectPath(projectId: string): string {
@@ -189,6 +188,14 @@ export class AlandaProjectTableComponent implements OnInit {
     });
   }
 
+  exportCurrentPageData() {
+    exportAsCsv(
+      this.projectsData.results,
+      this.selectedLayout.columnDefs,
+      EXPORT_FILE_NAME,
+    );
+  }
+
   updateMenu(columnDefs: AlandaTableColumnDefinition[]): MenuItem[] {
     this.hiddenColumns = {};
     const columnMenuItems: MenuItem[] = [];
@@ -207,7 +214,7 @@ export class AlandaProjectTableComponent implements OnInit {
           {
             label: 'Download CSV visible page',
             icon: 'pi pi-fw pi-download',
-            command: () => this.turboTable.exportCSV(),
+            command: () => this.exportCurrentPageData(),
           },
           {
             label: 'Download CSV all pages',
