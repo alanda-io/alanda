@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { PageSizeSelectModule } from '../page-size-select/page-size-select.module';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
-import { QuickEditProjectDetailsModule } from '../task-table-project-details/quick-edit-project-details/quick-edit-project-details.module';
+import { QuickEditProjectDetailsModule } from '../quick-edit-project-details/quick-edit-project-details.module';
 
 @NgModule({
   imports: [

@@ -14,7 +14,7 @@ import { MonitorValuesPipeModule } from '../../pipes/nested-object.pipe';
 import { FilterPipeModule } from '../../pipes/filter.pipe';
 import { CalendarModule } from 'primeng/calendar';
 import { TooltipModule } from 'primeng/tooltip';
-import { QuickEditProjectDetailsModule } from '../task-table-project-details/quick-edit-project-details/quick-edit-project-details.module';
+import { QuickEditProjectDetailsModule } from '../quick-edit-project-details/quick-edit-project-details.module';
 
 @NgModule({
   declarations: [AlandaTaskTableComponent],

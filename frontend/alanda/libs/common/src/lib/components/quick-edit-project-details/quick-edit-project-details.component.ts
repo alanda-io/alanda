@@ -12,10 +12,10 @@ import {
   tap,
 } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
-import { AlandaProject } from '../../../api/models/project';
-import { AlandaProjectApiService } from '../../../api/projectApi.service';
+import { AlandaProject } from '../../api/models/project';
+import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { ProjectDetailsMode } from './projectDetailsMode.enum';
-import { isNil, isEmpty } from '../../../utils/helper-functions';
+import { isNil, isEmpty } from '../../utils/helper-functions';
 
 interface TaskTableProjectDetailsState {
   mode: ProjectDetailsMode;
