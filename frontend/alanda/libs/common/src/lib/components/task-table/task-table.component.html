@@ -199,17 +199,17 @@
   </p-dialog>
   <!-- Project Details Modal-->
   <p-dialog
-    [visible]="s.showProjectDetailsModal"
+    [(visible)]="s.showProjectDetailsModal"
     [modal]="true"
     [style]="{ width: '500px' }"
   >
     <p-header>
       Edit Project
     </p-header>
-    <alanda-task-table-project-details
+    <alanda-quick-edit-project-details
       [project]="s.selectedProject"
       (close)="closeProjectDetailsModalEvent$.next($event)"
     >
-    </alanda-task-table-project-details>
+    </alanda-quick-edit-project-details>
   </p-dialog>
 </ng-container>

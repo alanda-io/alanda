@@ -12,12 +12,12 @@ import { AlandaTaskTableComponent } from './task-table.component';
 import { DialogModule } from 'primeng/dialog';
 import { MonitorValuesPipeModule } from '../../pipes/nested-object.pipe';
 import { FilterPipeModule } from '../../pipes/filter.pipe';
-import { TaskTableProjectDetailsComponent } from './task-table-project-details/task-table-project-details.component';
 import { CalendarModule } from 'primeng/calendar';
 import { TooltipModule } from 'primeng/tooltip';
+import { QuickEditProjectDetailsModule } from '../task-table-project-details/quick-edit-project-details/quick-edit-project-details.module';
 
 @NgModule({
-  declarations: [AlandaTaskTableComponent, TaskTableProjectDetailsComponent],
+  declarations: [AlandaTaskTableComponent],
   imports: [
     CommonModule,
     PanelModule,
@@ -34,6 +34,7 @@ import { TooltipModule } from 'primeng/tooltip';
     FilterPipeModule,
     CalendarModule,
     TooltipModule,
+    QuickEditProjectDetailsModule,
   ],
   exports: [AlandaTaskTableComponent],
 })

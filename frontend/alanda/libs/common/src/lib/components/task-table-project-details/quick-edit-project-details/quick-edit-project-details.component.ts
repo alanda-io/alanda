@@ -31,12 +31,12 @@ const initState = {
 };
 
 @Component({
-  selector: 'alanda-task-table-project-details',
-  templateUrl: './task-table-project-details.component.html',
-  styleUrls: ['./task-table-project-details.component.scss'],
+  selector: 'alanda-quick-edit-project-details',
+  templateUrl: './quick-edit-project-details.component.html',
+  styleUrls: ['./quick-edit-project-details.component.scss'],
   providers: [RxState],
 })
-export class TaskTableProjectDetailsComponent {
+export class QuickEditProjectDetailsComponent {
   state$ = this.state.select();
   saveClickEvent$ = new Subject();
   viewMode = ProjectDetailsMode;
