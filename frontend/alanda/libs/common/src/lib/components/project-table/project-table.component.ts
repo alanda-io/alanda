@@ -6,8 +6,8 @@ import {
   ViewChild,
   Inject,
 } from '@angular/core';
-import { of, Subject } from 'rxjs';
-import { LazyLoadEvent, MenuItem } from 'primeng/api';
+import { merge, of, Subject } from 'rxjs';
+import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
@@ -19,13 +19,36 @@ import { RxState } from '@rx-angular/state';
 import { exportAsCsv } from '../../utils/helper-functions';
 import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
 import { Router } from '@angular/router';
+import {
+  catchError,
+  delay,
+  filter,
+  map,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { exhaustMap } from 'rxjs/operators';
 
 const defaultLayoutInit = 0;
 const EXPORT_FILE_NAME = 'download';
+
 interface AlandaProjectTableState {
   serverOptions: ServerOptions;
+  loading: boolean;
+  selectedProject: AlandaProject;
+  showProjectDetailsModal: boolean;
+  projectsData: AlandaListResult<AlandaProject>;
+  selectedPageSize: number;
 }
+
+const initState = {
+  projectsData: {
+    total: 0,
+    results: [],
+  },
+  selectedPageSize: 15,
+};
 
 const DEFAULT_BUTTON_MENU_ICON = 'pi pi-bars';
 const LOADING_ICON = 'pi pi-spin pi-spinner';
@@ -43,7 +66,6 @@ export class AlandaProjectTableComponent implements OnInit {
     this._defaultLayout = defaultLayout;
     if (this.layouts && this.turboTable) {
       this.selectedLayout = this.layouts[this._defaultLayout];
-      this.loadProjectsLazy(this.turboTable);
     }
   }
   @Input() layouts: AlandaTableLayout[];
@@ -58,38 +80,82 @@ export class AlandaProjectTableComponent implements OnInit {
   @Input() routerBasePath = '/projectdetails';
   @Output() layoutChanged = new Subject<AlandaTableLayout>();
 
-  projectsData: AlandaListResult<AlandaProject>;
   selectedLayout: AlandaTableLayout;
-  loading = true;
-  serverOptions: ServerOptions;
   menuItems: MenuItem[];
   dateFormatPrime: string;
   hiddenColumns = {};
   filteredColumns: AlandaTableColumnDefinition[] = [];
+  tableLazyLoadEvent$ = new Subject<LazyLoadEvent>();
+  needReloadEvent$ = new Subject();
+  setupProjectDetailsModalEvent$ = new Subject<AlandaProject>();
+  closeProjectDetailsModalEvent$ = new Subject<AlandaProject>();
 
   @ViewChild('tt') turboTable: Table;
+
+  loadProjectFromServer$ = merge(
+    this.tableLazyLoadEvent$,
+    this.needReloadEvent$.pipe(
+      delay(1000),
+      map(() => this.turboTable),
+    ),
+  ).pipe(
+    map((event) => this.buildServerOptions(event)),
+    switchMap((serverOptions) =>
+      this.projectService.loadProjects(serverOptions).pipe(
+        map((projectsData) => ({
+          serverOptions,
+          projectsData,
+          loading: false,
+        })),
+        startWith({ loading: true }),
+        catchError((err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Load Tasks',
+            detail: err.message,
+          });
+          return of({ serverOptions, loading: false });
+        }),
+      ),
+    ),
+  );
 
   constructor(
     private readonly projectService: AlandaProjectApiService,
     @Inject(APP_CONFIG) config: AppSettings,
     private state: RxState<AlandaProjectTableState>,
+    public messageService: MessageService,
     private router: Router,
   ) {
     if (!this.dateFormat) {
       this.dateFormat = config.DATE_FORMAT;
     }
     this.dateFormatPrime = config.DATE_FORMAT_PRIME;
-    this.projectsData = {
-      total: 0,
-      results: [],
-    };
+    this.state.set(initState);
 
-    this.serverOptions = {
-      pageNumber: 1,
-      pageSize: 15,
-      filterOptions: {},
-      sortOptions: {},
-    };
+    this.state.connect(
+      this.setupProjectDetailsModalEvent$.pipe(
+        map((selectedProject) => ({
+          selectedProject,
+          showProjectDetailsModal: true,
+        })),
+      ),
+    );
+    this.state.connect(
+      'showProjectDetailsModal',
+      this.closeProjectDetailsModalEvent$.pipe(map(() => false)),
+    );
+    this.state.connect(this.loadProjectFromServer$);
+    this.state.hold(
+      this.closeProjectDetailsModalEvent$.pipe(
+        filter((project) => !!project),
+        delay(1000),
+        tap(() => this.needReloadEvent$.next()),
+      ),
+    );
+
+    this.state.hold(this.needReloadEvent$);
+    this.state.hold(this.tableLazyLoadEvent$);
   }
 
   ngOnInit() {
@@ -101,15 +167,14 @@ export class AlandaProjectTableComponent implements OnInit {
     this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
   }
 
-  loadProjects(serverOptions: ServerOptions) {
-    this.loading = true;
-    this.projectService.loadProjects(serverOptions).subscribe((res) => {
-      this.projectsData = res;
-      this.loading = false;
-    });
-  }
+  buildServerOptions(event: LazyLoadEvent): ServerOptions {
+    const serverOptions: ServerOptions = {
+      pageNumber: event.first / event.rows + 1,
+      pageSize: event.rows,
+      filterOptions: {},
+      sortOptions: {},
+    };
 
-  loadProjectsLazy(event: LazyLoadEvent) {
     let sortOptions = {};
     sortOptions['project.projectId'] = { dir: 'desc', prio: 0 };
     if (event.sortField) {
@@ -117,30 +182,27 @@ export class AlandaProjectTableComponent implements OnInit {
       const dir = event.sortOrder === 1 ? 'asc' : 'desc';
       sortOptions[event.sortField] = { dir, prio: 0 };
     }
-    this.serverOptions.sortOptions = sortOptions;
-    this.serverOptions.filterOptions = {};
+    serverOptions.sortOptions = sortOptions;
+
     if (this.selectedLayout.filterOptions) {
       for (const [key, value] of Object.entries(
         this.selectedLayout.filterOptions,
       )) {
-        this.serverOptions.filterOptions[key] = value;
+        serverOptions.filterOptions[key] = value;
       }
     }
+
     for (const key in event.filters) {
       if (event.filters.hasOwnProperty(key) && event.filters[key].value) {
-        this.serverOptions.filterOptions[key] = event.filters[key].value;
+        serverOptions.filterOptions[key] = event.filters[key].value;
       }
     }
 
-    this.serverOptions.pageNumber =
-      event.first / this.serverOptions.pageSize + 1;
-
-    this.state.set({ serverOptions: this.serverOptions });
-    this.loadProjects(this.serverOptions);
+    return serverOptions;
   }
 
   onChangeLayout() {
-    this.loadProjectsLazy(this.turboTable);
+    this.needReloadEvent$.next();
     this.layoutChanged.next(this.selectedLayout);
     this.filteredColumns = this.selectedLayout.columnDefs;
     this.menuItems = this.updateMenu(this.filteredColumns);
@@ -170,39 +232,29 @@ export class AlandaProjectTableComponent implements OnInit {
   }
 
   changePageSize(pageSize: number) {
-    const oldPageSize = this.serverOptions.pageSize;
-    const oldPageNumber = this.serverOptions.pageNumber;
-
-    // first entry should be visible after changing rows per page
-    const firstEntry = oldPageSize * (oldPageNumber - 1) + 1;
-
-    this.serverOptions.pageSize = pageSize;
-    this.serverOptions.pageNumber = Math.ceil(firstEntry / pageSize);
-
-    this.loadProjects(this.serverOptions);
+    this.state.set({ selectedPageSize: pageSize });
+    this.needReloadEvent$.next();
   }
 
   exportAllData() {
-    const serverOptions = this.state.get('serverOptions');
+    const { serverOptions, projectsData } = this.state.get();
     serverOptions.pageNumber = 1;
-    serverOptions.pageSize = this.projectsData.total;
+    serverOptions.pageSize = projectsData.total;
     this.menuButtonIcon = LOADING_ICON;
-    this.projectService
-      .loadProjects(serverOptions)
-      .pipe(
-        exhaustMap((result) => {
-          const data = [...result.results];
-          exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
-          this.menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
-          return of(true);
-        }),
-      )
-      .subscribe();
+    this.projectService.loadProjects(serverOptions).pipe(
+      exhaustMap((result) => {
+        const data = [...result.results];
+        exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
+        this.menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
+        return of(true);
+      }),
+    ).subscribe();
   }
 
   exportCurrentPageData() {
+    const projectsData = this.state.get('projectsData');
     exportAsCsv(
-      this.projectsData.results,
+      projectsData.results,
       this.selectedLayout.columnDefs,
       EXPORT_FILE_NAME,
     );

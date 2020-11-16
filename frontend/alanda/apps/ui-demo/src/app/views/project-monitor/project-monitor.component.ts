@@ -15,7 +15,6 @@ export class AlandaProjectMonitorComponent {
         displayName: 'Project ID',
         name: 'Project ID',
         field: 'project.projectId',
-        width: 200,
       },
       { displayName: 'Title', name: 'Title', field: 'project.title' },
       {
@@ -45,7 +44,7 @@ export class AlandaProjectMonitorComponent {
         displayName: 'Prio',
         name: 'Prio',
         field: 'project.priority',
-        width: '40',
+        width: 75,
         template:
           "{'priority': true, 'priority-high': project.priority == 0, 'priority-medium': project.priority == 1, 'priority-low': project.priority == 2}",
       },
@@ -57,13 +56,70 @@ export class AlandaProjectMonitorComponent {
       },
     ];
 
-    this.layouts = [
+    const columnDefSimple = [
       {
-        name: 'test',
-        displayName: 'Test',
-        columnDefs: columnDefAll,
-        filterOptions: {},
+        displayName: 'Project ID',
+        name: 'Project ID',
+        field: 'project.projectId',
       },
+      { displayName: 'Title', name: 'Title', field: 'project.title' },
+      {
+        displayName: 'Project Type',
+        name: 'Project Type',
+        field: 'project.pmcProjectType.name',
+      },
+      {
+        displayName: 'Due Date',
+        name: 'Due Date',
+        field: 'project.dueDate',
+        type: TableColumnType.DATE,
+      },
+      {
+        displayName: 'Prio',
+        name: 'Prio',
+        field: 'project.priority',
+        width: 75,
+        template:
+          "{'priority': true, 'priority-high': project.priority == 0, 'priority-medium': project.priority == 1, 'priority-low': project.priority == 2}",
+      },
+    ];
+
+    const columnDefSpecial = [
+      {
+        displayName: 'Project ID',
+        name: 'Project ID',
+        field: 'project.projectId',
+      },
+      { displayName: 'Title', name: 'Title', field: 'project.title' },
+      {
+        displayName: 'Project Type',
+        name: 'Project Type',
+        field: 'project.pmcProjectType.name',
+      },
+      {
+        displayName: 'Due Date',
+        name: 'Due Date',
+        field: 'project.dueDate',
+        type: TableColumnType.DATE,
+      },
+      {
+        displayName: 'Prio',
+        name: 'Prio',
+        field: 'project.priority',
+        width: 75,
+        template:
+          "{'priority': true, 'priority-high': project.priority == 0, 'priority-medium': project.priority == 1, 'priority-low': project.priority == 2}",
+      },
+      {
+        displayName: 'X',
+        name: 'X',
+        enableCellEdit: false,
+        enableSorting: false,
+        enableFiltering: false,
+      },
+    ];
+
+    this.layouts = [
       {
         name: 'all',
         displayName: 'All',
@@ -79,7 +135,13 @@ export class AlandaProjectMonitorComponent {
       {
         name: 'bar',
         displayName: 'Bar',
-        columnDefs: columnDefAll,
+        columnDefs: columnDefSimple,
+        filterOptions: {},
+      },
+      {
+        name: 'specialEdit',
+        displayName: 'Special Edit',
+        columnDefs: columnDefSpecial,
         filterOptions: {},
       },
     ];
