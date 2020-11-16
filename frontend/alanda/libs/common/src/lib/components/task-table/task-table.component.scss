@@ -1,0 +1,30 @@
+.task-table {
+  min-height: 500px;
+
+  .header-col-filter {
+    width: 100%;
+  }
+}
+
+.task-row {
+  .action-cell {
+    padding: 0.5rem 0;
+    min-width: 100px;
+    text-align: center;
+  }
+}
+
+.table-action-buttons {
+  .action-button {
+    margin: 0 0.2143rem;
+  }
+
+  .menu-action-button {
+    float: right;
+  }
+}
+
+.badge {
+  float: right;
+  width: auto;
+}

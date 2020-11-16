@@ -1,0 +1,9 @@
+@import 'helper';
+
+a {
+  cursor: pointer;
+
+  &.disabled {
+    cursor: default;
+  }
+}

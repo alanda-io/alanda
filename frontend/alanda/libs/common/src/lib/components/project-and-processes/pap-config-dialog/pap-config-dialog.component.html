@@ -1,0 +1,11 @@
+<ng-container *ngFor="let prop of properties">
+  <alanda-pap-subprocess-property-input
+    *ngIf="prop.propertyName && prop.displayName"
+    [property]="prop"
+    [processGuid]="process.guid"
+    [projectGuid]="projectGuid"
+  >
+  </alanda-pap-subprocess-property-input>
+</ng-container>
+
+<ng-template alandaProcessConfigHost></ng-template>

@@ -1,0 +1,15 @@
+<p-panel class="diagram">
+  <p-header>
+    <a
+      [href]="
+        '/camunda/app/cockpit/default/#/process-instance/' + pid + '/runtime'
+      "
+      target="_blank"
+    >
+      Camunda Cockpit
+      <!-- <span *ngIf="task.process_name">{{processName}}</span> -->
+    </a>
+    <!-- <span *ngIf="task">/ {{task.task_name}}</span> -->
+  </p-header>
+  <div #ref class="diagram-container"></div>
+</p-panel>

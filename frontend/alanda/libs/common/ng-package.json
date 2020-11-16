@@ -1,0 +1,13 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/libs/common",
+  "assets": ["src/styles/*.scss"],
+  "lib": {
+    "entryFile": "src/index.ts",
+    "umdModuleIds": {
+      "@rx-angular/state": "@rx-angular/state",
+      "@rx-angular/template": "@rx-angular/template",
+      "bpmn-js/dist/bpmn-navigated-viewer.development.js": "BpmnJS"
+    }
+  }
+}

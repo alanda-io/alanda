@@ -1,0 +1,23 @@
+<div [formGroup]="selectForm" class="p-field p-grid">
+  <div class="p-col-12 p-lg-5 p-xl-4">
+    <alanda-label [label]="label"></alanda-label>
+  </div>
+  <div class="p-col-12 p-lg-7 p-xl-7">
+    <p-dropdown
+      [options]="items"
+      formControlName="selected"
+      placeholder="Select"
+      (onChange)="save()"
+      [disabled]="!canWrite"
+    ></p-dropdown>
+    <ng-container
+      *ngIf="selected.invalid && (selected.dirty || selected.touched)"
+    >
+      <p-message
+        *ngIf="selected.errors.required"
+        severity="error"
+        text="Field is required"
+      ></p-message>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,261 @@
+<p-panel [toggleable]="false" *ngIf="project">
+  <p-header>
+    <span *ngIf="task != null"
+      ><b>{{ task.task_name }}</b> /
+    </span>
+    <a [routerLink]="'/projectdetails/' + project.projectId">{{
+      project.projectId
+    }}</a>
+    <span *ngIf="project.refObjectIdName">
+      / {{ project.refObjectIdName }}
+    </span>
+    / {{ project.status }}
+    <span *ngIf="snoozedTask">
+      &nbsp;(Task Snoozed) z<sup>z<sup>z</sup></sup>
+    </span>
+  </p-header>
+  <ng-template pTemplate="icons">
+    <ng-container *ngIf="task != null">
+      <span
+        class="header-info-item"
+        pTooltip="Responsible Groups"
+        tooltipPosition="top"
+        *ngIf="(task.candidateGroups | filter: '!Administrator')?.length"
+      >
+        <i class="pi pi-users"></i>
+        <ng-container
+          *ngFor="
+            let candidateGroup of task.candidateGroups
+              | filter: '!Administrator';
+            let last = last
+          "
+          >&nbsp;{{ candidateGroup
+          }}<ng-container *ngIf="!last">,</ng-container></ng-container
+        >
+      </span>
+
+      <span
+        class="header-info-item"
+        pTooltip="Currently unassigned"
+        tooltipPosition="top"
+        *ngIf="task.assignee === null"
+      >
+        <i class="pi pi-exclamation-circle"></i> Unassigned
+      </span>
+
+      <span
+        class="header-info-item"
+        pTooltip="Assigned to"
+        tooltipPosition="top"
+        *ngIf="task.assignee != null"
+      >
+        <i class="pi pi-check-circle"></i> {{ task.assignee }}
+      </span>
+
+      <a
+        (click)="openDelegationForm()"
+        href="javascript:void(0)"
+        class="header-info-item"
+      >
+        <i class="pi pi-arrow-circle-right"></i> Delegate Task
+      </a>
+    </ng-container>
+
+    <span class="header-info-item" pTooltip="Created by" tooltipPosition="top">
+      <i class="pi pi-user"></i> {{ project.ownerName }}
+    </span>
+
+    <span class="header-info-item" pTooltip="Created at" tooltipPosition="top">
+      <i class="pi pi-clock"></i> {{ project.createDate | date: dateFormat }}
+    </span>
+  </ng-template>
+  <form [formGroup]="projectHeaderForm">
+    <div class="p-grid p-fluid p-mt-1">
+      <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
+        <div class="p-field p-grid">
+          <div class="p-col-12 p-lg-5 p-xl-4">
+            <alanda-label label="Type (Sub Type)"></alanda-label>
+          </div>
+          <div class="p-col-12 p-lg-7 p-xl-7">
+            <span *ngIf="project.subtype != null">{{ project.subtype }}</span>
+            <span *ngIf="project.subtype === null">{{
+              project.pmcProjectType.name
+            }}</span>
+          </div>
+        </div>
+        <div class="p-field p-grid">
+          <div class="p-col-12 p-lg-5 p-xl-4">
+            <alanda-label label="Prio"></alanda-label>
+          </div>
+          <div class="p-col-12 p-lg-7 p-xl-7">
+            <p-dropdown
+              formControlName="priority"
+              [options]="priorities"
+              optionLabel="label"
+            ></p-dropdown>
+          </div>
+        </div>
+        <div class="p-field p-grid">
+          <div class="p-col-12 p-lg-5 p-xl-4">
+            <alanda-label label="Tag(s)"></alanda-label>
+          </div>
+          <div class="p-col-12 p-lg-7 p-xl-7">
+            <p-autoComplete
+              formControlName="tag"
+              [multiple]="true"
+              [forceSelection]="true"
+              [dropdown]="true"
+              [suggestions]="allowedTagList"
+              (completeMethod)="searchTag($event)"
+            >
+            </p-autoComplete>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
+        <div class="p-field p-grid" *ngIf="task != null">
+          <div class="p-col-12 p-lg-5 p-xl-4">
+            <alanda-label label="Task Due Date"></alanda-label>
+          </div>
+          <div class="p-col-12 p-lg-7 p-xl-7">
+            <p-calendar
+              formControlName="taskDueDate"
+              [showIcon]="true"
+              dateFormat="yy-mm-dd"
+            ></p-calendar>
+          </div>
+        </div>
+        <div class="p-field p-grid">
+          <div class="p-col-12 p-lg-5 p-xl-4">
+            <alanda-label label="Project Due Date"></alanda-label>
+          </div>
+          <div class="p-col-12 p-lg-7 p-xl-7">
+            <p-calendar
+              formControlName="dueDate"
+              [showIcon]="true"
+              dateFormat="yy-mm-dd"
+            ></p-calendar>
+          </div>
+        </div>
+        <div class="p-field p-grid">
+          <div class="p-col-12 p-lg-5 p-xl-4">
+            <alanda-label label="Project Title"></alanda-label>
+          </div>
+          <div class="p-col-12 p-lg-7 p-xl-7">
+            <input
+              pInputText
+              formControlName="title"
+              type="text"
+              value="{{ project.title }}"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="p-col-12 p-md-12 p-xl-4 p-py-0 p-py-md-2">
+        <div class="p-field">
+          <alanda-label label="Project Details"></alanda-label>
+          <textarea
+            pInputTextarea
+            maxLength="2000"
+            formControlName="comment"
+            placeholder="Project Details"
+            [rows]="5"
+            >{{ project.comment }}</textarea
+          >
+        </div>
+      </div>
+    </div>
+  </form>
+  <ng-template alandaProjectPropertiesHost></ng-template>
+  <ng-content></ng-content>
+</p-panel>
+<p-panel [toggleable]="false" *ngIf="!project && task">
+  <p-header>
+    <strong>{{ task.task_name }}</strong>
+    <span *ngIf="snoozedTask">
+      &nbsp;(Task Snoozed) z<sup>z<sup>z</sup></sup>
+    </span>
+  </p-header>
+  <div class="p-grid">
+    <div class="p-col-4">
+      <div class="p-grid">
+        <div class="p-col-6"><alanda-label label="Process"></alanda-label></div>
+        <div class="p-col-6">{{ task.process_name || 'N/A' }}</div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-6">
+          <alanda-label label="Object Name"></alanda-label>
+        </div>
+        <div class="p-col-6">{{ task.object_name || 'N/A' }}</div>
+      </div>
+    </div>
+    <div class="p-col-4">
+      <div class="p-grid">
+        <div class="p-col-6">
+          <alanda-label label="Due Date"></alanda-label>
+        </div>
+        <div class="p-col-6">{{ task.due || 'N/A' }}</div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-6">
+          <alanda-label label="Follow up"></alanda-label>
+        </div>
+        <div class="p-col-6">{{ task.follow_up || 'N/A' }}</div>
+      </div>
+    </div>
+    <div class="p-col-4">
+      <div class="p-grid">
+        <div class="p-col-6">
+          <alanda-label label="Candidate Gr"></alanda-label>
+        </div>
+        <div class="p-col-6">
+          {{ task.candidateGroups.join(', ') || 'N/A' }}
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-6">
+          <alanda-label label="Assignee"></alanda-label>
+        </div>
+        <div class="p-col-6">{{ task.assignee || 'N/A' }}</div>
+      </div>
+    </div>
+  </div>
+  <ng-content></ng-content>
+</p-panel>
+
+<p-dialog
+  [visible]="showDelegateDialog"
+  [modal]="true"
+  [dismissableMask]="true"
+  [closeOnEscape]="true"
+  [closable]="true"
+  [style]="{ width: '300px' }"
+  [contentStyle]="{ overflow: 'visible' }"
+>
+  <p-header>
+    Delegate task for
+  </p-header>
+  <p-dropdown
+    #dd
+    [options]="candidateUsers"
+    optionLabel="displayName"
+    [style]="{ width: '100%' }"
+    placeholder="Select a user"
+    [filter]="true"
+  ></p-dropdown>
+  <p-footer>
+    <p-button
+      (onClick)="showDelegateDialog = false"
+      styleClass="p-button-raised p-button-info"
+      label="Cancel"
+    ></p-button>
+    <p-button
+      (onClick)="delegateTask(dd.value)"
+      styleClass="p-button-raised p-button-success"
+      [disabled]="!dd.value"
+      label="Delegate"
+    ></p-button>
+  </p-footer>
+</p-dialog>

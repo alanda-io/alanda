@@ -1,0 +1,17 @@
+/*
+  Helper classes has to be prefixed with 'al-'*
+  The classes are global available. Do not define one helper class for multiple styling purposes!
+ */
+
+.al-button-group {
+  display: inline-block;
+
+  .ui-button,
+  button {
+    margin-right: 0.725rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

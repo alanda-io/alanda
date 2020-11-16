@@ -1,0 +1,14 @@
+.font-size-scaling {
+  position: relative;
+
+  p {
+    margin-top: 0;
+    margin-bottom: 0.357rem;
+  }
+
+  .font-size-control {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+}

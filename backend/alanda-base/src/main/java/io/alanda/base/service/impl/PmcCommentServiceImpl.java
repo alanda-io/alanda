@@ -56,7 +56,9 @@ public class PmcCommentServiceImpl implements PmcCommentService {
     pmcCommentDto.setUpdateUser(UserContext.getUser().getGuid());
     PmcComment pmcComment = dozerMapper.map(pmcCommentDto, PmcComment.class);
     pmcCommentDao.insert(pmcComment);
-    return dozerMapper.map(pmcComment, PmcCommentDto.class);
+    PmcCommentDto ret = dozerMapper.map(pmcComment, PmcCommentDto.class);
+    ret.setAuthorName(UserContext.getUser().getDisplayName());
+    return ret;
   }
 
   @Override

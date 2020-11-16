@@ -1,0 +1,41 @@
+.comments {
+  input {
+    width: 100%;
+  }
+
+  .comment-textarea {
+    resize: none;
+    width: 100%;
+  }
+
+  .form-buttons {
+    margin-bottom: 1.071rem;
+    margin-top: 0.35rem;
+    text-align: right;
+  }
+
+  .comment {
+    display: block;
+    margin-top: 1.45rem;
+    margin-bottom: 1.45rem;
+  }
+
+  .tag-wrapper {
+    float: left;
+    margin: 0.35rem 0.35rem 0.35rem 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .spacer-bottom {
+    margin-bottom: 0.725rem;
+  }
+
+  .comments-no-entry {
+    font-size: 1.25rem;
+    padding: 1.786rem;
+    text-align: center;
+  }
+}

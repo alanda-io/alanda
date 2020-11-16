@@ -59,9 +59,9 @@ public class PmcProjectDocumentRestResourceImpl implements RefObjectDocumentRest
         if (displayName == null)
           displayName = project.getProjectId();
         di.getConfig().getSourceFolder().setName(displayName);
-        if ( !documentAuthorizationService.filterTreeByPermissions(di.getConfig().getSourceFolder(), null, project, di.getSubFolder())) {
-          di.getConfig().setSourceFolder(null);
-        }
+//        if ( !documentAuthorizationService.filterTreeByPermissions(di.getConfig().getSourceFolder(), null, project, di.getSubFolder())) {
+//          di.getConfig().setSourceFolder(null);
+//        }
         if (di.getConfig().getSourceFolder() != null) {
           // set mapping name to every folder for content queries
           setMappingsToTreeDirs(di.getConfig().getSourceFolder(), dq.primaryMappingName != null ? dq.primaryMappingName : dq.mappingName);

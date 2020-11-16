@@ -1,0 +1,139 @@
+<p-panel
+  #tt
+  [toggleable]="true"
+  (onAfterToggle)="loadProjectAndProcesses(tt.collapsed)"
+  styleClass="pap-panel"
+>
+  <p-header>
+    <span class="p-panel-title title">Projects & Processes</span>
+  </p-header>
+  <p-treeTable
+    [autoLayout]="true"
+    [value]="data"
+    [lazy]="true"
+    [loading]="loading"
+    (onNodeExpand)="onNodeExpand($event)"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Process / Task</th>
+        <th>Ref. Object</th>
+        <th>Assignment</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Info</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+      <tr class="content-row">
+        <ng-container
+          [ngTemplateOutlet]="!rowData.dropdown ? defaultNode : newProcessNode"
+          [ngTemplateOutletContext]="{ rowData: rowData, rowNode: rowNode }"
+        >
+          <ng-template #defaultNode>
+            <td>
+              <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+              <i [ngClass]="getIconClass(rowData.type)"></i>
+              <a *ngIf="rowData.routerLink" [routerLink]="rowData.routerLink">
+                {{ rowData.label }}
+              </a>
+              <span *ngIf="!rowData.routerLink"> {{ rowData.label }}</span>
+            </td>
+            <td>{{ rowData.refObject }}</td>
+            <td>{{ rowData.assignee }}</td>
+            <td>{{ rowData.start | date: dateFormat }}</td>
+            <td>{{ rowData.end | date: dateFormat }}</td>
+            <td><span [innerHTML]="rowData.info"></span></td>
+          </ng-template>
+        </ng-container>
+        <td>
+          <alanda-badge
+            *ngIf="rowData.status"
+            [label]="rowData.status"
+          ></alanda-badge>
+        </td>
+        <td class="col-action">
+          <alanda-pap-actions
+            [loading]="loading"
+            [readOnly]="rowData.readOnly"
+            [actions]="rowData.papActions || []"
+            (createSubproject)="createSubproject(rowData)"
+            (relateMeTo)="relateMeTo(rowData)"
+            (unrelateMe)="unrelateMe(rowData)"
+            (moveMeTo)="moveMeTo(rowData)"
+            (cancelProject)="openCancelProjectDialog(rowData)"
+            (relateSubproject)="relateSubproject(rowData)"
+            (cancelProcess)="openCancelProcessDialog(rowData, rowNode.node)"
+            (removeSubprocess)="openRemoveProcessDialog(rowData, rowNode.node)"
+            (startSubprocess)="openStartProcessDialog(rowData, rowNode.node)"
+            (configureProcess)="
+              configureProcess(rowData, rowNode.node.parent.data.project)
+            "
+          >
+          </alanda-pap-actions>
+        </td>
+      </tr>
+    </ng-template>
+  </p-treeTable>
+</p-panel>
+
+<ng-template #newProcessNode let-rowData="rowData" let-rowNode="rowNode">
+  <td class="col-process-dropdown">
+    <p-dropdown
+      [disabled]="rowData.readOnly || loading"
+      styleClass="pap-input"
+      [options]="allowedProcesses[rowNode.parent.data.project.guid]"
+      [(ngModel)]="rowData.process"
+      (onChange)="
+        subprocessSelect$.next({ data: rowData, parent: rowNode.parent })
+      "
+      placeholder="-- Select Process --"
+      dataKey="processKey"
+      appendTo="body"
+      optionLabel="label"
+    >
+    </p-dropdown>
+  </td>
+  <td colspan="2" class="col-process-input">
+    <p-autoComplete
+      *ngIf="rowData.dropdown && rowData.process"
+      [(ngModel)]="rowData.refObject"
+      [suggestions]="refObjects"
+      placeholder="Reference Object"
+      (onSelect)="
+        refObjectSelect$.next({
+          project: rowNode.parent.data.project,
+          process: rowData.process
+        })
+      "
+      [disabled]="
+        !rowData.dropdown ||
+        !rowData.process.customRefObject ||
+        loading ||
+        rowData.readOnly
+      "
+      (completeMethod)="
+        autocompleteSites($event, rowNode.parent.data.project.pmcProjectType)
+      "
+    >
+    </p-autoComplete>
+  </td>
+  <td colspan="3" class="col-process-input">
+    <textarea
+      pInputTextarea
+      *ngIf="rowData.dropdown && rowData.process"
+      [(ngModel)]="rowData.process.workDetails"
+      [rows]="1"
+      (change)="
+        updateDetails$.next({
+          project: rowNode.parent.data.project,
+          process: rowData.process
+        })
+      "
+      placeholder="Details"
+      [disabled]="rowData.readOnly || loading"
+    ></textarea>
+  </td>
+</ng-template>

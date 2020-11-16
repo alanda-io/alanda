@@ -1,0 +1,32 @@
+::ng-deep .pap-input.p-dropdown,
+.p-inputtext {
+  border: 0;
+}
+
+:host ::ng-deep .pap-panel .p-panel-content {
+  padding: 0;
+  border-bottom: 0;
+}
+
+.col-process-input {
+  padding-top: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.col-process-dropdown {
+  padding: 0 0 0 50px !important;
+}
+
+.col-action {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.content-row {
+  height: 35px !important;
+}
+
+textarea {
+  width: 100%;
+}

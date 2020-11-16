@@ -1,0 +1,24 @@
+.phase-tabview {
+  .p-tabview-nav {
+    .p-tabview-nav-link {
+      span {
+        margin: 0 0.5rem;
+
+        &:first-child {
+          margin-left: 0;
+        }
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
+      .pi {
+        z-index: 2;
+      }
+    }
+  }
+
+  .p-tabview-panels {
+    margin-top: 0.65rem;
+  }
+}

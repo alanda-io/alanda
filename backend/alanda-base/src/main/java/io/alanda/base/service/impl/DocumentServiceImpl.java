@@ -21,15 +21,22 @@ import javax.inject.Named;
 import org.apache.commons.io.IOUtils;
 
 import io.alanda.base.dao.DocumentDao;
+import io.alanda.base.document.DocumentMappingResolver;
 import io.alanda.base.dto.DirectoryInfoDto;
 import io.alanda.base.dto.DocuFolderDto;
 import io.alanda.base.dto.DocuQueryDto;
 import io.alanda.base.dto.DocumentSimpleDto;
+import io.alanda.base.dto.PmcProjectDto;
 import io.alanda.base.entity.Document;
 import io.alanda.base.service.ConfigService;
 import io.alanda.base.service.DocuService;
 import io.alanda.base.service.DocumentService;
 import io.alanda.base.service.FileService;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Instance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +60,28 @@ public class DocumentServiceImpl implements DocumentService {
   @Inject
   private DocumentDao documentDao;
 
+  @Inject
+  private Instance<DocumentMappingResolver> documentMappingResolvers;
+
+  private Map<String, DocumentMappingResolver> docMappingResolverMap;
+
+  @PostConstruct
+  private void initClass() {
+    docMappingResolverMap = new HashMap<>();
+    for (DocumentMappingResolver res : documentMappingResolvers) {
+      String[] mappingNames = res.getMappingNames();
+      if (mappingNames == null || mappingNames.length == 0) {
+        throw new IllegalStateException(
+            "DocumentMappingResolver (class="
+                + res.getClass().getName()
+                + ") without mappingNames found");
+      }
+      for (String m : mappingNames) {
+        docMappingResolverMap.put(m, res);
+      }
+    }
+  }
+
   @Override
   public void getAll(DocuQueryDto query, OutputStream output) throws IOException {
     log.info("Writing all documents matching \"{}\" as ZIP file to output stream", query);
@@ -66,13 +95,13 @@ public class DocumentServiceImpl implements DocumentService {
   @Override
   //TODO fix parameters
   public List<DocumentSimpleDto> getFolderContent(DocuQueryDto query) {
-    // Don't move outside of method scope! SimpleDateFormat is not Threadsafe! 
+    // Don't move outside of method scope! SimpleDateFormat is not Threadsafe!
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    
+
     DirectoryInfoDto di = docuService.getDirectoryInfo(query);
     Collection<Document> content = documentDao.getByPath(di.getFolderPath());
     List<DocumentSimpleDto> folderContent = new ArrayList<>();
-    
+
     for (Document document : content) {
       folderContent.add(
         new DocumentSimpleDto(
@@ -97,7 +126,7 @@ public class DocumentServiceImpl implements DocumentService {
       doc.setFileName(fileInfo.getName());
       // not necessary, gets set in AbstractAuditEntity
       //      doc.setCreateDate(now);
-      //      doc.setCreateUser(UserContext.getUser());    
+      //      doc.setCreateUser(UserContext.getUser());
     }
     doc.setMediaType(fileInfo.getMediaType());
     doc.setFileSize((long) input.length);
@@ -149,7 +178,7 @@ public class DocumentServiceImpl implements DocumentService {
 
   @Override
   public DocumentSimpleDto get(String documentId) throws IOException {
-    // Don't move outside of method scope! SimpleDateFormat is not Threadsafe! 
+    // Don't move outside of method scope! SimpleDateFormat is not Threadsafe!
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     Document doc = documentDao.getById(Long.valueOf(documentId));
     documentDao.update(doc);
@@ -238,5 +267,17 @@ public class DocumentServiceImpl implements DocumentService {
     }
     return dirInfo;
   }
+
+    @Override
+    public List<DocuQueryDto> resolveMappingByProject(PmcProjectDto p, String mapping) {
+        DocumentMappingResolver res = docMappingResolverMap.get(mapping);
+        if (res != null) {
+          return res.getForProject(p, mapping);
+        } else {
+          DocuQueryDto dc = DocuQueryDto.forPmcProject(p, true).withMappingName(mapping);
+          dc.docuConfig = docuService.getDocuConfig(dc);
+          return Collections.singletonList(dc);
+        }
+    }
 
 }
