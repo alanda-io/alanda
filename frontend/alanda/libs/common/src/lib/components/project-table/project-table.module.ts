@@ -10,6 +10,8 @@ import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { PageSizeSelectModule } from '../page-size-select/page-size-select.module';
 import { CalendarModule } from 'primeng/calendar';
+import { DialogModule } from 'primeng/dialog';
+import { QuickEditProjectDetailsModule } from '../quick-edit-project-details/quick-edit-project-details.module';
 
 @NgModule({
   imports: [
@@ -23,6 +25,8 @@ import { CalendarModule } from 'primeng/calendar';
     FormsModule,
     PageSizeSelectModule,
     CalendarModule,
+    DialogModule,
+    QuickEditProjectDetailsModule,
   ],
   declarations: [AlandaProjectTableComponent],
   exports: [AlandaProjectTableComponent],

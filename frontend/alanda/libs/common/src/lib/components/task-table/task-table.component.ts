@@ -29,7 +29,7 @@ import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { AlandaProject } from '../../api/models/project';
 import { exportAsCsv, formatDateISO } from '../../utils/helper-functions';
 import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 const DEFAULT_LAYOUT_INIT = 0;
 const EXPORT_FILE_NAME = 'download';

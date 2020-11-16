@@ -124,11 +124,12 @@
                 </span>
               </ng-container>
               <ng-container *ngIf="col.name === 'X' && task.project">
-                <span
-                  style="cursor: pointer;"
+                <button
+                  pButton
+                  icon="pi pi-pencil"
+                  class="p-button-text"
                   (click)="setupProjectDetailsModalEvent$.next(task.project)"
-                  ><i class="pi pi-pencil"></i
-                ></span>
+                ></button>
               </ng-container>
               <ng-template
                 [ngIf]="col.name === 'Task Name'"
@@ -199,17 +200,17 @@
   </p-dialog>
   <!-- Project Details Modal-->
   <p-dialog
-    [visible]="s.showProjectDetailsModal"
+    [(visible)]="s.showProjectDetailsModal"
     [modal]="true"
     [style]="{ width: '500px' }"
   >
     <p-header>
       Edit Project
     </p-header>
-    <alanda-task-table-project-details
+    <alanda-quick-edit-project-details
       [project]="s.selectedProject"
       (close)="closeProjectDetailsModalEvent$.next($event)"
     >
-    </alanda-task-table-project-details>
+    </alanda-quick-edit-project-details>
   </p-dialog>
 </ng-container>
