@@ -241,14 +241,17 @@ export class AlandaProjectTableComponent implements OnInit {
     serverOptions.pageNumber = 1;
     serverOptions.pageSize = projectsData.total;
     this.menuButtonIcon = LOADING_ICON;
-    this.projectService.loadProjects(serverOptions).pipe(
-      exhaustMap((result) => {
-        const data = [...result.results];
-        exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
-        this.menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
-        return of(true);
-      }),
-    ).subscribe();
+    this.projectService
+      .loadProjects(serverOptions)
+      .pipe(
+        exhaustMap((result) => {
+          const data = [...result.results];
+          exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
+          this.menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
+          return of(true);
+        }),
+      )
+      .subscribe();
   }
 
   exportCurrentPageData() {
