@@ -124,11 +124,11 @@
                 </span>
               </ng-container>
               <ng-container *ngIf="col.name === 'X' && task.project">
-                <span
-                  style="cursor: pointer;"
+                <button
+                  pButton
+                  icon="pi pi-pencil"
                   (click)="setupProjectDetailsModalEvent$.next(task.project)"
-                  ><i class="pi pi-pencil"></i
-                ></span>
+                  ></button>
               </ng-container>
               <ng-template
                 [ngIf]="col.name === 'Task Name'"
