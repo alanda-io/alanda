@@ -1,5 +1,13 @@
 #!/bin/bash
 
+CURRENT_BRANCH_NAME=$(git branch --no-color | grep -E '^\*' | awk '{print $2}' \
+        || echo "default_value")
+
+if [ "$CURRENT_BRANCH_NAME" != 'master' ]; then
+  echo -e '\e[31mYou can only publish a new version from master!\e[0m'
+  exit 1;
+fi
+
 cd ./libs/common/ || { echo -e '\e[31mPath does not exist!\e[0m'; exit 1; }
 
 CURRENT_PACKAGE_VERSION=$(cat package.json \
