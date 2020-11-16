@@ -28,6 +28,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { exhaustMap } from 'rxjs/operators';
 
 const defaultLayoutInit = 0;
 const EXPORT_FILE_NAME = 'download';
@@ -49,6 +50,8 @@ const initState = {
   selectedPageSize: 15,
 };
 
+const DEFAULT_BUTTON_MENU_ICON = 'pi pi-bars';
+const LOADING_ICON = 'pi pi-spin pi-spinner';
 @Component({
   selector: 'alanda-project-table',
   templateUrl: './project-table.component.html',
@@ -57,6 +60,7 @@ const initState = {
 })
 export class AlandaProjectTableComponent implements OnInit {
   state$ = this.state.select();
+  menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
   private _defaultLayout = defaultLayoutInit;
   @Input() set defaultLayout(defaultLayout: number) {
     this._defaultLayout = defaultLayout;
@@ -236,10 +240,18 @@ export class AlandaProjectTableComponent implements OnInit {
     const { serverOptions, projectsData } = this.state.get();
     serverOptions.pageNumber = 1;
     serverOptions.pageSize = projectsData.total;
-    this.projectService.loadProjects(serverOptions).subscribe((res) => {
-      const data = [...res.results];
-      exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
-    });
+    this.menuButtonIcon = LOADING_ICON;
+    this.projectService
+      .loadProjects(serverOptions)
+      .pipe(
+        exhaustMap((result) => {
+          const data = [...result.results];
+          exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
+          this.menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
+          return of(true);
+        }),
+      )
+      .subscribe();
   }
 
   exportCurrentPageData() {
