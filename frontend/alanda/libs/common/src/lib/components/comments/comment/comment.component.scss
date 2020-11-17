@@ -12,10 +12,6 @@
     max-height: 4.286rem;
   }
 
-  .author {
-    font-weight: 900;
-  }
-
   .comment-box {
     background: #dae2f0;
     border-radius: 0.35rem;
@@ -41,8 +37,21 @@
       width: 0;
     }
 
+    .author {
+      font-weight: 900;
+      margin-right: 0.725rem;
+    }
+
+    .date {
+      margin-right: 0.725rem;
+    }
+
     .body-text {
       white-space: pre-wrap;
+    }
+
+    .toggle-reply {
+      width: 98px;
     }
   }
 
@@ -66,7 +75,7 @@
     }
 
     .post-reply {
-      width: 120px;
+      width: 130px;
     }
   }
 }
