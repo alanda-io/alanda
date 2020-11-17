@@ -7,44 +7,57 @@
         (error)="fallbackImage($event)"
         draggable="false"
       />
-      <div class="author">{{ s.comment.authorName }}</div>
     </div>
     <div class="p-col comment-box bubble-effect">
-      <div class="header">
-        <i class="header-date">{{
-          s.comment.createDate | date: 'dd.MM.yyyy HH:mm'
-        }}</i>
-        <a
-          *ngIf="s.comment.replies.length"
-          (click)="doReply = !doReply; autofocus()"
-        >
-          <i class="pi pi-comments"></i> {{ s.comment.replies.length }} Replies
-        </a>
-      </div>
-      <div class="body">
-        {{ s.comment.text }}
-      </div>
-      <div *ngIf="s.comment.tagList && s.comment.tagList.length">
-        <ul class="tag-list" *ngFor="let tag of s.comment.tagList">
-          <li class="tag-item">
-            <alanda-comment-tag
-              [isActive]="s.activeTagFilters[tag.name]"
-              [tag]="tag"
-              (toggleFilterClick)="toggleFilterClick$.next($event)"
+      <div class="p-grid">
+        <div class="p-col">
+          <div class="p-grid">
+            <div class="p-col author">{{ s.comment.authorName }}</div>
+            <div class="p-col">
+              <i>{{ s.comment.createDate | date: 'dd.MM.yyyy HH:mm' }}</i>
+            </div>
+            <div class="p-col" *ngIf="s.comment.replies.length">
+              <a (click)="doReply = !doReply; autofocus()">
+                <i class="pi pi-comments"></i>
+                {{ s.comment.replies.length }} Replies
+              </a>
+            </div>
+            <div
+              class="p-col"
+              *ngIf="s.comment.tagList && s.comment.tagList.length"
             >
-            </alanda-comment-tag>
-          </li>
-        </ul>
-      </div>
-      <div *ngIf="s.type === 'comment'">
-        <p-button
-          label="Reply"
-          class="button-right"
-          (click)="doReply = !doReply; autofocus()"
-          icon="pi pi-reply"
-          iconPos="left"
-          type="button"
-        ></p-button>
+              <ul class="tag-list" *ngFor="let tag of s.comment.tagList">
+                <li class="tag-item">
+                  <alanda-comment-tag
+                    [isActive]="s.activeTagFilters[tag.name]"
+                    [tag]="tag"
+                    (toggleFilterClick)="toggleFilterClick$.next($event)"
+                  >
+                  </alanda-comment-tag>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="p-grid">
+            <div class="p-col-12 body-text">
+              {{ s.comment.text }}
+            </div>
+          </div>
+        </div>
+        <div
+          class="p-col-fixed"
+          style="width: 85px;"
+          *ngIf="s.type === 'comment'"
+        >
+          <p-button
+            label="Reply"
+            class="p-text-right"
+            (click)="doReply = !doReply; autofocus()"
+            icon="pi pi-reply"
+            iconPos="left"
+            type="button"
+          ></p-button>
+        </div>
       </div>
     </div>
   </div>
@@ -55,24 +68,30 @@
         [formGroup]="commentReplyForm"
         (ngSubmit)="commentReplyFormSubmit$.next($event)"
       >
-        <textarea
-          pInputTextarea
-          class="comment-reply"
-          #replyContent
-          autoResize="autoResize"
-          [rows]="4"
-          formControlName="replyText"
-          maxLength="4000"
-          placeholder="Write a reply..."
-        ></textarea>
-        <p-button
-          type="submit"
-          class="button-right"
-          icon="pi pi-check"
-          iconPos="left"
-          label="Post Reply"
-          [disabled]="!commentReplyForm.valid"
-        ></p-button>
+        <div class="p-fluid p-grid p-formgrid">
+          <div class="p-col p-field">
+            <textarea
+              pInputTextarea
+              class="comment-reply"
+              #replyContent
+              autoResize="autoResize"
+              [rows]="1"
+              formControlName="replyText"
+              maxLength="4000"
+              placeholder="Write a reply..."
+            ></textarea>
+          </div>
+          <div class="p-col-fixed p-field post-reply">
+            <p-button
+              type="submit"
+              class="p-text-right"
+              icon="pi pi-check"
+              iconPos="left"
+              label="Post Reply"
+              [disabled]="!commentReplyForm.valid"
+            ></p-button>
+          </div>
+        </div>
       </form>
     </div>
     <div class="p-offset-1 p-col-11">
