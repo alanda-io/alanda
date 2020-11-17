@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { AlandaCommentTag } from '../../../api/models/commentTag';
 import { distinctUntilSomeChanged, RxState } from '@rx-angular/state';
 import { map } from 'rxjs/operators';
@@ -23,9 +23,13 @@ export class AlandaCommentTagComponent extends RxState<
     distinctUntilSomeChanged(['active', 'tag']),
     map((oldState) => ({
       tag: oldState.tag,
-      class: oldState.active ? 'p-button-success' : 'p-button-info',
+      class: oldState.active
+        ? `p-button-success ${this.class}`
+        : `p-button-info ${this.class}`,
     })),
   );
+
+  @Input() class: string;
 
   @Input()
   set tag(tag: AlandaCommentTag) {

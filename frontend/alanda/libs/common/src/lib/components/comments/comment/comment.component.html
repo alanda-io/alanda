@@ -24,21 +24,21 @@
                 <i class="pi pi-comments"></i>
                 {{ s.comment.replies.length }} Replies
               </a>
-            </div>
-            <div
-              class="p-col"
-              *ngIf="s.comment.tagList && s.comment.tagList.length"
-            >
-              <ul class="tag-list" *ngFor="let tag of s.comment.tagList">
-                <li class="tag-item">
-                  <alanda-comment-tag
-                    [isActive]="s.activeTagFilters[tag.name]"
-                    [tag]="tag"
-                    (toggleFilterClick)="toggleFilterClick$.next($event)"
-                  >
-                  </alanda-comment-tag>
-                </li>
-              </ul>
+              <ng-container
+                *ngIf="s.comment.tagList && s.comment.tagList.length"
+              >
+                <ul class="tag-list" *ngFor="let tag of s.comment.tagList">
+                  <li class="tag-item">
+                    <alanda-comment-tag
+                      class="p-button-text p-p-0"
+                      [isActive]="s.activeTagFilters[tag.name]"
+                      [tag]="tag"
+                      (toggleFilterClick)="toggleFilterClick$.next($event)"
+                    >
+                    </alanda-comment-tag>
+                  </li>
+                </ul>
+              </ng-container>
             </div>
           </div>
           <div class="p-grid">

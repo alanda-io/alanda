@@ -1,12 +1,11 @@
 .comment {
   .avatar-wrapper {
-    width: 125px;
+    width: 95px;
 
     .avatar {
       display: block;
       height: auto;
-      margin: 0 auto;
-      padding-right: 10px;
+      width: 60px;
       max-height: 60px;
     }
   }
@@ -15,7 +14,6 @@
     position: relative;
     background: #dae2f0;
     border-radius: 0.35rem;
-    margin-right: 0.5rem;
 
     &.bubble-effect::before {
       border-bottom: 0.725rem solid transparent;
@@ -52,10 +50,11 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
+    display: inline-block;
 
     .tag-item {
-      float: left;
       margin-left: 0.1429rem;
+      display: inline-block;
     }
   }
 }
