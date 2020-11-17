@@ -60,9 +60,7 @@
   }
 }
 
-.comment-reply {
-  margin-top: 0.35rem;
-
+.comment-reply-wrapper {
   .comment-reply-form {
     .comment-reply {
       resize: none;
@@ -72,10 +70,5 @@
     .post-reply {
       width: 130px;
     }
-  }
-
-  .reply-comment {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
   }
 }

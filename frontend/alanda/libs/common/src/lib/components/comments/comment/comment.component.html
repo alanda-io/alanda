@@ -1,5 +1,5 @@
 <ng-container *rxLet="state$; let s">
-  <div class="p-grid comment">
+  <div class="p-grid comment p-mt-3 p-mb-3">
     <div class="p-col-fixed avatar-wrapper">
       <img
         class="avatar"
@@ -64,7 +64,10 @@
     </div>
   </div>
 
-  <div class="p-grid comment-reply" [hidden]="s.type !== 'comment'">
+  <div
+    class="p-grid p-mt-3 comment-reply-wrapper"
+    [hidden]="s.type !== 'comment'"
+  >
     <div class="p-offset-1 p-col-11" [hidden]="!doReply">
       <form
         class="comment-reply-form"
@@ -87,7 +90,7 @@
           <div class="p-col-fixed p-field post-reply">
             <p-button
               type="submit"
-              class="p-text-right"
+              styleClass="p-button-sm"
               icon="pi pi-check"
               iconPos="left"
               label="Post Reply"
@@ -100,7 +103,6 @@
     <div class="p-offset-1 p-col-11" *ngIf="s.comment.replies.length">
       <alanda-comment
         *ngFor="let reply of s.comment.replies"
-        class="reply-comment"
         [type]="'reply'"
         [comment]="reply"
       ></alanda-comment>
