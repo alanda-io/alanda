@@ -7,12 +7,12 @@
         (error)="fallbackImage($event)"
         draggable="false"
       />
-      <div class="author">{{ s.comment.authorName }}</div>
     </div>
     <div class="p-col comment-box bubble-effect">
       <div class="p-grid">
         <div class="p-col">
           <div class="p-grid">
+            <div class="p-col author">{{ s.comment.authorName }}</div>
             <div class="p-col">
               <i>{{ s.comment.createDate | date: 'dd.MM.yyyy HH:mm' }}</i>
             </div>
