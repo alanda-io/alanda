@@ -10,14 +10,10 @@
     margin-left: auto;
     margin-right: auto;
     max-height: 4.286rem;
-    width: 3.929rem;
   }
 
   .author {
     font-weight: 900;
-    line-height: 1.45rem;
-    text-align: center;
-    width: 100%;
   }
 
   .comment-box {
@@ -45,15 +41,7 @@
       width: 0;
     }
 
-    .header {
-      display: block;
-
-      .header-date {
-        margin-right: 0.725rem;
-      }
-    }
-
-    .body {
+    .body-text {
       white-space: pre-wrap;
     }
   }
@@ -76,9 +64,9 @@
       resize: none;
       width: 100%;
     }
-  }
 
-  .button-right {
-    float: right;
+    .post-reply {
+      width: 120px;
+    }
   }
 }

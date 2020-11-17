@@ -16,75 +16,91 @@
         [formGroup]="cp.commentForm"
         (ngSubmit)="cp.commentFormSubmit$.next()"
       >
-        <textarea
-          pInputTextarea
-          id="textarea"
-          class="comment-textarea"
-          [rows]="4"
-          formControlName="comment"
-          autoResize="autoResize"
-          maxLength="4000"
-          placeholder="Write a comment..."
-        ></textarea>
-        <div class="form-buttons">
-          <p-button
-            type="submit"
-            icon="pi pi-check"
-            iconPos="left"
-            label="Post Comment"
-            [disabled]="!cp.commentForm.valid"
-          ></p-button>
+        <div class="p-fluid p-grid p-formgrid">
+          <div class="p-col p-field">
+            <textarea
+              pInputTextarea
+              id="textarea"
+              class="comment-textarea"
+              [rows]="1"
+              formControlName="comment"
+              autoResize="autoResize"
+              maxLength="4000"
+              placeholder="Write a comment..."
+            ></textarea>
+          </div>
+          <div class="p-col-fixed p-field post-comment">
+            <p-button
+              type="submit"
+              icon="pi pi-check"
+              iconPos="left"
+              label="Post Comment"
+              [disabled]="!cp.commentForm.valid"
+            ></p-button>
+          </div>
         </div>
       </form>
-      <p-scrollPanel
-        [style]="{ height: '500px' }"
-        *ngIf="comments.length > 0; else elseBlock"
-      >
-        <alanda-comment
-          class="comment"
-          [comment]="comment"
-          [type]="'comment'"
-          (submitReply)="cp.replyPostBody$.next($event)"
-          (toggleFilterClick)="cp.toggleTagFilter($event)"
-          [activeTagFilters]="cp.activeTagFilters$"
-          *ngFor="let comment of comments; trackBy: cp.trackByCommentId"
-        ></alanda-comment>
-      </p-scrollPanel>
-      <ng-template #elseBlock>
-        <div class="comments-no-entry">
-          So far there are no comments!
+      <div class="p-grid">
+        <div class="p-col-12">
+          <p-scrollPanel
+            [style]="{ height: '500px' }"
+            *ngIf="comments.length > 0; else elseBlock"
+          >
+            <alanda-comment
+              class="comment"
+              [comment]="comment"
+              [type]="'comment'"
+              (submitReply)="cp.replyPostBody$.next($event)"
+              (toggleFilterClick)="cp.toggleTagFilter($event)"
+              [activeTagFilters]="cp.activeTagFilters$"
+              *ngFor="let comment of comments; trackBy: cp.trackByCommentId"
+            ></alanda-comment>
+          </p-scrollPanel>
+          <ng-template #elseBlock>
+            <div class="comments-no-entry">
+              So far there are no comments!
+            </div>
+          </ng-template>
         </div>
-      </ng-template>
+      </div>
     </div>
     <div class="p-col">
       <form [formGroup]="cp.commentFilterForm">
-        <input
-          formControlName="searchText"
-          pInputText
-          placeholder="Search comments"
-        />
+        <div class="p-fluid p-formgrid p-grid">
+          <div class="p-field p-col">
+            <input
+              formControlName="searchText"
+              pInputText
+              placeholder="Search comments"
+            />
+          </div>
+        </div>
       </form>
-      <div
-        *ngFor="let tag of cp.tags$ | push; trackBy: cp.trackByTagId"
-        class="tag-wrapper"
-      >
-        <alanda-comment-tag
-          [isActive]="(cp.activeTagFilters$ | push)[tag.name]"
-          [tag]="tag"
-          (toggleFilterClick)="cp.toggleTagFilter(tag)"
-        >
-        </alanda-comment-tag>
-      </div>
-      <div class="tag-wrapper">
-        <p-button
-          label="Clear Tag Filters"
-          icon="pi pi-times-circle"
-          iconPos="left"
-          type="button"
-          (onClick)="cp.clearAllTagFilters()"
-          *ngIf="cp.hasActiveFilters$ | push"
-          styleClass="p-button-danger"
-        ></p-button>
+      <div class="p-grid">
+        <div class="p-col-12">
+          <div
+            *ngFor="let tag of cp.tags$ | push; trackBy: cp.trackByTagId"
+            class="tag-wrapper"
+          >
+            <alanda-comment-tag
+              [isActive]="(cp.activeTagFilters$ | push)[tag.name]"
+              [tag]="tag"
+              (toggleFilterClick)="cp.toggleTagFilter(tag)"
+            >
+            </alanda-comment-tag>
+          </div>
+          <div class="tag-wrapper">
+            <p-button
+              label="Clear Tag Filters"
+              icon="pi pi-times-circle"
+              iconPos="left"
+              type="button"
+              (onClick)="cp.clearAllTagFilters()"
+              *ngIf="cp.hasActiveFilters$ | push"
+              styleClass="p-button-danger"
+            ></p-button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
