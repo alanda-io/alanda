@@ -61,7 +61,7 @@
     </div>
   </div>
 
-  <div class="p-grid comment" [hidden]="s.type !== 'comment'">
+  <div class="p-grid comment-reply" [hidden]="s.type !== 'comment'">
     <div class="p-offset-1 p-col-11" [hidden]="!doReply">
       <form
         class="comment-reply-form"
@@ -97,6 +97,7 @@
     <div class="p-offset-1 p-col-11" *ngIf="s.comment.replies.length">
       <alanda-comment
         *ngFor="let reply of s.comment.replies"
+        class="reply-comment"
         [type]="'reply'"
         [comment]="reply"
       ></alanda-comment>

@@ -1,7 +1,4 @@
 .comment {
-  margin-bottom: 0.35rem;
-  margin-top: 0.35rem;
-
   .avatar {
     display: block;
     height: auto;
@@ -57,6 +54,10 @@
       margin-left: 0.1429rem;
     }
   }
+}
+
+.comment-reply {
+  margin-top: 0.35rem;
 
   .comment-reply-form {
     .comment-reply {
@@ -67,5 +68,10 @@
     .post-reply {
       width: 130px;
     }
+  }
+
+  .reply-comment {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 }
