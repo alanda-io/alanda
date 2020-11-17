@@ -1,8 +1,6 @@
 .comment {
-  * {
-    margin-bottom: 0.35rem;
-    margin-top: 0.35rem;
-  }
+  margin-bottom: 0.35rem;
+  margin-top: 0.35rem;
 
   .avatar {
     display: block;
@@ -13,16 +11,10 @@
   }
 
   .comment-box {
+    position: relative;
     background: #dae2f0;
     border-radius: 0.35rem;
-    margin-left: 1.45rem;
-    min-height: 5rem;
-    padding-bottom: 0.35rem;
-    padding-left: 0.725rem;
-    padding-right: 0.725rem;
-    padding-top: 0.35rem;
-    position: relative;
-    width: 80%;
+    margin-left: 0.45rem;
 
     &.bubble-effect::before {
       border-bottom: 0.725rem solid transparent;
@@ -67,8 +59,6 @@
   }
 
   .comment-reply-form {
-    padding-left: 1.071rem;
-
     .comment-reply {
       resize: none;
       width: 100%;
