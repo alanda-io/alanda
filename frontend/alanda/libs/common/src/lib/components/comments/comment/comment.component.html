@@ -1,6 +1,6 @@
 <ng-container *rxLet="state$; let s">
   <div class="p-grid comment">
-    <div class="p-col-12 p-lg-1 p-md-1">
+    <div class="p-col-12 p-md-1">
       <img
         class="avatar"
         [src]="s.avatarPath"
@@ -8,16 +8,19 @@
         draggable="false"
       />
     </div>
-    <div class="p-col comment-box bubble-effect">
+    <div class="p-col-12 p-md-11 comment-box bubble-effect">
       <div class="p-grid">
         <div class="p-col">
           <div class="p-grid">
-            <div class="p-col author">{{ s.comment.authorName }}</div>
             <div class="p-col">
-              <i>{{ s.comment.createDate | date: 'dd.MM.yyyy HH:mm' }}</i>
-            </div>
-            <div class="p-col" *ngIf="s.comment.replies.length">
-              <a (click)="doReply = !doReply; autofocus()">
+              <span class="author">{{ s.comment.authorName }}</span>
+              <i class="date">{{
+                s.comment.createDate | date: 'dd.MM.yyyy HH:mm'
+              }}</i>
+              <a
+                *ngIf="s.comment.replies.length"
+                (click)="doReply = !doReply; autofocus()"
+              >
                 <i class="pi pi-comments"></i>
                 {{ s.comment.replies.length }} Replies
               </a>
@@ -44,11 +47,7 @@
             </div>
           </div>
         </div>
-        <div
-          class="p-col-fixed"
-          style="width: 85px;"
-          *ngIf="s.type === 'comment'"
-        >
+        <div class="p-col-fixed toggle-reply" *ngIf="s.type === 'comment'">
           <p-button
             label="Reply"
             class="p-text-right"
@@ -61,7 +60,8 @@
       </div>
     </div>
   </div>
-  <div class="p-grid comment" [hidden]="s.type !== 'comment'">
+
+  <div class="p-grid comment-reply" [hidden]="s.type !== 'comment'">
     <div class="p-offset-1 p-col-11" [hidden]="!doReply">
       <form
         class="comment-reply-form"
@@ -94,9 +94,10 @@
         </div>
       </form>
     </div>
-    <div class="p-offset-1 p-col-11">
+    <div class="p-offset-1 p-col-11" *ngIf="s.comment.replies.length">
       <alanda-comment
         *ngFor="let reply of s.comment.replies"
+        class="reply-comment"
         [type]="'reply'"
         [comment]="reply"
       ></alanda-comment>

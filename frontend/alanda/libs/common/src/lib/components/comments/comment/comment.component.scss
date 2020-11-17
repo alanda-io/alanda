@@ -1,9 +1,4 @@
 .comment {
-  * {
-    margin-bottom: 0.35rem;
-    margin-top: 0.35rem;
-  }
-
   .avatar {
     display: block;
     height: auto;
@@ -12,21 +7,11 @@
     max-height: 4.286rem;
   }
 
-  .author {
-    font-weight: 900;
-  }
-
   .comment-box {
+    position: relative;
     background: #dae2f0;
     border-radius: 0.35rem;
-    margin-left: 1.45rem;
-    min-height: 5rem;
-    padding-bottom: 0.35rem;
-    padding-left: 0.725rem;
-    padding-right: 0.725rem;
-    padding-top: 0.35rem;
-    position: relative;
-    width: 80%;
+    margin-left: 0.45rem;
 
     &.bubble-effect::before {
       border-bottom: 0.725rem solid transparent;
@@ -41,8 +26,21 @@
       width: 0;
     }
 
+    .author {
+      font-weight: 900;
+      margin-right: 0.725rem;
+    }
+
+    .date {
+      margin-right: 0.725rem;
+    }
+
     .body-text {
       white-space: pre-wrap;
+    }
+
+    .toggle-reply {
+      width: 98px;
     }
   }
 
@@ -56,17 +54,24 @@
       margin-left: 0.1429rem;
     }
   }
+}
+
+.comment-reply {
+  margin-top: 0.35rem;
 
   .comment-reply-form {
-    padding-left: 1.071rem;
-
     .comment-reply {
       resize: none;
       width: 100%;
     }
 
     .post-reply {
-      width: 120px;
+      width: 130px;
     }
+  }
+
+  .reply-comment {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 }
