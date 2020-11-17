@@ -45,15 +45,7 @@
       width: 0;
     }
 
-    .header {
-      display: block;
-
-      .header-date {
-        margin-right: 0.725rem;
-      }
-    }
-
-    .body {
+    .body-text {
       white-space: pre-wrap;
     }
   }
@@ -70,15 +62,13 @@
   }
 
   .comment-reply-form {
-    padding-left: 1.071rem;
-
     .comment-reply {
       resize: none;
       width: 100%;
     }
-  }
 
-  .button-right {
-    float: right;
+    .post-reply {
+      width: 170px;
+    }
   }
 }
