@@ -66,33 +66,41 @@
     </div>
     <div class="p-col">
       <form [formGroup]="cp.commentFilterForm">
-        <input
-          formControlName="searchText"
-          pInputText
-          placeholder="Search comments"
-        />
+        <div class="p-fluid p-formgrid p-grid">
+          <div class="p-field p-col">
+            <input
+              formControlName="searchText"
+              pInputText
+              placeholder="Search comments"
+            />
+          </div>
+        </div>
       </form>
-      <div
-        *ngFor="let tag of cp.tags$ | push; trackBy: cp.trackByTagId"
-        class="tag-wrapper"
-      >
-        <alanda-comment-tag
-          [isActive]="(cp.activeTagFilters$ | push)[tag.name]"
-          [tag]="tag"
-          (toggleFilterClick)="cp.toggleTagFilter(tag)"
-        >
-        </alanda-comment-tag>
-      </div>
-      <div class="tag-wrapper">
-        <p-button
-          label="Clear Tag Filters"
-          icon="pi pi-times-circle"
-          iconPos="left"
-          type="button"
-          (onClick)="cp.clearAllTagFilters()"
-          *ngIf="cp.hasActiveFilters$ | push"
-          styleClass="p-button-danger"
-        ></p-button>
+      <div class="p-grid">
+        <div class="p-col-12">
+          <div
+            *ngFor="let tag of cp.tags$ | push; trackBy: cp.trackByTagId"
+            class="tag-wrapper"
+          >
+            <alanda-comment-tag
+              [isActive]="(cp.activeTagFilters$ | push)[tag.name]"
+              [tag]="tag"
+              (toggleFilterClick)="cp.toggleTagFilter(tag)"
+            >
+            </alanda-comment-tag>
+          </div>
+          <div class="tag-wrapper">
+            <p-button
+              label="Clear Tag Filters"
+              icon="pi pi-times-circle"
+              iconPos="left"
+              type="button"
+              (onClick)="cp.clearAllTagFilters()"
+              *ngIf="cp.hasActiveFilters$ | push"
+              styleClass="p-button-danger"
+            ></p-button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
