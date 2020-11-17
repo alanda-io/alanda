@@ -40,23 +40,22 @@
           </div>
         </div>
       </form>
-      <p-scrollPanel
-        [style]="{ height: '500px' }"
-        *ngIf="comments.length > 0; else elseBlock"
-      >
-        <div class="p-grid">
-          <div class="p-col-12">
-            <alanda-comment
-              [comment]="comment"
-              [type]="'comment'"
-              (submitReply)="cp.replyPostBody$.next($event)"
-              (toggleFilterClick)="cp.toggleTagFilter($event)"
-              [activeTagFilters]="cp.activeTagFilters$"
-              *ngFor="let comment of comments; trackBy: cp.trackByCommentId"
-            ></alanda-comment>
-          </div>
+      <div class="p-grid" *ngIf="comments.length > 0; else elseBlock">
+        <div class="p-col-12">
+          <p-scrollPanel [style]="{ height: '500px' }">
+            <div class="p-ml-2 p-mr-3">
+              <alanda-comment
+                [comment]="comment"
+                [type]="'comment'"
+                (submitReply)="cp.replyPostBody$.next($event)"
+                (toggleFilterClick)="cp.toggleTagFilter($event)"
+                [activeTagFilters]="cp.activeTagFilters$"
+                *ngFor="let comment of comments; trackBy: cp.trackByCommentId"
+              ></alanda-comment>
+            </div>
+          </p-scrollPanel>
         </div>
-      </p-scrollPanel>
+      </div>
       <ng-template #elseBlock>
         <div class="p-grid">
           <div class="p-col-12">
