@@ -184,11 +184,6 @@ export class AlandaTaskListComponent {
         {
           displayName: 'X',
           name: 'X',
-          cellTemplate:
-            '<div class="ui-grid-cell-contents"><span ng-click="grid.appScope.editDetails(row)"><i class="pi pi-pencil"></i></span></div>',
-          enableCellEdit: false,
-          enableSorting: false,
-          enableFiltering: false,
         },
       ],
     };
