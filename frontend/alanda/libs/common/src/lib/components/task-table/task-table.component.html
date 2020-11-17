@@ -1,5 +1,5 @@
 <ng-container *ngIf="state$ | async as s">
-  <div class="p-grid">
+  <div class="p-grid p-field">
     <div class="p-col-3">
       <p-dropdown
         [hidden]="layouts.length <= 1"
@@ -42,7 +42,7 @@
       <p-table
         *ngIf="selectedLayout && s.tasksData"
         #tt
-        [class]="'task-table'"
+        class="task-table"
         [value]="s.tasksData?.results"
         [columns]="filteredColumns"
         [paginator]="true"

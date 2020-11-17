@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { AlandaTableLayout, TableColumnType } from '@alanda/common';
+import {
+  AlandaTableColumnDefinition,
+  AlandaTableLayout,
+  TableColumnType,
+} from '@alanda/common';
 
 @Component({
   selector: 'alanda-project-monitor',
@@ -10,7 +14,7 @@ export class AlandaProjectMonitorComponent {
   layouts: AlandaTableLayout[];
 
   constructor() {
-    const columnDefAll = [
+    const columnDefAll: AlandaTableColumnDefinition[] = [
       {
         displayName: 'Project ID',
         name: 'Project ID',
@@ -56,7 +60,7 @@ export class AlandaProjectMonitorComponent {
       },
     ];
 
-    const columnDefSimple = [
+    const columnDefSimple: AlandaTableColumnDefinition[] = [
       {
         displayName: 'Project ID',
         name: 'Project ID',
@@ -84,7 +88,7 @@ export class AlandaProjectMonitorComponent {
       },
     ];
 
-    const columnDefSpecial = [
+    const columnDefSpecial: AlandaTableColumnDefinition[] = [
       {
         displayName: 'Project ID',
         name: 'Project ID',
@@ -113,9 +117,6 @@ export class AlandaProjectMonitorComponent {
       {
         displayName: 'X',
         name: 'X',
-        enableCellEdit: false,
-        enableSorting: false,
-        enableFiltering: false,
       },
     ];
 
