@@ -40,12 +40,12 @@
           </div>
         </div>
       </form>
-      <div class="p-grid">
-        <div class="p-col-12">
-          <p-scrollPanel
-            [style]="{ height: '500px' }"
-            *ngIf="comments.length > 0; else elseBlock"
-          >
+      <p-scrollPanel
+        [style]="{ height: '500px' }"
+        *ngIf="comments.length > 0; else elseBlock"
+      >
+        <div class="p-grid">
+          <div class="p-col-12">
             <alanda-comment
               class="comment"
               [comment]="comment"
@@ -55,14 +55,18 @@
               [activeTagFilters]="cp.activeTagFilters$"
               *ngFor="let comment of comments; trackBy: cp.trackByCommentId"
             ></alanda-comment>
-          </p-scrollPanel>
-          <ng-template #elseBlock>
+          </div>
+        </div>
+      </p-scrollPanel>
+      <ng-template #elseBlock>
+        <div class="p-grid">
+          <div class="p-col-12">
             <div class="comments-no-entry">
               So far there are no comments!
             </div>
-          </ng-template>
+          </div>
         </div>
-      </div>
+      </ng-template>
     </div>
     <div class="p-col">
       <form [formGroup]="cp.commentFilterForm">
