@@ -114,7 +114,8 @@ export class AlandaProjectTableComponent implements OnInit {
             summary: 'Load Tasks',
             detail: err.message,
           });
-          return of({ serverOptions, loading: false });
+          const projectsData = this.state.get().projectsData;
+          return of({ serverOptions, projectsData, loading: false });
         }),
       ),
     ),
