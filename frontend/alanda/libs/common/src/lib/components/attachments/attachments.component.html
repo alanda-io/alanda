@@ -6,35 +6,28 @@
     </span>
   </p-header>
   <div class="p-grid">
-    <div class="p-col-3">
+    <div class="p-col-12 p-md-3">
       <alanda-attachments-tree
         [treeNode]="treeNode"
         (nodeChangedEvent)="onSelectedNodeChange($event)"
       ></alanda-attachments-tree>
     </div>
-    <div class="p-col">
-      <a [href]="downloadAllUrl">
-        <p-button
-          class="download-all"
-          type="button"
-          icon="pi pi-download"
-          label="Download all"
-          [disabled]="fileCount === 0"
-        ></p-button>
-      </a>
+    <div class="p-col-12 p-md-9">
       <div class="p-grid">
-        <div class="p-col-12 p-nogutter">
+        <div class="p-col-12">
           <alanda-attachments-list
             [data]="data"
             [currentFiles]="currentFiles"
             (deleteFile)="onDeleteFile()"
           ></alanda-attachments-list>
         </div>
-        <div class="p-col-12 p-md-12 p-nogutter">
+      </div>
+      <div class="p-grid">
+        <div class="p-col-12">
           <p-fileUpload
             #fileUploader
             name="file"
-            url="{{ uploaderUrl }}"
+            [url]="uploaderUrl"
             multiple="multiple"
             (onUpload)="onUpload($event)"
             chooseLabel="Choose Files"
@@ -42,9 +35,29 @@
             uploadLabel="Upload"
           >
             <ng-template pTemplate="content">
-              <div>Drag files here to upload</div>
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <div
+                    class="p-text-center p-text-secondary p-p-5 al-text-size-lg drop-zone"
+                  >
+                    Drag and drop files here to upload
+                  </div>
+                </div>
+              </div>
             </ng-template>
           </p-fileUpload>
+        </div>
+      </div>
+      <div class="p-grid p-formgrid">
+        <div class="p-col-12 p-field p-text-right">
+          <form [action]="downloadAllUrl" class="p-d-inline">
+            <p-button
+              type="submit"
+              icon="pi pi-download"
+              label="Download all"
+              [disabled]="fileCount === 0"
+            ></p-button>
+          </form>
         </div>
       </div>
     </div>
