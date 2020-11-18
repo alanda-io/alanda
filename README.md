@@ -4,7 +4,6 @@ A framework for developing processes the easy way.
 [![Alanda](https://alanda.io/wp-content/uploads/2020/02/Alanda.png)](https://alanda.io/)
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-
 ![Node.js CI](https://github.com/alanda-io/alanda/workflows/Node.js%20CI/badge.svg?branch=master)
 
 # Motivation
