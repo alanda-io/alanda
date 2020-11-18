@@ -123,7 +123,8 @@ export class AlandaTaskTableComponent implements OnInit {
             summary: 'Load Tasks',
             detail: err.message,
           });
-          return of({ serverOptions, loading: false });
+          const tasksData = this.state.get().tasksData;
+          return of({ serverOptions, tasksData, loading: false });
         }),
       ),
     ),

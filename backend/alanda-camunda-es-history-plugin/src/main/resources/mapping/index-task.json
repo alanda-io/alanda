@@ -1421,6 +1421,9 @@
 						},
 						"pmcProjectGuid": {
 							"type": "long"
+						},
+						"priority": {
+							"type": "short"
 						}
 					}
 				},
@@ -1696,7 +1699,7 @@
 						"additionalInfo": {
 							"dynamic": true,
 							"properties": {
-								
+
 							}
 						},
 						"propertiesMap": {
