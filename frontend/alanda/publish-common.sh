@@ -38,5 +38,5 @@ npm login --registry=https://repo.alanda.io/repository/alanda/ || {
   npm version "${CURRENT_PACKAGE_VERSION}"
   exit 1;
 }
-npm publish
+# npm publish
 echo 'Done!'
