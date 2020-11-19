@@ -34,16 +34,16 @@ export class AttachmentsListComponent {
   }
 
   triggerDownload(fileId: string): void {
-    location.href = this.downloadUrl(fileId);
+    location.href = this.downloadUrl(fileId, false);
   }
 
-  downloadUrl(fileId: string): string {
+  downloadUrl(fileId: string, inline: boolean = true): string {
     return this.documentService.getDownloadUrl(
       this.data.refObjectType,
       this.data.guid,
       this.data.selectedNode.id,
       fileId,
-      true,
+      inline,
       this.data.selectedNode.mapping,
     );
   }
