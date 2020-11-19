@@ -1,11 +1,4 @@
-import {
-  Component,
-  Inject,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
@@ -15,22 +8,14 @@ import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaTask } from '../../api/models/task';
 import { RxState } from '@rx-angular/state';
-import { combineLatest, EMPTY, isObservable, merge, Observable, of, Subject } from 'rxjs';
-import {
-  catchError,
-  delay,
-  exhaustMap,
-  filter,
-  map,
-  startWith,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { EMPTY, isObservable, merge, Observable, of, Subject } from 'rxjs';
+import { catchError, delay, exhaustMap, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { AlandaProject } from '../../api/models/project';
 import { exportAsCsv, formatDateISO } from '../../utils/helper-functions';
 import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
 import { Router } from '@angular/router';
+import { ExportType } from '../../enums/exportType.enum';
 
 const DEFAULT_LAYOUT_INIT = 0;
 const EXPORT_FILE_NAME = 'download';
@@ -110,7 +95,7 @@ export class AlandaTaskTableComponent implements OnInit {
   hiddenColumns = {};
   layoutChange$ = new Subject<any>();
   onMenuItemColumnClick$ = new Subject<string>();
-  onExportCsvClick$ = new Subject<boolean>();
+  onExportCsvClick$ = new Subject<ExportType>();
   @ViewChild('tt') turboTable: Table;
 
   /**
@@ -192,7 +177,7 @@ export class AlandaTaskTableComponent implements OnInit {
   );
 
   exportAllCsv$ = this.onExportCsvClick$.pipe(
-    filter( (exportAllData) => exportAllData),
+    filter( (exportType) => exportType === ExportType.ALL_DATA),
     exhaustMap( () => {
       const { serverOptions, tasksData } = this.state.get();
       serverOptions.pageNumber = 1;
@@ -212,7 +197,7 @@ export class AlandaTaskTableComponent implements OnInit {
   );
 
   exportCurrentPageData$ = this.onExportCsvClick$.pipe(
-    filter( (exportAllData)=> !exportAllData),
+    filter( (exportType)=> exportType === ExportType.VISIBLE_DATA),
     tap( () => exportAsCsv(this.state.get('tasksData').results,this.state.get('filteredColumns'),EXPORT_FILE_NAME))
   );
 
@@ -481,12 +466,12 @@ export class AlandaTaskTableComponent implements OnInit {
           {
             label: 'Download CSV visible page',
             icon: 'pi pi-fw pi-download',
-            command: () => this.onExportCsvClick$.next(false),
+            command: () => this.onExportCsvClick$.next(ExportType.VISIBLE_DATA),
           },
           {
             label: 'Download CSV all pages',
             icon: 'pi pi-fw pi-download',
-            command: () => this.onExportCsvClick$.next(true),
+            command: () => this.onExportCsvClick$.next(ExportType.ALL_DATA),
           },
           {
             label: 'Reset all filters',

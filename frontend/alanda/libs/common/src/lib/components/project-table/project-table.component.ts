@@ -1,11 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  ViewChild,
-  Inject,
-} from '@angular/core';
+import { Component, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { EMPTY, merge, of, Subject } from 'rxjs';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -19,16 +12,8 @@ import { RxState } from '@rx-angular/state';
 import { exportAsCsv } from '../../utils/helper-functions';
 import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
 import { Router } from '@angular/router';
-import {
-  catchError,
-  delay,
-  filter,
-  map,
-  startWith,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
-import { exhaustMap } from 'rxjs/operators';
+import { catchError, delay, exhaustMap, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { ExportType } from '../../enums/exportType.enum';
 
 const DEFAULT_LAYOUT_INIT = 0;
 const EXPORT_FILE_NAME = 'download';
@@ -94,7 +79,7 @@ export class AlandaProjectTableComponent implements OnInit {
   closeProjectDetailsModalEvent$ = new Subject<AlandaProject>();
   layoutChange$ = new Subject<any>();
   onMenuItemColumnClick$ = new Subject<string>();
-  onExportCsvClick$ = new Subject<boolean>();
+  onExportCsvClick$ = new Subject<ExportType>();
 
   @ViewChild('tt') turboTable: Table;
 
@@ -171,7 +156,7 @@ export class AlandaProjectTableComponent implements OnInit {
     }),
   );
   exportAllCsv$ = this.onExportCsvClick$.pipe(
-    filter( (exportAllData) => exportAllData),
+    filter( (exportType) => exportType === ExportType.ALL_DATA),
     exhaustMap( () => {
       const { serverOptions, projectsData } = this.state.get();
       serverOptions.pageNumber = 1;
@@ -191,7 +176,7 @@ export class AlandaProjectTableComponent implements OnInit {
   );
 
   exportCurrentPageData$ = this.onExportCsvClick$.pipe(
-    filter( (exportAllData)=> !exportAllData),
+    filter( (exportType)=> exportType === ExportType.VISIBLE_DATA),
     tap( () => exportAsCsv(this.state.get('projectsData').results,this.state.get('filteredColumns'),EXPORT_FILE_NAME))
   )
   constructor(
@@ -327,12 +312,12 @@ export class AlandaProjectTableComponent implements OnInit {
           {
             label: 'Download CSV visible page',
             icon: 'pi pi-fw pi-download',
-            command: () => this.onExportCsvClick$.next(false),
+            command: () => this.onExportCsvClick$.next(ExportType.VISIBLE_DATA),
           },
           {
             label: 'Download CSV all pages',
             icon: 'pi pi-fw pi-download',
-            command: () => this.onExportCsvClick$.next(true),
+            command: () => this.onExportCsvClick$.next(ExportType.ALL_DATA),
           },
           {
             label: 'Reset all filters',
