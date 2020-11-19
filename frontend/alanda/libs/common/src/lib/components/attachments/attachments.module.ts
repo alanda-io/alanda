@@ -10,6 +10,8 @@ import { ButtonModule } from 'primeng/button';
 import { FileUploadModule } from 'primeng/fileupload';
 import { TreeModule } from 'primeng/tree';
 import { LightboxModule } from 'primeng/lightbox';
+import { RippleModule } from 'primeng/ripple';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { LightboxModule } from 'primeng/lightbox';
     FileUploadModule,
     TreeModule,
     LightboxModule,
+    RippleModule,
+    DialogModule,
   ],
   exports: [
     AlandaAttachmentsComponent,

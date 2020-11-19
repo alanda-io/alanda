@@ -3,6 +3,7 @@ import { ExtendedTreeNode } from '../../models/tree-node';
 import { SimpleDocument } from '../../api/models/simpleDocument';
 import { AlandaDocumentApiService } from '../../api/documentApi.service';
 import { removeAllWhitespaces } from '../../utils/helper-functions';
+import { TreeNode } from 'primeng/api';
 
 @Component({
   selector: 'alanda-attachments',
@@ -152,8 +153,8 @@ export class AlandaAttachmentsComponent implements OnInit {
     }
   }
 
-  onSelectedNodeChange($event) {
-    this.data.selectedNode = $event;
+  onSelectedNodeChange(treeNode: TreeNode) {
+    this.data.selectedNode = treeNode;
     this.refreshUrls();
     this.loadFolderContent();
   }
