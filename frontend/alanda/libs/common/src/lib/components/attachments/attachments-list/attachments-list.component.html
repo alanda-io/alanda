@@ -1,54 +1,45 @@
 <p-table
   class="attachment-list"
-  #dataTable
   [value]="currentFiles"
-  [columns]="fileColumns"
   [scrollable]="true"
   scrollHeight="320px"
   autoLayout="true"
   dataKey="guid"
 >
   <!-- 'let-columns' allows access to the ng-template context columns property-->
-  <ng-template pTemplate="header" let-columns>
+  <ng-template pTemplate="header">
     <tr>
-      <th
-        *ngFor="let col of columns"
-        [pSortableColumn]="col.field"
-        class="{{ col.prio }}"
-      >
-        <strong>{{ col.header }}</strong>
-        <p-sortIcon *ngIf="col.sort" [field]="col.field"></p-sortIcon>
-      </th>
+      <th>Name</th>
+      <th>Last Modified</th>
+      <th>Size</th>
+      <th>Action</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-file let-columns="columns">
-    <!-- <tr [pSelectableRow]="file"> -->
+  <ng-template pTemplate="body" let-file>
     <tr>
-      <td
-        *ngFor="let col of columns"
-        [ngSwitch]="col.field"
-        class="{{ col.prio }}"
-      >
-        <span *ngSwitchCase="'lastModified'">{{
-          file.lastModified | date: 'd MMMM y'
-        }}</span>
-        <span *ngSwitchCase="'size'">{{ file.size }} KB</span>
-        <span *ngSwitchCase="'action'">
-          <a [href]="download(file.guid)"
-            ><span class="pi pi-download" style="font-size: 1.5em;"></span
+      <td>
+        {{ file.name }}
+      </td>
+      <td>
+        {{ file.lastModified | date: 'd MMMM y' }}
+      </td>
+      <td>{{ file.size }} KB</td>
+      <td>
+        <ng-container *ngSwitchCase="'action'">
+          <!-- Download file -->
+          <a [href]="download(file.guid)" class="file-action-button"
+            ><i class="pi pi-download"></i
           ></a>
 
-          <span *ngIf="previewAllowed(file.name)">
-            <!--             <a href="Javascript:void(0)" (click)="setPreview(file); op.toggle($event)">
-              <span class="pi pi-image" style="font-size: 1.5em"></span>
-            </a> -->
+          <!-- File Preview -->
+          <ng-container *ngIf="previewAllowed(file.name)">
             <ng-template
               [ngIf]="!file.name.endsWith('.pdf')"
-              [ngIfElse]="pdfpreview"
+              [ngIfElse]="pdfPreview"
             >
               <p-lightbox class="lightbox" type="content">
-                <a href="#">
-                  <span class="pi pi-image" style="font-size: 1.5em;"></span>
+                <a href="#" class="file-action-button">
+                  <i class="pi pi-image"></i>
                 </a>
                 <img
                   [src]="download(file.guid)"
@@ -57,10 +48,10 @@
                 />
               </p-lightbox>
             </ng-template>
-            <ng-template #pdfpreview>
+            <ng-template #pdfPreview>
               <p-lightbox class="lightbox" type="content">
-                <a href="#">
-                  <span class="pi pi-image" style="font-size: 1.5em;"></span>
+                <a href="#" class="file-action-button">
+                  <i class="pi pi-image"></i>
                 </a>
                 <iframe
                   [src]="
@@ -72,22 +63,17 @@
                 ></iframe>
               </p-lightbox>
             </ng-template>
-          </span>
-          <a (click)="onDeleteFile(file)" href="JavaScript:void(0)"
-            ><span class="pi pi-trash" style="font-size: 1.5em;"></span
-          ></a>
-        </span>
-        <span *ngSwitchDefault>{{ file[col.field] }}</span>
+          </ng-container>
+
+          <!-- Remove file -->
+          <a
+            class="file-action-button"
+            (click)="onDeleteFile(file)"
+            href="JavaScript:void(0)"
+            ><i class="pi pi-trash"></i>
+          </a>
+        </ng-container>
       </td>
     </tr>
   </ng-template>
 </p-table>
-
-<!-- <p-overlayPanel #op *ngIf="previewContent !== undefined">
-    <span *ngIf="!previewContent.pdf">
-      <img [src]="download(previewContent.id)" alt="image" width="100%"/>
-    </span>
-    <span *ngIf="previewContent.pdf">
-      <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(download(previewContent.id))"></iframe>
-    </span>
-</p-overlayPanel> -->

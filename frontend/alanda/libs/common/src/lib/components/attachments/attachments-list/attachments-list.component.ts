@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { SimpleDocument } from '../../../api/models/simpleDocument';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AlandaDocumentApiService } from '../../../api/documentApi.service';
@@ -8,13 +8,12 @@ import { AlandaDocumentApiService } from '../../../api/documentApi.service';
   templateUrl: './attachments-list.component.html',
   styleUrls: ['./attachments-list.component.scss'],
 })
-export class AttachmentsListComponent implements OnInit {
+export class AttachmentsListComponent {
   @Input() currentFiles: SimpleDocument[];
   @Input() data: any;
   @Output() deleteFile = new EventEmitter<void>();
 
   selectionValue: SimpleDocument;
-  fileColumns: any[];
   previewExtensions = ['jpg', 'jpeg', 'gif', 'png', 'pdf'];
   previewContent: { id: string; pdf: boolean };
 
@@ -22,20 +21,6 @@ export class AttachmentsListComponent implements OnInit {
     private readonly documentService: AlandaDocumentApiService,
     public sanitizer: DomSanitizer,
   ) {}
-
-  ngOnInit() {
-    this.fileColumns = [
-      { field: 'name', header: 'Name', sort: true },
-      {
-        field: 'lastModified',
-        header: 'Last Modified',
-        prio: 'ui-p-5',
-        sort: true,
-      },
-      { field: 'size', header: 'Size', sort: true },
-      { field: 'action', header: 'Action', sort: false },
-    ];
-  }
 
   setPreview(file) {
     this.previewContent = { id: null, pdf: false };
