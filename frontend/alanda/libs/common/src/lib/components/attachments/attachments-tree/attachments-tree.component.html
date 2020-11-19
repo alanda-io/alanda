@@ -1,8 +1,10 @@
-<p-tree
-  [style]="{ width: '100%' }"
-  [value]="treeNode"
-  selectionMode="single"
-  [(selection)]="selectedFile"
-  (onNodeSelect)="nodeSelect($event)"
->
-</p-tree>
+<ng-container *ngIf="treeNodes.length">
+  <p-tree
+    [style]="{ width: '100%' }"
+    [value]="treeNodes"
+    selectionMode="single"
+    [selection]="selectedNode"
+    (onNodeSelect)="nodeSelected($event)"
+  >
+  </p-tree>
+</ng-container>

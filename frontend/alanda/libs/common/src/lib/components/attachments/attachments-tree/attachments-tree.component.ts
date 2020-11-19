@@ -6,14 +6,19 @@ import { TreeNode } from 'primeng/api';
   templateUrl: './attachments-tree.component.html',
 })
 export class AttachmentsTreeComponent {
-  @Input() treeNode: TreeNode[];
-  @Output() nodeChangedEvent = new EventEmitter<string>();
-
-  selectedFile: TreeNode[];
-
-  nodeSelect(event) {
-    this.nodeChangedEvent.emit(event.node);
+  @Input() set treeNode(treeNode: TreeNode[]) {
+    this.treeNodes = treeNode;
+    this.selectedNode = treeNode[0];
   }
+  @Output() nodeChangedEvent = new EventEmitter<TreeNode>();
+
+  treeNodes: TreeNode[];
+  selectedNode: TreeNode;
 
   constructor() {}
+
+  nodeSelected(event) {
+    this.nodeChangedEvent.emit(event.node);
+    this.selectedNode = event.node;
+  }
 }
