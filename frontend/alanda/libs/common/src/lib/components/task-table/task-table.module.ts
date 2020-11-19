@@ -15,6 +15,9 @@ import { FilterPipeModule } from '../../pipes/filter.pipe';
 import { CalendarModule } from 'primeng/calendar';
 import { TooltipModule } from 'primeng/tooltip';
 import { QuickEditProjectDetailsModule } from '../quick-edit-project-details/quick-edit-project-details.module';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { SlideMenuModule } from 'primeng/slidemenu';
+import { PanelMenuModule } from 'primeng/panelmenu';
 
 @NgModule({
   declarations: [AlandaTaskTableComponent],
@@ -35,6 +38,9 @@ import { QuickEditProjectDetailsModule } from '../quick-edit-project-details/qui
     CalendarModule,
     TooltipModule,
     QuickEditProjectDetailsModule,
+    OverlayPanelModule,
+    SlideMenuModule,
+    PanelMenuModule,
   ],
   exports: [AlandaTaskTableComponent],
 })

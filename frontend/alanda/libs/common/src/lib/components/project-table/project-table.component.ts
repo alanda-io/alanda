@@ -6,7 +6,7 @@ import {
   ViewChild,
   Inject,
 } from '@angular/core';
-import { merge, of, Subject } from 'rxjs';
+import { EMPTY, merge, of, Subject } from 'rxjs';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
@@ -30,7 +30,7 @@ import {
 } from 'rxjs/operators';
 import { exhaustMap } from 'rxjs/operators';
 
-const defaultLayoutInit = 0;
+const DEFAULT_LAYOUT_INIT = 0;
 const EXPORT_FILE_NAME = 'download';
 
 interface AlandaProjectTableState {
@@ -40,6 +40,11 @@ interface AlandaProjectTableState {
   showProjectDetailsModal: boolean;
   projectsData: AlandaListResult<AlandaProject>;
   selectedPageSize: number;
+  selectedLayout: AlandaTableLayout;
+  filteredColumns: AlandaTableColumnDefinition[];
+  defaultLayout: number;
+  layouts: AlandaTableLayout[];
+  menuItems: MenuItem[],
 }
 
 const initState = {
@@ -48,6 +53,9 @@ const initState = {
     results: [],
   },
   selectedPageSize: 15,
+  defaultLayout: DEFAULT_LAYOUT_INIT,
+  layouts: [],
+  menuItem: []
 };
 
 const DEFAULT_BUTTON_MENU_ICON = 'pi pi-bars';
@@ -61,14 +69,12 @@ const LOADING_ICON = 'pi pi-spin pi-spinner';
 export class AlandaProjectTableComponent implements OnInit {
   state$ = this.state.select();
   menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
-  private _defaultLayout = defaultLayoutInit;
   @Input() set defaultLayout(defaultLayout: number) {
-    this._defaultLayout = defaultLayout;
-    if (this.layouts && this.turboTable) {
-      this.selectedLayout = this.layouts[this._defaultLayout];
-    }
+    this.state.set({ defaultLayout });
   }
-  @Input() layouts: AlandaTableLayout[];
+  @Input() set layouts(layouts: AlandaTableLayout[]){
+    this.state.set({ layouts });
+  };
   @Input() tableStyle: object;
   @Input() autoLayout = false;
   @Input() resizableColumns = true;
@@ -80,15 +86,15 @@ export class AlandaProjectTableComponent implements OnInit {
   @Input() routerBasePath = '/projectdetails';
   @Output() layoutChanged = new Subject<AlandaTableLayout>();
 
-  selectedLayout: AlandaTableLayout;
-  menuItems: MenuItem[];
   dateFormatPrime: string;
   hiddenColumns = {};
-  filteredColumns: AlandaTableColumnDefinition[] = [];
   tableLazyLoadEvent$ = new Subject<LazyLoadEvent>();
   needReloadEvent$ = new Subject();
   setupProjectDetailsModalEvent$ = new Subject<AlandaProject>();
   closeProjectDetailsModalEvent$ = new Subject<AlandaProject>();
+  layoutChange$ = new Subject<any>();
+  onMenuItemColumnClick$ = new Subject<string>();
+  onExportCsvClick$ = new Subject<boolean>();
 
   @ViewChild('tt') turboTable: Table;
 
@@ -120,6 +126,74 @@ export class AlandaProjectTableComponent implements OnInit {
     ),
   );
 
+  onSelectedLayoutChange$ = this.state.select('selectedLayout').pipe(
+    map( (selectedLayout) => {
+      this.needReloadEvent$.next();
+      this.layoutChanged.next(selectedLayout);
+      return selectedLayout.columnDefs;
+    })
+  );
+  updateMenuColumnOptions$ = this.state.select('selectedLayout').pipe(
+    map( (selectedLayout) => this.updateMenu(selectedLayout.columnDefs))
+  );
+  selectedLayoutChanged$ = this.layoutChange$.pipe(
+    map( (event) => event.value)
+  );
+  defaultLayoutChange$ = this.state.select('defaultLayout').pipe(
+    filter( (defaultLayout) => !this.state.get('layouts')),
+    map( (defaultLayout) => this.state.get('layouts')[defaultLayout]),
+  );
+  toggleColumn$ = this.onMenuItemColumnClick$.pipe(
+    map( (name) => {
+      const selectedLayout = this.state.get('selectedLayout');
+      let menuItems = this.state.get('menuItems');
+      if (this.hiddenColumns.hasOwnProperty(name)) {
+        const index = this.hiddenColumns[name];
+        delete this.hiddenColumns[name];
+        menuItems[1].items[index].icon = 'pi pi-eye';
+      } else {
+        selectedLayout.columnDefs.some((column, index) => {
+          if (column.name === name) {
+            this.hiddenColumns[column.name] = index;
+            menuItems[1].items[index].icon = 'pi pi-eye-slash';
+            return true;
+          }
+        });
+      }
+      return {
+        menuItems,
+        filteredColumns : this.state.get('selectedLayout').columnDefs.filter(
+          (column, index) => {
+            return !this.hiddenColumns.hasOwnProperty(column.name);
+          },
+        )
+      };
+    }),
+  );
+  exportAllCsv$ = this.onExportCsvClick$.pipe(
+    filter( (exportAllData) => exportAllData),
+    exhaustMap( () => {
+      const { serverOptions, projectsData } = this.state.get();
+      serverOptions.pageNumber = 1;
+      serverOptions.pageSize = projectsData.total;
+      this.menuButtonIcon = LOADING_ICON;
+      return this.projectService.loadProjects(serverOptions);
+    }),
+    catchError( (err) => {
+      console.log(err)
+      return EMPTY;
+    }),
+    tap( (result) => {
+      const data = [...result.results];
+      exportAsCsv(data, this.state.get('filteredColumns'), EXPORT_FILE_NAME);
+      this.menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
+    })
+  );
+
+  exportCurrentPageData$ = this.onExportCsvClick$.pipe(
+    filter( (exportAllData)=> !exportAllData),
+    tap( () => exportAsCsv(this.state.get('projectsData').results,this.state.get('filteredColumns'),EXPORT_FILE_NAME))
+  )
   constructor(
     private readonly projectService: AlandaProjectApiService,
     @Inject(APP_CONFIG) config: AppSettings,
@@ -132,7 +206,12 @@ export class AlandaProjectTableComponent implements OnInit {
     }
     this.dateFormatPrime = config.DATE_FORMAT_PRIME;
     this.state.set(initState);
-
+    this.state.connect('selectedLayout',this.defaultLayoutChange$);
+    this.state.connect('selectedLayout',this.selectedLayoutChanged$);
+    this.state.connect('filteredColumns',this.onSelectedLayoutChange$);
+    this.state.connect('menuItems',this.updateMenuColumnOptions$);
+    this.state.hold( merge(this.exportAllCsv$,this.exportCurrentPageData$));
+    this.state.connect(this.toggleColumn$);
     this.state.connect(
       this.setupProjectDetailsModalEvent$.pipe(
         map((selectedProject) => ({
@@ -159,12 +238,13 @@ export class AlandaProjectTableComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.selectedLayout) {
-      this.selectedLayout = this.layouts[this._defaultLayout];
-      this.filteredColumns = this.layouts[this._defaultLayout].columnDefs;
-      this.menuItems = this.updateMenu(this.filteredColumns);
+    if (!this.state.get('selectedLayout')) {
+      this.state.set({
+        selectedLayout: this.state.get('layouts')[this.state.get('defaultLayout')],
+        filteredColumns: this.state.get('layouts')[this.state.get('defaultLayout')].columnDefs
+      });
     }
-    this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
+    this.state.set({layouts: this.state.get('layouts').sort((a, b) => a.displayName.localeCompare(b.displayName))});
   }
 
   buildServerOptions(event: LazyLoadEvent): ServerOptions {
@@ -184,9 +264,9 @@ export class AlandaProjectTableComponent implements OnInit {
     }
     serverOptions.sortOptions = sortOptions;
 
-    if (this.selectedLayout.filterOptions) {
+    if (this.state.get('selectedLayout').filterOptions) {
       for (const [key, value] of Object.entries(
-        this.selectedLayout.filterOptions,
+        this.state.get('selectedLayout').filterOptions,
       )) {
         serverOptions.filterOptions[key] = value;
       }
@@ -199,13 +279,6 @@ export class AlandaProjectTableComponent implements OnInit {
     }
 
     return serverOptions;
-  }
-
-  onChangeLayout() {
-    this.needReloadEvent$.next();
-    this.layoutChanged.next(this.selectedLayout);
-    this.filteredColumns = this.selectedLayout.columnDefs;
-    this.menuItems = this.updateMenu(this.filteredColumns);
   }
 
   public getCondition(obj, condition) {
@@ -236,33 +309,6 @@ export class AlandaProjectTableComponent implements OnInit {
     this.needReloadEvent$.next();
   }
 
-  exportAllData() {
-    const { serverOptions, projectsData } = this.state.get();
-    serverOptions.pageNumber = 1;
-    serverOptions.pageSize = projectsData.total;
-    this.menuButtonIcon = LOADING_ICON;
-    this.projectService
-      .loadProjects(serverOptions)
-      .pipe(
-        exhaustMap((result) => {
-          const data = [...result.results];
-          exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
-          this.menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
-          return of(true);
-        }),
-      )
-      .subscribe();
-  }
-
-  exportCurrentPageData() {
-    const projectsData = this.state.get('projectsData');
-    exportAsCsv(
-      projectsData.results,
-      this.selectedLayout.columnDefs,
-      EXPORT_FILE_NAME,
-    );
-  }
-
   updateMenu(columnDefs: AlandaTableColumnDefinition[]): MenuItem[] {
     this.hiddenColumns = {};
     const columnMenuItems: MenuItem[] = [];
@@ -270,7 +316,7 @@ export class AlandaProjectTableComponent implements OnInit {
       columnMenuItems.push({
         label: column.displayName,
         icon: 'pi pi-eye',
-        command: () => this.toggleColumn(column.name),
+        command: () => this.onMenuItemColumnClick$.next(column.name),
       });
     });
 
@@ -281,12 +327,12 @@ export class AlandaProjectTableComponent implements OnInit {
           {
             label: 'Download CSV visible page',
             icon: 'pi pi-fw pi-download',
-            command: () => this.exportCurrentPageData(),
+            command: () => this.onExportCsvClick$.next(false),
           },
           {
             label: 'Download CSV all pages',
             icon: 'pi pi-fw pi-download',
-            command: () => this.exportAllData(),
+            command: () => this.onExportCsvClick$.next(true),
           },
           {
             label: 'Reset all filters',
@@ -300,26 +346,5 @@ export class AlandaProjectTableComponent implements OnInit {
         items: columnMenuItems,
       },
     ];
-  }
-
-  toggleColumn(name: string): void {
-    if (this.hiddenColumns.hasOwnProperty(name)) {
-      const index = this.hiddenColumns[name];
-      delete this.hiddenColumns[name];
-      this.menuItems[1].items[index].icon = 'pi pi-eye';
-    } else {
-      this.selectedLayout.columnDefs.some((column, index) => {
-        if (column.name === name) {
-          this.hiddenColumns[column.name] = index;
-          this.menuItems[1].items[index].icon = 'pi pi-eye-slash';
-          return true;
-        }
-      });
-    }
-    this.filteredColumns = this.selectedLayout.columnDefs.filter(
-      (column, index) => {
-        return !this.hiddenColumns.hasOwnProperty(column.name);
-      },
-    );
   }
 }

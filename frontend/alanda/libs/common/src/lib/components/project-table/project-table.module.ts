@@ -12,6 +12,7 @@ import { PageSizeSelectModule } from '../page-size-select/page-size-select.modul
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { QuickEditProjectDetailsModule } from '../quick-edit-project-details/quick-edit-project-details.module';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { QuickEditProjectDetailsModule } from '../quick-edit-project-details/qui
     CalendarModule,
     DialogModule,
     QuickEditProjectDetailsModule,
+    OverlayPanelModule,
   ],
   declarations: [AlandaProjectTableComponent],
   exports: [AlandaProjectTableComponent],

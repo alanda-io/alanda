@@ -15,7 +15,7 @@ import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaTask } from '../../api/models/task';
 import { RxState } from '@rx-angular/state';
-import { isObservable, merge, Observable, of, Subject } from 'rxjs';
+import { combineLatest, EMPTY, isObservable, merge, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   delay,
@@ -44,6 +44,11 @@ interface AlandaTaskTableState {
   user: AlandaUser;
   serverOptions: ServerOptions;
   tasksData: AlandaListResult<AlandaTask>;
+  defaultLayout: number;
+  layouts: AlandaTableLayout[];
+  selectedLayout: AlandaTableLayout;
+  filteredColumns: AlandaTableColumnDefinition[];
+  menuItems: MenuItem[];
 }
 
 const initState = {
@@ -51,6 +56,9 @@ const initState = {
     total: 0,
     results: [],
   },
+  defaultLayout: DEFAULT_LAYOUT_INIT,
+  layouts:[],
+  menuItem: [],
 };
 const DEFAULT_BUTTON_MENU_ICON = 'pi pi-bars';
 const LOADING_ICON = 'pi pi-spin pi-spinner';
@@ -63,18 +71,18 @@ const LOADING_ICON = 'pi pi-spin pi-spinner';
 export class AlandaTaskTableComponent implements OnInit {
   state$ = this.state.select();
   menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
-  private _defaultLayout = DEFAULT_LAYOUT_INIT;
   closeProjectDetailsModalEvent$ = new Subject<AlandaProject>();
   needReloadEvent$ = new Subject();
   setupProjectDetailsModalEvent$ = new Subject<AlandaProject>();
   tableLazyLoadEvent$ = new Subject<LazyLoadEvent>();
+  menuBarVisible = false;
+
   @Input() set defaultLayout(defaultLayout: number) {
-    this._defaultLayout = defaultLayout;
-    if (this.layouts) {
-      this.selectedLayout = this.layouts[this._defaultLayout];
-    }
+    this.state.set({ defaultLayout });
   }
-  @Input() layouts: AlandaTableLayout[];
+  @Input() set layouts(layouts : AlandaTableLayout[]){
+    this.state.set({layouts});
+  };
   @Input() dateFormat: string;
   @Input() tableStyle: object;
   @Input() autoLayout = false;
@@ -95,15 +103,14 @@ export class AlandaTaskTableComponent implements OnInit {
   @Output() layoutChanged = new Subject<AlandaTableLayout>();
   @Output() toggleGroupTasksChanged = new Subject<boolean>();
 
-  selectedLayout: AlandaTableLayout;
-  menuItems: MenuItem[];
   showDelegateDialog = false;
   candidateUsers: any[] = [];
   delegatedTaskData: any;
   dateFormatPrime: string;
   hiddenColumns = {};
-  filteredColumns: AlandaTableColumnDefinition[] = [];
-
+  layoutChange$ = new Subject<any>();
+  onMenuItemColumnClick$ = new Subject<string>();
+  onExportCsvClick$ = new Subject<boolean>();
   @ViewChild('tt') turboTable: Table;
 
   /**
@@ -137,6 +144,78 @@ export class AlandaTaskTableComponent implements OnInit {
     ),
   );
 
+  onSelectedLayoutChange$ = this.state.select('selectedLayout').pipe(
+    map( (selectedLayout) => {
+      this.needReloadEvent$.next();
+      this.layoutChanged.next(selectedLayout);
+      return selectedLayout.columnDefs;
+    })
+  );
+  updateMenuColumnOptions$ = this.state.select('selectedLayout').pipe(
+    map( (selectedLayout) => this.updateMenu(selectedLayout.columnDefs))
+  );
+  selectedLayoutChanged$ = this.layoutChange$.pipe(
+    map( (event) => event.value)
+  );
+
+  defaultLayoutChange$ = this.state.select('defaultLayout').pipe(
+    filter( (defaultLayout) => !this.state.get('layouts')),
+    map( (defaultLayout) => this.state.get('layouts')[defaultLayout]),
+  );
+
+  toggleColumn$ = this.onMenuItemColumnClick$.pipe(
+    map( (name) => {
+      const selectedLayout = this.state.get('selectedLayout');
+      let menuItems = this.state.get('menuItems');
+      if (this.hiddenColumns.hasOwnProperty(name)) {
+        const index = this.hiddenColumns[name];
+        delete this.hiddenColumns[name];
+        menuItems[1].items[index].icon = 'pi pi-eye';
+      } else {
+        selectedLayout.columnDefs.some((column, index) => {
+          if (column.name === name) {
+            this.hiddenColumns[column.name] = index;
+            menuItems[1].items[index].icon = 'pi pi-eye-slash';
+            return true;
+          }
+        });
+      }
+      return {
+        menuItems,
+        filteredColumns : this.state.get('selectedLayout').columnDefs.filter(
+          (column, index) => {
+            return !this.hiddenColumns.hasOwnProperty(column.name);
+          },
+        )
+      };
+    }),
+  );
+
+  exportAllCsv$ = this.onExportCsvClick$.pipe(
+    filter( (exportAllData) => exportAllData),
+    exhaustMap( () => {
+      const { serverOptions, tasksData } = this.state.get();
+      serverOptions.pageNumber = 1;
+      serverOptions.pageSize = tasksData.total;
+      this.menuButtonIcon = LOADING_ICON;
+      return this.taskService.loadTasks(serverOptions);
+    }),
+    catchError( (err) => {
+      console.log(err)
+      return EMPTY;
+    }),
+    tap( (result) => {
+      const data = [...result.results];
+      exportAsCsv(data, this.state.get('filteredColumns'), EXPORT_FILE_NAME);
+      this.menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
+    })
+  );
+
+  exportCurrentPageData$ = this.onExportCsvClick$.pipe(
+    filter( (exportAllData)=> !exportAllData),
+    tap( () => exportAsCsv(this.state.get('tasksData').results,this.state.get('filteredColumns'),EXPORT_FILE_NAME))
+  );
+
   constructor(
     private readonly taskService: AlandaTaskApiService,
     public messageService: MessageService,
@@ -149,7 +228,13 @@ export class AlandaTaskTableComponent implements OnInit {
       this.dateFormat = config.DATE_FORMAT;
     }
     this.dateFormatPrime = config.DATE_FORMAT_PRIME;
-
+    this.state.connect('selectedLayout',this.defaultLayoutChange$);
+    this.state.connect('selectedLayout',this.selectedLayoutChanged$);
+    this.state.connect('filteredColumns',this.onSelectedLayoutChange$);
+    this.state.connect('menuItems',this.updateMenuColumnOptions$);
+    this.state.hold(merge(this.exportAllCsv$,this.exportCurrentPageData$));
+    this.state.connect(this.toggleColumn$);
+    this.state.hold(this.updateMenuColumnOptions$);
     this.state.connect(
       this.setupProjectDetailsModalEvent$.pipe(
         map((selectedProject) => ({
@@ -176,12 +261,13 @@ export class AlandaTaskTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this.selectedLayout) {
-      this.selectedLayout = this.layouts[this._defaultLayout];
-      this.filteredColumns = this.layouts[this._defaultLayout].columnDefs;
-      this.menuItems = this.updateMenu(this.filteredColumns);
+    if (!this.state.get('selectedLayout')) {
+      this.state.set({
+        selectedLayout: this.state.get('layouts')[this.state.get('defaultLayout')],
+        filteredColumns: this.state.get('layouts')[this.state.get('defaultLayout')].columnDefs
+      });
     }
-    this.layouts.sort((a, b) => a.displayName.localeCompare(b.displayName));
+    this.state.set({layouts: this.state.get('layouts').sort((a, b) => a.displayName.localeCompare(b.displayName))});
   }
 
   buildServerOptions(event: LazyLoadEvent): ServerOptions {
@@ -200,9 +286,9 @@ export class AlandaTaskTableComponent implements OnInit {
       delete serverOptions.filterOptions.mytasks;
     }
 
-    if (this.selectedLayout.filterOptions) {
+    if (this.state.get('selectedLayout').filterOptions) {
       for (const [key, value] of Object.entries(
-        this.selectedLayout.filterOptions,
+        this.state.get('selectedLayout').filterOptions,
       )) {
         serverOptions.filterOptions[key] = value;
       }
@@ -232,13 +318,6 @@ export class AlandaTaskTableComponent implements OnInit {
 
     tasks.results = newList;
     return tasks;
-  }
-
-  onChangeLayout(): void {
-    this.needReloadEvent$.next();
-    this.layoutChanged.next(this.selectedLayout);
-    this.filteredColumns = this.selectedLayout.columnDefs;
-    this.menuItems = this.updateMenu(this.filteredColumns);
   }
 
   toggleGroupTasks(value: boolean): void {
@@ -385,34 +464,6 @@ export class AlandaTaskTableComponent implements OnInit {
     this.turboTable.filter(formatDateISO(value), field, 'contains');
   }
 
-  // TODO Kill and Refactor
-  exportAllData() {
-    const { serverOptions, tasksData } = this.state.get();
-    serverOptions.pageNumber = 1;
-    serverOptions.pageSize = tasksData.total;
-    this.menuButtonIcon = LOADING_ICON;
-    this.taskService
-      .loadTasks(serverOptions)
-      .pipe(
-        exhaustMap((result) => {
-          const data = result.results;
-          exportAsCsv(data, this.selectedLayout.columnDefs, EXPORT_FILE_NAME);
-          this.menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
-          return of(true);
-        }),
-      )
-      .subscribe();
-  }
-
-  exportCurrentPageData() {
-    const tasksData = this.state.get('tasksData');
-    exportAsCsv(
-      tasksData.results,
-      this.selectedLayout.columnDefs,
-      EXPORT_FILE_NAME,
-    );
-  }
-
   updateMenu(columnDefs: AlandaTableColumnDefinition[]): MenuItem[] {
     this.hiddenColumns = {};
     const columnMenuItems: MenuItem[] = [];
@@ -420,10 +471,9 @@ export class AlandaTaskTableComponent implements OnInit {
       columnMenuItems.push({
         label: column.displayName,
         icon: 'pi pi-eye',
-        command: () => this.toggleColumn(column.name),
+        command: () => this.onMenuItemColumnClick$.next(column.name),
       });
     });
-
     return [
       {
         label: 'Primary Actions',
@@ -431,12 +481,12 @@ export class AlandaTaskTableComponent implements OnInit {
           {
             label: 'Download CSV visible page',
             icon: 'pi pi-fw pi-download',
-            command: () => this.exportCurrentPageData(),
+            command: () => this.onExportCsvClick$.next(false),
           },
           {
             label: 'Download CSV all pages',
             icon: 'pi pi-fw pi-download',
-            command: () => this.exportAllData(),
+            command: () => this.onExportCsvClick$.next(true),
           },
           {
             label: 'Reset all filters',
@@ -450,26 +500,5 @@ export class AlandaTaskTableComponent implements OnInit {
         items: columnMenuItems,
       },
     ];
-  }
-
-  toggleColumn(name: string): void {
-    if (this.hiddenColumns.hasOwnProperty(name)) {
-      const index = this.hiddenColumns[name];
-      delete this.hiddenColumns[name];
-      this.menuItems[1].items[index].icon = 'pi pi-eye';
-    } else {
-      this.selectedLayout.columnDefs.some((column, index) => {
-        if (column.name === name) {
-          this.hiddenColumns[column.name] = index;
-          this.menuItems[1].items[index].icon = 'pi pi-eye-slash';
-          return true;
-        }
-      });
-    }
-    this.filteredColumns = this.selectedLayout.columnDefs.filter(
-      (column, index) => {
-        return !this.hiddenColumns.hasOwnProperty(column.name);
-      },
-    );
   }
 }

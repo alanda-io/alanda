@@ -2,17 +2,19 @@
   <div class="p-grid p-field">
     <div class="p-col-3">
       <p-dropdown
-        [hidden]="layouts.length <= 1"
-        [options]="layouts"
-        [(ngModel)]="selectedLayout"
+        [hidden]="s.layouts.length <= 1"
+        [options]="s.layouts"
+        [ngModel]="s.selectedLayout"
         optionLabel="displayName"
         [style]="{ width: '100%' }"
-        (onChange)="onChangeLayout()"
+        (onChange)="layoutChange$.next($event)"
       >
       </p-dropdown>
     </div>
     <div class="p-col caption-button-group">
-      <p-menu #menu [popup]="true" [model]="menuItems" appendTo="body"></p-menu>
+      <p-overlayPanel #menu appendTo="body">
+        <p-menu [model]="s.menuItems"></p-menu>
+      </p-overlayPanel>
       <button
         type="button"
         pButton
@@ -24,11 +26,11 @@
   <div class="p-grid">
     <div class="p-col-12">
       <p-table
-        *ngIf="selectedLayout && s.projectsData"
+        *ngIf="s.selectedLayout && s.projectsData"
         #tt
         class="project-table"
         [value]="s.projectsData?.results"
-        [columns]="filteredColumns"
+        [columns]="s.filteredColumns"
         [paginator]="true"
         [rows]="s.selectedPageSize"
         [lazy]="true"
