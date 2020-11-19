@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { SimpleDocument } from '../../../api/models/simpleDocument';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AlandaDocumentApiService } from '../../../api/documentApi.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'alanda-attachments-list',
@@ -13,12 +14,14 @@ export class AttachmentsListComponent {
   @Input() data: any;
   @Output() deleteFile = new EventEmitter<void>();
 
-  selectionValue: SimpleDocument;
   previewExtensions = ['jpg', 'jpeg', 'gif', 'png', 'pdf'];
   previewContent: { id: string; pdf: boolean };
+  showFilePreview = false;
+  previewFile: SimpleDocument;
 
   constructor(
     private readonly documentService: AlandaDocumentApiService,
+    private readonly messageService: MessageService,
     public sanitizer: DomSanitizer,
   ) {}
 
@@ -30,7 +33,11 @@ export class AttachmentsListComponent {
     }
   }
 
-  download(fileId: number): string {
+  triggerDownload(fileId: string): void {
+    location.href = this.downloadUrl(fileId);
+  }
+
+  downloadUrl(fileId: string): string {
     return this.documentService.getDownloadUrl(
       this.data.refObjectType,
       this.data.guid,
@@ -58,6 +65,16 @@ export class AttachmentsListComponent {
       .subscribe((res) => {
         this.currentFiles.splice(this.currentFiles.indexOf(file), 1);
         this.deleteFile.emit();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'File removed',
+          detail: 'The file was successfully removed',
+        });
       });
+  }
+
+  openFilePreview(file: SimpleDocument): void {
+    this.showFilePreview = !this.showFilePreview;
+    this.previewFile = file;
   }
 }
