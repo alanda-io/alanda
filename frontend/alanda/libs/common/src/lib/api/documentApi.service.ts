@@ -104,7 +104,7 @@ export class AlandaDocumentApiService extends AlandaExceptionHandlingService {
     objectType: string,
     objectId: number,
     folderId: number,
-    fileId: number,
+    fileId: string,
     inline?: boolean,
     mappings?: string,
   ): string {

@@ -1,8 +1,7 @@
 .attachment-list {
-  .lightbox .p-lightbox {
-    left: 0;
-    margin: 0 !important;
-    max-width: 50%;
-    right: 0;
+  .action-button-wrapper {
+    display: inline-block;
+    width: 3rem;
+    text-align: center;
   }
 }
