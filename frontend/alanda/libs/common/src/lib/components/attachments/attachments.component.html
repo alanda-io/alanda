@@ -50,14 +50,13 @@
       </div>
       <div class="p-grid p-formgrid">
         <div class="p-col-12 p-field p-text-right">
-          <form [action]="downloadAllUrl" class="p-d-inline">
-            <p-button
-              type="submit"
-              icon="pi pi-download"
-              label="Download all"
-              [disabled]="fileCount === 0"
-            ></p-button>
-          </form>
+          <p-button
+            icon="pi pi-download"
+            label="Download all"
+            [disabled]="fileCount === 0"
+            (click)="downloadAll()"
+          ></p-button>
+
         </div>
       </div>
     </div>

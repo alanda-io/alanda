@@ -4,7 +4,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
 /**
- * Providing Document Service Methods for refObehcts, projects and processes
+ * Providing Document Service Methods for refObjects, projects and processes
  * 
  * @author jlo
  */

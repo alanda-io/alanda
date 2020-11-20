@@ -129,6 +129,17 @@ public class PmcProjectDocumentRestResourceImpl implements RefObjectDocumentRest
       query = query.withTargetFolderId(folderId);
       query.fileCount = false;
       DirectoryInfoDto di = documentService.getTree(query);
+      //refObjectType and refObjectIdName used to set name of download zip File
+      if(query.paramMap.get("refObjectIdName") == null) {
+        query.paramMap.put("refObjectIdName", project.getProjectId());
+      }
+      if ( query.paramMap.get("refObjectType") == null) {
+        if (di.getSubFolder() == null || "/".equals(di.getSubFolder())) {
+          query.paramMap.put("refObjectType", di.getConfig().getDisplayName());
+        } else if (di.getConfig().getDisplayName() != null) {
+          query.paramMap.put("refObjectType", di.getSubFolder().replaceAll("/", ""));
+        }
+      }
       documentAuthorizationService.checkPermissionForFolder(perm, null, project, di.getSubFolder());
     } else {
       query = DocuQueryDto.forPmcProject(project, false).withMappingName(project.getPmcProjectType().getIdName());
