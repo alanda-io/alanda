@@ -68,6 +68,13 @@
     class="p-grid p-mt-3 comment-reply-wrapper"
     [hidden]="s.type !== 'comment'"
   >
+    <div class="p-offset-1 p-col-11" *ngIf="s.comment.replies.length">
+      <alanda-comment
+        *ngFor="let reply of s.comment.replies"
+        [type]="'reply'"
+        [comment]="reply"
+      ></alanda-comment>
+    </div>
     <div class="p-offset-1 p-col-11" [hidden]="!doReply">
       <form
         class="comment-reply-form"
@@ -99,13 +106,6 @@
           </div>
         </div>
       </form>
-    </div>
-    <div class="p-offset-1 p-col-11" *ngIf="s.comment.replies.length">
-      <alanda-comment
-        *ngFor="let reply of s.comment.replies"
-        [type]="'reply'"
-        [comment]="reply"
-      ></alanda-comment>
     </div>
   </div>
 </ng-container>

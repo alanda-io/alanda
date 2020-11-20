@@ -47,7 +47,7 @@ export class AlandaCommentsAdapter extends RxState<AlandaCommentAdapterState> {
       (oldState, newReply: AlandaComment) => {
         return oldState.comments.map((comment) => {
           if (comment.guid === newReply.replyTo) {
-            comment.replies = [newReply, ...comment.replies];
+            comment.replies = [...comment.replies, newReply];
           }
           return comment;
         });

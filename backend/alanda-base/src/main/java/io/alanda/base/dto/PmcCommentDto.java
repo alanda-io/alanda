@@ -1,10 +1,11 @@
 package io.alanda.base.dto;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
-public class PmcCommentDto {
+public class PmcCommentDto implements Comparable<PmcCommentDto> {
 
   private Long guid;
 
@@ -40,7 +41,7 @@ public class PmcCommentDto {
 
   private String taskName;
 
-  private List<PmcCommentDto> replies = new ArrayList<PmcCommentDto>();
+  private Set<PmcCommentDto> replies = new TreeSet<>();
   
   /**
    *  TODO: processName and taskName are not placed now
@@ -163,12 +164,12 @@ public class PmcCommentDto {
   }
 
   
-  public List<PmcCommentDto> getReplies() {
+  public Set<PmcCommentDto> getReplies() {
     return replies;
   }
 
   
-  public void setReplies(List<PmcCommentDto> replies) {
+  public void setReplies(Set<PmcCommentDto> replies) {
     this.replies = replies;
   }
 
@@ -196,4 +197,13 @@ public class PmcCommentDto {
     this.processName = processName;
   }
 
+    @Override
+    public int compareTo(PmcCommentDto t) {
+        if (t == null) {
+            return -1;
+        } else {
+            return this.guid.compareTo(t.guid);
+        }
+    }
+  
 }

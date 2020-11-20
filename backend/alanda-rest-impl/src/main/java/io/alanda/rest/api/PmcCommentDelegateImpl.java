@@ -20,6 +20,7 @@ import io.alanda.base.dto.PmcProjectProcessDto;
 import io.alanda.base.service.PmcCommentService;
 import io.alanda.base.service.PmcProcessService;
 import io.alanda.base.type.ProcessVariables;
+import java.util.Collection;
 
 /**
  * @author jlo
@@ -62,7 +63,7 @@ public class PmcCommentDelegateImpl implements PmcCommentDelegate {
     return map(dto);
   }
 
-  private List<RestCommentVo> map(List<PmcCommentDto> comments) {
+  private List<RestCommentVo> map(Collection<PmcCommentDto> comments) {
     if (comments == null)
       return null;
     return comments.stream().map((in) -> map(in)).collect(Collectors.toList());
