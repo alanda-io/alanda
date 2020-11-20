@@ -53,6 +53,7 @@ export { Error500Interceptor } from './lib/interceptors/error500.interceptor';
  */
 export { ProjectState } from './lib/enums/projectState.enum';
 export { HistoryLogAction } from './lib/enums/historyLogAction.enum';
+export { ExportType } from './lib/enums/exportType.enum';
 export { ProcessRelation } from './lib/enums/processRelation.enum';
 export { ProcessResultStatus } from './lib/enums/processResultStatus.enum';
 export { TableType } from './lib/enums/tableType.enum';
