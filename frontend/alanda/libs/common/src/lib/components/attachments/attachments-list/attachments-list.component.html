@@ -1,4 +1,4 @@
-<ng-container *rxLet="state$; let s">
+<ng-container *ngIf="state$ | async as s">
   <p-table
     class="attachment-list"
     [value]="s.files"
@@ -60,9 +60,11 @@
               pButton
               pRipple
               type="button"
-              (click)="triggerDownload(file.guid)"
-              icon="pi pi-download"
+              (click)="editFileName(file)"
+              icon="pi pi-pencil"
               class="p-button-rounded p-button-text p-button-lg"
+              pTooltip="Edit file name"
+              tooltipPosition="top"
             ></button>
           </div>
           <div class="action-button-wrapper">
@@ -70,10 +72,24 @@
               pButton
               pRipple
               type="button"
-              *ngIf="previewAllowed(file.name)"
+              (click)="triggerDownload(file)"
+              icon="pi pi-download"
+              class="p-button-rounded p-button-text p-button-lg"
+              pTooltip="Download file"
+              tooltipPosition="top"
+            ></button>
+          </div>
+          <div class="action-button-wrapper">
+            <button
+              pButton
+              pRipple
+              type="button"
+              *ngIf="previewAllowed(file)"
               icon="pi pi-image"
               (click)="openFilePreview(file)"
               class="p-button-rounded p-button-text p-button-info p-button-lg"
+              pTooltip="Preview file"
+              tooltipPosition="top"
             ></button>
           </div>
           <div class="action-button-wrapper">
@@ -84,6 +100,8 @@
               (click)="onDeleteFile(file)"
               icon="pi pi-trash"
               class="p-button-rounded p-button-text p-button-danger p-button-lg"
+              pTooltip="Delete file"
+              tooltipPosition="top"
             ></button>
           </div>
         </td>
@@ -106,7 +124,7 @@
             <iframe
               [src]="
                 sanitizer.bypassSecurityTrustResourceUrl(
-                  downloadUrl(s.previewFile.guid)
+                  downloadUrl(s.previewFile)
                 )
               "
               [style]="{ width: '65vw', height: '78vh' }"
@@ -114,7 +132,7 @@
           </ng-template>
           <ng-template #imagePreview>
             <img
-              [src]="downloadUrl(s.previewFile.guid)"
+              [src]="downloadUrl(s.previewFile)"
               [alt]="s.previewFile.name"
               [style]="{ width: 'auto', height: '60vh' }"
             />

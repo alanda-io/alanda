@@ -14,7 +14,7 @@ import { RippleModule } from 'primeng/ripple';
 import { DialogModule } from 'primeng/dialog';
 import { InplaceModule } from 'primeng/inplace';
 import { InputTextModule } from 'primeng/inputtext';
-import { LetModule } from '@rx-angular/template';
+import { TooltipModule } from 'primeng/tooltip';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import { LetModule } from '@rx-angular/template';
     DialogModule,
     InplaceModule,
     InputTextModule,
-    LetModule,
+    TooltipModule,
   ],
   exports: [
     AlandaAttachmentsComponent,

@@ -66,23 +66,23 @@ export class AttachmentsListComponent {
     });
   }
 
-  triggerDownload(fileId: string): void {
-    location.href = this.downloadUrl(fileId, false);
+  triggerDownload(file: SimpleDocument): void {
+    location.href = this.downloadUrl(file, false);
   }
 
-  downloadUrl(fileId: string, inline: boolean = true): string {
+  downloadUrl(file: SimpleDocument, inline: boolean = true): string {
     return this.documentService.getDownloadUrl(
       this.data.refObjectType,
       this.data.guid,
       this.data.selectedNode.id,
-      fileId,
+      file.guid,
       inline,
       this.data.selectedNode.mapping,
     );
   }
 
-  previewAllowed(fileName: string): boolean {
-    const ext = fileName.split('.').pop().toLowerCase();
+  previewAllowed(file: SimpleDocument): boolean {
+    const ext = file.name.split('.').pop().toLowerCase();
     return this.previewExtensions.includes(ext);
   }
 
@@ -118,6 +118,10 @@ export class AttachmentsListComponent {
       .get()
       .changedFiles.findIndex((changedFile) => changedFile.guid === file.guid);
     return index >= 0;
+  }
+
+  editFileName(file: SimpleDocument): void {
+    this.changedFileName$.next({ file: file, value: file.name });
   }
 
   renameFile(file: SimpleDocument): void {
