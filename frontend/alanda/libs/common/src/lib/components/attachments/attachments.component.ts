@@ -164,7 +164,7 @@ export class AlandaAttachmentsComponent implements OnInit {
   }
 
   myUploader(evt: any): void {
-    let formData: FormData = new FormData();
+    const formData: FormData = new FormData();
 
     for (let i = 0; i < evt.files.length; i++) {
       formData.append(

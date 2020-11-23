@@ -1,4 +1,11 @@
-import { Component, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
@@ -9,7 +16,16 @@ import { AlandaListResult } from '../../api/models/listResult';
 import { AlandaTask } from '../../api/models/task';
 import { RxState } from '@rx-angular/state';
 import { EMPTY, isObservable, merge, Observable, of, Subject } from 'rxjs';
-import { catchError, delay, exhaustMap, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  delay,
+  exhaustMap,
+  filter,
+  map,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { AlandaProject } from '../../api/models/project';
 import { exportAsCsv, formatDateISO } from '../../utils/helper-functions';
@@ -42,7 +58,7 @@ const initState = {
     results: [],
   },
   defaultLayout: DEFAULT_LAYOUT_INIT,
-  layouts:[],
+  layouts: [],
   menuItem: [],
 };
 const DEFAULT_BUTTON_MENU_ICON = 'pi pi-bars';
@@ -65,9 +81,9 @@ export class AlandaTaskTableComponent implements OnInit {
   @Input() set defaultLayout(defaultLayout: number) {
     this.state.set({ defaultLayout });
   }
-  @Input() set layouts(layouts : AlandaTableLayout[]){
-    this.state.set({layouts});
-  };
+  @Input() set layouts(layouts: AlandaTableLayout[]) {
+    this.state.set({ layouts });
+  }
   @Input() dateFormat: string;
   @Input() tableStyle: object;
   @Input() autoLayout = false;
@@ -131,28 +147,26 @@ export class AlandaTaskTableComponent implements OnInit {
   );
 
   onSelectedLayoutChange$ = this.state.select('selectedLayout').pipe(
-    map( (selectedLayout) => {
+    map((selectedLayout) => {
       this.needReloadEvent$.next();
       this.layoutChanged.next(selectedLayout);
       return selectedLayout.columnDefs;
-    })
+    }),
   );
-  updateMenuColumnOptions$ = this.state.select('selectedLayout').pipe(
-    map( (selectedLayout) => this.updateMenu(selectedLayout.columnDefs))
-  );
-  selectedLayoutChanged$ = this.layoutChange$.pipe(
-    map( (event) => event.value)
-  );
+  updateMenuColumnOptions$ = this.state
+    .select('selectedLayout')
+    .pipe(map((selectedLayout) => this.updateMenu(selectedLayout.columnDefs)));
+  selectedLayoutChanged$ = this.layoutChange$.pipe(map((event) => event.value));
 
   defaultLayoutChange$ = this.state.select('defaultLayout').pipe(
-    filter( (defaultLayout) => !this.state.get('layouts')),
-    map( (defaultLayout) => this.state.get('layouts')[defaultLayout]),
+    filter((defaultLayout) => !this.state.get('layouts')),
+    map((defaultLayout) => this.state.get('layouts')[defaultLayout]),
   );
 
   toggleColumn$ = this.onMenuItemColumnClick$.pipe(
-    map( (name) => {
+    map((name) => {
       const selectedLayout = this.state.get('selectedLayout');
-      let menuItems = this.state.get('menuItems');
+      const menuItems = this.state.get('menuItems');
       if (this.hiddenColumns.hasOwnProperty(name)) {
         const index = this.hiddenColumns[name];
         delete this.hiddenColumns[name];
@@ -168,38 +182,44 @@ export class AlandaTaskTableComponent implements OnInit {
       }
       return {
         menuItems,
-        filteredColumns : this.state.get('selectedLayout').columnDefs.filter(
-          (column, index) => {
+        filteredColumns: this.state
+          .get('selectedLayout')
+          .columnDefs.filter((column, index) => {
             return !this.hiddenColumns.hasOwnProperty(column.name);
-          },
-        )
+          }),
       };
     }),
   );
 
   exportAllCsv$ = this.onExportCsvClick$.pipe(
-    filter( (exportType) => exportType === ExportType.ALL_DATA),
-    exhaustMap( () => {
+    filter((exportType) => exportType === ExportType.ALL_DATA),
+    exhaustMap(() => {
       const { serverOptions, tasksData } = this.state.get();
       serverOptions.pageNumber = 1;
       serverOptions.pageSize = tasksData.total;
       this.menuButtonIcon = LOADING_ICON;
       return this.taskService.loadTasks(serverOptions);
     }),
-    catchError( (err) => {
-      console.log(err)
+    catchError((err) => {
+      console.log(err);
       return EMPTY;
     }),
-    tap( (result) => {
+    tap((result) => {
       const data = [...result.results];
       exportAsCsv(data, this.state.get('filteredColumns'), EXPORT_FILE_NAME);
       this.menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
-    })
+    }),
   );
 
   exportCurrentPageData$ = this.onExportCsvClick$.pipe(
-    filter( (exportType)=> exportType === ExportType.VISIBLE_DATA),
-    tap( () => exportAsCsv(this.state.get('tasksData').results,this.state.get('filteredColumns'),EXPORT_FILE_NAME))
+    filter((exportType) => exportType === ExportType.VISIBLE_DATA),
+    tap(() =>
+      exportAsCsv(
+        this.state.get('tasksData').results,
+        this.state.get('filteredColumns'),
+        EXPORT_FILE_NAME,
+      ),
+    ),
   );
 
   constructor(
@@ -214,11 +234,11 @@ export class AlandaTaskTableComponent implements OnInit {
       this.dateFormat = config.DATE_FORMAT;
     }
     this.dateFormatPrime = config.DATE_FORMAT_PRIME;
-    this.state.connect('selectedLayout',this.defaultLayoutChange$);
-    this.state.connect('selectedLayout',this.selectedLayoutChanged$);
-    this.state.connect('filteredColumns',this.onSelectedLayoutChange$);
-    this.state.connect('menuItems',this.updateMenuColumnOptions$);
-    this.state.hold(merge(this.exportAllCsv$,this.exportCurrentPageData$));
+    this.state.connect('selectedLayout', this.defaultLayoutChange$);
+    this.state.connect('selectedLayout', this.selectedLayoutChanged$);
+    this.state.connect('filteredColumns', this.onSelectedLayoutChange$);
+    this.state.connect('menuItems', this.updateMenuColumnOptions$);
+    this.state.hold(merge(this.exportAllCsv$, this.exportCurrentPageData$));
     this.state.connect(this.toggleColumn$);
     this.state.hold(this.updateMenuColumnOptions$);
     this.state.connect(
@@ -249,11 +269,19 @@ export class AlandaTaskTableComponent implements OnInit {
   ngOnInit(): void {
     if (!this.state.get('selectedLayout')) {
       this.state.set({
-        selectedLayout: this.state.get('layouts')[this.state.get('defaultLayout')],
-        filteredColumns: this.state.get('layouts')[this.state.get('defaultLayout')].columnDefs
+        selectedLayout: this.state.get('layouts')[
+          this.state.get('defaultLayout')
+        ],
+        filteredColumns: this.state.get('layouts')[
+          this.state.get('defaultLayout')
+        ].columnDefs,
       });
     }
-    this.state.set({layouts: this.state.get('layouts').sort((a, b) => a.displayName.localeCompare(b.displayName))});
+    this.state.set({
+      layouts: this.state
+        .get('layouts')
+        .sort((a, b) => a.displayName.localeCompare(b.displayName)),
+    });
   }
 
   buildServerOptions(event: LazyLoadEvent): ServerOptions {
