@@ -3,6 +3,11 @@
  */
 package io.alanda.base.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -22,6 +27,11 @@ public class DocumentUtils {
         String[] name = filename.split("=");
 
         String finalFileName = name[1].trim().replaceAll("\"", "");
+        try {
+            finalFileName = URLDecoder.decode(finalFileName, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(DocumentUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return finalFileName;
       }
     }

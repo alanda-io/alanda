@@ -1,9 +1,18 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+} from '@angular/core';
 import { ExtendedTreeNode } from '../../models/tree-node';
 import { SimpleDocument } from '../../api/models/simpleDocument';
 import { AlandaDocumentApiService } from '../../api/documentApi.service';
 import { removeAllWhitespaces } from '../../utils/helper-functions';
-import { TreeNode } from 'primeng/api';
+import { MessageService, TreeNode } from 'primeng/api';
+import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
+import { FileUpload } from 'primeng/fileupload';
 
 @Component({
   selector: 'alanda-attachments',
@@ -17,6 +26,8 @@ export class AlandaAttachmentsComponent implements OnInit {
   @Input() pid?: string;
   @Output() upload = new EventEmitter<any>();
 
+  @ViewChild('fileUploader') uploader: FileUpload;
+
   panelShown = false;
   uploaderUrl: string;
   showUpload: boolean;
@@ -27,7 +38,11 @@ export class AlandaAttachmentsComponent implements OnInit {
   treeNode: ExtendedTreeNode[] = [];
   currentFiles: SimpleDocument[]; // passed to attachments-list
 
-  constructor(private readonly documentService: AlandaDocumentApiService) {}
+  constructor(
+    private readonly documentService: AlandaDocumentApiService,
+    private messageService: MessageService,
+    private http: HttpClient,
+  ) {}
 
   ngOnInit() {
     if (!this.mappings || this.mappings.length === 0) {
@@ -146,6 +161,42 @@ export class AlandaAttachmentsComponent implements OnInit {
   onUpload(event: any): void {
     this.upload.emit(event);
     this.loadFolderContent();
+  }
+
+  myUploader(evt: any): void {
+    let formData: FormData = new FormData();
+
+    for (let i = 0; i < evt.files.length; i++) {
+      formData.append(
+        'file',
+        evt.files[i],
+        encodeURIComponent(evt.files[i].name),
+      );
+    }
+
+    this.http['post'](this.uploaderUrl, formData, {
+      reportProgress: true,
+      observe: 'events',
+    }).subscribe((event: HttpEvent<any>) => {
+      switch (event.type) {
+        case HttpEventType.Response:
+          this.uploader.uploading = false;
+          this.uploader.progress = 0;
+          if (event['status'] >= 200 && event['status'] < 300) {
+            this.onUpload({ originalEvent: event, files: evt.files });
+          } else {
+            this.messageService.add({
+              key: 'center',
+              severity: 'error',
+              summary: 'File upload failed',
+              detail: `${event.statusText}`,
+            });
+            this.uploader.onError.emit({ files: evt.files });
+          }
+          this.uploader.clear();
+          break;
+      }
+    });
   }
 
   togglePanel() {

@@ -33,6 +33,8 @@
             chooseLabel="Choose Files"
             auto="true"
             uploadLabel="Upload"
+            customUpload="true"
+            (uploadHandler)="myUploader($event)"
           >
             <ng-template pTemplate="content">
               <div class="p-grid">
@@ -56,7 +58,6 @@
             [disabled]="fileCount === 0"
             (click)="downloadAll()"
           ></p-button>
-
         </div>
       </div>
     </div>
