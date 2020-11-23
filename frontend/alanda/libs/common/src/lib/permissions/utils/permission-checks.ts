@@ -249,13 +249,13 @@ export class Authorizations {
     // Ignore if user is Admin or layout has name default
     if (
       Authorizations.hasRole('Admin', user) ||
-      layout.name.toLowerCase() === 'default'
+      layout.name === 'default'
     ) {
       return true;
     } else {
       return Authorizations.hasPermission(
         user,
-        `layout:${type}:${layout.name.toLowerCase()}`,
+        `layout:${type}:${layout.name}`,
         null,
       );
     }
