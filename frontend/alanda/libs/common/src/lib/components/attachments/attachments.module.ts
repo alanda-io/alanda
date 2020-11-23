@@ -12,6 +12,9 @@ import { TreeModule } from 'primeng/tree';
 import { LightboxModule } from 'primeng/lightbox';
 import { RippleModule } from 'primeng/ripple';
 import { DialogModule } from 'primeng/dialog';
+import { InplaceModule } from 'primeng/inplace';
+import { InputTextModule } from 'primeng/inputtext';
+import { LetModule } from '@rx-angular/template';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { DialogModule } from 'primeng/dialog';
     LightboxModule,
     RippleModule,
     DialogModule,
+    InplaceModule,
+    InputTextModule,
+    LetModule,
   ],
   exports: [
     AlandaAttachmentsComponent,
