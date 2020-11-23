@@ -155,14 +155,18 @@ export class AlandaDocumentApiService extends AlandaExceptionHandlingService {
     folderId: number,
     fileId: number,
     newName: string,
+    mappings?: string,
   ): Observable<any> {
+    let params = new HttpParams();
+    if (mappings != null) {
+      params = params.set('mappings', mappings);
+    }
+    params = params.set('newfilename', newName);
     return this.http
       .put<any>(
         `${
           this.documentEndpointUrl
-        }/refObject/${objectType}/${objectId}/guid/${folderId}/${fileId}/rename?newFilename=${encodeURIComponent(
-          newName,
-        )}`,
+        }/refObject/${objectType}/${objectId}/guid/${folderId}/${fileId}/rename?${params.toString()}`,
         { observe: 'response' },
       )
       .pipe(catchError(this.handleError('renameFile')));

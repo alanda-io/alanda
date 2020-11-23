@@ -136,6 +136,7 @@ export class AttachmentsListComponent {
         this.data.selectedNode.id,
         +updatedFiles[updatedFileIndex].guid,
         updatedFiles[updatedFileIndex].name,
+        this.data.selectedNode.mapping,
       )
       .subscribe(
         (res) => {
@@ -159,7 +160,7 @@ export class AttachmentsListComponent {
         (error) => {
           this.messageService.add({
             severity: 'error',
-            summary: 'File renamed failed',
+            summary: 'File rename failed',
             detail: error.message,
           });
         },

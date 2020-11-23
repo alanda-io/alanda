@@ -122,9 +122,11 @@ export class AlandaAttachmentsComponent implements OnInit {
     }
     return fileCount;
   }
+
   downloadAll(): void {
     location.href = this.downloadAllUrl;
   }
+
   loadFolderContent(): void {
     this.documentService
       .loadFolderContent(
