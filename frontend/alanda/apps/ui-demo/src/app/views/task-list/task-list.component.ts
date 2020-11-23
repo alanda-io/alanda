@@ -208,13 +208,20 @@ export class AlandaTaskListComponent {
 
     this.layouts$ = this.user$.pipe(
       map((user) => {
-        return this.taskLayouts.filter((layout) =>
+        let filteredLayouts: AlandaTableLayout[];
+        filteredLayouts = this.taskLayouts.filter((layout) =>
           Authorizations.hasPermissionForTableLayout(
             layout,
             user,
             TableType.TASK,
           ),
         );
+        if (filteredLayouts.length === 0) {
+          filteredLayouts = this.taskLayouts.filter((layout) =>
+            layout.name === 'default'
+          );
+        }
+        return filteredLayouts;
       }),
     );
   }

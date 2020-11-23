@@ -246,18 +246,10 @@ export class Authorizations {
     user: AlandaUser,
     type: TableType,
   ): boolean {
-    // Ignore if user is Admin or layout has name default
-    if (
-      Authorizations.hasRole('Admin', user) ||
-      layout.name === 'default'
-    ) {
-      return true;
-    } else {
-      return Authorizations.hasPermission(
-        user,
-        `layout:${type}:${layout.name}`,
-        null,
-      );
-    }
+    return Authorizations.hasPermission(
+      user,
+      `layout:${type}:${layout.name}`,
+      null,
+    );
   }
 }
