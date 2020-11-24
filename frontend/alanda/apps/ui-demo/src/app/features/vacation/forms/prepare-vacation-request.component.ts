@@ -10,7 +10,6 @@ import { tap } from 'rxjs/operators';
 @Component({
   selector: 'alanda-prepare-vacation-request',
   templateUrl: './prepare-vacation-request.component.html',
-  styleUrls: ['./prepare-vacation-request.component.scss'],
   providers: [UserEnrichedTaskFormService],
 })
 export class PrepareVacationRequestComponent

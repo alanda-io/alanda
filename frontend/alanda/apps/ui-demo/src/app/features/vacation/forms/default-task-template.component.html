@@ -9,17 +9,7 @@
         [task]="taskFormState.task"
         [project]="taskFormState.project"
       ></alanda-comments>
-      <p-card styleClass="submitTask">
-        <button
-          pButton
-          type="button"
-          (click)="submit()"
-          icon="pi pi-check"
-          iconPos="left"
-          class="ui-button-success"
-          label="Complete Task"
-        ></button>
-      </p-card>
+      <alanda-complete-task (complete)="submit()"></alanda-complete-task>
     </form>
   </div>
 </ng-container>

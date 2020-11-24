@@ -1,0 +1,13 @@
+.complete-task {
+  @media all and (min-width: 768px) {
+    ::ng-deep {
+      .complete-task-field-col:not(:empty) {
+        margin-bottom: -1rem;
+      }
+    }
+
+    .complete-task-button-col {
+      text-align: right;
+    }
+  }
+}

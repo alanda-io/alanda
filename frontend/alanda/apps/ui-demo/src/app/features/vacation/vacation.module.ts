@@ -10,6 +10,8 @@ import { PerformHandoverActivitiesComponent } from './forms/perform-handover-act
 import {
   AlandaCommonModule,
   AlandaProjectPropertiesService,
+  CompleteTaskModule,
+  FormModule,
 } from '@alanda/common';
 import { ProjectPropertiesComponent } from './components/project-properties/project-properties.component';
 import { ProjectPhasesComponent } from './components/project-phases/project-phases.component';
@@ -21,6 +23,8 @@ import { InputTextModule } from 'primeng/inputtext';
     SharedModule,
     AlandaCommonModule,
     InputTextModule,
+    CompleteTaskModule,
+    FormModule,
   ],
   declarations: [
     PrepareVacationRequestComponent,
