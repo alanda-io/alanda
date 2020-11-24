@@ -17,7 +17,25 @@
       [project]="taskFormState.project"
       [mappings]="'AcquiDoc'"
     ></alanda-attachments>
-    <alanda-complete-task (submit)="submit()">
+    <alanda-complete-task (complete)="submit()">
+      <alanda-var-select
+        [rootFormGroup]="rootForm"
+        [task]="taskFormState.task"
+        [items]="items"
+        variableName="handoverRequired"
+        label="Require handover?"
+        (onChange)="change($event)"
+      ></alanda-var-select>
+
+      <alanda-var-select
+        [rootFormGroup]="rootForm"
+        [task]="taskFormState.task"
+        [items]="items"
+        variableName="handoverRequired"
+        label="Require handover?"
+        (onChange)="change($event)"
+      ></alanda-var-select>
+
       <alanda-var-select
         [rootFormGroup]="rootForm"
         [task]="taskFormState.task"
