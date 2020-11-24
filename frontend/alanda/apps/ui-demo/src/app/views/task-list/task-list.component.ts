@@ -217,8 +217,8 @@ export class AlandaTaskListComponent {
           ),
         );
         if (filteredLayouts.length === 0) {
-          filteredLayouts = this.taskLayouts.filter((layout) =>
-            layout.name === 'default'
+          filteredLayouts = this.taskLayouts.filter(
+            (layout) => layout.name === 'default',
           );
         }
         return filteredLayouts;
