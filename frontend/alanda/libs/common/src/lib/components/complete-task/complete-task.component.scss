@@ -1,0 +1,11 @@
+.complete-task {
+  ::ng-deep {
+    .p-field {
+      margin-bottom: 0 !important;
+    }
+  }
+  .complete-task-col {
+    width: 160px;
+    text-align: right;
+  }
+}

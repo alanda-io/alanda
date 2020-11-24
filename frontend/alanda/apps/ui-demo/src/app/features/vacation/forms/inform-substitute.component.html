@@ -12,27 +12,12 @@
     [task]="taskFormState.task"
     [project]="taskFormState.project"
   ></alanda-comments>
-  <div class="p-grid">
-    <div class="p-col-10">
-      <alanda-simple-select
-        [task]="taskFormState.task"
-        [items]="items"
-        variableName="requestApproved"
-        label="Approve vacation request?"
-      ></alanda-simple-select>
-    </div>
-    <div class="p-col-2">
-      <p-card [style]="{ height: '100%' }">
-        <button
-          pButton
-          type="button"
-          (click)="submit()"
-          icon="pi pi-check"
-          iconPos="left"
-          class="ui-button-success"
-          label="Complete Task"
-        ></button>
-      </p-card>
-    </div>
-  </div>
+  <alanda-complete-task (submit)="submit()">
+    <alanda-simple-select
+      [task]="taskFormState.task"
+      [items]="items"
+      variableName="requestApproved"
+      label="Approve vacation request?"
+    ></alanda-simple-select>
+  </alanda-complete-task>
 </ng-container>

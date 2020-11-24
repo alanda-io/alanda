@@ -183,3 +183,4 @@ export { HistoryGridModule } from './lib/components/history/history-grid.module'
 export { CreateProjectModule } from './lib/components/create-project/create-project.module';
 export { AdminModule } from './lib/components/admin/admin.module';
 export { LabelModule } from './lib/components/label/label.module';
+export { CompleteTaskModule } from './lib/components/complete-task/complete-task.module';

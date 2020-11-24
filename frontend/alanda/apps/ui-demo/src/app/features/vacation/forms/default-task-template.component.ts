@@ -4,7 +4,6 @@ import { BaseFormComponent, AlandaTaskFormService } from '@alanda/common';
 @Component({
   selector: 'alanda-default-task-template',
   templateUrl: './default-task-template.component.html',
-  styleUrls: ['./default-task-template.component.scss'],
 })
 export class DefaultTaskComponent implements BaseFormComponent, AfterViewInit {
   state$ = this.taskFormService.state$;

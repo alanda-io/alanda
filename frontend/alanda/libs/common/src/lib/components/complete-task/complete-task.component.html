@@ -1,0 +1,19 @@
+<p-card class="complete-task">
+  <div class="p-grid p-fluid p-jc-between p-nogutter">
+    <div class="p-col-12 p-md-6 p-lg-5">
+      <ng-content></ng-content>
+    </div>
+    <div class="p-col-fixed complete-task-col">
+      <button
+        pButton
+        type="button"
+        (click)="submit.emit()"
+        [disabled]="disabled"
+        [icon]="icon"
+        iconPos="left"
+        [class]="buttonClass"
+        [label]="label"
+      ></button>
+    </div>
+  </div>
+</p-card>
