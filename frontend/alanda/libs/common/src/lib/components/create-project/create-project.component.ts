@@ -15,7 +15,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
-import { formatDate } from '@angular/common';
+import { formatDate, Location } from '@angular/common';
 import { RxState } from '@rx-angular/state';
 import { AlandaRefObject } from '../../api/models/refObject';
 import { EMPTY, of, Subject, zip } from 'rxjs';
@@ -65,6 +65,7 @@ export class AlandaCreateProjectComponent implements OnInit {
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private state: RxState<CreateState>,
+    private location: Location,
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
     this.dateFormat = config.DATE_FORMAT_PRIME;
@@ -179,7 +180,7 @@ export class AlandaCreateProjectComponent implements OnInit {
     }
   }
 
-  goToRoot(): void {
-    this.router.navigate(['']);
+  goBack(): void {
+    this.location.back();
   }
 }

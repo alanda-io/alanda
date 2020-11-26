@@ -137,9 +137,10 @@
     [visible]="showDialog"
     [modal]="true"
     [resizable]="false"
+    [dismissableMask]="true"
     [contentStyle]="{ overflow: 'visible' }"
     [style]="{ width: '450px' }"
-    (visibleChange)="goToRoot()"
+    (visibleChange)="goBack()"
     header="Create Project"
   >
     <div class="p-grid p-fluid">
@@ -156,7 +157,7 @@
     </div>
     <p-footer>
       <p-button
-        routerLink=""
+        (onClick)="goBack()"
         styleClass="p-button-text"
         icon="pi pi-times"
         label="Cancel"
