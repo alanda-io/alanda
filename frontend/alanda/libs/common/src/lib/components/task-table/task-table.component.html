@@ -173,10 +173,8 @@
     [closable]="true"
     [style]="{ width: '300px' }"
     [contentStyle]="{ overflow: 'visible' }"
+    header="Delegate task for"
   >
-    <p-header>
-      Delegate task for
-    </p-header>
     <div class="p-fluid">
       <p-dropdown
         #dd
@@ -205,10 +203,8 @@
     [(visible)]="s.showProjectDetailsModal"
     [modal]="true"
     [style]="{ width: '500px' }"
+    header="Edit Project"
   >
-    <p-header>
-      Edit Project
-    </p-header>
     <alanda-quick-edit-project-details
       [project]="s.selectedProject"
       (close)="closeProjectDetailsModalEvent$.next($event)"

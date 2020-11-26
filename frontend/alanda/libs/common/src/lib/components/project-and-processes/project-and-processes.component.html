@@ -3,10 +3,8 @@
   [toggleable]="true"
   (onAfterToggle)="loadProjectAndProcesses(tt.collapsed)"
   styleClass="pap-panel"
+  header="Projects & Processes"
 >
-  <p-header>
-    <span class="p-panel-title title">Projects & Processes</span>
-  </p-header>
   <p-treeTable
     [autoLayout]="true"
     [value]="data"

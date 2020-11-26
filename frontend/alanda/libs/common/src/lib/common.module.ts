@@ -126,7 +126,7 @@ import { CompleteTaskModule } from './components/complete-task/complete-task.mod
     SnoozeModule,
     LabelModule,
     CommentDialogModule,
-    CompleteTaskModule
+    CompleteTaskModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,
