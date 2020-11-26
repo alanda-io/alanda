@@ -2,20 +2,18 @@
   <div [formGroup]="commentForm">
     <p-dialog
       [(visible)]="s.showCommentDialog"
-      [modal]="true"
       [dismissableMask]="true"
-      [closeOnEscape]="true"
-      [closable]="true"
-      [draggable]="false"
+      [modal]="true"
+      [resizable]="false"
       [style]="{ width: '600px' }"
       [header]="s.properties.dialogHeader"
     >
-      <div class="p-grid">
+      <div class="p-grid p-fluid">
         <div class="p-col-12">
           <alanda-label [label]="s.properties.commentLabel"></alanda-label>
           <textarea
+            pInputTextarea
             rows="10"
-            style="width: 100%;"
             formControlName="comment"
             [placeholder]="s.properties.commentTextAreaPlaceholder"
           ></textarea>

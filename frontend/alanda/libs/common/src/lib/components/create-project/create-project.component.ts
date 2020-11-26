@@ -178,4 +178,8 @@ export class AlandaCreateProjectComponent implements OnInit {
       });
     }
   }
+
+  goToRoot(): void {
+    this.router.navigate(['']);
+  }
 }

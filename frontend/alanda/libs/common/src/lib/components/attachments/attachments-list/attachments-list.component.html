@@ -112,6 +112,8 @@
   <ng-container *ngIf="s.previewFile && showFilePreview">
     <p-dialog
       [(visible)]="showFilePreview"
+      [dismissableMask]="true"
+      [modal]="true"
       [resizable]="false"
       [header]="s.previewFile.name"
     >

@@ -140,7 +140,9 @@
   <!-- Project Details Modal-->
   <p-dialog
     [(visible)]="s.showProjectDetailsModal"
+    [dismissableMask]="true"
     [modal]="true"
+    [resizable]="false"
     [style]="{ width: '500px' }"
     header="Edit Project"
   >

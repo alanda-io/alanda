@@ -36,7 +36,7 @@ const initState = {
     commentButtonLabel: 'Submit',
     commentTextAreaPlaceholder: 'Write your thoughts here',
     commentSubject: '',
-    commentButtonClass: 'ui-button-success',
+    commentButtonClass: 'p-button-text',
     commentButtonIcon: 'pi pi-check',
   },
 };

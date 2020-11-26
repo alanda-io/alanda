@@ -226,32 +226,36 @@
 </p-panel>
 
 <p-dialog
-  [visible]="showDelegateDialog"
-  [modal]="true"
+  [(visible)]="showDelegateDialog"
   [dismissableMask]="true"
-  [closeOnEscape]="true"
-  [closable]="true"
-  [style]="{ width: '300px' }"
+  [modal]="true"
+  [resizable]="false"
+  [style]="{ width: '450px' }"
   [contentStyle]="{ overflow: 'visible' }"
   header="Delegate task for"
 >
-  <p-dropdown
-    #dd
-    [options]="candidateUsers"
-    optionLabel="displayName"
-    [style]="{ width: '100%' }"
-    placeholder="Select a user"
-    [filter]="true"
-  ></p-dropdown>
+  <div class="p-grid p-fluid">
+    <div class="p-col-12">
+      <p-dropdown
+        #dd
+        [options]="candidateUsers"
+        optionLabel="displayName"
+        placeholder="Select a user"
+        [filter]="true"
+      ></p-dropdown>
+    </div>
+  </div>
   <p-footer>
     <p-button
       (onClick)="showDelegateDialog = false"
-      styleClass="p-button-raised p-button-info"
+      styleClass="p-button-text"
+      icon="pi pi-times"
       label="Cancel"
     ></p-button>
     <p-button
       (onClick)="delegateTask(dd.value)"
-      styleClass="p-button-raised p-button-success"
+      styleClass="p-button-text"
+      icon="pi pi-check"
       [disabled]="!dd.value"
       label="Delegate"
     ></p-button>
