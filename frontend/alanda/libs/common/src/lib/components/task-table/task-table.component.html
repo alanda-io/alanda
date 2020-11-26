@@ -1,43 +1,44 @@
 <ng-container *ngIf="state$ | async as s">
-  <div class="p-grid p-field">
-    <div class="p-col-3">
+  <div class="p-grid">
+    <div class="p-col-12 p-md-6 p-xl-3 p-fluid p-field">
       <p-dropdown
         [hidden]="s.layouts.length <= 1"
         [options]="s.layouts"
         [ngModel]="s.selectedLayout"
         (onChange)="layoutChange$.next($event)"
         optionLabel="displayName"
-        [style]="{ width: '100%' }"
       >
       </p-dropdown>
     </div>
-    <div class="p-col table-action-buttons">
-      <p-overlayPanel #menu>
-        <p-menu [model]="s.menuItems"></p-menu>
-      </p-overlayPanel>
-      <p-button
-        type="button"
-        class="menu-action-button action-button"
-        [icon]="menuButtonIcon"
-        (click)="menu.toggle($event)"
-      ></p-button>
-      <button
-        (click)="toggleGroupTasks(true)"
-        pButton
-        type="button"
-        label="My Group Tasks"
-        class="p-button-rounded badge action-button"
-        [ngClass]="{ 'p-button-secondary': !groupTasks }"
-      ></button>
+    <div
+      class="p-col-12 p-md-6 p-xl-9 p-field table-action-buttons p-text-right"
+    >
       <button
         (click)="toggleGroupTasks(false)"
         pButton
         type="button"
         label="My Tasks"
-        class="p-button-rounded badge action-button"
+        class="p-button-rounded action-button"
         [ngClass]="{ 'p-button-secondary': groupTasks }"
       ></button>
+      <button
+        (click)="toggleGroupTasks(true)"
+        pButton
+        type="button"
+        label="My Group Tasks"
+        class="p-button-rounded action-button"
+        [ngClass]="{ 'p-button-secondary': !groupTasks }"
+      ></button>
+      <p-button
+        type="button"
+        class="action-button"
+        [icon]="menuButtonIcon"
+        (click)="menu.toggle($event)"
+      ></p-button>
     </div>
+    <p-overlayPanel #menu>
+      <p-menu [model]="s.menuItems"></p-menu>
+    </p-overlayPanel>
   </div>
   <div class="p-grid">
     <div class="p-col-12">
