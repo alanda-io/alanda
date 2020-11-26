@@ -143,10 +143,8 @@
     [(visible)]="s.showProjectDetailsModal"
     [modal]="true"
     [style]="{ width: '500px' }"
+    header="Edit Project"
   >
-    <p-header>
-      Edit Project
-    </p-header>
     <alanda-quick-edit-project-details
       [project]="s.selectedProject"
       (close)="closeProjectDetailsModalEvent$.next($event)"
