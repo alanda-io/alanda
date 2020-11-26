@@ -46,6 +46,9 @@ interface AlandaProjectTableState {
   defaultLayout: number;
   layouts: AlandaTableLayout[];
   menuItems: MenuItem[];
+  singleRowSelectionEnabled: boolean;
+  selectionMode: string;
+  selection : any;
 }
 
 const initState = {
@@ -57,6 +60,9 @@ const initState = {
   defaultLayout: DEFAULT_LAYOUT_INIT,
   layouts: [],
   menuItem: [],
+  singleRowSelection: false,
+  selectionMode: 'single',
+  selection: {},
 };
 
 const DEFAULT_BUTTON_MENU_ICON = 'pi pi-bars';
@@ -76,6 +82,10 @@ export class AlandaProjectTableComponent implements OnInit {
   @Input() set layouts(layouts: AlandaTableLayout[]) {
     this.state.set({ layouts });
   }
+  @Input() set singleRowSelection(singleRowSelectionEnabled: boolean){
+    this.state.set({ singleRowSelectionEnabled });
+    this.state.set({ selectionMode: 'single'});
+  }
   @Input() tableStyle: object;
   @Input() autoLayout = false;
   @Input() resizableColumns = true;
@@ -86,6 +96,7 @@ export class AlandaProjectTableComponent implements OnInit {
   @Input() targetDblClick = '_blank';
   @Input() routerBasePath = '/projectdetails';
   @Output() layoutChanged = new Subject<AlandaTableLayout>();
+  @Output() selectionChange = new Subject<AlandaProject>();
 
   dateFormatPrime: string;
   hiddenColumns = {};
@@ -127,7 +138,10 @@ export class AlandaProjectTableComponent implements OnInit {
       ),
     ),
   );
-
+  rowSelectionChange$ = this.state.select('selection').pipe(
+    map( (selection) => selection === null ? null : selection.project),
+    tap( (project) => this.selectionChange.next(project))
+  );
   onSelectedLayoutChange$ = this.state.select('selectedLayout').pipe(
     map((selectedLayout) => {
       this.needReloadEvent$.next();
@@ -217,6 +231,7 @@ export class AlandaProjectTableComponent implements OnInit {
     this.state.connect('filteredColumns', this.onSelectedLayoutChange$);
     this.state.connect('menuItems', this.updateMenuColumnOptions$);
     this.state.hold(merge(this.exportAllCsv$, this.exportCurrentPageData$));
+    this.state.hold(this.rowSelectionChange$);
     this.state.connect(this.toggleColumn$);
     this.state.connect(
       this.setupProjectDetailsModalEvent$.pipe(
@@ -360,5 +375,12 @@ export class AlandaProjectTableComponent implements OnInit {
         items: columnMenuItems,
       },
     ];
+  }
+
+  get selection(): any {
+    return this.state.get('selection');
+  }
+  set selection(selection : any) {
+    this.state.set( { selection });
   }
 }

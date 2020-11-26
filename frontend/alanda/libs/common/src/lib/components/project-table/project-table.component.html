@@ -40,6 +40,8 @@
         [resizableColumns]="resizableColumns"
         [responsive]="responsive"
         [tableStyle]="tableStyle"
+        [selectionMode]="s.selectionMode"
+        [(selection)]="selection"
       >
         <ng-template pTemplate="header" let-columns>
           <tr>
@@ -81,6 +83,7 @@
         <ng-template pTemplate="body" let-project let-columns="columns">
           <tr
             [pSelectableRow]="project"
+            [pSelectableRowDisabled]="!s.singleRowSelectionEnabled"
             class="project-row"
             (dblclick)="openProject(project.project.projectId)"
           >
