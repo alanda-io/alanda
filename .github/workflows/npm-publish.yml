@@ -1,0 +1,32 @@
+# Workflow for publishing a new patch version via tag push
+
+name: Npm Publish
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'github-action-publish'
+    tags:
+      - 'publish-latest'
+
+defaults:
+  run:
+    working-directory: frontend/alanda
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run publish
