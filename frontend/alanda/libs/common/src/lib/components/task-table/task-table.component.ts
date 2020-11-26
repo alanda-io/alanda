@@ -28,7 +28,7 @@ import {
 } from 'rxjs/operators';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { AlandaProject } from '../../api/models/project';
-import { exportAsCsv, formatDateISO } from '../../utils/helper-functions';
+import { exportAsCsv } from '../../utils/helper-functions';
 import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
 import { Router } from '@angular/router';
 import { ExportType } from '../../enums/exportType.enum';
@@ -472,10 +472,6 @@ export class AlandaTaskTableComponent implements OnInit {
       baseUrl.concat(this.getTaskPath(formKey, taskId)),
       this.targetDblClick,
     );
-  }
-
-  onDateSelect(value, field): void {
-    this.turboTable.filter(formatDateISO(value), field, 'contains');
   }
 
   updateMenu(columnDefs: AlandaTableColumnDefinition[]): MenuItem[] {
