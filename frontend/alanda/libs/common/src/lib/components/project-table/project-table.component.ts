@@ -97,6 +97,7 @@ export class AlandaProjectTableComponent implements OnInit {
   @Input() routerBasePath = '/projectdetails';
   @Output() layoutChanged = new Subject<AlandaTableLayout>();
   @Output() selectionChange = new Subject<AlandaProject>();
+  @Input() hideMenuButton = false;
 
   dateFormatPrime: string;
   hiddenColumns = {};
