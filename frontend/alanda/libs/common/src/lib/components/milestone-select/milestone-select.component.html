@@ -72,15 +72,14 @@
   </div>
   <p-dialog
     [(visible)]="s.showCommentModal"
-    [modal]="true"
     [dismissableMask]="true"
-    [closeOnEscape]="true"
-    [closable]="true"
+    [modal]="true"
+    [resizable]="false"
     [style]="{ width: '600px' }"
   >
     <p-header>Change {{ displayName }} {{ s.commentMsType }}</p-header>
-    <div class="p-grid" [formGroup]="commentForm">
-      <div class="p-col-12">
+    <div class="p-grid p-fluid" [formGroup]="commentForm">
+      <div class="p-col-12 p-field">
         <p-calendar
           formControlName="commentFormDate"
           [showIcon]="true"
@@ -91,8 +90,8 @@
       <div class="p-col-12">
         <alanda-label [label]="s.commentLabel"></alanda-label>
         <textarea
+          pInputTextarea
           rows="10"
-          style="width: 100%;"
           formControlName="comment"
           [placeholder]="s.commentPlaceholder"
         ></textarea>
@@ -109,9 +108,8 @@
             comment: comment.value
           })
         "
-        icon="fa fa-check"
-        iconPos="left"
-        class="ui-button-success"
+        icon="pi pi-check"
+        class="p-button-text"
         [label]="s.commentButtonLabel"
         [disabled]="commentForm.invalid"
       ></button>

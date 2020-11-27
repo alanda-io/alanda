@@ -170,9 +170,8 @@
     [(visible)]="showDelegateDialog"
     [modal]="true"
     [dismissableMask]="true"
-    [closeOnEscape]="true"
-    [closable]="true"
-    [style]="{ width: '300px' }"
+    [resizable]="false"
+    [style]="{ width: '450px' }"
     [contentStyle]="{ overflow: 'visible' }"
     header="Delegate task for"
   >
@@ -188,12 +187,14 @@
     <p-footer>
       <p-button
         (onClick)="hideDelegateDialog()"
-        styleClass="p-button-raised p-button-info"
+        styleClass="p-button-text"
+        icon="pi pi-times"
         label="Cancel"
       ></p-button>
       <p-button
         (onClick)="delegateTask(dd.value)"
-        styleClass="p-button-raised p-button-success"
+        styleClass="p-button-text"
+        icon="pi pi-check"
         [disabled]="!dd.value"
         label="Delegate"
       ></p-button>
@@ -203,6 +204,8 @@
   <p-dialog
     [(visible)]="s.showProjectDetailsModal"
     [modal]="true"
+    [dismissableMask]="true"
+    [resizable]="false"
     [style]="{ width: '500px' }"
     header="Edit Project"
   >

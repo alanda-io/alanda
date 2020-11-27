@@ -6,6 +6,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { LabelModule } from '../label/label.module';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [AlandaCommentDialogComponent],
@@ -16,6 +17,7 @@ import { LabelModule } from '../label/label.module';
     LabelModule,
     InputTextModule,
     DialogModule,
+    InputTextareaModule,
   ],
   exports: [AlandaCommentDialogComponent],
 })

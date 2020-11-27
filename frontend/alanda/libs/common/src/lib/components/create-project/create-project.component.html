@@ -135,29 +135,37 @@
 
   <p-dialog
     [visible]="showDialog"
-    [dismissableMask]="false"
-    [closable]="false"
+    [modal]="true"
+    [resizable]="false"
+    [dismissableMask]="true"
     [contentStyle]="{ overflow: 'visible' }"
+    [style]="{ width: '450px' }"
+    (visibleChange)="goBack()"
     header="Create Project"
   >
-    <p-dropdown
-      [options]="projectTypes"
-      filter="true"
-      [(ngModel)]="selectedProjectType"
-      optionLabel="name"
-      [style]="{ width: '100%' }"
-      placeholder="Project Type..."
-      [filter]="true"
-    ></p-dropdown>
+    <div class="p-grid p-fluid">
+      <div class="p-col-12">
+        <p-dropdown
+          [options]="projectTypes"
+          filter="true"
+          [(ngModel)]="selectedProjectType"
+          optionLabel="name"
+          placeholder="Project Type..."
+          [filter]="true"
+        ></p-dropdown>
+      </div>
+    </div>
     <p-footer>
       <p-button
-        routerLink=""
-        styleClass="p-button-raised p-button-info"
+        (onClick)="goBack()"
+        styleClass="p-button-text"
+        icon="pi pi-times"
         label="Cancel"
       ></p-button>
       <p-button
         (onClick)="onProjectTypeSelected()"
-        styleClass="p-button-raised p-button-success"
+        styleClass="p-button-text"
+        icon="pi pi-check"
         label="OK"
       ></p-button>
     </p-footer>
