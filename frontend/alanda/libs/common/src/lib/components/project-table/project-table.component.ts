@@ -48,7 +48,7 @@ interface AlandaProjectTableState {
   menuItems: MenuItem[];
   singleRowSelectionEnabled: boolean;
   selectionMode: string;
-  selection : any;
+  selection: any;
 }
 
 const initState = {
@@ -82,9 +82,9 @@ export class AlandaProjectTableComponent implements OnInit {
   @Input() set layouts(layouts: AlandaTableLayout[]) {
     this.state.set({ layouts });
   }
-  @Input() set singleRowSelection(singleRowSelectionEnabled: boolean){
+  @Input() set singleRowSelection(singleRowSelectionEnabled: boolean) {
     this.state.set({ singleRowSelectionEnabled });
-    this.state.set({ selectionMode: 'single'});
+    this.state.set({ selectionMode: 'single' });
   }
   @Input() tableStyle: object;
   @Input() autoLayout = false;
@@ -140,8 +140,8 @@ export class AlandaProjectTableComponent implements OnInit {
     ),
   );
   rowSelectionChange$ = this.state.select('selection').pipe(
-    map( (selection) => selection === null ? null : selection.project),
-    tap( (project) => this.selectionChange.next(project))
+    map((selection) => (selection === null ? null : selection.project)),
+    tap((project) => this.selectionChange.next(project)),
   );
   onSelectedLayoutChange$ = this.state.select('selectedLayout').pipe(
     map((selectedLayout) => {
@@ -381,7 +381,7 @@ export class AlandaProjectTableComponent implements OnInit {
   get selection(): any {
     return this.state.get('selection');
   }
-  set selection(selection : any) {
-    this.state.set( { selection });
+  set selection(selection: any) {
+    this.state.set({ selection });
   }
 }
