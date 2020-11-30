@@ -128,20 +128,23 @@ export class AlandaAttachmentsComponent implements OnInit {
   }
 
   loadFolderContent(): void {
+    let selectedNodeId = this.data.selectedNode.id;
     this.documentService
       .loadFolderContent(
         this.data.refObjectType,
         this.data.guid,
-        this.data.selectedNode.id,
+        selectedNodeId,
         null,
         this.data.selectedNode.mapping,
       )
       .subscribe((res) => {
-        this.currentFiles = res;
-        this.data.selectedNode.files = res.length;
-        this.data.selectedNode.label =
-          this.data.selectedNode.name + ' (' + res.length + ')';
-        this.fileCount = this.checkFileCount(this.treeNode);
+        if (selectedNodeId === this.data.selectedNode.id) {
+          this.currentFiles = res;
+          this.data.selectedNode.files = res.length;
+          this.data.selectedNode.label =
+            this.data.selectedNode.name + ' (' + res.length + ')';
+          this.fileCount = this.checkFileCount(this.treeNode);
+        }
       });
   }
 
