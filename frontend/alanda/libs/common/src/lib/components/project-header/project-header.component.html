@@ -122,7 +122,8 @@
             <p-calendar
               formControlName="taskDueDate"
               [showIcon]="true"
-              dateFormat="yy-mm-dd"
+              [locale]="locale"
+              [dateFormat]="dateFormatPrime"
             ></p-calendar>
           </div>
         </div>
@@ -134,7 +135,8 @@
             <p-calendar
               formControlName="dueDate"
               [showIcon]="true"
-              dateFormat="yy-mm-dd"
+              [locale]="locale"
+              [dateFormat]="dateFormatPrime"
             ></p-calendar>
           </div>
         </div>

@@ -34,6 +34,7 @@ import {
 import { AlandaMilestone } from '../../api/models/milestone';
 import { AlandaCommentApiService } from '../../api/commentApi.service';
 import { MessageService } from 'primeng/api';
+import { LocaleSettings } from 'primeng/calendar';
 
 interface MilestoneState {
   project: AlandaProject;
@@ -95,6 +96,8 @@ export class AlandaSelectMilestoneComponent {
   @Input() set user(user: AlandaUser) {
     this.state.set({ user });
   }
+
+  locale: LocaleSettings;
 
   state$ = this.state
     .select()
@@ -296,6 +299,7 @@ export class AlandaSelectMilestoneComponent {
     if (!this.dateFormat) {
       this.dateFormat = config.DATE_FORMAT_PRIME;
     }
+    this.locale = config.LOCALE_PRIME;
   }
 
   saveMileStone(fc: Date, act: Date, reason: string): Observable<void> {

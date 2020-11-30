@@ -8,6 +8,7 @@ import {
 import { AlandaProject } from '../../../api/models/project';
 import { AlandaTaskApiService } from '../../../api/taskApi.service';
 import { AppSettings, APP_CONFIG } from '../../../models/appSettings';
+import { LocaleSettings } from 'primeng/calendar';
 
 const SELECTOR = 'alanda-var-datepicker';
 
@@ -33,6 +34,8 @@ export class AlandaVarDatepickerComponent implements OnInit {
     }
   }
 
+  locale: LocaleSettings;
+
   datepickerForm = this.fb.group({
     pickedDate: [null, Validators.required],
   });
@@ -45,6 +48,7 @@ export class AlandaVarDatepickerComponent implements OnInit {
     if (!this.dateFormat) {
       this.dateFormat = config.DATE_FORMAT_PRIME;
     }
+    this.locale = config.LOCALE_PRIME;
   }
 
   ngOnInit(): void {

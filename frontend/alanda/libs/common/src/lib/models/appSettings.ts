@@ -1,4 +1,5 @@
 import { InjectionToken, Injectable } from '@angular/core';
+import { LocaleSettings } from 'primeng/calendar';
 
 @Injectable()
 export class AppSettings {
@@ -7,6 +8,7 @@ export class AppSettings {
   AVATAR_BASE_PATH: string;
   DATE_FORMAT: string;
   DATE_FORMAT_PRIME: string;
+  LOCALE_PRIME: LocaleSettings;
   APP_NAME?: string;
 }
 

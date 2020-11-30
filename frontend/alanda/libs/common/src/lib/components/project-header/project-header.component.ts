@@ -29,6 +29,7 @@ import { AlandaProjectPropertiesService } from '../../services/project-propertie
 import { AlandaPropertyApiService } from '../../api/propertyApi.service';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { Authorizations } from '../../permissions';
+import { LocaleSettings } from 'primeng/calendar';
 
 @Component({
   selector: 'alanda-project-header',
@@ -47,6 +48,8 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   @Input() phase: string;
 
   dateFormat: string;
+  dateFormatPrime: string;
+  locale: LocaleSettings;
   taskDueDate: Date;
   loading: boolean;
   snoozedTask: boolean;
@@ -80,6 +83,8 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
     this.dateFormat = config.DATE_FORMAT;
+    this.dateFormatPrime = config.DATE_FORMAT_PRIME;
+    this.locale = config.LOCALE_PRIME;
   }
 
   ngOnInit(): void {
