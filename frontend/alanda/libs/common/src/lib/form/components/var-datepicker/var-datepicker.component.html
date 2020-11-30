@@ -6,6 +6,7 @@
     <p-calendar
       formControlName="pickedDate"
       [locale]="locale"
+      [dateFormat]="locale.dateFormat"
       [showIcon]="true"
       (onSelect)="save()"
     >
