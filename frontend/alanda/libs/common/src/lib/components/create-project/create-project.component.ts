@@ -21,6 +21,7 @@ import { AlandaRefObject } from '../../api/models/refObject';
 import { EMPTY, of, Subject, zip } from 'rxjs';
 import { AlandaRoleApiService } from '../../api/roleApi.service';
 import { AlandaTaskApiService } from '../../api/taskApi.service';
+import { LocaleSettings } from 'primeng/calendar';
 
 interface CreateState {
   refObject: AlandaRefObject;
@@ -42,6 +43,7 @@ export class AlandaCreateProjectComponent implements OnInit {
   formGroup: FormGroup;
   isLoading = false;
   dateFormat: string;
+  locale: LocaleSettings;
 
   state$ = this.state.select();
   searchRefObjectEvent$ = new Subject<string>();
@@ -69,6 +71,7 @@ export class AlandaCreateProjectComponent implements OnInit {
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
     this.dateFormat = config.DATE_FORMAT_PRIME;
+    this.locale = config.LOCALE_PRIME;
     this.state.set({ refObjectList: [] });
     this.state.connect('refObjectList', this.searchRefObjects$);
     // this.state.hold(this.searchRefObjectEvent$);

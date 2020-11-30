@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AlandaPropertyApiService } from '../../api/propertyApi.service';
 import { AlandaProject } from '../../api/models/project';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
+import { LocaleSettings } from 'primeng/calendar';
 
 @Component({
   selector: 'alanda-date-select',
@@ -26,12 +27,14 @@ export class AlandaDateSelectComponent implements OnInit {
   dateForm = new FormGroup({
     date: new FormControl(null, Validators.required),
   });
+  locale: LocaleSettings;
 
   constructor(
     private readonly messageService: MessageService,
     private readonly propertyService: AlandaPropertyApiService,
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
+    this.locale = config.LOCALE_PRIME;
     if (!this.dateFormat) {
       this.dateFormat = config.DATE_FORMAT_PRIME;
     }
