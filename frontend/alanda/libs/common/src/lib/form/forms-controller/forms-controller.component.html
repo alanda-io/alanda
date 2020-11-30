@@ -36,7 +36,7 @@
     <p-tabPanel header="History Log" leftIcon="pi pi-clock">
       <ng-template pTemplate="content">
         <alanda-history-grid-component
-          [projectGuid]="s.project.guid"
+          [projectGuid]="s.project?.guid"
         ></alanda-history-grid-component>
       </ng-template>
     </p-tabPanel>
