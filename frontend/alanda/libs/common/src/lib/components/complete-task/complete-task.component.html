@@ -1,6 +1,11 @@
 <p-card class="complete-task">
   <div class="p-grid p-nogutter">
-    <div class="p-col-12 p-md-6 p-lg-5 p-fluid complete-task-field-col">
+    <div
+      [ngClass]="{
+        'p-col-12 p-md-6 p-lg-5 complete-task-field-col': true,
+        'p-fluid': fluid
+      }"
+    >
       <ng-content></ng-content>
     </div>
     <div class="p-col-12 p-md-6 p-lg-7 p-as-center complete-task-button-col">

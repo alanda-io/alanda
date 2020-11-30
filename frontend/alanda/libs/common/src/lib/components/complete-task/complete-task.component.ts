@@ -10,6 +10,7 @@ export class CompleteTaskComponent {
   @Input() icon = 'pi pi-check';
   @Input() label = 'Complete Task';
   @Input() buttonClass = 'p-button-success';
+  @Input() fluid = true;
   @Output() complete: EventEmitter<Event> = new EventEmitter();
 
   constructor() {}
