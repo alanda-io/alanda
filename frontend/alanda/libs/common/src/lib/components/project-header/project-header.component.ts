@@ -48,7 +48,6 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   @Input() phase: string;
 
   dateFormat: string;
-  dateFormatPrime: string;
   locale: LocaleSettings;
   taskDueDate: Date;
   loading: boolean;
@@ -83,7 +82,6 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
     this.dateFormat = config.DATE_FORMAT;
-    this.dateFormatPrime = config.DATE_FORMAT_PRIME;
     this.locale = config.LOCALE_PRIME;
   }
 

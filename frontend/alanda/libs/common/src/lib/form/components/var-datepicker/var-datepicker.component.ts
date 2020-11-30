@@ -22,7 +22,6 @@ export class AlandaVarDatepickerComponent implements OnInit {
   @Input() project: AlandaProject;
   @Input() task: any;
   @Input() label: string;
-  @Input() dateFormat: string;
 
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
@@ -45,9 +44,6 @@ export class AlandaVarDatepickerComponent implements OnInit {
     private readonly fb: FormBuilder,
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
-    if (!this.dateFormat) {
-      this.dateFormat = config.DATE_FORMAT_PRIME;
-    }
     this.locale = config.LOCALE_PRIME;
   }
 

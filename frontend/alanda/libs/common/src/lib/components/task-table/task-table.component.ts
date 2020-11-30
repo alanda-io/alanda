@@ -84,7 +84,6 @@ export class AlandaTaskTableComponent implements OnInit {
   @Input() set layouts(layouts: AlandaTableLayout[]) {
     this.state.set({ layouts });
   }
-  @Input() dateFormat: string;
   @Input() tableStyle: object;
   @Input() autoLayout = false;
   @Input() resizableColumns = true;
@@ -104,10 +103,10 @@ export class AlandaTaskTableComponent implements OnInit {
   @Output() layoutChanged = new Subject<AlandaTableLayout>();
   @Output() toggleGroupTasksChanged = new Subject<boolean>();
 
+  dateFormat: string;
   showDelegateDialog = false;
   candidateUsers: any[] = [];
   delegatedTaskData: any;
-  dateFormatPrime: string;
   hiddenColumns = {};
   layoutChange$ = new Subject<any>();
   onMenuItemColumnClick$ = new Subject<string>();
@@ -230,10 +229,7 @@ export class AlandaTaskTableComponent implements OnInit {
     private router: Router,
   ) {
     this.state.set(initState);
-    if (!this.dateFormat) {
-      this.dateFormat = config.DATE_FORMAT;
-    }
-    this.dateFormatPrime = config.DATE_FORMAT_PRIME;
+    this.dateFormat = config.DATE_FORMAT;
     this.state.connect('selectedLayout', this.defaultLayoutChange$);
     this.state.connect('selectedLayout', this.selectedLayoutChanged$);
     this.state.connect('filteredColumns', this.onSelectedLayoutChange$);

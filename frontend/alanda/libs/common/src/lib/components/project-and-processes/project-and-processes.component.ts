@@ -45,7 +45,6 @@ import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 })
 export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   @Input() project: AlandaProject;
-  @Input() dateFormat: string;
   @Input() filterOptions: any = {};
   @Output() changed: EventEmitter<void> = new EventEmitter();
   data: TreeNode[] = [];
@@ -64,6 +63,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   allowedProcesses: { [projectGuid: number]: MappedAllowedProcesses[] } = {};
   dynamicDialogRef: DynamicDialogRef;
   refObjects: string[] = [];
+  dateFormat: string;
 
   constructor(
     private readonly projectService: AlandaProjectApiService,
@@ -72,9 +72,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     private readonly dialogService: DialogService,
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
-    if (!this.dateFormat) {
-      this.dateFormat = config.DATE_FORMAT;
-    }
+    this.dateFormat = config.DATE_FORMAT;
 
     this.subprocessSelect$
       .pipe(

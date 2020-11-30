@@ -16,7 +16,6 @@ export class AlandaDateSelectComponent implements OnInit {
   @Input() label: string;
   @Input() project: AlandaProject;
   @Input() formName: string;
-  @Input() dateFormat: string;
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {
@@ -35,9 +34,6 @@ export class AlandaDateSelectComponent implements OnInit {
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
     this.locale = config.LOCALE_PRIME;
-    if (!this.dateFormat) {
-      this.dateFormat = config.DATE_FORMAT_PRIME;
-    }
   }
 
   ngOnInit() {

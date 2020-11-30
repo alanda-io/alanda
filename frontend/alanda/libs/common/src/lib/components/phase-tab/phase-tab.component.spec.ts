@@ -10,7 +10,6 @@ import { TabViewModule } from 'primeng/tabview';
 const appConfig = {
   API_ENDPOINT: '/test-api',
   DATE_FORMAT: 'dd.MM.yyyy',
-  DATE_FORMAT_PRIME: 'dd.mm.yy',
 };
 
 describe('AlandaPhaseTabComponent', () => {

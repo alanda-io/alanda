@@ -7,7 +7,6 @@ export class AppSettings {
   AVATAR_EXT: string;
   AVATAR_BASE_PATH: string;
   DATE_FORMAT: string;
-  DATE_FORMAT_PRIME: string;
   LOCALE_PRIME: LocaleSettings;
   APP_NAME?: string;
 }

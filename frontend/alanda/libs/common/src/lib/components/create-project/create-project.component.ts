@@ -42,7 +42,6 @@ export class AlandaCreateProjectComponent implements OnInit {
   project: AlandaProject = {};
   formGroup: FormGroup;
   isLoading = false;
-  dateFormat: string;
   locale: LocaleSettings;
 
   state$ = this.state.select();
@@ -70,7 +69,6 @@ export class AlandaCreateProjectComponent implements OnInit {
     private location: Location,
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
-    this.dateFormat = config.DATE_FORMAT_PRIME;
     this.locale = config.LOCALE_PRIME;
     this.state.set({ refObjectList: [] });
     this.state.connect('refObjectList', this.searchRefObjects$);

@@ -11,7 +11,6 @@
           formControlName="fc"
           placeholder="Select FC"
           [showIcon]="true"
-          [dateFormat]="dateFormat"
           [locale]="locale"
           [readonlyInput]="true"
         ></p-calendar>
@@ -22,7 +21,6 @@
             formControlName="fc"
             placeholder="Select MS"
             [showIcon]="false"
-            [dateFormat]="dateFormat"
             [locale]="locale"
             [readonlyInput]="true"
             (click)="clickForComment.next({ ms: 'FC' })"
@@ -47,7 +45,6 @@
           formControlName="act"
           placeholder="Select ACT"
           [showIcon]="true"
-          [dateFormat]="dateFormat"
           [locale]="locale"
           [readonlyInput]="true"
         ></p-calendar>
@@ -58,7 +55,6 @@
             formControlName="act"
             placeholder="Select MS"
             [showIcon]="false"
-            [dateFormat]="dateFormat"
             [locale]="locale"
             [readonlyInput]="true"
             (click)="clickForComment.next({ ms: 'ACT' })"
@@ -87,7 +83,6 @@
         <p-calendar
           formControlName="commentFormDate"
           [showIcon]="true"
-          [dateFormat]="dateFormat"
           [locale]="locale"
           [readonlyInput]="true"
         ></p-calendar>

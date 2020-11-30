@@ -3,7 +3,6 @@ import { AppSettings } from '@alanda/common';
 export const ALANDA_CONFIG: AppSettings = {
   API_ENDPOINT: '/alanda-rest/app',
   DATE_FORMAT: 'yyyy-MM-dd',
-  DATE_FORMAT_PRIME: 'yy-mm-dd',
   LOCALE_PRIME: {
     firstDayOfWeek: 1,
     dayNames: [

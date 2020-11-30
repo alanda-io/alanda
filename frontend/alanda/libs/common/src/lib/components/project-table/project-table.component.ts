@@ -90,7 +90,6 @@ export class AlandaProjectTableComponent implements OnInit {
   @Input() autoLayout = false;
   @Input() resizableColumns = true;
   @Input() responsive = true;
-  @Input() dateFormat: string;
   @Input() editablePageSize = false;
   @Input() target = '_self';
   @Input() targetDblClick = '_blank';
@@ -99,7 +98,7 @@ export class AlandaProjectTableComponent implements OnInit {
   @Output() selectionChange = new Subject<AlandaProject>();
   @Input() hideMenuButton = false;
 
-  dateFormatPrime: string;
+  dateFormat: string;
   hiddenColumns = {};
   tableLazyLoadEvent$ = new Subject<LazyLoadEvent>();
   needReloadEvent$ = new Subject();
@@ -222,10 +221,7 @@ export class AlandaProjectTableComponent implements OnInit {
     public messageService: MessageService,
     private router: Router,
   ) {
-    if (!this.dateFormat) {
-      this.dateFormat = config.DATE_FORMAT;
-    }
-    this.dateFormatPrime = config.DATE_FORMAT_PRIME;
+    this.dateFormat = config.DATE_FORMAT;
     this.state.set(initState);
     this.state.connect('selectedLayout', this.defaultLayoutChange$);
     this.state.connect('selectedLayout', this.selectedLayoutChanged$);

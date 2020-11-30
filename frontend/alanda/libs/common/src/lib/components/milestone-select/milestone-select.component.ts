@@ -66,7 +66,6 @@ const initState = {
 })
 export class AlandaSelectMilestoneComponent {
   @Input() displayName: string;
-  @Input() dateFormat: string;
   @Input() disabled = false;
   @Input() showFC = true;
   @Input() showACT = true;
@@ -296,9 +295,6 @@ export class AlandaSelectMilestoneComponent {
     this.state.hold(this.updatePermissions$);
     this.state.hold(this.saveMileStones$);
     this.state.connect(this.handleSaveFromComment$);
-    if (!this.dateFormat) {
-      this.dateFormat = config.DATE_FORMAT_PRIME;
-    }
     this.locale = config.LOCALE_PRIME;
   }
 
