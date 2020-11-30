@@ -182,26 +182,68 @@ export class AlandaAttachmentsComponent implements OnInit {
     this.http['post'](this.uploaderUrl, formData, {
       reportProgress: true,
       observe: 'events',
-    }).subscribe((event: HttpEvent<any>) => {
-      switch (event.type) {
-        case HttpEventType.Response:
-          this.uploader.uploading = false;
-          this.uploader.progress = 0;
-          if (event['status'] >= 200 && event['status'] < 300) {
-            this.onUpload({ originalEvent: event, files: evt.files });
-          } else {
-            this.messageService.add({
-              key: 'center',
-              severity: 'error',
-              summary: 'File upload failed',
-              detail: `${event.statusText}`,
+    }).subscribe(
+      (event: HttpEvent<any>) => {
+        switch (event.type) {
+          case HttpEventType.Sent:
+            this.uploader.onSend.emit({
+              originalEvent: event,
+              formData: formData,
             });
-            this.uploader.onError.emit({ files: evt.files });
+            break;
+          case HttpEventType.Response:
+            this.uploader.uploading = false;
+            this.uploader.progress = 0;
+            if (event['status'] >= 200 && event['status'] < 300) {
+              if (this.uploader.fileLimit) {
+                this.uploader.uploadedFileCount += this.uploader.files.length;
+              }
+              this.uploader.onUpload.emit({
+                originalEvent: event,
+                files: evt.files,
+              });
+            } else {
+              this.messageService.add({
+                key: 'center',
+                severity: 'error',
+                summary: 'File upload failed',
+                detail: `${event.statusText}`,
+              });
+              this.uploader.onError.emit({ files: evt.files });
+            }
+            this.uploader.clear();
+            break;
+          case HttpEventType.UploadProgress: {
+            if (event['loaded']) {
+              this.uploader.progress = Math.round(
+                (event['loaded'] * 100) / event['total'],
+              );
+            }
+
+            this.uploader.onProgress.emit({
+              originalEvent: event,
+              progress: this.uploader.progress,
+            });
+            break;
           }
-          this.uploader.clear();
-          break;
-      }
-    });
+        }
+        this.uploader.cd.markForCheck();
+      },
+      (error) => {
+        this.uploader.uploading = false;
+        this.messageService.add({
+          key: 'center',
+          severity: 'error',
+          summary: 'File upload failed',
+          detail: `${error.statusText}`,
+        });
+        this.uploader.onError.emit({
+          files: this.uploader.files,
+          error: error,
+        });
+        this.uploader.clear();
+      },
+    );
   }
 
   togglePanel() {
