@@ -67,7 +67,10 @@
             (removeSubprocess)="openRemoveProcessDialog(rowData, rowNode.node)"
             (startSubprocess)="openStartProcessDialog(rowData, rowNode.node)"
             (configureProcess)="
-              configureProcess(rowData, rowNode.node.parent.data.project)
+              openConfigureProcessDialog(
+                rowData,
+                rowNode.node.parent.data.project
+              )
             "
           >
           </alanda-pap-actions>
