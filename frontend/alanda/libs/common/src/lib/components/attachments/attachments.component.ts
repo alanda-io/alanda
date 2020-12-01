@@ -128,7 +128,7 @@ export class AlandaAttachmentsComponent implements OnInit {
   }
 
   loadFolderContent(): void {
-    let selectedNodeId = this.data.selectedNode.id;
+    const selectedNodeId = this.data.selectedNode.id;
     this.documentService
       .loadFolderContent(
         this.data.refObjectType,
