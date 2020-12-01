@@ -6,7 +6,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
 } from '@angular/core';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog/';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AlandaProcess } from '../../../api/models/process';
 import { AlandaProject } from '../../../api/models/project';
 import { ProcessConfigDirective } from '../../../directives/process.config.directive';
@@ -44,6 +44,7 @@ export interface SubprocessPropertyValue {
 
 @Component({
   templateUrl: './pap-config-dialog.component.html',
+  styleUrls: ['./pap-config-dialog.component.scss'],
 })
 export class PapConfigDialogComponent implements OnInit, AfterViewInit {
   process: AlandaProcess;
@@ -56,6 +57,7 @@ export class PapConfigDialogComponent implements OnInit, AfterViewInit {
 
   constructor(
     public dynamicDialogConfig: DynamicDialogConfig,
+    public dynamicDialogRef: DynamicDialogRef,
     private readonly componentFactoryResolver: ComponentFactoryResolver,
     private readonly cdRef: ChangeDetectorRef,
     private readonly templateService: AlandaProcessConfigModalService,

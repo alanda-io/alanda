@@ -10,6 +10,7 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'alanda-pap-relate-dialog',
   templateUrl: './pap-relate-dialog.component.html',
+  styleUrls: ['./pap-relate-dialog.component.scss'],
 })
 export class PapRelateDialogComponent implements OnInit {
   projects: AlandaProject[] = [];

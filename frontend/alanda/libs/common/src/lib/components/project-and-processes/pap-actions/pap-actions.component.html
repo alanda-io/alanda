@@ -1,49 +1,65 @@
 <p-menu #menu [popup]="true" [model]="menuItems" appendTo="body"></p-menu>
-<alanda-pap-action-symbol
-  *ngIf="actions.includes('RELATE-OPTIONS')"
-  [readOnly]="readOnly"
-  type="OPTIONS"
-  pTooltip="Relate Options"
-  (clicked)="menu.toggle($event)"
->
-</alanda-pap-action-symbol>
-<alanda-pap-action-symbol
-  *ngIf="actions.includes('CANCEL-PROJECT')"
-  [readOnly]="readOnly"
-  pTooltip="Cancel project"
-  type="CANCEL"
-  (clicked)="cancelProject.emit()"
->
-</alanda-pap-action-symbol>
-<alanda-pap-action-symbol
-  *ngIf="actions.includes('CANCEL-PROCESS')"
-  [readOnly]="readOnly"
-  type="CANCEL"
-  pTooltip="Cancel process"
-  (clicked)="cancelProcess.emit()"
->
-</alanda-pap-action-symbol>
-<alanda-pap-action-symbol
-  *ngIf="actions.includes('START-SUBPROCESS')"
-  [readOnly]="readOnly"
-  type="START"
-  pTooltip="Start subprocess"
-  (clicked)="startSubprocess.emit()"
->
-</alanda-pap-action-symbol>
-<alanda-pap-action-symbol
-  *ngIf="actions.includes('REMOVE-SUBPROCESS')"
-  [readOnly]="readOnly"
-  type="REMOVE"
-  pTooltip="Remove subprocess"
-  (clicked)="removeSubprocess.emit()"
->
-</alanda-pap-action-symbol>
-<alanda-pap-action-symbol
-  *ngIf="actions.includes('CONFIGURE-PROCESS')"
-  [readOnly]="readOnly"
-  type="INFO"
-  pTooltip="Configure process"
-  (clicked)="configureProcess.emit()"
->
-</alanda-pap-action-symbol>
+<div class="action-button-wrapper">
+  <alanda-pap-action-symbol
+    *ngIf="actions.includes('RELATE-OPTIONS')"
+    class="pap-action-symbol"
+    [readOnly]="readOnly"
+    type="OPTIONS"
+    pTooltip="Relate Options"
+    (clicked)="menu.toggle($event)"
+  >
+  </alanda-pap-action-symbol>
+</div>
+<div class="action-button-wrapper">
+  <alanda-pap-action-symbol
+    *ngIf="actions.includes('CANCEL-PROJECT')"
+    class="pap-action-symbol"
+    [readOnly]="readOnly"
+    pTooltip="Cancel project"
+    type="CANCEL"
+    (clicked)="cancelProject.emit()"
+  >
+  </alanda-pap-action-symbol>
+  <alanda-pap-action-symbol
+    *ngIf="actions.includes('CANCEL-PROCESS')"
+    class="pap-action-symbol"
+    [readOnly]="readOnly"
+    type="CANCEL"
+    pTooltip="Cancel process"
+    (clicked)="cancelProcess.emit()"
+  >
+  </alanda-pap-action-symbol>
+</div>
+<div class="action-button-wrapper">
+  <alanda-pap-action-symbol
+    *ngIf="actions.includes('START-SUBPROCESS')"
+    class="pap-action-symbol"
+    [readOnly]="readOnly"
+    type="START"
+    pTooltip="Start subprocess"
+    (clicked)="startSubprocess.emit()"
+  >
+  </alanda-pap-action-symbol>
+</div>
+<div class="action-button-wrapper">
+  <alanda-pap-action-symbol
+    *ngIf="actions.includes('REMOVE-SUBPROCESS')"
+    class="pap-action-symbol"
+    [readOnly]="readOnly"
+    type="REMOVE"
+    pTooltip="Remove subprocess"
+    (clicked)="removeSubprocess.emit()"
+  >
+  </alanda-pap-action-symbol>
+</div>
+<div class="action-button-wrapper">
+  <alanda-pap-action-symbol
+    *ngIf="actions.includes('CONFIGURE-PROCESS')"
+    class="pap-action-symbol"
+    [readOnly]="readOnly"
+    type="INFO"
+    pTooltip="Configure process"
+    (clicked)="configureProcess.emit()"
+  >
+  </alanda-pap-action-symbol>
+</div>

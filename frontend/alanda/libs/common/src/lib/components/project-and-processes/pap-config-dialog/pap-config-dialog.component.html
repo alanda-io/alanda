@@ -1,11 +1,24 @@
-<ng-container *ngFor="let prop of properties">
-  <alanda-pap-subprocess-property-input
-    *ngIf="prop.propertyName && prop.displayName"
-    [property]="prop"
-    [processGuid]="process.guid"
-    [projectGuid]="projectGuid"
-  >
-  </alanda-pap-subprocess-property-input>
-</ng-container>
+<div class="config-dialog">
+  <div class="p-dialog-content">
+    <ng-container *ngFor="let prop of properties">
+      <alanda-pap-subprocess-property-input
+        *ngIf="prop.propertyName && prop.displayName"
+        [property]="prop"
+        [processGuid]="process.guid"
+        [projectGuid]="project.guid"
+      >
+      </alanda-pap-subprocess-property-input>
+    </ng-container>
 
-<ng-template alandaProcessConfigHost></ng-template>
+    <ng-template alandaProcessConfigHost></ng-template>
+  </div>
+  <div class="p-dialog-footer">
+    <button
+      pButton
+      label="OK"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="dynamicDialogRef.close(null)"
+    ></button>
+  </div>
+</div>

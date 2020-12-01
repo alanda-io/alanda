@@ -5,7 +5,7 @@ import { PapActions } from '../project-and-processes.service';
 @Component({
   selector: 'alanda-pap-actions',
   templateUrl: './pap-actions.component.html',
-  styleUrls: ['./pap-actions.component.css'],
+  styleUrls: ['./pap-actions.component.scss'],
 })
 export class PapActionsComponent implements OnInit {
   @Input() disabled: boolean;
@@ -33,31 +33,31 @@ export class PapActionsComponent implements OnInit {
         label: 'Create subproject',
         icon: 'pi pi-angle-right',
         disabled: this.loading || this.readOnly,
-        command: (onclick) => this.createSubproject.emit(),
+        command: () => this.createSubproject.emit(),
       },
       {
         label: 'Relate subproject',
         icon: 'pi pi-angle-right',
         disabled: this.loading || this.readOnly,
-        command: (onclick) => this.relateSubproject.emit(),
+        command: () => this.relateSubproject.emit(),
       },
       {
         label: 'Relate me to',
         icon: 'pi pi-angle-right',
         disabled: this.loading || this.readOnly,
-        command: (onclick) => this.relateMeTo.emit(),
+        command: () => this.relateMeTo.emit(),
       },
       {
         label: 'Unrelate me',
         icon: 'pi pi-angle-right',
         disabled: this.loading || this.readOnly,
-        command: (onclick) => this.unrelateMe.emit(),
+        command: () => this.unrelateMe.emit(),
       },
       {
         label: 'Move me to',
         icon: 'pi pi-angle-right',
         disabled: this.loading || this.readOnly,
-        command: (onclick) => this.moveMeTo.emit(),
+        command: () => this.moveMeTo.emit(),
       },
     ];
   }
