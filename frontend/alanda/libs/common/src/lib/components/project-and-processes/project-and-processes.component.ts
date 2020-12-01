@@ -172,7 +172,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     this.projectService
       .getChildTypes(data.project.projectTypeIdName)
       .subscribe((types) => {
-        this.dynamicDialogRef = this.openRelateDialogModal(
+        this.dynamicDialogRef = this.getRelateDynamicDialogRef(
           'Select project(s) to add as subproject',
           {
             types: types.map((type) => type.idName),
@@ -205,7 +205,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     this.projectService
       .getParentTypes(data.project.projectTypeIdName)
       .subscribe((types) => {
-        this.dynamicDialogRef = this.openRelateDialogModal(
+        this.dynamicDialogRef = this.getRelateDynamicDialogRef(
           'Select new parent project(s)',
           {
             types: types.map((type) => type.idName),
@@ -239,7 +239,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     this.projectService
       .getParentTypes(data.project.projectTypeIdName)
       .subscribe((types) => {
-        this.dynamicDialogRef = this.openRelateDialogModal(
+        this.dynamicDialogRef = this.getRelateDynamicDialogRef(
           'Select projects new parent project(s)',
           {
             types: types.map((type) => type.idName),
@@ -269,7 +269,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   }
 
   unrelateMe(data: TreeNodeData): void {
-    this.dynamicDialogRef = this.openRelateDialogModal(
+    this.dynamicDialogRef = this.getRelateDynamicDialogRef(
       'Select parent project(s) to unrelate me from',
       {
         guid: data.project.guid,
@@ -298,7 +298,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   }
 
   openCancelProjectDialog(data: TreeNodeData) {
-    this.dynamicDialogRef = this.openReasonDialogModal(
+    this.dynamicDialogRef = this.getReasonDynamicDialogRef(
       `Cancel ${data.project.projectId}`,
       {
         placeholder: 'Reason for canceling the project',
@@ -321,7 +321,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   }
 
   openCancelProcessDialog(data: TreeNodeData, node: TreeNode) {
-    this.dynamicDialogRef = this.openReasonDialogModal('Cancel Process', {
+    this.dynamicDialogRef = this.getReasonDynamicDialogRef('Cancel Process', {
       placeholder: 'Reason for canceling the process',
       content: `Are you sure to cancel ${data.process.label}? All progress will be lost !`,
     });
@@ -344,14 +344,20 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   }
 
   openStartProcessDialog(data: TreeNodeData, node: TreeNode) {
-    this.dynamicDialogRef = this.openReasonDialogModal(
+    const project: AlandaProject = node.parent.data.project;
+    this.dynamicDialogRef = this.getConfigDynamicDialogRef(
       `Start ${data.process.label}`,
       {
-        content: `Are you sure to start ${data.process.label}?`,
+        configuration: project?.pmcProjectType?.configuration
+          ? JSON.parse(project.pmcProjectType.configuration)
+          : {},
+        process: data.process,
+        project: project,
+        startProcess: true,
       },
     );
-    this.dynamicDialogRef.onClose.subscribe((reason: string) => {
-      if (reason !== null) {
+    this.dynamicDialogRef.onClose.subscribe((startProcess: boolean) => {
+      if (startProcess) {
         this.loading = true;
         this.projectService
           .startProjectProcess(data.relatedProject.guid, data.process.guid)
@@ -365,7 +371,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   }
 
   openRemoveProcessDialog(data: TreeNodeData, node: TreeNode) {
-    this.dynamicDialogRef = this.openReasonDialogModal('Remove Process', {
+    this.dynamicDialogRef = this.getReasonDynamicDialogRef('Remove Process', {
       placeholder: 'Reason for removing the process',
       content: `Are you sure to remove ${data.process.label}? All progress will be lost !`,
     });
@@ -387,18 +393,17 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     });
   }
 
-  configureProcess(data: TreeNodeData, project: AlandaProject): void {
-    this.dynamicDialogRef = this.dialogService.open(PapConfigDialogComponent, {
-      data: {
+  openConfigureProcessDialog(data: TreeNodeData, project: AlandaProject): void {
+    this.dynamicDialogRef = this.getConfigDynamicDialogRef(
+      `Process Configuration - ${data.process.label}`,
+      {
         configuration: project?.pmcProjectType?.configuration
           ? JSON.parse(project.pmcProjectType.configuration)
           : {},
         process: data.process,
         project: project,
       },
-      header: `Process Configuration - ${data.process.label}`,
-      width: '40%',
-    });
+    );
   }
 
   private startSubprocess(value: {
@@ -442,7 +447,10 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     }
   }
 
-  private openRelateDialogModal(header: string, data: any): DynamicDialogRef {
+  private getRelateDynamicDialogRef(
+    header: string,
+    data: any,
+  ): DynamicDialogRef {
     return this.dialogService.open(PapRelateDialogComponent, {
       data,
       header,
@@ -450,8 +458,22 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     });
   }
 
-  private openReasonDialogModal(header: string, data?: any): DynamicDialogRef {
+  private getReasonDynamicDialogRef(
+    header: string,
+    data?: any,
+  ): DynamicDialogRef {
     return this.dialogService.open(PapReasonDialogComponent, {
+      data,
+      header,
+      width: '40%',
+    });
+  }
+
+  private getConfigDynamicDialogRef(
+    header: string,
+    data: any,
+  ): DynamicDialogRef {
+    return this.dialogService.open(PapConfigDialogComponent, {
       data,
       header,
       width: '40%',

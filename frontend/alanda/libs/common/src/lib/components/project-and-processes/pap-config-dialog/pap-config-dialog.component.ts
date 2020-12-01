@@ -50,6 +50,7 @@ export class PapConfigDialogComponent implements OnInit, AfterViewInit {
   process: AlandaProcess;
   project: AlandaProject;
   configuration: ProjectTypeProcessConfig;
+  startProcess = false;
   properties: SubprocessPropertyValue[];
   template: string;
 
@@ -67,6 +68,7 @@ export class PapConfigDialogComponent implements OnInit, AfterViewInit {
     this.process = this.dynamicDialogConfig.data.process;
     this.configuration = this.dynamicDialogConfig.data.configuration;
     this.project = this.dynamicDialogConfig.data.project;
+    this.startProcess = this.dynamicDialogConfig.data.startProcess;
 
     this.configuration.subprocessProperties.forEach((prop) => {
       if (
