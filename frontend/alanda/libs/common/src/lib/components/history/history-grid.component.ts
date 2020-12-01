@@ -1,7 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AlandaHistoryApiService } from '../../api/historyApi.service';
 import { combineLatest, EMPTY, Subject } from 'rxjs';
-import { catchError, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  distinctUntilChanged,
+  map,
+  startWith,
+  switchMap,
+} from 'rxjs/operators';
 import { RxState } from '@rx-angular/state';
 
 interface HistoryGridComponentState {
@@ -9,14 +15,14 @@ interface HistoryGridComponentState {
   loadingInProgress: boolean;
   data: any[];
   totalItems: number;
-  serverOptions : {
-    pageNumber: number,
-    pageSize: number,
-    filterOptions: {},
-    sortOptions: {},
-  },
-  columnDefs: any[],
-};
+  serverOptions: {
+    pageNumber: number;
+    pageSize: number;
+    filterOptions: {};
+    sortOptions: {};
+  };
+  columnDefs: any[];
+}
 const columnDefs = [
   { displayName: 'Project ID', name: 'Project ID', field: 'projectId' },
   {
@@ -53,13 +59,13 @@ export class AlandaHistoryGridComponent {
   state$ = this.state.select();
   onLazyLoadEvent$ = new Subject<any>();
 
-  @Input() set projectGuid ( projectGuid : number){
+  @Input() set projectGuid(projectGuid: number) {
     this.state.set({ projectGuid });
-  };
+  }
 
   updateServerOptions$ = this.state.select('projectGuid').pipe(
     distinctUntilChanged(),
-    map( ( projectGuid) => {
+    map((projectGuid) => {
       const serverOptions = this.state.get('serverOptions');
       serverOptions.filterOptions['pmcProjectGuid'] = projectGuid;
       return serverOptions;
@@ -70,22 +76,22 @@ export class AlandaHistoryGridComponent {
     this.state.select('serverOptions'),
     this.onLazyLoadEvent$,
   ]).pipe(
-    switchMap( ([{filterOptions, pageNumber, pageSize},_]) => {
-      return this.historyService.search(filterOptions,pageNumber,pageSize);
+    switchMap(([{ filterOptions, pageNumber, pageSize }, _]) => {
+      return this.historyService.search(filterOptions, pageNumber, pageSize);
     }),
-    catchError( (err => {
+    catchError((err) => {
       console.log(err);
-      this.state.set( {loadingInProgress: false})
+      this.state.set({ loadingInProgress: false });
       return EMPTY;
-    })),
-    map( (searchResult : any) => {
+    }),
+    map((searchResult: any) => {
       return {
         data: searchResult.results,
         totalItems: searchResult.total,
         loadingInProgress: false,
       };
     }),
-    startWith( {loadingInProgress: true}),
+    startWith({ loadingInProgress: true }),
   );
 
   constructor(
@@ -94,6 +100,6 @@ export class AlandaHistoryGridComponent {
   ) {
     this.state.set(initState);
     this.state.connect(this.loadLazy$);
-    this.state.connect('serverOptions',this.updateServerOptions$);
-  };
+    this.state.connect('serverOptions', this.updateServerOptions$);
+  }
 }
