@@ -1,3 +1,15 @@
-.pap-action-symbol {
+.action-button-wrapper {
   display: inline-block;
+  width: 3rem;
+  text-align: center;
+
+  .pap-action-symbol {
+    display: block;
+
+    ::ng-deep {
+      .p-button-icon {
+        font-size: 1.25rem;
+      }
+    }
+  }
 }
