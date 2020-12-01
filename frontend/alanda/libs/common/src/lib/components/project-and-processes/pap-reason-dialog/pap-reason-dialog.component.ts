@@ -3,6 +3,7 @@ import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 
 @Component({
   templateUrl: './pap-reason-dialog.component.html',
+  styleUrls: ['./pap-reason-dialog.component.scss'],
 })
 export class PapReasonDialogComponent {
   reason = '';

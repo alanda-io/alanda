@@ -18,7 +18,9 @@
           <th pSortableColumn="project.projectId">
             Project ID<p-sortIcon></p-sortIcon>
           </th>
-          <th pSortableColumn="project.title">Title<p-sortIcon></p-sortIcon></th>
+          <th pSortableColumn="project.title">
+            Title<p-sortIcon></p-sortIcon>
+          </th>
           <th pSortableColumn="project.pmcProjectType.name">
             Project Type <p-sortIcon></p-sortIcon>
           </th>
@@ -35,15 +37,8 @@
               pInputText
               type="text"
               (input)="
-            dt.filter($event.target.value, 'project.projectId', 'contains')
-          "
-            />
-          </th>
-          <th>
-            <input
-              pInputText
-              type="text"
-              (input)="dt.filter($event.target.value, 'project.title', 'contains')"
+                dt.filter($event.target.value, 'project.projectId', 'contains')
+              "
             />
           </th>
           <th>
@@ -51,12 +46,8 @@
               pInputText
               type="text"
               (input)="
-            dt.filter(
-              $event.target.value,
-              'project.pmcProjectType.name',
-              'contains'
-            )
-          "
+                dt.filter($event.target.value, 'project.title', 'contains')
+              "
             />
           </th>
           <th>
@@ -64,8 +55,12 @@
               pInputText
               type="text"
               (input)="
-            dt.filter($event.target.value, 'project.subType', 'contains')
-          "
+                dt.filter(
+                  $event.target.value,
+                  'project.pmcProjectType.name',
+                  'contains'
+                )
+              "
             />
           </th>
           <th>
@@ -73,12 +68,21 @@
               pInputText
               type="text"
               (input)="
-            dt.filter(
-              $event.target.value,
-              'project.refObjectIdName',
-              'contains'
-            )
-          "
+                dt.filter($event.target.value, 'project.subType', 'contains')
+              "
+            />
+          </th>
+          <th>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt.filter(
+                  $event.target.value,
+                  'project.refObjectIdName',
+                  'contains'
+                )
+              "
             />
           </th>
         </tr>
