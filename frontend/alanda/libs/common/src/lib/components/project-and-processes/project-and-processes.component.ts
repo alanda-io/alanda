@@ -397,7 +397,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
         project: project,
       },
       header: `Process Configuration - ${data.process.label}`,
-      width: '50%',
+      width: '40%',
     });
   }
 
