@@ -1,0 +1,70 @@
+<ng-container *ngIf="!readOnly" [ngSwitch]="type">
+  <button
+    *ngSwitchCase="'OPTIONS'"
+    pButton
+    icon="pi pi-cog"
+    class="p-button-text p-button-rounded p-button-info"
+    (click)="clicked.emit($event)"
+  ></button>
+  <button
+    *ngSwitchCase="'CANCEL'"
+    pButton
+    icon="pi pi-pause"
+    class="p-button-text p-button-rounded p-button-danger"
+    (click)="clicked.emit($event)"
+  ></button>
+  <button
+    *ngSwitchCase="'REMOVE'"
+    pButton
+    icon="pi pi-window-minimize"
+    class="p-button-text p-button-rounded p-button-danger"
+    (click)="clicked.emit($event)"
+  ></button>
+  <button
+    *ngSwitchCase="'START'"
+    pButton
+    icon="pi pi-play"
+    class="p-button-text p-button-rounded p-button-success"
+    (click)="clicked.emit($event)"
+  ></button>
+  <button
+    *ngSwitchCase="'INFO'"
+    pButton
+    icon="pi pi-info-circle"
+    class="p-button-text p-button-rounded p-button-danger"
+    (click)="clicked.emit($event)"
+  ></button>
+</ng-container>
+<ng-container *ngIf="readOnly" [ngSwitch]="type">
+  <button
+    *ngSwitchCase="'OPTIONS'"
+    pButton
+    icon="pi pi-cog"
+    class="p-button-text p-button-rounded"
+  ></button>
+  <button
+    *ngSwitchCase="'CANCEL'"
+    pButton
+    icon="pi pi-pause"
+    class="p-button-text p-button-rounded"
+  ></button>
+  <button
+    *ngSwitchCase="'REMOVE'"
+    pButton
+    icon="pi pi-window-minimize"
+    class="p-button-text p-button-rounded"
+  ></button>
+  <button
+    *ngSwitchCase="'START'"
+    pButton
+    icon="pi pi-play"
+    class="p-button-text p-button-rounded"
+  ></button>
+  <button
+    *ngSwitchCase="'INFO'"
+    pButton
+    icon="pi pi-info-circle"
+    class="p-button-text p-button-rounded"
+    (click)="clicked.emit($event)"
+  ></button>
+</ng-container>

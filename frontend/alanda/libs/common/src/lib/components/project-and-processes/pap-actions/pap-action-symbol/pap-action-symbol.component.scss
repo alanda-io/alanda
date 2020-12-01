@@ -1,0 +1,9 @@
+button {
+  margin: 0 2px;
+
+  ::ng-deep {
+    .p-button-icon {
+      font-size: 1.25rem;
+    }
+  }
+}
