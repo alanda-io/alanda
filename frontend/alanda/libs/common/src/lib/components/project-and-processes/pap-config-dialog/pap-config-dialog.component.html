@@ -18,7 +18,15 @@
       label="OK"
       icon="pi pi-check"
       class="p-button-text"
-      (click)="dynamicDialogRef.close(null)"
+      (click)="dynamicDialogRef.close(false)"
+    ></button>
+    <button
+      *ngIf="startProcess"
+      pButton
+      label="OK"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="dynamicDialogRef.close(true)"
     ></button>
   </div>
 </div>

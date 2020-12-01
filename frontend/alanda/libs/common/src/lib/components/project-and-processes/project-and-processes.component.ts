@@ -344,14 +344,20 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   }
 
   openStartProcessDialog(data: TreeNodeData, node: TreeNode) {
-    this.dynamicDialogRef = this.getReasonDynamicDialogRef(
+    const project: AlandaProject = node.parent.data.project;
+    this.dynamicDialogRef = this.getConfigDynamicDialogRef(
       `Start ${data.process.label}`,
       {
-        content: `Are you sure to start ${data.process.label}?`,
+        configuration: project?.pmcProjectType?.configuration
+          ? JSON.parse(project.pmcProjectType.configuration)
+          : {},
+        process: data.process,
+        project: project,
+        startProcess: true,
       },
     );
-    this.dynamicDialogRef.onClose.subscribe((reason: string) => {
-      if (reason !== null) {
+    this.dynamicDialogRef.onClose.subscribe((startProcess: boolean) => {
+      if (startProcess) {
         this.loading = true;
         this.projectService
           .startProjectProcess(data.relatedProject.guid, data.process.guid)
