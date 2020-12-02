@@ -92,7 +92,7 @@
     }
   },
   "lint-staged": {
-    "*": [
+    "frontend/alanda/**": [
       "npm run format:write",
       "npm run affected:lint",
       "git add"
