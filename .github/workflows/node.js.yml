@@ -8,8 +8,6 @@ on: [push]
 defaults:
   run:
     working-directory: frontend/alanda
-  env:
-    HUSKY: 0
 
 jobs:
   format:
