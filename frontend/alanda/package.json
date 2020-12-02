@@ -17,7 +17,7 @@
     "affected:build": "nx affected:build",
     "affected:e2e": "nx affected:e2e",
     "affected:test": "nx affected:test",
-    "affected:lint": "nx affected:lint",
+    "affected:lint": "nx affected:lint --base=master --head=HEAD",
     "affected:dep-graph": "nx affected:dep-graph",
     "affected": "nx affected",
     "format": "nx format:write",
@@ -94,7 +94,7 @@
   "lint-staged": {
     "*": [
       "npm run format:write",
-      "npm run affected:lint skip",
+      "npm run affected:lint",
       "git add"
     ]
   }
