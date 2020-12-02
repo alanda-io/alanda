@@ -1,13 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AlandaHistoryApiService } from '../../api/historyApi.service';
 import { combineLatest, EMPTY, Subject } from 'rxjs';
-import {
-  catchError,
-  distinctUntilChanged,
-  map,
-  startWith,
-  switchMap,
-} from 'rxjs/operators';
+import { catchError, distinctUntilChanged, map, startWith, switchMap, filter } from 'rxjs/operators';
 import { RxState } from '@rx-angular/state';
 
 interface HistoryGridComponentState {
@@ -15,14 +9,14 @@ interface HistoryGridComponentState {
   loadingInProgress: boolean;
   data: any[];
   totalItems: number;
-  serverOptions: {
-    pageNumber: number;
-    pageSize: number;
-    filterOptions: {};
-    sortOptions: {};
-  };
-  columnDefs: any[];
-}
+  serverOptions : {
+    pageNumber: number,
+    pageSize: number,
+    filterOptions: {},
+    sortOptions: {},
+  },
+  columnDefs: any[],
+};
 const columnDefs = [
   { displayName: 'Project ID', name: 'Project ID', field: 'projectId' },
   {
@@ -42,12 +36,6 @@ const columnDefs = [
 
 const initState = {
   loadingInProgress: false,
-  serverOptions: {
-    pageNumber: 1,
-    pageSize: 20,
-    filterOptions: {},
-    sortOptions: {},
-  },
   columnDefs: columnDefs,
 };
 
@@ -64,16 +52,24 @@ export class AlandaHistoryGridComponent {
   }
 
   updateServerOptions$ = this.state.select('projectGuid').pipe(
+    filter( (projectGuid) => projectGuid != null),
     distinctUntilChanged(),
-    map((projectGuid) => {
-      const serverOptions = this.state.get('serverOptions');
-      serverOptions.filterOptions['pmcProjectGuid'] = projectGuid;
-      return serverOptions;
-    }),
-  );
+    map((projectGuid) => (
+      {
+        pageNumber: 1,
+          pageSize: 20,
+          filterOptions: {
+            'pmcProjectGuid' : projectGuid,
+          },
+          sortOptions: {},
+      }
+    ),
+  ));
 
   loadLazy$ = combineLatest([
-    this.state.select('serverOptions'),
+    this.state.select('serverOptions').pipe(
+      filter( (serverOptions) => serverOptions != null)
+    ),
     this.onLazyLoadEvent$,
   ]).pipe(
     switchMap(([{ filterOptions, pageNumber, pageSize }, _]) => {
