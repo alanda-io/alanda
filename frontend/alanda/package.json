@@ -17,7 +17,7 @@
     "affected:build": "nx affected:build",
     "affected:e2e": "nx affected:e2e",
     "affected:test": "nx affected:test",
-    "affected:lint": "nx affected:lint",
+    "affected:lint": "nx affected:lint --base=master --head=HEAD",
     "affected:dep-graph": "nx affected:dep-graph",
     "affected": "nx affected",
     "format": "nx format:write",
@@ -70,9 +70,11 @@
     "cypress": "^4.12.1",
     "dotenv": "6.2.0",
     "eslint": "6.8.0",
+    "husky": "^4.3.0",
     "jest": "26.2.2",
     "jest-preset-angular": "8.3.1",
     "jest-zone-patch": "0.0.10",
+    "lint-staged": "^10.5.2",
     "ng-packagr": "^10.1.0",
     "prettier": "2.0.4",
     "rollup": "^2.26.10",
@@ -83,5 +85,17 @@
     "tslint-angular": "^3.0.3",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "4.0.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*": [
+      "npm run format:write",
+      "npm run affected:lint",
+      "git add"
+    ]
   }
 }
