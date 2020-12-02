@@ -1,5 +1,0 @@
-#!/bin/sh
-. "$(dirname $0)/_/husky.sh"
-cd ./frontend/alanda || { echo 'Path does not exist!'; exit 1; }
-npm run format:write
-npm run affected:lint
