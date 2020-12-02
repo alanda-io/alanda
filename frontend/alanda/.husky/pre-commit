@@ -1,0 +1,5 @@
+#!/bin/sh
+. "$(dirname $0)/_/husky.sh"
+cd ./forntend/alanda
+npm test
+exit 1
