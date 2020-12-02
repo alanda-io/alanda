@@ -1,5 +1,4 @@
 #!/bin/sh
 . "$(dirname $0)/_/husky.sh"
-cd ./forntend/alanda
-npm test
-exit 1
+cd ./frontend/alanda || { echo 'Path does not exist!'; exit 1; }
+npm run format:write
