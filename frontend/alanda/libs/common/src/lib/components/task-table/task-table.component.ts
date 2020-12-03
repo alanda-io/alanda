@@ -22,6 +22,7 @@ import {
   exhaustMap,
   filter,
   map,
+  skip,
   startWith,
   switchMap,
   tap,
@@ -32,6 +33,7 @@ import { exportAsCsv } from '../../utils/helper-functions';
 import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
 import { Router } from '@angular/router';
 import { ExportType } from '../../enums/exportType.enum';
+import { isEmpty } from '../../utils/helper-functions';
 
 const DEFAULT_LAYOUT_INIT = 0;
 const EXPORT_FILE_NAME = 'download';
@@ -75,7 +77,6 @@ export class AlandaTaskTableComponent implements OnInit {
   closeProjectDetailsModalEvent$ = new Subject<AlandaProject>();
   needReloadEvent$ = new Subject();
   setupProjectDetailsModalEvent$ = new Subject<AlandaProject>();
-  tableLazyLoadEvent$ = new Subject<LazyLoadEvent>();
   menuBarVisible = false;
 
   @Input() set defaultLayout(defaultLayout: number) {
@@ -119,14 +120,8 @@ export class AlandaTaskTableComponent implements OnInit {
    *
    * @returns data { tasksData: AlandaListResult<AlandaTask>, working: boolean }
    */
-  loadTaskFromServer$ = merge(
-    this.tableLazyLoadEvent$,
-    this.needReloadEvent$.pipe(
-      delay(1000),
-      map(() => this.turboTable),
-    ),
-  ).pipe(
-    map((event) => this.buildServerOptions(event)),
+  loadTaskFromServer$ = this.needReloadEvent$.pipe(
+    map(() => this.buildServerOptions(this.turboTable)),
     switchMap((serverOptions) =>
       this.taskService.loadTasks(serverOptions).pipe(
         map((tasks) => this.mapClaimLabels(tasks)),
@@ -146,6 +141,7 @@ export class AlandaTaskTableComponent implements OnInit {
   );
 
   onSelectedLayoutChange$ = this.state.select('selectedLayout').pipe(
+    skip(1),
     map((selectedLayout) => {
       this.needReloadEvent$.next();
       this.layoutChanged.next(selectedLayout);
@@ -158,7 +154,7 @@ export class AlandaTaskTableComponent implements OnInit {
   selectedLayoutChanged$ = this.layoutChange$.pipe(map((event) => event.value));
 
   defaultLayoutChange$ = this.state.select('defaultLayout').pipe(
-    filter((defaultLayout) => !this.state.get('layouts')),
+    filter(() => !isEmpty(this.state.get('layouts'))),
     map((defaultLayout) => this.state.get('layouts')[defaultLayout]),
   );
 
@@ -259,7 +255,6 @@ export class AlandaTaskTableComponent implements OnInit {
     );
 
     this.state.hold(this.needReloadEvent$);
-    this.state.hold(this.tableLazyLoadEvent$);
   }
 
   ngOnInit(): void {
