@@ -11,6 +11,7 @@
         field="label"
         dataKey="value"
         [dropdown]="true"
+        appendTo="body"
         placeHolder="Select"
         (onSelect)="selectPropEvent$.next($event)"
         [disabled]="!s.canWrite"
