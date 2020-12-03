@@ -94,8 +94,7 @@
   "lint-staged": {
     "*": [
       "npm run format:write",
-      "npm run affected:lint",
-      "git add"
+      "npm run affected:lint"
     ]
   }
 }
