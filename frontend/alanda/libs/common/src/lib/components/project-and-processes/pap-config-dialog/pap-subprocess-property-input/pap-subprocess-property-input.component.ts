@@ -23,7 +23,13 @@ export class PapSubprocessPropertyInputComponent implements OnInit {
       propertyName += '_' + this.processGuid;
     }
     this.propertyService
-      .setString(null, null, this.projectGuid, propertyName, property.value)
+      .setString(
+        null,
+        null,
+        this.projectGuid,
+        propertyName,
+        property.value.value,
+      )
       .subscribe();
   }
 
@@ -37,12 +43,16 @@ export class PapSubprocessPropertyInputComponent implements OnInit {
       .get(null, null, this.projectGuid, propertyName)
       .subscribe((response) => {
         if (response.value) {
-          this.property.value = response.value;
+          this.property.value = this.property.values.find(
+            (v) => v.value === response.value,
+          );
           if (this.property.hideIfAlreadySet) {
             this.property.display = false;
           }
         } else {
-          this.property.value = this.property.defaultValue;
+          this.property.value = this.property.values.find(
+            (v) => v.value === this.property.defaultValue,
+          );
         }
       });
   }

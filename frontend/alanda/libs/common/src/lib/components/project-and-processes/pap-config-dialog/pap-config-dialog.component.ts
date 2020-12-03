@@ -31,7 +31,7 @@ interface SubprocessProperty {
 
 export interface SubprocessPropertyValue {
   defaultValue?: string;
-  value?: string;
+  value?: { value: string; displayName: string };
   displayName?: string;
   propertyName?: string;
   typ?: string;
