@@ -1,0 +1,31 @@
+.h3a-task-table {
+  .p-datatable-wrapper {
+    margin: 0 -1rem;
+  }
+
+  .p-datatable-tbody {
+    > tr {
+      > td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &.priority {
+          text-align: center !important;
+          color: white !important;
+        }
+
+        &.priority-high {
+          background-color: red !important;
+        }
+
+        &.priority-medium {
+          background-color: yellow !important;
+        }
+
+        &.priority-low {
+          background-color: green !important;
+        }
+      }
+    }
+  }
+}

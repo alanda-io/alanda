@@ -11,11 +11,12 @@ import {
 import { AlandaFormsControllerComponent } from '@alanda/common';
 import { PermissionsDemoComponent } from './components/permissions-demo/permissions-demo.component';
 import { UserManagementContainerComponent } from './features/usermgmt/user-management-container/user-management-container.component';
-import { AlandaProjectMonitorComponent } from './views/project-monitor/project-monitor.component';
+import { ProjectMonitorComponent } from './features/project-monitor/project-monitor.component';
 import { AlandaTaskListComponent } from './views/task-list/task-list.component';
 import { UserEnrichedProjectsControllerComponent } from './components/projects-controller/user-enriched-projects-controller.component';
 import { ProjectsAndProcessesDemoComponent } from './components/projects-and-processes-demo/projects-and-processes-demo.component';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
+import { TaskListComponent } from './features/task-list/task-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, data: { title: 'Home' } },
@@ -55,12 +56,12 @@ const routes: Routes = [
   },
   {
     path: 'monitor/projects',
-    component: AlandaProjectMonitorComponent,
+    component: ProjectMonitorComponent,
     data: { title: 'Projects' },
   },
   {
     path: 'tasks/list',
-    component: AlandaTaskListComponent,
+    component: TaskListComponent,
     data: { title: 'Tasks' },
   },
   {
