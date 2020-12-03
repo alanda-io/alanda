@@ -170,6 +170,18 @@
       </div>
     </div>
   </form>
+  <div class="p-grid" *ngIf="task.comment?.length">
+    <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
+      <div class="p-field p-grid">
+        <div class="p-col-12 p-lg-5 p-xl-4">
+          <alanda-label label="Work Details"></alanda-label>
+        </div>
+        <div class="p-col-12 p-lg-7 p-xl-7">
+          <span>{{ task.comment }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
   <ng-template alandaProjectPropertiesHost></ng-template>
   <ng-content></ng-content>
 </p-panel>
@@ -221,6 +233,16 @@
           <alanda-label label="Assignee"></alanda-label>
         </div>
         <div class="p-col-6">{{ task.assignee || 'N/A' }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="p-grid" *ngIf="task.comment?.length">
+    <div class="p-col-12">
+      <div class="p-grid">
+        <div class="p-col-6">
+          <alanda-label label="Work Details"></alanda-label>
+        </div>
+        <div class="p-col-6">{{ task.comment }}</div>
       </div>
     </div>
   </div>
