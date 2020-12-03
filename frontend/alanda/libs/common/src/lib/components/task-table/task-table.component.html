@@ -52,7 +52,6 @@
         [rows]="15"
         [lazy]="true"
         [totalRecords]="s.tasksData?.total"
-        (onLazyLoad)="tableLazyLoadEvent$.next($event)"
         [autoLayout]="autoLayout"
         [loading]="s.loading"
         [resizableColumns]="resizableColumns"

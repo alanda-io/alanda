@@ -25,11 +25,13 @@ import {
   exhaustMap,
   filter,
   map,
+  skip,
   startWith,
   switchMap,
   tap,
 } from 'rxjs/operators';
 import { ExportType } from '../../enums/exportType.enum';
+import { isEmpty } from '../../utils/helper-functions';
 
 const DEFAULT_LAYOUT_INIT = 0;
 const EXPORT_FILE_NAME = 'download';
@@ -100,7 +102,6 @@ export class AlandaProjectTableComponent implements OnInit {
 
   dateFormat: string;
   hiddenColumns = {};
-  tableLazyLoadEvent$ = new Subject<LazyLoadEvent>();
   needReloadEvent$ = new Subject();
   setupProjectDetailsModalEvent$ = new Subject<AlandaProject>();
   closeProjectDetailsModalEvent$ = new Subject<AlandaProject>();
@@ -110,14 +111,8 @@ export class AlandaProjectTableComponent implements OnInit {
 
   @ViewChild('tt') turboTable: Table;
 
-  loadProjectFromServer$ = merge(
-    this.tableLazyLoadEvent$,
-    this.needReloadEvent$.pipe(
-      delay(1000),
-      map(() => this.turboTable),
-    ),
-  ).pipe(
-    map((event) => this.buildServerOptions(event)),
+  loadProjectFromServer$ = this.needReloadEvent$.pipe(
+    map(() => this.buildServerOptions(this.turboTable)),
     switchMap((serverOptions) =>
       this.projectService.loadProjects(serverOptions).pipe(
         map((projectsData) => ({
@@ -143,6 +138,7 @@ export class AlandaProjectTableComponent implements OnInit {
     tap((project) => this.selectionChange.next(project)),
   );
   onSelectedLayoutChange$ = this.state.select('selectedLayout').pipe(
+    skip(1),
     map((selectedLayout) => {
       this.needReloadEvent$.next();
       this.layoutChanged.next(selectedLayout);
@@ -154,7 +150,7 @@ export class AlandaProjectTableComponent implements OnInit {
     .pipe(map((selectedLayout) => this.updateMenu(selectedLayout.columnDefs)));
   selectedLayoutChanged$ = this.layoutChange$.pipe(map((event) => event.value));
   defaultLayoutChange$ = this.state.select('defaultLayout').pipe(
-    filter((defaultLayout) => !this.state.get('layouts')),
+    filter(() => !isEmpty(this.state.get('layouts'))),
     map((defaultLayout) => this.state.get('layouts')[defaultLayout]),
   );
   toggleColumn$ = this.onMenuItemColumnClick$.pipe(
@@ -252,7 +248,6 @@ export class AlandaProjectTableComponent implements OnInit {
     );
 
     this.state.hold(this.needReloadEvent$);
-    this.state.hold(this.tableLazyLoadEvent$);
   }
 
   ngOnInit() {
