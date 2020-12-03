@@ -7,6 +7,8 @@ import { AlandaProcessesAndTasks } from '../../api/models/processesAndTasks';
 import { ProjectState } from '../../enums/projectState.enum';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { uuid } from '../../utils/helper-functions';
+import { AccessLevels, Authorizations } from '../../permissions';
+import { AlandaUser } from '../../api/models/user';
 
 const MAX_CHARACTERS_LENGTH = 25;
 
@@ -63,29 +65,29 @@ export interface TreeNodeData {
 export class AlandaProjectAndProcessesService {
   constructor(private readonly projectService: AlandaProjectApiService) {}
 
-  mapProjectsToTreeNode(project: AlandaProject): TreeNode[] {
+  mapProjectsToTreeNode(project: AlandaProject, user: AlandaUser): TreeNode[] {
     const data: TreeNode[] = [];
     if (project.parents) {
       data.push({
         data: { label: `Parent Projects (${project.parents.length})` },
         children: project.parents
           .map((parent) => Object.assign({}, parent, { processes: null }))
-          .map((parent) => this.mapProjectToTreeNode(parent)),
+          .map((parent) => this.mapProjectToTreeNode(parent, user)),
       });
     }
-    data.push(this.mapProjectToTreeNode(project));
+    data.push(this.mapProjectToTreeNode(project, user));
     if (project.children) {
       data.push({
         data: { label: `Child Projects (${project.children.length})` },
         children: project.children.map((child) =>
-          this.mapProjectToTreeNode(child),
+          this.mapProjectToTreeNode(child, user),
         ),
       });
     }
     return data;
   }
 
-  mapProjectToTreeNode(project: AlandaProject): TreeNode {
+  mapProjectToTreeNode(project: AlandaProject, user: AlandaUser): TreeNode {
     const projectTitle = project.title?.length ? ` / ${project.title}` : '';
     let label = `${project.projectId} (${
       project.subtype ? project.subtype : project.pmcProjectType.name
@@ -133,7 +135,7 @@ export class AlandaProjectAndProcessesService {
             processDefsToHide,
           )
         ) {
-          children.push(this.mapProcessToTreeNode(process, project));
+          children.push(this.mapProcessToTreeNode(process, project, user));
         }
       }
     });
@@ -148,19 +150,19 @@ export class AlandaProjectAndProcessesService {
   mapProcessToTreeNode(
     process: AlandaProcess,
     relatedProject: AlandaProject,
+    user: AlandaUser,
   ): TreeNode {
-    const papActions: PapActions[] =
-      process.status === ProjectState.NEW
-        ? ['REMOVE-SUBPROCESS']
-        : ['CANCEL-PROCESS'];
+    const papActions: PapActions[] = [];
+    if (this.showRemoveSubProcessButton(process, relatedProject, user)) {
+      papActions.push('REMOVE-SUBPROCESS');
+    }
+    if (this.showCancelSubProcessButton(process, relatedProject, user)) {
+      papActions.push('CANCEL-PROCESS');
+    }
     if (this.showSubprocessConfigButton(process, relatedProject)) {
       papActions.push('CONFIGURE-PROCESS');
     }
-    // checks if the phase of the process is active
-    if (
-      relatedProject?.phases?.find((p) => p.idName === process.phase)
-        ?.active === true
-    ) {
+    if (this.showStartSubProcessButton(process, relatedProject, user)) {
       papActions.push('START-SUBPROCESS');
     }
 
@@ -198,6 +200,91 @@ export class AlandaProjectAndProcessesService {
         ? process.tasks.map((task) => this.mapTaskToTreeNode(task))
         : null,
     };
+  }
+
+  private showStartSubProcessButton(
+    process: AlandaProcess,
+    relatedProject: AlandaProject,
+    user: AlandaUser,
+  ): boolean {
+    const isStateNew = process.status === ProjectState.NEW;
+    const noPhaseOrActivePhase =
+      !process.phase ||
+      process.phase === 'default' ||
+      relatedProject?.phases?.find((p) => p.idName === process.phase)
+        ?.active === true;
+    return (
+      isStateNew &&
+      noPhaseOrActivePhase &&
+      this.hasProcessPermission(
+        process.phase,
+        process.processKey,
+        relatedProject.authBase,
+        user,
+        AccessLevels.start,
+      )
+    );
+  }
+
+  private showCancelSubProcessButton(
+    process: AlandaProcess,
+    relatedProject: AlandaProject,
+    user: AlandaUser,
+  ): boolean {
+    const isStateActive = process.status === ProjectState.ACTIVE;
+    const noPhaseOrActivePhase =
+      !process.phase ||
+      process.phase === 'default' ||
+      relatedProject?.phases?.find((p) => p.idName === process.phase)
+        ?.active === true;
+    return (
+      isStateActive &&
+      noPhaseOrActivePhase &&
+      this.hasProcessPermission(
+        process.phase,
+        process.processKey,
+        relatedProject.authBase,
+        user,
+        AccessLevels.start,
+      )
+    );
+  }
+
+  private showRemoveSubProcessButton(
+    process: AlandaProcess,
+    relatedProject: AlandaProject,
+    user: AlandaUser,
+  ): boolean {
+    const isStateNew = process.status === ProjectState.NEW;
+    return (
+      isStateNew &&
+      this.hasProcessPermission(
+        process.phase,
+        process.processKey,
+        relatedProject.authBase,
+        user,
+        AccessLevels.create,
+      )
+    );
+  }
+
+  private hasProcessPermission(
+    phase: string,
+    processKey: string,
+    projectAuthBase: string,
+    user: AlandaUser,
+    accessLevel: string,
+  ): boolean {
+    // authBase contains all active phases of the project, reduce it to process related phase
+    if (phase) {
+      const re = /(#\{permissions\}:[A-Za-z0-9_,-]*:)([A-Za-z0-9_,-]*)(:.*)/;
+      const result = projectAuthBase.match(re);
+      if (result.length >= 3 && result[2].indexOf(phase) > -1) {
+        projectAuthBase = projectAuthBase.replace(re, '$1' + phase + '$3');
+      }
+    }
+    const perm = `proc:${projectAuthBase}:${processKey}`;
+    return Authorizations.hasPermission(user, perm, accessLevel);
   }
 
   mapTaskToTreeNode(task: AlandaTask): TreeNode {
@@ -270,6 +357,8 @@ export class AlandaProjectAndProcessesService {
 
   getProcessesAndTasksForProject(
     processesAndTasks: AlandaProcessesAndTasks,
+    project: AlandaProject,
+    user: AlandaUser,
   ): any {
     const result: MappedProcessesAndTasks = {
       data: processesAndTasks,
@@ -284,12 +373,22 @@ export class AlandaProjectAndProcessesService {
     });
     for (const processDef of allowedProcesses) {
       processNameToPhaseMap[processDef.processDefinitionKey] = 'default';
-      result.allowed.push({
-        keyWithoutPhase: processDef.processDefinitionKey,
-        processKey: processDef.processDefinitionKey,
-        label: processDef.processName,
-        phase: processNameToPhaseMap[processDef.processDefinitionKey],
-      });
+      if (
+        this.hasProcessPermission(
+          null,
+          processDef.processDefinitionKey,
+          project.authBase,
+          user,
+          AccessLevels.create,
+        )
+      ) {
+        result.allowed.push({
+          keyWithoutPhase: processDef.processDefinitionKey,
+          processKey: processDef.processDefinitionKey,
+          label: processDef.processName,
+          phase: processNameToPhaseMap[processDef.processDefinitionKey],
+        });
+      }
     }
     for (let [phaseName, processes] of Object.entries(
       processesAndTasks.allowed,
@@ -299,13 +398,24 @@ export class AlandaProjectAndProcessesService {
           return itemA.processName.localeCompare(itemB.processName);
         });
         for (const processDef of processes) {
-          processNameToPhaseMap[processDef.processDefinitionKey] = phaseName;
-          result.allowed.push({
-            keyWithoutPhase: processDef.processDefinitionKey,
-            processKey: `${phaseName}:${processDef.processDefinitionKey}`,
-            label: processDef.processName + ' (' + phaseNames[phaseName] + ')',
-            phase: phaseName,
-          });
+          if (
+            this.hasProcessPermission(
+              phaseName,
+              processDef.processDefinitionKey,
+              project.authBase,
+              user,
+              AccessLevels.create,
+            )
+          ) {
+            processNameToPhaseMap[processDef.processDefinitionKey] = phaseName;
+            result.allowed.push({
+              keyWithoutPhase: processDef.processDefinitionKey,
+              processKey: `${phaseName}:${processDef.processDefinitionKey}`,
+              label:
+                processDef.processName + ' (' + phaseNames[phaseName] + ')',
+              phase: phaseName,
+            });
+          }
         }
       }
     }
