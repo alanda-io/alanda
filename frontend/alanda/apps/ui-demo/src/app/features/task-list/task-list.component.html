@@ -1,0 +1,21 @@
+<ng-container *ngIf="state$ | async as s">
+  <div class="p-grid">
+    <div class="p-col-12">
+      <p-panel header="Tasks">
+        <alanda-task-table
+          class="h3a-task-table"
+          [defaultLayout]="s.defaultLayout || 0"
+          [groupTasks]="s.groupTasks || false"
+          [layouts]="s.layouts"
+          [user]="user$"
+          (layoutChanged)="layoutChangedEvent$.next($event)"
+          alandaContextProvider
+          [saveEntry]="s.contextEntry"
+          [listenTo]="[layoutKey]"
+          (entriesAvailable)="contextDataAvailableEvent$.next($event)"
+          [target]="'_blank'"
+        ></alanda-task-table>
+      </p-panel>
+    </div>
+  </div>
+</ng-container>

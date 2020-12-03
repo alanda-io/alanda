@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { PanelModule } from 'primeng/panel';
 import { MessageModule } from 'primeng/message';
 import { CalendarModule } from 'primeng/calendar';
+import { ContextDirective } from '../context/context.directive';
 
 @NgModule({
   imports: [
@@ -31,8 +32,9 @@ import { CalendarModule } from 'primeng/calendar';
     ReactiveFormsModule,
     PanelModule,
     CalendarModule,
+    ContextDirective,
   ],
-  declarations: [],
+  declarations: [ContextDirective],
 })
 export class SharedModule {
   constructor() {}

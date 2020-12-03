@@ -3,6 +3,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
+import { TaskListModule } from './features/task-list/task-list.module';
+import { ProjectMonitorModule } from './features/project-monitor/project-monitor.module';
 
 /**
  * Add here your alanda-common components to test them independently from
@@ -68,6 +70,8 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     TemplateModule,
     DropdownModule,
     TabViewModule,
+    TaskListModule,
+    ProjectMonitorModule,
   ],
   providers: [
     { provide: APP_CONFIG, useValue: CURRENT_CONFIG },
