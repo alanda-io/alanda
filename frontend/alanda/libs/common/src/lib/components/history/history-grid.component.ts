@@ -1,7 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { AlandaHistoryApiService } from '../../api/historyApi.service';
 import { combineLatest, EMPTY, Subject } from 'rxjs';
-import { catchError, distinctUntilChanged, map, startWith, switchMap, filter } from 'rxjs/operators';
+import {
+  catchError,
+  distinctUntilChanged,
+  map,
+  startWith,
+  switchMap,
+  filter,
+} from 'rxjs/operators';
 import { RxState } from '@rx-angular/state';
 
 interface HistoryGridComponentState {
@@ -9,14 +16,14 @@ interface HistoryGridComponentState {
   loadingInProgress: boolean;
   data: any[];
   totalItems: number;
-  serverOptions : {
-    pageNumber: number,
-    pageSize: number,
-    filterOptions: {},
-    sortOptions: {},
-  },
-  columnDefs: any[],
-};
+  serverOptions: {
+    pageNumber: number;
+    pageSize: number;
+    filterOptions: {};
+    sortOptions: {};
+  };
+  columnDefs: any[];
+}
 const columnDefs = [
   { displayName: 'Project ID', name: 'Project ID', field: 'projectId' },
   {
@@ -52,24 +59,22 @@ export class AlandaHistoryGridComponent {
   }
 
   updateServerOptions$ = this.state.select('projectGuid').pipe(
-    filter( (projectGuid) => projectGuid != null),
+    filter((projectGuid) => projectGuid != null),
     distinctUntilChanged(),
-    map((projectGuid) => (
-      {
-        pageNumber: 1,
-          pageSize: 20,
-          filterOptions: {
-            'pmcProjectGuid' : projectGuid,
-          },
-          sortOptions: {},
-      }
-    ),
-  ));
+    map((projectGuid) => ({
+      pageNumber: 1,
+      pageSize: 20,
+      filterOptions: {
+        pmcProjectGuid: projectGuid,
+      },
+      sortOptions: {},
+    })),
+  );
 
   loadLazy$ = combineLatest([
-    this.state.select('serverOptions').pipe(
-      filter( (serverOptions) => serverOptions != null)
-    ),
+    this.state
+      .select('serverOptions')
+      .pipe(filter((serverOptions) => serverOptions != null)),
     this.onLazyLoadEvent$,
   ]).pipe(
     switchMap(([{ filterOptions, pageNumber, pageSize }, _]) => {
