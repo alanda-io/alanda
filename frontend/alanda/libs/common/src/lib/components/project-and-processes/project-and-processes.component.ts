@@ -36,6 +36,7 @@ import { AlandaProcess } from '../../api/models/process';
 import { PapReasonDialogComponent } from './pap-reason-dialog/pap-reason-dialog.component';
 import { ProcessRelation } from '../../enums/processRelation.enum';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
+import { AlandaUser } from '../../api/models/user';
 
 @Component({
   selector: 'alanda-project-and-processes',
@@ -46,6 +47,7 @@ import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   @Input() project: AlandaProject;
   @Input() filterOptions: any = {};
+  @Input() user: AlandaUser;
   @Output() changed: EventEmitter<void> = new EventEmitter();
   data: TreeNode[] = [];
   loading: boolean;
@@ -121,7 +123,9 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
       .getProjectByGuid(this.project.guid, true)
       .pipe(
         switchMap((project) => this.getProjectWithProcessesAndTasks(project)),
-        map((project) => this.papService.mapProjectsToTreeNode(project)),
+        map((project) =>
+          this.papService.mapProjectsToTreeNode(project, this.user),
+        ),
         finalize(() => (this.loading = false)),
       )
       .subscribe((result) => {
@@ -434,7 +438,9 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.getProjectWithProcessesAndTasks(data.project)
         .pipe(
-          map((project) => this.papService.mapProjectToTreeNode(project)),
+          map((project) =>
+            this.papService.mapProjectToTreeNode(project, this.user),
+          ),
           finalize(() => (this.loading = false)),
         )
         .subscribe((tree) => {
@@ -487,7 +493,11 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
       .getProcessesAndTasksForProject(project.guid)
       .pipe(
         map((result) => {
-          const mapped = this.papService.getProcessesAndTasksForProject(result);
+          const mapped = this.papService.getProcessesAndTasksForProject(
+            result,
+            project,
+            this.user,
+          );
           project.processes = result.active;
           this.allowedProcesses[project.guid] = mapped.allowed;
           return project;
