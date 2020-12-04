@@ -15,8 +15,8 @@
   <div class="p-dialog-footer">
     <button
       pButton
-      label="Cancel"
-      icon="pi pi-times"
+      [label]="startProcess ? 'Cancel' : 'Ok'"
+      [icon]="startProcess ? 'pi pi-times' : 'pi pi-check'"
       class="p-button-text"
       (click)="dynamicDialogRef.close(false)"
     ></button>
