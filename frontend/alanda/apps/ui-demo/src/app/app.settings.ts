@@ -1,7 +1,7 @@
 import { AppSettings } from '@alanda/common';
 
 export const ALANDA_CONFIG: AppSettings = {
-  API_ENDPOINT: '/drei-bpm-rest/app',
+  API_ENDPOINT: '/alanda-rest/app',
   DATE_FORMAT: 'yyyy-MM-dd',
   LOCALE_PRIME: {
     firstDayOfWeek: 1,
