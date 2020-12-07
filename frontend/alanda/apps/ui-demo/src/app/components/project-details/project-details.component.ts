@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { AlandaProject, AlandaUser } from '@alanda/common';
 import { RxState } from '@rx-angular/state';
-import { ProjectControllerState } from '@alanda/common';
 import { AlandaTitleService } from '@alanda/common';
 import { UserEnrichedProjectControllerState } from '../projects-controller/user-enriched-projects-controller.component';
 

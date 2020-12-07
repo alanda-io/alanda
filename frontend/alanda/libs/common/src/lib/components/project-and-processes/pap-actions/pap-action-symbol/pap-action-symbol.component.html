@@ -2,6 +2,7 @@
   <button
     *ngSwitchCase="'OPTIONS'"
     pButton
+    type="button"
     icon="pi pi-cog"
     class="p-button-text p-button-rounded p-button-info"
     (click)="clicked.emit($event)"
@@ -9,6 +10,7 @@
   <button
     *ngSwitchCase="'CANCEL'"
     pButton
+    type="button"
     icon="pi pi-pause"
     class="p-button-text p-button-rounded p-button-danger"
     (click)="clicked.emit($event)"
@@ -16,6 +18,7 @@
   <button
     *ngSwitchCase="'REMOVE'"
     pButton
+    type="button"
     icon="pi pi-window-minimize"
     class="p-button-text p-button-rounded p-button-danger"
     (click)="clicked.emit($event)"
@@ -23,6 +26,7 @@
   <button
     *ngSwitchCase="'START'"
     pButton
+    type="button"
     icon="pi pi-play"
     class="p-button-text p-button-rounded p-button-success"
     (click)="clicked.emit($event)"
@@ -30,6 +34,7 @@
   <button
     *ngSwitchCase="'INFO'"
     pButton
+    type="button"
     icon="pi pi-info-circle"
     class="p-button-text p-button-rounded p-button-danger"
     (click)="clicked.emit($event)"
@@ -39,6 +44,7 @@
   <button
     *ngSwitchCase="'OPTIONS'"
     pButton
+    type="button"
     icon="pi pi-cog"
     class="p-button-text p-button-rounded"
     [disabled]="true"
@@ -46,6 +52,7 @@
   <button
     *ngSwitchCase="'CANCEL'"
     pButton
+    type="button"
     icon="pi pi-pause"
     class="p-button-text p-button-rounded"
     [disabled]="true"
@@ -60,6 +67,7 @@
   <button
     *ngSwitchCase="'START'"
     pButton
+    type="button"
     icon="pi pi-play"
     class="p-button-text p-button-rounded"
     [disabled]="true"
@@ -67,6 +75,7 @@
   <button
     *ngSwitchCase="'INFO'"
     pButton
+    type="button"
     icon="pi pi-info-circle"
     class="p-button-text p-button-rounded"
     (click)="clicked.emit($event)"

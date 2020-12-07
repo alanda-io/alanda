@@ -1,5 +1,9 @@
 <ng-container *ngIf="state.select() | async as s">
-  <p-tabView [activeIndex]="activeTab" styleClass="form-root-tabs">
+  <p-tabView
+    *ngIf="s.project"
+    [activeIndex]="activeTab"
+    styleClass="form-root-tabs"
+  >
     <p-tabPanel header="Project Overview" leftIcon="pi pi-bookmark">
       <ng-template pTemplate="content">
         <router-outlet></router-outlet>
