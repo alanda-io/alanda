@@ -75,6 +75,7 @@ export class AlandaTaskTableComponent implements OnInit {
   state$ = this.state.select();
   menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
   closeProjectDetailsModalEvent$ = new Subject<AlandaProject>();
+  lazyLoadEvent$ = new Subject();
   needReloadEvent$ = new Subject();
   setupProjectDetailsModalEvent$ = new Subject<AlandaProject>();
   menuBarVisible = false;
@@ -120,8 +121,11 @@ export class AlandaTaskTableComponent implements OnInit {
    *
    * @returns data { tasksData: AlandaListResult<AlandaTask>, working: boolean }
    */
-  loadTaskFromServer$ = this.needReloadEvent$.pipe(
-    map(() => this.buildServerOptions(this.turboTable)),
+  loadTaskFromServer$ = merge(
+    this.lazyLoadEvent$,
+    this.needReloadEvent$.pipe(map(() => this.turboTable)),
+  ).pipe(
+    map((event) => this.buildServerOptions(event)),
     switchMap((serverOptions) =>
       this.taskService.loadTasks(serverOptions).pipe(
         map((tasks) => this.mapClaimLabels(tasks)),
@@ -255,6 +259,7 @@ export class AlandaTaskTableComponent implements OnInit {
     );
 
     this.state.hold(this.needReloadEvent$);
+    this.state.hold(this.lazyLoadEvent$);
   }
 
   ngOnInit(): void {

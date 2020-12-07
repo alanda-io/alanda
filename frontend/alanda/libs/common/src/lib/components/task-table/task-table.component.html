@@ -57,6 +57,7 @@
         [resizableColumns]="resizableColumns"
         [responsive]="responsive"
         [tableStyle]="tableStyle"
+        (onLazyLoad)="lazyLoadEvent$.next($event)"
       >
         <ng-template pTemplate="header" let-columns>
           <tr>

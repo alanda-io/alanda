@@ -44,6 +44,7 @@
         [tableStyle]="tableStyle"
         [selectionMode]="s.selectionMode"
         [(selection)]="selection"
+        (onLazyLoad)="lazyLoadEvent$.next($event)"
       >
         <ng-template pTemplate="header" let-columns>
           <tr>
