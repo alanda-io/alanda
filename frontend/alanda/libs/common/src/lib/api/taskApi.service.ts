@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { APP_CONFIG, AppSettings } from '../models/appSettings';
 import { Observable } from 'rxjs';
 import { AlandaTask } from './models/task';
@@ -77,8 +77,9 @@ export class AlandaTaskApiService extends AlandaExceptionHandlingService {
   }
 
   updateDueDateOfTask(taskId: string, dueDate: string): Observable<void> {
+    const headers = new HttpHeaders().set('content-type', 'application/json');
     return this.http
-      .put<void>(this.endpointUrl + `/${taskId}/dueDate`, dueDate)
+      .put<void>(this.endpointUrl + `/${taskId}/dueDate`, dueDate, { headers })
       .pipe(catchError(this.handleError<void>('updateDueDateOfTask')));
   }
 
