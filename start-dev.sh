@@ -1,13 +1,14 @@
 #!/bin/bash
 
 echo -e '\e[1m>> Stating docker images\e[0m \n'
-cd ./backend/alanda-development/src/test/resources/ || { echo -e '\e[31mPath does not exist!\e[0m'; exit 1; }
+cd ./backend/alanda-development/src/test/resources/docker-oracle/ || { echo -e '\e[31mPath does not exist!\e[0m'; exit 1; }
 docker-compose down
 docker-compose up -d
-cd ./docker-oracle/ || { echo -e '\e[31mPath does not exist!\e[0m'; exit 1; }
+sleep 10
+cd ../ || { echo -e '\e[31mPath does not exist!\e[0m'; exit 1; }
 docker-compose down
 docker-compose up -d
-cd ../../../../../../
+cd ../../../../../
 
 echo -e '\n---------------------------------------------\n'
 
