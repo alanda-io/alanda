@@ -53,6 +53,10 @@ export class PapSubprocessPropertyInputComponent implements OnInit {
           this.property.value = this.property.values.find(
             (v) => v.value === this.property.defaultValue,
           );
+          if (this.property.value != null) {
+            // save the default value to the backend
+            this.saveProperty(this.property);
+          }
         }
       });
   }

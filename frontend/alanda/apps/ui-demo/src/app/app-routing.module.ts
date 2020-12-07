@@ -88,6 +88,10 @@ const routes: Routes = [
             (m) => m.VacationModule,
           ),
       },
+      {
+        path: '**',
+        component: ProjectDetailsComponent,
+      },
     ],
   },
   {
