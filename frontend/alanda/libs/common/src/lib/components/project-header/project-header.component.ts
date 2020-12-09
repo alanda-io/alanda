@@ -157,7 +157,9 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
             ...this.project,
             priority: change.priority,
             tag: change.tag,
-            dueDate: convertUTCDate(new Date(change.dueDate)),
+            dueDate: change.dueDate
+              ? convertUTCDate(new Date(change.dueDate))
+              : null,
             title: change.title,
             comment: change.comment,
           };
@@ -231,10 +233,10 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     }
     if (this.task) {
       this.projectHeaderForm.patchValue(
-        { taskDueDate: new Date(this.task.due) },
+        { taskDueDate: this.task.due ? new Date(this.task.due) : null },
         { emitEvent: false },
       );
-      this.taskDueDate = new Date(this.task.due);
+      this.taskDueDate = this.task.due ? new Date(this.task.due) : null;
     }
   }
 
