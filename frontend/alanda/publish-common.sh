@@ -49,6 +49,6 @@ npm login --registry=https://repo.alanda.io/repository/alanda/ || {
   exit 1;
 }
 npm publish
-git commit -m "ci(publish): Release new version ${CURRENT_PACKAGE_VERSION}"
+git commit -m "ci(publish): Release new version ${VERSION_UPGRADE}"
 git push
 echo 'Done!'
