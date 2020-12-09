@@ -107,6 +107,10 @@ export class AlandaCommentsAdapter extends RxState<AlandaCommentAdapterState> {
     if (comment.taskName !== '' && comment.taskName !== null) {
       comment.tagList.push({ name: comment.taskName, type: 'task' });
     }
+    // Add process name to tag list
+    if (comment.processName !== '' && comment.processName !== null) {
+      comment.tagList.push({ name: comment.processName, type: 'process' });
+    }
     // Extract hashtags out of subject
     if (comment.subject?.includes('#')) {
       comment.subject.match(/#\w+/g).forEach((value: string) => {
