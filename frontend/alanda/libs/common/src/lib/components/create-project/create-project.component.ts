@@ -9,7 +9,6 @@ import {
   catchError,
   concatMap,
   debounceTime,
-  map,
   mergeMap,
   switchMap,
   tap,
@@ -43,6 +42,7 @@ export class AlandaCreateProjectComponent implements OnInit {
   formGroup: FormGroup;
   isLoading = false;
   locale: LocaleSettings;
+  dateFormat: string;
 
   state$ = this.state.select();
   searchRefObjectEvent$ = new Subject<string>();
@@ -70,6 +70,7 @@ export class AlandaCreateProjectComponent implements OnInit {
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
     this.locale = config.LOCALE_PRIME;
+    this.dateFormat = config.DATE_FORMAT;
     this.state.set({ refObjectList: [] });
     this.state.connect('refObjectList', this.searchRefObjects$);
     // this.state.hold(this.searchRefObjectEvent$);
@@ -127,11 +128,11 @@ export class AlandaCreateProjectComponent implements OnInit {
   public onSubmit(): void {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
-      this.project.dueDate = formatDate(
-        this.formGroup.get('projectDueDate').value,
-        'yyyy-MM-dd',
-        'en',
-      );
+      let projectDueDate = this.formGroup.get('projectDueDate').value;
+      if (projectDueDate) {
+        projectDueDate = formatDate(projectDueDate, this.dateFormat, 'en');
+      }
+      this.project.dueDate = projectDueDate;
       this.project.title = this.formGroup.get('projectTitle').value;
       this.project.priority = this.formGroup.get('prio').value.value;
       this.project.properties = [];
