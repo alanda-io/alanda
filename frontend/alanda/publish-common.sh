@@ -32,6 +32,13 @@ if [ -z "${1}" ]; then VERSION_UPGRADE=$"patch"; fi
 
 echo 'Updating package version:'
 npm version ${VERSION_UPGRADE}
+NEW_PACKAGE_VERSION=$(cat package.json \
+  | grep version \
+  | head -1 \
+  | awk -F: '{ print $2 }' \
+  | sed 's/[",]//g' \
+  | tr -d '[[:space:]]')
+
 cd ../../
 rm -r -f dist/libs/common
 npm run nx run common:build:production || {
@@ -49,6 +56,8 @@ npm login --registry=https://repo.alanda.io/repository/alanda/ || {
   exit 1;
 }
 npm publish
-git commit -m "ci(publish): Release new version ${VERSION_UPGRADE}"
+
+git commit -m "ci(publish): Release new version ${NEW_PACKAGE_VERSION}"
 git push
+
 echo 'Done!'
