@@ -155,7 +155,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
         map((change) => {
           return {
             ...this.project,
-            priority: change.priority,
+            priority: change.priority.value,
             tag: change.tag,
             dueDate: change.dueDate
               ? convertUTCDate(new Date(change.dueDate))
