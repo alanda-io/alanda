@@ -8,6 +8,16 @@ if [ "$CURRENT_BRANCH_NAME" != 'master' ]; then
   exit 1;
 fi
 
+if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
+  echo -e '\e[31mThere are changes, please commit before you start publishing!\e[0m';
+  exit 1;
+fi
+
+if [ -n "$(git status -uno)" ]; then
+  echo -e '\e[31mYour local branch is not up to date with origin master\e[0m';
+  exit 1;
+fi
+
 cd ./libs/common/ || { echo -e '\e[31mPath does not exist!\e[0m'; exit 1; }
 
 CURRENT_PACKAGE_VERSION=$(cat package.json \
@@ -39,4 +49,6 @@ npm login --registry=https://repo.alanda.io/repository/alanda/ || {
   exit 1;
 }
 npm publish
+git commit -m "ci(publish): Release new version ${CURRENT_PACKAGE_VERSION}"
+git push
 echo 'Done!'
