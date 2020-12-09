@@ -13,9 +13,12 @@ if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
   exit 1;
 fi
 
-if [ -n "$(git status -uno)" ]; then
-  echo -e '\e[31mYour local branch is not up to date with origin master\e[0m';
-  exit 1;
+git fetch
+HEAD_HASH=$(git rev-parse HEAD)
+UPSTREAM_HASH=$(git rev-parse master@{upstream})
+if [ "$HEAD_HASH" != "$UPSTREAM_HASH" ]; then
+ echo -e '\e[31mYour local branch is not up to date with origin master\e[0m';
+ exit 1;
 fi
 
 cd ./libs/common/ || { echo -e '\e[31mPath does not exist!\e[0m'; exit 1; }
