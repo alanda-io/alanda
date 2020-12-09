@@ -60,6 +60,8 @@ npm login --registry=https://repo.alanda.io/repository/alanda/ || {
 }
 npm publish
 
+git add ./libs/common/package.json
+git add ./libs/common/package-lock.json
 git commit -m "ci(publish): Release new version ${NEW_PACKAGE_VERSION}"
 git push
 
