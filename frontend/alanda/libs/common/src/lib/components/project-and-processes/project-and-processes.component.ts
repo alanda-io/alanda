@@ -83,6 +83,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
           if (value.data.guid) {
             return this.justSaveSubprocess(value.project, value.process).pipe(
               finalize(() => (this.loading = false)),
+              tap(() => this.loadNode(value.parent)),
             );
           }
           return this.startSubprocess(value).pipe(
@@ -434,7 +435,6 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     project: AlandaProject,
     process: AlandaProcess,
   ): Observable<AlandaProcess> {
-    console.log(project, process);
     return this.projectService.saveProjectProcess(project.guid, process);
   }
 
