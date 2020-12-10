@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { AlandaSimplePhase } from '../../api/models/simplePhase';
 import { AlandaProject } from '../../api/models/project';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { concatMap, filter, map, take, tap } from 'rxjs/operators';
 import { RxState } from '@rx-angular/state';
 import { AlandaUser } from '../../api/models/user';
 import { Subject } from 'rxjs';
@@ -130,6 +130,7 @@ export class AlandaPhaseTabComponent {
   constructor(
     private state: RxState<AlandaPhaseTabState>,
     private readonly projectApiService: AlandaProjectApiService,
+    private messageService: MessageService,
   ) {
     this.state.connect(this.simplePhases$);
     this.state.connect('activePhase', this.phaseChange$);
@@ -213,9 +214,30 @@ export class AlandaPhaseTabComponent {
 
     this.projectApiService
       .restartPhase(projectGuid, phaseDefIdName)
-      .subscribe((response: AlandaSimplePhase) => {
-        this.updatePhasesInState(response);
-      });
+      .pipe(
+        concatMap(() => {
+          return this.projectApiService.getPhase(projectGuid, phaseDefIdName);
+        }),
+      )
+      .subscribe(
+        (response: AlandaSimplePhase) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Phase restarted',
+            detail: `The phase has been successfully restarted!`,
+          });
+          this.updatePhasesInState(response);
+        },
+        (error) => {
+          this.messageService.add({
+            key: 'center',
+            severity: 'error',
+            summary: 'Phase restart failed',
+            detail: `The phase could not be restarted: ${error.message}`,
+            sticky: true,
+          });
+        },
+      );
   }
 
   startPhase(phase: AlandaSimplePhase) {
@@ -224,9 +246,30 @@ export class AlandaPhaseTabComponent {
 
     this.projectApiService
       .startPhase(projectGuid, phaseDefIdName)
-      .subscribe((response: AlandaSimplePhase) => {
-        this.updatePhasesInState(response);
-      });
+      .pipe(
+        concatMap(() => {
+          return this.projectApiService.getPhase(projectGuid, phaseDefIdName);
+        }),
+      )
+      .subscribe(
+        (response: AlandaSimplePhase) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Task completed',
+            detail: `The phase has been successfully started!`,
+          });
+          this.updatePhasesInState(response);
+        },
+        (error) => {
+          this.messageService.add({
+            key: 'center',
+            severity: 'error',
+            summary: 'Phase start failed',
+            detail: `The phase could not be started: ${error.message}`,
+            sticky: true,
+          });
+        },
+      );
   }
 
   hasAuth(phase: AlandaSimplePhase, accessLevel: string): boolean {
