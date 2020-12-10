@@ -80,7 +80,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
       .pipe(
         tap(() => (this.loading = true)),
         exhaustMap((data) => {
-          if (data.project.guid && data.process.guid) {
+          if (data.project?.guid && data.process?.guid) {
             return this.justSaveSubprocess(data.project, data.process).pipe(
               finalize(() => (this.loading = false)),
             );
