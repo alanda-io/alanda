@@ -45,8 +45,8 @@ export class AlandaAttachmentsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (!this.mappings || this.mappings.length === 0) {
-      this.mappings = 'AcquiDoc,SI,SA';
+    if (!this.mappings) {
+      this.mappings = [];
     }
 
     if (Array.isArray(this.mappings) && this.mappings.length) {
