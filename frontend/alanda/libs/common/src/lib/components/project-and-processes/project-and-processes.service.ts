@@ -43,6 +43,7 @@ export type PapActions =
 
 export interface TreeNodeData {
   id?: string;
+  guid?: number;
   label?: string;
   refObject?: string;
   assignee?: string;
@@ -169,6 +170,7 @@ export class AlandaProjectAndProcessesService {
     const id = uuid();
     const data: TreeNodeData = {
       id,
+      guid: process.guid,
       label: process.label,
       refObject:
         process.businessObject !== relatedProject.refObjectIdName

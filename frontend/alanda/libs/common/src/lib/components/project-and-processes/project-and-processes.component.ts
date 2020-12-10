@@ -79,15 +79,15 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     this.subprocessSelect$
       .pipe(
         tap(() => (this.loading = true)),
-        exhaustMap((data) => {
-          if (data.project?.guid && data.process?.guid) {
-            return this.justSaveSubprocess(data.project, data.process).pipe(
+        exhaustMap((value) => {
+          if (value.data.guid) {
+            return this.justSaveSubprocess(value.project, value.process).pipe(
               finalize(() => (this.loading = false)),
             );
           }
-          return this.startSubprocess(data).pipe(
+          return this.startSubprocess(value).pipe(
             finalize(() => (this.loading = false)),
-            tap(() => this.loadNode(data.parent)),
+            tap(() => this.loadNode(value.parent)),
           );
         }),
       )
@@ -434,6 +434,7 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     project: AlandaProject,
     process: AlandaProcess,
   ): Observable<AlandaProcess> {
+    console.log(project, process);
     return this.projectService.saveProjectProcess(project.guid, process);
   }
 
@@ -514,5 +515,24 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
     this.subprocessSelect$.unsubscribe();
     this.updateDetails$.unsubscribe();
     this.refObjectSelect$.unsubscribe();
+  }
+
+  createSubprocess(event, rowData, rowNode): void {
+    this.subprocessSelect$.next({
+      data: rowData,
+      parent: rowNode.parent,
+      project: rowNode.parent.data.project,
+      process: rowData.process,
+    });
+  }
+
+  updateSubprocess(event, rowData, rowNode): void {
+    const process = Object.assign({}, rowData.process, event.value);
+    this.subprocessSelect$.next({
+      data: rowData,
+      parent: rowNode.parent,
+      project: rowNode.parent.data.project,
+      process: process,
+    });
   }
 }
