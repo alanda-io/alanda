@@ -83,13 +83,26 @@
 <ng-template #newProcessNode let-rowData="rowData" let-rowNode="rowNode">
   <td class="col-process-dropdown">
     <p-dropdown
+      *ngIf="rowData.process"
+      [disabled]="rowData.readOnly || loading"
+      styleClass="pap-input"
+      [options]="allowedProcesses[rowNode.parent.data.project.guid]"
+      [ngModel]="rowData.process"
+      (onChange)="updateSubprocess($event, rowData, rowNode)"
+      placeholder="-- Select Process --"
+      dataKey="processKey"
+      appendTo="body"
+      optionLabel="label"
+    >
+    </p-dropdown>
+
+    <p-dropdown
+      *ngIf="!rowData.process"
       [disabled]="rowData.readOnly || loading"
       styleClass="pap-input"
       [options]="allowedProcesses[rowNode.parent.data.project.guid]"
       [(ngModel)]="rowData.process"
-      (onChange)="
-        subprocessSelect$.next({ data: rowData, parent: rowNode.parent })
-      "
+      (onChange)="createSubprocess($event, rowData, rowNode)"
       placeholder="-- Select Process --"
       dataKey="processKey"
       appendTo="body"
