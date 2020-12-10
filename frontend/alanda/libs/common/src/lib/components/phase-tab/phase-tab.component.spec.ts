@@ -6,6 +6,7 @@ import { AlandaProjectApiService, APP_CONFIG } from '../../..';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { TooltipModule } from 'primeng/tooltip';
 import { TabViewModule } from 'primeng/tabview';
+import { MessageService } from 'primeng/api';
 
 const appConfig = {
   API_ENDPOINT: '/test-api',
@@ -25,6 +26,7 @@ describe('AlandaPhaseTabComponent', () => {
           AlandaProjectApiService,
           HttpClient,
           HttpHandler,
+          MessageService,
           {
             provide: APP_CONFIG,
             useValue: appConfig,
