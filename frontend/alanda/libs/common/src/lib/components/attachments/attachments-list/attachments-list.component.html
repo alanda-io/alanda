@@ -120,7 +120,7 @@
       <div class="p-grid">
         <div class="p-col-12">
           <ng-template
-            [ngIf]="s.previewFile.name.endsWith('.pdf')"
+            [ngIf]="s.previewFile.name.toLowerCase().endsWith('.pdf')"
             [ngIfElse]="imagePreview"
           >
             <iframe
