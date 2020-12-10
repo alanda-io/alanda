@@ -97,7 +97,10 @@ export { AlandaExceptionHandlingService } from './lib/services/exceptionHandling
 export { AlandaProjectPropertiesService } from './lib/services/project-properties.service';
 export { AlandaTitleService } from './lib/services/title.service';
 export { AlandaProcessConfigModalService } from './lib/services/process-config-modal.service';
-export { AlandaCommentsAdapter, AlandaCommentAdapterState } from './lib/components/comments/comments/comments.adapter';
+export {
+  AlandaCommentsAdapter,
+  AlandaCommentAdapterState,
+} from './lib/components/comments/comments/comments.adapter';
 
 /**
  * Directive Exports
