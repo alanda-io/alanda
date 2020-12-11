@@ -126,6 +126,7 @@ export class QuickEditProjectDetailsComponent {
       project: this.state.get()?.project,
     })),
     filter(({ project }) => this.mainForm.valid && !isEmpty(project)),
+    tap(() => this.state.set({ working: true })),
     map(({ mode, project }) => {
       mode === ProjectDetailsMode.DETAILS
         ? (project.details = this.mainForm.get('text')?.value)
@@ -142,11 +143,11 @@ export class QuickEditProjectDetailsComponent {
             summary: 'Update Project Details',
             detail: err?.message,
           });
+          this.state.set({ working: false });
           return EMPTY;
         }),
       ),
     ),
-    startWith({ working: true }),
   );
 
   constructor(

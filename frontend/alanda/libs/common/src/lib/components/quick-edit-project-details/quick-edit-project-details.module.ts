@@ -4,6 +4,7 @@ import { QuickEditProjectDetailsComponent } from './quick-edit-project-details.c
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ButtonModule } from 'primeng/button';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [QuickEditProjectDetailsComponent],
@@ -12,6 +13,7 @@ import { ButtonModule } from 'primeng/button';
     ReactiveFormsModule,
     InputTextareaModule,
     ButtonModule,
+    ProgressSpinnerModule,
   ],
   exports: [QuickEditProjectDetailsComponent],
 })
