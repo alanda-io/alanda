@@ -18,6 +18,7 @@ export interface AlandaComment {
   processName?: string;
   siteIdName?: string;
   saIdName?: string;
+  businessKey?: string;
   reconstructionId?: any;
   replies?: AlandaComment[];
   fulltext?: string;
