@@ -22,7 +22,13 @@
         label="Save"
         [disabled]="!mainForm.valid"
         (click)="saveClickEvent$.next()"
-      ></button>
+      >
+        <p-progressSpinner
+          *ngIf="s.working"
+          [style]="{ width: '1rem', height: '1rem' }"
+          strokeWidth="4"
+        ></p-progressSpinner>
+      </button>
       <button
         pButton
         type="button"
