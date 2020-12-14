@@ -5,7 +5,6 @@ import { AlandaProcess } from '../../api/models/process';
 import { AlandaTask } from '../../api/models/task';
 import { AlandaProcessesAndTasks } from '../../api/models/processesAndTasks';
 import { ProjectState } from '../../enums/projectState.enum';
-import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { uuid } from '../../utils/helper-functions';
 import { AccessLevels, Authorizations } from '../../permissions';
 import { AlandaUser } from '../../api/models/user';
@@ -64,7 +63,7 @@ export interface TreeNodeData {
 
 @Injectable()
 export class AlandaProjectAndProcessesService {
-  constructor(private readonly projectService: AlandaProjectApiService) {}
+  constructor() {}
 
   mapProjectsToTreeNode(project: AlandaProject, user: AlandaUser): TreeNode[] {
     const data: TreeNode[] = [];
