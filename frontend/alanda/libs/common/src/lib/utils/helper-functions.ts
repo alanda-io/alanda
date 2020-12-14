@@ -1,6 +1,6 @@
 import { AlandaTableLayout } from '../api/models/tableLayout';
 import { ObjectUtils } from 'primeng/utils';
-import { AlandaTableColumnDefinition } from '../..';
+import { AlandaTableColumnDefinition } from '../api/models/tableColumnDefinition';
 
 export function convertUTCDate(date: Date): Date {
   return new Date(
