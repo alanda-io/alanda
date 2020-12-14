@@ -5,7 +5,8 @@ import {
 } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AlandaProject, AlandaProjectApiService } from '../..';
+import { AlandaProject } from '../api/models/project';
+import { AlandaProjectApiService } from '../api/projectApi.service';
 
 export function subProcessValidator(
   project: AlandaProject,

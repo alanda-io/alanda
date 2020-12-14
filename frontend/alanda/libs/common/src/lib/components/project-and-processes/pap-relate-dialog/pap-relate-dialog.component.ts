@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog/';
+import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { AlandaProject } from '../../../api/models/project';
 import { AlandaProjectType } from '../../../api/models/projectType';
 import { ServerOptions } from '../../../models/serverOptions';

@@ -6,6 +6,13 @@ export { AlandaCommonModule } from './lib/common.module';
 export { APP_CONFIG, AppSettings } from './lib/models/appSettings';
 export { AlandaTaskFormPanel } from './lib/models/alandaTaskFormPanel';
 export * from './lib/permissions';
+export {
+  convertUTCDate,
+  formatDateISO,
+  getTableDefaultLayout,
+  removeAllWhitespaces,
+  exportAsCsv,
+} from './lib/utils/helper-functions';
 
 /**
  * Api Exports
