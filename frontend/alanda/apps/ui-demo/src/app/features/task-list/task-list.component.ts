@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { RxState } from '@rx-angular/state';
 import { AlandaTableLayout, Authorizations, TableType } from '@alanda/common';
 import { map } from 'rxjs/operators';

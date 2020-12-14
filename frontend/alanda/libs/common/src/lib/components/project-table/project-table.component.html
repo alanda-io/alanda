@@ -2,6 +2,7 @@
   <div class="p-grid">
     <div class="p-col-12 p-md-6 p-xl-3 p-fluid p-field">
       <p-dropdown
+        *ngIf="s.layouts"
         [hidden]="s.layouts.length <= 1"
         [options]="s.layouts"
         [ngModel]="s.selectedLayout"

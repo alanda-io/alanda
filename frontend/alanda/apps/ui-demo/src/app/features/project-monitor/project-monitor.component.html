@@ -6,7 +6,7 @@
           class="h3a-project-table"
           [layouts]="s.layouts"
           [editablePageSize]="false"
-          [defaultLayout]="s.defaultLayout || 0"
+          [defaultLayout]="s.defaultLayout"
           (layoutChanged)="layoutChangedEvent$.next($event)"
           alandaContextProvider
           [saveEntry]="s.contextEntry"
