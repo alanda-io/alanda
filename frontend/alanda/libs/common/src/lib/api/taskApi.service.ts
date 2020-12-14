@@ -126,7 +126,7 @@ export class AlandaTaskApiService extends AlandaExceptionHandlingService {
   }
 
   deleteVariable(taskId: string,variableName : string): Observable<any>{
-    return this.http.delete(`${this.processEndpointUrl}/${taskId}/${variableName}`,{}).pipe(
+    return this.http.delete(`${this.endpointUrl}/${taskId}/${variableName}`,{}).pipe(
       catchError(this.handleError('deleteVariable',null))
     );
   }
