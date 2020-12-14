@@ -88,4 +88,4 @@ fi
 
 commitNewVersion
 
-echo 'Done!'
+echo -e "\e[32mDone! Released version: ${NEW_PACKAGE_VERSION}\e[0m"
