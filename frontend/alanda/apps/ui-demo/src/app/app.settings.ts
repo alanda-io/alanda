@@ -51,5 +51,6 @@ export const ALANDA_CONFIG: AppSettings = {
   },
   AVATAR_BASE_PATH: 'src/app/assets',
   AVATAR_EXT: 'jpg',
+  CLOSE_AFTER_COMPLETE: true,
   /* WEBSOCKET_ENDPOINT : 'ws://localhost:8080/pmc-rest/websockets', */
 };
