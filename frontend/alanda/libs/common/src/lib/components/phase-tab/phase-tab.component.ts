@@ -59,7 +59,7 @@ export class AlandaPhaseTabComponent {
     },
     active: {
       label: 'active',
-      styleClass: 'active pi pi-check',
+      styleClass: 'active pi pi-play',
     },
     completed: {
       label: 'completed',
@@ -75,11 +75,11 @@ export class AlandaPhaseTabComponent {
     },
     required: {
       label: 'required',
-      styleClass: 'required pi pi-info-circle',
+      styleClass: 'required pi pi-check',
     },
     notRequired: {
       label: 'not required',
-      styleClass: 'not-required pi pi-chevron-circle-right',
+      styleClass: 'not-required pi pi-ban',
     },
     notSet: {
       label: 'not set',

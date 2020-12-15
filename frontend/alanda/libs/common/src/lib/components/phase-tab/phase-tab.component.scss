@@ -1,6 +1,31 @@
 .phase-tabview {
   .p-tabview-nav {
     .p-tabview-nav-link {
+      .nav-icons {
+        &.active {
+          color: #2196f3;
+        }
+        &.completed {
+          color: #689f38;
+        }
+        &.error {
+          color: #d32f2f;
+        }
+        &.starting {
+          color: #2196f3;
+          opacity: 0.85;
+        }
+        &.required {
+          color: #689f38;
+        }
+        &.not-required {
+          color: #d32f2f;
+        }
+        &.not-set {
+          opacity: 0.65;
+        }
+      }
+
       span {
         margin: 0 0.5rem;
 
