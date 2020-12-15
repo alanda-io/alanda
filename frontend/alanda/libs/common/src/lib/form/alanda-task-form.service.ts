@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { RxState } from '@rx-angular/state';
 import {
   Router,
@@ -23,11 +23,13 @@ import { AlandaProjectApiService } from '../api/projectApi.service';
 import { AlandaTaskApiService } from '../api/taskApi.service';
 import { MessageService } from 'primeng/api';
 import { AlandaTitleService } from '../services/title.service';
+import { AppSettings, APP_CONFIG } from '../models/appSettings';
 
 export interface AlandaTaskFormState {
   task?: AlandaTask;
   project?: AlandaProject;
   loading?: number;
+  closeAfterComplete?: boolean;
   //  rootFormData: { [controlName: string]: any }
 }
 
@@ -35,6 +37,8 @@ export interface AlandaTaskFormState {
 export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
   implements OnDestroy {
   state$ = this.select().pipe(filter((state) => state.task != null));
+
+  closeAfterComplete = false;
 
   rootForm = this.fb.group({});
 
@@ -82,8 +86,10 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     private readonly projectService: AlandaProjectApiService,
     private readonly messageService: MessageService,
     private readonly titleService: AlandaTitleService,
+    @Inject(APP_CONFIG) config: AppSettings,
   ) {
     super();
+    this.closeAfterComplete = config.CLOSE_AFTER_COMPLETE;
     this.set({ loading: 0 });
     this.connect(this.fetchTaskById$);
   }
@@ -137,11 +143,19 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
           if (alternate != null) {
             return alternate;
           } else {
-            return of(['/']);
+            if (this.closeAfterComplete) {
+              return of(null);
+            } else {
+              return of(['/']);
+            }
           }
         }),
         tap((val) => {
-          this.router.navigate(val).catch(() => {});
+          if (val === null) {
+            window.close();
+          } else {
+            this.router.navigate(val).catch(() => {});
+          }
         }),
       );
     } else {
@@ -172,7 +186,12 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
         }),
       ),
       tap((val) => {
-        this.router.navigate(['/']).catch(() => {});
+        console.log('cAC', this.closeAfterComplete, window.opener);
+        if (this.closeAfterComplete) {
+          window.close();
+        } else {
+          this.router.navigate(['/']).catch(() => {});
+        }
       }),
     );
   }

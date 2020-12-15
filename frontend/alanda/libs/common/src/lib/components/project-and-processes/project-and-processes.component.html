@@ -16,7 +16,6 @@
       <tr>
         <th>Process / Task</th>
         <th>Ref. Object</th>
-        <th>Assignment</th>
         <th>Start</th>
         <th>End</th>
         <th>Info</th>
@@ -40,7 +39,6 @@
               <span *ngIf="!rowData.routerLink"> {{ rowData.label }}</span>
             </td>
             <td>{{ rowData.refObject }}</td>
-            <td>{{ rowData.assignee }}</td>
             <td>{{ rowData.start | date: dateFormat }}</td>
             <td>{{ rowData.end | date: dateFormat }}</td>
             <td><span [innerHTML]="rowData.info"></span></td>

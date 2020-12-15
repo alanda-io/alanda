@@ -9,6 +9,7 @@ export class AppSettings {
   DATE_FORMAT: string;
   LOCALE_PRIME: LocaleSettings;
   APP_NAME?: string;
+  CLOSE_AFTER_COMPLETE: boolean;
 }
 
 export const APP_CONFIG = new InjectionToken<AppSettings>('AppConfig');
