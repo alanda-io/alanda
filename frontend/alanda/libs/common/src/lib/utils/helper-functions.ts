@@ -83,9 +83,9 @@ export function exportAsCsv(
     }
   }
   // body
-  data.forEach((record, i) => {
+  data.forEach((record) => {
     csv += '\n';
-    columns.forEach((column) => {
+    columns.forEach((column,j) => {
       if (column.field) {
         let cellData = ObjectUtils.resolveFieldData(record, column.field);
         if (cellData != null) {
@@ -96,7 +96,7 @@ export function exportAsCsv(
 
         csv += '"' + cellData + '"';
 
-        if (i < columns.length - 1) {
+        if (j < columns.length - 1) {
           csv += ',';
         }
       }
