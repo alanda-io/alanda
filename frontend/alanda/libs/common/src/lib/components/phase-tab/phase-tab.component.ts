@@ -178,14 +178,14 @@ export class AlandaPhaseTabComponent {
     if (!phase.enabled) {
       menuItems.push({
         label: 'Required',
-        icon: 'pi pi-plus',
+        icon: 'pi pi-check',
         command: () => this.togglePhaseEnabled(phase, true),
       });
     }
     if (phase.enabled || phase.enabled === null) {
       menuItems.push({
         label: 'Not required',
-        icon: 'pi pi-minus',
+        icon: 'pi pi-ban',
         command: () => this.togglePhaseEnabled(phase, false),
       });
     }
@@ -200,7 +200,7 @@ export class AlandaPhaseTabComponent {
       if (phase.frozen && !phase.enabled && this.hasAuth(phase, 'start')) {
         menuItems.push({
           label: 'Start Phase',
-          icon: 'pi pi-start',
+          icon: 'pi pi-play',
           command: () => this.startPhase(phase),
         });
       }
