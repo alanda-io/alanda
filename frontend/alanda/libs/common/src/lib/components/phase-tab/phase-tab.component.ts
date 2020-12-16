@@ -59,27 +59,28 @@ export class AlandaPhaseTabComponent {
     },
     active: {
       label: 'active',
-      styleClass: 'active pi pi-play',
+      styleClass: 'pi pi-play p-button p-button-text',
     },
     completed: {
       label: 'completed',
-      styleClass: 'completed pi pi-check-circle',
+      styleClass: 'pi pi-check-circle p-button p-button-text p-button-success',
     },
     error: {
       label: 'error',
-      styleClass: 'error pi pi-exclamation-circle',
+      styleClass:
+        'pi pi-exclamation-circle p-button p-button-text p-button-danger',
     },
     starting: {
       label: 'starting',
-      styleClass: 'starting pi pi-spinner pi-spin',
+      styleClass: 'starting pi pi-spinner pi-spin p-button p-button-text',
     },
     required: {
       label: 'required',
-      styleClass: 'required pi pi-check',
+      styleClass: 'pi pi-check',
     },
     notRequired: {
       label: 'not required',
-      styleClass: 'not-required pi pi-ban',
+      styleClass: 'pi pi-ban',
     },
     notSet: {
       label: 'not set',

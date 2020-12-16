@@ -2,27 +2,16 @@
   .p-tabview-nav {
     .p-tabview-nav-link {
       .nav-icons {
-        &.active {
-          color: #2196f3;
-        }
-        &.completed {
-          color: #689f38;
-        }
-        &.error {
-          color: #d32f2f;
-        }
+        padding: 0;
+        margin: 0;
+        border: 0;
+        background: transparent;
+
         &.starting {
-          color: #2196f3;
-          opacity: 0.85;
-        }
-        &.required {
-          color: #689f38;
-        }
-        &.not-required {
-          color: #d32f2f;
+          opacity: 0.65;
         }
         &.not-set {
-          opacity: 0.65;
+          opacity: 0.8;
         }
       }
 
