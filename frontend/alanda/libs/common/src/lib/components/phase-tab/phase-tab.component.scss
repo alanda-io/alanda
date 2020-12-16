@@ -1,6 +1,20 @@
 .phase-tabview {
   .p-tabview-nav {
     .p-tabview-nav-link {
+      .nav-icons {
+        padding: 0;
+        margin: 0;
+        border: 0;
+        background: transparent;
+
+        &.starting {
+          opacity: 0.65;
+        }
+        &.not-set {
+          opacity: 0.8;
+        }
+      }
+
       span {
         margin: 0 0.5rem;
 

@@ -59,27 +59,28 @@ export class AlandaPhaseTabComponent {
     },
     active: {
       label: 'active',
-      styleClass: 'active pi pi-check',
+      styleClass: 'pi pi-play p-button p-button-text',
     },
     completed: {
       label: 'completed',
-      styleClass: 'completed pi pi-check-circle',
+      styleClass: 'pi pi-check-circle p-button p-button-text p-button-success',
     },
     error: {
       label: 'error',
-      styleClass: 'error pi pi-exclamation-circle',
+      styleClass:
+        'pi pi-exclamation-circle p-button p-button-text p-button-danger',
     },
     starting: {
       label: 'starting',
-      styleClass: 'starting pi pi-spinner pi-spin',
+      styleClass: 'starting pi pi-spinner pi-spin p-button p-button-text',
     },
     required: {
       label: 'required',
-      styleClass: 'required pi pi-info-circle',
+      styleClass: 'pi pi-check',
     },
     notRequired: {
       label: 'not required',
-      styleClass: 'not-required pi pi-chevron-circle-right',
+      styleClass: 'pi pi-ban',
     },
     notSet: {
       label: 'not set',
@@ -178,14 +179,14 @@ export class AlandaPhaseTabComponent {
     if (!phase.enabled) {
       menuItems.push({
         label: 'Required',
-        icon: 'pi pi-plus',
+        icon: 'pi pi-check',
         command: () => this.togglePhaseEnabled(phase, true),
       });
     }
     if (phase.enabled || phase.enabled === null) {
       menuItems.push({
         label: 'Not required',
-        icon: 'pi pi-minus',
+        icon: 'pi pi-ban',
         command: () => this.togglePhaseEnabled(phase, false),
       });
     }
@@ -200,7 +201,7 @@ export class AlandaPhaseTabComponent {
       if (phase.frozen && !phase.enabled && this.hasAuth(phase, 'start')) {
         menuItems.push({
           label: 'Start Phase',
-          icon: 'pi pi-start',
+          icon: 'pi pi-play',
           command: () => this.startPhase(phase),
         });
       }
