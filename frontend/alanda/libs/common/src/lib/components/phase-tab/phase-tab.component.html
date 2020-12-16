@@ -19,9 +19,7 @@
         >
           <i [ngClass]="['nav-icons', getPhaseStatus(phase).styleClass]"></i>
           <span>{{ phase.pmcProjectPhaseDefinition.displayName }}</span>
-          <ng-container
-            *ngIf="phase.guid && !phase.frozen && hasAuth(phase, 'write')"
-          >
+          <ng-container *ngIf="!isReadOnly(phase)">
             <i
               class="pi pi-angle-down phase-tab-menu"
               (click)="menu.toggle($event)"
