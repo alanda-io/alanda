@@ -13,7 +13,6 @@ import { ProjectMonitorModule } from './features/project-monitor/project-monitor
 
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-import { ViewsModule } from './views/views.module';
 import {
   AppSettings,
   APP_CONFIG,
@@ -34,11 +33,11 @@ import { TemplateModule } from '@rx-angular/template';
 import { UserManagementContainerComponent } from './features/usermgmt/user-management-container/user-management-container.component';
 import { RxState } from '@rx-angular/state';
 import { DropdownModule } from 'primeng/dropdown';
-import { UserEnrichedTaskFormService } from './services/userEnrichedTaskForm.service';
 import { UserEnrichedProjectsControllerComponent } from './components/projects-controller/user-enriched-projects-controller.component';
 import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { ProjectsAndProcessesDemoComponent } from './components/projects-and-processes-demo/projects-and-processes-demo.component';
+import { HomeModule } from './features/home/home.module';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 
@@ -57,7 +56,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     BrowserAnimationsModule,
     AppRoutingModule,
     CoreModule,
-    ViewsModule,
+    HomeModule,
     SharedModule,
     ReactiveFormsModule,
     CardModule,
