@@ -29,7 +29,6 @@ export class PrepareVacationRequestComponent
   }
 
   submit(): void {
-    console.log('clicked submit');
     if (this.snooze.value > 0) {
       this.taskFormService.snooze(this.snooze.value).subscribe();
     } else {
@@ -38,7 +37,7 @@ export class PrepareVacationRequestComponent
   }
 
   ngAfterViewInit(): void {
-    console.log('form1', this.rootForm);
+    // console.log('form1', this.rootForm);
     // An example how we can react to changes in some form component
     // whenever the value of the dropdown "handover checks required"
     // changes, we adapt the Validators of the requestor field
@@ -51,7 +50,6 @@ export class PrepareVacationRequestComponent
             this.requestor?.setValidators([]);
           }
           this.requestor?.updateValueAndValidity();
-          console.log('req', this.requestor);
         }),
       ),
     );

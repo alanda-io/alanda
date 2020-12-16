@@ -47,6 +47,6 @@ export class ProjectPropertiesComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log('form', this.rootForm);
+    // console.log('form', this.rootForm);
   }
 }

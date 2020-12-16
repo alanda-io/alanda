@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { StorageMap } from '@ngx-pwa/local-storage';
+import { Observable, of } from 'rxjs';
 import { isEmpty } from 'lodash';
 import { map } from 'rxjs/operators';
 
@@ -8,7 +7,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class StorageService {
-  constructor(private storage: StorageMap) {}
+  constructor() {}
 
   /**
    * Base64 decode function
@@ -38,9 +37,10 @@ export class StorageService {
    * @returns an observable of object
    */
   loadFromStorage(key: string): Observable<object> {
-    return this.storage
-      .get(key)
-      .pipe(map((val) => (!isEmpty(val) ? this.decode(val as string) : {})));
+    const data: string = localStorage.getItem(key);
+    return of(data).pipe(
+      map((val) => (!isEmpty(val) ? this.decode(val as string) : {})),
+    );
   }
 
   /**
@@ -48,9 +48,10 @@ export class StorageService {
    *
    * @param key the key of the entry
    * @param data the value of the entry as an object
-   * @returns an observable of void
+   * @returns an observable of boolean
    */
-  saveToStorage(key: string, data: object): Observable<void> {
-    return this.storage.set(key, this.encode(data));
+  saveToStorage(key: string, data: object): Observable<boolean> {
+    localStorage.setItem(key, this.encode(data));
+    return of(true);
   }
 }

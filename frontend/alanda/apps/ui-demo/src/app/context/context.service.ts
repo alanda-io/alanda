@@ -38,6 +38,7 @@ export class ContextService {
   loadStorage$ = this.userStore.currentUser$.pipe(
     filter((user) => !isEmpty(user)),
     map(({ guid }) => String(guid)),
+    // tap((guid) => this.state.set({ userKey: guid })),
     switchMap((userKey) =>
       this.storageService.loadFromStorage(userKey).pipe(
         map((data) => ({ data, userKey })),
