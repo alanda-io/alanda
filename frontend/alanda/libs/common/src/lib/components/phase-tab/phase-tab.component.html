@@ -19,7 +19,9 @@
         >
           <i [ngClass]="[getPhaseStatus(phase).styleClass]"></i>
           <span>{{ phase.pmcProjectPhaseDefinition.displayName }}</span>
-          <ng-container *ngIf="phase.guid && hasAuth(phase, 'write')">
+          <ng-container
+            *ngIf="phase.guid && !phase.frozen && hasAuth(phase, 'write')"
+          >
             <i class="pi pi-angle-down" (click)="menu.toggle($event)"></i>
             <p-menu
               #menu
