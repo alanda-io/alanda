@@ -13,6 +13,7 @@ import {
   concatMap,
   tap,
   catchError,
+  delay,
 } from 'rxjs/operators';
 
 import { of, Observable, EMPTY } from 'rxjs';
@@ -139,12 +140,12 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
           this.setLoading(false);
           console.log('loading', this.get('loading'));
         }),
-        switchMap((val) => {
+        concatMap((val) => {
           if (alternate != null) {
             return alternate;
           } else {
             if (this.closeAfterComplete) {
-              return of(null);
+              return of(null).pipe(delay(2000));
             } else {
               return of(['/']);
             }
@@ -185,6 +186,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
           } has been successfully snoozed for ${days} days!`,
         }),
       ),
+      delay(1000),
       tap((val) => {
         console.log('cAC', this.closeAfterComplete, window.opener);
         if (this.closeAfterComplete) {

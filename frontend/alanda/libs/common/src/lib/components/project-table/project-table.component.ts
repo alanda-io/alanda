@@ -77,10 +77,16 @@ export class AlandaProjectTableComponent {
   menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
   lazyLoadEvent$ = new Subject();
   @Input() set defaultLayout(defaultLayout: number) {
+    // setting "undefined" on an already undefined field does not trigger
+    // state Observables to fire, so we set to a default value to trigger
+    // loading
+    if (defaultLayout === undefined) {
+      defaultLayout = 0;
+    }
     this.state.set({ defaultLayout });
   }
   @Input() set layouts(layouts: AlandaTableLayout[]) {
-    if (layouts && layouts.length) {
+    if (layouts != null && layouts.length > 1) {
       layouts = layouts.sort((a, b) =>
         a.displayName.localeCompare(b.displayName),
       );
@@ -168,7 +174,10 @@ export class AlandaProjectTableComponent {
     this.state.select('defaultLayout'),
   ]).pipe(
     filter(([layouts, defaultLayout]) => layouts.length > 0),
-    map(([layouts, defaultLayout]) => layouts[defaultLayout]),
+    map(
+      ([layouts, defaultLayout]) =>
+        layouts[defaultLayout != null ? defaultLayout : 0],
+    ),
   );
 
   toggleColumn$ = this.onMenuItemColumnClick$.pipe(
