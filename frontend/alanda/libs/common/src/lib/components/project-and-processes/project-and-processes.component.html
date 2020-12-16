@@ -37,6 +37,11 @@
                 {{ rowData.label }}
               </a>
               <span *ngIf="!rowData.routerLink"> {{ rowData.label }}</span>
+              <span
+                *ngIf="isTaskSnoozed(rowData)"
+                class="snooze p-text-secondary"
+                >z <sup>z <sup>z</sup></sup></span
+              >
             </td>
             <td>{{ rowData.refObject }}</td>
             <td>{{ rowData.start | date: dateFormat }}</td>
