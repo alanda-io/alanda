@@ -22,7 +22,10 @@
           <ng-container
             *ngIf="phase.guid && !phase.frozen && hasAuth(phase, 'write')"
           >
-            <i class="pi pi-angle-down" (click)="menu.toggle($event)"></i>
+            <i
+              class="pi pi-angle-down phase-tab-menu"
+              (click)="menu.toggle($event)"
+            ></i>
             <p-menu
               #menu
               [popup]="true"

@@ -12,8 +12,21 @@
         }
       }
 
-      .pi {
+      .phase-tab-menu {
+        position: relative;
         z-index: 2;
+        cursor: pointer;
+
+        &:after {
+          content: '';
+          width: calc(1rem + 0.6rem);
+          height: 1rem;
+          position: absolute;
+          top: 0;
+          left: -0.3rem;
+          background: transparent;
+          opacity: 0;
+        }
       }
     }
   }
