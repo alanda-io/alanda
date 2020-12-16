@@ -30,3 +30,16 @@
 textarea {
   width: 100%;
 }
+
+.snooze {
+  position: relative;
+  display: inline-block;
+  margin: 0 1.071rem;
+
+  sup {
+    position: absolute;
+    display: inline-block;
+    top: -0.125rem;
+    left: 0.5rem;
+  }
+}

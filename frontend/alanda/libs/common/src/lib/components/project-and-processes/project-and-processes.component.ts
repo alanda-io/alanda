@@ -535,4 +535,14 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
       process: process,
     });
   }
+
+  isTaskSnoozed(data: TreeNodeData): boolean {
+    const followUp = data.project?.processes[0]?.tasks[0]?.follow_up || null;
+    if (!followUp || followUp === '') {
+      return false;
+    }
+    const followUpDate = new Date(followUp);
+    const nowDate = new Date();
+    return followUpDate > nowDate;
+  }
 }
