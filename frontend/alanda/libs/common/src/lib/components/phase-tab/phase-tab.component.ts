@@ -150,8 +150,6 @@ export class AlandaPhaseTabComponent {
       return this.phaseStatusMap.error;
     } else if (phase.frozen && phase.enabled) {
       return this.phaseStatusMap.starting;
-    } else if (phase.frozen && !phase.enabled) {
-      return this.phaseStatusMap.notRequired;
     } else if (phase.enabled === null) {
       return this.phaseStatusMap.notSet;
     } else if (!phase.enabled) {
