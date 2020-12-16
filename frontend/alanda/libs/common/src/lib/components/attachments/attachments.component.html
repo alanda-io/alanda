@@ -22,7 +22,7 @@
           ></alanda-attachments-list>
         </div>
       </div>
-      <div class="p-grid">
+      <div class="p-grid" *ngIf="data.selectedNode?.permissions?.includes('w')">
         <div class="p-col-12">
           <p-fileUpload
             #fileUploader

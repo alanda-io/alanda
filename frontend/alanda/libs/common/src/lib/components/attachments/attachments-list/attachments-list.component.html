@@ -55,7 +55,10 @@
         </td>
         <td>{{ file.size }}&nbsp;KB</td>
         <td>
-          <div class="action-button-wrapper">
+          <div
+            class="action-button-wrapper"
+            *ngIf="data.selectedNode?.permissions?.includes('w')"
+          >
             <button
               pButton
               pRipple
@@ -92,7 +95,10 @@
               tooltipPosition="top"
             ></button>
           </div>
-          <div class="action-button-wrapper">
+          <div
+            class="action-button-wrapper"
+            *ngIf="data.selectedNode?.permissions?.includes('d')"
+          >
             <button
               pButton
               pRipple
