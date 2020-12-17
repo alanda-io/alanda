@@ -1,30 +1,29 @@
 import {
   Component,
-  Input,
-  OnInit,
-  OnDestroy,
-  Output,
   EventEmitter,
   Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
 } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 import {
+  debounceTime,
+  exhaustMap,
+  finalize,
   map,
   switchMap,
-  toArray,
-  finalize,
-  exhaustMap,
   tap,
-  debounceTime,
 } from 'rxjs/operators';
-import { Observable, from, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AlandaProject } from '../../api/models/project';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import {
   AlandaProjectAndProcessesService,
+  MappedAllowedProcesses,
   TreeNodeData,
   TreeNodeDataType,
-  MappedAllowedProcesses,
 } from './project-and-processes.service';
 import { Router } from '@angular/router';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -537,12 +536,15 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   }
 
   isTaskSnoozed(data: TreeNodeData): boolean {
-    const followUp = data.project?.processes[0]?.tasks[0]?.follow_up || null;
-    if (!followUp || followUp === '') {
-      return false;
+    if (data.type === TreeNodeDataType.TASK) {
+      const followUp = data?.task?.follow_up || null;
+      if (!followUp || followUp === '') {
+        return false;
+      }
+      const followUpDate = new Date(followUp);
+      const nowDate = new Date();
+      return followUpDate > nowDate;
     }
-    const followUpDate = new Date(followUp);
-    const nowDate = new Date();
-    return followUpDate > nowDate;
+    return false;
   }
 }
