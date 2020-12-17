@@ -9,6 +9,7 @@ import {
   catchError,
   concatMap,
   debounceTime,
+  filter,
   map,
   mergeMap,
   switchMap,
@@ -68,12 +69,9 @@ export class AlandaCreateProjectComponent implements OnInit {
   );
 
   parentProject$ = this.parentProjectGuid$.pipe(
-    switchMap((guid) => {
-      return this.projectService.getProjectByGuid(guid);
-    }),
-    map((project) => {
-      return project || null;
-    }),
+    filter((guid) => guid !== null),
+    switchMap((guid) => this.projectService.getProjectByGuid(guid)),
+    map((project) => project || null),
   );
 
   constructor(
@@ -89,7 +87,11 @@ export class AlandaCreateProjectComponent implements OnInit {
   ) {
     this.locale = config.LOCALE_PRIME;
     this.dateFormat = config.DATE_FORMAT;
-    this.state.set({ refObjectList: [] });
+    this.state.set({
+      refObjectList: [],
+      parentProjectGuid: null,
+      parentProject: null,
+    });
     this.state.connect('refObjectList', this.searchRefObjects$);
     this.state.connect('parentProjectGuid', this.parentProjectGuid$);
     this.state.connect('parentProject', this.parentProject$);
@@ -158,7 +160,9 @@ export class AlandaCreateProjectComponent implements OnInit {
       this.project.properties = [];
       this.project.comment = this.formGroup.get('projectDetails').value;
       this.project.tag = [this.formGroup.get('tag').value.value];
-      this.project.parents = [this.state.get('parentProject')];
+      if (this.state.get('parentProject')) {
+        this.project.parents = [this.state.get('parentProject')];
+      }
       this.isLoading = true;
       this.projectService
         .createProject(this.project)
