@@ -9,6 +9,8 @@ import {
   catchError,
   concatMap,
   debounceTime,
+  filter,
+  map,
   mergeMap,
   switchMap,
   tap,
@@ -25,6 +27,8 @@ import { LocaleSettings } from 'primeng/calendar';
 interface CreateState {
   refObject: AlandaRefObject;
   refObjectList: AlandaRefObject[];
+  parentProjectGuid: number;
+  parentProject: AlandaProject;
 }
 
 @Component({
@@ -58,6 +62,18 @@ export class AlandaCreateProjectComponent implements OnInit {
     }),
   );
 
+  parentProjectGuid$ = this.activatedRoute.queryParamMap.pipe(
+    map((paramMap) => {
+      return parseInt(paramMap.get('parentProjectGuid'), 10) || null;
+    }),
+  );
+
+  parentProject$ = this.parentProjectGuid$.pipe(
+    filter((guid) => guid !== null),
+    switchMap((guid) => this.projectService.getProjectByGuid(guid)),
+    map((project) => project || null),
+  );
+
   constructor(
     public readonly projectService: AlandaProjectApiService,
     private taskService: AlandaTaskApiService,
@@ -71,8 +87,14 @@ export class AlandaCreateProjectComponent implements OnInit {
   ) {
     this.locale = config.LOCALE_PRIME;
     this.dateFormat = config.DATE_FORMAT;
-    this.state.set({ refObjectList: [] });
+    this.state.set({
+      refObjectList: [],
+      parentProjectGuid: null,
+      parentProject: null,
+    });
     this.state.connect('refObjectList', this.searchRefObjects$);
+    this.state.connect('parentProjectGuid', this.parentProjectGuid$);
+    this.state.connect('parentProject', this.parentProject$);
     // this.state.hold(this.searchRefObjectEvent$);
   }
 
@@ -138,6 +160,9 @@ export class AlandaCreateProjectComponent implements OnInit {
       this.project.properties = [];
       this.project.comment = this.formGroup.get('projectDetails').value;
       this.project.tag = [this.formGroup.get('tag').value.value];
+      if (this.state.get('parentProject')) {
+        this.project.parents = [this.state.get('parentProject')];
+      }
       this.isLoading = true;
       this.projectService
         .createProject(this.project)
