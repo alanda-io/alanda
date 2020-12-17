@@ -4,7 +4,6 @@ import {
   Inject,
   Input,
   OnDestroy,
-  OnInit,
   Output,
 } from '@angular/core';
 import { TreeNode } from 'primeng/api';
@@ -43,7 +42,7 @@ import { AlandaUser } from '../../api/models/user';
   styleUrls: ['./project-and-processes.component.scss'],
   providers: [DialogService, AlandaProjectAndProcessesService],
 })
-export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
+export class AlandaProjectAndProcessesComponent implements OnDestroy {
   @Input() project: AlandaProject;
   @Input() filterOptions: any = {};
   @Input() user: AlandaUser;
@@ -117,8 +116,6 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
       .subscribe();
   }
 
-  ngOnInit() {}
-
   loadProjectAndProcesses(collapsed?: boolean) {
     if (collapsed) {
       return;
@@ -173,7 +170,9 @@ export class AlandaProjectAndProcessesComponent implements OnInit, OnDestroy {
   }
 
   createSubproject(data: TreeNodeData): void {
-    this.router.navigate(['create/project', data.project.guid]);
+    this.router.navigate(['create/project'], {
+      queryParams: { parentProjectGuid: data.project.guid },
+    });
   }
 
   relateSubproject(data: TreeNodeData): void {
