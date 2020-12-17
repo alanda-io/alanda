@@ -65,11 +65,11 @@ export const isEmpty = (val) => {
   }
   return false;
 };
-export function exportAsCsv<T>(
-  data: T[],
+export function exportAsCsv(
+  data: object[],
   columns: AlandaTableColumnDefinition[],
   fileName: string,
-  callback?: (row: T) => T,
+  callback?: (field: string,fieldValue: string) => string,
 ) {
   let csv = '';
   // header
@@ -86,12 +86,12 @@ export function exportAsCsv<T>(
   // body
   data.forEach((record) => {
     csv += '\n';
-    if ( callback != null ){
-      record = callback(record);
-    }
     columns.forEach((column,j) => {
-      if (column.field) {
+      if (column.field != null) {
         let cellData = ObjectUtils.resolveFieldData(record, column.field);
+        if( callback != null){
+          cellData = callback(column.field,String(cellData));
+        }
         if (cellData != null) {
           cellData = String(cellData).replace(/"/g, '""');
         } else {
