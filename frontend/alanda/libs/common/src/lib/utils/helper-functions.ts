@@ -65,10 +65,11 @@ export const isEmpty = (val) => {
   }
   return false;
 };
-export function exportAsCsv(
-  data: any,
+export function exportAsCsv<T>(
+  data: T[],
   columns: AlandaTableColumnDefinition[],
   fileName: string,
+  callback?: (row: T) => T,
 ) {
   let csv = '';
   // header
@@ -85,7 +86,10 @@ export function exportAsCsv(
   // body
   data.forEach((record) => {
     csv += '\n';
-    columns.forEach((column, j) => {
+    if ( callback != null ){
+      record = callback(record);
+    }
+    columns.forEach((column,j) => {
       if (column.field) {
         let cellData = ObjectUtils.resolveFieldData(record, column.field);
         if (cellData != null) {
