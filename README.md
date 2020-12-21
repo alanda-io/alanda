@@ -13,6 +13,7 @@ Imagine a world in which the vast majority of time spent at work is used for ins
 1. [Purpose](#purpose)
 1. [Requirements](#requirements)
 1. [Setup](#setup)
+1. [Resources](#resources)
 1. [Troubleshooting](#troubleshooting)
 
 # Purpose
