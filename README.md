@@ -152,6 +152,13 @@ Use it to login at your local [alanda frontend](http://localhost:9090).
 
 Congratulations, you now have a running alanda.io!
 
+# Resources
+
+- [Angular style Guide](https://angular.io/guide/styleguide)
+- [Prime NG](https://www.primefaces.org/primeng/showcase/#/setup)
+- [Prime Icons](https://primefaces.org/primeng/showcase/#/icons)
+- [Nx Workspace - Angular](https://nx.dev/latest/angular/getting-started/getting-started)
+
 # Troubleshooting
 
 ## Increasing the amount of inotify watchers
