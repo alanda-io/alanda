@@ -69,7 +69,7 @@ export function exportAsCsv(
   data: object[],
   columns: AlandaTableColumnDefinition[],
   fileName: string,
-  callback?: (field: string,fieldValue: string) => string,
+  callback?: (field: string, fieldValue: string) => string,
 ) {
   let csv = '';
   // header
@@ -86,11 +86,11 @@ export function exportAsCsv(
   // body
   data.forEach((record) => {
     csv += '\n';
-    columns.forEach((column,j) => {
+    columns.forEach((column, j) => {
       if (column.field != null) {
         let cellData = ObjectUtils.resolveFieldData(record, column.field);
-        if( callback != null){
-          cellData = callback(column.field,String(cellData));
+        if (callback != null) {
+          cellData = callback(column.field, String(cellData));
         }
         if (cellData != null) {
           cellData = String(cellData).replace(/"/g, '""');

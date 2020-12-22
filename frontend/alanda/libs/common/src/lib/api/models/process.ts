@@ -12,6 +12,7 @@ export interface AlandaProcess {
   relation?: ProcessRelation;
   workDetails?: string;
   processKey?: string;
+  processKeyWithoutPhase?: string;
   businessObject?: string;
   label?: string;
   phase?: string;
