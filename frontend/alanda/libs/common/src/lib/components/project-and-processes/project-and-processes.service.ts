@@ -219,7 +219,7 @@ export class AlandaProjectAndProcessesService {
       noPhaseOrActivePhase &&
       this.hasProcessPermission(
         process.phase,
-        process.processKey,
+        process.processKeyWithoutPhase,
         relatedProject.authBase,
         user,
         AccessLevels.start,
@@ -243,7 +243,7 @@ export class AlandaProjectAndProcessesService {
       noPhaseOrActivePhase &&
       this.hasProcessPermission(
         process.phase,
-        process.processKey,
+        process.processKeyWithoutPhase,
         relatedProject.authBase,
         user,
         AccessLevels.start,
@@ -261,7 +261,7 @@ export class AlandaProjectAndProcessesService {
       isStateNew &&
       this.hasProcessPermission(
         process.phase,
-        process.processKey,
+        process.processKeyWithoutPhase,
         relatedProject.authBase,
         user,
         AccessLevels.create,
