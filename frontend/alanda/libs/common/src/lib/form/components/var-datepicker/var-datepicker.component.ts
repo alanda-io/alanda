@@ -23,15 +23,7 @@ export class AlandaVarDatepickerComponent implements OnInit {
   @Input() task: any;
   @Input() label: string;
 
-  @Input()
-  set rootFormGroup(rootFormGroup: FormGroup) {
-    if (rootFormGroup) {
-      rootFormGroup.addControl(
-        `${SELECTOR}-${this.variableName}`,
-        this.datepickerForm,
-      );
-    }
-  }
+  @Input() rootFormGroup: FormGroup;
 
   locale: LocaleSettings;
 
@@ -67,6 +59,12 @@ export class AlandaVarDatepickerComponent implements OnInit {
         value: this.pickedDate.value,
         type: 'String',
       })
+      .subscribe();
+  }
+
+  delete(): void {
+    this.taskService
+      .deleteVariable(this.task.task_id, this.variableName)
       .subscribe();
   }
 

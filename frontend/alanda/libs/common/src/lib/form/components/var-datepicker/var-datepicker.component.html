@@ -10,7 +10,10 @@
       [dateFormat]="locale.dateFormat"
       [showIcon]="true"
       appendTo="body"
+      [showButtonBar]="true"
+      [readonlyInput]="true"
       (onSelect)="save()"
+      (onClearClick)="delete()"
     >
     </p-calendar>
   </div>
