@@ -17,7 +17,6 @@ import javax.ejb.Stateless;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import org.apache.commons.io.IOUtils;
 
 import io.alanda.base.dao.DocumentDao;
@@ -37,6 +36,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Instance;
+
+import org.apache.commons.lang.time.FastDateFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -178,8 +179,7 @@ public class DocumentServiceImpl implements DocumentService {
 
   @Override
   public DocumentSimpleDto get(String documentId) throws IOException {
-    // Don't move outside of method scope! SimpleDateFormat is not Threadsafe!
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    FastDateFormat fastDateFormat = FastDateFormat.getInstance(DATE_FORMAT);
     Document doc = documentDao.getById(Long.valueOf(documentId));
     documentDao.update(doc);
     final InputStream is = fileService.getFileInputSteam(convertToFileSystemPath(doc.getPath()) + "/" + doc.getFileName());
@@ -187,7 +187,7 @@ public class DocumentServiceImpl implements DocumentService {
       String.valueOf(doc.getGuid()),
       doc.getFileName(),
       doc.getPath(),
-      dateFormat.format(doc.lastMod()),
+      fastDateFormat.format(doc.lastMod()),
       doc.getMediaType(),
       doc.getFileSize() / 1024);
     dsd.setIntputStream(is);
