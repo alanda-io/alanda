@@ -89,7 +89,7 @@ public class FolderRestResourceImpl implements FolderRestResource {
     files = files
       .stream()
       .filter(f -> wcf.accept(new File(f.getName())))
-      .sorted((f1, f2) -> compareFileDates(f1, f2))
+      .sorted(this::compareFileDates)
       .collect(Collectors.toList());
     if (files.size() > 0) {
       return files;
@@ -166,9 +166,13 @@ public class FolderRestResourceImpl implements FolderRestResource {
   }
 
   private int compareFileDates(DocumentSimpleDto f1, DocumentSimpleDto f2) {
-    FastDateFormat fdf = FastDateFormat.getInstance("dd.MM.yyyy HH:mm");
+    FastDateFormat fdf = FastDateFormat.getInstance(documentService.DATE_FORMAT);
     try {
-      return fdf.parse(f2.getLastModified()).compareTo(fdf.parse(f1.getLastModified()));
+      int compareResult = fdf.parse(f2.getLastModified()).compareTo(fdf.parse(f1.getLastModified()));
+      if(compareResult == 0){
+        return f2.getGuid().compareTo(f1.getGuid());
+      }
+      return compareResult;
     } catch (ParseException ex) {
       log.warn("can not parse date of file {} or {}", f1, f2);
       return 0;

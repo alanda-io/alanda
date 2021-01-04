@@ -12,6 +12,8 @@ import io.alanda.base.dto.PmcProjectDto;
 
 public interface DocumentService {
 
+  String DATE_FORMAT = "dd.MM.yyyy HH:mm";
+
   DirectoryInfoDto getTree(DocuQueryDto query);
 
   void getAll(DocuQueryDto query, OutputStream output) throws IOException;
