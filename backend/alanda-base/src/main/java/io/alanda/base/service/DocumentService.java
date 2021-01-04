@@ -12,7 +12,7 @@ import io.alanda.base.dto.PmcProjectDto;
 
 public interface DocumentService {
 
-  String DATE_FORMAT = "yyyy-mm-dd HH:mm";
+  String DATE_FORMAT = "yyyy-MM-dd HH:mm";
 
   DirectoryInfoDto getTree(DocuQueryDto query);
 
