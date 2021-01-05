@@ -3,4 +3,5 @@ export interface AlandaPhaseDefinition {
   displayName: string;
   guid: number;
   idName: string;
+  phaseProcessKey?: string;
 }
