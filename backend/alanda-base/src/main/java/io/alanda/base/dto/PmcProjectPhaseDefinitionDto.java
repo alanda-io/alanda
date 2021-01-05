@@ -15,6 +15,8 @@ public class PmcProjectPhaseDefinitionDto {
   Collection<String> prepareRights;
   
   Collection<String> writeRights;
+  
+  String phaseProcessKey;
 
   public Long getGuid() {
     return guid;
@@ -73,4 +75,12 @@ public class PmcProjectPhaseDefinitionDto {
     this.writeRights = writeRights;
   }
 
+  public String getPhaseProcessKey() {
+      return phaseProcessKey;
+  }
+
+  public void setPhaseProcessKey(String phaseProcessKey) {
+      this.phaseProcessKey = phaseProcessKey;
+  }
+  
 }

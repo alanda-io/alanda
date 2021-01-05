@@ -11,6 +11,7 @@ import { Authorizations } from '../../permissions';
 
 export interface AlandaPhaseTabState {
   simplePhases: AlandaSimplePhase[];
+  readOnlyPhases: string[];
   project: AlandaProject;
   activePhase: AlandaSimplePhase;
   phase: string;
@@ -30,6 +31,9 @@ export class AlandaPhaseTabComponent {
   }
   @Input() set simplePhases(simplePhases: AlandaSimplePhase[]) {
     this.state.set({ simplePhases });
+  }
+  @Input() set readOnlyPhases(readOnlyPhases: string[]) {
+    this.state.set({ readOnlyPhases });
   }
   @Input() phase: string;
   @Output() activePhaseChange = new EventEmitter<string>();
@@ -141,23 +145,77 @@ export class AlandaPhaseTabComponent {
     phase: AlandaSimplePhase,
   ): { label: string; styleClass: string } {
     if (!phase.guid) {
+      // Overview tab ohne guid aus dem Backend
       return this.phaseStatusMap.overview;
     } else if (phase.active) {
       return this.phaseStatusMap.active;
-    } else if (phase.endDate) {
+    } else if (phase.endDate != null) {
       return this.phaseStatusMap.completed;
     } else if (phase.frozen && phase.enabled === null) {
       return this.phaseStatusMap.error;
-    } else if (phase.frozen && phase.enabled) {
+    } else if (phase.frozen && phase.enabled === true) {
       return this.phaseStatusMap.starting;
+    } else if (phase.enabled === false) {
+      return this.phaseStatusMap.notRequired;
     } else if (phase.enabled === null) {
       return this.phaseStatusMap.notSet;
-    } else if (!phase.enabled) {
-      return this.phaseStatusMap.notRequired;
-    } else if (phase.enabled) {
+    } else if (phase.enabled === true) {
       return this.phaseStatusMap.required;
     }
-    return this.phaseStatusMap.notSet;
+    return this.phaseStatusMap.notSet; // cannot happen because at least one of the 3 enabled states must match
+  }
+
+  isReadOnly(phase: AlandaSimplePhase): boolean {
+    let readOnly = false;
+    const roPhases =
+      this.state.get('readOnlyPhases') != null
+        ? this.state.get('readOnlyPhases')
+        : [];
+    if (
+      !this.hasAuth(phase, 'write') ||
+      phase.guid == null ||
+      roPhases.findIndex(
+        (phaseIdName) => phaseIdName === phase.pmcProjectPhaseDefinition.idName,
+      ) !== -1 ||
+      this.state.get('project').status === 'CANCELED' ||
+      this.state.get('project').status === 'COMPLETED'
+    ) {
+      readOnly = true;
+    } else if (
+      (phase.startDate != null || phase.frozen === true) &&
+      !this.startEnabled(phase) &&
+      !this.restartEnabled(phase)
+    ) {
+      readOnly = true;
+    }
+    return readOnly;
+  }
+
+  startEnabled(phase: AlandaSimplePhase): boolean {
+    if (
+      this.hasAuth(phase, 'start') &&
+      this.state.get('project').status !== 'CANCELED' &&
+      this.state.get('project').status !== 'COMPLETED' &&
+      phase.frozen === true &&
+      phase.enabled === false &&
+      phase.pmcProjectPhaseDefinition.phaseProcessKey != null
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  restartEnabled(phase: AlandaSimplePhase) {
+    if (
+      this.hasAuth(phase, 'restart') &&
+      this.state.get('project').status !== 'CANCELED' &&
+      this.state.get('project').status !== 'COMPLETED' &&
+      phase.endDate !== null &&
+      phase.pmcProjectPhaseDefinition.phaseProcessKey != null
+    ) {
+      return true;
+    }
+    return false;
   }
 
   togglePhaseEnabled(phase: AlandaSimplePhase, enabled: boolean): void {
@@ -172,7 +230,6 @@ export class AlandaPhaseTabComponent {
   }
 
   getMenuItems(phase: AlandaSimplePhase): MenuItem[] {
-    const project = this.state.get().project;
     const menuItems: MenuItem[] = [];
     if (!phase.enabled) {
       menuItems.push({
@@ -188,21 +245,19 @@ export class AlandaPhaseTabComponent {
         command: () => this.togglePhaseEnabled(phase, false),
       });
     }
-    if (project.status !== 'CANCELED' && project.status !== 'COMPLETED') {
-      if (phase.endDate && this.hasAuth(phase, 'restart')) {
-        menuItems.push({
-          label: 'Restart Phase',
-          icon: 'pi pi-refresh',
-          command: () => this.restartPhase(phase),
-        });
-      }
-      if (phase.frozen && !phase.enabled && this.hasAuth(phase, 'start')) {
-        menuItems.push({
-          label: 'Start Phase',
-          icon: 'pi pi-play',
-          command: () => this.startPhase(phase),
-        });
-      }
+    if (this.restartEnabled(phase)) {
+      menuItems.push({
+        label: 'Restart Phase',
+        icon: 'pi pi-refresh',
+        command: () => this.restartPhase(phase),
+      });
+    }
+    if (this.startEnabled(phase)) {
+      menuItems.push({
+        label: 'Start Phase',
+        icon: 'pi pi-play',
+        command: () => this.startPhase(phase),
+      });
     }
     return menuItems;
   }

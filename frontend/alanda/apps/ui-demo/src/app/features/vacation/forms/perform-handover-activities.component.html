@@ -19,6 +19,12 @@
         variableName="requestApproved"
         label="Approve vacation request?"
       ></alanda-simple-select>
+      <alanda-var-datepicker
+        [task]="taskFormState.task"
+        [rootFormGroup]="rootForm"
+        variableName="pbDate"
+        label="PB Date (100)"
+      ></alanda-var-datepicker>
     </alanda-complete-task>
   </form>
 </ng-container>
