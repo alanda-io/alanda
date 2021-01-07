@@ -7,6 +7,7 @@ import { LabelModule } from '../label/label.module';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
   declarations: [AlandaSelectMilestoneComponent],
@@ -18,6 +19,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     InputTextModule,
     DialogModule,
     InputTextareaModule,
+    RippleModule,
   ],
   exports: [AlandaSelectMilestoneComponent],
 })

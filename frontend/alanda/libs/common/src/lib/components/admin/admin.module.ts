@@ -13,6 +13,7 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { PickListModule } from 'primeng/picklist';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     PickListModule,
     ReactiveFormsModule,
     InputSwitchModule,
+    RippleModule,
   ],
   exports: [
     AlandaGroupManagementComponent,

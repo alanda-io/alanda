@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { LabelModule } from '../label/label.module';
+import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
   declarations: [AlandaCreateProjectComponent],
@@ -31,6 +32,7 @@ import { LabelModule } from '../label/label.module';
     ReactiveFormsModule,
     AutoCompleteModule,
     LabelModule,
+    RippleModule,
   ],
   exports: [AlandaCreateProjectComponent],
 })

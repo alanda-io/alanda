@@ -21,6 +21,7 @@ import { DirectivesModule } from '../../directives/directives.module';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
+import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { InputTextModule } from 'primeng/inputtext';
     ButtonModule,
     TableModule,
     InputTextModule,
+    RippleModule,
   ],
   exports: [
     AlandaProjectAndProcessesComponent,

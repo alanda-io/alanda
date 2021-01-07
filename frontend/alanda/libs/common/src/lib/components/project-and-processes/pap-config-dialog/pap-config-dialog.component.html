@@ -15,6 +15,7 @@
   <div class="p-dialog-footer">
     <button
       pButton
+      pRipple
       [label]="startProcess ? 'Cancel' : 'Ok'"
       [icon]="startProcess ? 'pi pi-times' : 'pi pi-check'"
       class="p-button-text"
@@ -23,6 +24,7 @@
     <button
       *ngIf="startProcess"
       pButton
+      pRipple
       label="OK"
       icon="pi pi-check"
       class="p-button-text"

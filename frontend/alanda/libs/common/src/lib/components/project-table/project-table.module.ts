@@ -13,6 +13,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { QuickEditProjectDetailsModule } from '../quick-edit-project-details/quick-edit-project-details.module';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     DialogModule,
     QuickEditProjectDetailsModule,
     OverlayPanelModule,
+    RippleModule,
   ],
   declarations: [AlandaProjectTableComponent],
   exports: [AlandaProjectTableComponent],
