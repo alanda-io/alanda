@@ -17,6 +17,7 @@
       <button
         (click)="toggleGroupTasks(false)"
         pButton
+        pRipple
         type="button"
         label="My Tasks"
         class="p-button-rounded action-button"
@@ -25,6 +26,7 @@
       <button
         (click)="toggleGroupTasks(true)"
         pButton
+        pRipple
         type="button"
         label="My Group Tasks"
         class="p-button-rounded action-button"
@@ -112,6 +114,7 @@
                 <span class="p-buttonset">
                   <button
                     pButton
+                    pRipple
                     class="table-action-button"
                     type="button"
                     label="{{ task.claimLabel }}"
@@ -119,6 +122,7 @@
                   ></button>
                   <button
                     pButton
+                    pRipple
                     class="table-action-button"
                     type="button"
                     icon="pi pi-arrow-circle-right"
@@ -130,6 +134,7 @@
               <ng-container *ngIf="col.name === 'X' && task.project">
                 <button
                   pButton
+                  pRipple
                   icon="pi pi-pencil"
                   class="p-button-text"
                   (click)="setupProjectDetailsModalEvent$.next(task.project)"

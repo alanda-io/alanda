@@ -158,6 +158,7 @@
                   <div class="p-col-12 p-md-6">
                     <button
                       pButton
+                      pRipple
                       type="submit"
                       [label]="selectedUser ? 'Update User' : 'Create User'"
                     ></button>
@@ -165,6 +166,7 @@
                   <div class="p-col-12 p-md-6" [hidden]="!selectedUser">
                     <button
                       pButton
+                      pRipple
                       type="button"
                       label="Run as user"
                       (click)="runAsUser()"

@@ -18,6 +18,7 @@ import { QuickEditProjectDetailsModule } from '../quick-edit-project-details/qui
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { SlideMenuModule } from 'primeng/slidemenu';
 import { PanelMenuModule } from 'primeng/panelmenu';
+import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
   declarations: [AlandaTaskTableComponent],
@@ -41,6 +42,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
     OverlayPanelModule,
     SlideMenuModule,
     PanelMenuModule,
+    RippleModule,
   ],
   exports: [AlandaTaskTableComponent],
 })
