@@ -231,28 +231,34 @@ export class AlandaPhaseTabComponent {
 
   getMenuItems(phase: AlandaSimplePhase): MenuItem[] {
     const menuItems: MenuItem[] = [];
-    if (!phase.enabled) {
+    const startEnabled: boolean = this.startEnabled(phase);
+    const restartEnabled: boolean = this.restartEnabled(phase);
+    if (!phase.enabled && !startEnabled && !restartEnabled) {
       menuItems.push({
         label: 'Required',
         icon: 'pi pi-check',
         command: () => this.togglePhaseEnabled(phase, true),
       });
     }
-    if (phase.enabled || phase.enabled === null) {
+    if (
+      (phase.enabled || phase.enabled === null) &&
+      !startEnabled &&
+      !restartEnabled
+    ) {
       menuItems.push({
         label: 'Not required',
         icon: 'pi pi-ban',
         command: () => this.togglePhaseEnabled(phase, false),
       });
     }
-    if (this.restartEnabled(phase)) {
+    if (restartEnabled) {
       menuItems.push({
         label: 'Restart Phase',
         icon: 'pi pi-refresh',
         command: () => this.restartPhase(phase),
       });
     }
-    if (this.startEnabled(phase)) {
+    if (startEnabled) {
       menuItems.push({
         label: 'Start Phase',
         icon: 'pi pi-play',
