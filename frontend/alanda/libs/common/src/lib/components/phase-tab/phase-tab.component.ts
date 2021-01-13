@@ -340,7 +340,7 @@ export class AlandaPhaseTabComponent {
     );
   }
 
-  private updatePhasesInState(response: AlandaSimplePhase) {
+  updatePhasesInState(response: AlandaSimplePhase) {
     const newSimplePhases = [...this.state.get().simplePhases];
     const i = newSimplePhases.findIndex(
       (phase) => phase.guid === response.guid,
