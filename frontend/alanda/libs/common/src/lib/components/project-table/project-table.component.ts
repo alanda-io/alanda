@@ -6,7 +6,7 @@ import { ServerOptions } from '../../models/serverOptions';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
-import { AlandaProject } from '../../api/models/project';
+import { AlandaProject, AlandaProjectListData } from '../../api/models/project';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { RxState } from '@rx-angular/state';
 import { exportAsCsv } from '../../utils/helper-functions';
@@ -32,7 +32,7 @@ interface AlandaProjectTableState {
   loading: boolean;
   selectedProject: AlandaProject;
   showProjectDetailsModal: boolean;
-  projectsData: AlandaListResult<AlandaProject>;
+  projectsData: AlandaListResult<AlandaProjectListData>;
   selectedPageSize: number;
   selectedLayout: AlandaTableLayout;
   filteredColumns: AlandaTableColumnDefinition[];

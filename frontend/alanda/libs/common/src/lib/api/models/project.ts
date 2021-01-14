@@ -52,3 +52,7 @@ export interface AlandaProject {
   running?: boolean;
   humanReadableId?: string;
 }
+
+export interface AlandaProjectListData {
+  project: AlandaProject;
+}

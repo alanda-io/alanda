@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { AlandaProject } from '../../../api/models/project';
 import { AlandaProjectType } from '../../../api/models/projectType';
@@ -12,7 +12,7 @@ import { finalize } from 'rxjs/operators';
   templateUrl: './pap-relate-dialog.component.html',
   styleUrls: ['./pap-relate-dialog.component.scss'],
 })
-export class PapRelateDialogComponent implements OnInit {
+export class PapRelateDialogComponent {
   projects: AlandaProject[] = [];
   projectTypes: AlandaProjectType[] = [];
   loading = true;
@@ -32,8 +32,6 @@ export class PapRelateDialogComponent implements OnInit {
     public dynamicDialogRef: DynamicDialogRef,
     public config: DynamicDialogConfig,
   ) {}
-
-  ngOnInit() {}
 
   loadProjectsLazy(event: LazyLoadEvent) {
     let sortOptions = {};

@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { APP_CONFIG, AppSettings } from '../models/appSettings';
-import { AlandaProject } from './models/project';
+import { AlandaProject, AlandaProjectListData } from './models/project';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ServerOptions } from '../models/serverOptions';
@@ -49,15 +49,17 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
 
   public loadProjects(
     serverOptions: ServerOptions,
-  ): Observable<AlandaListResult<AlandaProject>> {
+  ): Observable<AlandaListResult<AlandaProjectListData>> {
     return this.http
-      .post<AlandaListResult<AlandaProject>>(
+      .post<AlandaListResult<AlandaProjectListData>>(
         `${this.endpoint}/projectsel`,
         serverOptions,
       )
       .pipe(
         catchError(
-          this.handleError<AlandaListResult<AlandaProject>>('loadProjects'),
+          this.handleError<AlandaListResult<AlandaProjectListData>>(
+            'loadProjects',
+          ),
         ),
       );
   }
