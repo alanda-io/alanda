@@ -6,7 +6,7 @@ import { AlandaUser } from '../../api/models/user';
 import { AlandaTaskApiService } from '../../api/taskApi.service';
 import { AlandaTableLayout } from '../../api/models/tableLayout';
 import { AlandaListResult } from '../../api/models/listResult';
-import { AlandaTask } from '../../api/models/task';
+import { AlandaTaskListData } from '../../api/models/task';
 import { RxState } from '@rx-angular/state';
 import {
   combineLatest,
@@ -27,6 +27,7 @@ import {
   startWith,
   switchMap,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { AlandaProject } from '../../api/models/project';
@@ -45,7 +46,7 @@ interface AlandaTaskTableState {
   showProjectDetailsModal: boolean;
   user: AlandaUser;
   serverOptions: ServerOptions;
-  tasksData: AlandaListResult<AlandaTask>;
+  tasksData: AlandaListResult<AlandaTaskListData>;
   defaultLayout: number;
   layouts: AlandaTableLayout[];
   selectedLayout: AlandaTableLayout;
@@ -122,6 +123,7 @@ export class AlandaTaskTableComponent {
   layoutChange$ = new Subject<any>();
   onMenuItemColumnClick$ = new Subject<string>();
   onExportCsvClick$ = new Subject<ExportType>();
+  claimTask$ = new Subject<AlandaTaskListData>();
   @ViewChild('tt') turboTable: Table;
 
   /**
@@ -137,7 +139,17 @@ export class AlandaTaskTableComponent {
     map((event) => this.buildServerOptions(event)),
     switchMap((serverOptions) =>
       this.taskService.loadTasks(serverOptions).pipe(
-        map((tasks) => this.mapClaimLabels(tasks)),
+        withLatestFrom(this.state.select('user')),
+        map(([response, user]) => {
+          response.results = response.results.map((task) => {
+            task.claimLabel =
+              user?.guid === +task.task?.assignee_id
+                ? UNCLAIM_TEXT
+                : CLAIM_TEXT;
+            return task;
+          });
+          return response;
+        }),
         map((tasksData) => ({ serverOptions, tasksData, loading: false })),
         startWith({ loading: true }),
         catchError((err) => {
@@ -241,6 +253,59 @@ export class AlandaTaskTableComponent {
     ),
   );
 
+  claimTaskSideEffect$ = this.claimTask$.pipe(
+    withLatestFrom(this.state.select('user')),
+    tap(() => this.state.set({ loading: true })),
+    switchMap(([taskData, user]) => {
+      if (user.guid === +taskData.task.assignee_id) {
+        return this.taskService.unclaim(taskData.task.task_id).pipe(
+          catchError((err, caught) => {
+            this.state.set({ loading: false });
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Unclaim Task',
+              detail: err.message,
+            });
+            console.error(err);
+            return caught;
+          }),
+          tap(() => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Unclaim Task',
+              detail: 'Task has been unclaimed',
+            });
+          }),
+        );
+      } else {
+        return this.taskService.assign(taskData.task.task_id, user.guid).pipe(
+          catchError((err, caught) => {
+            this.state.set({ loading: false });
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Claim Task',
+              detail: err.message,
+            });
+            console.error(err);
+            return caught;
+          }),
+          tap(() => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Claim Task',
+              detail: 'Task has been claimed',
+            });
+          }),
+        );
+      }
+    }),
+    delay(1000), // Wait for elastic search to update before updating table data
+    tap(() => {
+      this.state.set({ loading: false });
+      this.needReloadEvent$.next();
+    }),
+  );
+
   constructor(
     private readonly taskService: AlandaTaskApiService,
     public messageService: MessageService,
@@ -260,6 +325,7 @@ export class AlandaTaskTableComponent {
     this.state.connect(this.toggleColumn$);
     this.state.hold(this.layoutChanged$);
     this.state.hold(this.updateMenuColumnOptions$);
+    this.state.hold(this.claimTaskSideEffect$);
     this.state.connect(
       this.setupProjectDetailsModalEvent$.pipe(
         map((selectedProject) => ({
@@ -321,20 +387,6 @@ export class AlandaTaskTableComponent {
     return serverOptions;
   }
 
-  mapClaimLabels(
-    tasks: AlandaListResult<AlandaTask>,
-  ): AlandaListResult<AlandaTask> {
-    const user = this.state.get()?.user;
-    const newList = tasks?.results?.map((task) => {
-      task.claimLabel =
-        user?.guid === +task.task?.assignee_id ? UNCLAIM_TEXT : CLAIM_TEXT;
-      return task;
-    });
-
-    tasks.results = newList;
-    return tasks;
-  }
-
   toggleGroupTasks(value: boolean): void {
     this.groupTasks = value;
     this.needReloadEvent$.next();
@@ -350,67 +402,6 @@ export class AlandaTaskTableComponent {
       ` return function ({${props}})  { return ${condition}} `,
     );
     return evalCon()(obj);
-  }
-
-  // TODO Kill and Refactor
-  claimAction(task): void {
-    this.state.set({ loading: true });
-    if (this.state.get().user.guid === +task.task.assignee_id) {
-      this.taskService.unclaim(task.task.task_id).subscribe(
-        () => {
-          if (this.groupTasks) {
-            task.task.assignee_id = 0;
-            task.task.assignee = '';
-            task.claimLabel = 'Claim';
-          } else {
-            const tasksData = this.state.get()?.tasksData;
-            tasksData.results.splice(tasksData.results.indexOf(task), 1);
-            this.state.set({ tasksData });
-          }
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Unclaim Task',
-            detail: 'Task has been unclaimed',
-          });
-          this.needReloadEvent$.next();
-        },
-        (error) => {
-          this.state.set({ loading: false });
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Unclaim Task',
-            detail: error.message,
-          });
-        },
-      );
-    } else {
-      this.taskService
-        .assign(task.task.task_id, this.state.get().user.guid)
-        .subscribe(
-          (res) => {
-            task.task.assignee_id = String(this.state.get().user.guid);
-            task.task.assignee =
-              this.state.get().user.firstName +
-              ' ' +
-              this.state.get().user.surname;
-            task.claimLabel = 'Unclaim';
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Claim Task',
-              detail: 'Task has been claimed',
-            });
-            this.needReloadEvent$.next();
-          },
-          (error) => {
-            this.state.set({ loading: false });
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Claim Task',
-              detail: error.message,
-            });
-          },
-        );
-    }
   }
 
   openDelegationForm(data): void {

@@ -1,4 +1,5 @@
 import { ProjectState } from '../../enums/projectState.enum';
+import { AlandaProject } from './project';
 
 export interface AlandaTask {
   assignee?: string;
@@ -28,4 +29,12 @@ export interface AlandaTask {
   process_package_key?: string;
   suspension_state?: boolean;
   actinst_type?: string;
+}
+
+export interface AlandaTaskListData {
+  claimLabel: string;
+  lastSyncTime: number;
+  project: AlandaProject;
+  refObject: any;
+  task: AlandaTask;
 }

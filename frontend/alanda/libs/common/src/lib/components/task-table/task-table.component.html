@@ -118,7 +118,7 @@
                     class="table-action-button"
                     type="button"
                     label="{{ task.claimLabel }}"
-                    (click)="claimAction(task)"
+                    (click)="claimTask$.next(task)"
                   ></button>
                   <button
                     pButton
