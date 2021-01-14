@@ -142,10 +142,10 @@ export class AlandaUserManagementComponent implements OnInit {
       }
     }
     this.userService.getUsers(serverOptions).subscribe(
-      (result) => {
+      (response) => {
         this.loading = false;
-        this.users = result.results;
-        this.totalRecords = result.total;
+        this.users = response.results;
+        this.totalRecords = response.total;
       },
       (error) => {
         this.loading = false;
