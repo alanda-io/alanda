@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { APP_CONFIG, AppSettings } from '../models/appSettings';
 import { Observable } from 'rxjs';
-import { AlandaTask } from './models/task';
+import { AlandaTask, AlandaTaskListData } from './models/task';
 import { catchError } from 'rxjs/operators';
 import { AlandaUser } from './models/user';
 import { AlandaExceptionHandlingService } from '../services/exceptionHandling.service';
@@ -33,14 +33,16 @@ export class AlandaTaskApiService extends AlandaExceptionHandlingService {
 
   loadTasks(
     serverOptions: ServerOptions,
-  ): Observable<AlandaListResult<AlandaTask>> {
+  ): Observable<AlandaListResult<AlandaTaskListData>> {
     return this.http
-      .post<AlandaListResult<AlandaTask>>(
+      .post<AlandaListResult<AlandaTaskListData>>(
         this.endpointUrl + '/list',
         serverOptions,
       )
       .pipe(
-        catchError(this.handleError<AlandaListResult<AlandaTask>>('loadTasks')),
+        catchError(
+          this.handleError<AlandaListResult<AlandaTaskListData>>('loadTasks'),
+        ),
       );
   }
 
