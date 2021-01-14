@@ -1,10 +1,4 @@
-import {
-  Component,
-  Inject,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, Inject, Input, Output, ViewChild } from '@angular/core';
 import { combineLatest, EMPTY, merge, of, Subject } from 'rxjs';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
