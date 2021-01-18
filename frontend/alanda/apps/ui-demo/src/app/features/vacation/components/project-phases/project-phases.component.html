@@ -18,6 +18,19 @@
             </div>
           </div>
         </div>
+
+        <div class="p-col-3">
+          <div class="p-fluid p-grid">
+            <alanda-milestone-select
+              [project]="project"
+              [fcCommentRequired]="true"
+              [actCommentRequired]="true"
+              msName="test"
+              [user]="user"
+              [displayName]="'test'"
+            ></alanda-milestone-select>
+          </div>
+        </div>
       </div>
     </div>
     <div *ngSwitchCase="'1'">
