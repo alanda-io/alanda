@@ -3,6 +3,7 @@
     <div class="p-col-fixed avatar-wrapper">
       <img
         class="avatar"
+        [alt]="s.comment.authorName"
         [src]="s.avatarPath"
         (error)="fallbackImage($event)"
         draggable="false"
@@ -30,7 +31,7 @@
                 <ul class="tag-list" *ngFor="let tag of s.comment.tagList">
                   <li class="tag-item">
                     <alanda-comment-tag
-                      class="p-button-text p-p-0"
+                      class="p-button-text tag-item-comment"
                       [isActive]="s.activeTagFilters[tag.name]"
                       [tag]="tag"
                       (toggleFilterClick)="toggleFilterClick$.next($event)"

@@ -54,8 +54,18 @@
     display: inline-block;
 
     .tag-item {
-      margin-left: 0.1429rem;
+      margin-right: 0.6rem;
       display: inline-block;
+
+      ::ng-deep {
+        .tag-item-comment {
+          padding: 0 !important;
+
+          .p-button-icon-left {
+            margin-right: 0.25rem;
+          }
+        }
+      }
     }
   }
 }

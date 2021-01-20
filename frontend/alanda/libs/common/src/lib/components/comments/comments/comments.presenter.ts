@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RxState, toDictionary, toggle, patch } from '@rx-angular/state';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { FormBuilder, Validators } from '@angular/forms';
 import {
@@ -12,6 +12,7 @@ import {
 import { AlandaReplyPostBody } from '../../../api/models/replyPostBody';
 import { AlandaComment } from '../../../api/models/comment';
 import { AlandaCommentTag } from '../../../api/models/commentTag';
+import { AlandaTask } from '../../../api/models/task';
 
 interface AlandaCommentPresenterState {
   comments: AlandaComment[];
@@ -19,6 +20,7 @@ interface AlandaCommentPresenterState {
   activeTagFilters: { [tagName: string]: boolean };
   searchText: string;
   tag: AlandaCommentTag;
+  task: AlandaTask;
 }
 
 /**
@@ -68,10 +70,11 @@ export class AlandaCommentsPresenter extends RxState<
   );
 
   activeTagFiltersFromTagObject$ = this.select('tagObjectMap').pipe(
-    map((tags) => {
+    withLatestFrom(this.select('task')),
+    map(([tags, task]) => {
       const activeFilters = {};
-      Object.keys(tags).forEach((key: string) => {
-        activeFilters[key] = false;
+      Object.keys(tags).forEach((tag: string) => {
+        activeFilters[tag] = tag === task.process_name;
       });
       return activeFilters;
     }),

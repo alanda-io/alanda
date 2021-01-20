@@ -106,6 +106,7 @@ export class AlandaCommentsComponent {
         return comments;
       },
     );
+    this.cp.connect('task', this.state.select('task'));
     this.ca.connectFetchComments(this.processInstanceId$);
     this.ca.connectPostComment(this.commentPostBody$);
     this.ca.connectPostReply(this.cp.replyPostBody$);
