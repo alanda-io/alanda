@@ -113,7 +113,6 @@ export class AlandaCommentsAdapter extends RxState<AlandaCommentAdapterState> {
     }
     // Add process name to tag list
     if (comment.businessKey !== '' && comment.businessKey != null) {
-      console.log(comment.businessKey)
       comment.tagList.push({ name: comment.businessKey, type: 'bo' });
     }
     // Extract hashtags out of subject
