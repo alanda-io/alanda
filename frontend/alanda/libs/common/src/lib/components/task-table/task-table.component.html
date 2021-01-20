@@ -127,7 +127,7 @@
                     type="button"
                     icon="pi pi-arrow-circle-right"
                     pTooltip="Delegate Task"
-                    (click)="openDelegationForm(task)"
+                    (click)="delegateTaskEvent$.next(task)"
                   ></button>
                 </span>
               </ng-container>
@@ -184,7 +184,7 @@
     <div class="p-fluid">
       <p-dropdown
         #dd
-        [options]="candidateUsers"
+        [options]="s.candidateUsers"
         optionLabel="displayName"
         placeholder="Select a user"
         [filter]="true"
@@ -198,10 +198,10 @@
         label="Cancel"
       ></p-button>
       <p-button
-        (onClick)="delegateTask(dd.value)"
+        (onClick)="delegateTaskToUserEvent$.next(dd.value)"
         styleClass="p-button-text"
         icon="pi pi-check"
-        [disabled]="!dd.value"
+        [disabled]="!dd.value || s.loading"
         label="Delegate"
       ></p-button>
     </p-footer>

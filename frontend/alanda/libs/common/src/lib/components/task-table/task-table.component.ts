@@ -52,6 +52,8 @@ interface AlandaTaskTableState {
   selectedLayout: AlandaTableLayout;
   filteredColumns: AlandaTableColumnDefinition[];
   menuItems: MenuItem[];
+  candidateUsers: AlandaUser[];
+  delegatedTaskData: AlandaTaskListData;
 }
 
 const initState = {
@@ -76,6 +78,8 @@ export class AlandaTaskTableComponent {
   closeProjectDetailsModalEvent$ = new Subject<AlandaProject>();
   lazyLoadEvent$ = new Subject();
   needReloadEvent$ = new Subject();
+  delegateTaskEvent$ = new Subject<AlandaTaskListData>();
+  delegateTaskToUserEvent$ = new Subject<AlandaUser>();
   setupProjectDetailsModalEvent$ = new Subject<AlandaProject>();
   menuBarVisible = false;
 
@@ -117,8 +121,6 @@ export class AlandaTaskTableComponent {
 
   dateFormat: string;
   showDelegateDialog = false;
-  candidateUsers: any[] = [];
-  delegatedTaskData: any;
   hiddenColumns = {};
   layoutChange$ = new Subject<any>();
   onMenuItemColumnClick$ = new Subject<string>();
@@ -306,6 +308,49 @@ export class AlandaTaskTableComponent {
     }),
   );
 
+  delegateTask$ = this.delegateTaskEvent$.pipe(
+    switchMap((data: AlandaTaskListData) => {
+      return this.taskService.getCandidates(data.task.task_id).pipe(
+        catchError((err, caught) => {
+          console.error(err);
+          return caught;
+        }),
+        tap(() => (this.showDelegateDialog = true)),
+        map((response) => {
+          return {
+            candidateUsers: response,
+            delegatedTaskData: data,
+          };
+        }),
+      );
+    }),
+  );
+
+  delegateTaskToUser$ = this.delegateTaskToUserEvent$.pipe(
+    withLatestFrom(
+      this.state.select('delegatedTaskData'),
+      this.state.select('user'),
+    ),
+    tap(() => this.state.set({ loading: true })),
+    switchMap(([selectedUser, delegatedTaskData, user]) => {
+      return this.taskService
+        .assign(delegatedTaskData.task.task_id, selectedUser.guid)
+        .pipe(
+          catchError((err, caught) => {
+            console.error(err);
+            this.state.set({ loading: false });
+            return caught;
+          }),
+          delay(1000),
+          tap(() => {
+            this.hideDelegateDialog();
+            this.state.set({ loading: false });
+            this.needReloadEvent$.next();
+          }),
+        );
+    }),
+  );
+
   constructor(
     private readonly taskService: AlandaTaskApiService,
     public messageService: MessageService,
@@ -349,6 +394,8 @@ export class AlandaTaskTableComponent {
 
     this.state.hold(this.needReloadEvent$);
     this.state.hold(this.lazyLoadEvent$);
+    this.state.connect(this.delegateTask$);
+    this.state.hold(this.delegateTaskToUser$);
   }
 
   buildServerOptions(event: LazyLoadEvent): ServerOptions {
@@ -404,49 +451,10 @@ export class AlandaTaskTableComponent {
     return evalCon()(obj);
   }
 
-  openDelegationForm(data): void {
-    this.delegatedTaskData = data;
-    this.taskService.getCandidates(data.task.task_id).subscribe((res) => {
-      this.candidateUsers = res;
-    });
-    this.showDelegateDialog = true;
-  }
-
-  // TODO Kill and Refactor
-  delegateTask(selectedUser): void {
-    if (selectedUser) {
-      this.state.set({ loading: true });
-      this.taskService
-        .assign(this.delegatedTaskData.task.task_id, selectedUser.guid)
-        .subscribe(
-          (res) => {
-            if (
-              this.groupTasks ||
-              selectedUser.guid === String(this.state.get().user.guid)
-            ) {
-              this.delegatedTaskData.task.assignee_id = +selectedUser.guid;
-              this.delegatedTaskData.task.assignee = selectedUser.displayName;
-            } else {
-              const tasksData = this.state.get()?.tasksData;
-              tasksData.results.splice(
-                tasksData.results.indexOf(this.delegatedTaskData),
-                1,
-              );
-              this.state.set({ tasksData });
-            }
-            this.hideDelegateDialog();
-            this.needReloadEvent$.next();
-          },
-          (err) => {
-            this.state.set({ loading: false });
-            this.hideDelegateDialog();
-          },
-        );
-    }
-  }
-
   hideDelegateDialog(): void {
-    this.delegatedTaskData = {};
+    this.state.set({
+      delegatedTaskData: null,
+    });
     this.showDelegateDialog = false;
   }
 
