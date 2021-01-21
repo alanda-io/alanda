@@ -74,7 +74,7 @@ export class AlandaCommentsPresenter extends RxState<
     map(([tags, task]) => {
       const activeFilters = {};
       Object.keys(tags).forEach((tag: string) => {
-        activeFilters[tag] = tag === task.process_name;
+        activeFilters[tag] = tag === (task && task.process_name);
       });
       return activeFilters;
     }),
@@ -108,7 +108,7 @@ export class AlandaCommentsPresenter extends RxState<
 
   constructor(private readonly fb: FormBuilder) {
     super();
-    this.set({ searchText: '' });
+    this.set({ searchText: '', task: null });
     this.connect('activeTagFilters', this.activeTagFiltersFromTagObject$);
     this.connect('tagObjectMap', this.tagObjectMap$);
     this.connect('searchText', this.searchText$.pipe(map(toLowerCase)));
