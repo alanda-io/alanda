@@ -3,6 +3,29 @@
   border: 0;
 }
 
+.col-process-task {
+  min-width: 25rem;
+}
+
+.col-ref-object {
+  min-width: 8.571rem;
+  width: 8.571rem;
+}
+
+.col-date {
+  min-width: 7.6rem;
+  width: 7.6rem;
+}
+
+.col-info {
+  width: 28.571rem;
+}
+
+.col-status {
+  min-width: 8.571rem;
+  width: 8.571rem;
+}
+
 :host ::ng-deep .pap-panel .p-panel-content {
   padding: 0;
   border-bottom: 0;
@@ -19,6 +42,7 @@
 }
 
 .col-action {
+  width: 14.286rem;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }

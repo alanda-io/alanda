@@ -14,12 +14,12 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th>Process / Task</th>
-        <th>Ref. Object</th>
-        <th>Start</th>
-        <th>End</th>
-        <th>Info</th>
-        <th>Status</th>
+        <th class="col-process-task">Process / Task</th>
+        <th class="p-text-center col-ref-object">Ref. Object</th>
+        <th class="p-text-center col-date">Start</th>
+        <th class="p-text-center col-date">End</th>
+        <th class="col-info">Info</th>
+        <th class="p-text-center col-status">Status</th>
         <th>Action</th>
       </tr>
     </ng-template>
@@ -47,13 +47,15 @@
                 >z <sup>z <sup>z</sup></sup></span
               >
             </td>
-            <td>{{ rowData.refObject }}</td>
-            <td>{{ rowData.start | date: dateFormat }}</td>
-            <td>{{ rowData.end | date: dateFormat }}</td>
+            <td class="p-text-center">{{ rowData.refObject }}</td>
+            <td class="p-text-center">
+              {{ rowData.start | date: dateFormat }}
+            </td>
+            <td class="p-text-center">{{ rowData.end | date: dateFormat }}</td>
             <td><span [innerHTML]="rowData.info"></span></td>
           </ng-template>
         </ng-container>
-        <td>
+        <td class="p-text-center">
           <alanda-badge
             *ngIf="rowData.status"
             [label]="rowData.status"
