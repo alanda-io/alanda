@@ -46,6 +46,7 @@ export class AlandaProjectAndProcessesComponent implements OnDestroy {
   @Input() project: AlandaProject;
   @Input() filterOptions: any = {};
   @Input() user: AlandaUser;
+  @Input() target = '_blank';
   @Output() changed: EventEmitter<void> = new EventEmitter();
   data: TreeNode[] = [];
   loading: boolean;
