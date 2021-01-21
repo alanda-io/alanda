@@ -14,10 +14,12 @@ import {
   tap,
   catchError,
   delay,
+  bufferCount,
+  takeUntil,
 } from 'rxjs/operators';
 
-import { of, Observable, EMPTY } from 'rxjs';
-import { FormBuilder } from '@angular/forms';
+import { of, Observable, EMPTY, Subject } from 'rxjs';
+import { AbstractControl, FormBuilder } from '@angular/forms';
 import { AlandaTask } from '../api/models/task';
 import { AlandaProject } from '../api/models/project';
 import { AlandaProjectApiService } from '../api/projectApi.service';
@@ -42,6 +44,8 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
   closeAfterComplete = false;
 
   rootForm = this.fb.group({});
+
+  cancel$ = new Subject<any>();
 
   // routerParams$ = this.route.params;
 
@@ -110,6 +114,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
 
   submit(alternate?: Observable<any>): Observable<any> {
     this.rootForm.markAllAsTouched();
+    console.log('Form status: ', this.rootForm.status);
     if (this.rootForm.valid) {
       this.setLoading(true);
       return this.taskService.complete(this.get().task.task_id).pipe(
@@ -162,6 +167,37 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     } else {
       return of(this.rootForm.errors);
     }
+  }
+
+  revalidateAndSubmit(controlToValidate: AbstractControl): void {
+    this.rootForm.statusChanges
+      .pipe(
+        bufferCount(2, 1),
+        switchMap(([val1, val2]) => {
+          if (val1 === 'PENDING' && val2 === 'VALID') {
+            return of(true);
+          } else {
+            if (val1 === 'PENDING' && val2 === 'INVALID') {
+              this.cancel$.next();
+            }
+            return of(false);
+          }
+        }),
+        takeUntil(this.cancel$),
+        tap((value: boolean) => {
+          if (value) {
+            this.submit().subscribe();
+            this.cancel$.next();
+          }
+        }),
+        catchError((error) => {
+          console.error(error);
+          this.cancel$.next();
+          return of(false);
+        }),
+      )
+      .subscribe();
+    controlToValidate.updateValueAndValidity();
   }
 
   snooze(days: number): Observable<any> {
