@@ -6,6 +6,7 @@ import { APP_CONFIG, AppSettings } from '../../../models/appSettings';
 @Component({
   selector: 'alanda-process-activities-component',
   templateUrl: './process-activities.component.html',
+  styleUrls: ['./process-activities.component.scss'],
 })
 export class ProcessActivitiesComponent implements OnInit {
   @Input() pid: string;

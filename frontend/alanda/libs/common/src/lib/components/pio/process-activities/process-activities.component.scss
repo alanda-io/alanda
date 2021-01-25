@@ -1,0 +1,12 @@
+.process-activities-table {
+  ::ng-deep {
+    .p-datatable-wrapper {
+      margin: -1rem;
+      margin-bottom: 0;
+    }
+
+    .p-paginator-bottom {
+      margin: 0 -1rem;
+    }
+  }
+}

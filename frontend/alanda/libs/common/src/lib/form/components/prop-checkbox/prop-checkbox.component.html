@@ -1,8 +1,8 @@
 <div class="p-field-checkbox p-grid" [formGroup]="checkboxForm">
-  <div class="p-col-12 p-lg-5 p-xl-4">
+  <div *ngIf="label" class="p-col-12 p-lg-5 p-xl-4">
     <alanda-label [label]="label"></alanda-label>
   </div>
-  <div class="p-col-12 p-lg-7 p-xl-7">
+  <div [ngClass]="{ 'p-col-12': true, 'p-lg-7 p-xl-7': label?.length > 0 }">
     <p-checkbox
       formControlName="checked"
       [binary]="true"

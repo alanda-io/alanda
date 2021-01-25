@@ -49,6 +49,7 @@ const initState = {
 @Component({
   selector: 'alanda-history-grid-component',
   templateUrl: './history-grid.component.html',
+  styleUrls: ['./history-grid.component.scss'],
 })
 export class AlandaHistoryGridComponent {
   state$ = this.state.select();
