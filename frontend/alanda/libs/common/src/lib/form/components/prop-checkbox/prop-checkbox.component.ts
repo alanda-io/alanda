@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
 import { AlandaPropertyApiService } from '../../../api/propertyApi.service';
 import { AlandaProject } from '../../../api/models/project';
+import { AlandaUser } from '../../../api/models/user';
+import { Authorizations } from '../../../permissions';
 
 const SELECTOR = 'alanda-prop-checkbox';
 
@@ -16,8 +18,9 @@ export class AlandaPropCheckboxComponent implements OnInit {
   @Input() label: string;
   @Input() existingValue: boolean;
   @Input() readonly: boolean;
+  @Input() user: AlandaUser;
   type = 'BOOLEAN';
-
+  canWrite: boolean;
   @Input() rootFormGroup: FormGroup;
 
   checkboxForm = this.fb.group({
@@ -38,6 +41,12 @@ export class AlandaPropCheckboxComponent implements OnInit {
         `${SELECTOR}-${this.propertyName}`,
         this.checkboxForm,
       );
+    }
+    if (this.user != null) {
+      const authStr = `prop:${this.project.authBase}:${this.propertyName}`;
+      this.canWrite = Authorizations.hasPermission(this.user, authStr, 'write');
+    } else {
+      this.canWrite = true;
     }
     if (this.existingValue != null) {
       this.checked.setValue(this.existingValue);

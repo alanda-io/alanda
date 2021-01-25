@@ -7,6 +7,7 @@
       formControlName="checked"
       [binary]="true"
       (onChange)="save()"
+      [disabled]="!canWrite"
     ></p-checkbox>
   </div>
   <ng-container *ngIf="checked.invalid && (checked.dirty || checked.touched)">
