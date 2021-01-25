@@ -1,8 +1,8 @@
 <div [formGroup]="selectForm" class="p-field p-grid">
-  <div class="p-col-12 p-lg-5 p-xl-4">
+  <div *ngIf="label" class="p-col-12 p-lg-5 p-xl-4">
     <alanda-label [label]="label"></alanda-label>
   </div>
-  <div class="p-col-12 p-lg-7 p-xl-7">
+  <div [ngClass]="{ 'p-col-12': true, 'p-lg-7 p-xl-7': label?.length > 0 }">
     <p-dropdown
       [options]="items"
       formControlName="selected"
