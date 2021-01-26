@@ -275,6 +275,6 @@ export class AlandaAttachmentsComponent implements OnInit {
   }
 
   onFileRenamed() {
-    this.renamed.emit()
+    this.renamed.emit();
   }
 }
