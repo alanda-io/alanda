@@ -96,13 +96,13 @@ export class AlandaAttachmentsComponent implements OnInit {
           temp = [res];
         }
         this.data.selectedNode = temp[0];
-        this.refreshUrls();
         this.fileCount = this.checkFileCount(temp);
         this.treeNodes = res.children;
         for (const node of this.treeNodes) {
           this.setupTreeNode(node);
         }
 
+        this.refreshUrls();
         this.loadFolderContent();
       });
   }

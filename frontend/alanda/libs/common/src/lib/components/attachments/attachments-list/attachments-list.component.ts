@@ -23,8 +23,8 @@ export class AttachmentsListComponent {
     this.state.set({ files });
   }
   @Input() data: any;
-  @Output() fileDeleted = new EventEmitter<void>();
-  @Output() fileRenamed = new EventEmitter<void>();
+  @Output() fileDeleted = new EventEmitter<SimpleDocument>();
+  @Output() fileRenamed = new EventEmitter<SimpleDocument>();
 
   state$ = this.state.select();
   changedFileName$ = new Subject<{ file: SimpleDocument; value: string }>();
@@ -100,7 +100,7 @@ export class AttachmentsListComponent {
         const files = this.state.get().files;
         files.splice(files.indexOf(file), 1);
         this.state.set({ files: files });
-        this.fileDeleted.emit();
+        this.fileDeleted.emit(file);
         this.messageService.add({
           severity: 'success',
           summary: 'File removed',
@@ -151,7 +151,7 @@ export class AttachmentsListComponent {
           const changedFiles = updatedFiles;
           changedFiles.splice(updatedFileIndex, 1);
 
-          this.fileRenamed.emit();
+          this.fileRenamed.emit(file);
 
           this.state.set({ files, changedFiles });
           this.messageService.add({

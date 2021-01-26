@@ -8,7 +8,6 @@ import { TreeNode } from 'primeng/api';
 export class AttachmentsTreeComponent implements OnInit {
   @Input() treeNodes: TreeNode[];
   @Input() selectedNode: TreeNode;
-
   @Output() selectedNodeChanged = new EventEmitter<TreeNode>();
 
   constructor() {}
@@ -23,7 +22,6 @@ export class AttachmentsTreeComponent implements OnInit {
   }
 
   nodeSelected(event) {
-    this.selectedNode = event.node;
     this.selectedNodeChanged.emit(event.node);
   }
 }

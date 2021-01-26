@@ -3,7 +3,7 @@
     [style]="{ width: '100%' }"
     [value]="treeNodes"
     selectionMode="single"
-    [selection]="selectedNode"
+    [(selection)]="selectedNode"
     (onNodeSelect)="nodeSelected($event)"
   >
   </p-tree>
