@@ -25,6 +25,7 @@ export class AlandaAttachmentsComponent implements OnInit {
   @Input() task?: any;
   @Input() pid?: string;
   @Input() collapsed = true;
+  @Input() selectedFolderName: string;
   @Output() upload = new EventEmitter<any>();
 
   @ViewChild('fileUploader') uploader: FileUpload;
@@ -36,7 +37,7 @@ export class AlandaAttachmentsComponent implements OnInit {
   fileCount: number;
   data: any = {};
   loadingInProgress: boolean;
-  treeNode: ExtendedTreeNode[] = [];
+  treeNodes: ExtendedTreeNode[] = [];
   currentFiles: SimpleDocument[]; // passed to attachments-list
 
   constructor(
@@ -95,8 +96,8 @@ export class AlandaAttachmentsComponent implements OnInit {
         this.data.selectedNode = temp[0];
         this.refreshUrls();
         this.fileCount = this.checkFileCount(temp);
-        this.treeNode = res.children;
-        for (const node of this.treeNode) {
+        this.treeNodes = res.children;
+        for (const node of this.treeNodes) {
           this.setupTreeNode(node);
         }
 
@@ -105,6 +106,12 @@ export class AlandaAttachmentsComponent implements OnInit {
   }
 
   setupTreeNode(node: ExtendedTreeNode) {
+    if (
+      this.selectedFolderName != null &&
+      node.label === this.selectedFolderName
+    ) {
+      this.data.selectedNode = node;
+    }
     node.expanded = false;
     node.collapsedIcon = 'pi pi-folder';
     node.expandedIcon = 'pi pi-folder-open';
@@ -144,7 +151,7 @@ export class AlandaAttachmentsComponent implements OnInit {
           this.data.selectedNode.files = res.length;
           this.data.selectedNode.label =
             this.data.selectedNode.name + ' (' + res.length + ')';
-          this.fileCount = this.checkFileCount(this.treeNode);
+          this.fileCount = this.checkFileCount(this.treeNodes);
         }
       });
   }

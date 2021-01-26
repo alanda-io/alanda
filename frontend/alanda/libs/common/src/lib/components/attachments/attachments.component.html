@@ -1,4 +1,8 @@
-<p-panel [toggleable]="true" [collapsed]="collapsed" (onAfterToggle)="togglePanel()">
+<p-panel
+  [toggleable]="true"
+  [collapsed]="collapsed"
+  (onAfterToggle)="togglePanel()"
+>
   <p-header>
     <span class="p-panel-title">
       Attachments
@@ -8,8 +12,9 @@
   <div class="p-grid">
     <div class="p-col-12 p-md-3">
       <alanda-attachments-tree
-        [treeNode]="treeNode"
-        (nodeChangedEvent)="onSelectedNodeChange($event)"
+        [treeNodes]="treeNodes"
+        [selectedNode]="data.selectedNode"
+        (selectedNodeChanged)="onSelectedNodeChange($event)"
       ></alanda-attachments-tree>
     </div>
     <div class="p-col-12 p-md-9">
