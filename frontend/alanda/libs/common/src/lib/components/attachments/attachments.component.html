@@ -23,7 +23,8 @@
           <alanda-attachments-list
             [data]="data"
             [currentFiles]="currentFiles"
-            (deleteFile)="onDeleteFile()"
+            (fileDeleted)="onDeleteFile()"
+            (fileRenamed)="onFileRenamed()"
           ></alanda-attachments-list>
         </div>
       </div>
