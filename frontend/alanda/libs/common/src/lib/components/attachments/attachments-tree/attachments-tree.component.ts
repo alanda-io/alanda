@@ -1,24 +1,29 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 
 @Component({
   selector: 'alanda-attachments-tree',
   templateUrl: './attachments-tree.component.html',
 })
-export class AttachmentsTreeComponent {
-  @Input() set treeNode(treeNode: TreeNode[]) {
-    this.treeNodes = treeNode;
-    this.selectedNode = treeNode[0];
-  }
-  @Output() nodeChangedEvent = new EventEmitter<TreeNode>();
+export class AttachmentsTreeComponent implements OnInit {
+  @Input() treeNodes: TreeNode[];
+  @Input() selectedNode: TreeNode;
 
-  treeNodes: TreeNode[];
-  selectedNode: TreeNode;
+  @Output() selectedNodeChanged = new EventEmitter<TreeNode>();
 
   constructor() {}
 
+  ngOnInit() {
+    if (
+      this.treeNodes?.length > 0 &&
+      (this.selectedNode === null || this.selectedNode === undefined)
+    ) {
+      this.selectedNode = this.treeNodes[0];
+    }
+  }
+
   nodeSelected(event) {
-    this.nodeChangedEvent.emit(event.node);
     this.selectedNode = event.node;
+    this.selectedNodeChanged.emit(event.node);
   }
 }
