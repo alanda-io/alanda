@@ -27,8 +27,8 @@ export class AlandaAttachmentsComponent implements OnInit {
   @Input() collapsed = false;
   @Input() selectedFolderName: string;
   @Output() upload = new EventEmitter<any>();
-  @Output() deleted = new EventEmitter<void>();
-  @Output() renamed = new EventEmitter<void>();
+  @Output() deleted = new EventEmitter<SimpleDocument>();
+  @Output() renamed = new EventEmitter<SimpleDocument>();
 
   @ViewChild('fileUploader') uploader: FileUpload;
 
@@ -269,12 +269,12 @@ export class AlandaAttachmentsComponent implements OnInit {
     this.loadFolderContent();
   }
 
-  onDeleteFile() {
-    this.deleted.emit();
+  onDeleteFile(file: SimpleDocument) {
+    this.deleted.emit(file);
     this.loadFolderContent();
   }
 
-  onFileRenamed() {
-    this.renamed.emit();
+  onFileRenamed(file: SimpleDocument) {
+    this.renamed.emit(file);
   }
 }
