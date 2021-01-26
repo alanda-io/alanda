@@ -24,7 +24,7 @@ export class AlandaAttachmentsComponent implements OnInit {
   @Input() project?: any;
   @Input() task?: any;
   @Input() pid?: string;
-  @Input() collapsed = true;
+  @Input() collapsed = false;
   @Input() selectedFolderName: string;
   @Output() upload = new EventEmitter<any>();
   @Output() deleted = new EventEmitter<void>();
