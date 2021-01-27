@@ -113,8 +113,8 @@ export class AlandaAttachmentsComponent implements OnInit {
       node.label === this.selectedFolderName
     ) {
       this.data.selectedNode = node;
+      node.expanded = true;
     }
-    node.expanded = false;
     node.collapsedIcon = 'pi pi-folder';
     node.expandedIcon = 'pi pi-folder-open';
     node.name = node.label;
