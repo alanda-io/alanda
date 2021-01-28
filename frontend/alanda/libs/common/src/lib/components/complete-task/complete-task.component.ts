@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AlandaTaskFormService } from '../../form/alanda-task-form.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'alanda-complete-task',
@@ -13,5 +15,7 @@ export class CompleteTaskComponent {
   @Input() fluid = true;
   @Output() complete: EventEmitter<Event> = new EventEmitter();
 
-  constructor() {}
+  state$ = this.taskFormService.select();
+
+  constructor(private taskFormService: AlandaTaskFormService) {}
 }

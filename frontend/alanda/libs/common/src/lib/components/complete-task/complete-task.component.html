@@ -1,4 +1,4 @@
-<p-card class="complete-task">
+<p-card class="complete-task" *ngIf="state$ | async as state">
   <div class="p-grid p-nogutter">
     <div
       [ngClass]="{
@@ -14,7 +14,7 @@
         pRipple
         type="button"
         (click)="complete.emit($event)"
-        [disabled]="disabled"
+        [disabled]="disabled || state.loading"
         [icon]="icon"
         [class]="buttonClass"
         [label]="label"
