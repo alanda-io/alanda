@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AlandaTaskFormService } from '../../form/alanda-task-form.service';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'alanda-complete-task',
