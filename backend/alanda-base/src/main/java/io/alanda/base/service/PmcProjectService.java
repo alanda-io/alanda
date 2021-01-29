@@ -301,4 +301,5 @@ public interface PmcProjectService {
    */
   List<PmcProjectDto> getByTypeAndRefObjectId(String refObjectType, long refObjectId, Long projType);
 
+  PmcProjectDto updateHighlight(long pmcProjectGuid, boolean highlight, boolean callListener);
 }

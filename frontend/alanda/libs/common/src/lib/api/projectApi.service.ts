@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { APP_CONFIG, AppSettings } from '../models/appSettings';
 import { AlandaProject, AlandaProjectListData } from './models/project';
 import { Observable } from 'rxjs';
@@ -63,7 +63,20 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
         ),
       );
   }
+  public updateProjectHighlight(projectId: string, highlight: boolean) {
+    return this.http
+      .post<AlandaProject>(
+        `${this.endpoint}/project/${projectId}/highlight`,
+        highlight,
+      )
+      .pipe(catchError(this.handleError<void>('updateProjectHighlight')));
+  }
 
+  public getProjectHighlight(projectId: string) {
+    return this.http
+      .get<boolean>(`${this.endpoint}/project/${projectId}/highlight`)
+      .pipe(catchError(this.handleError<boolean>('getProjectHighlight')));
+  }
   public updateProject(project): Observable<AlandaProject> {
     return this.http
       .put<AlandaProject>(`${this.endpoint}/${project.projectId}`, project)

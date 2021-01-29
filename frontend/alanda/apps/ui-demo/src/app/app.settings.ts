@@ -1,6 +1,25 @@
-import { AppSettings } from '@alanda/common';
+import { SelectItem } from 'primeng/api';
 
-export const ALANDA_CONFIG: AppSettings = {
+export const ALANDA_CONFIG: {
+  LOCALE_PRIME: {
+    dateFormat: string;
+    firstDayOfWeek: number;
+    today: string;
+    clear: string;
+    dayNames: string[];
+    dayNamesMin: string[];
+    dayNamesShort: string[];
+    monthNamesShort: string[];
+    monthNames: string[];
+    weekHeader: string;
+  };
+  AVATAR_BASE_PATH: string;
+  DATE_FORMAT: string;
+  PRIORITIES: SelectItem[];
+  API_ENDPOINT: string;
+  CLOSE_AFTER_COMPLETE: boolean;
+  AVATAR_EXT: string;
+} = {
   API_ENDPOINT: '/alanda-rest/app',
   DATE_FORMAT: 'yyyy-MM-dd',
   LOCALE_PRIME: {

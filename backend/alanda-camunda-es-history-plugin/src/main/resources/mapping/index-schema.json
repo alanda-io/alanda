@@ -1550,6 +1550,9 @@
 									"type": "text"
 								}
 							}
+						},
+						"isHighlighted": {
+							"type": "boolean"
 						}
 					}
 				},
