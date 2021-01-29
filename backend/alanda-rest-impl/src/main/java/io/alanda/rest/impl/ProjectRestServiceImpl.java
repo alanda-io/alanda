@@ -397,4 +397,18 @@ public class ProjectRestServiceImpl implements ProjectRestService {
     return Response.accepted().build();
   }
 
+  @Override
+  public PmcProjectDto updateHighlighted(String projectId, boolean isHighlighted){
+    PmcProjectDto project = pmcProjectService.getProjectByProjectId(projectId);
+    //project = checkPermissionsForProject(project, "write", true);
+    return this.pmcProjectService.updateHighlight(project.getGuid(),isHighlighted,true);
+  }
+
+  @Override
+  public boolean getHighlighted(String projectId){
+    //PmcProjectDto project = pmcProjectService.getProjectByProjectId(projectId);
+    //project = checkPermissionsForProject(project, "read", true);
+    return this.pmcProjectService.getProjectByProjectId(projectId).isHighlighted();
+  }
+
 }
