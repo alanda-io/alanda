@@ -1,6 +1,31 @@
-import { AppSettings } from '@alanda/common';
+import { SelectItem } from 'primeng/api';
+export const ALANDA_PRIORITIES: SelectItem[] = [
+  { value: -1, label: '-1 - Emergency plus' },
+  { value: 0, label: '0 - Emergency' },
+  { value: 1, label: '1 - Urgent' },
+  { value: 2, label: '2 - Normal' },
+];
 
-export const ALANDA_CONFIG: AppSettings = {
+export const ALANDA_CONFIG: {
+  LOCALE_PRIME: {
+    dateFormat: string;
+    firstDayOfWeek: number;
+    today: string;
+    clear: string;
+    dayNames: string[];
+    dayNamesMin: string[];
+    dayNamesShort: string[];
+    monthNamesShort: string[];
+    monthNames: string[];
+    weekHeader: string;
+  };
+  AVATAR_BASE_PATH: string;
+  DATE_FORMAT: string;
+  PRIORITIES: SelectItem[];
+  API_ENDPOINT: string;
+  CLOSE_AFTER_COMPLETE: boolean;
+  AVATAR_EXT: string;
+} = {
   API_ENDPOINT: '/alanda-rest/app',
   DATE_FORMAT: 'yyyy-MM-dd',
   LOCALE_PRIME: {
@@ -52,5 +77,6 @@ export const ALANDA_CONFIG: AppSettings = {
   AVATAR_BASE_PATH: 'src/app/assets',
   AVATAR_EXT: 'jpg',
   CLOSE_AFTER_COMPLETE: true,
+  PRIORITIES: ALANDA_PRIORITIES,
   /* WEBSOCKET_ENDPOINT : 'ws://localhost:8080/pmc-rest/websockets', */
 };
