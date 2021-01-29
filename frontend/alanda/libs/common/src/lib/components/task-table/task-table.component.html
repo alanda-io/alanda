@@ -88,6 +88,7 @@
           <tr>
             <th *ngFor="let col of columns">
               <input
+                *ngIf="col.type !== tableColumnType.BOOLEAN; else checkbox"
                 pInputText
                 type="text"
                 class="header-col-filter"
@@ -96,13 +97,20 @@
                   tt.filters[col.field] ? tt.filters[col.field].value : ''
                 "
               />
+              <ng-template #checkbox>
+                <p-checkbox
+                  (onChange)="tt.filter($event.checked, col.field, 'equals')"
+                ></p-checkbox>
+              </ng-template>
             </th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-task let-columns="columns">
           <tr
             [pSelectableRow]="task"
-            class="task-row"
+            [class]="
+              task.project.highlighted ? 'task-row-highlighted' : 'task-row'
+            "
             (dblclick)="openTask(task.task.formKey, task.task.task_id)"
           >
             <td

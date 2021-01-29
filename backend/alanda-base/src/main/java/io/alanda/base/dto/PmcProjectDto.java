@@ -112,14 +112,14 @@ public class PmcProjectDto extends PmcProjectCompactDto {
 
   String authBase;
 
-  boolean isHighlighted;
+  boolean highlighted;
 
   public boolean isHighlighted() {
-    return isHighlighted;
+    return highlighted;
   }
 
   public void setHighlighted(boolean highlighted) {
-    isHighlighted = highlighted;
+    this.highlighted = highlighted;
   }
 
   public PmcProjectDto() {
