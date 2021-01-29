@@ -42,7 +42,7 @@ export class AlandaPropCheckboxComponent implements OnInit {
       );
     }
     if (this.user != null) {
-      const authStr = `field:${this.project.pmcProjectType.idName}:highlight`;
+      const authStr = `field:write:${this.project.pmcProjectType.idName}:highlight`;
       this.canWrite = Authorizations.hasPermission(this.user, authStr, 'write');
     } else {
       this.canWrite = false;
