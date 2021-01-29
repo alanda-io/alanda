@@ -27,10 +27,12 @@ import { AlandaVarTextareaComponent } from './components/var-textarea/var-textar
 import { AlandaPropTextareaComponent } from './components/prop-textarea/prop-textarea.component';
 import { LabelModule } from '../components/label/label.module';
 import { AlandaPropTextComponent } from './components/prop-text/prop-text.component';
+import { AlandaProjectHighlightCheckBoxComponent } from './components/project-highlight-checkbox/project-highlight-checkbox.component';
 
 @NgModule({
   declarations: [
     AlandaPropCheckboxComponent,
+    AlandaProjectHighlightCheckBoxComponent,
     AlandaPropSelectComponent,
     AlandaVarCheckboxComponent,
     AlandaVarDatepickerComponent,
@@ -62,6 +64,7 @@ import { AlandaPropTextComponent } from './components/prop-text/prop-text.compon
     LabelModule,
   ],
   exports: [
+    AlandaProjectHighlightCheckBoxComponent,
     AlandaPropCheckboxComponent,
     AlandaPropSelectComponent,
     AlandaVarCheckboxComponent,
