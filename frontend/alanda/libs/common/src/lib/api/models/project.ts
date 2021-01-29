@@ -51,6 +51,7 @@ export interface AlandaProject {
   authBase?: string;
   running?: boolean;
   humanReadableId?: string;
+  highlighted?: boolean;
 }
 
 export interface AlandaProjectListData {

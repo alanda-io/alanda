@@ -1551,7 +1551,7 @@
 								}
 							}
 						},
-						"isHighlighted": {
+						"highlighted": {
 							"type": "boolean"
 						}
 					}

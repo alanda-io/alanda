@@ -74,6 +74,7 @@
           <tr>
             <th *ngFor="let col of columns">
               <input
+                *ngIf="col.type !== tableColumnType.BOOLEAN; else checkbox"
                 pInputText
                 type="text"
                 (input)="tt.filter($event.target.value, col.field, 'contains')"
@@ -82,6 +83,11 @@
                 "
                 style="width: 100%;"
               />
+              <ng-template #checkbox>
+                <p-checkbox
+                  (onChange)="tt.filter($event.checked, col.field, 'equals')"
+                ></p-checkbox>
+              </ng-template>
             </th>
           </tr>
         </ng-template>
@@ -89,7 +95,11 @@
           <tr
             [pSelectableRow]="project"
             [pSelectableRowDisabled]="!s.singleRowSelectionEnabled"
-            class="project-row"
+            [class]="
+              project.project.highlighted
+                ? 'project-row-highlighted'
+                : 'project-row'
+            "
             (dblclick)="openProject(project.project.projectId)"
           >
             <td

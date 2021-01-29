@@ -824,9 +824,6 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     PmcUserDto user = UserContext.getUser();
     List<PmcGroupDto> groups = user.getGroupList();
     List<String> groupIds = new ArrayList<>();
-    if(sortParams.isEmpty()){
-      sortParams.put("project.highlight",Arrays.asList("\"dir\": \"desc\"", "\"prio\": 0"));
-    }
     for (PmcGroupDto group : groups) {
       groupIds.add(group.getGroupName());
     }

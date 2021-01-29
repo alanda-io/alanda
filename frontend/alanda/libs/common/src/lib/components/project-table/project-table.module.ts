@@ -14,6 +14,7 @@ import { DialogModule } from 'primeng/dialog';
 import { QuickEditProjectDetailsModule } from '../quick-edit-project-details/quick-edit-project-details.module';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { RippleModule } from 'primeng/ripple';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { RippleModule } from 'primeng/ripple';
     QuickEditProjectDetailsModule,
     OverlayPanelModule,
     RippleModule,
+    CheckboxModule,
   ],
   declarations: [AlandaProjectTableComponent],
   exports: [AlandaProjectTableComponent],

@@ -35,11 +35,12 @@ import { exportAsCsv } from '../../utils/helper-functions';
 import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinition';
 import { Router } from '@angular/router';
 import { ExportType } from '../../enums/exportType.enum';
+import { TableColumnType } from '../../enums/tableColumnType.enum';
 
 const EXPORT_FILE_NAME = 'download';
 const CLAIM_TEXT = 'Claim';
 const UNCLAIM_TEXT = 'Unclaim';
-
+const PROJECT_HIGHLIGHTED_KEY = 'project.highlighted';
 interface AlandaTaskTableState {
   loading: boolean;
   selectedProject: AlandaProject;
@@ -82,6 +83,7 @@ export class AlandaTaskTableComponent {
   delegateTaskToUserEvent$ = new Subject<AlandaUser>();
   setupProjectDetailsModalEvent$ = new Subject<AlandaProject>();
   menuBarVisible = false;
+  tableColumnType = TableColumnType;
 
   @Input() set defaultLayout(defaultLayout: number) {
     // setting "undefined" on an already undefined field does not trigger
@@ -423,7 +425,15 @@ export class AlandaTaskTableComponent {
     }
 
     Object.keys(event.filters).forEach((key) => {
-      serverOptions.filterOptions[key] = event.filters[key].value;
+      if (
+        key === PROJECT_HIGHLIGHTED_KEY &&
+        event.filters[key].value !== false
+      ) {
+        serverOptions.filterOptions[key] = event.filters[key].value;
+      }
+      if (key !== PROJECT_HIGHLIGHTED_KEY) {
+        serverOptions.filterOptions[key] = event.filters[key].value;
+      }
     });
 
     if (event.sortField) {

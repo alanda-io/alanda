@@ -24,9 +24,10 @@ import {
   tap,
 } from 'rxjs/operators';
 import { ExportType } from '../../enums/exportType.enum';
+import { TableColumnType } from '../../enums/tableColumnType.enum';
 
 const EXPORT_FILE_NAME = 'download';
-
+const PROJECT_HIGHLIGHTED_KEY = 'project.highlighted';
 interface AlandaProjectTableState {
   serverOptions: ServerOptions;
   loading: boolean;
@@ -69,6 +70,7 @@ export class AlandaProjectTableComponent {
   state$ = this.state.select();
   menuButtonIcon = DEFAULT_BUTTON_MENU_ICON;
   lazyLoadEvent$ = new Subject();
+  tableColumnType = TableColumnType;
   @Input() set defaultLayout(defaultLayout: number) {
     // setting "undefined" on an already undefined field does not trigger
     // state Observables to fire, so we set to a default value to trigger
@@ -285,7 +287,8 @@ export class AlandaProjectTableComponent {
     };
 
     let sortOptions = {};
-    sortOptions['project.projectId'] = { dir: 'desc', prio: 0 };
+    sortOptions[PROJECT_HIGHLIGHTED_KEY] = { dir: 'desc', prio: 0 };
+    sortOptions['project.projectId'] = { dir: 'desc', prio: 1 };
     if (event.sortField) {
       sortOptions = {};
       const dir = event.sortOrder === 1 ? 'asc' : 'desc';
@@ -303,7 +306,15 @@ export class AlandaProjectTableComponent {
 
     for (const key in event.filters) {
       if (event.filters.hasOwnProperty(key) && event.filters[key].value) {
-        serverOptions.filterOptions[key] = event.filters[key].value;
+        if (
+          key === PROJECT_HIGHLIGHTED_KEY &&
+          event.filters[key].value !== false
+        ) {
+          serverOptions.filterOptions[key] = event.filters[key].value;
+        }
+        if (key !== PROJECT_HIGHLIGHTED_KEY) {
+          serverOptions.filterOptions[key] = event.filters[key].value;
+        }
       }
     }
 

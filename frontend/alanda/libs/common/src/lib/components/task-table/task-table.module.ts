@@ -19,6 +19,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { SlideMenuModule } from 'primeng/slidemenu';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { RippleModule } from 'primeng/ripple';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [AlandaTaskTableComponent],
@@ -43,6 +44,7 @@ import { RippleModule } from 'primeng/ripple';
     SlideMenuModule,
     PanelMenuModule,
     RippleModule,
+    CheckboxModule,
   ],
   exports: [AlandaTaskTableComponent],
 })
