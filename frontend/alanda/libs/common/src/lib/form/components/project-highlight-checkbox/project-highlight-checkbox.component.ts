@@ -13,7 +13,7 @@ const SELECTOR = 'alanda-project-highlight-checkbox';
   templateUrl: './project-highlight-checkbox.component.html',
   styleUrls: [],
 })
-export class AlandaPropCheckboxComponent implements OnInit {
+export class AlandaProjectHighlightCheckBoxComponent implements OnInit {
   @Input() project: AlandaProject;
   @Input() label: string;
   @Input() existingValue: boolean;
