@@ -33,11 +33,11 @@ export class AlandaTitleService {
   }
 
   setProjectTitle(project: AlandaProject) {
-    this.setTitle(`${project.projectType}:${project.projectId}`);
+    this.setTitle(`${project.projectId}:${project.projectType}`);
   }
 
   setTaskTitle(task: AlandaTask) {
-    this.setTitle(`${task.task_name}:${task.task_type}`);
+    this.setTitle(`${task.object_name}:${task.task_name}`);
   }
 
   setRouterTitle() {
