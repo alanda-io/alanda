@@ -1430,19 +1430,7 @@
 				"project": {
 					"properties": {
 						"isHighlighted": {
-							"normalizer": "lc",
-							"type": "keyword",
-							"fields": {
-								"raw": {
-									"index": true,
-									"type": "keyword"
-								},
-								"ngram": {
-									"search_analyzer": "standard",
-									"analyzer": "ngram",
-									"type": "boolean"
-								}
-							}
+							"type": "boolean"
 						},
 						"updateDate": {
 							"format": "strict_date_optional_time||epoch_millis",
