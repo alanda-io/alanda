@@ -4,7 +4,7 @@ import { SelectItem } from 'primeng/api';
 
 @Injectable()
 export class AppSettings {
-  public static ALANDA_PRIORITIES: SelectItem[] = [
+  public static ALANDA_DEFAULT_PRIORITIES: SelectItem[] = [
     { value: -1, label: '-1 - Emergency plus' },
     { value: 0, label: '0 - Emergency' },
     { value: 1, label: '1 - Urgent' },
