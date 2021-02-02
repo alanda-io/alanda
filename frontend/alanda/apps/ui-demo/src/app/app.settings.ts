@@ -76,6 +76,6 @@ export const ALANDA_CONFIG: {
     { value: 0, label: '0 - Emergency' },
     { value: 1, label: '1 - Urgent' },
     { value: 2, label: '2 - Normal' },
-  ]
+  ],
   /* WEBSOCKET_ENDPOINT : 'ws://localhost:8080/pmc-rest/websockets', */
 };

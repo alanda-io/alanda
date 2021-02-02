@@ -165,6 +165,14 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
         }),
       );
     } else {
+      if (this.rootForm.errors === null) {
+        this.rootForm.setErrors({
+          taskFormService: {
+            text:
+              'The Task cannot be completed. Check missing / entered information above!',
+          },
+        });
+      }
       return of(this.rootForm.errors);
     }
   }
