@@ -269,7 +269,7 @@ export class AlandaTaskTableComponent {
               detail: err.message,
             });
             console.error(err);
-            return caught;
+            return EMPTY;
           }),
           tap(() => {
             this.messageService.add({
@@ -281,7 +281,7 @@ export class AlandaTaskTableComponent {
         );
       } else {
         return this.taskService.assign(taskData.task.task_id, user.guid).pipe(
-          catchError((err, caught) => {
+          catchError((err) => {
             this.state.set({ loading: false });
             this.messageService.add({
               severity: 'error',
@@ -289,7 +289,7 @@ export class AlandaTaskTableComponent {
               detail: err.message,
             });
             console.error(err);
-            return caught;
+            return EMPTY;
           }),
           tap(() => {
             this.messageService.add({
@@ -313,7 +313,7 @@ export class AlandaTaskTableComponent {
       return this.taskService.getCandidates(data.task.task_id).pipe(
         catchError((err, caught) => {
           console.error(err);
-          return caught;
+          return EMPTY;
         }),
         tap(() => (this.showDelegateDialog = true)),
         map((response) => {
@@ -339,7 +339,7 @@ export class AlandaTaskTableComponent {
           catchError((err, caught) => {
             console.error(err);
             this.state.set({ loading: false });
-            return caught;
+            return EMPTY;
           }),
           delay(1000),
           tap(() => {
