@@ -71,5 +71,11 @@ export const ALANDA_CONFIG: {
   AVATAR_BASE_PATH: 'src/app/assets',
   AVATAR_EXT: 'jpg',
   CLOSE_AFTER_COMPLETE: true,
+  PRIORITIES: [
+    { value: -1, label: '-1 - Emergency plus' },
+    { value: 0, label: '0 - Emergency' },
+    { value: 1, label: '1 - Urgent' },
+    { value: 2, label: '2 - Normal' },
+  ]
   /* WEBSOCKET_ENDPOINT : 'ws://localhost:8080/pmc-rest/websockets', */
 };
