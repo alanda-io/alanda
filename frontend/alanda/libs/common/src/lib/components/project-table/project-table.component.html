@@ -96,7 +96,8 @@
             [pSelectableRow]="project"
             [pSelectableRowDisabled]="!s.singleRowSelectionEnabled"
             [class]="
-              project.project.highlighted
+              project.project?.hasOwnProperty('highlighted') &&
+              project.project?.highlighted
                 ? 'project-row-highlighted'
                 : 'project-row'
             "

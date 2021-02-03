@@ -109,7 +109,10 @@
           <tr
             [pSelectableRow]="task"
             [class]="
-              task.project.highlighted ? 'task-row-highlighted' : 'task-row'
+              task.project?.hasOwnProperty('highlighted') &&
+              task.project?.highlighted
+                ? 'task-row-highlighted'
+                : 'task-row'
             "
             (dblclick)="openTask(task.task.formKey, task.task.task_id)"
           >
