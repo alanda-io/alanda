@@ -191,6 +191,10 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     (componentRef.instance as any).user = this.user;
     (componentRef.instance as any).rootForm = this.rootFormGroup;
     (componentRef.instance as any).phase = this.phase;
+    (componentRef.instance as any).projectChanged.subscribe((project) => {
+      this.project = project;
+      this.initFormGroup();
+    });
   }
 
   private initFormGroup(): void {

@@ -1,10 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
 import { AlandaPropertyApiService } from '../../../api/propertyApi.service';
 import { AlandaProject } from '../../../api/models/project';
 import { AlandaUser } from '../../../api/models/user';
 import { Authorizations } from '../../../permissions';
 import { AlandaProjectApiService } from '../../../api/projectApi.service';
+import { tap } from 'rxjs/operators';
+import { MessageService } from 'primeng/api';
 
 const SELECTOR = 'alanda-project-highlight-checkbox';
 
@@ -21,6 +23,7 @@ export class AlandaProjectHighlightCheckBoxComponent implements OnInit {
   @Input() user: AlandaUser;
   canWrite: boolean;
   @Input() rootFormGroup: FormGroup;
+  @Output() projectChanged = new EventEmitter<AlandaProject>();
 
   checkboxForm = this.fb.group({
     checked: [null],
@@ -29,6 +32,7 @@ export class AlandaProjectHighlightCheckBoxComponent implements OnInit {
   constructor(
     private readonly projectService: AlandaProjectApiService,
     private readonly fb: FormBuilder,
+    private readonly messageService: MessageService,
   ) {}
 
   ngOnInit(): void {
@@ -61,7 +65,14 @@ export class AlandaProjectHighlightCheckBoxComponent implements OnInit {
   save(): void {
     this.projectService
       .updateProjectHighlight(this.project.projectId, this.checked.value)
-      .subscribe();
+      .subscribe((project) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Update Project',
+          detail: 'Project has been updated',
+        });
+        this.projectChanged.next(project);
+      });
   }
 
   get checked(): AbstractControl {

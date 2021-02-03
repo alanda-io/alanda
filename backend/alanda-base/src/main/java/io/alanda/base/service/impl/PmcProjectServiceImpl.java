@@ -1244,7 +1244,7 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     PmcProjectDto result = mapProject(project, Mode.DEFAULT);
     this.elasticService.updateEntry(result, true);
     authorizationService.addOrUpdateBaseAuthKeyForProject(result);
-    return result;
+    return getProjectByProjectId(project.getProjectId());
 
   }
 

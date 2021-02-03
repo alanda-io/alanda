@@ -69,7 +69,9 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
         `${this.endpoint}/project/${projectId}/highlight`,
         highlight,
       )
-      .pipe(catchError(this.handleError<void>('updateProjectHighlight')));
+      .pipe(
+        catchError(this.handleError<AlandaProject>('updateProjectHighlight')),
+      );
   }
 
   public getProjectHighlight(projectId: string) {
