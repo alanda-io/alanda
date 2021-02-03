@@ -13,7 +13,7 @@ import { AlandaProject } from '../../api/models/project';
 import { AlandaTask } from '../../api/models/task';
 import { AlandaUser } from '../../api/models/user';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { MessageService, SelectItem } from 'primeng/api';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { ProjectState } from '../../enums/projectState.enum';
 import { convertUTCDate } from '../../utils/helper-functions';
@@ -55,11 +55,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   candidateUsers: AlandaUser[];
   showDelegateDialog: boolean;
   allowedTagList: string[];
-  priorities = [
-    { label: '0 - Emergency', value: 0 },
-    { label: '1 - Urgent', value: 1 },
-    { label: '2 - Normal', value: 2 },
-  ];
+  priorities: SelectItem[];
 
   projectHeaderForm = this.fb.group({
     tag: null,
@@ -83,6 +79,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   ) {
     this.dateFormat = config.DATE_FORMAT;
     this.locale = config.LOCALE_PRIME;
+    this.priorities = config.PRIORITIES;
   }
 
   ngOnInit(): void {
@@ -121,6 +118,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
   }
 
   private updateProject(changes: any): Observable<AlandaProject> {
+    console.log(changes);
     if (
       changes.taskDueDate &&
       changes.taskDueDate.toString() !== this.taskDueDate.toString()
@@ -155,7 +153,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
         map((change) => {
           return {
             ...this.project,
-            priority: change.priority.value,
+            priority: change.priority,
             tag: change.tag,
             dueDate: change.dueDate
               ? convertUTCDate(new Date(change.dueDate))
