@@ -407,7 +407,9 @@ export class AlandaTaskTableComponent {
       filterOptions: {
         hideSnoozedTasks: 1,
       },
-      sortOptions: {},
+      sortOptions: {
+        'project.highlighted': { dir: 'desc', prio: 0 },
+      },
     };
 
     if (!this.groupTasks) {
