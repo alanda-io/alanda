@@ -1,10 +1,8 @@
-import { AfterViewInit, Component, Inject } from '@angular/core';
+import { AfterViewInit, Component, Output, EventEmitter } from '@angular/core';
 import {
   AlandaProject,
   AlandaUser,
   AlandaUserApiService,
-  AppSettings,
-  APP_CONFIG,
 } from '@alanda/common';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -23,7 +21,7 @@ export class ProjectPropertiesComponent implements AfterViewInit {
   project: AlandaProject;
   user: AlandaUser;
   rootForm: FormGroup;
-
+  @Output() projectChanged = new EventEmitter<AlandaProject>();
   state$ = this.state.select();
   autoCompEvent$ = new Subject<string>();
 
