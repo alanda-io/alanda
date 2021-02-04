@@ -68,13 +68,12 @@
     </span>
     <span
       *ngIf="project?.highlighted"
-      class="header-info-item"
-      pTooltip="Important Project"
-      tooltipPosition="top"
+      class="header-info-item project-highlighted"
     >
       <i
         class="pi pi-exclamation-circle"
-        style="font-size: 1.5rem; color: #e48930;"
+        pTooltip="Important Project"
+        tooltipPosition="top"
       ></i>
     </span>
   </ng-template>
