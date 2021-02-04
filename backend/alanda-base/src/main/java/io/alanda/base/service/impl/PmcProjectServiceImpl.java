@@ -1243,9 +1243,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
     PmcProjectDto result = mapProject(project, Mode.DEFAULT);
     this.elasticService.updateEntry(result, true);
-    authorizationService.addOrUpdateBaseAuthKeyForProject(result);
-    return getProjectByProjectId(project.getProjectId());
-
+    result = getProjectByProjectId(project.getProjectId());
+    result.setAuthBase(authorizationService.addOrUpdateBaseAuthKeyForProject(result));
+    return result;
   }
 
   private InternalContactDto createDto(PmcUserDto u, String role) {

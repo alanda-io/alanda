@@ -66,11 +66,17 @@
     <span class="header-info-item" pTooltip="Created at" tooltipPosition="top">
       <i class="pi pi-clock"></i> {{ project.createDate | date: dateFormat }}
     </span>
-    <i
+    <span
       *ngIf="project?.highlighted"
-      class="pi pi-exclamation-triangle header-info-item"
-      style="font-size: 2rem; color: red;"
-    ></i>
+      class="header-info-item"
+      pTooltip="Important Project"
+      tooltipPosition="top"
+    >
+      <i
+        class="pi pi-exclamation-circle"
+        style="font-size: 1.5rem; color: #e48930;"
+      ></i>
+    </span>
   </ng-template>
   <form [formGroup]="projectHeaderForm">
     <div class="p-grid p-fluid p-mt-1">
