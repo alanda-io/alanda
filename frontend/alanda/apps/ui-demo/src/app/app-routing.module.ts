@@ -15,6 +15,7 @@ import { UserEnrichedProjectsControllerComponent } from './components/projects-c
 import { ProjectsAndProcessesDemoComponent } from './components/projects-and-processes-demo/projects-and-processes-demo.component';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
 import { TaskListComponent } from './features/task-list/task-list.component';
+import { UserEnrichedFormsControllerComponent } from './components/forms-controller/user-enriched-forms-controller.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, data: { title: 'Home' } },
@@ -67,7 +68,7 @@ const routes: Routes = [
     children: [
       {
         path: 'vacation',
-        component: AlandaFormsControllerComponent,
+        component: UserEnrichedFormsControllerComponent,
         loadChildren: () =>
           import('./features/vacation/vacation.module').then(
             (m) => m.VacationModule,

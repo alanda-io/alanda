@@ -35,7 +35,7 @@ export class DiagramComponent
   @ViewChild('ref', { static: true }) private readonly el: ElementRef;
   endpointUrl: string;
   activities: any[] = [];
-  canViewCamundaCockpit: boolean
+  canViewCamundaCockpit: boolean;
 
   private readonly bpmnJS: BpmnJS;
 
@@ -47,7 +47,10 @@ export class DiagramComponent
     this.bpmnJS = new BpmnJS({
       keyboard: { bindTo: document },
     });
-    this.canViewCamundaCockpit = Authorizations.hasPermission(this.user, 'menu:read:administration');
+    this.canViewCamundaCockpit = Authorizations.hasPermission(
+      this.user,
+      'menu:read:administration',
+    );
   }
 
   loadActivities(canvas) {

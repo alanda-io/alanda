@@ -3,7 +3,6 @@ import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AlandaTaskFormService } from '@alanda/common';
 import { UserStoreImpl } from '../store/user';
-import { RxState } from '@rx-angular/state';
 
 @Injectable()
 export class UserEnrichedTaskFormService {

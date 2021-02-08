@@ -38,6 +38,8 @@ import { TabViewModule } from 'primeng/tabview';
 import { ToastModule } from 'primeng/toast';
 import { ProjectsAndProcessesDemoComponent } from './components/projects-and-processes-demo/projects-and-processes-demo.component';
 import { HomeModule } from './features/home/home.module';
+import { UserEnrichedFormsControllerComponent } from './components/forms-controller/user-enriched-forms-controller.component';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
 
@@ -48,6 +50,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     PermissionsDemoComponent,
     UserManagementContainerComponent,
     UserEnrichedProjectsControllerComponent,
+    UserEnrichedFormsControllerComponent,
     ProjectsAndProcessesDemoComponent,
   ],
   imports: [
@@ -71,6 +74,7 @@ const CURRENT_CONFIG: AppSettings = ALANDA_CONFIG;
     TabViewModule,
     TaskListModule,
     ProjectMonitorModule,
+    ProgressSpinnerModule,
   ],
   providers: [
     { provide: APP_CONFIG, useValue: CURRENT_CONFIG },
