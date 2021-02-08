@@ -47,10 +47,6 @@ export class DiagramComponent
     this.bpmnJS = new BpmnJS({
       keyboard: { bindTo: document },
     });
-    this.canViewCamundaCockpit = Authorizations.hasPermission(
-      this.user,
-      'menu:read:administration',
-    );
   }
 
   loadActivities(canvas) {
@@ -121,6 +117,10 @@ export class DiagramComponent
 
   ngAfterContentInit(): void {
     this.bpmnJS.attachTo(this.el.nativeElement);
+    this.canViewCamundaCockpit = Authorizations.hasPermission(
+      this.user,
+      'menu:read:administration',
+    );
   }
 
   ngOnDestroy(): void {
