@@ -11,7 +11,10 @@
     </p-tabPanel>
     <p-tabPanel header="PIO" leftIcon="pi pi-eye">
       <ng-template pTemplate="content">
-        <alanda-pio-component [pid]="s.pid"></alanda-pio-component>
+        <alanda-pio-component
+          [pid]="s.pid"
+          [user]="s.user"
+        ></alanda-pio-component>
       </ng-template>
     </p-tabPanel>
     <p-tabPanel header="History Log" leftIcon="pi pi-clock">

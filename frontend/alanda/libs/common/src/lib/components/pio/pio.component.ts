@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Inject } from '@angular/core';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { AlandaProcessApiService } from '../../api/processApi.service';
 import { AlandaTask } from '../../api/models/task';
+import { AlandaUser } from '../../api/models/user';
 
 @Component({
   selector: 'alanda-pio-component',
@@ -11,6 +12,7 @@ import { AlandaTask } from '../../api/models/task';
 export class AlandaPioComponent implements OnInit {
   @Input() pid: string;
   @Input() task: AlandaTask;
+  @Input() user: AlandaUser;
   processName = '';
   endpointUrl: string;
 

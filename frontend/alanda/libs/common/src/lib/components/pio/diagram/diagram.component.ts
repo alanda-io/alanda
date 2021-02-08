@@ -18,6 +18,8 @@ import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { importDiagram } from './importDiagram';
 import { throwError } from 'rxjs';
+import { AlandaUser } from '../../../api/models/user';
+import { Authorizations } from '../../../permissions';
 
 @Component({
   selector: 'alanda-diagram-component',
@@ -25,14 +27,17 @@ import { throwError } from 'rxjs';
   styleUrls: ['./diagram.component.scss'],
 })
 export class DiagramComponent
-  implements OnInit, AfterContentInit, OnDestroy, OnChanges {
+  implements AfterContentInit, OnDestroy, OnChanges {
   @Input() pid: string;
   @Input() task: AlandaTask;
+  @Input() user: AlandaUser;
 
   @ViewChild('ref', { static: true }) private readonly el: ElementRef;
   endpointUrl: string;
-  private readonly bpmnJS: BpmnJS;
   activities: any[] = [];
+  canViewCamundaCockpit: boolean;
+
+  private readonly bpmnJS: BpmnJS;
 
   constructor(
     @Inject(APP_CONFIG) private readonly config: AppSettings,
@@ -42,6 +47,10 @@ export class DiagramComponent
     this.bpmnJS = new BpmnJS({
       keyboard: { bindTo: document },
     });
+    this.canViewCamundaCockpit = Authorizations.hasPermission(
+      this.user,
+      'menu:read:administration',
+    );
   }
 
   loadActivities(canvas) {
@@ -103,8 +112,6 @@ export class DiagramComponent
       this.activities[activityId] = 1;
     }
   }
-
-  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.pid) {

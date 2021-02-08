@@ -1,15 +1,15 @@
 <p-panel class="diagram">
   <p-header>
     <a
+      *ngIf="canViewCamundaCockpit"
       [href]="
         '/camunda/app/cockpit/default/#/process-instance/' + pid + '/runtime'
       "
       target="_blank"
     >
       Camunda Cockpit
-      <!-- <span *ngIf="task.process_name">{{processName}}</span> -->
     </a>
-    <!-- <span *ngIf="task">/ {{task.task_name}}</span> -->
+    <span *ngIf="!canViewCamundaCockpit">Camunda Cockpit</span>
   </p-header>
   <div #ref class="diagram-container"></div>
 </p-panel>
