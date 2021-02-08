@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AlandaTaskFormService } from '../alanda-task-form.service';
 
 @Component({
@@ -7,12 +7,10 @@ import { AlandaTaskFormService } from '../alanda-task-form.service';
   styleUrls: ['./forms-controller.component.scss'],
   providers: [AlandaTaskFormService],
 })
-export class AlandaFormsControllerComponent implements AfterViewInit {
+export class AlandaFormsControllerComponent {
   state$ = this.taskFormService.state$;
   rootForm = this.taskFormService.rootForm;
   activeTab = 0;
 
   constructor(private readonly taskFormService: AlandaTaskFormService) {}
-
-  ngAfterViewInit() {}
 }
