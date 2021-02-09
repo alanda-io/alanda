@@ -196,3 +196,5 @@ export { CreateProjectModule } from './lib/components/create-project/create-proj
 export { AdminModule } from './lib/components/admin/admin.module';
 export { LabelModule } from './lib/components/label/label.module';
 export { CompleteTaskModule } from './lib/components/complete-task/complete-task.module';
+export { ProjectOverviewModule } from './lib/components/project-overview/project-overview.module';
+export { ProjectOverviewComponent } from './lib/components/project-overview/project-overview.component';

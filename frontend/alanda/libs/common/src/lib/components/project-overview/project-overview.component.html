@@ -1,0 +1,115 @@
+<p-panel class="project-overview" [showHeader]="false" [toggleable]="false">
+  <form [formGroup]="projectOverviewForm">
+    <ng-content></ng-content>
+    <div class="p-grid p-fluid p-mt-4" *ngIf="!content">
+      <div class="p-field p-col-12 p-md-6 p-lg-3 p-xl-2">
+        <span class="p-float-label">
+          <input
+            *ngIf="project.subtype != null"
+            type="text"
+            id="projectSubType"
+            pInputText
+            [readOnly]="true"
+            [value]="project.subtype"
+          />
+          <input
+            *ngIf="project.subtype === null"
+            type="text"
+            id="projectType"
+            pInputText
+            [readOnly]="true"
+            [value]="project.pmcProjectType.name"
+          />
+          <label *ngIf="project.subtype != null" for="projectSubType"
+            >Project Sub Type
+          </label>
+          <label *ngIf="project.subtype === null" for="projectType">
+            Project Type</label
+          >
+        </span>
+      </div>
+      <div class="p-field p-col-12 p-md-6 p-lg-3 p-xl-2">
+        <span class="p-float-label">
+          <p-dropdown
+            id="projectPrio"
+            formControlName="priority"
+            [options]="priorities"
+            name="priority"
+          ></p-dropdown>
+          <label for="projectPrio">Prio</label>
+        </span>
+      </div>
+
+      <div class="p-field p-col-12 p-md-6 p-lg-3 p-xl-2">
+        <span class="p-float-label">
+          <p-autoComplete
+            id="projectTags"
+            formControlName="tag"
+            [multiple]="true"
+            [forceSelection]="true"
+            [dropdown]="true"
+            [suggestions]="allowedTagList"
+            (completeMethod)="searchTag()"
+          >
+          </p-autoComplete>
+          <label for="projectTags">Tag(s)</label>
+        </span>
+      </div>
+
+      <div class="p-field p-col-12 p-md-6 p-lg-3 p-xl-2" *ngIf="task != null">
+        <span class="p-float-label">
+          <p-calendar
+            id="taskDueDate"
+            formControlName="taskDueDate"
+            [showIcon]="true"
+            [locale]="locale"
+            [dateFormat]="locale.dateFormat"
+          ></p-calendar>
+          <label for="taskDueDate">Task Due Date</label>
+        </span>
+      </div>
+
+      <div class="p-field p-col-12 p-md-6 p-lg-3 p-xl-2">
+        <span class="p-float-label">
+          <p-calendar
+            id="projectDueDate"
+            formControlName="dueDate"
+            [showIcon]="true"
+            [locale]="locale"
+            [dateFormat]="locale.dateFormat"
+          ></p-calendar>
+          <label for="projectDueDate">Project Due Date</label>
+        </span>
+      </div>
+
+      <div class="p-field p-col-12 p-md-6 p-lg-3 p-xl-2">
+        <span class="p-float-label">
+          <input
+            id="projectTitle"
+            pInputText
+            formControlName="title"
+            type="text"
+            value="{{ project.title }}"
+          />
+          <label for="projectTitle">Project Title</label>
+        </span>
+      </div>
+
+      <div class="p-field p-col-12 p-md-6 p-lg-3 p-xl-2">
+        <span class="p-float-label">
+          <textarea
+            id="projectComment"
+            pInputTextarea
+            maxLength="2000"
+            formControlName="comment"
+            [rows]="5"
+            >{{ project.comment }}</textarea
+          >
+          <label for="projectComment">Project Details</label>
+        </span>
+      </div>
+    </div>
+  </form>
+
+  <ng-template alandaProjectPropertiesHost></ng-template>
+</p-panel>
