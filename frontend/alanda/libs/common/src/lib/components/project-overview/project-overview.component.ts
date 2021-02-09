@@ -50,7 +50,6 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit {
   @Input() task: AlandaTask;
   @Input() user: AlandaUser;
   @Input() rootFormGroup: FormGroup;
-  @ContentChild('content') content: ElementRef;
 
   locale: LocaleSettings;
   projectOverviewForm: FormGroup = this.fb.group({

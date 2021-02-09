@@ -1,7 +1,9 @@
 <p-panel class="project-overview" [showHeader]="false" [toggleable]="false">
   <form [formGroup]="projectOverviewForm">
-    <ng-content></ng-content>
-    <div class="p-grid p-fluid p-mt-4" *ngIf="!content">
+    <div #ref>
+      <ng-content></ng-content>
+    </div>
+    <div class="p-grid p-fluid p-mt-4" *ngIf="ref.childNodes.length == 0">
       <div class="p-field p-col-12 p-md-6 p-lg-3 p-xl-2">
         <span class="p-float-label">
           <input
