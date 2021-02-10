@@ -14,6 +14,7 @@
           [locale]="locale"
           [dateFormat]="locale.dateFormat"
           [readonlyInput]="true"
+          [appendTo]="appendTo"
         ></p-calendar>
       </div>
       <div class="p-col-12 p-lg-7 p-xl-7" *ngIf="fcCommentRequired">
@@ -25,6 +26,7 @@
             [locale]="locale"
             [dateFormat]="locale.dateFormat"
             [readonlyInput]="true"
+            [appendTo]="appendTo"
             (click)="clickForComment.next({ ms: 'FC' })"
           ></p-calendar>
           <button
@@ -51,6 +53,7 @@
           [locale]="locale"
           [dateFormat]="locale.dateFormat"
           [readonlyInput]="true"
+          [appendTo]="appendTo"
         ></p-calendar>
       </div>
       <div class="p-col-12 p-lg-7 p-xl-7" *ngIf="actCommentRequired">
@@ -62,6 +65,7 @@
             [locale]="locale"
             [dateFormat]="locale.dateFormat"
             [readonlyInput]="true"
+            [appendTo]="appendTo"
             (click)="clickForComment.next({ ms: 'ACT' })"
           ></p-calendar>
           <button
@@ -92,7 +96,7 @@
           [locale]="locale"
           [dateFormat]="locale.dateFormat"
           [readonlyInput]="true"
-          appendTo="body"
+          [appendTo]="appendTo"
         ></p-calendar>
       </div>
       <div class="p-col-12">

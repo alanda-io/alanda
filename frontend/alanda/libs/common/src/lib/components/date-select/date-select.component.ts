@@ -16,6 +16,7 @@ export class AlandaDateSelectComponent implements OnInit {
   @Input() label: string;
   @Input() project: AlandaProject;
   @Input() formName: string;
+  @Input() appendTo: any = 'body';
   @Input()
   set rootFormGroup(rootFormGroup: FormGroup) {
     if (rootFormGroup) {

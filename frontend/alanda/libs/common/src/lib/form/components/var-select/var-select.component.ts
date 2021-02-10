@@ -23,6 +23,7 @@ export class AlandaVarSelectComponent implements OnInit {
   @Input() task: any;
   @Input() label: string;
   @Input() type?: string;
+  @Input() appendTo: any = 'body';
   @Output() valueChange: EventEmitter<any> = new EventEmitter();
 
   @Input() rootFormGroup: FormGroup;

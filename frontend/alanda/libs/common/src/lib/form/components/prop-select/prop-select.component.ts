@@ -26,6 +26,7 @@ export class AlandaPropSelectComponent implements OnInit {
   @Input() type?: string;
   @Input() user: AlandaUser;
   @Input() rootFormGroup: FormGroup;
+  @Input() appendTo: any = 'body';
 
   canWrite: boolean;
 

@@ -60,6 +60,7 @@ export class AlandaPropAutocompleteEagerComponent implements OnInit {
     this.state.set({ type });
   }
   @Input() user: AlandaUser;
+  @Input() appendTo: any = 'body';
 
   @Output() propertySelected = new EventEmitter<SelectItem>();
 

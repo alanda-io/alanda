@@ -17,6 +17,7 @@ export class AlandaVarRoleUserSelectComponent implements OnInit {
   @Input() task: any;
   @Input() label: string;
   @Input() role: string;
+  @Input() appendTo: any = 'body';
   items: AlandaUser[];
   type = 'long';
 

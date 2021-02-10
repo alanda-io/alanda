@@ -73,6 +73,7 @@ export class AlandaSelectMilestoneComponent {
   @Input() delACT = false;
   @Input() fcCommentRequired = false;
   @Input() actCommentRequired = false;
+  @Input() appendTo: any = 'body';
 
   @Input() set project(project: AlandaProject) {
     this.state.set({ project });

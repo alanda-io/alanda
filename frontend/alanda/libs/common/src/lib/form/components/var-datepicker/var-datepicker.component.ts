@@ -22,6 +22,7 @@ export class AlandaVarDatepickerComponent implements OnInit {
   @Input() project: AlandaProject;
   @Input() task: any;
   @Input() label: string;
+  @Input() appendTo: any = 'body';
 
   @Input() rootFormGroup: FormGroup;
 
