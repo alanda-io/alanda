@@ -7,7 +7,7 @@
       [options]="items"
       formControlName="selected"
       placeholder="Select"
-      appendTo="body"
+      [appendTo]="appendTo"
       (onChange)="save($event)"
     ></p-dropdown>
   </div>
