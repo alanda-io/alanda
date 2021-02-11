@@ -1,28 +1,30 @@
 <ng-container *ngIf="state.select() | async as s">
-  <p-tabView
-    *ngIf="s.project"
-    [activeIndex]="activeTab"
-    styleClass="form-root-tabs"
+  {{ activeTab }}
+  <alanda-page-header
+    [project]="s.project"
+    [activeTabIndex]="activeTab"
+    [tabs]="s.tabs"
+    [user]="s.user"
+    (activeTabIndexChange)="activeTab = $event"
   >
-    <p-tabPanel header="Project Overview" leftIcon="pi pi-bookmark">
-      <ng-template pTemplate="content">
+    <ng-container [ngSwitch]="activeTab">
+      <div *ngSwitchCase="'0'">
         <router-outlet></router-outlet>
-      </ng-template>
-    </p-tabPanel>
-    <p-tabPanel header="PIO" leftIcon="pi pi-eye">
-      <ng-template pTemplate="content">
-        <alanda-pio-component
-          [pid]="s.pid"
-          [user]="s.user"
-        ></alanda-pio-component>
-      </ng-template>
-    </p-tabPanel>
-    <p-tabPanel header="History Log" leftIcon="pi pi-clock">
-      <ng-template pTemplate="content">
+      </div>
+      <div *ngSwitchCase="'1'">
+        <alanda-pio-component [pid]="s.pid"></alanda-pio-component>
+      </div>
+      <div *ngSwitchCase="'2'">
         <alanda-history-grid-component
           [projectGuid]="s.project.guid"
         ></alanda-history-grid-component>
-      </ng-template>
-    </p-tabPanel>
-  </p-tabView>
+      </div>
+      <div *ngSwitchCase="'3'">
+        3
+      </div>
+      <div *ngSwitchCase="'4'">
+        4
+      </div>
+    </ng-container>
+  </alanda-page-header>
 </ng-container>

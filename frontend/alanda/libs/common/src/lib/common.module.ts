@@ -60,6 +60,7 @@ import { CommentDialogModule } from './components/comment-dialog/comment-dialog.
 import { CompleteTaskModule } from './components/complete-task/complete-task.module';
 import { TruncatePipeModule } from './pipes/truncate.pipe';
 import { ProjectOverviewModule } from './components/project-overview/project-overview.module';
+import { PageHeaderModule } from './components/page-header/page-header.module';
 
 @NgModule({
   imports: [
@@ -99,6 +100,7 @@ import { ProjectOverviewModule } from './components/project-overview/project-ove
     CommentDialogModule,
     CompleteTaskModule,
     ProjectOverviewModule,
+    PageHeaderModule,
   ],
   exports: [
     BadgeModule,
@@ -133,6 +135,7 @@ import { ProjectOverviewModule } from './components/project-overview/project-ove
     CommentDialogModule,
     CompleteTaskModule,
     ProjectOverviewModule,
+    PageHeaderModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,
