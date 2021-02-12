@@ -24,6 +24,7 @@ export class AlandaPropSelectComponent implements OnInit {
   @Input() project: AlandaProject;
   @Input() label: string;
   @Input() type?: string;
+  @Input() readonly: boolean;
   @Input() user: AlandaUser;
   @Input() rootFormGroup: FormGroup;
   @Input() appendTo: any = 'body';
@@ -40,6 +41,9 @@ export class AlandaPropSelectComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (this.readonly === true) {
+      this.selected.disable({ emitEvent: false });
+    }
     if (this.rootFormGroup) {
       this.rootFormGroup.addControl(
         `${SELECTOR}-${this.propertyName}`,
