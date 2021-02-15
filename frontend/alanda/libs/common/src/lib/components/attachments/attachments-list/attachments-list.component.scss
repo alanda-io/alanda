@@ -1,4 +1,23 @@
 .attachment-list {
+  .name-col {
+    width: auto;
+  }
+
+  .last-modified-col {
+    width: 12rem;
+    text-align: center;
+  }
+
+  .size-col {
+    width: 10rem;
+    text-align: center;
+  }
+
+  .action-col {
+    width: 13.5rem;
+    text-align: center;
+  }
+
   .action-button-wrapper {
     display: inline-block;
     width: 3rem;

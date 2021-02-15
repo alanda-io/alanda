@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, Inject } from '@angular/core';
 import { SimpleDocument } from '../../../api/models/simpleDocument';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AlandaDocumentApiService } from '../../../api/documentApi.service';
@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { RxState } from '@rx-angular/state';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { APP_CONFIG, AppSettings } from '../../../models/appSettings';
 
 interface AttachmentsListState {
   files: SimpleDocument[];
@@ -30,6 +31,7 @@ export class AttachmentsListComponent {
   changedFileName$ = new Subject<{ file: SimpleDocument; value: string }>();
   previewExtensions = ['jpg', 'jpeg', 'gif', 'png', 'pdf'];
   showFilePreview = false;
+  dateFormat: string;
 
   changedFiles$ = this.changedFileName$.pipe(
     map((event) => {
@@ -59,12 +61,14 @@ export class AttachmentsListComponent {
     private readonly messageService: MessageService,
     public sanitizer: DomSanitizer,
     public state: RxState<AttachmentsListState>,
+    @Inject(APP_CONFIG) config: AppSettings,
   ) {
     this.state.connect('changedFiles', this.changedFiles$);
     this.state.set({
       files: [],
       changedFiles: [],
     });
+    this.dateFormat = config.DATE_FORMAT;
   }
 
   triggerDownload(file: SimpleDocument): void {
@@ -112,6 +116,11 @@ export class AttachmentsListComponent {
   openFilePreview(file: SimpleDocument): void {
     this.showFilePreview = !this.showFilePreview;
     this.state.set({ previewFile: file });
+  }
+
+  openFilePreviewFullscreen(file: SimpleDocument): void {
+    const url = this.downloadUrl(file, true);
+    window.open(url, '_blank');
   }
 
   hasUnsavedFileName(file: SimpleDocument): boolean {

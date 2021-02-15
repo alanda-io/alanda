@@ -3,23 +3,32 @@
     class="attachment-list"
     [value]="s.files"
     [scrollable]="true"
-    scrollHeight="320px"
-    autoLayout="true"
+    scrollHeight="350px"
+    [autoLayout]="true"
     dataKey="guid"
   >
     <!-- 'let-columns' allows access to the ng-template context columns property-->
     <ng-template pTemplate="header">
       <tr>
-        <th>Name</th>
-        <th>Last Modified</th>
-        <th>Size</th>
-        <th>Action</th>
+        <th class="name-col" pSortableColumn="name">
+          Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th class="last-modified-col" pSortableColumn="modified">
+          Last Modified <p-sortIcon field="modified"></p-sortIcon>
+        </th>
+        <th class="size-col" pSortableColumn="size">
+          Size <p-sortIcon field="size"></p-sortIcon>
+        </th>
+        <th class="action-col">Action</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-file>
       <tr>
-        <td>
-          <p-inplace [active]="hasUnsavedFileName(file)">
+        <td class="name-col">
+          <p-inplace
+            [active]="hasUnsavedFileName(file)"
+            *ngIf="data.selectedNode?.permissions?.includes('w')"
+          >
             <ng-template pTemplate="display">
               {{ file.name }}
             </ng-template>
@@ -50,12 +59,15 @@
               </div>
             </ng-template>
           </p-inplace>
+          <ng-container *ngIf="!data.selectedNode?.permissions?.includes('w')">
+            {{ file.name }}
+          </ng-container>
         </td>
-        <td>
-          {{ file.lastModified | date: 'd MMMM y' }}
+        <td class="last-modified-col">
+          {{ file.lastModified | date: dateFormat }}
         </td>
-        <td>{{ file.size }}&nbsp;KB</td>
-        <td>
+        <td class="size-col">{{ file.size }}&nbsp;KB</td>
+        <td class="action-col">
           <div
             class="action-button-wrapper"
             *ngIf="data.selectedNode?.permissions?.includes('w')"
@@ -124,6 +136,17 @@
       [resizable]="false"
       [header]="s.previewFile.name"
     >
+      <ng-template pTemplate="header">
+        <button
+          pButton
+          class="p-button-link"
+          label="Open in Fullscreen"
+          style="padding: 0;"
+          icon="pi pi-window-maximize"
+          type="button"
+          (click)="openFilePreviewFullscreen(s.previewFile)"
+        ></button>
+      </ng-template>
       <div class="p-grid">
         <div class="p-col-12">
           <ng-template
