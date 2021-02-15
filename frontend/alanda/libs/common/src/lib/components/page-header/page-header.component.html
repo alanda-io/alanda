@@ -1,34 +1,5 @@
 <ng-container *ngIf="state.select() | async as s">
-  <!--
-  <p-tabView [activeIndex]="activeTabIndex"
-             (activeIndexChange)="updateTabIndex($event)">
-    <p-tabPanel header="Project Overview" leftIcon="pi pi-bookmark">
-      <ng-template pTemplate="content">
-        <router-outlet></router-outlet>
-      </ng-template>
-    </p-tabPanel>
-    <p-tabPanel header="PIO" leftIcon="pi pi-eye">
-      <ng-template pTemplate="content">
-        <alanda-pio-component [pid]="s.pid"></alanda-pio-component>
-      </ng-template>
-    </p-tabPanel>
-    <p-tabPanel header="History Log" leftIcon="pi pi-clock">
-      <ng-template pTemplate="content">
-        <alanda-history-grid-component
-          [projectGuid]="s.project.guid"
-        ></alanda-history-grid-component>
-      </ng-template>
-    </p-tabPanel>
-    <p-tabPanel header="People" leftIcon="pi pi-users">
-      <ng-template pTemplate="content">
-        People component WIP
-      </ng-template>
-    </p-tabPanel>
-  </p-tabView>
-  -->
-
   <p-tabView [hidden]="true"></p-tabView>
-
   <div class="p-tabview p-component phase-tabview" #phaseTab>
     <ul role="tablist" class="p-tabview-nav">
       <li
