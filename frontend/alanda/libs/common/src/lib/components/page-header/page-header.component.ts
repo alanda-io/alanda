@@ -53,12 +53,13 @@ export class PageHeaderComponent {
   @Output() activeTabIndexChange = new EventEmitter<number>();
 
   @Input() set simplePhases(simplePhases: AlandaSimplePhase[]) {
+    // remove
     this.state.set({ simplePhases });
   }
   @Input() set readOnlyPhases(readOnlyPhases: string[]) {
     this.state.set({ readOnlyPhases });
   }
-  @Input() phase: string;
+  @Input() phase: string; // remove
   @Input() user: AlandaUser;
 
   @Output() activePhaseChange = new EventEmitter<string>();
@@ -348,14 +349,12 @@ export class PageHeaderComponent {
   }
 
   updatePhasesInState(response: AlandaSimplePhase) {
-    const newSimplePhases = [...this.state.get().simplePhases];
-    const i = newSimplePhases.findIndex(
-      (phase) => phase.guid === response.guid,
-    );
+    const tabs = [...this.state.get().pageTabs];
+    const i = tabs.findIndex((tab) => tab.phase?.guid === response.guid);
     if (i !== -1) {
-      newSimplePhases[i] = response;
+      tabs[i].phase = response;
       this.state.set(() => ({
-        simplePhases: newSimplePhases,
+        pageTabs: tabs,
       }));
     }
   }
@@ -368,8 +367,10 @@ export class PageHeaderComponent {
     );
   }
 
-  toggleMenu(event: MouseEvent): void {
+  toggleMenu(event: MouseEvent, ref: Menu): void {
     event.stopPropagation();
-    this.menu.toggle(event)
+    this.menu.hide();
+    ref.show(event);
+    this.menu = ref;
   }
 }

@@ -28,7 +28,7 @@
           <ng-container *ngIf="!!tab.phase && !isReadOnly(tab.phase)">
             <i
               class="pi pi-angle-down phase-tab-menu"
-              (click)="toggleMenu($event)"
+              (click)="toggleMenu($event, menu)"
             ></i>
             <p-menu
               #menu
