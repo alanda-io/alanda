@@ -44,9 +44,6 @@ export class QuickEditProjectDetailsComponent {
     text: ['', [Validators.required]],
   });
 
-  @Input() set mode(mode: ProjectDetailsMode) {
-    this.state.set({ mode });
-  }
   @Input() set project(project: AlandaProject) {
     this.state.set({ project });
     const mode = this.state?.get()?.mode;
@@ -61,9 +58,11 @@ export class QuickEditProjectDetailsComponent {
         );
     }
   }
+
   @Input() set projectGuid(projectGuid: number) {
     this.state.set({ projectGuid });
   }
+
   @Output() close = new Subject<AlandaProject>();
 
   /**
@@ -90,14 +89,7 @@ export class QuickEditProjectDetailsComponent {
     switchMap((guid) =>
       this.projectService.getProjectByGuid(guid).pipe(
         tap((project) =>
-          this.mainForm
-            .get('text')
-            .patchValue(
-              this.state.get()?.mode === ProjectDetailsMode.DETAILS
-                ? project?.details
-                : project?.guStatus,
-              NOT_EMITTABLE,
-            ),
+          this.mainForm.get('text').patchValue(project?.details, NOT_EMITTABLE),
         ),
         map((project) => ({ project, working: false })),
         startWith({ working: true }),
@@ -128,25 +120,25 @@ export class QuickEditProjectDetailsComponent {
     filter(({ project }) => this.mainForm.valid && !isEmpty(project)),
     tap(() => this.state.set({ working: true })),
     map(({ mode, project }) => {
-      mode === ProjectDetailsMode.DETAILS
-        ? (project.details = this.mainForm.get('text')?.value)
-        : (project.guStatus = this.mainForm.get('text')?.value);
+      project.details = this.mainForm.get('text')?.value;
       return project;
     }),
     switchMap((project) =>
-      this.projectService.updateProject(project).pipe(
-        tap(() => this.close.next(project)),
-        map((updateProject) => ({ project: updateProject, working: false })),
-        catchError((err) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Update Project Details',
-            detail: err?.message,
-          });
-          this.state.set({ working: false });
-          return EMPTY;
-        }),
-      ),
+      this.projectService
+        .updateProjectDetails(project.projectId, project.details)
+        .pipe(
+          tap(() => this.close.next(project)),
+          map((updateProject) => ({ project: updateProject, working: false })),
+          catchError((err) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Update Project Details',
+              detail: err?.message,
+            });
+            this.state.set({ working: false });
+            return EMPTY;
+          }),
+        ),
     ),
   );
 
