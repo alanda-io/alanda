@@ -1,5 +1,5 @@
+import { AppSettings } from '@alanda/common';
 import { SelectItem } from 'primeng/api';
-import { AppSettings } from '../../../../dist/libs/common';
 
 export const ALANDA_CONFIG: {
   LOCALE_PRIME: {

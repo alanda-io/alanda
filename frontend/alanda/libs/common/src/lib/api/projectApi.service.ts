@@ -63,6 +63,15 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
         ),
       );
   }
+
+  public updateProjectDetails(projectId: string, details: string) {
+    return this.http
+      .put<AlandaProject>(`${this.endpoint}/${projectId}/details`, details)
+      .pipe(
+        catchError(this.handleError<AlandaProject>('updateProjectHighlight')),
+      );
+  }
+
   public updateProjectHighlight(projectId: string, highlight: boolean) {
     return this.http
       .post<AlandaProject>(
@@ -79,6 +88,7 @@ export class AlandaProjectApiService extends AlandaExceptionHandlingService {
       .get<boolean>(`${this.endpoint}/project/${projectId}/highlight`)
       .pipe(catchError(this.handleError<boolean>('getProjectHighlight')));
   }
+
   public updateProject(project): Observable<AlandaProject> {
     return this.http
       .put<AlandaProject>(`${this.endpoint}/${project.projectId}`, project)

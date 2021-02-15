@@ -36,6 +36,10 @@ export class AlandaTitleService {
     this.setTitle(`${project.projectId}:${project.projectType}`);
   }
 
+  setCustomTitle(newTitle?: string) {
+    this.titleService.setTitle(newTitle);
+  }
+
   setTaskTitle(task: AlandaTask) {
     this.setTitle(`${task.object_name}:${task.task_name}`);
   }

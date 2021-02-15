@@ -164,8 +164,11 @@
     [modal]="true"
     [resizable]="false"
     [style]="{ width: '500px' }"
-    header="Edit Project"
   >
+    <p-header
+      ><span>Edit Project {{ s.selectedProject?.projectId }}</span></p-header
+    >
+
     <alanda-quick-edit-project-details
       [project]="s.selectedProject"
       (close)="closeProjectDetailsModalEvent$.next($event)"
