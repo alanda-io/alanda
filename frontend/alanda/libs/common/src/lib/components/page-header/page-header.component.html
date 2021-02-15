@@ -54,10 +54,10 @@
             ]"
           ></i>
           <span>{{ tab.name }}</span>
-          <ng-container *ngIf="tab.phase && !isReadOnly(tab.phase)">
+          <ng-container *ngIf="!!tab.phase && !isReadOnly(tab.phase)">
             <i
               class="pi pi-angle-down phase-tab-menu"
-              (click)="menu.toggle($event)"
+              (click)="toggleMenu($event)"
             ></i>
             <p-menu
               #menu

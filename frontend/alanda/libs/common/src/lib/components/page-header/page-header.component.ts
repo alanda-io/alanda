@@ -1,11 +1,10 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input, Output, ViewChild } from '@angular/core';
 import { AlandaProject } from '../../api/models/project';
 import { RxState } from '@rx-angular/state';
 import {
   concatMap,
   filter,
   map,
-  switchMap,
   take,
   tap,
   withLatestFrom,
@@ -17,6 +16,7 @@ import { Subject } from 'rxjs';
 import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Authorizations } from '../../permissions';
+import { Menu } from 'primeng/menu';
 
 interface PageHeaderState {
   project: AlandaProject;
@@ -42,6 +42,9 @@ export interface AlandaPageTab {
 export class PageHeaderComponent {
   @Input() set project(project: AlandaProject) {
     this.state.set({ project });
+    if (project) {
+      this.authBase = `project:${project?.authBase}:phase`;
+    }
   }
   @Input() set tabs(pageTabs: AlandaPageTab[]) {
     this.state.set({ pageTabs });
@@ -60,28 +63,12 @@ export class PageHeaderComponent {
 
   @Output() activePhaseChange = new EventEmitter<string>();
 
+  @ViewChild('menu') menu: Menu;
+
   authBase: string;
   activePageTabChangeEvent = new Subject<AlandaPageTab>();
 
-  overviewTab: AlandaSimplePhase = {
-    active: false,
-    enabled: false,
-    pmcProjectPhaseDefinition: {
-      allowedProcesses: null,
-      displayName: 'Overview',
-      guid: 0,
-      idName: 'OVERVIEW',
-    },
-    guid: null,
-    updateUser: null,
-    updateDate: null,
-  };
-
   phaseStatusMap = {
-    overview: {
-      label: '',
-      styleClass: 'overview pi pi-bookmark',
-    },
     active: {
       label: 'active',
       styleClass: 'pi pi-play p-button p-button-text',
@@ -172,10 +159,7 @@ export class PageHeaderComponent {
   getPhaseStatus(
     phase: AlandaSimplePhase,
   ): { label: string; styleClass: string } {
-    if (!phase.guid) {
-      // Overview tab ohne guid aus dem Backend
-      return this.phaseStatusMap.overview;
-    } else if (phase.active) {
+    if (phase.active) {
       return this.phaseStatusMap.active;
     } else if (phase.endDate != null) {
       return this.phaseStatusMap.completed;
@@ -311,6 +295,9 @@ export class PageHeaderComponent {
   }
 
   isReadOnly(phase: AlandaSimplePhase): boolean {
+    if (phase == null) {
+      return true;
+    }
     let readOnly = false;
     const roPhases =
       this.state.get('readOnlyPhases') != null
@@ -321,7 +308,7 @@ export class PageHeaderComponent {
       phase.guid == null ||
       roPhases.findIndex(
         (phaseIdName) => phaseIdName === phase.pmcProjectPhaseDefinition.idName,
-      ) !== -1 ||
+      ) > -1 ||
       this.state.get('project').status === 'CANCELED' ||
       this.state.get('project').status === 'COMPLETED'
     ) {
@@ -379,5 +366,10 @@ export class PageHeaderComponent {
       `${this.authBase}:${phase.pmcProjectPhaseDefinition.idName}`,
       accessLevel,
     );
+  }
+
+  toggleMenu(event: MouseEvent): void {
+    event.stopPropagation();
+    this.menu.toggle(event)
   }
 }
