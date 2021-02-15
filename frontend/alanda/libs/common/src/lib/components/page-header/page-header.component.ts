@@ -22,7 +22,6 @@ interface PageHeaderState {
   project: AlandaProject;
   pageTabs: AlandaPageTab[];
   activePageTab: AlandaPageTab;
-  simplePhases: AlandaSimplePhase[];
   readOnlyPhases: string[];
   activePhase: AlandaSimplePhase;
   phase: string;
@@ -49,19 +48,13 @@ export class PageHeaderComponent {
   @Input() set tabs(pageTabs: AlandaPageTab[]) {
     this.state.set({ pageTabs });
   }
-  @Input() activeTabIndex = 0;
-  @Output() activeTabIndexChange = new EventEmitter<number>();
-
-  @Input() set simplePhases(simplePhases: AlandaSimplePhase[]) {
-    // remove
-    this.state.set({ simplePhases });
-  }
   @Input() set readOnlyPhases(readOnlyPhases: string[]) {
     this.state.set({ readOnlyPhases });
   }
-  @Input() phase: string; // remove
+  @Input() activeTabIndex = 0;
+  @Input() activePhase: string;
   @Input() user: AlandaUser;
-
+  @Output() activeTabIndexChange = new EventEmitter<number>();
   @Output() activePhaseChange = new EventEmitter<string>();
 
   @ViewChild('menu') menu: Menu;
@@ -107,10 +100,14 @@ export class PageHeaderComponent {
     map((pageTabs: AlandaPageTab[]) => {
       const tabs = [...pageTabs];
       let activeTab = tabs[0];
-      if (this.phase) {
+      if (this.activeTabIndex) {
+        activeTab = tabs[this.activeTabIndex];
+      }
+      if (this.activePhase) {
         const initTab = tabs.find(
           (tab: AlandaPageTab) =>
-            tab.phase?.pmcProjectPhaseDefinition.idName === this.phase,
+            tab.phase?.pmcProjectPhaseDefinition.idName.toLowerCase() ===
+            this.activePhase.toLowerCase(),
         );
         if (initTab != null) {
           activeTab = initTab;

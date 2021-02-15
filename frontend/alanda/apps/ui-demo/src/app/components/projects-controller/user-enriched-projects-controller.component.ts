@@ -24,7 +24,7 @@ export interface UserEnrichedProjectControllerState extends BaseState {
   providers: [RxState],
 })
 export class UserEnrichedProjectsControllerComponent {
-  activeTab = 0;
+  activeTab = 2;
   paramSub: Subscription;
 
   activePhase: string;

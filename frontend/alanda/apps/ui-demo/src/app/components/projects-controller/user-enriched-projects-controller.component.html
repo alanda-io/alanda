@@ -1,8 +1,9 @@
 <ng-container *ngIf="state.select() | async as s">
-  {{ activeTab }}
+  Active Tab: {{ activeTab }}
   <alanda-page-header
     [project]="s.project"
     [activeTabIndex]="activeTab"
+    [activePhase]="'active'"
     [tabs]="s.tabs"
     [user]="s.user"
     (activeTabIndexChange)="activeTab = $event"
@@ -16,6 +17,7 @@
       </div>
       <div *ngSwitchCase="'2'">
         <alanda-history-grid-component
+          *ngIf="s.project"
           [projectGuid]="s.project.guid"
         ></alanda-history-grid-component>
       </div>
