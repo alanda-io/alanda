@@ -1,0 +1,111 @@
+<p-panel *ngIf="project" class="page-header-panel" styleClass="header-panel">
+  <p-header>
+    <a [routerLink]="'/projectdetails/' + project.projectId">{{
+      project.projectId
+    }}</a>
+    <span *ngIf="project.refObjectIdName">/ {{ project.refObjectIdName }}</span
+    >/ {{ project.status }}
+  </p-header>
+  <ng-template pTemplate="icons">
+    <ng-container *ngIf="task != null">
+      <span
+        class="header-info-item"
+        pTooltip="Responsible Groups"
+        tooltipPosition="top"
+        *ngIf="(task.candidateGroups | filter: '!Administrator')?.length"
+      >
+        <i class="pi pi-users"></i>
+        <ng-container
+          *ngFor="
+            let candidateGroup of task.candidateGroups
+              | filter: '!Administrator';
+            let last = last
+          "
+          >&nbsp;{{ candidateGroup
+          }}<ng-container *ngIf="!last">,</ng-container></ng-container
+        >
+      </span>
+
+      <span
+        class="header-info-item"
+        pTooltip="Currently unassigned"
+        tooltipPosition="top"
+        *ngIf="task.assignee === null"
+      >
+        <i class="pi pi-exclamation-circle"></i> Unassigned
+      </span>
+
+      <span
+        class="header-info-item"
+        pTooltip="Assigned to"
+        tooltipPosition="top"
+        *ngIf="task.assignee != null"
+      >
+        <i class="pi pi-check-circle"></i> {{ task.assignee }}
+      </span>
+
+      <a
+        (click)="openDelegationForm()"
+        href="javascript:void(0)"
+        class="header-info-item"
+      >
+        <i class="pi pi-arrow-circle-right"></i> Delegate Task
+      </a>
+    </ng-container>
+    <span class="header-info-item" pTooltip="Created by" tooltipPosition="top">
+      <i class="pi pi-user"></i> {{ project.ownerName }}
+    </span>
+    <span class="header-info-item" pTooltip="Created at" tooltipPosition="top">
+      <i class="pi pi-clock"></i>
+      {{ project.createDate | date: dateFormat }}
+    </span>
+    <span
+      *ngIf="project?.highlighted"
+      class="header-info-item project-highlighted"
+    >
+      <i
+        class="pi pi-exclamation-circle"
+        pTooltip="Important Project"
+        tooltipPosition="top"
+      ></i>
+    </span>
+  </ng-template>
+  <ng-content></ng-content>
+</p-panel>
+
+<p-dialog
+  [(visible)]="showDelegateDialog"
+  [dismissableMask]="true"
+  [modal]="true"
+  [resizable]="false"
+  [style]="{ width: '450px' }"
+  [contentStyle]="{ overflow: 'visible' }"
+  header="Delegate task for"
+>
+  <div class="p-grid p-fluid">
+    <div class="p-col-12">
+      <p-dropdown
+        #dd
+        [options]="candidateUsers"
+        optionLabel="displayName"
+        placeholder="Select a user"
+        [filter]="true"
+      ></p-dropdown>
+    </div>
+  </div>
+  <p-footer>
+    <p-button
+      (onClick)="showDelegateDialog = false"
+      styleClass="p-button-text"
+      icon="pi pi-times"
+      label="Cancel"
+    ></p-button>
+    <p-button
+      (onClick)="delegateTask(dd.value)"
+      styleClass="p-button-text"
+      icon="pi pi-check"
+      [disabled]="!dd.value"
+      label="Delegate"
+    ></p-button>
+  </p-footer>
+</p-dialog>

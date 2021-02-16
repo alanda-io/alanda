@@ -7,9 +7,15 @@ import { PioModule } from '../pio/pio.module';
 import { HistoryGridModule } from '../history/history-grid.module';
 import { TooltipModule } from 'primeng/tooltip';
 import { MenuModule } from 'primeng/menu';
+import { PanelModule } from 'primeng/panel';
+import { FilterPipeModule } from '../../pipes/filter.pipe';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { ButtonModule } from 'primeng/button';
+import { PageHeaderBarComponent } from './page-header-bar/page-header-bar.component';
 
 @NgModule({
-  declarations: [PageHeaderComponent],
+  declarations: [PageHeaderComponent, PageHeaderBarComponent],
   imports: [
     CommonModule,
     TabViewModule,
@@ -18,7 +24,12 @@ import { MenuModule } from 'primeng/menu';
     HistoryGridModule,
     TooltipModule,
     MenuModule,
+    PanelModule,
+    FilterPipeModule,
+    DialogModule,
+    DropdownModule,
+    ButtonModule,
   ],
-  exports: [PageHeaderComponent],
+  exports: [PageHeaderComponent, PageHeaderBarComponent],
 })
 export class PageHeaderModule {}

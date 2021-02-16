@@ -1,5 +1,4 @@
 <ng-container *ngIf="state.select() | async as s">
-  Active Tab: {{ activeTab }}
   <alanda-page-header
     [project]="s.project"
     [activeTabIndex]="activeTab"
@@ -26,6 +25,24 @@
       </div>
       <div *ngSwitchCase="'4'">
         4
+      </div>
+      <div *ngSwitchCase="'5'">
+        5
+      </div>
+      <div *ngSwitchCase="'6'">
+        6
+      </div>
+      <div *ngSwitchCase="'7'">
+        7
+      </div>
+      <div *ngSwitchCase="'8'">
+        8
+      </div>
+      <div *ngSwitchCase="'9'">
+        9
+      </div>
+      <div *ngSwitchCase="'10'">
+        10
       </div>
     </ng-container>
   </alanda-page-header>

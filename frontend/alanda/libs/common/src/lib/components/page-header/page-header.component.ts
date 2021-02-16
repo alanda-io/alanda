@@ -17,14 +17,14 @@ import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Authorizations } from '../../permissions';
 import { Menu } from 'primeng/menu';
+import { AlandaTask } from '../../api/models/task';
 
 interface PageHeaderState {
   project: AlandaProject;
+  task: AlandaTask;
   pageTabs: AlandaPageTab[];
   activePageTab: AlandaPageTab;
   readOnlyPhases: string[];
-  activePhase: AlandaSimplePhase;
-  phase: string;
 }
 
 export interface AlandaPageTab {
@@ -45,6 +45,9 @@ export class PageHeaderComponent {
       this.authBase = `project:${project?.authBase}:phase`;
     }
   }
+  @Input() set task(task: AlandaTask) {
+    this.state.set({ task });
+  }
   @Input() set tabs(pageTabs: AlandaPageTab[]) {
     this.state.set({ pageTabs });
   }
@@ -52,7 +55,7 @@ export class PageHeaderComponent {
     this.state.set({ readOnlyPhases });
   }
   @Input() activeTabIndex = 0;
-  @Input() activePhase: string;
+  @Input() activePhase: string = null;
   @Input() user: AlandaUser;
   @Output() activeTabIndexChange = new EventEmitter<number>();
   @Output() activePhaseChange = new EventEmitter<string>();
@@ -100,7 +103,7 @@ export class PageHeaderComponent {
     map((pageTabs: AlandaPageTab[]) => {
       const tabs = [...pageTabs];
       let activeTab = tabs[0];
-      if (this.activeTabIndex) {
+      if (this.activeTabIndex > 0) {
         activeTab = tabs[this.activeTabIndex];
       }
       if (this.activePhase) {
@@ -119,12 +122,17 @@ export class PageHeaderComponent {
 
   /** If a tab is clicked or the phase set using phase input, we change the activePhase and emit an event */
   activePageTabChange$ = this.activePageTabChangeEvent.pipe(
+    filter((selectedPageTab) => selectedPageTab != null),
     withLatestFrom(this.state.select('activePageTab')),
-    filter(([pageTab, activePageTab]) => pageTab.name !== activePageTab.name),
+    filter(
+      ([selectedPageTab, activePageTab]) =>
+        selectedPageTab.name !== activePageTab.name,
+    ),
     map(([pageTab, _]) => pageTab),
   );
 
   emitActiveTabIndexChange$ = this.state.select('activePageTab').pipe(
+    filter((activeTab) => activeTab != null),
     withLatestFrom(this.state.select('pageTabs')),
     tap(([activePageTab, pageTabs]) => {
       const index = pageTabs.findIndex((tab) => {

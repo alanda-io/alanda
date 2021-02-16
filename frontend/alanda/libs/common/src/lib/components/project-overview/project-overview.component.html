@@ -1,4 +1,9 @@
-<p-panel class="project-overview" [showHeader]="false" [toggleable]="false">
+<p-panel
+  class="project-overview"
+  styleClass="overview-panel"
+  [showHeader]="false"
+  [toggleable]="false"
+>
   <form [formGroup]="projectOverviewForm">
     <div #ref>
       <ng-content></ng-content>

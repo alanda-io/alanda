@@ -1,0 +1,32 @@
+.page-header-panel {
+  ::ng-deep {
+    .header-panel {
+      > .p-panel-header {
+        border-radius: 3px;
+      }
+
+      > .p-toggleable-content > .p-panel-content {
+        padding-left: 0;
+        padding-right: 0;
+        border: 0;
+      }
+    }
+  }
+
+  .header-info-item {
+    display: inline-block;
+    margin: 0 5px;
+
+    &.project-highlighted {
+      position: relative;
+      width: 1.65rem;
+
+      .pi {
+        position: absolute;
+        top: -1.125rem;
+        font-size: 1.5rem;
+        color: #e48930;
+      }
+    }
+  }
+}
