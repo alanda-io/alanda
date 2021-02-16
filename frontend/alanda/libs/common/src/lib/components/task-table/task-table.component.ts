@@ -398,6 +398,9 @@ export class AlandaTaskTableComponent {
     this.state.hold(this.lazyLoadEvent$);
     this.state.connect(this.delegateTask$);
     this.state.hold(this.delegateTaskToUser$);
+    window.onfocus = (ev) => {
+      this.needReloadEvent$.next();
+    };
   }
 
   buildServerOptions(event: LazyLoadEvent): ServerOptions {
