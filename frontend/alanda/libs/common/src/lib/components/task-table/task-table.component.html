@@ -87,16 +87,28 @@
           </tr>
           <tr>
             <th *ngFor="let col of columns">
-              <input
+              <span
+                class="p-input-icon-right"
                 *ngIf="col.type !== tableColumnType.BOOLEAN; else checkbox"
-                pInputText
-                type="text"
-                class="header-col-filter"
-                (input)="tt.filter($event.target.value, col.field, 'contains')"
-                [value]="
-                  tt.filters[col.field] ? tt.filters[col.field].value : ''
-                "
-              />
+              >
+                <i
+                  class="pi pi-times filter-clear"
+                  *ngIf="tt.filters[col.field]?.value.length"
+                  (click)="tt.filter('', col.field, 'contains')"
+                ></i>
+                <input
+                  pInputText
+                  type="text"
+                  class="header-col-filter"
+                  (input)="
+                    tt.filter($event.target.value, col.field, 'contains')
+                  "
+                  [value]="
+                    tt.filters[col.field] ? tt.filters[col.field].value : ''
+                  "
+                />
+              </span>
+
               <ng-template #checkbox>
                 <p-checkbox
                   (onChange)="tt.filter($event.checked, col.field, 'equals')"

@@ -1,7 +1,14 @@
-.project-row {
-  text-align: center;
-}
-.project-row-highlighted {
-  text-align: center;
-  background-color: rgba(223, 117, 32, 0.5) !important;
+.project-table {
+  .project-row {
+    text-align: center;
+  }
+
+  .project-row-highlighted {
+    text-align: center;
+    background-color: rgba(223, 117, 32, 0.5) !important;
+  }
+
+  .filter-clear {
+    cursor: pointer;
+  }
 }
