@@ -116,14 +116,14 @@ export class AlandaCommentsAdapter extends RxState<AlandaCommentAdapterState> {
       comment.tagList.push({ name: comment.businessKey, type: 'bo' });
     }
     // Extract hashtags out of subject
-    if (comment.subject?.includes('#')) {
+    if (comment.subject?.match(/#\w+/g)) {
       comment.subject.match(/#\w+/g).forEach((value: string) => {
         comment.tagList.push({ name: value.substr(1), type: 'user' });
       });
       comment.subject = comment.subject.replace(/#\w+/g, '');
     }
     // Extract hashtags out of text body
-    if (comment.text?.includes('#')) {
+    if (comment.text?.match(/#\w+/g)) {
       comment.text.match(/#\w+/g).forEach((value: string) => {
         comment.tagList.push({ name: value.substr(1), type: 'user' });
       });
