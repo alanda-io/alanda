@@ -1,5 +1,6 @@
 <ng-container *ngIf="state$ | async as s">
   <p-table
+    #attachmentTable
     class="attachment-list"
     [value]="s.files"
     [scrollable]="true"
@@ -20,6 +21,74 @@
           Size <p-sortIcon field="size"></p-sortIcon>
         </th>
         <th class="action-col">Action</th>
+      </tr>
+      <tr>
+        <th class="name-col">
+          <span class="p-input-icon-right">
+            <i
+              class="pi pi-times"
+              *ngIf="attachmentTable.filters['name']?.value.length"
+              (click)="attachmentTable.filter('', 'name', 'contains')"
+            ></i>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                attachmentTable.filter($event.target.value, 'name', 'contains')
+              "
+              [value]="attachmentTable.filters['name']?.value"
+              placeholder="Search by name"
+              class="p-column-filter"
+            />
+          </span>
+        </th>
+        <th class="last-modified-col">
+          <span class="p-input-icon-right">
+            <i
+              class="pi pi-times"
+              *ngIf="attachmentTable.filters['lastModified']?.value.length"
+              (click)="attachmentTable.filter('', 'lastModified', 'contains')"
+            ></i>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                attachmentTable.filter(
+                  $event.target.value,
+                  'lastModified',
+                  'contains'
+                )
+              "
+              [value]="attachmentTable.filters['lastModified']?.value"
+              placeholder="Search by date"
+              class="p-column-filter"
+            />
+          </span>
+        </th>
+        <th class="size-col">
+          <span class="p-input-icon-right">
+            <i
+              class="pi pi-times"
+              *ngIf="attachmentTable.filters['size']?.value.length"
+              (click)="attachmentTable.filter('', 'size', 'startsWith')"
+            ></i>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                attachmentTable.filter(
+                  $event.target.value,
+                  'size',
+                  'startsWith'
+                )
+              "
+              [value]="attachmentTable.filters['size']?.value"
+              placeholder="Size in KB"
+              class="p-column-filter"
+            />
+          </span>
+        </th>
+        <th class="action-col"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-file>

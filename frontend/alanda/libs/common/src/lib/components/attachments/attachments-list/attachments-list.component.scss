@@ -18,6 +18,17 @@
     text-align: center;
   }
 
+  .p-column-filter,
+  .p-input-icon-right {
+    width: 100%;
+  }
+
+  .p-input-icon-right {
+    .pi {
+      cursor: pointer;
+    }
+  }
+
   .action-button-wrapper {
     display: inline-block;
     width: 3rem;
