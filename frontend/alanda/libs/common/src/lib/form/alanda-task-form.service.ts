@@ -27,12 +27,14 @@ import { AlandaTaskApiService } from '../api/taskApi.service';
 import { MessageService } from 'primeng/api';
 import { AlandaTitleService } from '../services/title.service';
 import { AppSettings, APP_CONFIG } from '../models/appSettings';
+import { AlandaPageTab } from '../components/page-header/page-header.component';
 
 export interface AlandaTaskFormState {
   task?: AlandaTask;
   project?: AlandaProject;
   loading?: number;
   closeAfterComplete?: boolean;
+  tabs?: AlandaPageTab[];
   //  rootFormData: { [controlName: string]: any }
 }
 

@@ -7,9 +7,16 @@
       animationDuration=".5s"
     ></p-progressSpinner>
   </div>
-  <p-tabView [activeIndex]="activeTab" styleClass="form-root-tabs">
-    <p-tabPanel header="Project Overview" leftIcon="pi pi-bookmark">
-      <ng-template pTemplate="content">
+  <alanda-page-header
+    [project]="s.project"
+    [task]="s.task"
+    [user]="s.user"
+    [tabs]="s.tabs"
+    [activeTabIndex]="activeTab"
+    (activeTabIndexChange)="activeTab = $event"
+  >
+    <ng-container [ngSwitch]="activeTab">
+      <div *ngSwitchCase="'0'">
         <router-outlet></router-outlet>
         <div class="p-grid p-justify-end">
           <div class="p-col-2">
@@ -24,22 +31,43 @@
             </div>
           </div>
         </div>
-      </ng-template>
-    </p-tabPanel>
-    <p-tabPanel header="PIO" leftIcon="pi pi-eye">
-      <ng-template pTemplate="content" *ngIf="user$ | async as user">
+      </div>
+      <div *ngSwitchCase="'1'">
         <alanda-pio-component
           [pid]="s.task.process_instance_id"
-          [user]="user"
+          [user]="s.user"
         ></alanda-pio-component>
-      </ng-template>
-    </p-tabPanel>
-    <p-tabPanel header="History Log" leftIcon="pi pi-clock">
-      <ng-template pTemplate="content">
+      </div>
+      <div *ngSwitchCase="'2'">
         <alanda-history-grid-component
-          [projectGuid]="s.project?.guid"
+          *ngIf="s.project"
+          [projectGuid]="s.project.guid"
         ></alanda-history-grid-component>
-      </ng-template>
-    </p-tabPanel>
-  </p-tabView>
+      </div>
+      <div *ngSwitchCase="'3'">
+        3
+      </div>
+      <div *ngSwitchCase="'4'">
+        4
+      </div>
+      <div *ngSwitchCase="'5'">
+        5
+      </div>
+      <div *ngSwitchCase="'6'">
+        6
+      </div>
+      <div *ngSwitchCase="'7'">
+        7
+      </div>
+      <div *ngSwitchCase="'8'">
+        8
+      </div>
+      <div *ngSwitchCase="'9'">
+        9
+      </div>
+      <div *ngSwitchCase="'10'">
+        10
+      </div>
+    </ng-container>
+  </alanda-page-header>
 </ng-container>

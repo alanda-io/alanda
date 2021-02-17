@@ -1,7 +1,7 @@
 <ng-container *ngIf="state.select() | async as s">
   <alanda-page-header-bar [project]="s.project" [task]="s.task">
     <p-tabView [hidden]="true"></p-tabView>
-    <div class="p-tabview p-component phase-tabview" #phaseTab>
+    <div class="p-tabview p-component page-header-tabview" #phaseTab>
       <ul role="tablist" class="p-tabview-nav">
         <li
           role="presentation"

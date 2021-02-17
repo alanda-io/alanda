@@ -1,4 +1,4 @@
-.phase-tabview {
+.page-header-tabview {
   .p-tabview-nav {
     .p-tabview-nav-link {
       .nav-icons {
@@ -35,9 +35,9 @@
         &:after {
           content: '';
           width: calc(1rem + 0.6rem);
-          height: 1rem;
+          height: 2rem;
           position: absolute;
-          top: 0;
+          top: -0.5rem;
           left: -0.3rem;
           background: transparent;
           opacity: 0;

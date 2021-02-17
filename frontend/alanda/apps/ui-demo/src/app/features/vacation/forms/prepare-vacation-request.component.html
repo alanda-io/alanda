@@ -1,12 +1,12 @@
 <ng-container *ngIf="state$ | async as taskFormState">
   <form [formGroup]="rootForm" (submit)="submit()">
-    <alanda-project-header
+    <alanda-project-overview
       [task]="taskFormState.task"
       [project]="taskFormState.project"
       [user]="taskFormState.user"
       [rootFormGroup]="rootForm"
-      [phase]="'test'"
-    ></alanda-project-header>
+    >
+    </alanda-project-overview>
     <alanda-comments
       [rootFormGroup]="rootForm"
       [task]="taskFormState.task"
