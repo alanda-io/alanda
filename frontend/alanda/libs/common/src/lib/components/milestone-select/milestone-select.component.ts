@@ -134,7 +134,7 @@ export class AlandaSelectMilestoneComponent {
 
   handleClickForComment$ = this.clickForComment.pipe(
     map((val) => {
-      this.commentForm.get('comment').reset();
+      this.commentForm.reset();
       const comment = null;
       const commentMsType = val.ms;
       let commentLabel = 'Reason';
