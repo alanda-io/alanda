@@ -252,8 +252,8 @@ export class AlandaSelectMilestoneComponent {
     switchMap(({ msType, commentFormDate, comment }) => {
       let { fc, act } = this.state.get();
       const { commentSubject, processInstanceId } = this.state.get();
-      if (msType === 'ACT' && this.state.get('commentLabel') === 'Comment') {
-        // it was the first time setting ACT
+      if (this.state.get('commentLabel') === 'Comment') {
+        // it was the first time setting a MS
         return zip(
           of(fc),
           of(commentFormDate),
