@@ -8,7 +8,6 @@ import { PapActions } from '../project-and-processes.service';
   styleUrls: ['./pap-actions.component.scss'],
 })
 export class PapActionsComponent implements OnInit {
-  @Input() disabled: boolean;
   @Input() actions: PapActions[] = [];
   @Input() loading: boolean;
   @Input() readOnly: boolean;
