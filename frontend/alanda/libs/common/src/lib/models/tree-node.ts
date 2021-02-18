@@ -22,4 +22,6 @@ export interface ExtendedTreeNode extends TreeNode {
   mapping?: string;
   files?: number;
   name?: string;
+  refObjectType?: string;
+  refObjectId?: number;
 }

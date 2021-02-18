@@ -76,9 +76,10 @@ export class AttachmentsListComponent {
   }
 
   downloadUrl(file: SimpleDocument, inline: boolean = true): string {
+    const refObject = this.determineRefObject(this.data);
     return this.documentService.getDownloadUrl(
-      this.data.refObjectType,
-      this.data.guid,
+      refObject.type,
+      refObject.id,
       this.data.selectedNode.id,
       file.guid,
       inline,
@@ -92,10 +93,11 @@ export class AttachmentsListComponent {
   }
 
   onDeleteFile(file: SimpleDocument) {
+    const refObject = this.determineRefObject(this.data);
     this.documentService
       .deleteFile(
-        this.data.refObjectType,
-        this.data.guid,
+        refObject.type,
+        refObject.id,
         this.data.selectedNode.id,
         +file.guid,
         this.data.selectedNode.mapping,
@@ -139,10 +141,11 @@ export class AttachmentsListComponent {
     const updatedFileIndex = updatedFiles.findIndex(
       (changedFile) => changedFile.guid === file.guid,
     );
+    const refObject = this.determineRefObject(this.data);
     this.documentService
       .renameFile(
-        this.data.refObjectType,
-        this.data.guid,
+        refObject.type,
+        refObject.id,
         this.data.selectedNode.id,
         +updatedFiles[updatedFileIndex].guid,
         updatedFiles[updatedFileIndex].name,
@@ -177,5 +180,17 @@ export class AttachmentsListComponent {
           });
         },
       );
+  }
+
+  determineRefObject(data: any): { type: string; id: number } {
+    const type =
+      data.selectedNode?.refObjectType !== null
+        ? data.selectedNode.refObjectType
+        : data.refObjectType;
+    const id =
+      data.selectedNode?.refObjectId !== null
+        ? data.selectedNode.refObjectId
+        : data.guid;
+    return { type, id };
   }
 }

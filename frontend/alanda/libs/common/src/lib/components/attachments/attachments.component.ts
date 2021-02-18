@@ -141,10 +141,11 @@ export class AlandaAttachmentsComponent implements OnInit {
 
   loadFolderContent(): void {
     const selectedNodeId = this.data.selectedNode.id;
+    const refObject = this.determineRefObject(this.data);
     this.documentService
       .loadFolderContent(
-        this.data.refObjectType,
-        this.data.guid,
+        refObject.type,
+        refObject.id,
         selectedNodeId,
         null,
         this.data.selectedNode.mapping,
@@ -161,15 +162,16 @@ export class AlandaAttachmentsComponent implements OnInit {
   }
 
   refreshUrls(event?: any): void {
+    const refObject = this.determineRefObject(this.data);
     this.downloadAllUrl = this.documentService.getDownloadAllUrl(
-      this.data.refObjectType,
-      this.data.guid,
+      refObject.type,
+      refObject.id,
       this.data.selectedNode.id,
       this.data.selectedNode.mapping,
     );
     this.uploaderUrl = this.documentService.getFolderUrl(
-      this.data.refObjectType,
-      this.data.guid,
+      refObject.type,
+      refObject.id,
       this.data.selectedNode.id,
       this.data.selectedNode.mapping,
     );
@@ -278,5 +280,17 @@ export class AlandaAttachmentsComponent implements OnInit {
 
   onFileRenamed(file: SimpleDocument) {
     this.renamed.emit(file);
+  }
+
+  determineRefObject(data: any): { type: string; id: number } {
+    const type =
+      data.selectedNode?.refObjectType !== null
+        ? data.selectedNode.refObjectType
+        : data.refObjectType;
+    const id =
+      data.selectedNode?.refObjectId !== null
+        ? data.selectedNode.refObjectId
+        : data.guid;
+    return { type, id };
   }
 }
