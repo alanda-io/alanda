@@ -255,8 +255,8 @@ export class AlandaSelectMilestoneComponent {
       if (this.state.get('commentLabel') === 'Comment') {
         // it was the first time setting a MS
         return zip(
-          of(fc),
-          of(commentFormDate),
+          msType === 'FC' ? of(commentFormDate) : of(fc),
+          msType === 'ACT' ? of(commentFormDate) : of(act),
           forkJoin([
             this.commentService.postComment({
               subject: commentSubject,
