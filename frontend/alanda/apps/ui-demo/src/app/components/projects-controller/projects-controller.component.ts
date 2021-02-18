@@ -12,18 +12,17 @@ import {
 } from '@alanda/common';
 import { UserStoreImpl } from '../../store/user/user.store';
 
-export interface UserEnrichedProjectControllerState extends BaseState {
+export interface ProjectControllerState extends BaseState {
   pid: string;
   user: AlandaUser;
   tabs: AlandaPageTab[];
 }
 
 @Component({
-  templateUrl: './user-enriched-projects-controller.component.html',
-  styleUrls: [],
+  templateUrl: './projects-controller.component.html',
   providers: [RxState],
 })
-export class UserEnrichedProjectsControllerComponent {
+export class ProjectsControllerComponent {
   activeTab = 2;
   paramSub: Subscription;
 
@@ -126,7 +125,7 @@ export class UserEnrichedProjectsControllerComponent {
     private readonly router: Router,
     private readonly projectService: AlandaProjectApiService,
     private projectApiService: AlandaProjectApiService,
-    public state: RxState<UserEnrichedProjectControllerState>,
+    public state: RxState<ProjectControllerState>,
     private userStore: UserStoreImpl,
   ) {
     this.state.connect('project', this.fetchProjectByProjectId$);

@@ -8,9 +8,7 @@
     (activeTabIndexChange)="activeTab = $event"
   >
     <ng-container [ngSwitch]="activeTab">
-      <div *ngSwitchCase="'0'">
-        <router-outlet></router-outlet>
-      </div>
+      <div *ngSwitchCase="'0'"></div>
       <div *ngSwitchCase="'1'">
         <alanda-pio-component [pid]="s.pid"></alanda-pio-component>
       </div>
@@ -46,4 +44,6 @@
       </div>
     </ng-container>
   </alanda-page-header>
+
+  <router-outlet></router-outlet>
 </ng-container>

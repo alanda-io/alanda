@@ -17,20 +17,13 @@
   >
     <ng-container [ngSwitch]="activeTab">
       <div *ngSwitchCase="'0'">
-        <router-outlet></router-outlet>
-        <div class="p-grid p-justify-end">
-          <div class="p-col-2">
-            <div *ngIf="rootForm.touched && rootForm.errors">
-              <div *ngFor="let error of rootForm.errors | keyvalue">
-                <p-message
-                  *ngIf="error.value.text !== undefined"
-                  severity="error"
-                  text="{{ error.value.text }}"
-                ></p-message>
-              </div>
-            </div>
-          </div>
-        </div>
+        <alanda-project-overview
+          [task]="s.task"
+          [project]="s.project"
+          [user]="s.user"
+          [rootFormGroup]="rootForm"
+        >
+        </alanda-project-overview>
       </div>
       <div *ngSwitchCase="'1'">
         <alanda-pio-component
@@ -70,4 +63,20 @@
       </div>
     </ng-container>
   </alanda-page-header>
+
+  <router-outlet></router-outlet>
+
+  <div class="p-grid p-justify-end">
+    <div class="p-col-2">
+      <div *ngIf="rootForm.touched && rootForm.errors">
+        <div *ngFor="let error of rootForm.errors | keyvalue">
+          <p-message
+            *ngIf="error.value.text !== undefined"
+            severity="error"
+            text="{{ error.value.text }}"
+          ></p-message>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-container>

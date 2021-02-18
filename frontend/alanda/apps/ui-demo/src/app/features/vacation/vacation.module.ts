@@ -4,7 +4,6 @@ import { CheckVacationRequestComponent } from './forms/check-vacation-request.co
 import { ModifyVacationRequestComponent } from './forms/modify-vacation-request.component';
 import { DefaultTaskComponent } from './forms/default-task-template.component';
 import { VacationRoutingModule } from './vacation-routing.module';
-import { SharedModule } from '../../shared/shared.module';
 import { InformSubstituteComponent } from './forms/inform-substitute.component';
 import { PerformHandoverActivitiesComponent } from './forms/perform-handover-activities.component';
 import {
@@ -16,15 +15,17 @@ import {
 import { ProjectPropertiesComponent } from './components/project-properties/project-properties.component';
 import { ProjectPhasesComponent } from './components/project-phases/project-phases.component';
 import { InputTextModule } from 'primeng/inputtext';
+import { VacationProjectDetailsComponent } from './components/vacation-project-details/vacation-project-details.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [
     VacationRoutingModule,
-    SharedModule,
     AlandaCommonModule,
     InputTextModule,
     CompleteTaskModule,
     FormModule,
+    CommonModule,
   ],
   declarations: [
     PrepareVacationRequestComponent,
@@ -35,6 +36,7 @@ import { InputTextModule } from 'primeng/inputtext';
     DefaultTaskComponent,
     ProjectPropertiesComponent,
     ProjectPhasesComponent,
+    VacationProjectDetailsComponent,
   ],
   exports: [],
   providers: [],
