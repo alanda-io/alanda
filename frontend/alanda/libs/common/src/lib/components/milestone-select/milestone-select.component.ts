@@ -141,8 +141,11 @@ export class AlandaSelectMilestoneComponent {
       let commentButtonLabel = 'Reschedule';
       let commentPlaceholder = 'Reason for rescheduling of the Milestone';
       let commentSubject = null;
-      if (val.ms === 'ACT' && this.milestoneForm.get('act').value === null) {
-        // it is the first time the act milestone is set
+      if (
+        (val.ms === 'ACT' && this.milestoneForm.get('act').value === null) ||
+        (val.ms === 'FC' && this.milestoneForm.get('fc').value === null)
+      ) {
+        // it is the first time the act or fc milestone is set
         commentLabel = 'Comment';
         commentButtonLabel = 'Post';
         commentPlaceholder =
