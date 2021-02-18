@@ -215,6 +215,7 @@ export class AlandaProjectAndProcessesService {
       relatedProject?.phases?.find((p) => p.idName === process.phase)
         ?.active === true;
     return (
+      process.guid &&
       isStateNew &&
       noPhaseOrActivePhase &&
       this.hasProcessPermission(
@@ -239,6 +240,7 @@ export class AlandaProjectAndProcessesService {
       relatedProject?.phases?.find((p) => p.idName === process.phase)
         ?.active === true;
     return (
+      process.guid &&
       isStateActive &&
       noPhaseOrActivePhase &&
       this.hasProcessPermission(
@@ -258,6 +260,7 @@ export class AlandaProjectAndProcessesService {
   ): boolean {
     const isStateNew = process.status === ProjectState.NEW;
     return (
+      process.guid &&
       isStateNew &&
       this.hasProcessPermission(
         process.phase,
