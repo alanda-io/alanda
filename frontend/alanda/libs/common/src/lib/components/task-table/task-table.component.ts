@@ -398,9 +398,6 @@ export class AlandaTaskTableComponent {
     this.state.hold(this.lazyLoadEvent$);
     this.state.connect(this.delegateTask$);
     this.state.hold(this.delegateTaskToUser$);
-    window.onfocus = (ev) => {
-      this.needReloadEvent$.next();
-    };
   }
 
   buildServerOptions(event: LazyLoadEvent): ServerOptions {
@@ -481,12 +478,21 @@ export class AlandaTaskTableComponent {
     return `${this.routerBasePath}/${formKey}/${taskId}`;
   }
 
-  openTask(formKey: string, taskId: string): void {
+  openTask(formKey: string, taskId: string, target: string = '_blank'): void {
     const baseUrl = window.location.href?.replace(this.router.url, '');
-    window.open(
+    const taskWindow = window.open(
       baseUrl.concat(this.getTaskPath(formKey, taskId)),
-      this.targetDblClick,
+      target,
     );
+
+    taskWindow.addEventListener('click', (element) => {
+      if (element.target) {
+        const clickedTarget = element.target as HTMLElement;
+        if (clickedTarget.id === 'completeTaskButton') {
+          this.needReloadEvent$.next();
+        }
+      }
+    });
   }
 
   updateMenu(columnDefs: AlandaTableColumnDefinition[]): MenuItem[] {

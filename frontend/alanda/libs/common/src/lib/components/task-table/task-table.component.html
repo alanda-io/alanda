@@ -126,7 +126,9 @@
                 ? 'task-row-highlighted'
                 : 'task-row'
             "
-            (dblclick)="openTask(task.task.formKey, task.task.task_id)"
+            (dblclick)="
+              openTask(task.task.formKey, task.task.task_id, targetDblClick)
+            "
           >
             <td
               *ngFor="let col of columns"
@@ -168,10 +170,10 @@
                 [ngIfElse]="default"
               >
                 <a
-                  [routerLink]="
-                    getTaskPath(task.task.formKey, task.task.task_id)
+                  href="javascript:void(0)"
+                  (click)="
+                    openTask(task.task.formKey, task.task.task_id, target)
                   "
-                  [target]="target"
                   >{{ task | nestedObject: col.field }}</a
                 >
               </ng-template>
