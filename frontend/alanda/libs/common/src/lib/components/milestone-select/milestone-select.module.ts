@@ -8,6 +8,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RippleModule } from 'primeng/ripple';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [AlandaSelectMilestoneComponent],
@@ -20,6 +21,7 @@ import { RippleModule } from 'primeng/ripple';
     DialogModule,
     InputTextareaModule,
     RippleModule,
+    ProgressSpinnerModule,
   ],
   exports: [AlandaSelectMilestoneComponent],
 })

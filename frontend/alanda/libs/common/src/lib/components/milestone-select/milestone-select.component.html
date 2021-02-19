@@ -1,4 +1,12 @@
 <ng-container *ngIf="state$ | async as s">
+  <div class="loading" *ngIf="s.loading === true">
+    <p-progressSpinner
+      [style]="{ width: '50px', height: '50px' }"
+      strokeWidth="8"
+      fill="#EEEEEE"
+      animationDuration=".5s"
+    ></p-progressSpinner>
+  </div>
   <div [formGroup]="milestoneForm">
     <alanda-label [label]="displayName"></alanda-label>
     <!-- FC -->
@@ -6,7 +14,10 @@
       <div class="p-col-12 p-lg-5 p-xl-4">
         <alanda-label class="ms-title" label="FC"></alanda-label>
       </div>
-      <div class="p-col-12 p-lg-7 p-xl-7" *ngIf="!fcCommentRequired">
+      <div
+        class="p-col-12 p-lg-7 p-xl-7"
+        *ngIf="!fcCommentRequired || s.fc == null"
+      >
         <p-calendar
           formControlName="fc"
           placeholder="Select FC"
@@ -17,7 +28,10 @@
           [appendTo]="appendTo"
         ></p-calendar>
       </div>
-      <div class="p-col-12 p-lg-7 p-xl-7" *ngIf="fcCommentRequired">
+      <div
+        class="p-col-12 p-lg-7 p-xl-7"
+        *ngIf="fcCommentRequired && s.fc != null"
+      >
         <div class="p-inputgroup">
           <p-calendar
             formControlName="fc"

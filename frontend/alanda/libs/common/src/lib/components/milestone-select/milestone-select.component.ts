@@ -23,11 +23,9 @@ import {
 import { RxState } from '@rx-angular/state';
 import {
   catchError,
-  debounce,
   debounceTime,
   filter,
   map,
-  startWith,
   switchMap,
   tap,
 } from 'rxjs/operators';
@@ -52,6 +50,7 @@ interface MilestoneState {
   commentPlaceholder: string;
   commentSubject: string;
   comment: string;
+  loading: boolean;
 }
 
 const initState = {
@@ -141,11 +140,8 @@ export class AlandaSelectMilestoneComponent {
       let commentButtonLabel = 'Reschedule';
       let commentPlaceholder = 'Reason for rescheduling of the Milestone';
       let commentSubject = null;
-      if (
-        (val.ms === 'ACT' && this.milestoneForm.get('act').value === null) ||
-        (val.ms === 'FC' && this.milestoneForm.get('fc').value === null)
-      ) {
-        // it is the first time the act or fc milestone is set
+      if (val.ms === 'ACT' && this.milestoneForm.get('act').value === null) {
+        // it is the first time the act milestone is set
         commentLabel = 'Comment';
         commentButtonLabel = 'Post';
         commentPlaceholder =
@@ -249,14 +245,15 @@ export class AlandaSelectMilestoneComponent {
   );
 
   handleSaveFromComment$ = this.saveFromComment.pipe(
+    tap(() => this.state.set({ loading: true })),
     switchMap(({ msType, commentFormDate, comment }) => {
       let { fc, act } = this.state.get();
       const { commentSubject, processInstanceId } = this.state.get();
-      if (this.state.get('commentLabel') === 'Comment') {
-        // it was the first time setting a MS
+      if (msType === 'ACT' && this.state.get('commentLabel') === 'Comment') {
+        // it was the first time setting a ACT
         return zip(
-          msType === 'FC' ? of(commentFormDate) : of(fc),
-          msType === 'ACT' ? of(commentFormDate) : of(act),
+          of(fc),
+          of(commentFormDate),
           forkJoin([
             this.commentService.postComment({
               subject: commentSubject,
@@ -280,6 +277,7 @@ export class AlandaSelectMilestoneComponent {
     map(([fc, act, callResponse]) => {
       return { fc, act, showCommentModal: false };
     }),
+    tap(() => this.state.set({ loading: false })),
   );
 
   constructor(
