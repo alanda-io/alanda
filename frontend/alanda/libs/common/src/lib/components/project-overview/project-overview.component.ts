@@ -1,14 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ComponentFactoryResolver,
-  ContentChild,
-  ElementRef,
-  Inject,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ProjectPropertiesDirective } from '../../directives/project.properties.directive';
 import {
@@ -26,7 +16,6 @@ import { AlandaProjectApiService } from '../../api/projectApi.service';
 import { EMPTY, Subject } from 'rxjs';
 import { AlandaTaskApiService } from '../../api/taskApi.service';
 import { AlandaTask } from '../../api/models/task';
-import { AlandaProjectPropertiesService } from '../../services/project-properties.service';
 import { AlandaUser } from '../../api/models/user';
 import { APP_CONFIG, AppSettings } from '../../models/appSettings';
 import { LocaleSettings } from 'primeng/calendar';
@@ -38,7 +27,7 @@ import { ProjectState } from '../../enums/projectState.enum';
   templateUrl: './project-overview.component.html',
   styleUrls: ['./project-overview.component.scss'],
 })
-export class ProjectOverviewComponent implements OnInit, AfterViewInit {
+export class ProjectOverviewComponent implements OnInit {
   @ViewChild(ProjectPropertiesDirective)
   propertiesHost: ProjectPropertiesDirective;
   @Input() set formGroup(formGroup: FormGroup) {
@@ -129,8 +118,6 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit {
     private readonly state: RxState<any>,
     private readonly projectService: AlandaProjectApiService,
     private readonly taskService: AlandaTaskApiService,
-    private readonly propertiesService: AlandaProjectPropertiesService,
-    private readonly componentFactoryResolver: ComponentFactoryResolver,
     @Inject(APP_CONFIG) config: AppSettings,
   ) {
     this.priorities = config.PRIORITIES;
@@ -151,34 +138,6 @@ export class ProjectOverviewComponent implements OnInit, AfterViewInit {
     if (this.project) {
       this.initFormGroup();
     }
-  }
-
-  ngAfterViewInit(): void {
-    if (this.project) {
-      this.loadProjectPropertiesComponent();
-    }
-  }
-
-  private loadProjectPropertiesComponent(): void {
-    if (
-      this.propertiesService.getPropsForType(this.project.projectTypeIdName) ===
-      undefined
-    ) {
-      return;
-    }
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-      this.propertiesService.getPropsForType(this.project.projectTypeIdName),
-    );
-    const viewContainerRef = this.propertiesHost.viewContainerRef;
-    viewContainerRef.clear();
-    const componentRef = viewContainerRef.createComponent(componentFactory);
-    (componentRef.instance as any).project = this.project;
-    (componentRef.instance as any).user = this.user;
-    (componentRef.instance as any).rootForm = this.rootFormGroup;
-    (componentRef.instance as any).projectChanged?.subscribe((project) => {
-      this.project = project;
-      this.initFormGroup();
-    });
   }
 
   private initFormGroup(): void {

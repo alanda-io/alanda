@@ -23,7 +23,7 @@ export interface ProjectControllerState extends BaseState {
   providers: [RxState],
 })
 export class ProjectsControllerComponent {
-  activeTab = 2;
+  activeTabIndex = 2;
   paramSub: Subscription;
 
   activePhase: string;

@@ -4,11 +4,11 @@
   [showHeader]="false"
   [toggleable]="false"
 >
-  <form [formGroup]="projectOverviewForm">
-    <div #ref>
-      <ng-content></ng-content>
-    </div>
-    <div class="p-grid p-fluid p-mt-4" *ngIf="ref.childNodes.length == 0">
+  <div #ref>
+    <ng-content select="[overwriteForm]"></ng-content>
+  </div>
+  <form [formGroup]="projectOverviewForm" *ngIf="ref.childNodes.length == 0">
+    <div class="p-grid p-fluid p-mt-4">
       <div class="p-col-12 p-md-6 p-lg-4 p-xl-3">
         <div class="p-grid p-field">
           <div class="p-field p-col-12">
@@ -138,6 +138,5 @@
       </div>
     </div>
   </form>
-
-  <ng-template alandaProjectPropertiesHost></ng-template>
+  <ng-content select="[additional]"></ng-content>
 </p-panel>

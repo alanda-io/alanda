@@ -1,10 +1,9 @@
-import { AfterViewInit, Component, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   AlandaProject,
   AlandaUser,
   AlandaUserApiService,
 } from '@alanda/common';
-import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { RxState } from '@rx-angular/state';
 import { map } from 'rxjs/operators';
@@ -14,14 +13,13 @@ interface PropState {
   options: SelectItem[];
 }
 @Component({
+  selector: 'alanda-vacation-project-properties',
   templateUrl: './project-properties.component.html',
   providers: [RxState],
 })
-export class ProjectPropertiesComponent implements AfterViewInit {
-  project: AlandaProject;
-  user: AlandaUser;
-  rootForm: FormGroup;
-  @Output() projectChanged = new EventEmitter<AlandaProject>();
+export class ProjectPropertiesComponent {
+  @Input() project: AlandaProject;
+  @Input() user: AlandaUser;
   state$ = this.state.select();
   autoCompEvent$ = new Subject<string>();
 
@@ -39,12 +37,7 @@ export class ProjectPropertiesComponent implements AfterViewInit {
     private state: RxState<PropState>,
     private userService: AlandaUserApiService,
   ) {
-    // this.state.set({ options: [] });
     this.state.connect('options', this.autoComp$);
     this.autoCompEvent$.next('');
-  }
-
-  ngAfterViewInit(): void {
-    // console.log('form', this.rootForm);
   }
 }

@@ -1,14 +1,16 @@
 <ng-container *ngIf="state.select() | async as s">
   <alanda-page-header
     [project]="s.project"
-    [activeTabIndex]="activeTab"
+    [activeTabIndex]="activeTabIndex"
     [activePhase]="'active'"
     [tabs]="s.tabs"
     [user]="s.user"
-    (activeTabIndexChange)="activeTab = $event"
+    (activeTabIndexChange)="activeTabIndex = $event"
   >
-    <ng-container [ngSwitch]="activeTab">
-      <div *ngSwitchCase="'0'"></div>
+    <ng-container [ngSwitch]="activeTabIndex">
+      <div *ngSwitchCase="'0'">
+        <router-outlet></router-outlet>
+      </div>
       <div *ngSwitchCase="'1'">
         <alanda-pio-component [pid]="s.pid"></alanda-pio-component>
       </div>
@@ -44,6 +46,4 @@
       </div>
     </ng-container>
   </alanda-page-header>
-
-  <router-outlet></router-outlet>
 </ng-container>

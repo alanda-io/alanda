@@ -1,7 +1,11 @@
-<alanda-project-overview
-  [project]="project"
-  [user]="user"
-></alanda-project-overview>
+<alanda-project-overview [project]="project" [user]="user">
+  <div additional>
+    <alanda-vacation-project-properties
+      [project]="project"
+      [user]="user"
+    ></alanda-vacation-project-properties>
+  </div>
+</alanda-project-overview>
 <alanda-project-and-processes
   [user]="user"
   [project]="project"

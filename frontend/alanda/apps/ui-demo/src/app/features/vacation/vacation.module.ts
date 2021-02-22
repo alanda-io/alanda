@@ -8,7 +8,6 @@ import { InformSubstituteComponent } from './forms/inform-substitute.component';
 import { PerformHandoverActivitiesComponent } from './forms/perform-handover-activities.component';
 import {
   AlandaCommonModule,
-  AlandaProjectPropertiesService,
   CompleteTaskModule,
   FormModule,
 } from '@alanda/common';
@@ -38,16 +37,5 @@ import { CommonModule } from '@angular/common';
     ProjectPhasesComponent,
     VacationProjectDetailsComponent,
   ],
-  exports: [],
-  providers: [],
 })
-export class VacationModule {
-  constructor(private propertiesService: AlandaProjectPropertiesService) {
-    this.propertiesService.addPropsForType(
-      'VACATION',
-      ProjectPropertiesComponent,
-    );
-
-    // this.propertiesService.addPropsForType('VACATION', ProjectPhasesComponent);
-  }
-}
+export class VacationModule {}

@@ -12,7 +12,7 @@ export class UserEnrichedFormsControllerComponent {
   state$ = this.taskFormService.state$;
   user$ = this.userStore.currentUser$;
   rootForm = this.taskFormService.rootForm;
-  activeTab = 0;
+  activeTabIndex = 0;
 
   constructor(
     private readonly taskFormService: AlandaTaskFormService,

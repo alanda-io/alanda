@@ -12,10 +12,10 @@
     [task]="s.task"
     [user]="s.user"
     [tabs]="s.tabs"
-    [activeTabIndex]="activeTab"
-    (activeTabIndexChange)="activeTab = $event"
+    [activeTabIndex]="activeTabIndex"
+    (activeTabIndexChange)="activeTabIndex = $event"
   >
-    <ng-container [ngSwitch]="activeTab">
+    <ng-container [ngSwitch]="activeTabIndex">
       <div *ngSwitchCase="'0'">
         <alanda-project-overview
           [task]="s.task"
@@ -23,6 +23,9 @@
           [user]="s.user"
           [rootFormGroup]="rootForm"
         >
+          <div additional>
+            My additional Content. I can do whatever I want to do!
+          </div>
         </alanda-project-overview>
       </div>
       <div *ngSwitchCase="'1'">
