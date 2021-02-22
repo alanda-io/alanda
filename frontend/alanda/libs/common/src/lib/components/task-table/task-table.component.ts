@@ -485,13 +485,10 @@ export class AlandaTaskTableComponent {
       target,
     );
 
-    taskWindow.addEventListener('click', (element) => {
-      if (element.target) {
-        const clickedTarget = element.target as HTMLElement;
-        if (clickedTarget.id === 'completeTaskButton') {
-          this.needReloadEvent$.next();
-        }
-      }
+    taskWindow.addEventListener('taskCompleted', () => {
+      setTimeout(() => {
+        this.needReloadEvent$.next();
+      }, 250);
     });
   }
 

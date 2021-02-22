@@ -143,7 +143,12 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
             } has been successfully completed!`,
           });
           this.setLoading(false);
-          console.log('loading', this.get('loading'));
+
+          // We create a custom event that other windows can listen to
+          // Use old create event API to support IE
+          const taskCompletedEvent = document.createEvent('Event');
+          taskCompletedEvent.initEvent('taskCompleted', true, true);
+          document.dispatchEvent(taskCompletedEvent);
         }),
         concatMap((val) => {
           if (alternate != null) {
