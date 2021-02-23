@@ -1,4 +1,11 @@
-import { Component, Inject, Input, Output, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ServerOptions } from '../../models/serverOptions';
@@ -164,6 +171,9 @@ export class AlandaTaskTableComponent {
           });
           const tasksData = this.state.get().tasksData;
           return of({ serverOptions, tasksData, loading: false });
+        }),
+        tap(() => {
+          this.changeDetectorRef.detectChanges();
         }),
       ),
     ),
@@ -357,6 +367,7 @@ export class AlandaTaskTableComponent {
     private readonly taskService: AlandaTaskApiService,
     public messageService: MessageService,
     private state: RxState<AlandaTaskTableState>,
+    private changeDetectorRef: ChangeDetectorRef,
     @Inject(APP_CONFIG) config: AppSettings,
     private router: Router,
   ) {
@@ -489,6 +500,7 @@ export class AlandaTaskTableComponent {
       setTimeout(() => {
         this.needReloadEvent$.next();
         window.focus();
+        this.changeDetectorRef.detectChanges();
       }, 250);
     });
   }
