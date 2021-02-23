@@ -15,6 +15,7 @@ export interface AlandaProject {
   status?: ProjectState;
   priority?: number;
   refObjectIdName?: string;
+  refObjectDisplayName?: string;
   refObjectType?: string;
   projectType?: string;
   projectTypeIdName?: string;
