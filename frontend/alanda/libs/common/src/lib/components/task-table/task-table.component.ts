@@ -147,6 +147,7 @@ export class AlandaTaskTableComponent {
     this.lazyLoadEvent$,
     this.needReloadEvent$.pipe(map(() => this.turboTable)),
   ).pipe(
+    tap(() => this.state.set({ loading: true })),
     map((event) => this.buildServerOptions(event)),
     switchMap((serverOptions) =>
       this.taskService.loadTasks(serverOptions).pipe(
@@ -162,7 +163,6 @@ export class AlandaTaskTableComponent {
           return response;
         }),
         map((tasksData) => ({ serverOptions, tasksData, loading: false })),
-        startWith({ loading: true }),
         catchError((err) => {
           this.messageService.add({
             severity: 'error',
@@ -171,6 +171,11 @@ export class AlandaTaskTableComponent {
           });
           const tasksData = this.state.get().tasksData;
           return of({ serverOptions, tasksData, loading: false });
+        }),
+        tap(() => {
+          setTimeout(() => {
+            this.changeDetectorRef.detectChanges();
+          }, 50);
         }),
       ),
     ),
@@ -495,9 +500,8 @@ export class AlandaTaskTableComponent {
 
     taskWindow.addEventListener('taskCompleted', () => {
       setTimeout(() => {
-        this.needReloadEvent$.next();
         window.focus();
-        this.changeDetectorRef.detectChanges();
+        this.needReloadEvent$.next();
       }, 250);
     });
   }

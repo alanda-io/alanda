@@ -143,12 +143,7 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
             } has been successfully completed!`,
           });
           this.setLoading(false);
-
-          // We create a custom event that other windows can listen to
-          // Use old create event API to support IE
-          const taskCompletedEvent = document.createEvent('Event');
-          taskCompletedEvent.initEvent('taskCompleted', true, true);
-          document.dispatchEvent(taskCompletedEvent);
+          this.triggerTaskCompleteEvent();
         }),
         concatMap((val) => {
           if (alternate != null) {
@@ -226,15 +221,16 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
         });
         return EMPTY;
       }),
-      tap((resp) =>
+      tap((resp) => {
         this.messageService.add({
           severity: 'success',
           summary: 'Task snoozed',
           detail: `The task ${
             this.get().task.task_name
           } has been successfully snoozed for ${days} days!`,
-        }),
-      ),
+        });
+        this.triggerTaskCompleteEvent();
+      }),
       delay(1000),
       tap((val) => {
         console.log('cAC', this.closeAfterComplete, window.opener);
@@ -257,5 +253,13 @@ export class AlandaTaskFormService extends RxState<AlandaTaskFormState>
     this.set('loading', (oldState) => {
       return isLoading ? ++oldState.loading : --oldState.loading;
     });
+  }
+
+  triggerTaskCompleteEvent(): void {
+    // We create a custom event that other windows can listen to
+    // Use old create event API to support IE
+    const taskCompletedEvent = document.createEvent('Event');
+    taskCompletedEvent.initEvent('taskCompleted', true, true);
+    document.dispatchEvent(taskCompletedEvent);
   }
 }
