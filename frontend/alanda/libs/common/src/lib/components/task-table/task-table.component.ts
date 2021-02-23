@@ -488,6 +488,7 @@ export class AlandaTaskTableComponent {
     taskWindow.addEventListener('taskCompleted', () => {
       setTimeout(() => {
         this.needReloadEvent$.next();
+        window.focus();
       }, 250);
     });
   }
