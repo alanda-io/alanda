@@ -37,5 +37,6 @@ import { CommonModule } from '@angular/common';
     ProjectPhasesComponent,
     VacationProjectDetailsComponent,
   ],
+  exports: [ProjectPropertiesComponent],
 })
 export class VacationModule {}
