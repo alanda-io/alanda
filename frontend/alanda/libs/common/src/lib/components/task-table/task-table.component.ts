@@ -172,9 +172,6 @@ export class AlandaTaskTableComponent {
           const tasksData = this.state.get().tasksData;
           return of({ serverOptions, tasksData, loading: false });
         }),
-        tap(() => {
-          this.changeDetectorRef.detectChanges();
-        }),
       ),
     ),
   );
