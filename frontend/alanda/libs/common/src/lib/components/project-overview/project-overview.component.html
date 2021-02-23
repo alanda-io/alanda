@@ -129,6 +129,7 @@
                 maxLength="2000"
                 formControlName="comment"
                 [rows]="5"
+                [class.p-filled]="projectOverviewForm.controls.comment.value"
                 >{{ project.comment }}</textarea
               >
               <label for="projectComment">Project Details</label>
