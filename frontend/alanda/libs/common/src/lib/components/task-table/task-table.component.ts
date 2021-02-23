@@ -175,7 +175,7 @@ export class AlandaTaskTableComponent {
         tap(() => {
           setTimeout(() => {
             this.changeDetectorRef.detectChanges();
-          }, 50);
+          }, 150);
         }),
       ),
     ),
