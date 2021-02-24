@@ -1,10 +1,11 @@
-import { Component, Inject, Input } from '@angular/core';
+import { AfterContentInit, Component, Inject, Input } from '@angular/core';
 import { AlandaProject } from '../../../api/models/project';
 import { AlandaTask } from '../../../api/models/task';
 import { AlandaUser } from '../../../api/models/user';
 import { APP_CONFIG, AppSettings } from '../../../models/appSettings';
 import { AlandaTaskApiService } from '../../../api/taskApi.service';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'alanda-page-header-bar',
@@ -18,12 +19,16 @@ export class PageHeaderBarComponent {
   candidateUsers: AlandaUser[];
   dateFormat: string;
   showDelegateDialog: boolean;
+  currentUrl: string;
 
   constructor(
     private readonly taskService: AlandaTaskApiService,
     private readonly messageService: MessageService,
+    private readonly router: Router,
     @Inject(APP_CONFIG) config: AppSettings,
-  ) {}
+  ) {
+    this.currentUrl = this.router.url;
+  }
 
   openDelegationForm(): void {
     this.taskService

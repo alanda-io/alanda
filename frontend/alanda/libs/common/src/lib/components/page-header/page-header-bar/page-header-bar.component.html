@@ -1,8 +1,13 @@
 <p-panel *ngIf="project" class="page-header-panel" styleClass="header-panel">
   <p-header>
-    <a [routerLink]="'/projectdetails/' + project.projectId">{{
+    <span *ngIf="currentUrl === '/projectdetails/' + project.projectId">{{
       project.projectId
-    }}</a>
+    }}</span>
+    <a
+      *ngIf="currentUrl !== '/projectdetails/' + project.projectId"
+      [routerLink]="'/projectdetails/' + project.projectId"
+      >{{ project.projectId }}</a
+    >
     <span *ngIf="project.refObjectIdName">/ {{ project.refObjectIdName }}</span
     >/ {{ project.status }}
   </p-header>
