@@ -78,6 +78,7 @@ export {
   TagFilterPipeModule,
   TagFilterPipe,
 } from './lib/pipes/tag-filter.pipe';
+export { TruncatePipeModule, TruncatePipe } from './lib/pipes/truncate.pipe';
 
 /**
  * Validators Exports

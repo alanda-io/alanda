@@ -58,6 +58,7 @@ import { SnoozeModule } from './components/snooze/snooze.module';
 import { LabelModule } from './components/label/label.module';
 import { CommentDialogModule } from './components/comment-dialog/comment-dialog.module';
 import { CompleteTaskModule } from './components/complete-task/complete-task.module';
+import { TruncatePipeModule } from './pipes/truncate.pipe';
 
 @NgModule({
   imports: [
@@ -83,6 +84,7 @@ import { CompleteTaskModule } from './components/complete-task/complete-task.mod
     CreateProjectModule,
     AdminModule,
     TagFilterPipeModule,
+    TruncatePipeModule,
     ProjectAndProcessesModule,
     DateSelectModule,
     DropdownSelectModule,
@@ -115,6 +117,7 @@ import { CompleteTaskModule } from './components/complete-task/complete-task.mod
     CreateProjectModule,
     AdminModule,
     TagFilterPipeModule,
+    TruncatePipeModule,
     ProjectAndProcessesModule,
     DateSelectModule,
     DropdownSelectModule,

@@ -27,10 +27,10 @@
       </ng-template>
     </p-tabPanel>
     <p-tabPanel header="PIO" leftIcon="pi pi-eye">
-      <ng-template pTemplate="content">
+      <ng-template pTemplate="content" *ngIf="user$ | async as user">
         <alanda-pio-component
           [pid]="s.task.process_instance_id"
-          [user]="s.user"
+          [user]="user"
         ></alanda-pio-component>
       </ng-template>
     </p-tabPanel>

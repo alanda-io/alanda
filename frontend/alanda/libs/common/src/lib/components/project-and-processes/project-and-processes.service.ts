@@ -65,7 +65,11 @@ export interface TreeNodeData {
 export class AlandaProjectAndProcessesService {
   constructor() {}
 
-  mapProjectsToTreeNode(project: AlandaProject, user: AlandaUser): TreeNode[] {
+  mapProjectsToTreeNode(
+    project: AlandaProject,
+    user: AlandaUser,
+    expand: boolean = false,
+  ): TreeNode[] {
     const data: TreeNode[] = [];
     if (project.parents) {
       data.push({
@@ -75,7 +79,7 @@ export class AlandaProjectAndProcessesService {
           .map((parent) => this.mapProjectToTreeNode(parent, user)),
       });
     }
-    data.push(this.mapProjectToTreeNode(project, user));
+    data.push(this.mapProjectToTreeNode(project, user, expand));
     if (project.children) {
       data.push({
         data: { label: `Child Projects (${project.children.length})` },
@@ -87,7 +91,11 @@ export class AlandaProjectAndProcessesService {
     return data;
   }
 
-  mapProjectToTreeNode(project: AlandaProject, user: AlandaUser): TreeNode {
+  mapProjectToTreeNode(
+    project: AlandaProject,
+    user: AlandaUser,
+    expand: boolean = false,
+  ): TreeNode {
     const projectTitle = project.title?.length ? ` / ${project.title}` : '';
     let label = `${project.projectId} (${
       project.subtype ? project.subtype : project.pmcProjectType.name
@@ -109,7 +117,7 @@ export class AlandaProjectAndProcessesService {
       label,
       refObject: project.refObjectIdName,
       start: new Date(project.createDate),
-      info: this.getLimitedText(project.details || ''),
+      info: project.details || '',
       routerLink: `/projectdetails/${project.projectId}`,
       type: TreeNodeDataType.PROJECT,
       project,
@@ -144,6 +152,7 @@ export class AlandaProjectAndProcessesService {
       key: id,
       data,
       children,
+      expanded: expand,
     };
   }
 
@@ -177,7 +186,7 @@ export class AlandaProjectAndProcessesService {
           : '',
       start: process.startTime,
       end: process.endTime,
-      info: this.getLimitedText(process.workDetails || ''),
+      info: process.workDetails || '',
       routerLink: `/finder/pio/${process.processInstanceId}`,
       type: TreeNodeDataType.PROCESS,
       process,

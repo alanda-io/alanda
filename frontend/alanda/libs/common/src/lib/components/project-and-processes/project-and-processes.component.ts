@@ -47,6 +47,7 @@ export class AlandaProjectAndProcessesComponent implements OnDestroy {
   @Input() filterOptions: any = {};
   @Input() user: AlandaUser;
   @Input() target = '_blank';
+  @Input() expandProject = false;
   @Output() changed: EventEmitter<void> = new EventEmitter();
   data: TreeNode[] = [];
   loading: boolean;
@@ -125,13 +126,18 @@ export class AlandaProjectAndProcessesComponent implements OnDestroy {
     this.projectService
       .getProjectByGuid(this.project.guid, true)
       .pipe(
-        switchMap((project) => this.getProjectWithProcessesAndTasks(project)),
+        exhaustMap((project) => this.getProjectWithProcessesAndTasks(project)),
         map((project) =>
-          this.papService.mapProjectsToTreeNode(project, this.user),
+          this.papService.mapProjectsToTreeNode(
+            project,
+            this.user,
+            this.expandProject,
+          ),
         ),
         finalize(() => (this.loading = false)),
       )
       .subscribe((result) => {
+        console.log(result);
         this.data = result;
       });
   }

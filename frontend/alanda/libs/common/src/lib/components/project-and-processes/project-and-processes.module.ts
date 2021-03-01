@@ -22,6 +22,7 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
+import { TruncatePipeModule } from '../../pipes/truncate.pipe';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { RippleModule } from 'primeng/ripple';
     TableModule,
     InputTextModule,
     RippleModule,
+    TruncatePipeModule,
   ],
   exports: [
     AlandaProjectAndProcessesComponent,

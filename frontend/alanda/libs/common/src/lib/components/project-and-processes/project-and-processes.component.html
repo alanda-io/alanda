@@ -52,7 +52,16 @@
               {{ rowData.start | date: dateFormat }}
             </td>
             <td class="p-text-center">{{ rowData.end | date: dateFormat }}</td>
-            <td><span [innerHTML]="rowData.info"></span></td>
+            <td>
+              <span [innerHTML]="rowData.info | truncate: [110]"></span>
+              <span
+                *ngIf="rowData.info?.length > 110"
+                [pTooltip]="rowData.info"
+                [escape]="false"
+                tooltipPosition="top"
+                >&nbsp;<i class="pi pi-info-circle"></i
+              ></span>
+            </td>
           </ng-template>
         </ng-container>
         <td class="p-text-center">
