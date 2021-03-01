@@ -194,11 +194,15 @@ export class AlandaSelectMilestoneComponent {
   );
 
   milestoneFormChanged$ = this.milestoneForm.valueChanges.pipe(
-    tap(() => {
-      this.saveMileStoneEvent.next([
+    map(() => {
+      return [
         this.milestoneForm.get('fc').value,
         this.milestoneForm.get('act').value,
-      ]);
+      ];
+    }),
+    filter(([fc, act]) => fc !== null || act !== null),
+    tap(([fc, act]) => {
+      this.saveMileStoneEvent.next([fc, act]);
     }),
   );
 
@@ -222,7 +226,6 @@ export class AlandaSelectMilestoneComponent {
   );
 
   saveMileStones$ = this.saveMileStoneEvent.pipe(
-    filter(([fc, act]) => fc !== null || act !== null),
     debounceTime(300),
     switchMap(([fc, act]) => {
       const reason = this.state.get('comment');
