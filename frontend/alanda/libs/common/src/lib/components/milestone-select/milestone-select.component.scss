@@ -24,6 +24,14 @@ fieldset {
   width: 2em;
   z-index: 99999;
 }
-// .disabled {
-//   display: none;
-// }
+
+.p-inputgroup {
+  ::ng-deep {
+    .p-calendar {
+      .p-inputtext {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+  }
+}

@@ -104,6 +104,8 @@ export class AlandaSelectMilestoneComponent {
 
   clickForComment = new Subject<any>();
   saveFromComment = new Subject<any>();
+  saveMileStoneEvent = new Subject<any>();
+  deleteMilestoneEvent = new Subject<string>();
 
   milestoneForm = this.fb.group({
     fc: [{ value: null, disabled: this.disabled }],
@@ -191,8 +193,29 @@ export class AlandaSelectMilestoneComponent {
     }),
   );
 
-  saveMileStones$ = this.milestoneForm.valueChanges.pipe(
-    map((value) => [
+  milestoneFormChanged$ = this.milestoneForm.valueChanges.pipe(
+    tap(() => {
+      this.saveMileStoneEvent.next();
+    }),
+  );
+
+  deleteMilestone$ = this.deleteMilestoneEvent.pipe(
+    tap((msType) => {
+      this.delACT = false;
+      this.delFC = false;
+
+      if (msType === 'ACT') {
+        this.delACT = true;
+      } else if (msType === 'FC') {
+        this.delFC = true;
+      }
+
+      this.saveMileStoneEvent.next();
+    }),
+  );
+
+  saveMileStones$ = this.saveMileStoneEvent.pipe(
+    map(() => [
       this.milestoneForm.get('fc').value,
       this.milestoneForm.get('act').value,
     ]),
@@ -215,7 +238,7 @@ export class AlandaSelectMilestoneComponent {
         ),
       );
     }),
-    tap(([fc, act, voidResponse]) => this.state.set({ fc, act })),
+    tap(([fc, act, _voidResponse]) => this.state.set({ fc, act })),
   );
 
   updatePermissions$ = combineLatest([
@@ -296,6 +319,8 @@ export class AlandaSelectMilestoneComponent {
     this.state.connect('processInstanceId', this.processInstanceId$);
     this.state.hold(this.updatePermissions$);
     this.state.hold(this.saveMileStones$);
+    this.state.hold(this.milestoneFormChanged$);
+    this.state.hold(this.deleteMilestone$);
     this.state.connect(this.handleSaveFromComment$);
     this.locale = config.LOCALE_PRIME;
   }
