@@ -223,6 +223,9 @@ export class AlandaSelectMilestoneComponent {
 
       this.saveMileStoneEvent.next([fcValue, actValue]);
     }),
+    map(() => {
+      return { showCommentModal: false };
+    }),
   );
 
   saveMileStones$ = this.saveMileStoneEvent.pipe(
@@ -244,9 +247,7 @@ export class AlandaSelectMilestoneComponent {
         ),
       );
     }),
-    tap(([fc, act, _voidResponse]) =>
-      this.state.set({ fc, act, showCommentModal: false }),
-    ),
+    tap(([fc, act, _voidResponse]) => this.state.set({ fc, act })),
   );
 
   updatePermissions$ = combineLatest([
@@ -328,7 +329,7 @@ export class AlandaSelectMilestoneComponent {
     this.state.hold(this.updatePermissions$);
     this.state.hold(this.saveMileStones$);
     this.state.hold(this.milestoneFormChanged$);
-    this.state.hold(this.deleteMilestone$);
+    this.state.connect(this.deleteMilestone$);
     this.state.connect(this.handleSaveFromComment$);
     this.locale = config.LOCALE_PRIME;
   }
