@@ -244,7 +244,9 @@ export class AlandaSelectMilestoneComponent {
         ),
       );
     }),
-    tap(([fc, act, _voidResponse]) => this.state.set({ fc, act })),
+    tap(([fc, act, _voidResponse]) =>
+      this.state.set({ fc, act, showCommentModal: false }),
+    ),
   );
 
   updatePermissions$ = combineLatest([
