@@ -8,9 +8,10 @@
     ></p-progressSpinner>
   </div>
   <alanda-page-header
+    *ngIf="user$ | async as user"
     [project]="s.project"
     [task]="s.task"
-    [user]="s.user"
+    [user]="user"
     [tabs]="s.tabs"
     [activeTabIndex]="activeTabIndex"
     (activeTabIndexChange)="activeTabIndex = $event"
@@ -20,7 +21,7 @@
         <alanda-project-overview
           [task]="s.task"
           [project]="s.project"
-          [user]="s.user"
+          [user]="user"
           [rootFormGroup]="rootForm"
         >
           <div additional>
@@ -31,7 +32,7 @@
       <div *ngSwitchCase="'1'">
         <alanda-pio-component
           [pid]="s.task.process_instance_id"
-          [user]="s.user"
+          [user]="user"
         ></alanda-pio-component>
       </div>
       <div *ngSwitchCase="'2'">
