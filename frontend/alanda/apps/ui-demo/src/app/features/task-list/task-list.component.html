@@ -9,10 +9,9 @@
           [layouts]="s.layouts"
           [user]="user$"
           (layoutChanged)="layoutChangedEvent$.next($event)"
-          (toggleGroupTasksChanged)="groupTasksChangedEvent$.next($event)"
           alandaContextProvider
           [saveEntry]="s.contextEntry"
-          [listenTo]="[layoutKey, groupTasksKey]"
+          [listenTo]="[layoutKey]"
           (entriesAvailable)="contextDataAvailableEvent$.next($event)"
           [target]="'_blank'"
         ></alanda-task-table>

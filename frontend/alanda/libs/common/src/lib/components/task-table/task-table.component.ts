@@ -62,6 +62,7 @@ interface AlandaTaskTableState {
   menuItems: MenuItem[];
   candidateUsers: AlandaUser[];
   delegatedTaskData: AlandaTaskListData;
+  groupTasksActiveOnce: boolean;
 }
 
 const initState = {
@@ -71,6 +72,7 @@ const initState = {
   },
   layouts: [],
   menuItem: [],
+  groupTasksActiveOnce: false,
 };
 const DEFAULT_BUTTON_MENU_ICON = 'pi pi-bars';
 const LOADING_ICON = 'pi pi-spin pi-spinner';
@@ -151,6 +153,17 @@ export class AlandaTaskTableComponent {
     map((event) => this.buildServerOptions(event)),
     switchMap((serverOptions) =>
       this.taskService.loadTasks(serverOptions).pipe(
+        tap((response) => {
+          if (
+            this.groupTasks === false &&
+            response.total === 0 &&
+            this.state.get('groupTasksActiveOnce') === false
+          ) {
+            this.state.set({ groupTasksActiveOnce: true });
+            this.toggleGroupTasks(true);
+            return EMPTY;
+          }
+        }),
         withLatestFrom(this.state.select('user')),
         map(([response, user]) => {
           response.results = response.results.map((task) => {
