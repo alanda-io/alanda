@@ -50,6 +50,7 @@ interface MilestoneState {
   commentPlaceholder: string;
   commentSubject: string;
   comment: string;
+  commentDel: boolean;
   loading: boolean;
 }
 
@@ -138,6 +139,16 @@ export class AlandaSelectMilestoneComponent {
       this.commentForm.reset();
       const comment = null;
       const commentMsType = val.ms;
+      let commentDel = false;
+      if (
+        (this.delACT && commentMsType === 'ACT') ||
+        (this.delFC && commentMsType === 'FC')
+      ) {
+        this.commentForm
+          .get('commentFormDate')
+          .setValidators(Validators.nullValidator);
+        commentDel = true;
+      }
       let commentLabel = 'Reason';
       let commentButtonLabel = 'Reschedule';
       let commentPlaceholder = 'Reason for rescheduling of the Milestone';
@@ -164,6 +175,7 @@ export class AlandaSelectMilestoneComponent {
         commentPlaceholder,
         commentSubject,
         comment,
+        commentDel,
         showCommentModal: true,
       };
     }),
@@ -208,23 +220,9 @@ export class AlandaSelectMilestoneComponent {
 
   deleteMilestone$ = this.deleteMilestoneEvent.pipe(
     tap((msType) => {
-      this.delACT = false;
-      this.delFC = false;
-      let actValue = this.milestoneForm.get('act').value;
-      let fcValue = this.milestoneForm.get('fc').value;
-
-      if (msType === 'ACT') {
-        this.delACT = true;
-        actValue = null;
-      } else if (msType === 'FC') {
-        this.delFC = true;
-        fcValue = null;
-      }
-
-      this.saveMileStoneEvent.next([fcValue, actValue]);
-    }),
-    map(() => {
-      return { showCommentModal: false };
+      this.commentForm
+        .get('commentFormDate')
+        .patchValue(null, { emitEvent: false });
     }),
   );
 
@@ -329,7 +327,7 @@ export class AlandaSelectMilestoneComponent {
     this.state.hold(this.updatePermissions$);
     this.state.hold(this.saveMileStones$);
     this.state.hold(this.milestoneFormChanged$);
-    this.state.connect(this.deleteMilestone$);
+    this.state.hold(this.deleteMilestone$);
     this.state.connect(this.handleSaveFromComment$);
     this.locale = config.LOCALE_PRIME;
   }

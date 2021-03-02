@@ -53,9 +53,9 @@
             </td>
             <td class="p-text-center">{{ rowData.end | date: dateFormat }}</td>
             <td>
-              <span [innerHTML]="rowData.info | truncate: [110]"></span>
+              <span [innerHTML]="rowData.info | truncate: [100]"></span>
               <span
-                *ngIf="rowData.info?.length > 110"
+                *ngIf="rowData.info?.length > 100"
                 [pTooltip]="rowData.info"
                 [escape]="false"
                 tooltipPosition="top"

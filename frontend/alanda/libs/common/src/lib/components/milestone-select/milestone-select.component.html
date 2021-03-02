@@ -116,7 +116,8 @@
       <div
         class="p-col-fixed p-field"
         *ngIf="
-          this.milestoneForm.get(s.commentMsType?.toLowerCase())?.value !== null
+          this.milestoneForm.get(s.commentMsType?.toLowerCase())?.value !==
+            null && s.commentDel === true
         "
       >
         <button
