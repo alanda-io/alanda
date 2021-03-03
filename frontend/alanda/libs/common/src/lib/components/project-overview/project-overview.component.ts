@@ -28,18 +28,20 @@ import { ProjectState } from '../../enums/projectState.enum';
   styleUrls: ['./project-overview.component.scss'],
 })
 export class ProjectOverviewComponent implements OnInit {
-  @ViewChild(ProjectPropertiesDirective)
-  propertiesHost: ProjectPropertiesDirective;
-  @Input() set formGroup(formGroup: FormGroup) {
-    if (formGroup) {
-      this.projectOverviewForm = formGroup;
-    }
-  }
   @Input() project: AlandaProject;
   @Input() task: AlandaTask;
   @Input() user: AlandaUser;
   @Input() rootFormGroup: FormGroup;
+  @Input() set allowedFormElements(elements: string[]) {
+    if (elements != null && elements.length > 0) {
+      for (const [key] of Object.entries(this.visibleFormElements)) {
+        this.visibleFormElements[key] =
+          elements.findIndex((e) => e === key) > -1;
+      }
+    }
+  }
 
+  visibleFormElements: { [p: string]: boolean } = {};
   locale: LocaleSettings;
   projectOverviewForm: FormGroup = this.fb.group({
     tag: null,
@@ -102,6 +104,11 @@ export class ProjectOverviewComponent implements OnInit {
 
       if (updatedProject.version) {
         this.project.version = updatedProject.version;
+        this.project.title = updatedProject.title;
+        this.project.priority = updatedProject.priority;
+        this.project.tag = updatedProject.tag;
+        this.project.comment = updatedProject.comment;
+        this.project.dueDate = updatedProject.dueDate;
       }
     }),
   );
@@ -126,6 +133,13 @@ export class ProjectOverviewComponent implements OnInit {
     this.state.hold(this.projectOverviewChanged$);
     this.state.hold(this.updateProject$);
     this.state.hold(this.updateDueDateOfTask$);
+
+    this.visibleFormElements = {
+      type: true,
+    };
+    for (const [key] of Object.entries(this.projectOverviewForm.controls)) {
+      this.visibleFormElements[key] = true;
+    }
   }
 
   ngOnInit(): void {

@@ -7,80 +7,20 @@
       animationDuration=".5s"
     ></p-progressSpinner>
   </div>
-  <alanda-page-header
-    *ngIf="user$ | async as user"
-    [project]="s.project"
-    [task]="s.task"
-    [user]="user"
-    [tabs]="s.tabs"
-    [activeTabIndex]="activeTabIndex"
-    (activeTabIndexChange)="activeTabIndex = $event"
-  >
-    <ng-container [ngSwitch]="activeTabIndex">
-      <div *ngSwitchCase="'0'">
-        <alanda-project-overview
-          [task]="s.task"
-          [project]="s.project"
-          [user]="user"
-          [rootFormGroup]="rootForm"
-        >
-          <div additional>
-            My additional Content. I can do whatever I want to do!
-          </div>
-        </alanda-project-overview>
-      </div>
-      <div *ngSwitchCase="'1'">
-        <alanda-pio-component
-          [pid]="s.task.process_instance_id"
-          [user]="user"
-        ></alanda-pio-component>
-      </div>
-      <div *ngSwitchCase="'2'">
-        <alanda-history-grid-component
-          *ngIf="s.project"
-          [projectGuid]="s.project.guid"
-        ></alanda-history-grid-component>
-      </div>
-      <div *ngSwitchCase="'3'">
-        3
-      </div>
-      <div *ngSwitchCase="'4'">
-        4
-      </div>
-      <div *ngSwitchCase="'5'">
-        5
-      </div>
-      <div *ngSwitchCase="'6'">
-        6
-      </div>
-      <div *ngSwitchCase="'7'">
-        7
-      </div>
-      <div *ngSwitchCase="'8'">
-        8
-      </div>
-      <div *ngSwitchCase="'9'">
-        9
-      </div>
-      <div *ngSwitchCase="'10'">
-        10
-      </div>
-    </ng-container>
-  </alanda-page-header>
 
   <router-outlet></router-outlet>
 
-  <div class="p-grid p-justify-end">
-    <div class="p-col-2">
-      <div *ngIf="rootForm.touched && rootForm.errors">
-        <div *ngFor="let error of rootForm.errors | keyvalue">
+  <ng-container *ngIf="rootForm && rootForm?.touched && rootForm?.errors">
+    <div class="p-grid p-justify-end">
+      <div class="p-col-3 p-text-right">
+        <ng-container *ngFor="let error of rootForm.errors | keyvalue">
           <p-message
             *ngIf="error.value.text !== undefined"
             severity="error"
             text="{{ error.value.text }}"
           ></p-message>
-        </div>
+        </ng-container>
       </div>
     </div>
-  </div>
+  </ng-container>
 </ng-container>

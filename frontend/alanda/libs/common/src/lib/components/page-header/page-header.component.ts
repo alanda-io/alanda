@@ -105,15 +105,14 @@ export class PageHeaderComponent {
       let activeTab = tabs[0];
       if (this.activeTabIndex > 0) {
         activeTab = tabs[this.activeTabIndex];
-      }
-      if (this.activePhase) {
-        const initTab = tabs.find(
+      } else if (this.activePhase) {
+        const initPhase = tabs.find(
           (tab: AlandaPageTab) =>
             tab.phase?.pmcProjectPhaseDefinition.idName.toLowerCase() ===
             this.activePhase.toLowerCase(),
         );
-        if (initTab != null) {
-          activeTab = initTab;
+        if (initPhase != null) {
+          activeTab = initPhase;
         }
       }
       return activeTab;

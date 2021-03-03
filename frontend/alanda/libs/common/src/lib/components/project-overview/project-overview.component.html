@@ -4,13 +4,10 @@
   [showHeader]="false"
   [toggleable]="false"
 >
-  <div #ref>
-    <ng-content select="[overwriteForm]"></ng-content>
-  </div>
-  <form [formGroup]="projectOverviewForm" *ngIf="ref.childNodes.length == 0">
+  <form [formGroup]="projectOverviewForm">
     <div class="p-grid p-fluid p-mt-4">
       <div class="p-col-12 p-md-6 p-lg-4 p-xl-3">
-        <div class="p-grid p-field">
+        <div class="p-grid p-field" *ngIf="visibleFormElements.type">
           <div class="p-field p-col-12">
             <span class="p-float-label">
               <input
@@ -39,7 +36,7 @@
           </div>
         </div>
 
-        <div class="p-grid p-field">
+        <div class="p-grid p-field" *ngIf="visibleFormElements.priority">
           <div class="p-field p-col-12">
             <span class="p-float-label">
               <p-dropdown
@@ -55,7 +52,7 @@
       </div>
 
       <div class="p-col-12 p-md-6 p-lg-4 p-xl-3">
-        <div class="p-grid p-field">
+        <div class="p-grid p-field" *ngIf="visibleFormElements.tag">
           <div class="p-field p-col-12">
             <span class="p-float-label">
               <p-autoComplete
@@ -72,7 +69,7 @@
             </span>
           </div>
         </div>
-        <div class="p-grid p-field">
+        <div class="p-grid p-field" *ngIf="visibleFormElements.title">
           <div class="p-field p-col-12">
             <span class="p-float-label">
               <input
@@ -89,7 +86,7 @@
       </div>
 
       <div class="p-col-12 p-md-6 p-lg-4 p-xl-3">
-        <div class="p-grid p-field">
+        <div class="p-grid p-field" *ngIf="visibleFormElements.dueDate">
           <div class="p-field p-col-12">
             <span class="p-float-label">
               <p-calendar
@@ -103,7 +100,10 @@
             </span>
           </div>
         </div>
-        <div class="p-grid p-field" *ngIf="task != null">
+        <div
+          class="p-grid p-field"
+          *ngIf="task != null && visibleFormElements.taskDueDate"
+        >
           <div class="p-field p-col-12">
             <span class="p-float-label">
               <p-calendar
@@ -120,7 +120,7 @@
       </div>
 
       <div class="p-col-12 p-md-6 p-lg-12 p-xl-3">
-        <div class="p-grid p-field">
+        <div class="p-grid p-field" *ngIf="visibleFormElements.comment">
           <div class="p-field p-col-12">
             <span class="p-float-label">
               <textarea
@@ -139,5 +139,5 @@
       </div>
     </div>
   </form>
-  <ng-content select="[additional]"></ng-content>
+  <ng-content></ng-content>
 </p-panel>

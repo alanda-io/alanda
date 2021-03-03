@@ -16,6 +16,8 @@ import { ProjectPhasesComponent } from './components/project-phases/project-phas
 import { InputTextModule } from 'primeng/inputtext';
 import { VacationProjectDetailsComponent } from './components/vacation-project-details/vacation-project-details.component';
 import { CommonModule } from '@angular/common';
+import { VacationPageHeaderComponent } from './components/vacation-page-header/vacation-page-header.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -25,6 +27,7 @@ import { CommonModule } from '@angular/common';
     CompleteTaskModule,
     FormModule,
     CommonModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     PrepareVacationRequestComponent,
@@ -36,6 +39,7 @@ import { CommonModule } from '@angular/common';
     ProjectPropertiesComponent,
     ProjectPhasesComponent,
     VacationProjectDetailsComponent,
+    VacationPageHeaderComponent,
   ],
   exports: [ProjectPropertiesComponent],
 })
