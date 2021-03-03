@@ -7,39 +7,20 @@
       animationDuration=".5s"
     ></p-progressSpinner>
   </div>
-  <p-tabView [activeIndex]="activeTab" styleClass="form-root-tabs">
-    <p-tabPanel header="Project Overview" leftIcon="pi pi-bookmark">
-      <ng-template pTemplate="content">
-        <router-outlet></router-outlet>
-        <div class="p-grid p-justify-end">
-          <div class="p-col-2">
-            <div *ngIf="rootForm.touched && rootForm.errors">
-              <div *ngFor="let error of rootForm.errors | keyvalue">
-                <p-message
-                  *ngIf="error.value.text !== undefined"
-                  severity="error"
-                  text="{{ error.value.text }}"
-                ></p-message>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-    </p-tabPanel>
-    <p-tabPanel header="PIO" leftIcon="pi pi-eye">
-      <ng-template pTemplate="content" *ngIf="user$ | async as user">
-        <alanda-pio-component
-          [pid]="s.task.process_instance_id"
-          [user]="user"
-        ></alanda-pio-component>
-      </ng-template>
-    </p-tabPanel>
-    <p-tabPanel header="History Log" leftIcon="pi pi-clock">
-      <ng-template pTemplate="content">
-        <alanda-history-grid-component
-          [projectGuid]="s.project?.guid"
-        ></alanda-history-grid-component>
-      </ng-template>
-    </p-tabPanel>
-  </p-tabView>
+
+  <router-outlet></router-outlet>
+
+  <ng-container *ngIf="rootForm && rootForm?.touched && rootForm?.errors">
+    <div class="p-grid p-justify-end">
+      <div class="p-col-3 p-text-right">
+        <ng-container *ngFor="let error of rootForm.errors | keyvalue">
+          <p-message
+            *ngIf="error.value.text !== undefined"
+            severity="error"
+            text="{{ error.value.text }}"
+          ></p-message>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
 </ng-container>

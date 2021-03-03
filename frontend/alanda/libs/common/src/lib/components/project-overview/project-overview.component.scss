@@ -1,0 +1,12 @@
+.project-overview {
+  ::ng-deep {
+    .overview-panel {
+      > .p-toggleable-content {
+        > .p-panel-content {
+          border-top: 1px solid #dee2e6;
+          border-radius: 3px;
+        }
+      }
+    }
+  }
+}

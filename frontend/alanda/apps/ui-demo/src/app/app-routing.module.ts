@@ -1,48 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  AlandaCreateProjectComponent,
-  AlandaGroupManagementComponent,
-  AlandaRoleManagementComponent,
-  AlandaPermissionManagementComponent,
-  AlandaFormsControllerComponent,
-} from '@alanda/common';
+import { AlandaCreateProjectComponent } from '@alanda/common';
 import { HomeComponent } from './features/home/home.component';
-import { PermissionsDemoComponent } from './components/permissions-demo/permissions-demo.component';
-import { UserManagementContainerComponent } from './features/usermgmt/user-management-container/user-management-container.component';
 import { ProjectMonitorComponent } from './features/project-monitor/project-monitor.component';
-import { UserEnrichedProjectsControllerComponent } from './components/projects-controller/user-enriched-projects-controller.component';
-import { ProjectsAndProcessesDemoComponent } from './components/projects-and-processes-demo/projects-and-processes-demo.component';
-import { ProjectDetailsComponent } from './components/project-details/project-details.component';
+import { ProjectsControllerComponent } from './components/projects-controller/projects-controller.component';
 import { TaskListComponent } from './features/task-list/task-list.component';
 import { UserEnrichedFormsControllerComponent } from './components/forms-controller/user-enriched-forms-controller.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, data: { title: 'Home' } },
   {
-    path: 'admin/users',
-    component: UserManagementContainerComponent,
-    data: { title: 'Admin User' },
-  },
-  {
-    path: 'admin/groups',
-    component: AlandaGroupManagementComponent,
-    data: { title: 'Admin Groups' },
-  },
-  {
-    path: 'admin/roles',
-    component: AlandaRoleManagementComponent,
-    data: { title: 'Admin Roles' },
-  },
-  {
-    path: 'admin/permissions',
-    component: AlandaPermissionManagementComponent,
-    data: { title: 'Admin Permissions' },
-  },
-  {
-    path: 'admin/permissions-demo',
-    component: PermissionsDemoComponent,
-    data: { title: 'Admin Permissions Demo' },
+    path: 'admin',
+    loadChildren: () =>
+      import('./features/admin/admin.module').then((m) => m.AdminModule),
   },
   {
     path: 'create/project',
@@ -65,10 +35,10 @@ const routes: Routes = [
   },
   {
     path: 'forms',
+    component: UserEnrichedFormsControllerComponent,
     children: [
       {
         path: 'vacation',
-        component: UserEnrichedFormsControllerComponent,
         loadChildren: () =>
           import('./features/vacation/vacation.module').then(
             (m) => m.VacationModule,
@@ -78,7 +48,7 @@ const routes: Routes = [
   },
   {
     path: 'projectdetails/:projectId',
-    component: UserEnrichedProjectsControllerComponent,
+    component: ProjectsControllerComponent,
     children: [
       {
         path: 'vacation',
@@ -87,15 +57,7 @@ const routes: Routes = [
             (m) => m.VacationModule,
           ),
       },
-      {
-        path: '**',
-        component: ProjectDetailsComponent,
-      },
     ],
-  },
-  {
-    path: 'projectdetails/:projectId',
-    component: ProjectsAndProcessesDemoComponent,
   },
   { path: '**', redirectTo: '' },
 ];

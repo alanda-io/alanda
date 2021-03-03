@@ -1,0 +1,55 @@
+.page-header-tabview {
+  .p-tabview-nav {
+    .p-tabview-nav-link {
+      .nav-icons {
+        padding: 0;
+        margin: 0;
+        border: 0;
+        width: auto !important;
+        background: transparent;
+
+        &.starting {
+          opacity: 0.65;
+        }
+        &.not-set {
+          opacity: 0.8;
+        }
+      }
+
+      span {
+        margin: 0 0.5rem;
+
+        &:first-child {
+          margin-left: 0;
+        }
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
+      .phase-tab-menu {
+        position: relative;
+        z-index: 2;
+        cursor: pointer;
+
+        &:after {
+          content: '';
+          width: calc(1rem + 0.6rem);
+          height: 2rem;
+          position: absolute;
+          top: -0.5rem;
+          left: -0.3rem;
+          background: transparent;
+          opacity: 0;
+        }
+      }
+    }
+  }
+
+  .p-tabview-panels {
+    margin-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+}

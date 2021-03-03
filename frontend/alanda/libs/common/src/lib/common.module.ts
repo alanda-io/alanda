@@ -59,6 +59,8 @@ import { LabelModule } from './components/label/label.module';
 import { CommentDialogModule } from './components/comment-dialog/comment-dialog.module';
 import { CompleteTaskModule } from './components/complete-task/complete-task.module';
 import { TruncatePipeModule } from './pipes/truncate.pipe';
+import { ProjectOverviewModule } from './components/project-overview/project-overview.module';
+import { PageHeaderModule } from './components/page-header/page-header.module';
 
 @NgModule({
   imports: [
@@ -97,6 +99,8 @@ import { TruncatePipeModule } from './pipes/truncate.pipe';
     LabelModule,
     CommentDialogModule,
     CompleteTaskModule,
+    ProjectOverviewModule,
+    PageHeaderModule,
   ],
   exports: [
     BadgeModule,
@@ -130,6 +134,8 @@ import { TruncatePipeModule } from './pipes/truncate.pipe';
     LabelModule,
     CommentDialogModule,
     CompleteTaskModule,
+    ProjectOverviewModule,
+    PageHeaderModule,
   ],
   entryComponents: [
     PapRelateDialogComponent,

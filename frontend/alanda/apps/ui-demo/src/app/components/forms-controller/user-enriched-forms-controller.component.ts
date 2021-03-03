@@ -1,6 +1,5 @@
 import { AlandaTaskFormService } from '@alanda/common';
 import { Component } from '@angular/core';
-import { UserEnrichedTaskFormService } from '../../services/userEnrichedTaskForm.service';
 import { UserStoreImpl } from '../../store/user';
 
 @Component({
@@ -12,7 +11,7 @@ export class UserEnrichedFormsControllerComponent {
   state$ = this.taskFormService.state$;
   user$ = this.userStore.currentUser$;
   rootForm = this.taskFormService.rootForm;
-  activeTab = 0;
+  activeTabIndex = 0;
 
   constructor(
     private readonly taskFormService: AlandaTaskFormService,
