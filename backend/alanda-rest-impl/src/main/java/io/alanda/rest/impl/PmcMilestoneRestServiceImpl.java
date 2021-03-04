@@ -118,22 +118,20 @@ public class PmcMilestoneRestServiceImpl implements PmcMilestoneRestService {
   }
 
   @Override
-  public Response updateProjectMilestone(String projectId, String msIdName, String reason, PmcProjectMilestoneDto projectMilestoneDto) {
-    Date fc = projectMilestoneDto.getFc();
-    Date act = projectMilestoneDto.getAct();
-    String postFix = "";
-    if (fc != null) {
-      postFix = ":fc";
-    }
-    if (act != null) {
-      postFix = ":act";
-    }
-    if ((act != null) && (fc != null)) {
-      postFix = ":fc,act";
-    }
+  public Response updateProjectMilestone(String projectId, String msIdName, String reason, Boolean delFc, Boolean delAct, PmcProjectMilestoneDto projectMilestoneDto) {
+    Date fc = Boolean.TRUE.equals(delFc) ? null : projectMilestoneDto.getFc();
+    Date act = Boolean.TRUE.equals(delAct) ? null: projectMilestoneDto.getAct();
+    PmcProjectMilestoneDto oldMs = pmcProjectService.getProjectMilestoneByProjectAndMsIdName(projectId, msIdName);
     PmcProjectDto p = pmcProjectService.getProjectByProjectId(projectId);
-    checkPermissionsForMilestone(p.getGuid(), msIdName, postFix, "write");
-    pmcProjectService.updateProjectMilestone(projectId, msIdName, fc, act, reason);
+    boolean fcHasChanged = fc != null && (oldMs == null || !fc.equals(oldMs.getFc()));
+    if (fcHasChanged || Boolean.TRUE.equals(delFc)) {
+      checkPermissionsForMilestone(p.getGuid(), msIdName, ":fc", "write");
+    }
+    boolean actHasChanged = act != null && (oldMs == null || !act.equals(oldMs.getAct()));
+    if (actHasChanged || Boolean.TRUE.equals(delAct)) {
+      checkPermissionsForMilestone(p.getGuid(), msIdName, ":act", "write");
+    }
+    pmcProjectService.updateProjectMilestone(projectId, msIdName, fc, act, reason, delFc, delAct);
     return Response.ok().build();
   }
 

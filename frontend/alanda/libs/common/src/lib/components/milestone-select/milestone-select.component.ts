@@ -344,8 +344,8 @@ export class AlandaSelectMilestoneComponent {
       fcStr,
       actStr,
       reason,
-      this.delFC,
-      this.delACT,
+      fc === null && this.delFC === true ? true : false,
+      act === null && this.delACT === true ? true : false,
     );
   }
 
