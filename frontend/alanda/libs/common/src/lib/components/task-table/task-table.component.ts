@@ -63,6 +63,7 @@ interface AlandaTaskTableState {
   candidateUsers: AlandaUser[];
   delegatedTaskData: AlandaTaskListData;
   groupTasksActiveOnce: boolean;
+  showDelegateDialog: boolean;
 }
 
 const initState = {
@@ -73,6 +74,7 @@ const initState = {
   layouts: [],
   menuItem: [],
   groupTasksActiveOnce: false,
+  showDelegateDialog: false,
 };
 const DEFAULT_BUTTON_MENU_ICON = 'pi pi-bars';
 const LOADING_ICON = 'pi pi-spin pi-spinner';
@@ -131,7 +133,6 @@ export class AlandaTaskTableComponent {
   @Output() toggleGroupTasksChanged = new Subject<boolean>();
 
   dateFormat: string;
-  showDelegateDialog = false;
   hiddenColumns = {};
   layoutChange$ = new Subject<any>();
   onMenuItemColumnClick$ = new Subject<string>();
@@ -342,11 +343,11 @@ export class AlandaTaskTableComponent {
           console.error(err);
           return EMPTY;
         }),
-        tap(() => (this.showDelegateDialog = true)),
         map((response) => {
           return {
             candidateUsers: response,
             delegatedTaskData: data,
+            showDelegateDialog: true,
           };
         }),
       );
@@ -492,8 +493,8 @@ export class AlandaTaskTableComponent {
   hideDelegateDialog(): void {
     this.state.set({
       delegatedTaskData: null,
+      showDelegateDialog: false,
     });
-    this.showDelegateDialog = false;
   }
 
   encodeURIAndReplace(v): string {
