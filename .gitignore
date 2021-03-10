@@ -1,6 +1,7 @@
 *.log
 .idea
 .vscode
+*.access^
 /backend/pmc-oak/nbactions.xml
 /target/
 /backend/alanda-development/target/

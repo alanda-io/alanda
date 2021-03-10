@@ -45,7 +45,7 @@
             <version>${dbunit.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.oracle.jdbc</groupId>
+            <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc8</artifactId>
             <version>${oracle-jdbc.version}</version>
         </dependency>
