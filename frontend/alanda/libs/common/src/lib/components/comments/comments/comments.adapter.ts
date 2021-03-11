@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 import { toLowerCase } from '../utils';
 import { AlandaReplyPostBody } from '../../../api/models/replyPostBody';
 import { AlandaCommentPostBody } from '../../../api/models/commenPostBody';
+import { AlandaCommentTag } from '../../../api/models/commentTag';
 
 export interface AlandaCommentAdapterState {
   comments: AlandaComment[];
@@ -125,7 +126,10 @@ export class AlandaCommentsAdapter extends RxState<AlandaCommentAdapterState> {
     // Extract hashtags out of text body
     if (comment.text?.match(/#\w+/g)) {
       comment.text.match(/#\w+/g).forEach((value: string) => {
-        comment.tagList.push({ name: value.substr(1), type: 'user' });
+        const tagName = value.substr(1);
+        if (!this.containsTag(comment.tagList, tagName)) {
+          comment.tagList.push({ name: tagName, type: 'user' });
+        }
       });
       comment.text = comment.text.replace(/#\w+/g, '').trim();
     }
@@ -162,5 +166,14 @@ export class AlandaCommentsAdapter extends RxState<AlandaCommentAdapterState> {
       fulltext += ` ${toLowerCase(text)}`;
     }
     return fulltext.trim();
+  }
+
+  private containsTag(tags: AlandaCommentTag[], tagName: string): boolean {
+    for (const tag of tags) {
+      if (tag.name === tagName) {
+        return true;
+      }
+    }
+    return false;
   }
 }
