@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.impl.persistence.entity.TaskEntity;
 import org.camunda.bpm.engine.rest.dto.VariableValueDto;
 import org.camunda.bpm.engine.task.IdentityLink;
 import org.camunda.bpm.engine.task.Task;
@@ -203,7 +204,7 @@ public class PmcTaskRestServiceImpl implements PmcTaskRestService {
       if ( !checkTaskAccess(t)) {
         continue;
       }
-      retVal.add(pmcTaskService.getTask(t));
+      retVal.add(pmcTaskService.getTask((TaskEntity) t));
     }
     return retVal;
   }

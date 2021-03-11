@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.camunda.bpm.engine.cdi.BusinessProcessEvent;
+import org.camunda.bpm.engine.impl.persistence.entity.TaskEntity;
 import org.camunda.bpm.engine.task.Task;
 
 import io.alanda.base.dto.PagedResultDto;
@@ -31,7 +32,7 @@ public interface PmcTaskService {
 
   void activityEvent(BusinessProcessEvent businessProcessEvent);
 
-  PmcTaskDto getTask(Task t);
+  PmcTaskDto getTask(TaskEntity t);
 
   void updateDueDateOfTask(String taskId, Date dueDate) throws ParseException;
 
