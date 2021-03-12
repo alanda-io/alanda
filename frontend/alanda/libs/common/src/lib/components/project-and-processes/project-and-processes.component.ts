@@ -455,10 +455,6 @@ export class AlandaProjectAndProcessesComponent implements OnDestroy {
           finalize(() => (this.loading = false)),
         )
         .subscribe((tree) => {
-          node.children = tree?.children;
-          node.children.push(
-            this.papService.getStartProcessDropdownAsTreeNode(data.project),
-          );
           this.data = [...this.data];
         });
     }
