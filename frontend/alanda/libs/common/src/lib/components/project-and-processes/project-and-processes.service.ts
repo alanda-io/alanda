@@ -147,6 +147,7 @@ export class AlandaProjectAndProcessesService {
         }
       }
     });
+    children.push(this.getStartProcessDropdownAsTreeNode(project));
 
     return {
       key: id,
