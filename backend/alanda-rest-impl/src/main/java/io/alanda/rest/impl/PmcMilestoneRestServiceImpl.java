@@ -131,7 +131,7 @@ public class PmcMilestoneRestServiceImpl implements PmcMilestoneRestService {
     if (actHasChanged || Boolean.TRUE.equals(delAct)) {
       checkPermissionsForMilestone(p.getGuid(), msIdName, ":act", "write");
     }
-    pmcProjectService.updateProjectMilestone(projectId, msIdName, fc, act, reason, delFc, delAct);
+    pmcProjectService.updateProjectMilestone(p.getGuid(), msIdName, fc, delFc, act, delAct, reason);
     return Response.ok().build();
   }
 

@@ -455,6 +455,7 @@ export class AlandaProjectAndProcessesComponent implements OnDestroy {
           finalize(() => (this.loading = false)),
         )
         .subscribe((tree) => {
+          node.children = tree?.children;
           this.data = [...this.data];
         });
     }
