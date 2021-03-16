@@ -35,12 +35,6 @@
     <class>io.alanda.base.entity.PmcPermission</class>
     <class>io.alanda.base.mail.MailAttachment</class>
     <class>io.alanda.base.mail.Mail</class>
-    <class>io.alanda.base.entity.checklist.CheckListTemplate</class>
-    <class>io.alanda.base.entity.checklist.CheckList</class>
-    <class>io.alanda.base.entity.checklist.CheckListItem</class>
-    <class>io.alanda.base.entity.checklist.CheckListItemBackend</class>
-    <class>io.alanda.base.entity.checklist.CheckListItemDefinition</class>
-    <class>io.alanda.base.entity.checklist.CheckListTemplateTaskAssociation</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>java:jboss/datasources/PMC</jta-data-source>

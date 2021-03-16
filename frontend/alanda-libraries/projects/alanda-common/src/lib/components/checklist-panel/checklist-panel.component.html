@@ -1,3 +1,0 @@
-<p-panel #clp header="Checklist" [toggleable]="true" *ngIf="checklists.length" (onBeforeToggle)="loadChecklists(clp.collapsed)">
-  <alanda-checklist *ngFor="let checklist of checklists" [checklist]="checklist"></alanda-checklist>
-</p-panel>

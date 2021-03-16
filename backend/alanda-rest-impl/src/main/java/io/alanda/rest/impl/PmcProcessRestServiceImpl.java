@@ -6,14 +6,21 @@ package io.alanda.rest.impl;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.camunda.bpm.engine.*;
+import org.camunda.bpm.engine.AuthorizationException;
+import org.camunda.bpm.engine.HistoryService;
+import org.camunda.bpm.engine.ProcessEngineException;
+import org.camunda.bpm.engine.RepositoryService;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.impl.util.IoUtil;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
@@ -26,10 +33,6 @@ import org.camunda.bpm.engine.runtime.ActivityInstance;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.variable.value.TypedValue;
-import org.camunda.bpm.model.bpmn.BpmnModelInstance;
-import org.camunda.bpm.model.bpmn.instance.UserTask;
-import org.camunda.bpm.model.xml.instance.ModelElementInstance;
-import org.camunda.bpm.model.xml.type.ModelElementType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -301,42 +304,5 @@ public class PmcProcessRestServiceImpl implements PmcProcessRestService {
     this.incomingMailService.processMail(configuration);
     return Response.accepted().build();
   }
-
-  @Override
-  public Collection<String> queryProcess(String query) {
-    Set<String> result = repositoryService.createProcessDefinitionQuery()
-            .orderByProcessDefinitionKey()
-            .asc()
-            .list()
-            .stream()
-            .map(ProcessDefinition::getKey).collect(Collectors.toSet());
-    if(query != null) {
-      result = result.stream().filter(key -> key.contains(query)).collect(Collectors.toSet());
-    }
-    return result;
-  }
-
-  @Override
-  public Collection<String> queryUserTasks(String processDefKey, String query) {
-    Set<String> processDefIds = repositoryService.createProcessDefinitionQuery().processDefinitionKey(processDefKey).list()
-            .stream()
-            .map(ProcessDefinition::getId)
-            .collect(Collectors.toSet());
-
-    Set<String> userTaskIds = new HashSet<>();
-    for (String id : processDefIds) {
-      BpmnModelInstance modelInstance = repositoryService.getBpmnModelInstance(id);
-      ModelElementType taskType = modelInstance.getModel().getType(UserTask.class);
-      Collection<ModelElementInstance> taskInstances = modelInstance.getModelElementsByType(taskType);
-      for (ModelElementInstance taskInstance : taskInstances) {
-        userTaskIds.add(taskInstance.getAttributeValue("id"));
-      }
-    }
-    if (query != null) {
-      userTaskIds = userTaskIds.stream().filter(id -> id.contains(query)).collect(Collectors.toSet());
-    }
-    return userTaskIds;
-  }
-
 
 }

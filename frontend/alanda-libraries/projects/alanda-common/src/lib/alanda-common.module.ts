@@ -77,7 +77,7 @@ import { SelectRoleComponent } from './components/task/form-variables/role-selec
 import { DateSelectComponent } from './components/task/form-variables/date-select/date-select.component';
 import { DropdownSelectComponent } from './components/task/form-variables/dropdown-select/dropdown-select.component';
 import { AlandaTaskTemplateComponent } from './components/task/template/alanda-task-template.component';
-import { AccordionModule } from 'primeng/accordion';
+import { AccordionModule } from 'primeng/accordion'
 import { SelectMilestoneComponent } from './components/task/form-variables/milestone-select/milestone-select.component';
 import { UserManagementComponent } from './components/admin/user-management/user-management.component';
 import { GroupManagementComponent } from './components/admin/group-management/group-management.component';
@@ -90,11 +90,6 @@ import {AlandaProjectAndProcessesComponent} from './components/project-and-proce
 import {PapActionsComponent} from './components/project-and-processes/pap-actions/pap-actions.component';
 import {RelateDialogComponent} from './components/project-and-processes/pap-actions/relate-dialog/relate-dialog.component';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
-import {AlandaChecklistPanelComponent} from './components/checklist-panel/checklist-panel.component';
-import {AlandaChecklistComponent} from './components/checklist-panel/checklist/checklist.component';
-import {AlandaChecklistAdministrationComponent} from './components/checklist-administration/checklist-administration.component';
-import { OrderListModule } from 'primeng/orderlist';
-import { ChipsModule } from 'primeng/chips';
 
 @NgModule({
   imports: [
@@ -133,9 +128,7 @@ import { ChipsModule } from 'primeng/chips';
     MessageModule,
     AccordionModule,
     TreeTableModule,
-    DynamicDialogModule,
-    OrderListModule,
-    ChipsModule
+    DynamicDialogModule
   ],
   declarations: [
     UserManagementComponent,
@@ -172,10 +165,7 @@ import { ChipsModule } from 'primeng/chips';
     AlandaProjectAndProcessesComponent,
     AlandaPagesizeSelectComponent,
     PapActionsComponent,
-    RelateDialogComponent,
-    AlandaChecklistPanelComponent,
-    AlandaChecklistComponent,
-    AlandaChecklistAdministrationComponent
+    RelateDialogComponent
   ],
   exports: [
     ProjectMonitorComponent,
@@ -211,10 +201,7 @@ import { ChipsModule } from 'primeng/chips';
     AlandaTaskTemplateComponent,
     AlandaProjectAndProcessesComponent,
     PapActionsComponent,
-    RelateDialogComponent,
-    AlandaChecklistPanelComponent,
-    AlandaChecklistComponent,
-    AlandaChecklistAdministrationComponent
+    RelateDialogComponent
    ],
   entryComponents: [
     RelateDialogComponent

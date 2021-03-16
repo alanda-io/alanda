@@ -1,6 +1,6 @@
 import { Injectable, Inject } from "@angular/core";
 import { ExceptionHandlingService } from "../services/exception-handling.service";
-import {HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { AppSettings, APP_CONFIG } from "../models/appSettings";
@@ -21,14 +21,4 @@ import { AppSettings, APP_CONFIG } from "../models/appSettings";
     getVariable(processInstanceId, variableName): Observable<any> {
       return this.http.get(`${this.endpointUrl}/${processInstanceId}/variables/${variableName}`, {}).pipe(catchError(this.handleError('getVariable', null)));
     }
-
-    queryProcess(query: string): Observable<string[]> {
-      const params: HttpParams = new HttpParams().set('query', query);
-      return this.http.get<string[]>(`${this.endpointUrl}`, {params}).pipe(catchError(this.handleError('queryProcess', null)));
-    }
-
-  queryUserTasks(processDefKey: string, query: string): Observable<string[]> {
-    const params: HttpParams = new HttpParams().set('query', query);
-    return this.http.get<string[]>(`${this.endpointUrl}/${processDefKey}/tasks`, {params}).pipe(catchError(this.handleError('queryUserTasks', null)));
-  }
 }
