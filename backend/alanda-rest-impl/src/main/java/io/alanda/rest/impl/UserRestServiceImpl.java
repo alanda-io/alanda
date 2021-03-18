@@ -283,8 +283,6 @@ public class UserRestServiceImpl implements UserRestService {
 
   @Override
   public List<PmcUserDto> getUsersByGroupId(Long groupId) {
-    if ( !UserContext.getUser().isAdmin())
-      throw new javax.ws.rs.ForbiddenException("Access denied");
     return pmcUserService.getUserByGroupId(groupId);
   }
 
