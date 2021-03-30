@@ -337,11 +337,11 @@ export class AlandaTaskTableComponent {
   );
 
   delegateTask$ = this.delegateTaskEvent$.pipe(
+    tap(() => {
+      this.state.set({ showDelegateDialog: true });
+    }),
     switchMap((data: AlandaTaskListData) => {
       return this.taskService.getCandidates(data.task.task_id).pipe(
-        tap(() => {
-          this.state.set({ showDelegateDialog: true });
-        }),
         catchError((err, caught) => {
           console.error(err);
           return EMPTY;
