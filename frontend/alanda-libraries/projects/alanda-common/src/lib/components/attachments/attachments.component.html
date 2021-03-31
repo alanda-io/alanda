@@ -8,12 +8,9 @@
   }
 </style>
 
-<p-panel [toggleable]="true" [collapsed]="true" (onAfterToggle)="togglePanel()">
+<p-panel [toggleable]="true" [collapsed]="false" (onAfterToggle)="togglePanel()">
   <p-header>
-    <span class="ui-panel-title">
-    Attachments
-        <p-button label="{{fileCount}}" style="margin-right:5px" styleClass="ui-button-rounded"></p-button>
-    </span>
+    Attachments <p-button label="{{fileCount}}" style="margin-right:5px" styleClass="ui-button-rounded"></p-button>
   </p-header>
   <div class = "p-grid">
     <div class="p-col-3">
