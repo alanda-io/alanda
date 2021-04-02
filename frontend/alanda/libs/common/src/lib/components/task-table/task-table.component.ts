@@ -350,7 +350,6 @@ export class AlandaTaskTableComponent {
           return {
             candidateUsers: response,
             delegatedTaskData: data,
-            showDelegateDialog: true,
           };
         }),
       );
