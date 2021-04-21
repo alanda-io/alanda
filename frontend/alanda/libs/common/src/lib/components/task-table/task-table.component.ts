@@ -337,6 +337,9 @@ export class AlandaTaskTableComponent {
   );
 
   delegateTask$ = this.delegateTaskEvent$.pipe(
+    tap(() => {
+      this.state.set({ showDelegateDialog: true });
+    }),
     switchMap((data: AlandaTaskListData) => {
       return this.taskService.getCandidates(data.task.task_id).pipe(
         catchError((err, caught) => {
@@ -347,7 +350,6 @@ export class AlandaTaskTableComponent {
           return {
             candidateUsers: response,
             delegatedTaskData: data,
-            showDelegateDialog: true,
           };
         }),
       );
