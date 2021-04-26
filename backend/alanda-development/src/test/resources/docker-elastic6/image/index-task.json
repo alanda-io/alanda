@@ -1,0 +1,1875 @@
+{
+	"settings": {
+		"index": {
+			"analysis": {
+				"normalizer": {
+					"lc": {
+						"type": "custom",
+						"filter": [
+							"lowercase"
+						]
+					}
+				},
+				"filter": {
+					"ngram_filter": {
+						"type": "ngram",
+						"min_gram": "1",
+						"max_gram": "20"
+					}
+				},
+				"analyzer": {
+					"datengram": {
+						"filter": [
+							"lowercase",
+							"ngram_filter"
+						],
+						"type": "custom",
+						"tokenizer": "keyword"
+					},
+					"lc": {
+						"filter": [
+							"lowercase"
+						],
+						"type": "custom",
+						"tokenizer": "keyword"
+					},
+					"ngram": {
+						"filter": [
+							"lowercase",
+							"ngram_filter"
+						],
+						"type": "custom",
+						"tokenizer": "standard"
+					}
+				}
+			},
+			"number_of_shards": "5",
+			"number_of_replicas": "1",
+			"max_ngram_diff" : 20
+		}
+	},
+	"mappings": {
+		"task": {
+			"dynamic": false,
+			"dynamic_templates": [
+				{
+					"string_mapping": {
+						"mapping": {
+							"normalizer": "lc",
+							"index": true,
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"index": true,
+									"type": "text"
+								}
+							}
+						},
+						"match_mapping_type": "string"
+					}
+				},
+				{
+					"time_fields_template": {
+						"mapping": {
+							"type": "date"
+						},
+						"match_mapping_type": "long",
+						"match": "*Time"
+					}
+				},
+				{
+					"timestamp_field_template": {
+						"mapping": {
+							"type": "date"
+						},
+						"match_mapping_type": "long",
+						"match": "timestamp"
+					}
+				}
+			],
+			"_all": {
+				"enabled": false
+			},
+			"properties": {
+				"lastSyncTime": {
+                                        "format": "strict_date_optional_time||epoch_millis",
+                                        "type": "date",
+                                        "index": true,
+                                        "store": true
+				},
+				"refObject": {
+					"properties": {
+						"baDestination": {
+							"properties": {
+								"name": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								}
+							}
+						},
+						"priority": {
+							"type": "long",
+							"fields": {
+								"ngram": {
+									"search_analyzer": "lc",
+									"analyzer": "datengram",
+									"type": "text"
+								}
+							}
+						},
+						"costcenterName": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"supplierName": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"poId": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"requestorName": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"title": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"zipCode": {
+							"index": true,
+							"type": "keyword"
+						},
+						"cableName": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"sumCapex": {
+							"type": "long"
+						},
+						"city": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"endDate": {
+							"format": "strict_date_optional_time||epoch_millis",
+							"type": "date"
+						},
+						"sumOpex": {
+							"type": "long"
+						},
+						"chainNuts3": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"processInstance": {
+							"index": true,
+							"type": "keyword"
+						},
+						"clusterId": {
+							"type": "long"
+						},
+						"linkName": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"eventArea": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"idName": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"chainID": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"provider": {
+							"properties": {
+								"idName": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								}
+							}
+						},
+						"linkCount": {
+							"type": "long"
+						},
+						"clusterIdName": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"eventName": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"stationA": {
+							"properties": {
+								"site": {
+									"properties": {
+										"idName": {
+											"normalizer": "lc",
+											"type": "keyword",
+											"fields": {
+												"raw": {
+													"index": true,
+													"type": "keyword"
+												},
+												"ngram": {
+													"search_analyzer": "standard",
+													"analyzer": "ngram",
+													"type": "text"
+												}
+											}
+										},
+										"status": {
+											"normalizer": "lc",
+											"type": "keyword",
+											"fields": {
+												"raw": {
+													"index": true,
+													"type": "keyword"
+												},
+												"ngram": {
+													"search_analyzer": "standard",
+													"analyzer": "ngram",
+													"type": "text"
+												}
+											}
+										}
+									}
+								},
+								"guid": {
+									"type": "long"
+								}
+							}
+						},
+						"links": {
+							"properties": {
+								"idName": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"provider": {
+									"properties": {
+										"idName": {
+											"normalizer": "lc",
+											"type": "keyword",
+											"fields": {
+												"raw": {
+													"index": true,
+													"type": "keyword"
+												},
+												"ngram": {
+													"search_analyzer": "standard",
+													"analyzer": "ngram",
+													"type": "text"
+												}
+											}
+										},
+										"guid": {
+											"type": "long"
+										}
+									}
+								},
+								"guid": {
+									"type": "long"
+								},
+								"stationA": {
+									"properties": {
+										"site": {
+											"properties": {
+												"idName": {
+													"normalizer": "lc",
+													"type": "keyword",
+													"fields": {
+														"raw": {
+															"index": true,
+															"type": "keyword"
+														},
+														"ngram": {
+															"search_analyzer": "standard",
+															"analyzer": "ngram",
+															"type": "text"
+														}
+													}
+												},
+												"guid": {
+													"type": "long"
+												},
+												"status": {
+													"normalizer": "lc",
+													"type": "keyword",
+													"fields": {
+														"raw": {
+															"index": true,
+															"type": "keyword"
+														},
+														"ngram": {
+															"search_analyzer": "standard",
+															"analyzer": "ngram",
+															"type": "text"
+														}
+													}
+												}
+											}
+										},
+										"guid": {
+											"type": "long"
+										}
+									}
+								},
+								"stationB": {
+									"properties": {
+										"site": {
+											"properties": {
+												"idName": {
+													"normalizer": "lc",
+													"type": "keyword",
+													"fields": {
+														"raw": {
+															"index": true,
+															"type": "keyword"
+														},
+														"ngram": {
+															"search_analyzer": "standard",
+															"analyzer": "ngram",
+															"type": "text"
+														}
+													}
+												},
+												"guid": {
+													"type": "long"
+												},
+												"status": {
+													"normalizer": "lc",
+													"type": "keyword",
+													"fields": {
+														"raw": {
+															"index": true,
+															"type": "keyword"
+														},
+														"ngram": {
+															"search_analyzer": "standard",
+															"analyzer": "ngram",
+															"type": "text"
+														}
+													}
+												}
+											}
+										},
+										"guid": {
+											"type": "long"
+										}
+									}
+								}
+							}
+						},
+						"stationB": {
+							"properties": {
+								"site": {
+									"properties": {
+										"idName": {
+											"normalizer": "lc",
+											"type": "keyword",
+											"fields": {
+												"raw": {
+													"index": true,
+													"type": "keyword"
+												},
+												"ngram": {
+													"search_analyzer": "standard",
+													"analyzer": "ngram",
+													"type": "text"
+												}
+											}
+										},
+										"guid": {
+											"type": "long"
+										},
+										"status": {
+											"normalizer": "lc",
+											"type": "keyword",
+											"fields": {
+												"raw": {
+													"index": true,
+													"type": "keyword"
+												},
+												"ngram": {
+													"search_analyzer": "standard",
+													"analyzer": "ngram",
+													"type": "text"
+												}
+											}
+										}
+									}
+								},
+								"guid": {
+									"type": "long"
+								}
+							}
+						},
+						"said": {
+							"type": "long"
+						},
+						"siteA": {
+							"properties": {
+								"idName": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"guid": {
+									"type": "long"
+								},
+								"status": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								}
+							}
+						},
+						"siteB": {
+							"properties": {
+								"idName": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"guid": {
+									"type": "long"
+								},
+								"status": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								}
+							}
+						},
+						"eventsiteUsed": {
+							"type": "boolean"
+						},
+						"chainName": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"refSmProvider": {
+							"properties": {
+								"idName": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"guid": {
+									"type": "long"
+								}
+							}
+						},
+						"siteCount": {
+							"type": "long"
+						},
+						"address": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"chainStatus": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"comments": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"chainInitialDecision": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"created": {
+							"type": "long"
+						},
+						"eventType": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"sharing": {
+							"type": "boolean"
+						},
+						"eventData": {
+							"properties": {
+								"phase": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"constructionManager": {
+									"properties": {
+										"displayName": {
+											"normalizer": "lc",
+											"type": "keyword",
+											"fields": {
+												"raw": {
+													"index": true,
+													"type": "keyword"
+												},
+												"ngram": {
+													"search_analyzer": "standard",
+													"analyzer": "ngram",
+													"type": "text"
+												}
+											}
+										}
+									}
+								},
+								"radioEndDate": {
+									"format": "strict_date_optional_time||epoch_millis",
+									"type": "date"
+								},
+								"radioStartDate": {
+									"format": "strict_date_optional_time||epoch_millis",
+									"type": "date"
+								},
+								"radioPlanner": {
+									"properties": {
+										"displayName": {
+											"normalizer": "lc",
+											"type": "keyword",
+											"fields": {
+												"raw": {
+													"index": true,
+													"type": "keyword"
+												},
+												"ngram": {
+													"search_analyzer": "standard",
+													"analyzer": "ngram",
+													"type": "text"
+												}
+											}
+										}
+									}
+								},
+								"truckEndDate": {
+									"format": "strict_date_optional_time||epoch_millis",
+									"type": "date"
+								},
+								"eventSites": {
+									"properties": {
+										"eventDataId": {
+											"type": "long"
+										},
+										"radioEndDate": {
+											"format": "strict_date_optional_time||epoch_millis",
+											"type": "date"
+										},
+										"site": {
+											"properties": {
+												"idName": {
+													"normalizer": "lc",
+													"type": "keyword",
+													"fields": {
+														"raw": {
+															"index": true,
+															"type": "keyword"
+														},
+														"ngram": {
+															"search_analyzer": "standard",
+															"analyzer": "ngram",
+															"type": "text"
+														}
+													}
+												},
+												"guid": {
+													"type": "long"
+												},
+												"status": {
+													"normalizer": "lc",
+													"type": "keyword",
+													"fields": {
+														"raw": {
+															"index": true,
+															"type": "keyword"
+														},
+														"ngram": {
+															"search_analyzer": "standard",
+															"analyzer": "ngram",
+															"type": "text"
+														}
+													}
+												}
+											}
+										},
+										"radioStartDate": {
+											"format": "strict_date_optional_time||epoch_millis",
+											"type": "date"
+										},
+										"truckEndDate": {
+											"format": "strict_date_optional_time||epoch_millis",
+											"type": "date"
+										},
+										"id": {
+											"type": "long"
+										},
+										"searchArea": {
+											"properties": {
+												"idName": {
+													"normalizer": "lc",
+													"type": "keyword",
+													"fields": {
+														"raw": {
+															"index": true,
+															"type": "keyword"
+														},
+														"ngram": {
+															"search_analyzer": "standard",
+															"analyzer": "ngram",
+															"type": "text"
+														}
+													}
+												},
+												"guid": {
+													"type": "long"
+												}
+											}
+										},
+										"type": {
+											"normalizer": "lc",
+											"type": "keyword",
+											"fields": {
+												"raw": {
+													"index": true,
+													"type": "keyword"
+												},
+												"ngram": {
+													"search_analyzer": "standard",
+													"analyzer": "ngram",
+													"type": "text"
+												}
+											}
+										},
+										"truckStartDate": {
+											"format": "strict_date_optional_time||epoch_millis",
+											"type": "date"
+										},
+										"version": {
+											"type": "long"
+										}
+									}
+								},
+								"version": {
+									"type": "long"
+								},
+								"processPackageKey": {
+									"index": true,
+									"type": "keyword"
+								},
+								"txPlanner": {
+									"properties": {
+										"displayName": {
+											"normalizer": "lc",
+											"type": "keyword",
+											"fields": {
+												"raw": {
+													"index": true,
+													"type": "keyword"
+												},
+												"ngram": {
+													"search_analyzer": "standard",
+													"analyzer": "ngram",
+													"type": "text"
+												}
+											}
+										}
+									}
+								},
+								"id": {
+									"type": "long"
+								},
+								"truckStartDate": {
+									"format": "strict_date_optional_time||epoch_millis",
+									"type": "date"
+								}
+							}
+						},
+						"nocMail": {
+							"type": "boolean"
+						},
+						"guid": {
+							"type": "long"
+						},
+						"milestones": {
+							"properties": {
+								"msName": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"msTime": {
+									"format": "strict_date_optional_time||epoch_millis",
+									"type": "date"
+								}
+							}
+						},
+						"region": {
+							"type": "long"
+						},
+						"startDate": {
+							"format": "strict_date_optional_time||epoch_millis",
+							"type": "date"
+						},
+						"status": {
+							"index": true,
+							"type": "keyword"
+						},
+						"companyName": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"companyAddress": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"locAAddress": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"locBAddress": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						}
+					}
+				},
+				"task": {
+					"properties": {
+						"process_definition_key": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"task_name": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"candidateGroupIds": {
+							"type": "long"
+						},
+						"formKey": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"created": {
+							"format": "strict_date_optional_time||epoch_millis",
+							"type": "date",
+							"fields": {
+								"ngram": {
+									"search_analyzer": "lc",
+									"analyzer": "datengram",
+									"type": "text"
+								}
+							}
+						},
+						"process_package_key": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"description": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"task_id": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"suspension_state": {
+							"type": "boolean"
+						},
+						"object_id": {
+							"type": "long"
+						},
+						"follow_up": {
+							"format": "strict_date_optional_time||epoch_millis",
+							"type": "date"
+						},
+						"process_definition_id": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"execution_id": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"due": {
+							"format": "strict_date_optional_time||epoch_millis",
+							"type": "date",
+							"fields": {
+								"ngram": {
+									"search_analyzer": "lc",
+									"analyzer": "datengram",
+									"type": "text"
+								}
+							}
+						},
+						"process_name": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"candidateGroups": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"object_name": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"process_instance_id": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"comment": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"assignee": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"state": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"task_type": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"actinst_type": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"assignee_id": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"pmcProjectGuid": {
+							"type": "long"
+						},
+						"priority": {
+							"type": "short"
+						}
+					}
+				},
+				"project": {
+					"properties": {
+						"highlighted": {
+							"type": "boolean"
+						},
+						"updateDate": {
+							"format": "strict_date_optional_time||epoch_millis",
+							"type": "date"
+						},
+						"dueDate": {
+							"format": "strict_date_optional_time||epoch_millis",
+							"type": "date",
+							"fields": {
+								"ngram": {
+									"search_analyzer": "lc",
+									"analyzer": "datengram",
+									"type": "text"
+								}
+							}
+						},
+						"parentIds": {
+							"type": "long"
+						},
+						"guStatus": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"refObjectIdName": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"ownerId": {
+							"type": "long"
+						},
+						"title": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"ownerName": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"subtype": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"details": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"tag": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"createDate": {
+							"format": "strict_date_optional_time||epoch_millis",
+							"type": "date",
+							"fields": {
+								"ngram": {
+									"search_analyzer": "lc",
+									"analyzer": "datengram",
+									"type": "text"
+								}
+							}
+						},
+						"processes": {
+							"properties": {
+								"processInstanceId": {
+									"index": true,
+									"type": "keyword"
+								},
+								"businessObject": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"guid": {
+									"type": "long"
+								},
+								"processKey": {
+									"index": true,
+									"type": "keyword"
+								},
+								"label": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"parentExecutionId": {
+									"index": true,
+									"type": "keyword"
+								},
+								"workDetails": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"relation": {
+									"index": true,
+									"type": "keyword"
+								},
+								"status": {
+									"index": true,
+									"type": "keyword"
+								}
+							}
+						},
+						"pmcProjectType": {
+							"properties": {
+								"objectType": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"idName": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"name": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"guid": {
+									"type": "long"
+								}
+							}
+						},
+						"childrenIds": {
+							"type": "long"
+						},
+						"updateUser": {
+							"type": "long"
+						},
+						"additionalInfo": {
+							"dynamic": true,
+							"properties": {
+
+							}
+						},
+						"propertiesMap": {
+							"properties": {
+								"role_baugu": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"role_transgu": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"role_akqui": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"role_baukoo": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								},
+								"role_transregio": {
+									"normalizer": "lc",
+									"type": "keyword",
+									"fields": {
+										"raw": {
+											"index": true,
+											"type": "keyword"
+										},
+										"ngram": {
+											"search_analyzer": "standard",
+											"analyzer": "ngram",
+											"type": "text"
+										}
+									}
+								}
+							}
+						},
+						"priority": {
+							"type": "long",
+							"fields": {
+								"ngram": {
+									"search_analyzer": "lc",
+									"analyzer": "datengram",
+									"type": "text"
+								}
+							}
+						},
+						"guid": {
+							"type": "long",
+							"store": true
+						},
+						"refObjectId": {
+							"type": "long"
+						},
+						"comment": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"createUser": {
+							"type": "long"
+						},
+						"refObjectType": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"projectId": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						},
+						"customerProjectId": {
+							"type": "long"
+						},
+						"status": {
+							"normalizer": "lc",
+							"type": "keyword",
+							"fields": {
+								"raw": {
+									"index": true,
+									"type": "keyword"
+								},
+								"ngram": {
+									"search_analyzer": "standard",
+									"analyzer": "ngram",
+									"type": "text"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

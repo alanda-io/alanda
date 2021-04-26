@@ -2,10 +2,13 @@ version: "3.1"
 
 services:
   alanda-elastic-service:
-#    build: ./image
-    image: docker.alanda.io/elastic-test:1
-    container_name: alanda-elasticsearch6
+    build: ./image
+    image: alanda-elastic660
+    container_name: alanda-elasticsearch6-node1
     volumes:
+      - ./mount_import_data:/opt/elastic/es_import_data #snapshot dir
+      - ./mount_data_node1:/usr/share/elasticsearch/data #data dir
+      - ./mount_config_node1:/usr/share/elasticsearch/config #config dir
       - ./mount_logs_node1:/usr/share/elasticsearch/logs
       - ./scripts:/opt/scripts
     environment:
