@@ -136,7 +136,6 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
               detail: 'Due date of task has been updated',
             });
             this.taskDueDate = changes.taskDueDate;
-            return of();
           },
           (error) => {
             this.messageService.add({
@@ -145,9 +144,9 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
               summary: 'Update Due Date Of Task',
               detail: error.message,
             });
-            return of();
           },
         );
+      return of(this.project);
     } else {
       return of(changes).pipe(
         map((change) => {
