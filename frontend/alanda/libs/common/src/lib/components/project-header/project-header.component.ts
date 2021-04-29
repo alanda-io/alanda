@@ -121,7 +121,7 @@ export class AlandaProjectHeaderComponent implements OnInit, AfterViewInit {
     console.log(changes);
     if (
       changes.taskDueDate &&
-      changes.taskDueDate.toString() !== this.taskDueDate.toString()
+      changes.taskDueDate.toString() !== this.taskDueDate?.toString()
     ) {
       const taskDueDate = convertUTCDate(changes.taskDueDate)
         .toISOString()
