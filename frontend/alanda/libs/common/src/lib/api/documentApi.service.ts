@@ -37,6 +37,10 @@ export class AlandaDocumentApiService extends AlandaExceptionHandlingService {
       .pipe(catchError(this.handleError('deleteFile')));
   }
 
+  deleteDocument(fileId: number): Observable<void> {
+    return this.http.delete<void>(`${this.documentEndpointUrl}/${fileId}`);
+  }
+
   getDownloadUrlForVersion(
     objectType: string,
     objectId: number,
