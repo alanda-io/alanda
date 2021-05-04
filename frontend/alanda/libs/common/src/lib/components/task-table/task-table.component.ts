@@ -96,7 +96,7 @@ export class AlandaTaskTableComponent {
   setupProjectDetailsModalEvent$ = new Subject<AlandaProject>();
   menuBarVisible = false;
   tableColumnType = TableColumnType;
-  delegateForm = this.fb.group({
+  mainForm = this.fb.group({
     delegateTo: {},
   });
 
@@ -567,6 +567,6 @@ export class AlandaTaskTableComponent {
   }
 
   delegateTo() {
-    return this.delegateForm.get('delegateTo');
+    return this.mainForm.get('delegateTo');
   }
 }
