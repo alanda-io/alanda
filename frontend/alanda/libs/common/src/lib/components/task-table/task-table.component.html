@@ -200,38 +200,39 @@
   <p-dialog
     [(visible)]="s.showDelegateDialog"
     [modal]="true"
-    [formGroup]="delegateForm"
     [dismissableMask]="true"
     [resizable]="false"
     [style]="{ width: '450px' }"
     [contentStyle]="{ overflow: 'visible' }"
     header="Delegate task to"
   >
-    <div class="p-fluid">
-      <p-dropdown
-        #dd
-        formControlName="delegateTo"
-        [options]="s.candidateUsers"
-        optionLabel="displayName"
-        placeholder="Select a user"
-        [filter]="true"
-      ></p-dropdown>
-    </div>
-    <p-footer>
-      <p-button
-        (onClick)="hideDelegateDialog()"
-        styleClass="p-button-text"
-        icon="pi pi-times"
-        label="Cancel"
-      ></p-button>
-      <p-button
-        (onClick)="delegateTaskToUserEvent$.next(dd.value)"
-        styleClass="p-button-text"
-        icon="pi pi-check"
-        [disabled]="!dd.value || s.loading"
-        label="Delegate"
-      ></p-button>
-    </p-footer>
+    <form [formGroup]="mainForm">
+      <div class="p-fluid">
+        <p-dropdown
+          #dd
+          formControlName="delegateTo"
+          [options]="s.candidateUsers"
+          optionLabel="displayName"
+          placeholder="Select a user"
+          [filter]="true"
+        ></p-dropdown>
+      </div>
+      <p-footer>
+        <p-button
+          (onClick)="hideDelegateDialog()"
+          styleClass="p-button-text"
+          icon="pi pi-times"
+          label="Cancel"
+        ></p-button>
+        <p-button
+          (onClick)="delegateTaskToUserEvent$.next(dd.value)"
+          styleClass="p-button-text"
+          icon="pi pi-check"
+          [disabled]="!dd.value || s.loading"
+          label="Delegate"
+        ></p-button>
+      </p-footer>
+    </form>
   </p-dialog>
   <!-- Project Details Modal-->
   <p-dialog
