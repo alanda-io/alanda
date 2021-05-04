@@ -43,6 +43,7 @@ import { AlandaTableColumnDefinition } from '../../api/models/tableColumnDefinit
 import { Router } from '@angular/router';
 import { ExportType } from '../../enums/exportType.enum';
 import { TableColumnType } from '../../enums/tableColumnType.enum';
+import { FormBuilder } from '@angular/forms';
 
 const EXPORT_FILE_NAME = 'download';
 const CLAIM_TEXT = 'Claim';
@@ -95,6 +96,9 @@ export class AlandaTaskTableComponent {
   setupProjectDetailsModalEvent$ = new Subject<AlandaProject>();
   menuBarVisible = false;
   tableColumnType = TableColumnType;
+  delegateForm = this.fb.group({
+    delegateTo: {},
+  });
 
   @Input() set defaultLayout(defaultLayout: number) {
     // setting "undefined" on an already undefined field does not trigger
@@ -375,6 +379,7 @@ export class AlandaTaskTableComponent {
           tap(() => {
             this.hideDelegateDialog();
             this.state.set({ loading: false });
+            this.delegateTo().patchValue(null);
             this.needReloadEvent$.next();
           }),
         );
@@ -386,6 +391,7 @@ export class AlandaTaskTableComponent {
     public messageService: MessageService,
     private state: RxState<AlandaTaskTableState>,
     private changeDetectorRef: ChangeDetectorRef,
+    private fb: FormBuilder,
     @Inject(APP_CONFIG) config: AppSettings,
     private router: Router,
   ) {
@@ -558,5 +564,9 @@ export class AlandaTaskTableComponent {
         items: columnMenuItems,
       },
     ];
+  }
+
+  delegateTo() {
+    return this.delegateForm.get('delegateTo');
   }
 }
