@@ -12,6 +12,9 @@ import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 
 import io.alanda.base.service.DocumentService;
+import javax.ws.rs.core.Response;
+import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpStatus;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RuntimeService;
 
@@ -35,13 +38,13 @@ public class DocumentRestServiceImpl implements DocumentRestService {
   private PmcProjectService projectService;
 
   @Inject
-  DocumentService documentService;
+  private DocumentService documentService;
 
   @Inject
-  RuntimeService runtimeService;
+  private RuntimeService runtimeService;
 
   @Inject
-  HistoryService historyService;
+  private HistoryService historyService;
 
   List<String> varNamesForProcessRestResource = Arrays.asList(ProcessVariables.REFOBJECTTYPE, ProcessVariables.REFOBJECTID);
 
@@ -71,8 +74,12 @@ public class DocumentRestServiceImpl implements DocumentRestService {
   }
 
   @Override
-  public void deleteDocument(String documentGuid) throws IOException {
+  public Response deleteDocument(String documentGuid) throws IOException {
+    if(StringUtils.isBlank(documentGuid)){
+      return Response.status(HttpStatus.SC_BAD_REQUEST).build();
+    }
     documentService.delete(documentGuid);
+    return Response.status(HttpStatus.SC_NO_CONTENT).build();
   }
 
   private RefObjectDocumentRestResource getProcessResource(String processInstanceId) {
