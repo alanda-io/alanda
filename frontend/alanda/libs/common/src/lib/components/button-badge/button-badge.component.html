@@ -1,0 +1,15 @@
+<ng-container *ngIf="state$ | async as s">
+  <span class="p-overlay-badge">
+    <p-button
+      [label]="s.label"
+      [icon]="s.iconConfig.icon"
+      [iconPos]="s.iconConfig.position"
+      [disabled]="s.disabled"
+      (click)="click.next($event)"
+    ></p-button>
+    <span
+      [class]="'p-badge ' + s.badgeConfig.color + ' ' + s.badgeConfig.size"
+      >{{ s.badgeConfig.value }}</span
+    >
+  </span>
+</ng-container>

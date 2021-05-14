@@ -61,6 +61,7 @@ import { CompleteTaskModule } from './components/complete-task/complete-task.mod
 import { TruncatePipeModule } from './pipes/truncate.pipe';
 import { ProjectOverviewModule } from './components/project-overview/project-overview.module';
 import { PageHeaderModule } from './components/page-header/page-header.module';
+import { ButtonBadgeModule } from './components/button-badge/button-badge.module';
 
 @NgModule({
   imports: [
@@ -70,6 +71,7 @@ import { PageHeaderModule } from './components/page-header/page-header.module';
     ReactiveFormsModule,
     RouterModule,
     BadgeModule,
+    ButtonBadgeModule,
     PhaseTabModule,
     PermissionModule,
     ProjectTableModule,
@@ -104,6 +106,7 @@ import { PageHeaderModule } from './components/page-header/page-header.module';
   ],
   exports: [
     BadgeModule,
+    ButtonBadgeModule,
     PhaseTabModule,
     PermissionModule,
     ProjectTableModule,
