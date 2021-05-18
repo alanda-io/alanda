@@ -5,7 +5,7 @@
       [icon]="s.iconConfig.icon"
       [iconPos]="s.iconConfig.position"
       [disabled]="s.disabled"
-      (click)="click.next($event)"
+      (click)="click.next($event); $event.stopPropagation()"
     ></p-button>
     <span
       [class]="'p-badge ' + s.badgeConfig.color + ' ' + s.badgeConfig.size"
