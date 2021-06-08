@@ -25,14 +25,8 @@
       <dispatcher>INCLUDE</dispatcher>
       <dispatcher>ERROR</dispatcher>
 	  </filter-mapping>
-<!--	 <filter>
-	    <filter-name>SecurityFilter</filter-name>
-	    <filter-class>com.bpmasters.pmc.rest.LocalAuthenticationFilter</filter-class>
-	 </filter>
-	  <filter-mapping>
-	    <filter-name>SecurityFilter</filter-name>
-	    <url-pattern>/app/*</url-pattern>
-	  </filter-mapping>-->
+
+
 	  <filter>
 	    <filter-name>ThreadLocalFilter</filter-name>
 	    <filter-class>io.alanda.rest.ThreadLocalFilter</filter-class>
@@ -42,15 +36,6 @@
 	    <url-pattern>/app/*</url-pattern>
 	  </filter-mapping>
 	 
-<!-- 	  <filter> -->
-<!-- 	    <filter-name>CacheControlFilter</filter-name> -->
-<!-- 	    <filter-class>org.camunda.bpm.engine.rest.filter.CacheControlFilter</filter-class> -->
-<!-- 	  </filter> -->
-<!-- 	  <filter-mapping> -->
-<!-- 	    <filter-name>CacheControlFilter</filter-name> -->
-<!-- 	    <url-pattern>/*</url-pattern> -->
-<!-- 	  </filter-mapping> -->
-	
 	  <filter>
 	    <filter-name>Resteasy</filter-name>
 	    <filter-class>
@@ -66,16 +51,5 @@
 	      <filter-name>Resteasy</filter-name>
 	      <url-pattern>/*</url-pattern>
 	  </filter-mapping>
-	  
-<!-- 	  <resource-ref> -->
-<!-- 	  <res-ref-name>processEngine/default</res-ref-name>    -->
-<!-- 	  <res-type>org.camunda.bpm.engine.ProcessEngine</res-type> -->
-<!-- 	  <mapped-name>java:global/camunda-bpm-platform/process-engine/default</mapped-name>     -->
-<!-- 	</resource-ref>	 -->
-<!-- 	 <resource-ref> -->
-<!-- 	  <res-ref-name>processEngineService</res-ref-name>    -->
-<!-- 	  <res-type>org.camunda.bpm.ProcessEngineService</res-type> -->
-<!-- 	  <mapped-name>java:global/camunda-bpm-platform/process-engine/ProcessEngineService!org.camunda.bpm.ProcessEngineService</mapped-name>     -->
-<!-- 	</resource-ref>	 -->
- 
+
 </web-app>
