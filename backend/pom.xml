@@ -1,55 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.alanda</groupId>
-    <artifactId>alanda</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+  <groupId>io.alanda</groupId>
+  <artifactId>alanda</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-    <scm>
-        <connection>scm:git:https://bitbucket.org/pmcdevelopment/pmc.git</connection>
-    </scm>
+  <scm>
+    <connection>scm:git:https://bitbucket.org/pmcdevelopment/pmc.git</connection>
+  </scm>
 
-    <name>Alanda</name>
-    <url>https://github.com/orgs/alanda-io/pmc</url>
+  <name>Alanda</name>
+  <url>https://github.com/orgs/alanda-io/pmc</url>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.javadoc.skip>true</maven.javadoc.skip>
-        <junit.version>4.11</junit.version>
-        <hibernate.version>5.3.6.Final</hibernate.version>
-        <slf4j.version>1.7.30</slf4j.version>
-        <camunda.version>7.10.0</camunda.version>
-        <guava.version>20.0</guava.version>
-        <dozer.version>5.5.1</dozer.version>
-        <elasticsearch.version>6.6.0</elasticsearch.version>
-        <spring.version>4.3.2.RELEASE</spring.version>
-        <liquibase.version>3.5.3</liquibase.version>
-        <dbunit.version>2.5.2</dbunit.version>
-        <oracle-jdbc.version>18.3.0.0</oracle-jdbc.version>
-    </properties>
+  <properties>
+    <!-- Maven -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+    <maven-jar-plugin.version>2.6</maven-jar-plugin.version>
+    <!-- Libraries -->
+    <camunda.version>7.10.0</camunda.version>
+    <commons-io.version>2.4</commons-io.version>
+    <cron-utils.version>8.0.0</cron-utils.version>
+    <dbunit.version>2.5.2</dbunit.version>
+    <dom4j.version>1.6.1</dom4j.version>
+    <dozer.version>5.5.1</dozer.version>
+    <elasticsearch.version>6.6.0</elasticsearch.version>
+    <guava.version>20.0</guava.version>
+    <hibernate.version>5.3.6.Final</hibernate.version>
+    <htime.version>1.0.0</htime.version>
+    <htime.version>1.0.0</htime.version>
+    <jackson.version>2.6.2</jackson.version>
+    <javax.inject.version>1</javax.inject.version>
+    <jsoup.version>1.11.3</jsoup.version>
+    <junit.version>4.11</junit.version>
+    <liquibase.version>3.5.3</liquibase.version>
+    <logback.version>1.2.3</logback.version>
+    <oracle-jdbc.version>18.3.0.0</oracle-jdbc.version>
+    <poi.version>3.10-FINAL</poi.version>
+    <poi.version>3.10-FINAL</poi.version>
+    <postgresql.version>42.1.4</postgresql.version>
+    <resteasy.version>3.6.1.Final</resteasy.version>
+    <shiro.version>1.3.2</shiro.version>
+    <slf4j.version>1.7.30</slf4j.version>
+    <spring-data.version>1.10.2.RELEASE</spring-data.version>
+    <spring.version>5.3.1</spring.version>
+    <velocity-tools.version>2.0</velocity-tools.version>
+    <velocity.version>1.7</velocity.version>
+    <wildfly-spec-api.version>14.0.1.Final</wildfly-spec-api.version>
+  </properties>
 
-    <modules>
-        <module>alanda-base</module>
-        <module>alanda-rest-impl</module>
-        <module>alanda-rest</module>
-        <module>alanda-background</module>
-        <module>alanda-camunda-es-history-plugin</module>
-        <module>alanda-identity-plugin</module>
-        <module>alanda-comment-plugin</module>
-        <module>alanda-ejb-client</module>
-        <module>alanda-persistence</module>
-        <module>alanda-development</module>
-        <module>alanda-process-vacation</module>
-    </modules>
-
-
+  <modules>
+    <module>alanda-base</module>
+    <module>alanda-rest-impl</module>
+    <module>alanda-rest</module>
+    <module>alanda-background</module>
+    <module>alanda-camunda-es-history-plugin</module>
+    <module>alanda-identity-plugin</module>
+    <module>alanda-comment-plugin</module>
+    <module>alanda-ejb-client</module>
+    <module>alanda-persistence</module>
+    <module>alanda-development</module>
+    <module>alanda-process-vacation</module>
+  </modules>
 
   <repositories>
+
     <repository>
       <id>jboss-public-repository</id>
       <name>JBoss Repository</name>
@@ -59,6 +79,7 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
+
     <repository>
       <id>camunda-bpm-nexus</id>
       <name>camunda-bpm-nexus</name>
@@ -68,6 +89,7 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
+
     <repository>
       <id>maven.oracle.com</id>
       <name>oracle-maven-repo</name>
@@ -78,76 +100,181 @@
         <updatePolicy>never</updatePolicy>
       </releases>
     </repository>
+
   </repositories>
-  
+
+
+  <dependencyManagement>
+
+    <dependencies>
+
+      <!-- Web / REST / Server-->
+
+      <dependency>
+        <groupId>dom4j</groupId>
+        <artifactId>dom4j</artifactId>
+        <version>${dom4j.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.wildfly</groupId>
+        <artifactId>wildfly-spec-api</artifactId>
+        <version>${wildfly-spec-api.version}</version>
+        <type>pom</type>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-jaxrs</artifactId>
+        <version>${resteasy.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-multipart-provider</artifactId>
+        <version>${resteasy.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <!-- Core Libraries -->
+
+      <dependency>
+        <groupId>org.camunda.bpm</groupId>
+        <artifactId>camunda-engine</artifactId>
+        <version>${camunda.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.elasticsearch.client</groupId>
+        <artifactId>elasticsearch-rest-high-level-client</artifactId>
+        <version>${elasticsearch.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <!-- Supporting Frameworks -->
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
+      </dependency>
+
+      <!-- Utilities -->
+
+      <dependency>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-core</artifactId>
+        <version>${liquibase.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <!-- Test dependencies -->
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${logback.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
+
+    <!-- Web / REST / Server-->
+
     <dependency>
       <groupId>dom4j</groupId>
       <artifactId>dom4j</artifactId>
-      <version>1.6.1</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
-    </dependency>
+
     <dependency>
       <groupId>org.wildfly</groupId>
       <artifactId>wildfly-spec-api</artifactId>
-      <version>14.0.1.Final</version>
       <type>pom</type>
       <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-jaxrs</artifactId>
-      <version>3.6.1.Final</version>
       <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>org.jboss.resteasy</groupId>
       <artifactId>resteasy-multipart-provider</artifactId>
-      <version>3.6.1.Final</version>
       <scope>provided</scope>
     </dependency>
+
+    <!-- Core features -->
+
     <dependency>
       <groupId>org.camunda.bpm</groupId>
       <artifactId>camunda-engine</artifactId>
-      <version>${camunda.version}</version>
       <scope>provided</scope>
     </dependency>
+
     <dependency>
       <groupId>org.elasticsearch.client</groupId>
       <artifactId>elasticsearch-rest-high-level-client</artifactId>
-      <version>${elasticsearch.version}</version>
       <scope>provided</scope>
     </dependency>
+
+    <!-- Supporting Frameworks -->
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
     </dependency>
-    <!-- Test dependencies -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
+
+    <!-- Utilities -->
+
     <dependency>
       <groupId>org.liquibase</groupId>
       <artifactId>liquibase-core</artifactId>
-      <version>3.5.3</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- Test dependencies -->
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.2.3</version>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
+
 
 </project>
