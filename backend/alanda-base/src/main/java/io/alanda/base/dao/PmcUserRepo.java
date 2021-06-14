@@ -18,4 +18,6 @@ public interface PmcUserRepo extends PagingAndSortingRepository<PmcUser, Long>, 
   
   public List<PmcUser> getByGroupList_Guid(Long guid, Sort sort);
 
+  public PmcUser getByEmail(String email);
+
 }

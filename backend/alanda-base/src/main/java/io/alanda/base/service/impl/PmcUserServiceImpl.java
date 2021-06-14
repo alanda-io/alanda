@@ -109,6 +109,12 @@ public class PmcUserServiceImpl implements PmcUserService {
   }
 
   @Override
+  public PmcUserDto getUserByEmail(String email) {
+    PmcUser user = pmcUserRepo.getByEmail(email);
+    return dozerMapper.map(user, PmcUserDto.class);
+  }
+
+  @Override
   public PmcUserDto getUserByLoginName(String loginName, boolean includeGroups) {
     PmcUser user = pmcUserDao.getByLoginName(loginName);
     if (user == null)

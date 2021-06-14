@@ -27,6 +27,8 @@ public interface PmcUserService {
 
   PmcUserDto getUserByLoginName(String loginName, boolean includeGroups);
 
+  PmcUserDto getUserByEmail(String email);
+
   List<PmcUserDto> getUsersByGroup(Long groupId, String search);
 
   Boolean isUserInGroup(Long userId, String groupIdName);
