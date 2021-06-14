@@ -34,9 +34,9 @@ public class RepoHelpers {
     if (orders.isEmpty()) {
       if (defaultField == null)
         return null;
-      return new Sort(Sort.Direction.ASC, defaultField);
+      return Sort.by(Sort.Direction.ASC, defaultField);
     }
-    return new Sort(orders);
+    return Sort.by(orders);
   }
 
   private static SortedMap<Integer, LabelValueBean> orderSortOptionsByPriority(Map<String, Object> sortOptions) {
