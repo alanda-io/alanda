@@ -1,26 +1,5 @@
 package io.alanda.base.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.ejb.ConcurrencyManagement;
-import javax.ejb.ConcurrencyManagementType;
-import javax.ejb.Singleton;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-
 import io.alanda.base.dao.PmcGroupRepo;
 import io.alanda.base.dao.PmcPermissionDao;
 import io.alanda.base.dao.PmcRoleDao;
@@ -34,6 +13,24 @@ import io.alanda.base.entity.PmcRole;
 import io.alanda.base.service.PmcGroupService;
 import io.alanda.base.util.DozerMapper;
 import io.alanda.base.util.cache.UserCache;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.ejb.ConcurrencyManagement;
+import javax.ejb.ConcurrencyManagementType;
+import javax.ejb.Singleton;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Singleton
 @ApplicationScoped
@@ -71,10 +68,11 @@ public class PmcGroupServiceImpl implements PmcGroupService {
   @Override
   public PagedResultDto<PmcGroupDto> findGroup(PmcGroupDto exampleGroupDto, int pageNumber, int pageSize, Sort sort) {
     PmcGroup exampleGroup = dozerMapper.map(exampleGroupDto, PmcGroup.class);
-    Pageable p = new PageRequest(pageNumber - 1, pageSize, sort);
+    Pageable p = PageRequest.of(pageNumber - 1, pageSize, sort);
 
     Page<PmcGroup> page = pmcGroupRepo
-      .findAll(Example.of(exampleGroup, ExampleMatcher.matching().withIgnorePaths("version").withIgnoreCase().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)), p);
+        .findAll(Example.of(exampleGroup, ExampleMatcher.matching().withIgnorePaths("version").withIgnoreCase()
+            .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)), p);
     PagedResultDto<PmcGroupDto> result = new PagedResultDto<>();
     result.setResults(dozerMapper.mapCollection(page.getContent(), PmcGroupDto.class));
     result.setTotal(page.getTotalElements());
@@ -90,13 +88,15 @@ public class PmcGroupServiceImpl implements PmcGroupService {
 
   @Override
   public PmcGroupDto getGroupById(Long groupId) {
-    PmcGroupDto pmcGroupDto = dozerMapper.map(pmcGroupRepo.findOne(groupId), PmcGroupDto.class);
-    return pmcGroupDto;
+    PmcGroup byId = pmcGroupRepo.findById(groupId)
+        .orElse(null);
+    return dozerMapper.map(byId, PmcGroupDto.class);
   }
 
   @Override
   public void updateGroup(PmcGroupDto pmcGroupDto) {
-    PmcGroup pmcGroup = pmcGroupRepo.findOne(pmcGroupDto.getGuid());
+    PmcGroup pmcGroup = pmcGroupRepo.findById(pmcGroupDto.getGuid())
+        .orElse(null);
     pmcGroup.setGroupName(pmcGroupDto.getGroupName());
     pmcGroup.setLongName(pmcGroupDto.getLongName());
     pmcGroup.setGroupSource(pmcGroupDto.getGroupSource());
@@ -113,7 +113,7 @@ public class PmcGroupServiceImpl implements PmcGroupService {
 
   @Override
   public void updateRolesForGroup(Long guid, List<PmcRoleDto> roles) {
-    PmcGroup pmcGroup = pmcGroupRepo.findOne(guid);
+    PmcGroup pmcGroup = pmcGroupRepo.findById(guid).orElse(null);
     pmcGroup.getRoles().clear();
     for (PmcRoleDto role : roles) {
       PmcRole rolle = pmcRoleDao.getById(role.getGuid());
@@ -127,7 +127,7 @@ public class PmcGroupServiceImpl implements PmcGroupService {
 
   @Override
   public Set<PmcPermissionDto> getEffectivePermissionsForGroup(Long guid) {
-    PmcGroup group = pmcGroupRepo.findOne(guid);
+    PmcGroup group = pmcGroupRepo.findById(guid).orElse(null);
     Set<PmcPermissionDto> perms = new HashSet<>();
     for (PmcRole role : group.getRoles()) {
       for (PmcPermission permission : role.getPermissions()) {
@@ -145,7 +145,7 @@ public class PmcGroupServiceImpl implements PmcGroupService {
 
   @Override
   public void updatePermissionsForGroup(Long guid, List<PmcPermissionDto> permissions) {
-    PmcGroup pmcGroup = pmcGroupRepo.findOne(guid);
+    PmcGroup pmcGroup = pmcGroupRepo.findById(guid).orElse(null);
     pmcGroup.getPermissions().clear();
     for (PmcPermissionDto permission : permissions) {
       PmcPermission perm = pmcPermissionDao.getById(permission.getGuid());
@@ -183,8 +183,9 @@ public class PmcGroupServiceImpl implements PmcGroupService {
       throw new IllegalArgumentException("Group.groupName must not be empty.");
     }
     PmcGroup exists = pmcGroupRepo.findByGroupName(groupTemplate.getGroupName());
-    if (exists != null)
+    if (exists != null) {
       return null;
+    }
     PmcGroup newGroup = this.dozerMapper.map(groupTemplate, PmcGroup.class);
     if (roleNames != null) {
       List<PmcRole> roles = new ArrayList<>();
@@ -214,8 +215,9 @@ public class PmcGroupServiceImpl implements PmcGroupService {
     String[] tmps = tmp.split(" ");
     tmp = prefix;
     for (String tmp1 : tmps) {
-      if (tmp1.length() > 3)
+      if (tmp1.length() > 3) {
         tmp1 = tmp1.substring(0, 4);
+      }
       tmp += "_" + tmp1;
     }
     return tmp.toLowerCase();
@@ -223,7 +225,7 @@ public class PmcGroupServiceImpl implements PmcGroupService {
 
   @Override
   public void setGroupActiveState(long guid, boolean active) {
-    PmcGroup pmcGroup = pmcGroupRepo.findOne(guid);
+    PmcGroup pmcGroup = pmcGroupRepo.findById(guid).orElse(null);
     pmcGroup.setActive(active);
     pmcGroupRepo.save(pmcGroup);
   }

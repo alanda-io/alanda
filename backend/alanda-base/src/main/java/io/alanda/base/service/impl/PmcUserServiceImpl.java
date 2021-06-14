@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -201,8 +202,9 @@ public class PmcUserServiceImpl implements PmcUserService {
   @Override
   public Boolean isUserInGroup(Long userId, Long groupId) {
     try {
-      PmcGroup group = pmcGroupRepo.findOne(userId);
-      return pmcUserDao.isUserInGroup(group.getGuid(), userId);
+      return pmcGroupRepo.findById(userId)
+          .map((group) -> pmcUserDao.isUserInGroup(group.getGuid(), userId))
+          .orElse(false);
     } catch (Exception e) {
       return false;
     }
@@ -216,8 +218,9 @@ public class PmcUserServiceImpl implements PmcUserService {
 
   @Override
   public PmcGroupDto getGroupById(Long guid) {
-    PmcGroup group = pmcGroupRepo.findOne(guid);
-    return dozerMapper.map(group, PmcGroupDto.class);
+    return pmcGroupRepo.findById(guid)
+        .map((group) -> dozerMapper.map(group, PmcGroupDto.class))
+        .orElse(null);
   }
 
   @Override
@@ -251,28 +254,28 @@ public class PmcUserServiceImpl implements PmcUserService {
 
   @Override
   public PmcUserDto getRepoUserById(Long userId) {
-    PmcUser pmcUser = pmcUserRepo.findOne(userId);
+    PmcUser pmcUser = pmcUserRepo.findById(userId).orElse(null);
     PmcUserDto pmcUserDto = dozerMapper.map(pmcUser, PmcUserDto.class);
-    PmcUserDto u = new PmcUserDto();
-    u.setGuid(pmcUserDto.getGuid());
-    u.setEmail(pmcUserDto.getEmail());
-    u.setFirstName(pmcUserDto.getFirstName());
-    u.setLoginName(pmcUserDto.getLoginName());
-    u.setLocked(pmcUserDto.isLocked());
-    u.setGroups(new ArrayList<String>());
+    PmcUserDto user = new PmcUserDto();
+    user.setGuid(pmcUserDto.getGuid());
+    user.setEmail(pmcUserDto.getEmail());
+    user.setFirstName(pmcUserDto.getFirstName());
+    user.setLoginName(pmcUserDto.getLoginName());
+    user.setLocked(pmcUserDto.isLocked());
+    user.setGroups(new ArrayList<String>());
     for (PmcGroup g : pmcUser.getGroupList()) {
-      u.getGroups().add(g.getGroupName());
+      user.getGroups().add(g.getGroupName());
     }
-    u.setMobile(pmcUserDto.getMobile());
-    u.setSurname(pmcUserDto.getSurname());
-    u.setDisplayName(pmcUser.getDisplayName());
-    u.setPmcDepartment(pmcUserDto.getPmcDepartment());
-    return u;
+    user.setMobile(pmcUserDto.getMobile());
+    user.setSurname(pmcUserDto.getSurname());
+    user.setDisplayName(pmcUser.getDisplayName());
+    user.setPmcDepartment(pmcUserDto.getPmcDepartment());
+    return user;
   }
 
   @Override
   public PmcUserDto updateRepoUser(PmcUserDto pmcUserDto) {
-    PmcUser pmcUser = pmcUserRepo.findOne(pmcUserDto.getGuid());
+    PmcUser pmcUser = pmcUserRepo.findById(pmcUserDto.getGuid()).orElse(null);
     pmcUser.setLoginName(pmcUserDto.getLoginName());
     pmcUser.setFirstName(pmcUserDto.getFirstName());
     pmcUser.setSurname(pmcUserDto.getSurname());
@@ -346,7 +349,7 @@ public class PmcUserServiceImpl implements PmcUserService {
 
   @Override
   public List<PmcUserDto> getRepoUser(int pageNumber, int pageSize) {
-    PageRequest pr = new PageRequest(pageNumber, pageSize);
+    PageRequest pr = PageRequest.of(pageNumber, pageSize);
     Page<PmcUser> users = pmcUserRepo.findAll(pr);
     //    List<PmcUser> users = pmcUserRepo.findBySurname("oida");
     List<PmcUserDto> res = new ArrayList<>();
@@ -359,7 +362,7 @@ public class PmcUserServiceImpl implements PmcUserService {
 
   @Override
   public List<PmcUserDto> getUserByGroupId(Long groupId) {
-    Sort sort = new Sort("surname", "firstName");
+    Sort sort = Sort.by("surname", "firstName");
     List<PmcUser> userList = pmcUserRepo.getByGroupList_Guid(groupId, sort);
     return dozerMapper.mapCollection(userList, PmcUserDto.class);
   }
@@ -367,7 +370,7 @@ public class PmcUserServiceImpl implements PmcUserService {
   @Override
   public PagedResultDto<PmcUserDto> findUser(PmcUserDto exampleUserDto, int pageNumber, int pageSize, Sort sort) {
     PmcUser exampleUser = dozerMapper.map(exampleUserDto, PmcUser.class);
-    Pageable p = new PageRequest(pageNumber - 1, pageSize, sort);
+    Pageable p = PageRequest.of(pageNumber - 1, pageSize, sort);
 
     Page<PmcUser> page = pmcUserRepo
       .findAll(Example.of(exampleUser, ExampleMatcher.matching().withIgnoreCase().withStringMatcher(StringMatcher.CONTAINING)), p);
@@ -445,10 +448,8 @@ public class PmcUserServiceImpl implements PmcUserService {
     PmcUser user = pmcUserDao.getById(guid);
     user.getGroupList().clear();
     for (PmcGroupDto group : groups) {
-      PmcGroup gr = pmcGroupRepo.findOne(group.getGuid());
-      if (gr != null) {
-        user.getGroupList().add(gr);
-      }
+      pmcGroupRepo.findById(group.getGuid())
+          .ifPresent(gr -> user.getGroupList().add(gr));
     }
     pmcUserDao.update(user);
     userCache.invalidate(user.getLoginName());
