@@ -197,13 +197,12 @@
       </p-table>
     </div>
   </div>
+
   <p-dialog
     [(visible)]="s.showDelegateDialog"
     [modal]="true"
     [dismissableMask]="true"
     [resizable]="false"
-    [style]="{ width: '450px' }"
-    [contentStyle]="{ overflow: 'visible' }"
     header="Delegate task to"
   >
     <form [formGroup]="mainForm">
@@ -214,10 +213,13 @@
           [options]="s.candidateUsers"
           optionLabel="displayName"
           placeholder="Select a user"
+          appendTo="body"
           [filter]="true"
         ></p-dropdown>
       </div>
-      <p-footer>
+    </form>
+    <ng-template pTemplate="footer">
+      <div class="p-d-flex p-jc-between">
         <p-button
           (onClick)="hideDelegateDialog()"
           styleClass="p-button-text"
@@ -228,11 +230,11 @@
           (onClick)="delegateTaskToUserEvent$.next(dd.value)"
           styleClass="p-button-text"
           icon="pi pi-check"
-          [disabled]="!dd.value || s.loading"
+          [disabled]="dd.value == null || s.loading"
           label="Delegate"
         ></p-button>
-      </p-footer>
-    </form>
+      </div>
+    </ng-template>
   </p-dialog>
   <!-- Project Details Modal-->
   <p-dialog
