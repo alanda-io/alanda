@@ -1,6 +1,6 @@
 {
   "name": "@alanda/common",
-  "version": "10.0.265",
+  "version": "10.0.265-cha-1784-1",
   "peerDependencies": {
     "@angular/animations": "^10.1.0",
     "@angular/common": "^10.1.0",
