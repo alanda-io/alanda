@@ -1,25 +1,22 @@
 package io.alanda.base.service;
 
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
-import javax.ws.rs.core.Response;
-
-import org.springframework.data.domain.Sort;
-
 import io.alanda.base.dto.PagedResultDto;
 import io.alanda.base.dto.PmcGroupDto;
 import io.alanda.base.dto.PmcPermissionDto;
 import io.alanda.base.dto.PmcRoleDto;
 import io.alanda.base.dto.PmcUserDto;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import javax.ws.rs.core.Response;
+import org.springframework.data.domain.Sort;
 
 public interface PmcUserService {
 
-  public static final String USER = "User";
+  String USER = "User";
 
-  public static final String SOURCE_PMC = "PMC";
+  String SOURCE_PMC = "PMC";
 
   PmcUserDto getUserByUserId(Long userId);
 
@@ -79,7 +76,8 @@ public interface PmcUserService {
 
   List<PmcUserDto> getUsersForRoleWithInheritance(Long roleGuid);
 
-  PmcUserDto createGroupAccount(String login, String firstName, String surName, String groupLongName, Set<String> roleNames);
+  PmcUserDto createGroupAccount(String login, String firstName, String surName, String groupLongName,
+      Set<String> roleNames);
 
   void updateLoginTime(LocalDateTime loginTime, Long userGuid);
 }
