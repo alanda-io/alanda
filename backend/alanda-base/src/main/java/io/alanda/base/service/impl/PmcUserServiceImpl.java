@@ -7,9 +7,10 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
@@ -344,7 +345,8 @@ public class PmcUserServiceImpl implements PmcUserService {
 
   @Override
   public List<String> getUsernames() {
-    return pmcUserRepo.getLoginNames();
+    return StreamSupport.stream(pmcUserRepo.findAll().spliterator(), false)
+            .map(PmcUser::getLoginName).collect(Collectors.toList());
   }
 
   @Override

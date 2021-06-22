@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Table(name = "PMC_GROUP")
 @NamedQueries({@NamedQuery(name = "PmcGroup.getByGroupName", query = "Select g from PmcGroup g where g.groupName = :groupName")})
 @NamedNativeQueries({
-  @NamedNativeQuery(name = "PmcGroup.findByRole", query = "select g.* FROM PMC_GROUP g, PMC_GROUP_ROLE gr where g.guid=gr.REF_GROUP and gr.ref_role=:roleId", resultClass = PmcGroup.class),
+  @NamedNativeQuery(name = "PmcGroup.findByRolesGuid", query = "select g.* FROM PMC_GROUP g, PMC_GROUP_ROLE gr where g.guid=gr.REF_GROUP and gr.ref_role=:roleId", resultClass = PmcGroup.class),
   @NamedNativeQuery(name = "PmcGroup.findByRolename", query = "select g.* FROM PMC_GROUP g, PMC_GROUP_ROLE gr, pmc_role r where g.guid=gr.REF_GROUP and r.guid=gr.ref_role and r.name=:roleName", resultClass = PmcGroup.class)
 })
 
