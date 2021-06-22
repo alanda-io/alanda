@@ -2,7 +2,6 @@ package io.alanda.base.dao;
 
 import java.util.List;
 
-import io.alanda.base.entity.PmcUser;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.cdi.Eager;

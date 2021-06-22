@@ -39,7 +39,6 @@ import io.alanda.base.util.UserContext;
 @NamedNativeQueries({
   @NamedNativeQuery(name = "PmcUser.searchByGroup", query = "select distinct u.* FROM PMC_USER u, PMC_USER_GROUP ug where lower(u.firstname) ||' ' ||lower(u.surname)  like :search and u.guid=ug.REF_USER and ug.ref_group=:groupId and ug.select_contact=1", resultClass = PmcUser.class),
   @NamedNativeQuery(name = "PmcUser.search", query = "select distinct u.* FROM PMC_USER u where lower(u.firstname) ||' ' ||lower(u.surname)  like :search", resultClass = PmcUser.class),
-  @NamedNativeQuery(name = "PmcUser.findByRoleId", query = "select u.* FROM PMC_USER u, PMC_USER_ROLE ur where u.guid=ur.REF_USER and ur.ref_role=:roleId", resultClass = PmcUser.class),
   @NamedNativeQuery(name = "PmcUser.getByRoleInherited", query = "select u.* from " +
     "(select ug.ref_user, gr.ref_role from pmc_user_group ug inner join pmc_group_role gr on (ug.ref_group=gr.ref_group) union " +
     "select ref_user, ref_role from pmc_user_role) " +
