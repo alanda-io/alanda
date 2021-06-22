@@ -76,8 +76,7 @@ public interface PmcUserService {
 
   List<PmcUserDto> getUsersForRoleWithInheritance(Long roleGuid);
 
-  PmcUserDto createGroupAccount(String login, String firstName, String surName, String groupLongName,
-      Set<String> roleNames);
+  PmcUserDto createGroupAccount(String login, String firstName, String surName, String groupLongName, Set<String> roleNames);
 
   void updateLoginTime(LocalDateTime loginTime, Long userGuid);
 }
