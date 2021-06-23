@@ -56,7 +56,9 @@ export class AlandaPropSelectComponent implements OnInit {
     if (this.user != null) {
       const authStr = `prop:${this.project.authBase}:${this.propertyName}`;
       this.canWrite = Authorizations.hasPermission(this.user, authStr, 'write');
+      console.log('use is != null & canWrite is: ', this.canWrite);
     } else {
+      console.log('user is null');
       this.canWrite = true;
     }
     this.propertyService
