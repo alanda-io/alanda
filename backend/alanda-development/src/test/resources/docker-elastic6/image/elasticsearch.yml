@@ -1,0 +1,49 @@
+# ======================== Elasticsearch Configuration =========================
+#
+# NOTE: Elasticsearch comes with reasonable defaults for most settings.
+#       Before you set out to tweak and tune the configuration, make sure you
+#       understand what are you trying to accomplish and the consequences.
+#
+# The primary way of configuring a node is via this file. This template lists
+# the most important settings you may want to configure for a production cluster.
+#
+# Please see the documentation for further information on configuration options:
+# <http://www.elastic.co/guide/en/elasticsearch/reference/current/setup-configuration.html>
+#
+# ---------------------------------- Cluster -----------------------------------
+cluster.name: elasticsearch6
+
+# ------------------------------------ Node ------------------------------------
+node.name: alanda-elasticsearch6-node1
+# ----------------------------------- Paths ------------------------------------
+#path.data: /opt/elastic/data
+#path.logs: /opt/elastic/logs
+# path.repo: ["/opt/elastic/es_import_data"]
+# ----------------------------------- Memory -----------------------------------
+bootstrap.memory_lock: false
+# Make sure that the `ES_HEAP_SIZE` environment variable is set to about half the memory
+# available on the system and that the owner of the process is allowed to use this limit.
+# Elasticsearch performs poorly when the system is swapping the memory.
+# ---------------------------------- Network -----------------------------------
+network.host: 0.0.0.0
+# Set a custom port for HTTP:
+# http.port: 9200
+# For more information, see the documentation at:
+# <http://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html>
+# --------------------------------- Discovery ----------------------------------
+# Pass an initial list of hosts to perform discovery when new node is started:
+# The default list of hosts is ["127.0.0.1", "[::1]"]
+#discovery.zen.ping.unicast.hosts: ["10.0.2.15:9300","10.0.2.15:9301","10.0.2.15:9302","10.0.2.15:9304"]
+discovery.zen.ping.unicast.hosts: ["alanda-elasticsearch6-node1:9300"]
+# Prevent the "split brain" by configuring the majority of nodes (total number of nodes / 2 + 1):
+discovery.zen.minimum_master_nodes: 1
+
+xpack.security.enabled: false
+#script.allowed_types: inline, painless
+#script.allowed_contexts: search, update
+
+# disable production checks
+discovery.type: single-node
+
+# disable diskspace check
+cluster.routing.allocation.disk.threshold_enabled: false

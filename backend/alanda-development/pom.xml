@@ -3,13 +3,69 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-      <groupId>io.alanda</groupId>  
-      <artifactId>alanda</artifactId>  
-      <version>0.0.1-SNAPSHOT</version>
+        <groupId>io.alanda</groupId>  
+        <artifactId>alanda</artifactId>  
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>alanda-development</artifactId>
+
+    <properties>
+        <docker.host>docker.alanda.io</docker.host>
+        <image.name>elastic-test</image.name>
+        <image.version>latest</image.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>build</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <!-- optional -->
+                            <workingDirectory>src/test/resources/docker-elastic6/image</workingDirectory>
+                            <arguments>
+                                <argument>build</argument>
+                                <argument>-t</argument>
+                                <argument>${docker.host}/${image.name}:${image.version}</argument>
+                                <argument>.</argument>
+                            </arguments>
+                            <environmentVariables>
+                                <!--<LANG>en_US</LANG>-->
+                            </environmentVariables>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>publish</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <!-- optional -->
+                            <workingDirectory>src/test/resources/docker-elastic6/image</workingDirectory>
+                            <arguments>
+                                <argument>push</argument>
+                                <argument>${docker.host}/${image.name}:${image.version}</argument>
+                            </arguments>
+                            <environmentVariables>
+                                <!--<LANG>en_US</LANG>-->
+                            </environmentVariables>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -29,10 +85,10 @@
             <version>${dozer.version}</version>
         </dependency>
         <dependency>
-          <groupId>org.camunda.bpm.distro</groupId>
-          <artifactId>camunda-sql-scripts</artifactId>
-          <version>${camunda.version}</version>
-          <scope>test</scope>
+            <groupId>org.camunda.bpm.distro</groupId>
+            <artifactId>camunda-sql-scripts</artifactId>
+            <version>${camunda.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.liquibase</groupId>
