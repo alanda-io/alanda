@@ -74,7 +74,6 @@ export class Authorizations {
    * @returns hasPermissions { boolean } - true if user has given role, false if not
    */
   static hasRole(role: string, user: AlandaUser): boolean {
-    console.log('includes role', user.roles.includes(role));
     return user.roles.includes(role);
   }
 
