@@ -1,6 +1,6 @@
 {
   "name": "@alanda/common",
-  "version": "10.0.263-h3alrt-24-rc-4",
+  "version": "10.0.263-h3alrt-24-rc-5",
   "peerDependencies": {
     "@angular/animations": "^10.1.0",
     "@angular/common": "^10.1.0",
