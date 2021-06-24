@@ -74,6 +74,7 @@ export class Authorizations {
    * @returns hasPermissions { boolean } - true if user has given role, false if not
    */
   static hasRole(role: string, user: AlandaUser): boolean {
+    console.log('includes role', user.roles.includes(role));
     return user.roles.includes(role);
   }
 
@@ -106,15 +107,12 @@ export class Authorizations {
         PERMISSION_PLACEHOLDER,
         accessLevel,
       );
-      console.log('requestedPermission: ', requestedPermission);
     } else {
       requestedPermission = permissionString;
     }
-    return userPermissions.some((permission) => {
-      const boolVal = Authorizations.implies(requestedPermission, permission);
-      console.log(boolVal, requestedPermission);
-      return boolVal;
-    });
+    return userPermissions.some((permission) =>
+      Authorizations.implies(requestedPermission, permission),
+    );
   }
 
   /**
