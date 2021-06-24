@@ -106,12 +106,14 @@ export class Authorizations {
         PERMISSION_PLACEHOLDER,
         accessLevel,
       );
+      console.log('requestedPermission: ', requestedPermission);
     } else {
       requestedPermission = permissionString;
     }
-    return userPermissions.some((permission) =>
-      Authorizations.implies(requestedPermission, permission),
-    );
+    return userPermissions.some((permission) => {
+      console.log('permission: ', permission);
+      return Authorizations.implies(requestedPermission, permission);
+    });
   }
 
   /**
