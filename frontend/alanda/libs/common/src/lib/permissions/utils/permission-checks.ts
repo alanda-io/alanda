@@ -111,8 +111,9 @@ export class Authorizations {
       requestedPermission = permissionString;
     }
     return userPermissions.some((permission) => {
-      console.log('permission: ', permission);
-      return Authorizations.implies(requestedPermission, permission);
+      const boolVal = Authorizations.implies(requestedPermission, permission);
+      console.log(boolVal);
+      return boolVal;
     });
   }
 
