@@ -112,7 +112,7 @@ export class Authorizations {
     }
     return userPermissions.some((permission) => {
       const boolVal = Authorizations.implies(requestedPermission, permission);
-      console.log(boolVal);
+      console.log(boolVal, requestedPermission);
       return boolVal;
     });
   }
