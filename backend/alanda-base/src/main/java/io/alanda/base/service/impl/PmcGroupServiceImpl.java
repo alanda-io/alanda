@@ -159,12 +159,12 @@ public class PmcGroupServiceImpl implements PmcGroupService {
 
   @Override
   public List<PmcGroupDto> getGroupsForRole(Long roleId) {
-    return dozerMapper.mapCollection(pmcGroupRepo.findByRolesGuid(roleId), PmcGroupDto.class);
+    return dozerMapper.mapCollection(pmcGroupRepo.findByRoles_Guid(roleId), PmcGroupDto.class);
   }
 
   @Override
   public List<PmcGroupDto> getGroupsForRole(String roleName) {
-    return dozerMapper.mapCollection(pmcGroupRepo.findByRolesName(roleName), PmcGroupDto.class);
+    return dozerMapper.mapCollection(pmcGroupRepo.findByRoles_Name(roleName), PmcGroupDto.class);
   }
 
   @Override

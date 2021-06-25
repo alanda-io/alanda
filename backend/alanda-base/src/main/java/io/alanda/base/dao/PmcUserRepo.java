@@ -12,8 +12,6 @@ import io.alanda.base.entity.PmcUser;
 @Eager
 public interface PmcUserRepo extends PagingAndSortingRepository<PmcUser, Long>, QueryByExampleExecutor<PmcUser> {
 
-  List<PmcUser> getByGroupList_GroupName(String groupName);
-  
   List<PmcUser> getByGroupList_Guid(Long guid, Sort sort);
 
   PmcUser getByEmail(String email);
