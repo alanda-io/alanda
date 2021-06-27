@@ -10,6 +10,7 @@ import { AlandaPropertyApiService } from '../../../api/propertyApi.service';
 import { AlandaProject } from '../../../api/models/project';
 import { AlandaUser } from '../../../api/models/user';
 import { Authorizations } from '../../../permissions';
+import { AlandaProjectApiService } from '../../../api/projectApi.service';
 
 const SELECTOR = 'alanda-prop-select';
 
@@ -38,6 +39,7 @@ export class AlandaPropSelectComponent implements OnInit {
 
   constructor(
     private readonly propertyService: AlandaPropertyApiService,
+    private readonly projectService: AlandaProjectApiService,
     private readonly fb: FormBuilder,
   ) {}
 
@@ -67,6 +69,8 @@ export class AlandaPropSelectComponent implements OnInit {
   }
 
   save() {
+    this.projectService.updateProject(this.project);
+
     this.propertyService
       .set(
         null,
