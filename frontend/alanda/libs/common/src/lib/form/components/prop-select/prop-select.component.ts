@@ -69,7 +69,7 @@ export class AlandaPropSelectComponent implements OnInit {
   }
 
   save() {
-    this.projectService.updateProject(this.project);
+    this.projectService.updateProject(this.project).subscribe();
 
     this.propertyService
       .set(
