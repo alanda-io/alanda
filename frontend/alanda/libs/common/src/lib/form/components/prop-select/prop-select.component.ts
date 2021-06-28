@@ -29,7 +29,6 @@ export class AlandaPropSelectComponent implements OnInit {
   @Input() user: AlandaUser;
   @Input() rootFormGroup: FormGroup;
   @Input() appendTo: any = 'body';
-  @Input() role: string;
 
   canWrite: boolean;
 
@@ -58,9 +57,7 @@ export class AlandaPropSelectComponent implements OnInit {
     }
     if (this.user != null) {
       const authStr = `prop-write:${this.project.authBase}:${this.propertyName}`;
-      console.log('authStr: ', authStr);
       this.canWrite = Authorizations.hasPermission(this.user, authStr, 'write');
-      console.log('user is != null & canWrite is: ', this.canWrite);
     } else {
       this.canWrite = true;
     }
