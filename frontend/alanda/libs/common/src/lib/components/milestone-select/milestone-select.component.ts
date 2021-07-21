@@ -34,6 +34,14 @@ import { AlandaCommentApiService } from '../../api/commentApi.service';
 import { MessageService } from 'primeng/api';
 import { LocaleSettings } from 'primeng/calendar';
 
+interface DateRange {
+  minDate: Date;
+  maxDate: Date;
+}
+enum MileStoneType {
+  ACT = 'ACT',
+  FC = 'FC',
+}
 interface MilestoneState {
   project: AlandaProject;
   processInstanceId: string;
@@ -52,11 +60,15 @@ interface MilestoneState {
   comment: string;
   commentDel: boolean;
   loading: boolean;
+  dateRangeFC: DateRange;
+  dateRangeACT: DateRange;
 }
 
 const initState = {
   permissionString: null,
   showCommentModal: false,
+  dateRangeFC: { minDate: null, maxDate: null },
+  dateRangeACT: { minDate: null, maxDate: null },
 };
 @Component({
   selector: 'alanda-milestone-select',
@@ -97,8 +109,20 @@ export class AlandaSelectMilestoneComponent {
     this.state.set({ user });
   }
 
-  locale: LocaleSettings;
+  @Input() set dateRangeFC(range: Partial<DateRange>) {
+    this.state.set({
+      dateRangeFC: { ...this.state.get('dateRangeFC'), ...range },
+    });
+  }
 
+  @Input() set dateRangeACT(range: Partial<DateRange>) {
+    this.state.set({
+      dateRangeACT: { ...this.state.get('dateRangeACT'), ...range },
+    });
+  }
+
+  locale: LocaleSettings;
+  mileStoneType = MileStoneType;
   state$ = this.state
     .select()
     .pipe(filter((state) => state.project != null && state.msName != null));

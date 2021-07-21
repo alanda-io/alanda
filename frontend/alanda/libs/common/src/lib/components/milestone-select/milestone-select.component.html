@@ -26,6 +26,8 @@
           [dateFormat]="locale.dateFormat"
           [readonlyInput]="true"
           [appendTo]="appendTo"
+          [minDate]="s.dateRangeFC.minDate"
+          [maxDate]="s.dateRangeFC.maxDate"
         ></p-calendar>
       </div>
       <div
@@ -41,7 +43,11 @@
             [locale]="locale"
             [dateFormat]="locale.dateFormat"
             [readonlyInput]="true"
-            (click)="clickForComment.next({ ms: 'FC' }); fcFake.toggle()"
+            (click)="
+              clickForComment.next({ ms: mileStoneType.FC }); fcFake.toggle()
+            "
+            [minDate]="s.dateRangeFC.minDate"
+            [maxDate]="s.dateRangeFC.maxDate"
           ></p-calendar>
           <button
             pButton
@@ -49,7 +55,7 @@
             type="button"
             icon="pi pi-calendar"
             class="p-inputgroup-addon"
-            (click)="clickForComment.next({ ms: 'FC' })"
+            (click)="clickForComment.next({ ms: mileStoneType.FC })"
           ></button>
         </div>
       </div>
@@ -68,6 +74,8 @@
           [dateFormat]="locale.dateFormat"
           [readonlyInput]="true"
           [appendTo]="appendTo"
+          [minDate]="s.dateRangeACT.minDate"
+          [maxDate]="s.dateRangeACT.maxDate"
         ></p-calendar>
       </div>
       <div class="p-col-12 p-lg-7 p-xl-7" *ngIf="actCommentRequired">
@@ -80,7 +88,11 @@
             [locale]="locale"
             [dateFormat]="locale.dateFormat"
             [readonlyInput]="true"
-            (click)="clickForComment.next({ ms: 'ACT' }); actFake.toggle()"
+            (click)="
+              clickForComment.next({ ms: mileStoneType.ACT }); actFake.toggle()
+            "
+            [minDate]="s.dateRangeACT.minDate"
+            [maxDate]="s.dateRangeACT.maxDate"
           ></p-calendar>
           <button
             pButton
@@ -88,7 +100,7 @@
             type="button"
             icon="pi pi-calendar"
             class="p-inputgroup-addon"
-            (click)="clickForComment.next({ ms: 'ACT' })"
+            (click)="clickForComment.next({ ms: mileStoneType.ACT })"
           ></button>
         </div>
       </div>
@@ -111,6 +123,16 @@
           [dateFormat]="locale.dateFormat"
           [readonlyInput]="true"
           [appendTo]="appendTo"
+          [minDate]="
+            s.commentMsType === mileStoneType.ACT
+              ? s.dateRangeACT.minDate
+              : s.dateRangeFC.minDate
+          "
+          [maxDate]="
+            s.commentMsType === mileStoneType.ACT
+              ? s.dateRangeACT.maxDate
+              : s.dateRangeFC.maxDate
+          "
         ></p-calendar>
       </div>
       <div
