@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>io.alanda</groupId>
+    <artifactId>alanda</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>alanda-openapi-mixin</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <description>
+    Mixin to bundle dependencies, opinionated for using the openapi generator to create a spring (boot) server stub.
+    Import with scope 'pom' to get all dependencies, then use com.github.odavid.maven.plugins:mixin-maven-plugin
+    to embed the build:plugin section of this mixin and enable the plugins via properties below, with the form:
+    [plugin-name].skip false and name the .yaml/json file to generate the code from and name a generator to select
+    what to create.
+  </description>
+
+  <distributionManagement>
+    <repository>
+      <id>alanda-repo</id>
+      <url>https://repo.alanda.io/repository/maven-releases/</url>
+      <layout>default</layout>
+    </repository>
+    <snapshotRepository>
+      <id>alanda-repo</id>
+      <url>https://repo.alanda.io/repository/maven-snapshots/</url>
+      <layout>default</layout>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <properties>
+    <openapi.generator.plugin.skip>true</openapi.generator.plugin.skip>
+    <openapi.generator.name>forExmapleJavaForClientOrSpringForServerStub</openapi.generator.name>
+    <openapi.spec.file>setYourOpenApiSpecificationFileNameHere</openapi.spec.file>
+    <!-- Plugins -->
+    <maven-war-plugin.version>3.3.1</maven-war-plugin.version>
+    <openapi-generator-maven-plugin.version>5.1.0</openapi-generator-maven-plugin.version>
+    <!-- Dependencies -->
+    <gson-fire.version>1.8.5</gson-fire.version>
+    <gson.version>2.8.7</gson.version>
+    <jackson-databind-nullable.version>0.2.1</jackson-databind-nullable.version>
+    <okhttp3.version>4.9.1</okhttp3.version>
+    <spring-boot.version>2.5.2</spring-boot.version>
+    <springdoc-openapi-ui.version>1.5.9</springdoc-openapi-ui.version>
+    <springfox-swagger-ui.version>3.0.0</springfox-swagger-ui.version>
+    <springfox-swagger2.version>2.9.1</springfox-swagger2.version>
+    <swagger-annotations.version>1.6.2</swagger-annotations.version>
+    <threetenbp.version>1.5.1</threetenbp.version>
+  </properties>
+
+  <!-- Should rather be in parent -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+
+    <!-- OpenAPI Dependencies -->
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.openapitools</groupId>
+      <artifactId>jackson-databind-nullable</artifactId>
+      <version>${jackson-databind-nullable.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+      <version>${springfox-swagger2.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${swagger-annotations.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>${gson.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.gsonfire</groupId>
+      <artifactId>gson-fire</artifactId>
+      <version>${gson-fire.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.threeten</groupId>
+      <artifactId>threetenbp</artifactId>
+      <version>${threetenbp.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>${okhttp3.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>logging-interceptor</artifactId>
+      <version>${okhttp3.version}</version>
+    </dependency>
+
+    <!-- SwaggerUI Dependency -->
+
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-ui</artifactId>
+      <version>${springdoc-openapi-ui.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+      <version>${springfox-swagger-ui.version}</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>${openapi-generator-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>generate-server-stub-spring-boot</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <!-- Skip execution in this submodule (need to activate in other modules, see description) -->
+              <skip>${openapi.generator.plugin.skip}</skip>
+              <inputSpec>${openapi.spec.file}</inputSpec>
+              <generatorName>${openapi.generator.name}</generatorName>
+              <apiPackage>${project.groupId}.${project.artifactId}.api</apiPackage>
+              <modelPackage>${project.groupId}.${project.artifactId}.model</modelPackage>
+              <configOptions>
+                <delegatePattern>true</delegatePattern>
+                <interfaceOnly>true</interfaceOnly>
+              </configOptions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+
+      <!-- set "finalName" in the build section of the pom using this mixin to change the WAR's name -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>${maven-war-plugin.version}</version>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>
