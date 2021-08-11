@@ -1421,11 +1421,17 @@
 						},
 						"pmcProjectGuid": {
 							"type": "long"
+						},
+						"priority": {
+							"type": "short"
 						}
 					}
 				},
 				"project": {
 					"properties": {
+						"highlighted": {
+							"type": "boolean"
+						},
 						"updateDate": {
 							"format": "strict_date_optional_time||epoch_millis",
 							"type": "date"
@@ -1696,7 +1702,7 @@
 						"additionalInfo": {
 							"dynamic": true,
 							"properties": {
-								
+
 							}
 						},
 						"propertiesMap": {

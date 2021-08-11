@@ -3,6 +3,7 @@
  */
 package io.alanda.rest.document;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,10 @@ import java.util.Map;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 
+import io.alanda.base.service.DocumentService;
+import javax.ws.rs.core.Response;
+import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpStatus;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RuntimeService;
 
@@ -33,10 +38,13 @@ public class DocumentRestServiceImpl implements DocumentRestService {
   private PmcProjectService projectService;
 
   @Inject
-  RuntimeService runtimeService;
+  private DocumentService documentService;
 
   @Inject
-  HistoryService historyService;
+  private RuntimeService runtimeService;
+
+  @Inject
+  private HistoryService historyService;
 
   List<String> varNamesForProcessRestResource = Arrays.asList(ProcessVariables.REFOBJECTTYPE, ProcessVariables.REFOBJECTID);
 
@@ -63,6 +71,15 @@ public class DocumentRestServiceImpl implements DocumentRestService {
       DocuQueryDto q = DocuQueryDto.forRefObject(ro.getIdName(), refObjectType, refObjectId, false);
       return CDI.current().select(RefObjectDocumentRestResourceImpl.class).get().with(q);
     }
+  }
+
+  @Override
+  public Response deleteDocument(String documentGuid) throws IOException {
+    if(StringUtils.isBlank(documentGuid)){
+      return Response.status(HttpStatus.SC_BAD_REQUEST).build();
+    }
+    documentService.delete(documentGuid);
+    return Response.status(HttpStatus.SC_NO_CONTENT).build();
   }
 
   private RefObjectDocumentRestResource getProcessResource(String processInstanceId) {

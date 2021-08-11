@@ -1,0 +1,54 @@
+<ng-container *ngIf="state$ | async as taskFormState">
+  <form [formGroup]="rootForm" (submit)="submit()">
+    <alanda-vacation-page-header
+      [user]="taskFormState.user"
+      [project]="taskFormState.project"
+      [task]="taskFormState.task"
+      [rootFormGroup]="rootForm"
+    ></alanda-vacation-page-header>
+    <alanda-comments
+      [rootFormGroup]="rootForm"
+      [task]="taskFormState.task"
+      [project]="taskFormState.project"
+    ></alanda-comments>
+    <alanda-attachments
+      [task]="taskFormState.task"
+      [project]="taskFormState.project"
+      [mappings]="'AcquiDoc'"
+    ></alanda-attachments>
+    <alanda-complete-task (complete)="submit()">
+      <alanda-var-select
+        [rootFormGroup]="rootForm"
+        [task]="taskFormState.task"
+        [items]="items"
+        variableName="handoverRequired"
+        label="Require handover?"
+        (onChange)="change($event)"
+      ></alanda-var-select>
+
+      <alanda-var-select
+        [rootFormGroup]="rootForm"
+        [task]="taskFormState.task"
+        [items]="items"
+        variableName="handoverRequired"
+        label="Require handover?"
+        (onChange)="change($event)"
+      ></alanda-var-select>
+
+      <alanda-var-select
+        [rootFormGroup]="rootForm"
+        [task]="taskFormState.task"
+        [items]="items"
+        variableName="handoverRequired"
+        label="Require handover?"
+        (onChange)="change($event)"
+      ></alanda-var-select>
+    </alanda-complete-task>
+    <alanda-snooze
+      [valuesToCheck]="[false]"
+      [variableControl]="handover"
+      [rootFormGroup]="rootForm"
+    ></alanda-snooze>
+    {{ rootForm.status }} - snooze - {{ snooze.value }}
+  </form>
+</ng-container>

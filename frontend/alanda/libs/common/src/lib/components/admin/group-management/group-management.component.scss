@@ -1,0 +1,15 @@
+.group-management {
+  .table-header-guid {
+    width: 6.2rem;
+  }
+
+  .p-field:first-child {
+    margin-top: 1rem;
+  }
+
+  .permission-key {
+    max-width: 350px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}

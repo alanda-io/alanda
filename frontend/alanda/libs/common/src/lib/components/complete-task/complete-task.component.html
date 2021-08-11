@@ -1,0 +1,25 @@
+<p-card class="complete-task" *ngIf="state$ | async as state">
+  <div class="p-grid p-nogutter">
+    <div
+      [ngClass]="{
+        'p-col-12 p-md-6 p-lg-5 complete-task-field-col': true,
+        'p-fluid': fluid
+      }"
+    >
+      <ng-content></ng-content>
+    </div>
+    <div class="p-col-12 p-md-6 p-lg-7 p-as-center complete-task-button-col">
+      <button
+        id="completeTaskButton"
+        pButton
+        pRipple
+        type="button"
+        (click)="complete.emit($event)"
+        [disabled]="disabled || state.loading"
+        [icon]="icon"
+        [class]="buttonClass"
+        [label]="label"
+      ></button>
+    </div>
+  </div>
+</p-card>

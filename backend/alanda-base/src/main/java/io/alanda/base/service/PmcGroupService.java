@@ -38,6 +38,6 @@ public interface PmcGroupService {
 
   PmcGroupDto createGroupWithRoles(PmcGroupDto groupTemplate, Set<String> roleNames, String groupNamePrefix);
 
-  public void setGroupActiveState(long guid, boolean active);
+  public PmcGroupDto setGroupActiveState(long guid, boolean active);
 
 }

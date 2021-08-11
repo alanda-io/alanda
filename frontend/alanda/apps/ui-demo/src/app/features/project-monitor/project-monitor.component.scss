@@ -1,0 +1,20 @@
+.project-table {
+  ::ng-deep {
+    .priority {
+      color: #ffffff;
+      text-align: center;
+
+      &.priority-low {
+        background: green;
+      }
+
+      &.priority-medium {
+        background: orange;
+      }
+
+      &.priority-high {
+        background: red;
+      }
+    }
+  }
+}

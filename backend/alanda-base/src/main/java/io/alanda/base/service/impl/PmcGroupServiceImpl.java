@@ -224,10 +224,10 @@ public class PmcGroupServiceImpl implements PmcGroupService {
   }
 
   @Override
-  public void setGroupActiveState(long guid, boolean active) {
+  public PmcGroupDto setGroupActiveState(long guid, boolean active) {
     PmcGroup pmcGroup = pmcGroupRepo.findById(guid).orElse(null);
     pmcGroup.setActive(active);
-    pmcGroupRepo.save(pmcGroup);
+    return dozerMapper.map(pmcGroupRepo.save(pmcGroup), PmcGroupDto.class);
   }
 
 }

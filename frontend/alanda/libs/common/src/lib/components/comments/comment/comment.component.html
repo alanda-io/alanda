@@ -1,0 +1,112 @@
+<ng-container *rxLet="state$; let s">
+  <div class="p-grid comment p-mt-3 p-mb-3">
+    <div class="p-col-fixed avatar-wrapper">
+      <img
+        class="avatar"
+        [alt]="s.comment.authorName"
+        [src]="s.avatarPath"
+        (error)="fallbackImage($event)"
+        draggable="false"
+      />
+    </div>
+    <div class="p-col comment-box bubble-effect">
+      <div class="p-grid">
+        <div class="p-col">
+          <div class="p-grid">
+            <div class="p-col">
+              <span class="author">{{ s.comment.authorName }}</span>
+              <i class="date">{{
+                s.comment.createDate | date: 'dd.MM.yyyy HH:mm'
+              }}</i>
+              <a
+                *ngIf="s.comment.replies.length"
+                (click)="doReply = !doReply; autofocus()"
+              >
+                <i class="pi pi-comments"></i>
+                {{ s.comment.replies.length }} Replies
+              </a>
+              <ng-container
+                *ngIf="s.comment.tagList && s.comment.tagList.length"
+              >
+                <ul class="tag-list" *ngFor="let tag of s.comment.tagList">
+                  <li class="tag-item">
+                    <alanda-comment-tag
+                      class="p-button-text tag-item-comment"
+                      [isActive]="s.activeTagFilters[tag.name]"
+                      [tag]="tag"
+                      (toggleFilterClick)="toggleFilterClick$.next($event)"
+                    >
+                    </alanda-comment-tag>
+                  </li>
+                </ul>
+              </ng-container>
+            </div>
+          </div>
+          <div class="p-grid">
+            <div class="p-col-12 body-text">
+              {{ s.comment.text }}
+            </div>
+          </div>
+        </div>
+        <div
+          class="p-col-fixed p-as-end toggle-reply"
+          *ngIf="s.type === 'comment'"
+        >
+          <p-button
+            label="Reply"
+            styleClass="p-button-sm p-text-right"
+            (click)="doReply = !doReply; autofocus()"
+            icon="pi pi-reply"
+            iconPos="left"
+            type="button"
+          ></p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="p-grid p-mt-3 comment-reply-wrapper"
+    [hidden]="s.type !== 'comment'"
+  >
+    <div class="p-offset-1 p-col-11" *ngIf="s.comment.replies.length">
+      <alanda-comment
+        *ngFor="let reply of s.comment.replies"
+        [type]="'reply'"
+        [comment]="reply"
+      ></alanda-comment>
+    </div>
+    <div class="p-offset-1 p-col-11" [hidden]="!doReply">
+      <form
+        class="comment-reply-form"
+        [formGroup]="commentReplyForm"
+        (ngSubmit)="commentReplyFormSubmit$.next($event)"
+      >
+        <div class="p-fluid p-grid p-formgrid">
+          <div class="p-col p-field">
+            <textarea
+              pInputTextarea
+              class="comment-reply"
+              #replyContent
+              autoResize="autoResize"
+              [rows]="1"
+              formControlName="replyText"
+              maxLength="4000"
+              placeholder="Write a reply..."
+            ></textarea>
+          </div>
+          <div class="p-col-fixed p-field post-reply">
+            <p-button
+              type="submit"
+              styleClass="p-button-sm"
+              icon="pi pi-check"
+              iconPos="left"
+              label="Post Reply"
+              [disabled]="!commentReplyForm.valid"
+            ></p-button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-container>

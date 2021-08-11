@@ -1,0 +1,245 @@
+<ng-container *ngIf="state$ | async as s">
+  <p-table
+    #attachmentTable
+    class="attachment-list"
+    [value]="s.files"
+    [scrollable]="true"
+    scrollHeight="350px"
+    [autoLayout]="true"
+    dataKey="guid"
+  >
+    <!-- 'let-columns' allows access to the ng-template context columns property-->
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="name-col" pSortableColumn="name">
+          Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th class="last-modified-col" pSortableColumn="lastModified">
+          Last Modified <p-sortIcon field="lastModified"></p-sortIcon>
+        </th>
+        <th class="size-col" pSortableColumn="size">
+          Size <p-sortIcon field="size"></p-sortIcon>
+        </th>
+        <th class="action-col">Action</th>
+      </tr>
+      <tr>
+        <th class="name-col">
+          <span class="p-input-icon-right">
+            <i
+              class="pi pi-times"
+              *ngIf="attachmentTable.filters['name']?.value.length"
+              (click)="attachmentTable.filter('', 'name', 'contains')"
+            ></i>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                attachmentTable.filter($event.target.value, 'name', 'contains')
+              "
+              [value]="attachmentTable.filters['name']?.value"
+              placeholder="Search by name"
+              class="p-column-filter"
+            />
+          </span>
+        </th>
+        <th class="last-modified-col">
+          <span class="p-input-icon-right">
+            <i
+              class="pi pi-times"
+              *ngIf="attachmentTable.filters['lastModified']?.value.length"
+              (click)="attachmentTable.filter('', 'lastModified', 'contains')"
+            ></i>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                attachmentTable.filter(
+                  $event.target.value,
+                  'lastModified',
+                  'contains'
+                )
+              "
+              [value]="attachmentTable.filters['lastModified']?.value"
+              placeholder="Search by date"
+              class="p-column-filter"
+            />
+          </span>
+        </th>
+        <th class="size-col">
+          <span class="p-input-icon-right">
+            <i
+              class="pi pi-times"
+              *ngIf="attachmentTable.filters['size']?.value.length"
+              (click)="attachmentTable.filter('', 'size', 'startsWith')"
+            ></i>
+            <input
+              pInputText
+              type="text"
+              (input)="
+                attachmentTable.filter(
+                  $event.target.value,
+                  'size',
+                  'startsWith'
+                )
+              "
+              [value]="attachmentTable.filters['size']?.value"
+              placeholder="Size in KB"
+              class="p-column-filter"
+            />
+          </span>
+        </th>
+        <th class="action-col"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-file>
+      <tr>
+        <td class="name-col">
+          <p-inplace
+            [active]="hasUnsavedFileName(file)"
+            *ngIf="data.selectedNode?.permissions?.includes('w')"
+          >
+            <ng-template pTemplate="display">
+              {{ file.name }}
+            </ng-template>
+            <ng-template pTemplate="content">
+              <div class="p-fluid p-grid p-formgrid">
+                <div class="p-col p-field p-mb-0">
+                  <input
+                    pInputText
+                    type="text"
+                    [value]="file.name"
+                    (input)="
+                      changedFileName$.next({
+                        file: file,
+                        value: $event.target.value
+                      })
+                    "
+                  />
+                </div>
+                <div class="p-col-fixed" style="width: 50px;">
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-check"
+                    type="button"
+                    (click)="renameFile(file)"
+                  ></button>
+                </div>
+              </div>
+            </ng-template>
+          </p-inplace>
+          <ng-container *ngIf="!data.selectedNode?.permissions?.includes('w')">
+            {{ file.name }}
+          </ng-container>
+        </td>
+        <td class="last-modified-col">
+          {{ file.lastModified | date: dateFormat }}
+        </td>
+        <td class="size-col">{{ file.size }}&nbsp;KB</td>
+        <td class="action-col">
+          <div
+            class="action-button-wrapper"
+            *ngIf="data.selectedNode?.permissions?.includes('w')"
+          >
+            <button
+              pButton
+              pRipple
+              type="button"
+              (click)="editFileName(file)"
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-text p-button-lg"
+              pTooltip="Edit file name"
+              tooltipPosition="top"
+            ></button>
+          </div>
+          <div class="action-button-wrapper">
+            <button
+              pButton
+              pRipple
+              type="button"
+              (click)="triggerDownload(file)"
+              icon="pi pi-download"
+              class="p-button-rounded p-button-text p-button-lg"
+              pTooltip="Download file"
+              tooltipPosition="top"
+            ></button>
+          </div>
+          <div class="action-button-wrapper">
+            <button
+              pButton
+              pRipple
+              type="button"
+              *ngIf="previewAllowed(file)"
+              icon="pi pi-image"
+              (click)="openFilePreview(file)"
+              class="p-button-rounded p-button-text p-button-info p-button-lg"
+              pTooltip="Preview file"
+              tooltipPosition="top"
+            ></button>
+          </div>
+          <div
+            class="action-button-wrapper"
+            *ngIf="data.selectedNode?.permissions?.includes('d')"
+          >
+            <button
+              pButton
+              pRipple
+              type="button"
+              (click)="onDeleteFile(file)"
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-text p-button-danger p-button-lg"
+              pTooltip="Delete file"
+              tooltipPosition="top"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <ng-container *ngIf="s.previewFile && showFilePreview">
+    <p-dialog
+      [(visible)]="showFilePreview"
+      [dismissableMask]="true"
+      [modal]="true"
+      [resizable]="false"
+      [header]="s.previewFile.name"
+    >
+      <ng-template pTemplate="header">
+        <button
+          pButton
+          class="p-button-link"
+          label="Open in Fullscreen"
+          style="padding: 0;"
+          icon="pi pi-window-maximize"
+          type="button"
+          (click)="openFilePreviewFullscreen(s.previewFile)"
+        ></button>
+      </ng-template>
+      <div class="p-grid">
+        <div class="p-col-12">
+          <ng-template
+            [ngIf]="s.previewFile.name.toLowerCase().endsWith('.pdf')"
+            [ngIfElse]="imagePreview"
+          >
+            <iframe
+              [src]="
+                sanitizer.bypassSecurityTrustResourceUrl(
+                  downloadUrl(s.previewFile)
+                )
+              "
+              [style]="{ width: '65vw', height: '78vh' }"
+            ></iframe>
+          </ng-template>
+          <ng-template #imagePreview>
+            <img
+              [src]="downloadUrl(s.previewFile)"
+              [alt]="s.previewFile.name"
+              [style]="{ width: 'auto', height: '60vh' }"
+            />
+          </ng-template>
+        </div>
+      </div>
+    </p-dialog>
+  </ng-container>
+</ng-container>

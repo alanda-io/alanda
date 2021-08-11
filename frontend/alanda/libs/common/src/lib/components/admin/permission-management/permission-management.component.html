@@ -1,0 +1,108 @@
+<p-panel class="permission-management" header="Permission Management">
+  <div class="p-grid p-fluid">
+    <!-- Group Table-->
+
+    <div class="p-col-12 p-md-8 p-lg-7">
+      <p-table
+        #table
+        [value]="permissions"
+        [columns]="permissionColumns"
+        dataKey="guid"
+        [paginator]="true"
+        [rows]="15"
+        [totalRecords]="totalRecords"
+        [loading]="loading"
+        (onRowUnselect)="onPermissionUnselected()"
+        [responsive]="false"
+        [autoLayout]="false"
+        selectionMode="single"
+        scrollHeight="320px"
+        (onRowSelect)="onPermissionSelected($event)"
+        [resizableColumns]="true"
+      >
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th
+              *ngFor="let col of columns"
+              [pSortableColumn]="col.field"
+              [class]="{ 'table-header-guid': col.header === 'Guid' }"
+              pResizableColumn
+            >
+              <strong>{{ col.header }}</strong>
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+          </tr>
+          <tr>
+            <th *ngFor="let col of columns">
+              <input
+                pInputText
+                type="text"
+                (input)="
+                  table.filter(
+                    $event.target.value,
+                    col.field,
+                    col.filterMatchMode
+                  )
+                "
+              />
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-permission let-columns="columns">
+          <tr [pSelectableRow]="permission">
+            <td *ngFor="let col of columns">
+              <div class="p-text-nowrap p-text-truncate">
+                {{ permission[col.field] }}
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!-- Group Table-->
+
+    <div class="p-col-12 p-md-4 p-lg-5">
+      <p-tabView>
+        <p-tabPanel header="General">
+          <form (ngSubmit)="onFormSubmit()" [formGroup]="permissionForm">
+            <div class="p-grid">
+              <div class="p-field p-col-12 p-xl-7">
+                <span class="p-float-label">
+                  <input
+                    id="inputPermissionKey"
+                    type="text"
+                    pInputText
+                    formControlName="key"
+                  />
+                  <label for="inputPermissionKey">Permission key</label>
+                </span>
+                <small
+                  class="p-error"
+                  *ngIf="
+                    permissionForm.dirty && !permissionForm.get('key').valid
+                  "
+                  >Please enter a permission key</small
+                >
+              </div>
+            </div>
+            <div class="p-grid">
+              <div class="p-col-12 p-xl-7">
+                <button
+                  pButton
+                  pRipple
+                  type="submit"
+                  [label]="
+                    selectedPermission
+                      ? 'Update Permission'
+                      : 'Create Permission'
+                  "
+                ></button>
+              </div>
+            </div>
+          </form>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</p-panel>

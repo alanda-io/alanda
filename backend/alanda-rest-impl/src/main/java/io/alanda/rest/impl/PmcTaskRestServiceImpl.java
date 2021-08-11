@@ -270,6 +270,14 @@ public class PmcTaskRestServiceImpl implements PmcTaskRestService {
   }
 
   @Override
+  public Response deleteVariable(String taskId, String variableName) {
+    log.info(
+            "task " + taskId + ": deleting variable \"" + variableName);
+    taskService.removeVariable(taskId,variableName);
+    return Response.ok().build();
+  }
+
+  @Override
   public Response updateDueDateOfTask(String taskId, String sDueDate) {
     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     Date dueDate = null;

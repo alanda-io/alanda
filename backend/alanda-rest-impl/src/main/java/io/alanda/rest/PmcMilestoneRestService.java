@@ -99,5 +99,7 @@ public interface PmcMilestoneRestService {
       @PathParam("projectId") String projectId,
       @PathParam("msIdName") String msIdName,
       @QueryParam("reason") String reason,
+      @QueryParam("delFc") Boolean delFc,
+      @QueryParam("delAct") Boolean delAct,
       PmcProjectMilestoneDto projectMilestoneDto);
 }

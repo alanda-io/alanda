@@ -1,0 +1,70 @@
+<alanda-page-header
+  *ngIf="state.select() | async as s"
+  [project]="s.project"
+  [(activeTabIndex)]="activeTabIndex"
+  [tabs]="s.tabs"
+  [user]="s.user"
+>
+  <ng-container [ngSwitch]="activeTabIndex">
+    <div *ngSwitchCase="'0'">
+      <alanda-project-overview
+        [project]="s.project"
+        [user]="s.user"
+        [rootFormGroup]="rootFormGroup"
+      >
+        <alanda-vacation-project-properties
+          [project]="s.project"
+          [user]="s.user"
+        ></alanda-vacation-project-properties>
+      </alanda-project-overview>
+    </div>
+    <div *ngSwitchCase="'1'">
+      <alanda-pio-component [pid]="s.pid"></alanda-pio-component>
+    </div>
+    <div *ngSwitchCase="'2'">
+      <alanda-history-grid-component
+        *ngIf="s.project"
+        [projectGuid]="s.project.guid"
+      ></alanda-history-grid-component>
+    </div>
+    <div *ngSwitchCase="'3'">
+      <alanda-project-overview
+        [project]="s.project"
+        [user]="s.user"
+        [allowedFormElements]="['priority']"
+        [rootFormGroup]="rootFormGroup"
+      ></alanda-project-overview>
+    </div>
+    <div *ngSwitchCase="'4'">
+      <alanda-project-overview
+        [project]="s.project"
+        [user]="s.user"
+        [rootFormGroup]="rootFormGroup"
+      >
+      </alanda-project-overview>
+    </div>
+    <div *ngSwitchCase="'5'">
+      <alanda-project-overview [project]="s.project" [user]="s.user">
+      </alanda-project-overview>
+    </div>
+    <div *ngSwitchCase="'6'">
+      <alanda-project-overview [project]="s.project" [user]="s.user">
+      </alanda-project-overview>
+    </div>
+    <div *ngSwitchCase="'7'">
+      <alanda-project-overview [project]="s.project" [user]="s.user">
+      </alanda-project-overview>
+    </div>
+    <div *ngSwitchCase="'8'">
+      <alanda-project-overview [project]="s.project" [user]="s.user">
+      </alanda-project-overview>
+    </div>
+    <div *ngSwitchCase="'9'">
+      <alanda-project-overview [project]="s.project" [user]="s.user">
+      </alanda-project-overview>
+    </div>
+    <div *ngSwitchCase="'10'">
+      Some Other Stuff
+    </div>
+  </ng-container>
+</alanda-page-header>

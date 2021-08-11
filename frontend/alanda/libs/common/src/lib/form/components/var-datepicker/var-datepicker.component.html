@@ -1,0 +1,29 @@
+<div class="p-field p-grid" [formGroup]="datepickerForm">
+  <div *ngIf="label" class="p-col-12 p-lg-5 p-xl-4">
+    <alanda-label [label]="label"></alanda-label>
+  </div>
+  <div [ngClass]="{ 'p-col-12': true, 'p-lg-7 p-xl-7': label?.length > 0 }">
+    <p-calendar
+      formControlName="pickedDate"
+      [dataType]="'string'"
+      [locale]="locale"
+      [dateFormat]="locale.dateFormat"
+      [showIcon]="true"
+      [appendTo]="appendTo"
+      [showButtonBar]="true"
+      [readonlyInput]="true"
+      (onSelect)="save()"
+      (onClearClick)="delete()"
+    >
+    </p-calendar>
+  </div>
+  <ng-container
+    *ngIf="pickedDate.invalid && (pickedDate.dirty || pickedDate.touched)"
+  >
+    <p-message
+      *ngIf="pickedDate.errors.required"
+      severity="error"
+      text="Field is required"
+    ></p-message>
+  </ng-container>
+</div>

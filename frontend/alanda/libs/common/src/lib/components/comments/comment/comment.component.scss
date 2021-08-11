@@ -1,0 +1,84 @@
+.comment {
+  .avatar-wrapper {
+    width: 95px;
+
+    .avatar {
+      display: block;
+      height: auto;
+      width: 60px;
+      max-height: 60px;
+      border-radius: 2px;
+    }
+  }
+
+  .comment-box {
+    position: relative;
+    background: #dae2f0;
+    border-radius: 0.35rem;
+
+    &.bubble-effect::before {
+      border-bottom: 0.725rem solid transparent;
+      border-left: 0.725rem solid transparent;
+      border-right: 0.725rem solid #dae2f0;
+      border-top: 0.725rem solid #dae2f0;
+      content: '';
+      height: 0;
+      left: -1.357rem;
+      position: absolute;
+      top: 1.45rem;
+      width: 0;
+    }
+
+    .author {
+      font-weight: 900;
+      margin-right: 0.725rem;
+    }
+
+    .date {
+      margin-right: 0.725rem;
+    }
+
+    .body-text {
+      white-space: pre-wrap;
+    }
+
+    .toggle-reply {
+      width: 98px;
+    }
+  }
+
+  .tag-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+
+    .tag-item {
+      margin-right: 0.6rem;
+      display: inline-block;
+
+      ::ng-deep {
+        .tag-item-comment {
+          padding: 0 !important;
+
+          .p-button-icon-left {
+            margin-right: 0.25rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.comment-reply-wrapper {
+  .comment-reply-form {
+    .comment-reply {
+      resize: none;
+      width: 100%;
+    }
+
+    .post-reply {
+      width: 130px;
+    }
+  }
+}

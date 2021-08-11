@@ -1,0 +1,44 @@
+<ng-container *ngIf="state$ | async as s">
+  <div class="loading" *ngIf="s.loading > 0">
+    <p-progressSpinner
+      [style]="{ width: '50px', height: '50px' }"
+      strokeWidth="8"
+      fill="#EEEEEE"
+      animationDuration=".5s"
+    ></p-progressSpinner>
+  </div>
+  <p-tabView [activeIndex]="activeTab" styleClass="form-root-tabs">
+    <p-tabPanel header="Project Overview" leftIcon="pi pi-bookmark">
+      <ng-template pTemplate="content">
+        <router-outlet></router-outlet>
+        <div class="p-grid p-justify-end">
+          <div class="p-col-2">
+            <div *ngIf="rootForm.touched && rootForm.errors">
+              <div *ngFor="let error of rootForm.errors | keyvalue">
+                <p-message
+                  *ngIf="error.value.text !== undefined"
+                  severity="error"
+                  text="{{ error.value.text }}"
+                ></p-message>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-tabPanel>
+    <p-tabPanel header="PIO" leftIcon="pi pi-eye">
+      <ng-template pTemplate="content">
+        <alanda-pio-component
+          [pid]="s.task.process_instance_id"
+        ></alanda-pio-component>
+      </ng-template>
+    </p-tabPanel>
+    <p-tabPanel header="History Log" leftIcon="pi pi-clock">
+      <ng-template pTemplate="content">
+        <alanda-history-grid-component
+          [projectGuid]="s.project?.guid"
+        ></alanda-history-grid-component>
+      </ng-template>
+    </p-tabPanel>
+  </p-tabView>
+</ng-container>

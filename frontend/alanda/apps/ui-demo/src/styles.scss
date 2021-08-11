@@ -1,0 +1,32 @@
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  // This sets the font size for all components in the project
+  // You can use px or % (Desktop: 100% = 16px)
+  font-size: 87.4999%;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.p-panel,
+.p-card {
+  margin-bottom: 1.25em;
+}
+
+*:focus,
+.p-focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 2.283rem;
+}

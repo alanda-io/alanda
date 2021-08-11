@@ -1,0 +1,16 @@
+<div class="p-field p-grid" [formGroup]="dateForm">
+  <div class="p-col-12 p-lg-5 p-xl-4">
+    <alanda-label [label]="label"></alanda-label>
+  </div>
+  <div class="p-col-12 p-lg-7 p-xl-7">
+    <p-calendar
+      formControlName="date"
+      placeholder="Select"
+      (onSelect)="save()"
+      [showIcon]="true"
+      [locale]="locale"
+      [dateFormat]="locale.dateFormat"
+      [appendTo]="appendTo"
+    ></p-calendar>
+  </div>
+</div>

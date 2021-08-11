@@ -1,0 +1,71 @@
+<p-panel
+  [toggleable]="true"
+  [collapsed]="collapsed"
+  (onAfterToggle)="togglePanel()"
+>
+  <p-header>
+    <span class="p-panel-title">
+      Attachments
+      <alanda-badge label="{{ fileCount }}"></alanda-badge>
+    </span>
+  </p-header>
+  <div class="p-grid">
+    <div class="p-col-12 p-md-3">
+      <alanda-attachments-tree
+        [treeNodes]="treeNodes"
+        [selectedNode]="data.selectedNode"
+        (selectedNodeChanged)="onSelectedNodeChange($event)"
+      ></alanda-attachments-tree>
+    </div>
+    <div class="p-col-12 p-md-9">
+      <div class="p-grid">
+        <div class="p-col-12">
+          <alanda-attachments-list
+            [data]="data"
+            [currentFiles]="currentFiles"
+            (fileDeleted)="onDeleteFile($event)"
+            (fileRenamed)="onFileRenamed($event)"
+          ></alanda-attachments-list>
+        </div>
+      </div>
+      <div class="p-grid" *ngIf="data.selectedNode?.permissions?.includes('w')">
+        <div class="p-col-12">
+          <p-fileUpload
+            #fileUploader
+            name="file"
+            [url]="uploaderUrl"
+            multiple="multiple"
+            (onUpload)="onUpload($event)"
+            chooseLabel="Choose Files"
+            auto="true"
+            uploadLabel="Upload"
+            customUpload="true"
+            (uploadHandler)="myUploader($event)"
+          >
+            <ng-template pTemplate="content">
+              <div class="p-grid">
+                <div class="p-col-12">
+                  <div
+                    class="p-text-center p-text-secondary p-p-5 al-text-size-lg drop-zone"
+                  >
+                    Drag and drop files here to upload
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </p-fileUpload>
+        </div>
+      </div>
+      <div class="p-grid p-formgrid">
+        <div class="p-col-12 p-field p-text-right">
+          <p-button
+            icon="pi pi-download"
+            label="Download all"
+            [disabled]="fileCount === 0"
+            (click)="downloadAll()"
+          ></p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-panel>

@@ -1223,6 +1223,31 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     return retVal;
   }
 
+  @Override
+  public PmcProjectDto updateHighlight(long pmcProjectGuid, boolean highlight, boolean callListener) {
+    log.info("Updating highlight to {} of project with guid {} (calling listeners: {})", highlight, pmcProjectGuid, callListener);
+
+    PmcProject project = getByGuid(pmcProjectGuid);
+    updateAllowedCheck(project);
+    if (callListener) {
+      PmcProjectDto projectDto = dozerMapper.map(project, PmcProjectDto.class);
+      projectDto.setHighlighted(highlight);
+      Collection<PmcProjectListener> listener = getListener(project);
+      for (PmcProjectListener l : listener) {
+        l.beforeProjectUpdate(projectDto, project);
+      }
+    }
+
+    project.setHighlighted(highlight);
+    pmcProjectDao.getEntityManager().flush();
+
+    PmcProjectDto result = mapProject(project, Mode.DEFAULT);
+    this.elasticService.updateEntry(result, true);
+    result = getProjectByProjectId(project.getProjectId());
+    result.setAuthBase(authorizationService.addOrUpdateBaseAuthKeyForProject(result));
+    return result;
+  }
+
   private InternalContactDto createDto(PmcUserDto u, String role) {
     InternalContactDto dto = new InternalContactDto();
     dto.setGuid(u.getGuid());

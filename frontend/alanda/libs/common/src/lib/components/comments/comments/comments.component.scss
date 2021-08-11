@@ -1,0 +1,28 @@
+.comments {
+  input {
+    width: 100%;
+  }
+
+  .comment-textarea {
+    resize: none;
+    width: 100%;
+  }
+
+  .post-comment {
+    text-align: right;
+    width: 165px;
+  }
+
+  .tag-wrapper {
+    float: left;
+    margin: 0.35rem 0.35rem 0.35rem 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .spacer-bottom {
+    margin-bottom: 0.725rem;
+  }
+}

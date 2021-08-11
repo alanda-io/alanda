@@ -1,0 +1,183 @@
+<ng-container *ngIf="state$ | async as s">
+  <p-card *ngIf="!showDialog">
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+      <div class="p-fluid p-grid p-mt-1">
+        <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
+          <div class="p-field p-grid">
+            <div class="p-col-12 p-md-4">
+              <alanda-label label="Type (Sub Type)"></alanda-label>
+            </div>
+            <div class="p-col-12 p-md-7">
+              <span *ngIf="project.subtype">{{ project.subtype }}</span>
+              <span *ngIf="!project.subtype">{{
+                project.pmcProjectType.name
+              }}</span>
+            </div>
+          </div>
+          <div class="p-field p-grid">
+            <div class="p-col-12 p-md-4">
+              <alanda-label label="Ref Object" [required]="true"></alanda-label>
+            </div>
+            <div class="p-col-12 p-md-7">
+              <p-autoComplete
+                [suggestions]="s.refObjectList"
+                formControlName="selectedRefObject"
+                (completeMethod)="searchRefObjectEvent$.next($event.query)"
+                field="displayName"
+                [dropdown]="true"
+                placeHolder="Select"
+                (onSelect)="selectRefObjectEvent$.next($event)"
+              ></p-autoComplete>
+            </div>
+          </div>
+          <div class="p-field p-grid">
+            <div class="p-col-12 p-md-4">
+              <alanda-label label="Tag(s)" [required]="true"></alanda-label>
+            </div>
+            <div class="p-col-12 p-md-7">
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                [options]="allowedTagList"
+                formControlName="tag"
+                optionLabel="value"
+              ></p-dropdown>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
+          <div class="p-field p-grid">
+            <div class="p-col-12 p-md-4">
+              <alanda-label label="Prio" [required]="true"></alanda-label>
+            </div>
+            <div class="p-col-12 p-md-7">
+              <p-dropdown
+                [autoDisplayFirst]="false"
+                formControlName="prio"
+                [options]="[
+                  { label: '0 - Emergency', value: 0 },
+                  { label: '1 - Urgent', value: 1 },
+                  { label: '2 - Normal', value: 2 }
+                ]"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div class="p-field p-grid">
+            <div class="p-col-12 p-md-4">
+              <alanda-label label="Project Due Date"></alanda-label>
+            </div>
+            <div class="p-col-12 p-md-7">
+              <p-calendar
+                formControlName="projectDueDate"
+                [showIcon]="true"
+                [locale]="locale"
+                [dateFormat]="locale.dateFormat"
+              ></p-calendar>
+            </div>
+          </div>
+          <div class="p-field p-grid">
+            <div class="p-col-12 p-md-4">
+              <alanda-label
+                label="Project Title"
+                [required]="true"
+              ></alanda-label>
+            </div>
+            <div class="p-col-12 p-md-7">
+              <input
+                pInputText
+                formControlName="projectTitle"
+                type="text"
+                value="{{ project.title }}"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-md-6 p-xl-4 p-py-0 p-py-md-2">
+          <div class="p-field p-grid">
+            <div class="p-col-12">
+              <alanda-label
+                label="Project Details"
+                [required]="true"
+              ></alanda-label>
+              <textarea
+                pInputTextarea
+                maxLength="2000"
+                formControlName="projectDetails"
+                [rows]="6"
+                >{{ project.comment }}</textarea
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6 p-md-offset-6 p-text-right">
+          <div class="al-button-group">
+            <button
+              pButton
+              pRipple
+              type="button"
+              label="Cancel"
+              class="p-button-info"
+              routerLink="/"
+            ></button>
+            <button
+              pButton
+              pRipple
+              type="submit"
+              class="p-button-success"
+              label="Create"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </p-card>
+
+  <p-dialog
+    [visible]="showDialog"
+    [modal]="true"
+    [resizable]="false"
+    [dismissableMask]="true"
+    [contentStyle]="{ overflow: 'visible' }"
+    [style]="{ width: '450px' }"
+    (visibleChange)="goBack()"
+    header="Create Project"
+  >
+    <div class="p-grid p-fluid">
+      <div class="p-col-12">
+        <p-dropdown
+          [options]="projectTypes"
+          filter="true"
+          [(ngModel)]="selectedProjectType"
+          optionLabel="name"
+          placeholder="Project Type..."
+          [filter]="true"
+        ></p-dropdown>
+      </div>
+    </div>
+    <p-footer>
+      <p-button
+        (onClick)="goBack()"
+        styleClass="p-button-text"
+        icon="pi pi-times"
+        label="Cancel"
+      ></p-button>
+      <p-button
+        (onClick)="onProjectTypeSelected()"
+        styleClass="p-button-text"
+        icon="pi pi-check"
+        label="OK"
+      ></p-button>
+    </p-footer>
+  </p-dialog>
+</ng-container>
+<div class="loading" *ngIf="isLoading">
+  <p-progressSpinner
+    [style]="{ width: '50px', height: '50px' }"
+    strokeWidth="8"
+    fill="#EEEEEE"
+    animationDuration=".5s"
+  ></p-progressSpinner>
+</div>

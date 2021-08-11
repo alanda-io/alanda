@@ -1,0 +1,34 @@
+<div class="config-dialog">
+  <div class="p-dialog-content">
+    <ng-container *ngFor="let prop of properties">
+      <alanda-pap-subprocess-property-input
+        *ngIf="prop.propertyName && prop.displayName"
+        [property]="prop"
+        [processGuid]="process.guid"
+        [projectGuid]="project.guid"
+      >
+      </alanda-pap-subprocess-property-input>
+    </ng-container>
+
+    <ng-template alandaProcessConfigHost></ng-template>
+  </div>
+  <div class="p-dialog-footer">
+    <button
+      pButton
+      pRipple
+      [label]="startProcess ? 'Cancel' : 'Ok'"
+      [icon]="startProcess ? 'pi pi-times' : 'pi pi-check'"
+      class="p-button-text"
+      (click)="dynamicDialogRef.close(false)"
+    ></button>
+    <button
+      *ngIf="startProcess"
+      pButton
+      pRipple
+      label="OK"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="dynamicDialogRef.close(true)"
+    ></button>
+  </div>
+</div>

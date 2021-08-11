@@ -1,0 +1,15 @@
+<div class="p-field p-grid" [formGroup]="textBox">
+  <div *ngIf="label" class="p-col-12 p-lg-5 p-xl-4">
+    <alanda-label [label]="label"></alanda-label>
+  </div>
+  <div [ngClass]="{ 'p-col-12': true, 'p-lg-7 p-xl-7': label?.length > 0 }">
+    <input pInputText type="text" formControlName="text" (blur)="save()" />
+  </div>
+  <ng-container *ngIf="text.invalid && (text.dirty || text.touched)">
+    <p-message
+      *ngIf="text.errors.required"
+      severity="error"
+      text="Field is required"
+    ></p-message>
+  </ng-container>
+</div>

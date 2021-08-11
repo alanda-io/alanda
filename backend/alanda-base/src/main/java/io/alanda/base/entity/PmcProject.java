@@ -111,6 +111,17 @@ public class PmcProject extends AbstractAuditEntity implements Serializable {
   @Column(name = "RESULT_COMMENT")
   String resultComment;
 
+  @Column(name = "HIGHLIGHT")
+  boolean highlighted;
+
+  public boolean isHighlighted() {
+    return highlighted;
+  }
+
+  public void setHighlighted(boolean highlighted) {
+    this.highlighted = highlighted;
+  }
+
   public PmcProject() {
     super();
   }

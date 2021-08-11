@@ -258,4 +258,15 @@ public interface ProjectRestService {
   @Path("/project/{projectId}/card/{cardId}/owner")
   PmcProjectCardDto updateCardOwner(@PathParam("projectId") String projectId, @PathParam("cardId") Long cardId, String owner)
       throws Exception;
+
+  @Operation(summary="Update Project Highlighted", tags={"ProjectRestService"})
+  @POST
+  @Path("/project/{projectId}/highlight")
+  PmcProjectDto updateHighlighted(@PathParam("projectId") String projectId, boolean isHighlighted);
+
+  @Operation(summary ="Get Project Highlighted", tags = {"ProjectRestService"}, description = "")
+  @GET
+  @Path("project/{projectId}/highlight")
+  boolean getHighlighted(@PathParam("projectId") String projectId);
+
 }

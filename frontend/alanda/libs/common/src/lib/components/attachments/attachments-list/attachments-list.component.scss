@@ -1,0 +1,37 @@
+.attachment-list {
+  .name-col {
+    width: auto;
+  }
+
+  .last-modified-col {
+    width: 12rem;
+    text-align: center;
+  }
+
+  .size-col {
+    width: 10rem;
+    text-align: center;
+  }
+
+  .action-col {
+    width: 15.2rem;
+    text-align: center;
+  }
+
+  .p-column-filter,
+  .p-input-icon-right {
+    width: 100%;
+  }
+
+  .p-input-icon-right {
+    .pi {
+      cursor: pointer;
+    }
+  }
+
+  .action-button-wrapper {
+    display: inline-block;
+    width: 3rem;
+    text-align: center;
+  }
+}

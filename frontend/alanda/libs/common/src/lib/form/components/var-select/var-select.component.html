@@ -1,0 +1,35 @@
+<div class="p-field p-grid" [formGroup]="selectForm">
+  <div *ngIf="label" class="p-col-12 p-lg-5 p-xl-4">
+    <alanda-label [label]="label"></alanda-label>
+  </div>
+  <div [ngClass]="{ 'p-col-12': true, 'p-lg-7 p-xl-7': label?.length > 0 }">
+    <p-dropdown
+      [options]="items"
+      formControlName="selected"
+      placeholder="Select"
+      [appendTo]="appendTo"
+      (onChange)="save($event)"
+    ></p-dropdown>
+  </div>
+  <ng-container
+    *ngIf="selected.invalid && (selected.dirty || selected.touched)"
+  >
+    <div *ngFor="let error of selected.errors | keyvalue">
+      <p-message
+        *ngIf="error.key === 'required'"
+        severity="error"
+        text="Field is required."
+      ></p-message>
+      <p-message
+        *ngIf="error.key !== 'required' && error.value.text !== undefined"
+        severity="error"
+        text="{{ error.value.text }}"
+      ></p-message>
+      <p-message
+        *ngIf="error.key !== 'required' && error.value.text === undefined"
+        severity="error"
+        text="The selected option is invalid."
+      ></p-message>
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,34 @@
+.task-table {
+  min-height: 500px;
+
+  .header-col-filter {
+    width: 100%;
+  }
+
+  .filter-clear {
+    cursor: pointer;
+  }
+}
+
+.task-row {
+  .action-cell {
+    padding: 0.5rem 0;
+    min-width: 100px;
+    text-align: center;
+  }
+}
+.task-row-highlighted {
+  text-align: center;
+  background-color: rgba(223, 117, 32, 0.5) !important;
+  .action-cell {
+    padding: 0.5rem 0;
+    min-width: 100px;
+    text-align: center;
+  }
+}
+
+.table-action-buttons {
+  .action-button {
+    margin: 0 0.2143rem;
+  }
+}

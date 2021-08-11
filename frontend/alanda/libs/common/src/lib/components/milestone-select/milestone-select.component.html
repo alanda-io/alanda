@@ -1,0 +1,162 @@
+<ng-container *ngIf="state$ | async as s">
+  <div class="loading" *ngIf="s.loading === true">
+    <p-progressSpinner
+      [style]="{ width: '50px', height: '50px' }"
+      strokeWidth="8"
+      fill="#EEEEEE"
+      animationDuration=".5s"
+    ></p-progressSpinner>
+  </div>
+  <div [formGroup]="milestoneForm">
+    <alanda-label [label]="displayName"></alanda-label>
+    <!-- FC -->
+    <div class="p-grid p-field" *ngIf="showFC">
+      <div class="p-col-12 p-lg-5 p-xl-4">
+        <alanda-label class="ms-title" label="FC"></alanda-label>
+      </div>
+      <div
+        class="p-col-12 p-lg-7 p-xl-7"
+        *ngIf="!fcCommentRequired || s.fc == null"
+      >
+        <p-calendar
+          formControlName="fc"
+          placeholder="Select FC"
+          [showIcon]="true"
+          [locale]="locale"
+          [dateFormat]="locale.dateFormat"
+          [readonlyInput]="true"
+          [appendTo]="appendTo"
+        ></p-calendar>
+      </div>
+      <div
+        class="p-col-12 p-lg-7 p-xl-7"
+        *ngIf="fcCommentRequired && s.fc != null"
+      >
+        <div class="p-inputgroup">
+          <p-calendar
+            #fcFake
+            formControlName="fc"
+            placeholder="Select MS"
+            [showIcon]="false"
+            [locale]="locale"
+            [dateFormat]="locale.dateFormat"
+            [readonlyInput]="true"
+            (click)="clickForComment.next({ ms: 'FC' }); fcFake.toggle()"
+          ></p-calendar>
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-calendar"
+            class="p-inputgroup-addon"
+            (click)="clickForComment.next({ ms: 'FC' })"
+          ></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-grid p-field" *ngIf="showACT">
+      <div class="p-col-12 p-lg-5 p-xl-4">
+        <alanda-label class="ms-title" label="ACT"></alanda-label>
+      </div>
+      <div class="p-col-12 p-lg-7 p-xl-7" *ngIf="!actCommentRequired">
+        <p-calendar
+          formControlName="act"
+          placeholder="Select ACT"
+          [showIcon]="true"
+          [locale]="locale"
+          [dateFormat]="locale.dateFormat"
+          [readonlyInput]="true"
+          [appendTo]="appendTo"
+        ></p-calendar>
+      </div>
+      <div class="p-col-12 p-lg-7 p-xl-7" *ngIf="actCommentRequired">
+        <div class="p-inputgroup">
+          <p-calendar
+            #actFake
+            formControlName="act"
+            placeholder="Select MS"
+            [showIcon]="false"
+            [locale]="locale"
+            [dateFormat]="locale.dateFormat"
+            [readonlyInput]="true"
+            (click)="clickForComment.next({ ms: 'ACT' }); actFake.toggle()"
+          ></p-calendar>
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-calendar"
+            class="p-inputgroup-addon"
+            (click)="clickForComment.next({ ms: 'ACT' })"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p-dialog
+    [(visible)]="s.showCommentModal"
+    [dismissableMask]="true"
+    [modal]="true"
+    [resizable]="false"
+    [style]="{ width: '600px' }"
+  >
+    <p-header>Change {{ displayName }} {{ s.commentMsType }}</p-header>
+    <div class="p-grid p-fluid" [formGroup]="commentForm">
+      <div class="p-col p-field">
+        <p-calendar
+          formControlName="commentFormDate"
+          [showIcon]="true"
+          [locale]="locale"
+          [dateFormat]="locale.dateFormat"
+          [readonlyInput]="true"
+          [appendTo]="appendTo"
+        ></p-calendar>
+      </div>
+      <div
+        class="p-col-fixed p-field"
+        *ngIf="
+          this.milestoneForm.get(s.commentMsType?.toLowerCase())?.value !==
+            null && s.commentDel === true
+        "
+      >
+        <button
+          pButton
+          type="button"
+          icon="pi pi-times"
+          class="p-button-danger"
+          pRipple
+          (click)="deleteMilestoneEvent.next(s.commentMsType)"
+          pTooltip="Delete milestone"
+        ></button>
+      </div>
+      <div class="p-col-12">
+        <alanda-label [label]="s.commentLabel"></alanda-label>
+        <textarea
+          pInputTextarea
+          rows="10"
+          formControlName="comment"
+          [placeholder]="s.commentPlaceholder"
+        ></textarea>
+      </div>
+    </div>
+    <p-footer>
+      <button
+        pButton
+        pRipple
+        type="button"
+        (click)="
+          saveFromComment.next({
+            msType: s.commentMsType,
+            commentFormDate: commentFormDate.value,
+            comment: comment.value
+          })
+        "
+        icon="pi pi-check"
+        class="p-button-text"
+        [label]="s.commentButtonLabel"
+        [disabled]="commentForm.invalid"
+      ></button>
+    </p-footer>
+  </p-dialog>
+</ng-container>

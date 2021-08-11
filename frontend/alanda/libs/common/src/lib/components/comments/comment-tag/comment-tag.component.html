@@ -1,0 +1,10 @@
+<p-button
+  *rxLet="tag$; let state"
+  class="item"
+  label="{{ state.tag.name }}"
+  icon="pi pi-tag"
+  iconPos="left"
+  type="button"
+  [styleClass]="state.class"
+  (onClick)="toggleFilterClick$.next(state.tag)"
+></p-button>

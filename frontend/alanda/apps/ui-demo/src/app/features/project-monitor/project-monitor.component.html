@@ -1,0 +1,21 @@
+<ng-container *ngIf="state$ | async as s">
+  <div class="p-grid">
+    <div class="p-col">
+      <p-panel header="Project Monitor">
+        <alanda-project-table
+          class="h3a-project-table"
+          [layouts]="s.layouts"
+          [editablePageSize]="false"
+          [defaultLayout]="s.defaultLayout"
+          (layoutChanged)="layoutChangedEvent$.next($event)"
+          alandaContextProvider
+          [saveEntry]="s.contextEntry"
+          [listenTo]="[layoutKey]"
+          (entriesAvailable)="contextDataAvailableEvent$.next($event)"
+          [target]="'_blank'"
+        >
+        </alanda-project-table>
+      </p-panel>
+    </div>
+  </div>
+</ng-container>

@@ -791,7 +791,9 @@ public class ElasticServiceImpl implements ElasticService {
           }
         } else if (tmp instanceof Integer || tmp instanceof Long) {
           criteria = termQuery(field, tmp);
-        } else if (tmp instanceof Date) {
+        } else if (tmp instanceof Date ) {
+          criteria = termQuery(field, tmp);
+        } else if(tmp instanceof Boolean){
           criteria = termQuery(field, tmp);
         }
 

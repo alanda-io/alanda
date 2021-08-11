@@ -1,0 +1,52 @@
+<ng-container *ngIf="state$ | async as s">
+  <p-panel header="History Log">
+    <p-table
+      #tt
+      class="history-grid-table"
+      [value]="s.data"
+      [paginator]="true"
+      [columns]="s.columnDefs"
+      [rows]="10"
+      [autoLayout]="true"
+      [loading]="s.loadingInProgress"
+      [resizableColumns]="true"
+      [responsive]="true"
+      [lazy]="true"
+      lazyLoadOnInit="false"
+      (onLazyLoad)="onLazyLoadEvent$.next($event)"
+      [tableStyle]="{ 'table-layout': '100%' }"
+    >
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th
+            *ngFor="let col of columns"
+            [pSortableColumn]="col.field"
+            pResizableColumn
+            [style.width]="col.width + 'px'"
+          >
+            <span style="white-space: nowrap;"
+              >{{ col.name }}<p-sortIcon></p-sortIcon
+            ></span>
+          </th>
+        </tr>
+        <tr>
+          <th *ngFor="let col of columns">
+            <input
+              pInputText
+              type="text"
+              (input)="tt.filter($event.target.value, col.field, 'contains')"
+              [value]="tt.filters[col.field] ? tt.filters[col.field].value : ''"
+              style="width: 100%;"
+              inputStyle="width: 100%"
+            />
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns">{{ rowData[col.field] }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-panel>
+</ng-container>

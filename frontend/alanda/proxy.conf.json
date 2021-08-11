@@ -1,0 +1,14 @@
+{
+  "/alanda-rest/*": {
+    "target": "http://localhost:8080",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
+  },
+  "/drei-bpm-rest/*": {
+    "target": "http://10.8.0.1:8080",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
+  }
+}

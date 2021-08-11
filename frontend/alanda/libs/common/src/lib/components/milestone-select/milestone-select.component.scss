@@ -1,0 +1,37 @@
+.col-title {
+  width: 3.929rem;
+}
+
+.ms-title {
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+}
+
+.loading {
+  bottom: 0;
+  height: 2em;
+  left: 0;
+  margin: auto;
+  overflow: visible;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 2em;
+  z-index: 99999;
+}
+
+.p-inputgroup {
+  ::ng-deep {
+    .p-calendar {
+      .p-inputtext {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+  }
+}

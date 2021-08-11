@@ -1,0 +1,33 @@
+<ng-container *ngIf="state$ | async as s">
+  <div [formGroup]="commentForm">
+    <p-dialog
+      [(visible)]="s.showCommentDialog"
+      [dismissableMask]="true"
+      [modal]="true"
+      [resizable]="false"
+      [style]="{ width: '600px' }"
+      [header]="s.properties.dialogHeader"
+    >
+      <div class="p-grid p-fluid">
+        <div class="p-col-12">
+          <alanda-label [label]="s.properties.commentLabel"></alanda-label>
+          <textarea
+            pInputTextarea
+            rows="10"
+            formControlName="comment"
+            [placeholder]="s.properties.commentTextAreaPlaceholder"
+          ></textarea>
+        </div>
+      </div>
+      <p-footer>
+        <p-button
+          (click)="saveComment$.next(comment.value)"
+          [icon]="s.properties.commentButtonIcon"
+          [class]="s.properties.commentButtonClass"
+          [label]="s.properties.commentButtonLabel"
+          [disabled]="commentForm.invalid"
+        ></p-button>
+      </p-footer>
+    </p-dialog>
+  </div>
+</ng-container>

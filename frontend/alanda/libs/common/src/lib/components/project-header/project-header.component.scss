@@ -1,0 +1,21 @@
+textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+.header-info-item {
+  display: inline-block;
+  margin: 0 5px;
+
+  &.project-highlighted {
+    position: relative;
+    width: 1.65rem;
+
+    .pi {
+      position: absolute;
+      top: -1.125rem;
+      font-size: 1.5rem;
+      color: #e48930;
+    }
+  }
+}

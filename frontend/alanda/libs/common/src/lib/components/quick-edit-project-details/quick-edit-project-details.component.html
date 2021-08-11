@@ -1,0 +1,43 @@
+<ng-container *ngIf="state$ | async as s" [formGroup]="mainForm">
+  <div class="p-grid">
+    <div class="p-col-2">
+      {{ s.mode }}
+    </div>
+    <div class="p-col-10">
+      <textarea
+        pInputTextarea
+        rows="5"
+        [placeholder]="
+          s.mode === viewMode.DETAILS ? 'Your details...' : 'Your status...'
+        "
+        formControlName="text"
+      >
+      </textarea>
+    </div>
+    <div class="p-col-12">
+      <button
+        pButton
+        pRipple
+        type="button"
+        class="ui-button-secondary pull-right"
+        label="Save"
+        [disabled]="!mainForm.valid"
+        (click)="saveClickEvent$.next()"
+      >
+        <p-progressSpinner
+          *ngIf="s.working"
+          [style]="{ width: '1rem', height: '1rem' }"
+          strokeWidth="4"
+        ></p-progressSpinner>
+      </button>
+      <button
+        pButton
+        pRipple
+        type="button"
+        class="pull-right margin-right"
+        label="Cancel"
+        (click)="close.next()"
+      ></button>
+    </div>
+  </div>
+</ng-container>

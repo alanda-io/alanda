@@ -1,0 +1,189 @@
+<ng-container *ngIf="state$ | async as s">
+  <div class="p-grid">
+    <div class="p-col-12 p-md-6 p-xl-3 p-fluid p-field">
+      <p-dropdown
+        *ngIf="s.layouts"
+        [hidden]="s.layouts.length <= 1"
+        [options]="s.layouts"
+        [ngModel]="s.selectedLayout"
+        optionLabel="displayName"
+        (onChange)="layoutChange$.next($event)"
+      >
+      </p-dropdown>
+    </div>
+    <div
+      class="p-col-12 p-md-6 p-xl-9 p-field p-text-right"
+      *ngIf="!hideMenuButton"
+    >
+      <button
+        type="button"
+        pButton
+        pRipple
+        [icon]="menuButtonIcon"
+        (click)="menu.toggle($event)"
+      ></button>
+    </div>
+    <p-overlayPanel #menu appendTo="body">
+      <p-menu [model]="s.menuItems"></p-menu>
+    </p-overlayPanel>
+  </div>
+  <div class="p-grid">
+    <div class="p-col-12">
+      <p-table
+        *ngIf="s.selectedLayout && s.projectsData"
+        #tt
+        class="project-table"
+        [value]="s.projectsData?.results"
+        [columns]="s.filteredColumns"
+        [paginator]="true"
+        [rows]="s.selectedPageSize"
+        [lazy]="true"
+        [totalRecords]="s.projectsData?.total"
+        [autoLayout]="autoLayout"
+        [loading]="s.loading"
+        [resizableColumns]="resizableColumns"
+        [responsive]="responsive"
+        [tableStyle]="tableStyle"
+        [selectionMode]="s.selectionMode"
+        [(selection)]="selection"
+        (onLazyLoad)="lazyLoadEvent$.next($event)"
+      >
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th
+              *ngFor="let col of columns"
+              pResizableColumn
+              [pSortableColumn]="
+                col.field &&
+                (col.sortable == undefined || col.sortable === true)
+                  ? col.field
+                  : null
+              "
+              [style.width]="col.width + 'px'"
+            >
+              {{ col.displayName }}
+              <p-sortIcon
+                *ngIf="
+                  col.field &&
+                  (col.sortable == undefined || col.sortable === true)
+                "
+                field="{{ col.field }}"
+              ></p-sortIcon>
+            </th>
+          </tr>
+          <tr>
+            <th *ngFor="let col of columns">
+              <span
+                class="p-input-icon-right"
+                *ngIf="col.type !== tableColumnType.BOOLEAN; else checkbox"
+              >
+                <i
+                  class="pi pi-times filter-clear"
+                  *ngIf="tt.filters[col.field]?.value.length"
+                  (click)="tt.filter('', col.field, 'contains')"
+                ></i>
+                <input
+                  pInputText
+                  type="text"
+                  (input)="
+                    tt.filter($event.target.value, col.field, 'contains')
+                  "
+                  [value]="
+                    tt.filters[col.field] ? tt.filters[col.field].value : ''
+                  "
+                  style="width: 100%;"
+                />
+              </span>
+              <ng-template #checkbox>
+                <p-checkbox
+                  (onChange)="tt.filter($event.checked, col.field, 'equals')"
+                ></p-checkbox>
+              </ng-template>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-project let-columns="columns">
+          <tr
+            [pSelectableRow]="project"
+            [pSelectableRowDisabled]="!s.singleRowSelectionEnabled"
+            [class]="
+              project.project?.hasOwnProperty('highlighted') &&
+              project.project?.highlighted
+                ? 'project-row-highlighted'
+                : 'project-row'
+            "
+            (dblclick)="openProject(project.project.projectId)"
+          >
+            <td
+              *ngFor="let col of columns"
+              [ngClass]="getCondition(project, col.template)"
+              style="white-space: nowrap;"
+            >
+              <ng-template
+                [ngIf]="col.field === 'project.projectId'"
+                [ngIfElse]="default"
+              >
+                <a
+                  [routerLink]="getProjectPath(project.project.projectId)"
+                  [target]="target"
+                  >{{ project | nestedObject: col.field }}</a
+                >
+              </ng-template>
+              <ng-template #default>
+                <ng-container *ngIf="col.name === 'X'">
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-pencil"
+                    class="p-button-text"
+                    (click)="
+                      setupProjectDetailsModalEvent$.next(project.project)
+                    "
+                  ></button>
+                </ng-container>
+                <ng-container *ngIf="col.type && col.type === 'date'">{{
+                  project | nestedObject: col.field | date: dateFormat
+                }}</ng-container>
+                <ng-container *ngIf="!col || col.type !== 'date'">{{
+                  project | nestedObject: col.field
+                }}</ng-container>
+              </ng-template>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft"></ng-template>
+        <ng-template pTemplate="paginatorright">
+          <span *ngIf="editablePageSize" style="margin-right: 10px;">
+            Rows per page:
+            <alanda-page-size-select
+              (valueChange)="changePageSize($event)"
+              [maxPageSize]="s.projectsData?.total"
+            ></alanda-page-size-select>
+          </span>
+          <span *ngIf="s.projectsData.total"
+            >Total: {{ s.projectsData.total }}</span
+          >
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+  <!-- Project Details Modal-->
+  <p-dialog
+    [(visible)]="s.showProjectDetailsModal"
+    [dismissableMask]="true"
+    [modal]="true"
+    [resizable]="false"
+    [style]="{ width: '500px' }"
+  >
+    <p-header
+      ><span>Edit Project {{ s.selectedProject?.projectId }}</span></p-header
+    >
+
+    <alanda-quick-edit-project-details
+      [project]="s.selectedProject"
+      (close)="closeProjectDetailsModalEvent$.next($event)"
+    >
+    </alanda-quick-edit-project-details>
+  </p-dialog>
+</ng-container>

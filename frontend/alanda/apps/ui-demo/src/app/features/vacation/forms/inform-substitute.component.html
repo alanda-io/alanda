@@ -1,0 +1,23 @@
+<ng-container *ngIf="state$ | async as taskFormState">
+  <alanda-project-header
+    [task]="taskFormState.task"
+    [project]="taskFormState.project"
+  ></alanda-project-header>
+  <alanda-project-and-processes
+    [task]="taskFormState.task"
+    [project]="taskFormState.project"
+  ></alanda-project-and-processes>
+
+  <alanda-comments
+    [task]="taskFormState.task"
+    [project]="taskFormState.project"
+  ></alanda-comments>
+  <alanda-complete-task (complete)="submit()">
+    <alanda-simple-select
+      [task]="taskFormState.task"
+      [items]="items"
+      variableName="requestApproved"
+      label="Approve vacation request?"
+    ></alanda-simple-select>
+  </alanda-complete-task>
+</ng-container>

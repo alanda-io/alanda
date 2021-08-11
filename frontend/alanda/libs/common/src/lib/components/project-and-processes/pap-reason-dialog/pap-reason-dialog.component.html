@@ -1,0 +1,33 @@
+<div class="reason-dialog">
+  <div class="p-dialog-content">
+    <p *ngIf="config.data?.content">
+      {{ config.data.content }}
+    </p>
+    <textarea
+      *ngIf="config.data?.placeholder"
+      [(ngModel)]="reason"
+      pInputTextarea
+      class="reason-input"
+      [placeholder]="config.data?.placeholder"
+    ></textarea>
+  </div>
+
+  <div class="p-dialog-footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="dynamicDialogRef.close(null)"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="OK"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="dynamicDialogRef.close(reason)"
+    ></button>
+  </div>
+</div>

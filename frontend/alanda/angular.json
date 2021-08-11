@@ -1,0 +1,193 @@
+{
+  "version": 1,
+  "projects": {
+    "ui-demo": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/ui-demo",
+      "sourceRoot": "apps/ui-demo/src",
+      "prefix": "alanda",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/ui-demo",
+            "index": "apps/ui-demo/src/index.html",
+            "main": "apps/ui-demo/src/main.ts",
+            "polyfills": "apps/ui-demo/src/polyfills.ts",
+            "tsConfig": "apps/ui-demo/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/ui-demo/src/favicon.ico",
+              "apps/ui-demo/src/assets"
+            ],
+            "styles": [
+              "apps/ui-demo/src/styles.scss",
+              "libs/common/src/styles/index.scss",
+              "node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeflex/primeflex.scss",
+              "node_modules/primeng/resources/primeng.css"
+            ],
+            "scripts": [],
+            "allowedCommonJsDependencies": ["lodash"]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/ui-demo/src/environments/environment.ts",
+                  "with": "apps/ui-demo/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ui-demo:build",
+            "proxyConfig": "proxy.conf.json",
+            "port": 9090
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ui-demo:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ui-demo:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/ui-demo/tsconfig.app.json",
+              "apps/ui-demo/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/ui-demo/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/ui-demo/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "ui-demo-e2e": {
+      "root": "apps/ui-demo-e2e",
+      "sourceRoot": "apps/ui-demo-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ui-demo-e2e/cypress.json",
+            "tsConfig": "apps/ui-demo-e2e/tsconfig.e2e.json",
+            "devServerTarget": "ui-demo:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ui-demo:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/ui-demo-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/ui-demo-e2e/**/*"]
+          }
+        }
+      }
+    },
+    "common": {
+      "projectType": "library",
+      "root": "libs/common",
+      "sourceRoot": "libs/common/src",
+      "prefix": "alanda",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/common/tsconfig.lib.json",
+            "project": "libs/common/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/common/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/common/tsconfig.lib.json",
+              "libs/common/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/common/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/common/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular",
+    "analytics": false
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "ui-demo"
+}

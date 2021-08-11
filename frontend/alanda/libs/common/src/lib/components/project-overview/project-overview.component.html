@@ -1,0 +1,143 @@
+<p-panel
+  class="project-overview"
+  styleClass="overview-panel"
+  [showHeader]="false"
+  [toggleable]="false"
+>
+  <form [formGroup]="projectOverviewForm">
+    <div class="p-grid p-fluid p-mt-4">
+      <div class="p-col-12 p-md-6 p-lg-4 p-xl-3">
+        <div class="p-grid p-field" *ngIf="visibleFormElements.type">
+          <div class="p-field p-col-12">
+            <span class="p-float-label">
+              <input
+                *ngIf="project.subtype != null"
+                type="text"
+                id="projectSubType"
+                pInputText
+                [readOnly]="true"
+                [value]="project.subtype"
+              />
+              <input
+                *ngIf="project.subtype === null"
+                type="text"
+                id="projectType"
+                pInputText
+                [readOnly]="true"
+                [value]="project.pmcProjectType.name"
+              />
+              <label *ngIf="project.subtype != null" for="projectSubType"
+                >Project Sub Type
+              </label>
+              <label *ngIf="project.subtype === null" for="projectType">
+                Project Type</label
+              >
+            </span>
+          </div>
+        </div>
+
+        <div class="p-grid p-field" *ngIf="visibleFormElements.priority">
+          <div class="p-field p-col-12">
+            <span class="p-float-label">
+              <p-dropdown
+                id="projectPrio"
+                formControlName="priority"
+                [options]="priorities"
+                name="priority"
+              ></p-dropdown>
+              <label for="projectPrio">Prio</label>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-col-12 p-md-6 p-lg-4 p-xl-3">
+        <div class="p-grid p-field" *ngIf="visibleFormElements.tag">
+          <div class="p-field p-col-12">
+            <span class="p-float-label">
+              <p-autoComplete
+                id="projectTags"
+                formControlName="tag"
+                [multiple]="true"
+                [forceSelection]="true"
+                [dropdown]="true"
+                [suggestions]="allowedTagList"
+                (completeMethod)="searchTag()"
+              >
+              </p-autoComplete>
+              <label for="projectTags">Tag(s)</label>
+            </span>
+          </div>
+        </div>
+        <div class="p-grid p-field" *ngIf="visibleFormElements.title">
+          <div class="p-field p-col-12">
+            <span class="p-float-label">
+              <input
+                id="projectTitle"
+                pInputText
+                formControlName="title"
+                type="text"
+                value="{{ project.title }}"
+              />
+              <label for="projectTitle">Project Title</label>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-col-12 p-md-6 p-lg-4 p-xl-3">
+        <div class="p-grid p-field" *ngIf="visibleFormElements.dueDate">
+          <div class="p-field p-col-12">
+            <span class="p-float-label">
+              <p-calendar
+                id="projectDueDate"
+                formControlName="dueDate"
+                [showIcon]="true"
+                [locale]="locale"
+                [dateFormat]="locale.dateFormat"
+              ></p-calendar>
+              <label for="projectDueDate">Project Due Date</label>
+            </span>
+          </div>
+        </div>
+        <div
+          class="p-grid p-field"
+          *ngIf="task != null && visibleFormElements.taskDueDate"
+        >
+          <div class="p-field p-col-12">
+            <span class="p-float-label">
+              <p-calendar
+                id="taskDueDate"
+                formControlName="taskDueDate"
+                [showIcon]="true"
+                [locale]="locale"
+                [dateFormat]="locale.dateFormat"
+              ></p-calendar>
+              <label for="taskDueDate">Task Due Date</label>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-col-12 p-md-6 p-lg-12 p-xl-3">
+        <div class="p-grid p-field" *ngIf="visibleFormElements.comment">
+          <div class="p-field p-col-12">
+            <span class="p-float-label">
+              <textarea
+                id="projectComment"
+                pInputTextarea
+                maxLength="2000"
+                formControlName="comment"
+                [rows]="5"
+                [class.p-filled]="projectOverviewForm.controls.comment.value"
+                >{{ project.comment }}</textarea
+              >
+              <label for="projectComment">Project Details</label>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <ng-content></ng-content>
+</p-panel>
