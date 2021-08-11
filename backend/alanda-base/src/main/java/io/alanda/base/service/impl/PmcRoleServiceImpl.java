@@ -46,33 +46,46 @@ public class PmcRoleServiceImpl implements PmcRoleService {
 
   private static final Logger log = LoggerFactory.getLogger(PmcRoleServiceImpl.class);
 
-  @Inject private PmcProjectDao pmcProjectDao;
+  @Inject
+  private PmcProjectDao pmcProjectDao;
 
-  @Inject private PmcProjectService pmcProjectService;
+  @Inject
+  private PmcProjectService pmcProjectService;
 
-  @Inject private PmcProjectTypeDao pmcProjectTypeDao;
+  @Inject
+  private PmcProjectTypeDao pmcProjectTypeDao;
 
-  @Inject private Instance<PmcRoleConnector> pmcRoleConnectors;
+  @Inject
+  private Instance<PmcRoleConnector> pmcRoleConnectors;
 
   private PmcRoleConnector pmcRoleConnector;
 
-  @Inject private DozerMapper dozerMapper;
+  @Inject
+  private DozerMapper dozerMapper;
 
-  @Inject private PmcGroupDao pmcGroupDao;
+  @Inject
+  private PmcGroupDao pmcGroupDao;
 
-  @Inject private PmcRoleDao pmcRoleDao;
+  @Inject
+  private PmcRoleDao pmcRoleDao;
 
-  @Inject private PmcPermissionDao pmcPermissionDao;
+  @Inject
+  private PmcPermissionDao pmcPermissionDao;
 
-  @Inject private ElasticService elasticService;
+  @Inject
+  private ElasticService elasticService;
 
-  @Inject private PmcPropertyService pmcPropertyService;
+  @Inject
+  private PmcPropertyService pmcPropertyService;
 
-  @Inject private PmcUserRepo pmcUserRepo;
+  @Inject
+  private PmcUserRepo pmcUserRepo;
 
-  @Inject private PmcUserDao pmcUserDao;
+  @Inject
+  private PmcUserDao pmcUserDao;
 
-  @Inject private Instance<PmcProjectListener> pmcProjectListener;
+  @Inject
+  private Instance<PmcProjectListener> pmcProjectListener;
 
   private Map<String, PmcProjectListener> startListenerMap;
 
@@ -91,35 +104,45 @@ public class PmcRoleServiceImpl implements PmcRoleService {
     for (PmcRoleConnector connector : pmcRoleConnectors) {
 
       if (!connector.isDefault()) {
-        if (nonDefaultConnector == null) nonDefaultConnector = connector;
-        else
+        if (nonDefaultConnector == null) {
+          nonDefaultConnector = connector;
+        } else {
           throw new RuntimeException(
               "Multiple instances for PmcRoleConnector found: "
                   + nonDefaultConnector.getClass()
                   + " and "
                   + connector.getClass());
+        }
       }
-      if (connector.isDefault()) defaultConnector = connector;
+      if (connector.isDefault()) {
+        defaultConnector = connector;
+      }
     }
-    if (nonDefaultConnector != null) pmcRoleConnector = nonDefaultConnector;
-    else {
-      if (defaultConnector != null) pmcRoleConnector = defaultConnector;
-      else throw new RuntimeException("No default instance for PmcRoleConnector found.");
+    if (nonDefaultConnector != null) {
+      pmcRoleConnector = nonDefaultConnector;
+    } else {
+      if (defaultConnector != null) {
+        pmcRoleConnector = defaultConnector;
+      } else {
+        throw new RuntimeException("No default instance for PmcRoleConnector found.");
+      }
     }
   }
 
   @Override
   public Collection<PmcRoleDto> getRolesForProjectType(Long projectTypeGuid) {
 
-    if (pmcRoleConnector == null) determineInjectedBeans();
+    if (pmcRoleConnector == null) {
+      determineInjectedBeans();
+    }
 
     Collection<PmcRoleDto> result = new ArrayList<>();
     PmcProjectType projectType = pmcProjectTypeDao.getById(projectTypeGuid);
 
     if (projectType.getRoles() != null && !projectType.getRoles().equals("")) {
       String[] idNames = projectType.getRoles().split(",");
-      for (int i = 0; i < idNames.length; i++) {
-        result.add(pmcRoleConnector.getRoleForIdName(idNames[i]));
+      for (String idName : idNames) {
+        result.add(pmcRoleConnector.getRoleForIdName(idName));
       }
     }
     return result;
@@ -128,7 +151,9 @@ public class PmcRoleServiceImpl implements PmcRoleService {
   @Override
   public Collection<PmcRoleInstanceDto> getRoleInstancesForProject(Long projectGuid) {
 
-    if (pmcRoleConnector == null) determineInjectedBeans();
+    if (pmcRoleConnector == null) {
+      determineInjectedBeans();
+    }
 
     Collection<PmcRoleInstanceDto> result = new ArrayList<>();
     PmcProject project = pmcProjectDao.getById(projectGuid);
@@ -145,7 +170,9 @@ public class PmcRoleServiceImpl implements PmcRoleService {
   public Collection<PmcRoleInstanceDto> getRoleInstancesForProject(
       Long projectGuid, Long roleGuid) {
 
-    if (pmcRoleConnector == null) determineInjectedBeans();
+    if (pmcRoleConnector == null) {
+      determineInjectedBeans();
+    }
 
     return pmcRoleConnector.getRoleInstancesForPmcProject(
         dozerMapper.map(pmcProjectDao.getById(projectGuid), PmcProjectDto.class),
@@ -155,7 +182,9 @@ public class PmcRoleServiceImpl implements PmcRoleService {
   @Override
   public PmcRoleInstanceDto getGroupRoleInstance(Long projectGuid, String groupName) {
 
-    if (pmcRoleConnector == null) determineInjectedBeans();
+    if (pmcRoleConnector == null) {
+      determineInjectedBeans();
+    }
 
     Collection<PmcRoleInstanceDto> result =
         pmcRoleConnector.getRoleInstancesForPmcProject(
@@ -166,8 +195,9 @@ public class PmcRoleServiceImpl implements PmcRoleService {
       for (PmcRoleInstanceDto r : result) {
         return r;
       }
-    } else if (result.size() == 0) return null;
-    else {
+    } else if (result.size() == 0) {
+      return null;
+    } else {
       throw new RuntimeException(
           "More than one role instance found for group role " + groupName + "!");
     }
@@ -178,7 +208,9 @@ public class PmcRoleServiceImpl implements PmcRoleService {
   public Collection<PmcRoleInstanceDto> getRoleInstancesForRefObject(
       Long refObjectId, String refObjectType, Long roleGuid) {
 
-    if (pmcRoleConnector == null) determineInjectedBeans();
+    if (pmcRoleConnector == null) {
+      determineInjectedBeans();
+    }
 
     return pmcRoleConnector.getRoleInstancesForRefObject(
         refObjectType, refObjectId, pmcRoleConnector.getRoleForId(roleGuid));
@@ -188,7 +220,9 @@ public class PmcRoleServiceImpl implements PmcRoleService {
   public void setRoleInstancesForProject(
       Long projectGuid, Collection<PmcRoleInstanceDto> roleInstance, String source) {
 
-    if (pmcRoleConnector == null) determineInjectedBeans();
+    if (pmcRoleConnector == null) {
+      determineInjectedBeans();
+    }
     PmcProjectDto dto = this.pmcProjectService.getProjectByGuid(projectGuid, Mode.RELATIONIDS);
     PmcProjectTypeConfiguration conf = new PmcProjectTypeConfiguration(dto.getPmcProjectType());
     List<String> parentRoles = conf.getDeployRoleChangeToParentRoles();
@@ -239,7 +273,9 @@ public class PmcRoleServiceImpl implements PmcRoleService {
 
   @Override
   public PmcRoleDto getRoleForRoleConsumer(Long roleConsumerGuid, String baseRoleIdName) {
-    if (pmcRoleConnector == null) determineInjectedBeans();
+    if (pmcRoleConnector == null) {
+      determineInjectedBeans();
+    }
     return pmcRoleConnector.getRoleForRoleConsumer(roleConsumerGuid, baseRoleIdName);
   }
 
@@ -270,7 +306,7 @@ public class PmcRoleServiceImpl implements PmcRoleService {
 
   @Override
   public PmcRoleDto addRole(String roleName) {
-    PmcRole pmcRole = new PmcRole(roleName, new ArrayList<PmcPermission>());
+    PmcRole pmcRole = new PmcRole(roleName, new ArrayList<>());
     pmcRole.setName(roleName);
     pmcRole = pmcRoleDao.create(pmcRole);
     return mapRoleToDto(pmcRole);
@@ -338,8 +374,10 @@ public class PmcRoleServiceImpl implements PmcRoleService {
       throw new IllegalStateException("multiple role instances found for role=" + idName);
     } else {
       PmcRoleInstanceDto role = roleInstances.iterator().next();
-      if (role.getRoleConsumer() == null) return result;
-      PmcUser roleUser = pmcUserRepo.findOne(role.getRoleConsumer());
+      if (role.getRoleConsumer() == null) {
+        return result;
+      }
+      PmcUser roleUser = pmcUserRepo.findById(role.getRoleConsumer()).orElse(null);
       result.setUserIdName(roleUser.getLoginName());
       if (!isGroupRole(idName)) {
         return result;
@@ -398,8 +436,11 @@ public class PmcRoleServiceImpl implements PmcRoleService {
     Collection<PmcProjectListener> listener = new ArrayList<>();
     if (pt.getListeners() != null) {
       for (String idName : pt.getListeners()) {
-        if (startListenerMap.containsKey(idName)) listener.add(startListenerMap.get(idName));
-        else log.warn("No project listener with id '{}' found!", idName);
+        if (startListenerMap.containsKey(idName)) {
+          listener.add(startListenerMap.get(idName));
+        } else {
+          log.warn("No project listener with id '{}' found!", idName);
+        }
       }
     }
     return listener;

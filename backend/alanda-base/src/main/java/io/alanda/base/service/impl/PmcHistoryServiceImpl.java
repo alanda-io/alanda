@@ -40,7 +40,7 @@ public class PmcHistoryServiceImpl implements PmcHistoryService {
 
   @Override
   public Page<PmcHistoryLogDto> listHistory(int pageNumber, int pageSize) {
-    PageRequest pr = new PageRequest(pageNumber, pageSize);
+    PageRequest pr = PageRequest.of(pageNumber, pageSize);
 
     Page<PmcHistoryLog> searchResult = histLogRepo.findAll(pr);
     List<PmcHistoryLogDto> res = new ArrayList<>();
@@ -48,13 +48,12 @@ public class PmcHistoryServiceImpl implements PmcHistoryService {
       PmcHistoryLogDto tmp = dozerMapper.map(pmcHist, PmcHistoryLogDto.class);
       res.add(tmp);
     }
-    Page<PmcHistoryLogDto> retVal = new PageImpl<>(res, pr, searchResult.getNumberOfElements());
-    return retVal;
+    return new PageImpl<>(res, pr, searchResult.getNumberOfElements());
   }
 
   @Override
   public Page<PmcHistoryLogDto> searchHistory(PmcHistoryLogDto searchDto, int pageNumber, int pageSize) {
-    PageRequest pr = new PageRequest(pageNumber - 1, pageSize, Sort.Direction.DESC, "logDate");
+    PageRequest pr = PageRequest.of(pageNumber - 1, pageSize, Sort.Direction.DESC, "logDate");
     ExampleMatcher matcher = ExampleMatcher
       .matching()
       .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
@@ -67,8 +66,7 @@ public class PmcHistoryServiceImpl implements PmcHistoryService {
       PmcHistoryLogDto tmp = dozerMapper.map(pmcHist, PmcHistoryLogDto.class);
       res.add(tmp);
     }
-    Page<PmcHistoryLogDto> retVal = new PageImpl<>(res, pr, searchResult.getNumberOfElements());
-    return retVal;
+    return new PageImpl<>(res, pr, searchResult.getNumberOfElements());
   }
 
 }

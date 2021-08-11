@@ -11,8 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -23,11 +21,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "PMC_GROUP")
 @NamedQueries({@NamedQuery(name = "PmcGroup.getByGroupName", query = "Select g from PmcGroup g where g.groupName = :groupName")})
-@NamedNativeQueries({
-  @NamedNativeQuery(name = "PmcGroup.findByRole", query = "select g.* FROM PMC_GROUP g, PMC_GROUP_ROLE gr where g.guid=gr.REF_GROUP and gr.ref_role=:roleId", resultClass = PmcGroup.class),
-  @NamedNativeQuery(name = "PmcGroup.findByRolename", query = "select g.* FROM PMC_GROUP g, PMC_GROUP_ROLE gr, pmc_role r where g.guid=gr.REF_GROUP and r.guid=gr.ref_role and r.name=:roleName", resultClass = PmcGroup.class)
-})
-
 public class PmcGroup extends AbstractAuditEntity implements Serializable {
 
   private static final long serialVersionUID = -4980837619559876933L;

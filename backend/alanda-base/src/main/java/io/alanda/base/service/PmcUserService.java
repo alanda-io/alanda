@@ -1,31 +1,30 @@
 package io.alanda.base.service;
 
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
-import javax.ws.rs.core.Response;
-
-import org.springframework.data.domain.Sort;
-
 import io.alanda.base.dto.PagedResultDto;
 import io.alanda.base.dto.PmcGroupDto;
 import io.alanda.base.dto.PmcPermissionDto;
 import io.alanda.base.dto.PmcRoleDto;
 import io.alanda.base.dto.PmcUserDto;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import javax.ws.rs.core.Response;
+import org.springframework.data.domain.Sort;
 
 public interface PmcUserService {
 
-  public static final String USER = "User";
+  String USER = "User";
 
-  public static final String SOURCE_PMC = "PMC";
+  String SOURCE_PMC = "PMC";
 
   PmcUserDto getUserByUserId(Long userId);
 
   PmcUserDto getUserByLoginName(String loginName);
 
   PmcUserDto getUserByLoginName(String loginName, boolean includeGroups);
+
+  PmcUserDto getUserByEmail(String email);
 
   List<PmcUserDto> getUsersByGroup(Long groupId, String search);
 
