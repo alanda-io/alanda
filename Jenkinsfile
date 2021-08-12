@@ -1,20 +1,28 @@
 pipeline {
     agent any
-
+    tools {
+	maven 'Maven 3.6.3'
+    }
     stages {
         stage('Build') {
             steps {
-                echo 'Building..'
+                sh 'mvn -f ./backend/pom.xml -Dmaven.test.skip=true'
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
+                sh 'mvn test'
             }
         }
-        stage('Deploy') {
+        stage('Upload to Registry') {
+            when {
+    	        anyOf {
+     	            branch 'master';
+     	            branch 'jenkins';
+        	    }
+	        }
             steps {
-                echo 'Deploying....'
+                sh 'mvn -f ./backend/pom.xml --settings ./settings.xml clean deploy -Dmaven.test.skip=true'
             }
         }
     }
