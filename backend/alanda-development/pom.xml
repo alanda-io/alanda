@@ -5,7 +5,7 @@
   <parent>
     <groupId>io.alanda</groupId>
     <artifactId>alanda</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
