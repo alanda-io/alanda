@@ -265,13 +265,13 @@
 
   <distributionManagement>
     <repository>
-      <id>alanda-repo</id>
+      <id>alanda-releases</id>
       <name>releases</name>
       <url>https://repo.alanda.io/repository/maven-releases/</url>
       <layout>default</layout>
     </repository>
     <snapshotRepository>
-      <id>alanda-repo</id>
+      <id>alanda-snapshots</id>
       <name>snapshots</name>
       <url>https://repo.alanda.io/repository/maven-snapshots/</url>
     </snapshotRepository>
