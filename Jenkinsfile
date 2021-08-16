@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                sh 'mvn -f ./backend/pom.xml test'
             }
         }
         stage('Upload to Registry') {
