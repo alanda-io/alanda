@@ -14,16 +14,6 @@ pipeline {
                 sh 'mvn -f ./backend/pom.xml test'
             }
         }
-        stage('Run enforcer') {
-           when {
-    	        anyOf {
-     	            branch 'master';
-        	    }
-	        }
-            steps {
-                sh 'mvn -f ./backend/pom.xml enforcer:enforce -Drules=requireReleaseDeps'
-            }
-        }
         stage('Upload to Registry') {
             when {
     	        anyOf {
