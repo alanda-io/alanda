@@ -5,8 +5,12 @@
 
   <groupId>io.alanda</groupId>
   <artifactId>alanda</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <packaging>pom</packaging>
+
+  <scm>
+    <developerConnection>scm:git:https://github.com/alanda-io/alanda/tree/master/backend</developerConnection>
+  </scm>
 
   <name>alanda</name>
   <url>https://github.com/alanda-io/alanda</url>
@@ -314,7 +318,9 @@
           </execution>
         </executions>
         <configuration>
-          <serverId>alanda-repo</serverId>
+          <serverId>alanda-releases</serverId>
+          <skipStaging>true</skipStaging>
+          <serverId>alanda-snapshots</serverId>
           <skipStaging>true</skipStaging>
         </configuration>
       </plugin>
