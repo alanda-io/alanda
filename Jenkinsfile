@@ -22,7 +22,7 @@ pipeline {
         	    }
 	        }
             steps {
-                sh 'mvn -f ./backend/pom.xml --settings ./settings.xml clean deploy -Dmaven.test.skip=true'
+                sh 'mvn -f ./backend/pom.xml clean deploy -Dmaven.test.skip=true'
             }
         }
     }

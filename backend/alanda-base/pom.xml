@@ -12,7 +12,8 @@
   <artifactId>alanda-base</artifactId>
 
   <name>Alanda base</name>
-  <url>https://github.com/orgs/alanda-io/pmc</url>
+  <url>https://github.com/alanda-io/alanda</url>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
