@@ -19,7 +19,6 @@ pipeline {
     	        anyOf {
      	            branch 'master';
      	            branch 'develop';
-     	            branch 'jenkins';
         	    }
 	        }
             steps {
