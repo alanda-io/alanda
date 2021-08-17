@@ -5,23 +5,27 @@
 
   <groupId>io.alanda</groupId>
   <artifactId>alanda</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>${revision}</version>
   <packaging>pom</packaging>
 
   <scm>
-    <connection>scm:git:https://bitbucket.org/pmcdevelopment/pmc.git</connection>
+    <developerConnection>scm:git:https://github.com/alanda-io/alanda/tree/master/backend</developerConnection>
   </scm>
 
-  <name>Alanda</name>
-  <url>https://github.com/orgs/alanda-io/pmc</url>
+  <name>alanda</name>
+  <url>https://github.com/alanda-io/alanda</url>
 
   <properties>
+    <revision>0.0.1</revision>
     <!-- Maven -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.javadoc.skip>true</maven.javadoc.skip>
     <maven-jar-plugin.version>2.6</maven-jar-plugin.version>
+    <maven-deploy.version>2.8.1</maven-deploy.version>
+    <!-- Nexus -->
+    <sonar-nexus-staging-plugin.version>1.5.1</sonar-nexus-staging-plugin.version>
     <!-- Libraries -->
     <camunda.version>7.10.0</camunda.version>
     <commons-io.version>2.4</commons-io.version>
@@ -264,5 +268,89 @@
 
   </dependencies>
 
+  <distributionManagement>
+    <repository>
+      <id>alanda-releases</id>
+      <name>releases</name>
+      <url>https://repo.alanda.io/repository/maven-releases/</url>
+      <layout>default</layout>
+    </repository>
+    <snapshotRepository>
+      <id>alanda-snapshots</id>
+      <name>snapshots</name>
+      <url>https://repo.alanda.io/repository/maven-snapshots/</url>
+      <layout>default</layout>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <build>
+    <plugins>
+      <!--<plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>${maven-deploy.version}</version>
+        <executions>
+          <execution>
+            <id>default-deploy</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin> -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>${maven-deploy.version}</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>${sonar-nexus-staging-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>default-deploy</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <serverId>alanda-releases</serverId>
+          <skipStaging>true</skipStaging>
+          <serverId>alanda-snapshots</serverId>
+          <skipStaging>true</skipStaging>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <version>1.2.7</version>
+        <configuration>
+          <updatePomFile>true</updatePomFile>
+        </configuration>
+        <executions>
+          <execution>
+            <id>flatten</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>flatten.clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
