@@ -35,7 +35,7 @@
                 <artifactItem>
                   <groupId>io.alanda</groupId>
                   <artifactId>alanda-identity-plugin</artifactId>
-                  <version>0.0.1-SNAPSHOT</version>
+                  <version>${revision}</version>
                   <type>jar</type>
                 </artifactItem>
               </artifactItems>

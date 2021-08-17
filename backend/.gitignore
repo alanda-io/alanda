@@ -8,3 +8,4 @@ alanda-development/src/test/resources/docker-oracle
 target
 alanda-development/src/test/resources/docker-camunda/image/src_modules/io/alanda/alanda-comment-plugin/main/*.jar
 alanda-development/src/test/resources/docker-camunda/image/src_modules/io/alanda/camunda/es/history/main/*.jar
+alanda-development/src/test/resources/docker-camunda/image/src_modules/io/alanda/alanda-identity-plugin/main/*.jar

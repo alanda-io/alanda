@@ -23,7 +23,7 @@ What is alanda for?
 
 * Docker
 * docker-compose 1.*
-* Maven 3.0 or higher
+* Maven 3.25 or higher
 * Node.js, 8.10 or higher
 * NPM 5.6.0
 * Oracle Database 11g Express Edition Release (11.2.0) or higher
