@@ -4,6 +4,17 @@
 .project
 .idea
 *.iml
+/pmc-base/nbactions.xml
+/nbactions.xml
+/front/pmcCore/nbproject/private/
+/front/pmcCoreGrunt/nbproject/private/
+/front/nbproject/private/
+/front/bower_components/
+/test-modul/target/
+/pmc-comment-plugin/target/
+/pmc-background/nb-configuration.xml
+/pmc-blog/nb-configuration.xml
+*/target/
 alanda-development/src/test/resources/docker-oracle
 target
 alanda-development/src/test/resources/docker-camunda/image/src_modules/io/alanda/alanda-comment-plugin/main/*.jar

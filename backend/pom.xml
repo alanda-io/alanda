@@ -57,19 +57,21 @@
     <wildfly-spec-api.version>14.0.1.Final</wildfly-spec-api.version>
   </properties>
 
-  <modules>
-    <module>alanda-base</module>
-    <module>alanda-rest-impl</module>
-    <module>alanda-rest</module>
-    <module>alanda-background</module>
-    <module>alanda-camunda-es-history-plugin</module>
-    <module>alanda-identity-plugin</module>
-    <module>alanda-comment-plugin</module>
-    <module>alanda-ejb-client</module>
-    <module>alanda-persistence</module>
-    <module>alanda-development</module>
-    <module>alanda-process-vacation</module>
-  </modules>
+    <modules>
+        <module>alanda-base</module>
+        <module>alanda-rest-impl</module>
+        <module>alanda-rest</module>
+        <module>alanda-background</module>
+        <module>alanda-camunda-es-history-plugin</module>
+        <module>alanda-identity-plugin</module>
+        <module>alanda-comment-plugin</module>
+        <module>alanda-ejb-client</module>
+        <module>alanda-persistence</module>
+        <module>alanda-development</module>
+        <module>alanda-process-vacation</module>
+        <module>alanda-openapi-mixin</module>
+        <module>alanda-springboot-mixin</module>
+    </modules>
 
   <repositories>
 
