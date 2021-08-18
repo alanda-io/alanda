@@ -46,6 +46,7 @@
         <module>alanda-development</module>
         <module>alanda-process-vacation</module>
         <module>alanda-openapi-mixin</module>
+        <module>alanda-springboot-mixin</module>
     </modules>
 
 
