@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apac">
+  <parent>
+    <artifactId>alanda</artifactId>
+    <groupId>io.alanda</groupId>
+    <version>0.0.1</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>alanda-test-mixin</artifactId>
+
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+
+    <mixin-maven-plugin.version>0.1-alpha-40</mixin-maven-plugin.version>
+    <groovy.version>3.0.2</groovy.version>
+    <junit-jupiter-engine.version>5.7.2</junit-jupiter-engine.version>
+    <junit.version>4.12</junit.version>
+    <junit5.version>5.6.2</junit5.version>
+    <mockito-core.version>2.23.4</mockito-core.version>
+    <mockito-junit-jupiter.version>2.23.4</mockito-junit-jupiter.version>
+    <rest-assured.version>4.3.0</rest-assured.version>
+    <spring-boot-starter-test.version>2.0.5.RELEASE</spring-boot-starter-test.version>
+    <testcontainers-lib.version>0.0.3</testcontainers-lib.version>
+  </properties>
+
+  <distributionManagement>
+    <repository>
+      <id>alanda-repo</id>
+      <url>https://repo.alanda.io/repository/maven-releases/</url>
+      <layout>default</layout>
+    </repository>
+    <snapshotRepository>
+      <id>alanda-repo</id>
+      <url>https://repo.alanda.io/repository/maven-snapshots/</url>
+      <layout>default</layout>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit5.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <version>${junit5.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit5.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.alanda.libs</groupId>
+      <artifactId>testcontainers-lib</artifactId>
+      <version>${testcontainers-lib.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <version>${junit5.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>${rest-assured.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito-core.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>${mockito-junit-jupiter.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <version>${spring-boot-starter-test.version}</version>
+    </dependency>
+  </dependencies>
+
+</project>
