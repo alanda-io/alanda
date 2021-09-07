@@ -16,6 +16,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
 
     <mixin-maven-plugin.version>0.1-alpha-40</mixin-maven-plugin.version>
+
     <groovy.version>3.0.2</groovy.version>
     <junit-jupiter-engine.version>5.7.2</junit-jupiter-engine.version>
     <junit.version>4.12</junit.version>
