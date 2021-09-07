@@ -26,7 +26,6 @@
     <alanda-openapi-mixin.version>1.0.0</alanda-openapi-mixin.version>
     <spring-jdbc.version>5.1.6.RELEASE</spring-jdbc.version>
     <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
-    <rest-assured.version>3.3.0</rest-assured.version>
     <commons-lang3.version>3.9</commons-lang3.version>
     <sonar-nexus-staging-plugin.version>1.5.1</sonar-nexus-staging-plugin.version>
     <jacoco.plugin.version>0.8.7</jacoco.plugin.version>
