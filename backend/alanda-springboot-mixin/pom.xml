@@ -28,7 +28,6 @@
     <commons-lang3.version>3.9</commons-lang3.version>
     <error-handling-lib.version>0.0.1</error-handling-lib.version>
     <h2.version>1.4.200</h2.version>
-    <jacoco.plugin.version>0.8.7</jacoco.plugin.version>
     <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
     <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
     <persistence-lib.version>0.0.3</persistence-lib.version>
@@ -36,6 +35,7 @@
     <spring-jdbc.version>5.1.6.RELEASE</spring-jdbc.version>
     <sonar-nexus-staging-plugin.version>1.5.1</sonar-nexus-staging-plugin.version>
 
+    <jacoco.plugin.version>0.8.7</jacoco.plugin.version>
     <maven-deploy.version>2.8.1</maven-deploy.version>
     <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
     <mixin-maven-plugin.version>0.1-alpha-40</mixin-maven-plugin.version>
