@@ -24,18 +24,21 @@
 
   <properties>
     <alanda-openapi-mixin.version>1.0.0</alanda-openapi-mixin.version>
-    <spring-jdbc.version>5.1.6.RELEASE</spring-jdbc.version>
-    <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
-    <commons-lang3.version>3.9</commons-lang3.version>
-    <sonar-nexus-staging-plugin.version>1.5.1</sonar-nexus-staging-plugin.version>
-    <jacoco.plugin.version>0.8.7</jacoco.plugin.version>
-    <h2.version>1.4.200</h2.version>
-    <spring-boot.version>2.0.5.RELEASE</spring-boot.version>
-    <maven-deploy.version>2.8.1</maven-deploy.version>
-    <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
-    <mixin-maven-plugin.version>0.1-alpha-40</mixin-maven-plugin.version>
     <camunda.version>7.10.0-ee</camunda.version>
+    <commons-lang3.version>3.9</commons-lang3.version>
+    <error-handling-lib.version>0.0.1</error-handling-lib.version>
+    <h2.version>1.4.200</h2.version>
+    <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
+    <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+    <persistence-lib.version>0.0.3</persistence-lib.version>
+    <spring-boot.version>2.0.5.RELEASE</spring-boot.version>
+    <spring-jdbc.version>5.1.6.RELEASE</spring-jdbc.version>
+    <sonar-nexus-staging-plugin.version>1.5.1</sonar-nexus-staging-plugin.version>
+
+    <jacoco.plugin.version>0.8.7</jacoco.plugin.version>
+    <maven-deploy.version>2.8.1</maven-deploy.version>
     <maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
+    <mixin-maven-plugin.version>0.1-alpha-40</mixin-maven-plugin.version>
   </properties>
 
   <distributionManagement>
@@ -58,6 +61,19 @@
       <version>${spring-boot.version}</version>
       <type>pom</type>
       <scope>provided</scope>
+    </dependency>
+
+    <!-- Alanda Libraries -->
+    <dependency>
+      <groupId>io.alanda.libs</groupId>
+      <artifactId>persistence-lib</artifactId>
+      <version>${persistence-lib.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.alanda.libs</groupId>
+      <artifactId>error-handling-lib</artifactId>
+      <version>${error-handling-lib.version}</version>
     </dependency>
 
     <!-- Database Dependencies -->
@@ -117,6 +133,12 @@
           <artifactId>spring-boot-starter-tomcat</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+      <version>${spring-boot.version}</version>
     </dependency>
 
     <!-- Camunda Dependencies -->
