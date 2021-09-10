@@ -76,7 +76,6 @@
       <version>${error-handling-lib.version}</version>
     </dependency>
 
-
     <!-- Database Dependencies -->
     <dependency>
       <groupId>com.h2database</groupId>
