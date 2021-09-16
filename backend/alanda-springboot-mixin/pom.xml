@@ -10,9 +10,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>alanda-springboot-mixin</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
   <packaging>pom</packaging>
-
+ub
   <description>
     Mixin to bundle dependencies, opinionated for using the spring boot alanda setup to create a process appliation
     integrated in the continuous deployment pipeline.
@@ -30,7 +30,7 @@
     <h2.version>1.4.200</h2.version>
     <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
     <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
-    <persistence-lib.version>0.0.3</persistence-lib.version>
+    <persistence-lib.version>1.0.0</persistence-lib.version>
     <spring-boot.version>2.0.5.RELEASE</spring-boot.version>
     <spring-jdbc.version>5.1.6.RELEASE</spring-jdbc.version>
     <sonar-nexus-staging-plugin.version>1.5.1</sonar-nexus-staging-plugin.version>

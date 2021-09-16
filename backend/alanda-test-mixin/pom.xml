@@ -5,7 +5,7 @@
   <parent>
     <artifactId>alanda</artifactId>
     <groupId>io.alanda</groupId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -17,6 +17,7 @@
 
     <mixin-maven-plugin.version>0.1-alpha-40</mixin-maven-plugin.version>
 
+    <camunda-bpm-assert.version>10.0.0</camunda-bpm-assert.version>
     <groovy.version>3.0.2</groovy.version>
     <junit-jupiter-engine.version>5.7.2</junit-jupiter-engine.version>
     <junit.version>4.12</junit.version>
@@ -101,6 +102,11 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <version>${spring-boot-starter-test.version}</version>
     </dependency>
-  </dependencies>
 
+    <dependency>
+      <groupId>org.camunda.bpm.assert</groupId>
+      <artifactId>camunda-bpm-assert</artifactId>
+      <version>${camunda-bpm-assert.version}</version>
+    </dependency>
+  </dependencies>
 </project>
