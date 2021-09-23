@@ -12,7 +12,7 @@
   <artifactId>alanda-springboot-mixin</artifactId>
   <version>1.0.6</version>
   <packaging>pom</packaging>
-ub
+
   <description>
     Mixin to bundle dependencies, opinionated for using the spring boot alanda setup to create a process appliation
     integrated in the continuous deployment pipeline.
