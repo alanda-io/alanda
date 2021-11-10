@@ -290,7 +290,7 @@ public interface PmcProjectService {
 
   List<PmcProjectDto> getChildProjects(Long pmcProjectGuid);
 
-  PmcProjectDto synchProject(Long guid);
+  void synchProject(Long guid);
 
   /**
    *

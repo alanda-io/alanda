@@ -4,25 +4,25 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.alanda</groupId>
   <artifactId>alanda-background</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <packaging>war</packaging>
   <dependencies>
     <dependency>
       <groupId>io.alanda</groupId>
       <artifactId>alanda-rest-impl</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.1</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.alanda</groupId>
       <artifactId>alanda-persistence</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.1</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.alanda</groupId>
       <artifactId>alanda-ejb-client</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.1</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

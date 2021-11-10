@@ -1,45 +1,5 @@
 package io.alanda.base.service.impl;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
-import javax.ejb.ConcurrencyManagement;
-import javax.ejb.ConcurrencyManagementType;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
-import javax.ejb.Singleton;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import org.apache.commons.lang3.StringUtils;
-import org.camunda.bpm.engine.HistoryService;
-import org.camunda.bpm.engine.RepositoryService;
-import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.history.HistoricVariableInstance;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHits;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import io.alanda.base.connector.PmcProjectListener;
 import io.alanda.base.connector.PmcRefObjectConnector;
 import io.alanda.base.connector.ProjectTypeElasticListener;
@@ -51,6 +11,7 @@ import io.alanda.base.dao.PmcProjectCardDao;
 import io.alanda.base.dao.PmcProjectDao;
 import io.alanda.base.dao.PmcProjectMilestoneDao;
 import io.alanda.base.dao.PmcProjectPhaseDao;
+import io.alanda.base.dao.PmcProjectPhaseDefinitionDao;
 import io.alanda.base.dao.PmcProjectProcessDao;
 import io.alanda.base.dao.PmcProjectTypeDao;
 import io.alanda.base.dao.PmcPropertyDao;
@@ -100,6 +61,43 @@ import io.alanda.base.type.ProcessVariables;
 import io.alanda.base.util.DozerMapper;
 import io.alanda.base.util.UserContext;
 import io.alanda.base.util.cache.UserCache;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import javax.annotation.PostConstruct;
+import javax.ejb.ConcurrencyManagement;
+import javax.ejb.ConcurrencyManagementType;
+import javax.ejb.Lock;
+import javax.ejb.LockType;
+import javax.ejb.Singleton;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.StringUtils;
+import org.camunda.bpm.engine.HistoryService;
+import org.camunda.bpm.engine.RepositoryService;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.history.HistoricVariableInstance;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 @ApplicationScoped
@@ -109,6 +107,7 @@ import io.alanda.base.util.cache.UserCache;
 public class PmcProjectServiceImpl implements PmcProjectService {
 
   private static final Logger log = LoggerFactory.getLogger(PmcProjectServiceImpl.class);
+  private static final long DEBOUNCE_TIME = 20000L;
 
   private final String MS_LOG_DATE_FORMAT = "dd.MM.yyyy";
 
@@ -117,6 +116,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
   @Inject
   private PmcProjectDao pmcProjectDao;
+
+  @Inject
+  private PmcProjectService pmcProjectService;
 
   @Inject
   private PmcPropertyDao pmcPropertyDao;
@@ -129,6 +131,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
   @Inject
   private PmcProjectPhaseDao pmcProjectPhaseDao;
+
+  @Inject
+  private PmcProjectPhaseDefinitionDao pmcProjectPhaseDefinitionDao;
 
   @Inject
   private PmcProjectCardDao pmcProjectCardDao;
@@ -153,6 +158,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
   @Inject
   private PmcPropertyService pmcPropertyService;
+
+  @Inject
+  private PmcMessageEventServiceImpl pmcMessageEventServiceImpl;
 
   @Inject
   private ElasticService elasticService;
@@ -196,35 +204,42 @@ public class PmcProjectServiceImpl implements PmcProjectService {
   @Inject
   private PmcShiroAuthorizationService authorizationService;
 
-  private static final String[] MONITOR_FIELDS_INCLUDE = new String[] {
-    "project.*",
-    "project.pmcProjectType.idName",
-    "contacts.*",
-    "refObject.clusterIdName",
-    "refObject.*"};
+  @Inject
+  private PmcProjectMapperServiceImpl mapperService;
 
-  private static final String[] MONITOR_FIELDS_EXCLUDE = new String[] {
-    "project.processes",
-    "project.history",
-    "project.pmcProjectType.docuConfigs",
-    "project.pmcProjectType.processDefinitions",
-    "project.pmcProjectType.allowedTags",
-    "project.pmcProjectType.allowedTagList",
-    "project.pmcProjectType.subTypes",
-    "project.pmcProjectType.allowedSubtypeList",
-    "project.pmcProjectType.readRightGroups",
-    "project.pmcProjectType.deleteRightGroups",
-    "project.pmcProjectType.writeRightGroups",
-    "project.pmcProjectType.allowedProcesses",
-    "project.pmcProjectType.writeRights",
-    "project.pmcProjectType.additionalProperties",
-    "project.pmcProjectType.deleteRights",
-    "project.pmcProjectType.configuration",
-    "project.pmcProjectType.createRights",
-    "project.pmcProjectType.allowedSubtypes",
-    "project.pmcProjectType.allowedMilestones",
-    "project.pmcProjectType.readRights",
-    "project.pmcProjectType.createRightGroups",};
+  @Inject
+  private ThreadSleepServiceImpl threadSleepService;
+  private static final String[] MONITOR_FIELDS_INCLUDE =
+      new String[]{
+          "project.*",
+          "project.pmcProjectType.idName",
+          "contacts.*",
+          "refObject.clusterIdName",
+          "refObject.*"
+      };
+
+  private static final String[] MONITOR_FIELDS_EXCLUDE = new String[]{
+      "project.processes",
+      "project.history",
+      "project.pmcProjectType.docuConfigs",
+      "project.pmcProjectType.processDefinitions",
+      "project.pmcProjectType.allowedTags",
+      "project.pmcProjectType.allowedTagList",
+      "project.pmcProjectType.subTypes",
+      "project.pmcProjectType.allowedSubtypeList",
+      "project.pmcProjectType.readRightGroups",
+      "project.pmcProjectType.deleteRightGroups",
+      "project.pmcProjectType.writeRightGroups",
+      "project.pmcProjectType.allowedProcesses",
+      "project.pmcProjectType.writeRights",
+      "project.pmcProjectType.additionalProperties",
+      "project.pmcProjectType.deleteRights",
+      "project.pmcProjectType.configuration",
+      "project.pmcProjectType.createRights",
+      "project.pmcProjectType.allowedSubtypes",
+      "project.pmcProjectType.allowedMilestones",
+      "project.pmcProjectType.readRights",
+      "project.pmcProjectType.createRightGroups",};
 
   @PostConstruct
   private void initPmcProjectService() {
@@ -299,18 +314,21 @@ public class PmcProjectServiceImpl implements PmcProjectService {
   public PmcProjectDto cancelProject(Long projectGuid, boolean stopProcesses, String reason) {
 
     PmcProject project = pmcProjectDao.getById(projectGuid);
-    if (project == null)
+    if (project == null) {
       throw new RuntimeException("No project with guid " + projectGuid + " found!");
+    }
 
     if (project.getStatus().equals(PmcProjectState.COMPLETED) || project.getStatus().equals(PmcProjectState.CANCELED)) {
-      throwWebAppException("not allowed to cancel project (guid=" + project.getGuid() + ") in state " + project.getStatus(),
-                           "Not allowed to cancel the project in state " + project.getStatus());
+      throwWebAppException(
+          "not allowed to cancel project (guid=" + project.getGuid() + ") in state " + project.getStatus(),
+          "Not allowed to cancel the project in state " + project.getStatus());
     }
 
     PmcUserDto user = UserContext.getUser();
     String name = "[NULL]";
-    if (user != null)
+    if (user != null) {
       name = user.getDisplayName();
+    }
     log.warn("CANCEL for Project {} , called by User: {}", project.getProjectId(), name);
 
     Collection<PmcProjectListener> listener = getListener(project);
@@ -330,8 +348,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
       pmcProcessService.cancelProjectProcess(mainProcess.getGuid(), null, null, true, null);
     } else {
       for (PmcProjectProcess process : project.getProcesses()) {
-        if (process.getStatus().equals(ProcessState.ACTIVE) || process.getStatus().equals(ProcessState.SUSPENDED))
+        if (process.getStatus().equals(ProcessState.ACTIVE) || process.getStatus().equals(ProcessState.SUSPENDED)) {
           process.setStatus(ProcessState.CANCELED);
+        }
       }
     }
 
@@ -343,7 +362,7 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     }
 
     pmcProjectDao.getEntityManager().flush();
-    PmcProjectDto pmcProjectDto = mapProject(project, null);//dozerMapper.map(project, PmcProjectDto.class);
+    PmcProjectDto pmcProjectDto = mapperService.mapProject(project, null, elasticListeners);//dozerMapper.map(project, PmcProjectDto.class);
     elasticService.updateEntry(pmcProjectDto);
 
     pmcHistoryService.createHistory(PmcHistoryLogDto.createForProject(project).withChange(Action.CANCEL, reason));
@@ -356,14 +375,15 @@ public class PmcProjectServiceImpl implements PmcProjectService {
   public PmcProjectDto setResult(Long projectGuid, PmcProjectResultStatus resultStatus, String resultComment) {
 
     PmcProject project = pmcProjectDao.getById(projectGuid);
-    if (project == null)
+    if (project == null) {
       throw new RuntimeException("No project with guid " + projectGuid + " found!");
+    }
 
     project.setResultStatus(resultStatus);
     project.setResultComment(resultComment);
 
     pmcProjectDao.getEntityManager().flush();
-    PmcProjectDto pmcProjectDto = mapProject(project, null);//dozerMapper.map(project, PmcProjectDto.class);
+    PmcProjectDto pmcProjectDto = mapperService.mapProject(project, null, elasticListeners);//dozerMapper.map(project, PmcProjectDto.class);
     elasticService.updateEntry(pmcProjectDto);
     authorizationService.addOrUpdateBaseAuthKeyForProject(pmcProjectDto);
     return pmcProjectDto;
@@ -382,19 +402,19 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
   @Override
   public PmcProjectDto addProject(String projectTypeIdName,
-                                  String subtype,
-                                  String[] tag,
-                                  Long refObjectId,
-                                  String refObjectIdName,
-                                  String refObjectType,
-                                  Long ownerId,
-                                  Long customerProjectId,
-                                  boolean executeStartProcess,
-                                  String comments,
-                                  String title,
-                                  Date startDate,
-                                  Date dueDate,
-                                  String processInstanceId) {
+      String subtype,
+      String[] tag,
+      Long refObjectId,
+      String refObjectIdName,
+      String refObjectType,
+      Long ownerId,
+      Long customerProjectId,
+      boolean executeStartProcess,
+      String comments,
+      String title,
+      Date startDate,
+      Date dueDate,
+      String processInstanceId) {
     PmcProject p = new PmcProject();
     p.setPmcProjectType(pmcProjectTypeDao.getByIdName(projectTypeIdName));
     p.setSubtype(subtype);
@@ -413,20 +433,20 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
   @Override
   public PmcProjectDto addProjectWithExtraProcessVariables(String projectTypeIdName,
-                                  String subtype,
-                                  String[] tag,
-                                  Long refObjectId,
-                                  String refObjectIdName,
-                                  String refObjectType,
-                                  Long ownerId,
-                                  Long customerProjectId,
-                                  boolean executeStartProcess,
-                                  String comments,
-                                  String title,
-                                  Date startDate,
-                                  Date dueDate,
-                                  String processInstanceId,
-                                  Map<String, Object> processVariables) {
+      String subtype,
+      String[] tag,
+      Long refObjectId,
+      String refObjectIdName,
+      String refObjectType,
+      Long ownerId,
+      Long customerProjectId,
+      boolean executeStartProcess,
+      String comments,
+      String title,
+      Date startDate,
+      Date dueDate,
+      String processInstanceId,
+      Map<String, Object> processVariables) {
     PmcProject p = new PmcProject();
     p.setPmcProjectType(pmcProjectTypeDao.getByIdName(projectTypeIdName));
     p.setSubtype(subtype);
@@ -440,47 +460,52 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     p.setComment(comments);
     p.setTitle(title);
     p.setDueDate(dueDate);
-    return addProjectWithExtraProcessVariables(p, executeStartProcess, null, processInstanceId, null, null,processVariables);
+    return addProjectWithExtraProcessVariables(p, executeStartProcess, null, processInstanceId, null, null,
+        processVariables);
   }
 
 
   protected PmcProjectDto addProject(
-                                     PmcProject p,
-                                     boolean executeStartProcess,
-                                     Collection<PmcPropertyDto> properties,
-                                     String processInstanceId,
-                                     String processPackageKeyParameter,
-                                     String commentKey) {
-    return addProjectWithExtraProcessVariables(p, executeStartProcess, properties, processInstanceId,processPackageKeyParameter, commentKey, null);
+      PmcProject p,
+      boolean executeStartProcess,
+      Collection<PmcPropertyDto> properties,
+      String processInstanceId,
+      String processPackageKeyParameter,
+      String commentKey) {
+    return addProjectWithExtraProcessVariables(p, executeStartProcess, properties, processInstanceId,
+        processPackageKeyParameter, commentKey, null);
   }
 
   protected PmcProjectDto addProjectWithExtraProcessVariables(PmcProject p,
-                                     boolean executeStartProcess,
-                                     Collection<PmcPropertyDto> properties,
-                                     String processInstanceId,
-                                     String processPackageKeyParameter,
-                                     String commentKey,
-                                     Map<String, Object> processVariables) {
-    log.trace("Adding project {} with processInstanceId {}, immediate start set to {}, with comment key {}, properties {} and process variables {}: {}",
-            p.getProjectId(), processInstanceId, executeStartProcess, commentKey, properties, processVariables, p);
+      boolean executeStartProcess,
+      Collection<PmcPropertyDto> properties,
+      String processInstanceId,
+      String processPackageKeyParameter,
+      String commentKey,
+      Map<String, Object> processVariables) {
+    log.trace(
+        "Adding project {} with processInstanceId {}, immediate start set to {}, with comment key {}, properties {} and process variables {}: {}",
+        p.getProjectId(), processInstanceId, executeStartProcess, commentKey, properties, processVariables, p);
 
     Collection<PmcProjectListener> listener = getListener(p);
 
-    if (properties == null)
+    if (properties == null) {
       properties = new ArrayList<>();
+    }
 
     p.setProjectId(createProjectId(p.getPmcProjectType()));
     p.setStatus(PmcProjectState.ACTIVE);
 
-    for (PmcProjectListener l : listener)
+    for (PmcProjectListener l : listener) {
       l.beforeEntityCreation(p, properties);
+    }
 
     log.info("Creating project {} for type {}", p.getProjectId(), p.getPmcProjectType().getIdName());
     p = pmcProjectDao.create(p);
     if (p.getParents() != null) {
       log.debug("Adding {} parents", p.getParents().size());
       for (PmcProject parent : p.getParents()) {
-        if ( !parent.getChildren().contains(p)) {
+        if (!parent.getChildren().contains(p)) {
           log.debug("Adding parent: {}", parent);
           parent.getChildren().add(p);
         } else {
@@ -491,7 +516,7 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     if (p.getChildren() != null) {
       log.debug("Adding {} children", p.getChildren().size());
       for (PmcProject child : p.getChildren()) {
-        if ( !child.getParents().contains(p)) {
+        if (!child.getParents().contains(p)) {
           log.debug("Adding child: {}", child);
           child.getParents().add(p);
         } else {
@@ -529,15 +554,16 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
     log.debug("Setting {} properties", properties.size());
     for (PmcPropertyDto prop : properties) {
-      if (prop.getValueType() != null)
+      if (prop.getValueType() != null) {
         pmcPropertyService.setProperty(null,
-                                       null,
-                                       p.getGuid(),
-                                       prop.getKey(),
-                                       prop.getValue(),
-                                       PmcPropertyType.valueOf(prop.getValueType()));
-      else
+            null,
+            p.getGuid(),
+            prop.getKey(),
+            prop.getValue(),
+            PmcPropertyType.valueOf(prop.getValueType()));
+      } else {
         pmcPropertyService.setProperty(null, null, p.getGuid(), prop.getKey(), prop.getValue(), PmcPropertyType.STRING);
+      }
     }
     pmcPropertyDao.getEntityManager().flush();
 
@@ -554,29 +580,32 @@ public class PmcProjectServiceImpl implements PmcProjectService {
         PmcProjectProcess parentMain = p.getParents().iterator().next().mainProcess();
         if (parentMain != null) {
           HistoricVariableInstance hvi = historyService.createHistoricVariableInstanceQuery()
-                                                       .processInstanceId(parentMain.getProcessInstanceId())
-                                                       .variableName(ProcessVariables.PROCESS_PACKAGE_KEY)
-                                                       .singleResult();
+              .processInstanceId(parentMain.getProcessInstanceId())
+              .variableName(ProcessVariables.PROCESS_PACKAGE_KEY)
+              .singleResult();
           String processPackageKey = (String) hvi.getValue();
           log.debug("Found parentMain, ppKey: {}", processPackageKey);
-          if ( !StringUtils.isEmpty(processPackageKey)) {
+          if (!StringUtils.isEmpty(processPackageKey)) {
             variables.put(ProcessVariables.PROCESS_PACKAGE_KEY, processPackageKey);
           }
         }
       }
 
-      if (p.getRefObjectIdName() != null && !p.getRefObjectIdName().equals(""))
+      if (p.getRefObjectIdName() != null && !p.getRefObjectIdName().equals("")) {
         variables.put("refObjectIdName", p.getRefObjectIdName());
+      }
 
-      if (commentKey != null)
+      if (commentKey != null) {
         variables.put(ProcessVariables.COMMENT_KEY, commentKey);
+      }
 
       variables.put("refObjectId", p.getRefObjectId());
       variables.put("refObjectType", p.getRefObjectType());
       variables.put("pmcProjectGuid", p.getGuid());
 
-      for (PmcProjectListener l : listener)
+      for (PmcProjectListener l : listener) {
         l.beforeProcessStart(p, variables);
+      }
 
       if (processVariables != null) {
         variables.putAll(processVariables);
@@ -587,8 +616,8 @@ public class PmcProjectServiceImpl implements PmcProjectService {
       pmcProjectDao.getEntityManager().flush();
       pmcProjectDao.getEntityManager().clear();
       ProcessInstance pi = runtimeService.startProcessInstanceByKey(p.getPmcProjectType().getStartProcess(),
-                                                                    p.getRefObjectIdName(),
-                                                                    variables);
+          p.getRefObjectIdName(),
+          variables);
       p = pmcProjectDao.getById(p.getGuid());
       PmcProjectProcess process = new PmcProjectProcess();
       process.setProcessInstanceId(pi.getProcessInstanceId());
@@ -603,14 +632,15 @@ public class PmcProjectServiceImpl implements PmcProjectService {
       p.addProcess(process);
       pmcProjectProcessDao.getEntityManager().flush();
 
-      for (PmcProjectListener l : listener)
+      for (PmcProjectListener l : listener) {
         l.afterProcessStart(p);
+      }
 
-      projectDto = mapProject(p, Mode.RELATIONIDS);
+      projectDto = mapperService.mapProject(p, Mode.RELATIONIDS, elasticListeners);
       PmcProjectProcessDto processDto = dozerMapper.map(process, PmcProjectProcessDto.class);
 
       elasticService.addProcess(pi.getProcessInstanceId(), processDto, projectDto, true);
-    } else if ( !executeStartProcess && processInstanceId != null) {
+    } else if (!executeStartProcess && processInstanceId != null) {
       PmcProjectProcess process = new PmcProjectProcess();
       process.setProcessInstanceId(processInstanceId);
       process.setPmcProject(p);
@@ -621,7 +651,7 @@ public class PmcProjectServiceImpl implements PmcProjectService {
       p.addProcess(process);
       log.debug("Created main processObject for already started instance: {}", process);
       pmcProjectProcessDao.getEntityManager().flush();
-      projectDto = mapProject(p, Mode.RELATIONIDS);
+      projectDto = mapperService.mapProject(p, Mode.RELATIONIDS, elasticListeners);
       PmcProjectProcessDto processDto = dozerMapper.map(process, PmcProjectProcessDto.class);
       elasticService.addProcess(processInstanceId, processDto, projectDto, true);
     } else {
@@ -635,8 +665,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
   private PmcPropertyDto findProperty(String key, Collection<PmcPropertyDto> props) {
     for (PmcPropertyDto p : props) {
-      if (key.equals(p.getKey()))
+      if (key.equals(p.getKey())) {
         return p;
+      }
     }
     return null;
   }
@@ -663,72 +694,20 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     log.info("Retrieving project with guid {} and mapping mode {}", guid, mode);
 
     PmcProject pmcProject = pmcProjectDao.getById(guid);
-    if (pmcProject == null)
+    if (pmcProject == null) {
       return null;
-    PmcProjectDto pmcProjectDto = mapProject(pmcProject, mode);
+    }
+    PmcProjectDto pmcProjectDto = mapperService.mapProject(pmcProject, mode, elasticListeners);
     addMetaInfo(pmcProjectDto, null);
+    mapperService.addProjectProperties(pmcProjectDto);
     return pmcProjectDto;
-  }
-
-  private PmcProjectDto mapProject(PmcProject pmcProject, Mode mode) {
-    boolean getRelationIds = false;
-
-    if (mode == null)
-      mode = Mode.DEFAULT;
-
-    if (mode == Mode.RELATIONIDS) {
-      mode = Mode.DEFAULT;
-      getRelationIds = true;
-    }
-
-    PmcProjectDto result;
-    result = dozerMapper.map(pmcProject, PmcProjectDto.class, mode.getMode());
-
-    Set<String> activePhases = new HashSet<>();
-    for (PmcProjectPhase phase : pmcProject.getPhases()) {
-      if (phase.getEnabled() != null && phase.getEnabled() && phase.getActive()) {
-        activePhases.add(phase.getPmcProjectPhaseDefinition().getIdName());
-      }
-    }
-    result.setActivePhases(activePhases.toArray(new String[0]));
-
-    if (getRelationIds) {
-      mapRelationIds(pmcProject, result);
-    }
-
-    mapProjectTypeDtoFields(result.getPmcProjectType());
-
-    if (mode == Mode.TREE) {
-      mapChildrenProjectTypeDtoFields(result);
-      mapParentProjectTypeDtoFields(result);
-    }
-
-    PmcUserDto user = userCache.get(result.getOwnerId());
-    if (user != null) {
-      result.setOwnerName(user.getFirstName() + " " + user.getSurname());
-    }
-    return result;
-  }
-
-  private void mapChildrenProjectTypeDtoFields(PmcProjectDto p) {
-    for (PmcProjectDto c : p.getChildren()) {
-      mapProjectTypeDtoFields(c.getPmcProjectType());
-      mapChildrenProjectTypeDtoFields(c);
-    }
-  }
-
-  private void mapParentProjectTypeDtoFields(PmcProjectDto p) {
-    for (PmcProjectDto parent : p.getParents()) {
-      mapProjectTypeDtoFields(parent.getPmcProjectType());
-      mapParentProjectTypeDtoFields(parent);
-    }
   }
 
   @Override
   public PmcProjectDto getProjectByProjectId(String projectId) {
     log.info("Retrieving project by project id {}", projectId);
 
-    PmcProjectDto result = mapProject(pmcProjectDao.getByProjectId(projectId), null);
+    PmcProjectDto result = mapperService.mapProject(pmcProjectDao.getByProjectId(projectId), null, elasticListeners);
     return result;
   }
 
@@ -762,12 +741,15 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
   @Override
   public List<PmcProjectDto> getProjectsByTypeAndRefObject(String typeIdName, RefObject refObject, Mode mode) {
-    log.info("Retrieving all projects of type {} and ref object {}, using mapping mode {}", typeIdName, refObject, mode);
+    log.info("Retrieving all projects of type {} and ref object {}, using mapping mode {}", typeIdName, refObject,
+        mode);
 
-    if (mode == null)
+    if (mode == null) {
       mode = Mode.DEFAULT;
+    }
 
-    return dozerMapper.mapCollection(pmcProjectDao.getByTypeAndRefObject(typeIdName, refObject), PmcProjectDto.class, mode.getMode());
+    return dozerMapper.mapCollection(pmcProjectDao.getByTypeAndRefObject(typeIdName, refObject), PmcProjectDto.class,
+        mode.getMode());
   }
 
   @Override
@@ -776,7 +758,7 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
     List<PmcProjectDto> result = new ArrayList<>();
     for (PmcProject p : pmcProjectDao.getByCustomerProjectId(id)) {
-      result.add(mapProject(p, mode));
+      result.add(mapperService.mapProject(p, mode, elasticListeners));
     }
     return result;
   }
@@ -786,8 +768,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     log.info("Retrieving child projects of parent with projectId {}", parent);
 
     PmcProject parentProject = pmcProjectDao.getByProjectId(parent);
-    if (parentProject == null)
+    if (parentProject == null) {
       throw new RuntimeException("Parent pmcProject not found!");
+    }
 
     return dozerMapper.mapCollection(pmcProjectDao.getChildProjects(parentProject), PmcProjectDto.class);
   }
@@ -797,8 +780,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     log.info("Retrieving child projects of parent with guid {}", pmcProjectGuid);
 
     PmcProject parentProject = pmcProjectDao.getById(pmcProjectGuid);
-    if (parentProject == null)
+    if (parentProject == null) {
       throw new RuntimeException("Parent pmcProject not found!");
+    }
 
     return dozerMapper.mapCollection(pmcProjectDao.getChildProjects(parentProject), PmcProjectDto.class);
   }
@@ -808,18 +792,20 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     log.info("Retrieving parent projects of child with projectId {}", child);
 
     PmcProject childProject = pmcProjectDao.getByProjectId(child);
-    if (childProject == null)
+    if (childProject == null) {
       throw new RuntimeException("Parent pmcProject not found!");
+    }
 
     return dozerMapper.mapCollection(pmcProjectDao.getParentProjects(childProject), PmcProjectDto.class);
   }
 
   @Override
   public PagedResultDto<Map<String, Object>> getProjectsElastic(Map<String, Object> filterParams,
-                                                                Map<String, Object> sortParams,
-                                                                int from,
-                                                                int size) {
-    log.info("Retrieving {} project maps from elastic, starting at {}, filtering for {}, sorting for {}", size, from, filterParams, sortParams);
+      Map<String, Object> sortParams,
+      int from,
+      int size) {
+    log.info("Retrieving {} project maps from elastic, starting at {}, filtering for {}, sorting for {}", size, from,
+        filterParams, sortParams);
     List<Map<String, Object>> results = new ArrayList<>();
     PmcUserDto user = UserContext.getUser();
     List<PmcGroupDto> groups = user.getGroupList();
@@ -829,7 +815,8 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     }
     filterParams.put("roles.raw", groupIds);
 
-    SearchHits hits = elasticService.findProjects(filterParams, sortParams, from, size, MONITOR_FIELDS_INCLUDE, MONITOR_FIELDS_EXCLUDE);
+    SearchHits hits = elasticService.findProjects(filterParams, sortParams, from, size, MONITOR_FIELDS_INCLUDE,
+        MONITOR_FIELDS_EXCLUDE);
     for (SearchHit hit : hits.getHits()) {
       Map<String, Object> project = (Map<String, Object>) hit.getSourceAsMap();//.get("project");
       results.add(project);
@@ -878,7 +865,7 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
     PmcProjectType type = this.pmcProjectTypeDao.getByIdName(idName);
     PmcProjectTypeDto dto = this.dozerMapper.map(type, PmcProjectTypeDto.class);
-    mapProjectTypeDtoFields(dto);
+    mapperService.mapProjectTypeDtoFields(dto);
     return dto;
   }
 
@@ -890,19 +877,20 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
     List<PmcProjectTypeDto> dtos = this.dozerMapper.mapCollection(types, PmcProjectTypeDto.class);
     for (PmcProjectTypeDto pmcProjectTypeDto : dtos) {
-      mapProjectTypeDtoFields(pmcProjectTypeDto);
+      mapperService.mapProjectTypeDtoFields(pmcProjectTypeDto);
     }
     return dtos;
   }
 
   @Override
   public List<PmcProjectTypeDto> searchChildProjectTypes(String searchTerm, Long projectParentGuid) {
-    log.info("Retrieving all child projects of parent project with guid {} matching search term {}", projectParentGuid, searchTerm);
+    log.info("Retrieving all child projects of parent project with guid {} matching search term {}", projectParentGuid,
+        searchTerm);
 
     List<PmcProjectType> types = this.pmcProjectTypeDao.searchByNameAndParentType(searchTerm, projectParentGuid);
     List<PmcProjectTypeDto> dtos = this.dozerMapper.mapCollection(types, PmcProjectTypeDto.class);
     for (PmcProjectTypeDto pmcProjectTypeDto : dtos) {
-      mapProjectTypeDtoFields(pmcProjectTypeDto);
+      mapperService.mapProjectTypeDtoFields(pmcProjectTypeDto);
     }
     return dtos;
   }
@@ -926,14 +914,14 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
     PmcProject project = getByGuid(projectDto.getGuid());
 
-    if ( !project.getVersion().equals(projectDto.getVersion())) {
+    if (!project.getVersion().equals(projectDto.getVersion())) {
       throwWebAppException("PmcProject (guid=" +
-        project.getGuid() +
-        ") versions are not equal (" +
-        project.getVersion() +
-        " != " +
-        projectDto.getVersion() +
-        ")", "Can not update project due to a version conflict. Please reload page!");
+          project.getGuid() +
+          ") versions are not equal (" +
+          project.getVersion() +
+          " != " +
+          projectDto.getVersion() +
+          ")", "Can not update project due to a version conflict. Please reload page!");
     }
 
     updateAllowedCheck(project);
@@ -956,7 +944,7 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     project.setGuStatus(projectDto.getGuStatus());
     pmcProjectDao.update(project);
     pmcProjectDao.getEntityManager().flush();
-    PmcProjectDto result = mapProject(project, Mode.RELATIONIDS);
+    PmcProjectDto result = mapperService.mapProject(project, Mode.RELATIONIDS, elasticListeners);
     this.elasticService.updateEntry(result, true);
     authorizationService.addOrUpdateBaseAuthKeyForProject(result);
     return result;
@@ -964,7 +952,8 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
   @Override
   public PmcProjectDto updateProjectGuStatus(long pmcProjectGuid, String guStatus, boolean callListener) {
-    log.info("Updating GU status to {} of project with guid {} (calling listeners: {})", guStatus, pmcProjectGuid, callListener);
+    log.info("Updating GU status to {} of project with guid {} (calling listeners: {})", guStatus, pmcProjectGuid,
+        callListener);
 
     PmcProject project = getByGuid(pmcProjectGuid);
     updateAllowedCheck(project);
@@ -980,25 +969,56 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     project.setGuStatus(guStatus);
     pmcProjectDao.getEntityManager().flush();
 
-    PmcProjectDto result = mapProject(project, Mode.DEFAULT);
+    PmcProjectDto result = mapperService.mapProject(project, Mode.DEFAULT, elasticListeners);
     this.elasticService.updateEntry(result, true);
     authorizationService.addOrUpdateBaseAuthKeyForProject(result);
     return result;
-
   }
 
   @Override
-  public PmcProjectDto updateProjectRelations(PmcProjectDto project,
-                                              String additionalChildren,
-                                              String removeChildren,
-                                              String additionalParents,
-                                              String removeParents) {
+  public PmcProjectDto updateHighlight(
+      long pmcProjectGuid, boolean highlight, boolean callListener) {
+    log.info(
+        "Updating highlight to {} of project with guid {} (calling listeners: {})",
+        highlight,
+        pmcProjectGuid,
+        callListener);
+
+    PmcProject project = getByGuid(pmcProjectGuid);
+    updateAllowedCheck(project);
+    if (callListener) {
+      PmcProjectDto projectDto = dozerMapper.map(project, PmcProjectDto.class);
+      projectDto.setHighlighted(highlight);
+      Collection<PmcProjectListener> listener = getListener(project);
+      for (PmcProjectListener l : listener) {
+        l.beforeProjectUpdate(projectDto, project);
+      }
+    }
+
+    project.setHighlighted(highlight);
+    pmcProjectDao.getEntityManager().flush();
+
+    PmcProjectDto result = mapperService.mapProject(project, Mode.DEFAULT, elasticListeners);
+    this.elasticService.updateEntry(result, true);
+    result = getProjectByProjectId(project.getProjectId());
+    result.setAuthBase(authorizationService.addOrUpdateBaseAuthKeyForProject(result));
+    return result;
+  }
+
+  @Override
+  public PmcProjectDto updateProjectRelations(
+      PmcProjectDto project,
+      String additionalChildren,
+      String removeChildren,
+      String additionalParents,
+      String removeParents) {
     PmcProject p = pmcProjectDao.getById(project.getGuid());
 
     List<String> idStrings = new ArrayList<>();
 
-    if ( !StringUtils.isEmpty(removeParents)) {
-      log.info("Updating project relationship of project {} - removing parents: {}", project.getProjectId(), removeParents);
+    if (!StringUtils.isEmpty(removeParents)) {
+      log.info("Updating project relationship of project {} - removing parents: {}", project.getProjectId(),
+          removeParents);
       Collection<String> pa = Arrays.asList(StringUtils.stripAll(removeParents.split(",")));
       for (String idName : pa) {
         if (idName.equals("*")) {
@@ -1017,8 +1037,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
       }
     }
 
-    if ( !StringUtils.isEmpty(removeChildren)) {
-      log.info("Updating project relationship of project {} - removing children: {}", project.getProjectId(), removeChildren);
+    if (!StringUtils.isEmpty(removeChildren)) {
+      log.info("Updating project relationship of project {} - removing children: {}", project.getProjectId(),
+          removeChildren);
       Collection<String> c = Arrays.asList(StringUtils.stripAll(removeChildren.split(",")));
       for (String idName : c) {
         if (idName.equals("*")) {
@@ -1037,8 +1058,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
       }
     }
 
-    if ( !StringUtils.isEmpty(additionalChildren)) {
-      log.info("Updating project relationship of project {} - adding children: {}", project.getProjectId(), additionalChildren);
+    if (!StringUtils.isEmpty(additionalChildren)) {
+      log.info("Updating project relationship of project {} - adding children: {}", project.getProjectId(),
+          additionalChildren);
       Collection<String> c = Arrays.asList(StringUtils.stripAll(additionalChildren.split(",")));
       for (String idName : c) {
         idStrings.add(idName);
@@ -1048,8 +1070,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
       }
     }
 
-    if ( !StringUtils.isEmpty(additionalParents)) {
-      log.info("Updating project relationship of project {} - adding parents: {}", project.getProjectId(), additionalParents);
+    if (!StringUtils.isEmpty(additionalParents)) {
+      log.info("Updating project relationship of project {} - adding parents: {}", project.getProjectId(),
+          additionalParents);
       Collection<String> pa = Arrays.asList(StringUtils.stripAll(additionalParents.split(",")));
       for (String idName : pa) {
         idStrings.add(idName);
@@ -1066,14 +1089,14 @@ public class PmcProjectServiceImpl implements PmcProjectService {
         l.afterRelationUpdate(pToUpdate);
       }
       PmcProjectDto pToUpdateDto = dozerMapper.map(pToUpdate, PmcProjectDto.class);
-      mapRelationIds(pToUpdate, pToUpdateDto);
+      mapperService.mapRelationIds(pToUpdate, pToUpdateDto, elasticListeners);
       elasticService.updateEntry(pToUpdateDto);
     }
     for (PmcProjectListener l : getListener(p)) {
       l.afterRelationUpdate(p);
     }
     PmcProjectDto pDto = dozerMapper.map(p, PmcProjectDto.class);
-    mapRelationIds(p, pDto);
+    mapperService.mapRelationIds(p, pDto, elasticListeners);
     elasticService.updateEntry(pDto);
     //relations should not influence key so no authService update should be necessary
     return pDto;
@@ -1081,7 +1104,8 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
   @Override
   public PmcProjectDto updateDueDate(long pmcProjectGuid, Date dueDate, boolean callListener) {
-    log.info("Updating due date of project wih guid {} to {} (calling listeners: {})", pmcProjectGuid, dueDate, callListener);
+    log.info("Updating due date of project wih guid {} to {} (calling listeners: {})", pmcProjectGuid, dueDate,
+        callListener);
 
     PmcProject project = getByGuid(pmcProjectGuid);
     updateAllowedCheck(project);
@@ -1097,8 +1121,7 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     project.setDueDate(dueDate);
     pmcProjectDao.getEntityManager().flush();
     PmcProjectDto result = dozerMapper.map(project, PmcProjectDto.class);
-    mapProjectTypeDtoFields(result.getPmcProjectType());
-    result = mapProject(project, Mode.RELATIONIDS);
+    mapperService.mapProjectTypeDtoFields(result.getPmcProjectType());
     this.elasticService.updateEntry(result, true);
     //dueDate should not influence key so no authService update should be necessary
     return result;
@@ -1161,8 +1184,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
   }
 
   private List<String> parseStringToStringList(String input) {
-    if (org.apache.commons.lang3.StringUtils.isEmpty(input))
+    if (org.apache.commons.lang3.StringUtils.isEmpty(input)) {
       return Collections.emptyList();
+    }
     String[] splitted = input.split(",");
     splitted = StringUtils.stripAll(splitted);
     return Arrays.asList(splitted);
@@ -1223,31 +1247,6 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     return retVal;
   }
 
-  @Override
-  public PmcProjectDto updateHighlight(long pmcProjectGuid, boolean highlight, boolean callListener) {
-    log.info("Updating highlight to {} of project with guid {} (calling listeners: {})", highlight, pmcProjectGuid, callListener);
-
-    PmcProject project = getByGuid(pmcProjectGuid);
-    updateAllowedCheck(project);
-    if (callListener) {
-      PmcProjectDto projectDto = dozerMapper.map(project, PmcProjectDto.class);
-      projectDto.setHighlighted(highlight);
-      Collection<PmcProjectListener> listener = getListener(project);
-      for (PmcProjectListener l : listener) {
-        l.beforeProjectUpdate(projectDto, project);
-      }
-    }
-
-    project.setHighlighted(highlight);
-    pmcProjectDao.getEntityManager().flush();
-
-    PmcProjectDto result = mapProject(project, Mode.DEFAULT);
-    this.elasticService.updateEntry(result, true);
-    result = getProjectByProjectId(project.getProjectId());
-    result.setAuthBase(authorizationService.addOrUpdateBaseAuthKeyForProject(result));
-    return result;
-  }
-
   private InternalContactDto createDto(PmcUserDto u, String role) {
     InternalContactDto dto = new InternalContactDto();
     dto.setGuid(u.getGuid());
@@ -1263,7 +1262,8 @@ public class PmcProjectServiceImpl implements PmcProjectService {
   @Override
   public PmcUserDto getUserForRole(
       String refObjectType, Long refObjectId, String roleName, Long pmcProjectGuid) {
-    log.info("Retrieving user for role {} of project with guid {} and refObject {}/{}", roleName, pmcProjectGuid, refObjectType, refObjectId);
+    log.info("Retrieving user for role {} of project with guid {} and refObject {}/{}", roleName, pmcProjectGuid,
+        refObjectType, refObjectId);
 
     Long userId = null;
 
@@ -1307,8 +1307,7 @@ public class PmcProjectServiceImpl implements PmcProjectService {
       l.afterProjectFinished(p);
     }
 
-    
-    PmcProjectDto result = mapProject(p, Mode.RELATIONIDS);
+    PmcProjectDto result = mapperService.mapProject(p, Mode.RELATIONIDS, elasticListeners);
     this.elasticService.updateEntry(result);
     authorizationService.addOrUpdateBaseAuthKeyForProject(result);
   }
@@ -1332,19 +1331,22 @@ public class PmcProjectServiceImpl implements PmcProjectService {
   public PmcProjectPhaseDto getPhase(Long projectGuid, String phaseDefIdName) {
     log.info("Retrieving phase {} for project with guid {}", phaseDefIdName, projectGuid);
 
-    return dozerMapper.map(pmcProjectPhaseDao.getByProjectIdAndPhaseDefIdName(projectGuid, phaseDefIdName), PmcProjectPhaseDto.class);
+    return dozerMapper.map(pmcProjectPhaseDao.getByProjectIdAndPhaseDefIdName(projectGuid, phaseDefIdName),
+        PmcProjectPhaseDto.class);
   }
 
   @Override
   public void initPhasesForProject(String projectId, Collection<PmcPropertyDto> properties) {
     log.info("Initializing phases for projectId {} and properties {}", projectId, properties);
 
-    if (properties == null)
+    if (properties == null) {
       properties = Collections.emptyList();
+    }
     PmcProject p = pmcProjectDao.getByProjectId(projectId);
     Collection<PmcProjectPhase> phases = p.getPhases();
-    if (phases == null)
+    if (phases == null) {
       phases = Collections.emptyList();
+    }
 
     HashSet<String> projectPhaseDefIds = new HashSet<>();
     for (PmcProjectPhase phase : phases) {
@@ -1352,7 +1354,7 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     }
 
     for (PmcProjectPhaseDefinition def : p.getPmcProjectType().getPhases()) {
-      if ( !projectPhaseDefIds.contains(def.getIdName())) {
+      if (!projectPhaseDefIds.contains(def.getIdName())) {
         PmcPropertyDto dto = findProperty("ENABLE_PHASE_" + def.getIdName(), properties);
 
         Boolean enabled = dto != null ? Boolean.valueOf(dto.getValue()) : null;
@@ -1403,8 +1405,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     }
     pmcProjectPhaseDao.getEntityManager().flush();
     String newValue = phase.getEnabledAsString();
-    if ( !Objects.equals(oldValue, newValue)) {
-      pmcHistoryService.createHistory(PmcHistoryLogDto.createForPhase(phase, "enabled").withChange(Action.EDIT, null, oldValue, newValue));
+    if (!Objects.equals(oldValue, newValue)) {
+      pmcHistoryService.createHistory(
+          PmcHistoryLogDto.createForPhase(phase, "enabled").withChange(Action.EDIT, null, oldValue, newValue));
     }
   }
 
@@ -1421,8 +1424,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     }
     pmcProjectPhaseDao.getEntityManager().flush();
     String newValue = phase.getFrozenAsString();
-    if ( !Objects.equals(oldValue, newValue)) {
-      pmcHistoryService.createHistory(PmcHistoryLogDto.createForPhase(phase, "frozen").withChange(Action.EDIT, null, oldValue, newValue));
+    if (!Objects.equals(oldValue, newValue)) {
+      pmcHistoryService.createHistory(
+          PmcHistoryLogDto.createForPhase(phase, "frozen").withChange(Action.EDIT, null, oldValue, newValue));
     }
   }
 
@@ -1443,8 +1447,11 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     authorizationService.invalidateAuthKey(phase.getPmcProject().getGuid());
     pmcProjectPhaseDao.getEntityManager().flush();
     String newValue = phase.getActiveAsString();
-    if ( !Objects.equals(newValue, oldValue)) {
-      pmcHistoryService.createHistory(PmcHistoryLogDto.createForPhase(phase, "active").withChange(Action.EDIT, null, oldValue, newValue));
+    if (!Objects.equals(newValue, oldValue)) {
+      pmcHistoryService.createHistory(
+          PmcHistoryLogDto.createForPhase(phase, "active")
+              .withChange(Action.EDIT, null, oldValue, newValue));
+      elasticService.updateEntry(mapperService.mapProject(phase.getPmcProject(), Mode.RELATIONIDS, elasticListeners));
     }
   }
 
@@ -1462,8 +1469,11 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     authorizationService.invalidateAuthKey(phase.getPmcProject().getGuid());
     pmcProjectPhaseDao.getEntityManager().flush();
     String newValue = phase.getActiveAsString();
-    if ( !Objects.equals(newValue, oldValue)) {
-      pmcHistoryService.createHistory(PmcHistoryLogDto.createForPhase(phase, "active").withChange(Action.EDIT, null, oldValue, newValue));
+    if (!Objects.equals(newValue, oldValue)) {
+      pmcHistoryService.createHistory(
+          PmcHistoryLogDto.createForPhase(phase, "active")
+              .withChange(Action.EDIT, null, oldValue, newValue));
+      elasticService.updateEntry(mapperService.mapProject(phase.getPmcProject(), Mode.RELATIONIDS, elasticListeners));
     }
   }
 
@@ -1475,6 +1485,7 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     PmcProjectPhaseDto oldPhase = dozerMapper.map(phase, PmcProjectPhaseDto.class);
     phase.setActive(phaseDto.getActive());
     phase.setEnabled(phaseDto.getEnabled());
+    phase.setEndDate(phaseDto.getEndDate());
     for (PmcProjectListener l : getListener(phase.getPmcProject())) {
       l.afterPhaseUpdate(oldPhase, phase);
     }
@@ -1482,7 +1493,8 @@ public class PmcProjectServiceImpl implements PmcProjectService {
   }
 
   @Override
-  public PmcProjectPhaseDto updatePhase(Long pmcProjectGuid, String phaseDefinitionIdName, PmcProjectPhaseDto updateDto) {
+  public PmcProjectPhaseDto updatePhase(Long pmcProjectGuid, String phaseDefinitionIdName,
+      PmcProjectPhaseDto updateDto) {
     log.info("Updating phase {} of project with guid {}: {}", phaseDefinitionIdName, pmcProjectGuid, updateDto);
 
     return updatePhase(pmcProjectGuid, phaseDefinitionIdName, updateDto, false);
@@ -1490,20 +1502,23 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
   @Override
   public PmcProjectPhaseDto updatePhase(Long pmcProjectGuid,
-                                        String phaseDefinitionIdName,
-                                        PmcProjectPhaseDto updateDto,
-                                        boolean setAutoDate) {
-    log.info("Updating phase {} of project with guid {} (autoDate: {}): {}", phaseDefinitionIdName, pmcProjectGuid, setAutoDate, updateDto);
+      String phaseDefinitionIdName,
+      PmcProjectPhaseDto updateDto,
+      boolean setAutoDate) {
+    log.info("Updating phase {} of project with guid {} (autoDate: {}): {}", phaseDefinitionIdName, pmcProjectGuid,
+        setAutoDate, updateDto);
 
     PmcProjectPhase phase = pmcProjectPhaseDao.getByProjectIdAndPhaseDefIdName(pmcProjectGuid, phaseDefinitionIdName);
-    if (phase == null)
-      throw new IllegalStateException("no project phase found for projectGuid=" + pmcProjectGuid + " phaseIdName=" + phaseDefinitionIdName);
+    if (phase == null) {
+      throw new IllegalStateException(
+          "no project phase found for projectGuid=" + pmcProjectGuid + " phaseIdName=" + phaseDefinitionIdName);
+    }
     PmcProjectPhaseDto oldPhase = dozerMapper.map(phase, PmcProjectPhaseDto.class);
     if (updateDto.getEnabled() != null) {
       String oldValue = phase.getEnabledAsString();
       phase.setEnabled(updateDto.getEnabled());
       pmcHistoryService.createHistory(PmcHistoryLogDto.createForPhase(phase, "enabled")
-                                                      .withChange(Action.EDIT, null, oldValue, phase.getEnabledAsString()));
+          .withChange(Action.EDIT, null, oldValue, phase.getEnabledAsString()));
     }
     if (updateDto.getActive() != null) {
       phase.setActive(updateDto.getActive());
@@ -1511,15 +1526,17 @@ public class PmcProjectServiceImpl implements PmcProjectService {
         Date now = new Date();
         if (updateDto.getActive() && (phase.getStartDate() == null || now.before(phase.getStartDate()))) {
           phase.setStartDate(now);
-        } else if ( !updateDto.getActive() && (phase.getEndDate() == null || now.after(phase.getEndDate()))) {
+        } else if (!updateDto.getActive() && (phase.getEndDate() == null || now.after(phase.getEndDate()))) {
           phase.setEndDate(now);
         }
       }
     }
-    if (updateDto.getStartDate() != null)
+    if (updateDto.getStartDate() != null) {
       phase.setStartDate(updateDto.getStartDate());
-    if (updateDto.getEndDate() != null)
+    }
+    if (updateDto.getEndDate() != null) {
       phase.setEndDate(updateDto.getEndDate());
+    }
 
     for (PmcProjectListener l : getListener(phase.getPmcProject())) {
       l.afterPhaseUpdate(oldPhase, phase);
@@ -1535,8 +1552,10 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     log.info("Retrieving phase {} of projectId {}", projectPhaseDefinitionIdName, projectId);
 
     PmcProjectPhase phase = pmcProjectPhaseDao.getByProjectIdAndPhaseDefIdName(projectId, projectPhaseDefinitionIdName);
-    if (phase == null)
-      throw new IllegalStateException("no phase found for project " + projectId + " and phase definition " + projectPhaseDefinitionIdName);
+    if (phase == null) {
+      throw new IllegalStateException(
+          "no phase found for project " + projectId + " and phase definition " + projectPhaseDefinitionIdName);
+    }
     return phase;
   }
 
@@ -1587,7 +1606,8 @@ public class PmcProjectServiceImpl implements PmcProjectService {
   public List<PmcProjectMilestoneDto> getMilestonesPerProject(Long pmcProjectGuid) {
     log.info("Retrieving milestones of project with guid {}", pmcProjectGuid);
 
-    return dozerMapper.mapCollection(pmcProjectMilestoneDao.getMilestonesPerProject(pmcProjectGuid), PmcProjectMilestoneDto.class);
+    return dozerMapper.mapCollection(pmcProjectMilestoneDao.getMilestonesPerProject(pmcProjectGuid),
+        PmcProjectMilestoneDto.class);
   }
 
   @Override
@@ -1613,14 +1633,16 @@ public class PmcProjectServiceImpl implements PmcProjectService {
   public PmcProjectMilestoneDto getProjectMilestoneByProjectAndMsIdName(String projectId, String msIdName) {
     log.info("Retrieving milestone {} of projectId {}", msIdName, projectId);
 
-    return dozerMapper.map(pmcProjectMilestoneDao.getByProjectAndIdName(projectId, msIdName), PmcProjectMilestoneDto.class);
+    return dozerMapper.map(pmcProjectMilestoneDao.getByProjectAndIdName(projectId, msIdName),
+        PmcProjectMilestoneDto.class);
   }
 
   @Override
   public PmcProjectMilestoneDto getProjectMilestoneByProjectAndMsIdName(Long pmcProjectGuid, String msIdName) {
     log.info("Retrieving milestone {} of project with guid {}", msIdName, pmcProjectGuid);
 
-    return dozerMapper.map(pmcProjectMilestoneDao.getByProjectAndIdName(pmcProjectGuid, msIdName), PmcProjectMilestoneDto.class);
+    return dozerMapper.map(pmcProjectMilestoneDao.getByProjectAndIdName(pmcProjectGuid, msIdName),
+        PmcProjectMilestoneDto.class);
   }
 
   @Override
@@ -1631,9 +1653,10 @@ public class PmcProjectServiceImpl implements PmcProjectService {
   }
 
   @Override
-  public Long createProjectMilestone(Long projectGuid, String milestoneIdName, Date fc, Date act, Date baseline, String reason) {
+  public Long createProjectMilestone(Long projectGuid, String milestoneIdName, Date fc, Date act, Date baseline,
+      String reason) {
     log.info("Creating milestone {}, forecast at {}, actual at {}, baseline at {}, for project with guid {}: {}",
-            milestoneIdName, fc, act, baseline, projectGuid, reason);
+        milestoneIdName, fc, act, baseline, projectGuid, reason);
 
     PmcProject project = pmcProjectDao.getById(projectGuid);
     Milestone milestone = milestoneDao.getMilestoneByIdName(milestoneIdName);
@@ -1663,37 +1686,40 @@ public class PmcProjectServiceImpl implements PmcProjectService {
   }
 
   @Override
-  public PmcProjectMilestoneDto updateProjectMilestone(String projectId, String msIdName, Date fc, Date act, String reason) {
+  public PmcProjectMilestoneDto updateProjectMilestone(String projectId, String msIdName, Date fc, Date act,
+      String reason) {
     PmcProject p = pmcProjectDao.getByProjectId(projectId);
     return updateProjectMilestone(p, msIdName, fc, false, act, false, reason);
   }
 
   @Override
   public PmcProjectMilestoneDto updateProjectMilestone(Long projectGuid,
-                                                       String msIdName,
-                                                       Date fc,
-                                                       boolean clearFc,
-                                                       Date act,
-                                                       boolean clearAct,
-                                                       String reason) {
+      String msIdName,
+      Date fc,
+      boolean clearFc,
+      Date act,
+      boolean clearAct,
+      String reason) {
     PmcProject p = pmcProjectDao.getById(projectGuid);
     return updateProjectMilestone(p, msIdName, fc, clearFc, act, clearAct, reason);
   }
 
   @Override
-  public PmcProjectMilestoneDto updateProjectMilestone(Long projectGuid, String msIdName, Date fc, Date act, String reason) {
+  public PmcProjectMilestoneDto updateProjectMilestone(Long projectGuid, String msIdName, Date fc, Date act,
+      String reason) {
     PmcProject p = pmcProjectDao.getById(projectGuid);
     return updateProjectMilestone(p, msIdName, fc, false, act, false, reason);
   }
 
   private PmcProjectMilestoneDto updateProjectMilestone(PmcProject p,
-                                                        String msIdName,
-                                                        Date fc,
-                                                        boolean clearFc,
-                                                        Date act,
-                                                        boolean clearAct,
-                                                        String reason) {
-    log.info("Updating milestone {}, forecast at {} (clering: {}), actual at {} (clearing: {}) for project {}: {}", msIdName, fc, clearFc, act, clearAct, p, reason);
+      String msIdName,
+      Date fc,
+      boolean clearFc,
+      Date act,
+      boolean clearAct,
+      String reason) {
+    log.info("Updating milestone {}, forecast at {} (clering: {}), actual at {} (clearing: {}) for project {}: {}",
+        msIdName, fc, clearFc, act, clearAct, p, reason);
 
     PmcProjectMilestone ms = pmcProjectMilestoneDao.getByProjectAndIdName(p.getGuid(), msIdName);
     Long msGuid;
@@ -1707,12 +1733,13 @@ public class PmcProjectServiceImpl implements PmcProjectService {
 
   @Override
   public PmcProjectMilestoneDto updateProjectMilestone(Long projectMilestoneGuid,
-                                                       Date fc,
-                                                       boolean clearFc,
-                                                       Date act,
-                                                       boolean clearAct,
-                                                       String reason) {
-    log.info("Updating milestone with guid {}, forecast at {} (clering: {}), actual at {} (clearing: {}): {}", projectMilestoneGuid, fc, clearFc, act, clearAct, reason);
+      Date fc,
+      boolean clearFc,
+      Date act,
+      boolean clearAct,
+      String reason) {
+    log.info("Updating milestone with guid {}, forecast at {} (clering: {}), actual at {} (clearing: {}): {}",
+        projectMilestoneGuid, fc, clearFc, act, clearAct, reason);
 
     SimpleDateFormat dateFormat = new SimpleDateFormat(MS_LOG_DATE_FORMAT);
 
@@ -1720,16 +1747,17 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     Collection<PmcProjectListener> listener = getListener(ms.getProject());
     for (PmcProjectListener l : listener) {
       l.beforeMilestoneUpgrade(dozerMapper.map(ms, PmcProjectMilestoneDto.class),
-                               fc,
-                               act,
-                               reason,
-                               dozerMapper.map(ms.getProject(), PmcProjectDto.class));
+          fc,
+          act,
+          reason,
+          dozerMapper.map(ms.getProject(), PmcProjectDto.class));
     }
 
     if ((fc != null && !fc.equals(ms.getFc())) || (fc == null && clearFc)) {
       String oldFcValue = null;
-      if (ms.getFc() != null)
+      if (ms.getFc() != null) {
         oldFcValue = dateFormat.format(ms.getFc());
+      }
       String newFcValue = "";
       if (fc != null) {
         newFcValue = dateFormat.format(fc);
@@ -1751,12 +1779,13 @@ public class PmcProjectServiceImpl implements PmcProjectService {
       addMsHistoryEntry(ms, reason, "act", newActValue, oldActValue);
     }
     pmcProjectMilestoneDao.update(ms);
-    elasticService.updateEntry(mapProject(ms.getProject(), Mode.RELATIONIDS));
+    elasticService.updateEntry(mapperService.mapProject(ms.getProject(), Mode.RELATIONIDS, elasticListeners));
     return dozerMapper.map(ms, PmcProjectMilestoneDto.class);
   }
 
   private void addMsHistoryEntry(PmcProjectMilestone ms, String reason, String type, String newValue, String oldValue) {
-    pmcHistoryService.createHistory(PmcHistoryLogDto.createForMilestone(ms, type).withChange(Action.EDIT, reason, oldValue, newValue));
+    pmcHistoryService.createHistory(
+        PmcHistoryLogDto.createForMilestone(ms, type).withChange(Action.EDIT, reason, oldValue, newValue));
   }
 
   @Override
@@ -1815,23 +1844,24 @@ public class PmcProjectServiceImpl implements PmcProjectService {
     log.debug("Updating allowed check for project {}", project);
 
     if (project.getStatus().equals(PmcProjectState.CANCELED) || project.getStatus().equals(PmcProjectState.COMPLETED)) {
-      throwWebAppException("not allowed to update PmcProject (guid=" + project.getGuid() + ") in state " + project.getStatus(),
-                           "Not allowed to update project in state " + project.getStatus());
+      throwWebAppException(
+          "not allowed to update PmcProject (guid=" + project.getGuid() + ") in state " + project.getStatus(),
+          "Not allowed to update project in state " + project.getStatus());
     }
   }
 
   private void throwWebAppException(String logMessage, String responseMessage) {
     log.error(logMessage);
     throw new WebApplicationException(Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                                              .entity(responseMessage)
-                                              .type(MediaType.TEXT_PLAIN)
-                                              .build());
+        .entity(responseMessage)
+        .type(MediaType.TEXT_PLAIN)
+        .build());
   }
 
   /**
    * Returns a list of projectCards for the given projectId and listName. If no cards can be found a new list is created
    * if allowed for this projectType.
-   * 
+   *
    * @param projectId
    * @param listName
    * @param createIfEmpty
@@ -1839,7 +1869,8 @@ public class PmcProjectServiceImpl implements PmcProjectService {
    * @throws Exception if a new list cannot be created for the projectType of the given project
    */
   @Override
-  public List<PmcProjectCardDto> getCardListForProject(String projectId, String listName, boolean createIfEmpty) throws Exception {
+  public List<PmcProjectCardDto> getCardListForProject(String projectId, String listName, boolean createIfEmpty)
+      throws Exception {
     log.info("Retrieving card list {} for projectId {} (createIfEmpty: {}", listName, projectId, createIfEmpty);
 
     List<PmcProjectCard> cards = pmcProjectCardDao.getByProjectIdandListName(projectId, listName);
@@ -1859,8 +1890,9 @@ public class PmcProjectServiceImpl implements PmcProjectService {
           }
         }
       }
-      if ( !validListType) {
-        throw new Exception("CardList " + listName + " not allowed for projectType " + project.getPmcProjectType().getName());
+      if (!validListType) {
+        throw new Exception(
+            "CardList " + listName + " not allowed for projectType " + project.getPmcProjectType().getName());
       }
     }
     List<PmcProjectCardDto> ret = new ArrayList<>();
@@ -1912,7 +1944,8 @@ public class PmcProjectServiceImpl implements PmcProjectService {
         return ppcd;
       }
     }
-    throw new Exception("CardList " + listName + " not allowed for projectType " + project.getPmcProjectType().getName());
+    throw new Exception(
+        "CardList " + listName + " not allowed for projectType " + project.getPmcProjectType().getName());
   }
 
   @Override
@@ -2055,26 +2088,67 @@ public class PmcProjectServiceImpl implements PmcProjectService {
   public PmcProjectMilestoneDto getMilestoneByIdNameAndAct(String idName, Date act) {
     log.info("Retrieving milestone by idName {} and actual date {}", idName, act);
 
-    return dozerMapper.map(pmcProjectMilestoneDao.getMilestoneByIdNameAndAct(idName, act), PmcProjectMilestoneDto.class);
+    return dozerMapper.map(pmcProjectMilestoneDao.getMilestoneByIdNameAndAct(idName, act),
+        PmcProjectMilestoneDto.class);
+  }
+
+  private class ProjectIdentifier {
+
+    public ProjectIdentifier(long guid) {
+      this.guid = guid;
+    }
+
+    long guid;
+  }
+
+  private final List<ProjectIdentifier> asyncExecutedSynchronisations = new ArrayList<>();
+
+  private void cleanFromCache(ProjectIdentifier projectIdentifier) {
+    asyncExecutedSynchronisations.remove(projectIdentifier);
+  }
+
+  private boolean isGuidInExecutedSynchronsiationsList(long guid) {
+    return asyncExecutedSynchronisations.stream().anyMatch(x -> x.guid == guid);
+  }
+
+  Runnable getAsyncSynchronizeProjectExecutor(ProjectIdentifier projectIdentifier, boolean sync) {
+    return () -> {
+      threadSleepService.sleep(DEBOUNCE_TIME);
+      cleanFromCache(projectIdentifier);
+      if (sync && !isGuidInExecutedSynchronsiationsList(projectIdentifier.guid)) {
+        synchProject(projectIdentifier.guid);
+      }
+    };
   }
 
   @Override
-  public PmcProjectDto synchProject(Long guid) {
+  public void synchProject(Long guid) {
     log.info("Synchronizing project with guid {}", guid);
+    ProjectIdentifier projectIdentifier = new ProjectIdentifier(guid);
+    if (isGuidInExecutedSynchronsiationsList(guid)) {
+      asyncExecutedSynchronisations.add(projectIdentifier);
+      new Thread(getAsyncSynchronizeProjectExecutor(projectIdentifier, true)).start();
+    } else {
+      asyncExecutedSynchronisations.add(projectIdentifier);
+      new Thread(getAsyncSynchronizeProjectExecutor(projectIdentifier, false)).start();
+      synchProjectToElastic(guid);
+    }
+  }
 
+  private void synchProjectToElastic(Long guid) {
     PmcProject project = getByGuid(guid);
-
-    PmcProjectDto result = mapProject(project, Mode.RELATIONIDS);
+    PmcProjectDto result = mapperService.mapProject(project, Mode.RELATIONIDS, elasticListeners);
     this.elasticService.updateEntry(result, true);
     authorizationService.addOrUpdateBaseAuthKeyForProject(result);
-    return result;
   }
 
   private void addMetaInfo(PmcProjectDto project, Set<Long> doneSet) {
-    if (doneSet == null)
+    if (doneSet == null) {
       doneSet = new HashSet<>();
-    if (doneSet.contains(project.getGuid()))
+    }
+    if (doneSet.contains(project.getGuid())) {
       return;
+    }
     doneSet.add(project.getGuid());
     for (PmcProjectListener l : getListener(pmcProjectTypeDao.getById(project.getPmcProjectType().getGuid()))) {
       l.addMetaInfo(project);
@@ -2096,7 +2170,7 @@ public class PmcProjectServiceImpl implements PmcProjectService {
   public List<PmcProjectDto> getByTypeAndRefObjectId(String refObjectType, long refObjectId, Long projType) {
     log.info("Retrieving projects by type with id {} and refObject {}@{}", projType, refObjectType, refObjectId);
 
-    return dozerMapper.mapCollection(this.pmcProjectDao.getByTypeAndRefObjectId(refObjectType, refObjectId, projType), PmcProjectDto.class);
+    return dozerMapper.mapCollection(this.pmcProjectDao.getByTypeAndRefObjectId(refObjectType, refObjectId, projType),
+        PmcProjectDto.class);
   }
-
 }

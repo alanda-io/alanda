@@ -96,6 +96,10 @@ public class ElasticRestServiceImpl implements ElasticRestService {
     return Response.ok().build();
     
   }
-  
-  
+
+  @Override
+  public Response synchTaskIndex() {
+    elasticService.refreshTaskIndex();
+    return Response.ok().build();
+  }
 }

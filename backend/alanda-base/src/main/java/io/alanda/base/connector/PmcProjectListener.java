@@ -71,4 +71,6 @@ public interface PmcProjectListener {
   default void afterOfferApproval(Long pmcProjectGuid, String banfId) {
     
   }
+
+  default void getProjectProperties(PmcProjectDto project) {};
 }
